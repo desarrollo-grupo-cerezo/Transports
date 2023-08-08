@@ -31,7 +31,9 @@ Public Class FrmSelEmpresa
                 Text = s
             Next
             If Text.Trim.Length > 0 Then
-                If Text.ToUpper = "TABLAS" Or Text.ToUpper = "TABLAS2" Then
+                If Text.ToUpper = "TABLAS" Or Text.ToUpper = "TABLAS2" Or
+                    Text.ToUpper = "TABLAS3" Or Text.ToUpper = "TABLAS24" Or
+                    Text.ToUpper = "TABLAS5" Then
                     TUsuario.Text = "Admin"
                 Else
                     TUsuario.Text = Text
@@ -248,10 +250,6 @@ Public Class FrmSelEmpresa
                 If MsgBox("Este proceso puede durar varios minutos, Realmente desea genera tablas?", vbYesNo) = vbNo Then
                     Return
                 End If
-                If MsgBox("Si eres Cristian Cerezo Astorga no lo hagas por favor, estas seguro que deses generar tablas?", vbYesNo) = vbNo Then
-                    Return
-                End If
-
                 Lt1.Text = "Creando tablas ...... Paso 1"
                 Me.Refresh()
                 CREA_TABLAS()
@@ -275,9 +273,7 @@ Public Class FrmSelEmpresa
                 Application.UseWaitCursor = False
             End If
 
-
             If TUsuario.Text.ToUpper.Trim = "TABLAS2" Then
-
                 MsgBox("A continuación se crearán las tablas adicionales por favor espere")
 
                 CREA_TABLAS_2022()
@@ -285,7 +281,6 @@ Public Class FrmSelEmpresa
             End If
 
             If TUsuario.Text.ToUpper.Trim = "TABLAS3" Then
-
                 If MsgBox("Desea crear las tablas de derechos", vbYesNo) = vbYes Then
                     TABLAS_DERECHOS()
                 End If
@@ -296,6 +291,13 @@ Public Class FrmSelEmpresa
                     CREA_TABLAS_CARTA_PORTE()
                 End If
             End If
+
+            If TUsuario.Text.ToUpper.Trim = "TABLAS5" Then
+                MsgBox("A continuación se crearán las tablas 5")
+                TABLAS5()
+            End If
+
+            AGREGA_CAMPOS_SAE_2023()
 
             Try
                 cmd.CommandText = "SELECT * FROM GCUSUARIOS"
@@ -358,7 +360,8 @@ Public Class FrmSelEmpresa
             USER_GRUPOCE = TUsuario.Text.ToUpper.Trim
             PASS_GRUPOCE = TPass.Text.Trim.ToUpper.Trim
 
-            If TUsuario.Text.ToUpper.Trim <> "TABLAS" And TUsuario.Text.ToUpper.Trim <> "TABLAS2" Or TUsuario.Text.ToUpper.Trim <> "TABLAS3" And TUsuario.Text.ToUpper.Trim <> "TABLAS4" Then
+            If TUsuario.Text.ToUpper.Trim <> "TABLAS" And TUsuario.Text.ToUpper.Trim <> "TABLAS2" And
+                TUsuario.Text.ToUpper.Trim <> "TABLAS3" And TUsuario.Text.ToUpper.Trim <> "TABLAS4" And TUsuario.Text.ToUpper.Trim <> "TABLAS5" Then
                 If SaveTextToFile(TUsuario.Text, System.AppDomain.CurrentDomain.BaseDirectory & "\TransPortCG.ini") Then
                 End If
             End If

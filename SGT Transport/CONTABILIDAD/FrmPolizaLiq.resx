@@ -120,16 +120,25 @@
   <metadata name="MenuHolder.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="FgF.ColumnInfo" xml:space="preserve">
-    <value>6,1,0,0,0,95,Columns:1{Width:75;Caption:"Seleccione";AllowDragging:False;Style:"DataType:System.Boolean;TextAlign:LeftCenter;ImageAlign:CenterCenter;";}	2{Width:130;Caption:"Documento";AllowDragging:False;AllowEditing:False;Style:"DataType:System.String;TextAlign:LeftCenter;";}	3{Width:120;Caption:"Factura";Style:"Font:Microsoft Sans Serif, 9pt;TextAlign:LeftCenter;";}	4{Width:400;Caption:"Proveedor";Style:"Font:Microsoft Sans Serif, 8pt;";}	5{Caption:"Clave";Style:"Font:Microsoft Sans Serif, 9pt;";}	</value>
-  </data>
-  <data name="FgF.StyleInfo" xml:space="preserve">
-    <value>Normal{}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:234, 236, 245;ForeColor:ControlText;SearchBackColor:Orange;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	FrozenAlternate{}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	Footer{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	FirstCustomStyle{}	</value>
-  </data>
   <data name="Fg.ColumnInfo" xml:space="preserve">
-    <value>5,1,0,0,0,95,Columns:1{Caption:"col1";AllowDragging:False;AllowEditing:False;}	2{Caption:"col2";AllowDragging:False;AllowEditing:False;}	3{Caption:"col3";AllowDragging:False;AllowEditing:False;Style:"DataType:System.Int16;TextAlign:GeneralCenter;";}	</value>
+    <value>5,1,0,0,0,95,Columns:1{Caption:"col1";AllowDragging:False;AllowEditing:False;Style:"TextAlign:GeneralCenter;";StyleFixed:"TextAlign:GeneralCenter;";}	2{Caption:"col2";AllowDragging:False;AllowEditing:False;}	3{Caption:"col3";AllowDragging:False;AllowEditing:False;Style:"DataType:System.Int16;TextAlign:GeneralCenter;";}	</value>
   </data>
   <data name="Fg.StyleInfo" xml:space="preserve">
     <value>Normal{}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:234, 236, 245;ForeColor:ControlText;SearchBackColor:Orange;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	FrozenAlternate{}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	Footer{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	FirstCustomStyle{}	</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="BtnOper.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
+        4wAAAOMBD+bfpwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
+        2XJ5Zb3Hy9vm/4+buud/+NyT/8Pnnf4fN23f/zKgWEF5/wV3v3w1qHJUYOUWy5ZX1nc6o335/5idr//H
+        H/mBgmN3v/uf2rHif0FZ301b9zReqDYECI2rzq4A2oJNMwxH73n7v7B13v/Q2LIGqDYEKKqaeBHkbGwa
+        kbHvlF3/80q7nkO1IUBF/bTX4XNPYdWEjJ3mHP1fWNH3R904khWqFQIq6ggbEH3423/7OUf+55d1/zG0
+        TUQ1ABhtV2Kn7fuHTSMMex94/98D6IW03KbXUG0IEJlQU1jaOv9f7J53WDUHH/z833b7k/9pNVP+B0UV
+        dkO1IYCdSwpXYcWEyyntK4ChjTAE5Gyf/e+Bmh//D21e9D85q+6NrX+GOFQbKnAPzFEHxvOdgpZ5/32A
+        TgUFmB0QuwPZqTVTwZqjkmvfZBR03gqJqUiFakMFzh5ZvCFxZc3AqHoJCm1QgKUD/RwUVdTt6JMikZbb
+        9njS9NX/O3oX/QiOKcduCAxoW4ayGjugRldEfGVRY9vsfyBD2kGGRJenQaWIB+HxlcXIhgRFlydBpYgH
+        4fFVJTBDSqsnY0YrMQBoSEFeSc+3hPTGdQAE9opxY2EZNgAAAABJRU5ErkJggg==
+</value>
   </data>
 </root>

@@ -173,6 +173,8 @@ Partial Class FrmReseteoAE
         Me.TFACTOR_CARGA = New System.Windows.Forms.Label()
         Me.Label43 = New System.Windows.Forms.Label()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.TAJUST_TAB = New C1.Win.C1Input.C1TextBox()
         Me.BtnDescXLts2 = New System.Windows.Forms.Button()
         Me.LtLitrosECMEvento2 = New System.Windows.Forms.Label()
         Me.TPORC_TOL_EVENTO2 = New C1.Win.C1Input.C1TextBox()
@@ -321,6 +323,7 @@ Partial Class FrmReseteoAE
         CType(Me.TBONO_RES_VACIO, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TBONO_RES, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox3.SuspendLayout()
+        CType(Me.TAJUST_TAB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TPORC_TOL_EVENTO2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TLTS_DESCONTAR2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TPRECIO_X_LTS2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2469,6 +2472,8 @@ Partial Class FrmReseteoAE
         '
         'GroupBox3
         '
+        Me.GroupBox3.Controls.Add(Me.Label32)
+        Me.GroupBox3.Controls.Add(Me.TAJUST_TAB)
         Me.GroupBox3.Controls.Add(Me.BtnDescXLts2)
         Me.GroupBox3.Controls.Add(Me.LtLitrosECMEvento2)
         Me.GroupBox3.Controls.Add(Me.TPORC_TOL_EVENTO2)
@@ -2491,9 +2496,51 @@ Partial Class FrmReseteoAE
         Me.GroupBox3.Controls.Add(Me.Lt12)
         Me.GroupBox3.Location = New System.Drawing.Point(751, 193)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(309, 298)
+        Me.GroupBox3.Size = New System.Drawing.Size(543, 298)
         Me.GroupBox3.TabIndex = 556
         Me.GroupBox3.TabStop = False
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.BackColor = System.Drawing.Color.Transparent
+        Me.Label32.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label32.Location = New System.Drawing.Point(326, 110)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(111, 17)
+        Me.Label32.TabIndex = 616
+        Me.Label32.Text = "Ajuste tabulador"
+        '
+        'TAJUST_TAB
+        '
+        Me.TAJUST_TAB.AcceptsReturn = True
+        Me.TAJUST_TAB.AcceptsTab = True
+        Me.TAJUST_TAB.BackColor = System.Drawing.Color.FromArgb(CType(CType(234, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.TAJUST_TAB.BorderColor = System.Drawing.SystemColors.WindowFrame
+        Me.TAJUST_TAB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TAJUST_TAB.DataType = GetType(Decimal)
+        Me.TAJUST_TAB.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(183, Byte), Integer), CType(CType(183, Byte), Integer), CType(CType(183, Byte), Integer))
+        Me.TAJUST_TAB.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TAJUST_TAB.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TAJUST_TAB.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TAJUST_TAB.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TAJUST_TAB.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TAJUST_TAB.Location = New System.Drawing.Point(439, 109)
+        Me.TAJUST_TAB.Name = "TAJUST_TAB"
+        Me.TAJUST_TAB.Size = New System.Drawing.Size(54, 21)
+        Me.TAJUST_TAB.TabIndex = 615
+        Me.TAJUST_TAB.Tag = Nothing
+        Me.TAJUST_TAB.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TAJUST_TAB.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.TAJUST_TAB.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'BtnDescXLts2
         '
@@ -2511,7 +2558,7 @@ Partial Class FrmReseteoAE
         '
         Me.LtLitrosECMEvento2.AutoSize = True
         Me.LtLitrosECMEvento2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtLitrosECMEvento2.Location = New System.Drawing.Point(12, 86)
+        Me.LtLitrosECMEvento2.Location = New System.Drawing.Point(52, 86)
         Me.LtLitrosECMEvento2.Name = "LtLitrosECMEvento2"
         Me.LtLitrosECMEvento2.Size = New System.Drawing.Size(87, 17)
         Me.LtLitrosECMEvento2.TabIndex = 588
@@ -2568,7 +2615,7 @@ Partial Class FrmReseteoAE
         '
         Me.RadLTS_TAB.AutoSize = True
         Me.RadLTS_TAB.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLTS_TAB.Location = New System.Drawing.Point(138, 45)
+        Me.RadLTS_TAB.Location = New System.Drawing.Point(169, 45)
         Me.RadLTS_TAB.Name = "RadLTS_TAB"
         Me.RadLTS_TAB.Size = New System.Drawing.Size(117, 20)
         Me.RadLTS_TAB.TabIndex = 2
@@ -2580,7 +2627,7 @@ Partial Class FrmReseteoAE
         '
         Me.RadLTS_ECM.AutoSize = True
         Me.RadLTS_ECM.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLTS_ECM.Location = New System.Drawing.Point(28, 45)
+        Me.RadLTS_ECM.Location = New System.Drawing.Point(48, 45)
         Me.RadLTS_ECM.Name = "RadLTS_ECM"
         Me.RadLTS_ECM.Size = New System.Drawing.Size(89, 20)
         Me.RadLTS_ECM.TabIndex = 1
@@ -2593,7 +2640,7 @@ Partial Class FrmReseteoAE
         Me.Label72.AutoSize = True
         Me.Label72.BackColor = System.Drawing.Color.Transparent
         Me.Label72.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label72.Location = New System.Drawing.Point(12, 136)
+        Me.Label72.Location = New System.Drawing.Point(52, 136)
         Me.Label72.Name = "Label72"
         Me.Label72.Size = New System.Drawing.Size(74, 17)
         Me.Label72.TabIndex = 583
@@ -2614,8 +2661,8 @@ Partial Class FrmReseteoAE
         '
         Me.Label26.AutoSize = True
         Me.Label26.BackColor = System.Drawing.Color.Transparent
-        Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label26.Location = New System.Drawing.Point(12, 110)
+        Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label26.Location = New System.Drawing.Point(52, 110)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(109, 17)
         Me.Label26.TabIndex = 577
@@ -2656,10 +2703,10 @@ Partial Class FrmReseteoAE
         'Label28
         '
         Me.Label28.AutoSize = True
-        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(276, 116)
+        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label28.Location = New System.Drawing.Point(276, 110)
         Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(27, 16)
+        Me.Label28.Size = New System.Drawing.Size(31, 17)
         Me.Label28.TabIndex = 578
         Me.Label28.Text = "Lts."
         '
@@ -2762,7 +2809,7 @@ Partial Class FrmReseteoAE
         Me.Lt11.AutoSize = True
         Me.Lt11.BackColor = System.Drawing.Color.Transparent
         Me.Lt11.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt11.Location = New System.Drawing.Point(12, 162)
+        Me.Lt11.Location = New System.Drawing.Point(52, 162)
         Me.Lt11.Name = "Lt11"
         Me.Lt11.Size = New System.Drawing.Size(110, 17)
         Me.Lt11.TabIndex = 574
@@ -2782,7 +2829,7 @@ Partial Class FrmReseteoAE
         '
         Me.Label47.AutoSize = True
         Me.Label47.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label47.Location = New System.Drawing.Point(12, 187)
+        Me.Label47.Location = New System.Drawing.Point(52, 187)
         Me.Label47.Name = "Label47"
         Me.Label47.Size = New System.Drawing.Size(85, 17)
         Me.Label47.TabIndex = 573
@@ -2793,7 +2840,7 @@ Partial Class FrmReseteoAE
         Me.Lt12.AutoSize = True
         Me.Lt12.BackColor = System.Drawing.Color.Transparent
         Me.Lt12.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt12.Location = New System.Drawing.Point(12, 212)
+        Me.Lt12.Location = New System.Drawing.Point(52, 212)
         Me.Lt12.Name = "Lt12"
         Me.Lt12.Size = New System.Drawing.Size(88, 17)
         Me.Lt12.TabIndex = 579
@@ -4051,7 +4098,6 @@ Partial Class FrmReseteoAE
         Me.BarImprimir.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BarImprimir.Name = "BarImprimir"
         Me.BarImprimir.ShortcutKeyDisplayString = "Grabar registro"
-        Me.BarImprimir.ShortcutKeys = System.Windows.Forms.Keys.F3
         Me.BarImprimir.Size = New System.Drawing.Size(65, 51)
         Me.BarImprimir.Text = "Imprimir"
         Me.BarImprimir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
@@ -4064,7 +4110,6 @@ Partial Class FrmReseteoAE
         Me.BarFinReseteo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BarFinReseteo.Name = "BarFinReseteo"
         Me.BarFinReseteo.ShortcutKeyDisplayString = "Grabar registro"
-        Me.BarFinReseteo.ShortcutKeys = System.Windows.Forms.Keys.F3
         Me.BarFinReseteo.Size = New System.Drawing.Size(103, 51)
         Me.BarFinReseteo.Text = "Finalizar reseteo"
         Me.BarFinReseteo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
@@ -4085,7 +4130,6 @@ Partial Class FrmReseteoAE
         Me.MnuSalir.Image = Global.SGT_Transport.My.Resources.Resources.puertasalida
         Me.MnuSalir.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.MnuSalir.Name = "MnuSalir"
-        Me.MnuSalir.ShortcutKeys = System.Windows.Forms.Keys.F5
         Me.MnuSalir.Size = New System.Drawing.Size(44, 51)
         Me.MnuSalir.Text = "Salir"
         Me.MnuSalir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
@@ -4156,6 +4200,7 @@ Partial Class FrmReseteoAE
         CType(Me.TBONO_RES, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        CType(Me.TAJUST_TAB, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TPORC_TOL_EVENTO2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TLTS_DESCONTAR2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TPRECIO_X_LTS2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4463,4 +4508,6 @@ Partial Class FrmReseteoAE
     Friend WithEvents LtGen2 As Label
     Friend WithEvents LtGen1 As Label
     Friend WithEvents BtnDescXLts2 As Button
+    Friend WithEvents Label32 As Label
+    Friend WithEvents TAJUST_TAB As C1.Win.C1Input.C1TextBox
 End Class

@@ -98,6 +98,9 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Antlr4.Runtime, Version=4.6.0.0, Culture=neutral, PublicKeyToken=09abb75b9ed49849, processorArchitecture=MSIL">
+      <HintPath>packages\Antlr4.Runtime.4.6.6\lib\net45\Antlr4.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="C1.C1Excel.4, Version=4.0.20202.438, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -112,12 +115,6 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="C1.Data.Entity.4, Version=4.0.20202.438, Culture=neutral, PublicKeyToken=64e78d493ac08671" />
-    <Reference Include="C1.DataCollection, Version=1.0.20231.129, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL">
-      <HintPath>packages\C1.DataCollection.1.0.20231.129\lib\netstandard1.1\C1.DataCollection.dll</HintPath>
-    </Reference>
-    <Reference Include="C1.DataCollection.BindingList, Version=1.0.20231.129, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL">
-      <HintPath>packages\C1.DataCollection.BindingList.1.0.20231.129\lib\net452\C1.DataCollection.BindingList.dll</HintPath>
-    </Reference>
     <Reference Include="C1.DataEngine.4, Version=4.0.20202.438, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -237,14 +234,8 @@
     <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
     </Reference>
-    <Reference Include="GMap.NET.Core, Version=1.9.3.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
-      <HintPath>packages\GMap.NET.Windows.1.9.3\lib\net40\GMap.NET.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="GMap.NET.WindowsForms, Version=1.9.3.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
-      <HintPath>packages\GMap.NET.Windows.1.9.3\lib\net40\GMap.NET.WindowsForms.dll</HintPath>
-    </Reference>
-    <Reference Include="GMap.NET.WindowsPresentation, Version=1.9.3.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
-      <HintPath>packages\GMap.NET.Windows.1.9.3\lib\net40\GMap.NET.WindowsPresentation.dll</HintPath>
+    <Reference Include="FirebirdSql.Data.FirebirdClient">
+      <HintPath>packages\FirebirdSql.Data.FirebirdClient.6.1.0\lib\netstandard1.6\FirebirdSql.Data.FirebirdClient.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp, Version=5.5.1.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -262,12 +253,21 @@
       <HintPath>packages\NCalc-Edge.1.5.0\lib\net35\NCalc.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="ReachFramework" />
     <Reference Include="RestSharp, Version=108.0.3.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>packages\RestSharp.108.0.3\lib\netstandard2.0\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>packages\Serilog.2.9.0\lib\net46\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Async, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>packages\Serilog.Sinks.Async.1.5.0\lib\net461\Serilog.Sinks.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>packages\Serilog.Sinks.File.4.1.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
     </Reference>
     <Reference Include="Spire.License, Version=1.4.0.41, Culture=neutral, PublicKeyToken=b1144360237c8b3f, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\Program Files (x86)\E-ICEBLUE Spire.Office Platinum v6.10.3\BIN\NET4.0 ClientProfile\Spire.License.dll</HintPath>
@@ -319,14 +319,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Data.SQLite, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>packages\System.Data.SQLite.Core.1.0.111.0\lib\net45\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.EF6, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>packages\System.Data.SQLite.EF6.1.0.111.0\lib\net45\System.Data.SQLite.EF6.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>packages\System.Data.SQLite.Linq.1.0.111.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
+    <Reference Include="System.Data.SQLite, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\lib\net46\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -343,6 +337,9 @@
       <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
@@ -656,6 +653,8 @@
     <Compile Include="CLIENTES\FrmPagoMultSaldosItem.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="COI\COIdb.vb" />
+    <Compile Include="COI\Poliza.vb" />
     <Compile Include="COMBUSTIBLE\FrmBonosMotor.Designer.vb">
       <DependentUpon>FrmBonosMotor.vb</DependentUpon>
     </Compile>
@@ -692,6 +691,12 @@
     <Compile Include="COMBUSTIBLE\FrmReporteValesViking.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="COMBUSTIBLE\FrmReseteoImpMasiva.Designer.vb">
+      <DependentUpon>FrmReseteoImpMasiva.vb</DependentUpon>
+    </Compile>
+    <Compile Include="COMBUSTIBLE\FrmReseteoImpMasiva.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="COMBUSTIBLE\FrmTab2SelViaje.Designer.vb">
       <DependentUpon>FrmTab2SelViaje.vb</DependentUpon>
     </Compile>
@@ -726,6 +731,12 @@
       <DependentUpon>FrmCapturaHuellas.vb</DependentUpon>
     </Compile>
     <Compile Include="CONFIGURACION\FrmCapturaHuellas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CONFIGURACION\FrmCOI.designer.vb">
+      <DependentUpon>FrmCOI.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONFIGURACION\FrmCOI.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CONFIGURACION\FrmConexionTEA.Designer.vb">
@@ -777,6 +788,24 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Ejemplo.vb" />
+    <Compile Include="INVEN\FrmEsquemasMes.Designer.vb">
+      <DependentUpon>FrmEsquemasMes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="INVEN\FrmEsquemasMes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="INVEN\FrmEsquemasYear.Designer.vb">
+      <DependentUpon>FrmEsquemasYear.vb</DependentUpon>
+    </Compile>
+    <Compile Include="INVEN\FrmEsquemasYear.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="INVEN\FrmEsquemasYearMesAE.Designer.vb">
+      <DependentUpon>FrmEsquemasYearMesAE.vb</DependentUpon>
+    </Compile>
+    <Compile Include="INVEN\FrmEsquemasYearMesAE.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LLANTAS\FrmPilaDesecho.Designer.vb">
       <DependentUpon>FrmPilaDesecho.vb</DependentUpon>
     </Compile>
@@ -916,6 +945,17 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MODULOS\RJMessageBox.vb" />
+    <Compile Include="MONTELLANO\frmMovsInvOT.designer.vb">
+      <DependentUpon>frmMovsInvOT.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MONTELLANO\frmMovsInvOT.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="UTILERIAS\RoundedRectangle.vb" />
     <Compile Include="VENTAS POS\FrmFacturaGlobal.Designer.vb">
       <DependentUpon>FrmFacturaGlobal.vb</DependentUpon>
@@ -953,10 +993,10 @@
     <Compile Include="VENTAS\FrmFlujoCaja.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VENTAS\FrmSelItemBinding.Designer.vb">
+    <Compile Include="BUSQUEDAS\FrmSelItemBinding.Designer.vb">
       <DependentUpon>FrmSelItemBinding.vb</DependentUpon>
     </Compile>
-    <Compile Include="VENTAS\FrmSelItemBinding.vb">
+    <Compile Include="BUSQUEDAS\FrmSelItemBinding.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="INVEN\FrmConsulPrecios.Designer.vb">
@@ -1043,11 +1083,6 @@
     </Compile>
     <Compile Include="LOGISTICA\REPORTES\FrmReporteViajesRealizados.vb">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="PARAM OPCIONES\FrmFacturaElectronica.designer.vb">
       <DependentUpon>FrmFacturaElectronica.vb</DependentUpon>
@@ -1296,12 +1331,6 @@
       <DependentUpon>FrmLlenarBienesTrans.vb</DependentUpon>
     </Compile>
     <Compile Include="UTILERIAS\FrmLlenarBienesTrans.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UTILERIAS\RibbonGrabarSalir.Designer.vb">
-      <DependentUpon>RibbonGrabarSalir.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UTILERIAS\RibbonGrabarSalir.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="TESORERIA\FrmSaldosOperFiltraOper.Designer.vb">
@@ -1704,10 +1733,10 @@
     <Compile Include="LOGISTICA\FrmFiltro.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VENTAS\FrmSelItem22.Designer.vb">
+    <Compile Include="BUSQUEDAS\FrmSelItem22.Designer.vb">
       <DependentUpon>FrmSelItem22.vb</DependentUpon>
     </Compile>
-    <Compile Include="VENTAS\FrmSelItem22.vb">
+    <Compile Include="BUSQUEDAS\FrmSelItem22.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LOGISTICA\FrmProgPedidos.Designer.vb">
@@ -2286,12 +2315,6 @@
     <Compile Include="REPORTES\frmSalidaLLantasXUnidad.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UTILERIAS\RibbonForm3.Designer.vb">
-      <DependentUpon>RibbonForm3.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UTILERIAS\RibbonForm3.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="TESORERIA\FrmTesoreriaReporte.Designer.vb">
       <DependentUpon>FrmTesoreriaReporte.vb</DependentUpon>
     </Compile>
@@ -2314,12 +2337,6 @@
       <DependentUpon>frmQuitarCaracEspeciales.vb</DependentUpon>
     </Compile>
     <Compile Include="UTILERIAS\frmQuitarCaracEspeciales.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UTILERIAS\frmSQL.designer.vb">
-      <DependentUpon>frmSQL.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UTILERIAS\frmSQL.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LLANTAS\FrmLLantasHistorialDesgaste.Designer.vb">
@@ -2370,10 +2387,10 @@
     <Compile Include="REPORTES\frmReportePrecioCostos.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VENTAS\FrmSelItem2.Designer.vb">
+    <Compile Include="BUSQUEDAS\FrmSelItem2.Designer.vb">
       <DependentUpon>FrmSelItem2.vb</DependentUpon>
     </Compile>
-    <Compile Include="VENTAS\FrmSelItem2.vb">
+    <Compile Include="BUSQUEDAS\FrmSelItem2.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="REPORTES\frmReporteTallerExterno.Designer.vb">
@@ -2450,18 +2467,6 @@
       <DependentUpon>FrmUtilerias.vb</DependentUpon>
     </Compile>
     <Compile Include="UTILERIAS\FrmUtilerias.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UTILERIAS\frmUtils.Designer.vb">
-      <DependentUpon>frmUtils.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UTILERIAS\frmUtils.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UTILERIAS\frmValidaFacturas.Designer.vb">
-      <DependentUpon>frmValidaFacturas.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UTILERIAS\frmValidaFacturas.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CLIENTES\frmAltaCxC.Designer.vb">
@@ -2602,18 +2607,6 @@
     <Compile Include="LLANTAS\FrmBuscarNumEconomico.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LOGISTICA\frmCartaPorte.Designer.vb">
-      <DependentUpon>frmCartaPorte.vb</DependentUpon>
-    </Compile>
-    <Compile Include="LOGISTICA\frmCartaPorte.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LOGISTICA\frmCartaPorteAE.Designer.vb">
-      <DependentUpon>frmCartaPorteAE.vb</DependentUpon>
-    </Compile>
-    <Compile Include="LOGISTICA\frmCartaPorteAE.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="LOGISTICA\frmCarta_porte_cerrar.Designer.vb">
       <DependentUpon>frmCarta_porte_cerrar.vb</DependentUpon>
     </Compile>
@@ -2744,12 +2737,6 @@
       <DependentUpon>frmConciValesCombusAE.vb</DependentUpon>
     </Compile>
     <Compile Include="LOGISTICA\frmConciValesCombusAE.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UTILERIAS\RibbonImprimiDisenador.Designer.vb">
-      <DependentUpon>RibbonImprimiDisenador.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UTILERIAS\RibbonImprimiDisenador.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="VARIOS\frmConcPrestamos.Designer.vb">
@@ -2920,12 +2907,6 @@
     <Compile Include="CONFIGURACION\FrmEmpresas.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UTILERIAS\frmCreaInsertSQL.Designer.vb">
-      <DependentUpon>frmCreaInsertSQL.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UTILERIAS\frmCreaInsertSQL.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="COMPRAS\frmEnlaceCompra.Designer.vb">
       <DependentUpon>frmEnlaceCompra.vb</DependentUpon>
     </Compile>
@@ -3016,12 +2997,6 @@
     <Compile Include="VENTAS\FrmFoliosfAE.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UTILERIAS\frmImportAsigLlantasExcel.Designer.vb">
-      <DependentUpon>frmImportAsigLlantasExcel.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UTILERIAS\frmImportAsigLlantasExcel.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="UTILERIAS\frmKardexAjustar.Designer.vb">
       <DependentUpon>frmKardexAjustar.vb</DependentUpon>
     </Compile>
@@ -3034,18 +3009,6 @@
     <Compile Include="LLANTAS\FrmLLantasStatus.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PREREP\frmMantenimientoExterno.Designer.vb">
-      <DependentUpon>frmMantenimientoExterno.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PREREP\frmMantenimientoExterno.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PREREP\frmMantenimientoExternoAE.Designer.vb">
-      <DependentUpon>frmMantenimientoExternoAE.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PREREP\frmMantenimientoExternoAE.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="INVEN\FrmMinveSae.Designer.vb">
       <DependentUpon>FrmMinveSae.vb</DependentUpon>
     </Compile>
@@ -3056,12 +3019,6 @@
       <DependentUpon>FrmMinveSaeAE.vb</DependentUpon>
     </Compile>
     <Compile Include="INVEN\FrmMinveSaeAE.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PREREP\frmMovsInvOT.Designer.vb">
-      <DependentUpon>frmMovsInvOT.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PREREP\frmMovsInvOT.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="VENTAS\FrmDocumentos.designer.vb">
@@ -3502,24 +3459,6 @@
     <Compile Include="TRANSCG\frmOrdenDeTrabajoAE.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PREREP\frmOrdenDeTrabajoExt.Designer.vb">
-      <DependentUpon>frmOrdenDeTrabajoExt.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PREREP\frmOrdenDeTrabajoExt.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PREREP\frmOrdenDeTrabajoExtAE.Designer.vb">
-      <DependentUpon>frmOrdenDeTrabajoExtAE.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PREREP\frmOrdenDeTrabajoExtAE.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PREREP\frmOrdenDeTrabajoExtMovsInv.Designer.vb">
-      <DependentUpon>frmOrdenDeTrabajoExtMovsInv.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PREREP\frmOrdenDeTrabajoExtMovsInv.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="PARAMETROS\FrmParamCompras.Designer.vb">
       <DependentUpon>FrmParamCompras.vb</DependentUpon>
     </Compile>
@@ -3796,10 +3735,10 @@
     <Compile Include="CONFIGURACION\FrmSelEmpresa.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VENTAS\FrmSelItem.designer.vb">
+    <Compile Include="BUSQUEDAS\FrmSelItem.designer.vb">
       <DependentUpon>FrmSelItem.vb</DependentUpon>
     </Compile>
-    <Compile Include="VENTAS\FrmSelItem.vb">
+    <Compile Include="BUSQUEDAS\FrmSelItem.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CATALOGOS ASPEL\frmSelPrecio.Designer.vb">
@@ -4198,12 +4137,6 @@
     <Compile Include="COMBUSTIBLE\frmValeCombustibleEfectivoAE.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UTILERIAS\frmValidarCierre.Designer.vb">
-      <DependentUpon>frmValidarCierre.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UTILERIAS\frmValidarCierre.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="TRAFICO\frmValorDeclarado.Designer.vb">
       <DependentUpon>frmValorDeclarado.vb</DependentUpon>
     </Compile>
@@ -4333,18 +4266,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="UTILERIAS\RibbonForm1.Designer.vb">
-      <DependentUpon>RibbonForm1.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UTILERIAS\RibbonForm1.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UTILERIAS\RibbonMenu.Designer.vb">
-      <DependentUpon>RibbonMenu.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UTILERIAS\RibbonMenu.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Service References\ServiceReferenceMontellano\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -4352,6 +4273,7 @@
     </Compile>
     <Compile Include="MODULOS\TextValidation.vb" />
     <Compile Include="MODULOS\ValueDescriptionPair.vb" />
+    <Compile Include="Vitual_ODATA.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BANCOS\FrmBBenef.resx">
@@ -4517,6 +4439,9 @@
     <EmbeddedResource Include="COMBUSTIBLE\FrmReporteValesViking.resx">
       <DependentUpon>FrmReporteValesViking.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="COMBUSTIBLE\FrmReseteoImpMasiva.resx">
+      <DependentUpon>FrmReseteoImpMasiva.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="COMBUSTIBLE\FrmTab2SelViaje.resx">
       <DependentUpon>FrmTab2SelViaje.vb</DependentUpon>
     </EmbeddedResource>
@@ -4534,6 +4459,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CONFIGURACION\FrmCapturaHuellas.resx">
       <DependentUpon>FrmCapturaHuellas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONFIGURACION\FrmCOI.resx">
+      <DependentUpon>FrmCOI.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CONFIGURACION\FrmConexionTEA.resx">
       <DependentUpon>FrmConexionTEA.vb</DependentUpon>
@@ -4558,6 +4486,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CONTABILIDAD\FrmPolizaLiq.resx">
       <DependentUpon>FrmPolizaLiq.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="INVEN\FrmEsquemasMes.resx">
+      <DependentUpon>FrmEsquemasMes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="INVEN\FrmEsquemasYear.resx">
+      <DependentUpon>FrmEsquemasYear.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="INVEN\FrmEsquemasYearMesAE.resx">
+      <DependentUpon>FrmEsquemasYearMesAE.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LLANTAS\FrmPilaDesecho.resx">
       <DependentUpon>FrmPilaDesecho.vb</DependentUpon>
@@ -4630,6 +4567,9 @@
       <DependentUpon>FormMessageBox.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="MONTELLANO\frmMovsInvOT.resx">
+      <DependentUpon>frmMovsInvOT.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VENTAS POS\FrmFacturaGlobal.resx">
       <DependentUpon>FrmFacturaGlobal.vb</DependentUpon>
     </EmbeddedResource>
@@ -4648,7 +4588,7 @@
     <EmbeddedResource Include="VENTAS\FrmFlujoCaja.resx">
       <DependentUpon>FrmFlujoCaja.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VENTAS\FrmSelItemBinding.resx">
+    <EmbeddedResource Include="BUSQUEDAS\FrmSelItemBinding.resx">
       <DependentUpon>FrmSelItemBinding.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="INVEN\FrmConsulPrecios.resx">
@@ -4875,9 +4815,6 @@
     <EmbeddedResource Include="UTILERIAS\FrmLlenarBienesTrans.resx">
       <DependentUpon>FrmLlenarBienesTrans.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UTILERIAS\RibbonGrabarSalir.resx">
-      <DependentUpon>RibbonGrabarSalir.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="TESORERIA\FrmSaldosOperFiltraOper.resx">
       <DependentUpon>FrmSaldosOperFiltraOper.vb</DependentUpon>
     </EmbeddedResource>
@@ -5016,7 +4953,7 @@
     <EmbeddedResource Include="LOGISTICA\FrmFiltro.resx">
       <DependentUpon>FrmFiltro.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VENTAS\FrmSelItem22.resx">
+    <EmbeddedResource Include="BUSQUEDAS\FrmSelItem22.resx">
       <DependentUpon>FrmSelItem22.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="COMBUSTIBLE\FrmSelItemReseteoTab.resx">
@@ -5273,9 +5210,6 @@
     <EmbeddedResource Include="REPORTES\FrmOperacionDiaria.resx">
       <DependentUpon>FrmOperacionDiaria.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UTILERIAS\RibbonForm3.resx">
-      <DependentUpon>RibbonForm3.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="TESORERIA\FrmTesoreriaReporte.resx">
       <DependentUpon>FrmTesoreriaReporte.vb</DependentUpon>
     </EmbeddedResource>
@@ -5287,9 +5221,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UTILERIAS\frmQuitarCaracEspeciales.resx">
       <DependentUpon>frmQuitarCaracEspeciales.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UTILERIAS\frmSQL.resx">
-      <DependentUpon>frmSQL.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LLANTAS\FrmLLantasHistorialDesgaste.resx">
       <DependentUpon>FrmLLantasHistorialDesgaste.vb</DependentUpon>
@@ -5315,7 +5246,7 @@
     <EmbeddedResource Include="REPORTES\frmReportePrecioCostos.resx">
       <DependentUpon>frmReportePrecioCostos.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VENTAS\FrmSelItem2.resx">
+    <EmbeddedResource Include="BUSQUEDAS\FrmSelItem2.resx">
       <DependentUpon>FrmSelItem2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="REPORTES\frmReporteTallerExterno.resx">
@@ -5344,12 +5275,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UTILERIAS\FrmUtilerias.resx">
       <DependentUpon>FrmUtilerias.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UTILERIAS\frmUtils.resx">
-      <DependentUpon>frmUtils.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UTILERIAS\frmValidaFacturas.resx">
-      <DependentUpon>frmValidaFacturas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CLIENTES\frmAltaCxC.resx">
       <DependentUpon>frmAltaCxC.vb</DependentUpon>
@@ -5430,12 +5355,6 @@
     <EmbeddedResource Include="LLANTAS\FrmBuscarNumEconomico.resx">
       <DependentUpon>FrmBuscarNumEconomico.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LOGISTICA\frmCartaPorte.resx">
-      <DependentUpon>frmCartaPorte.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LOGISTICA\frmCartaPorteAE.resx">
-      <DependentUpon>frmCartaPorteAE.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="LOGISTICA\frmCarta_porte_cerrar.resx">
       <DependentUpon>frmCarta_porte_cerrar.vb</DependentUpon>
     </EmbeddedResource>
@@ -5502,9 +5421,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LOGISTICA\frmConciValesCombusAE.resx">
       <DependentUpon>frmConciValesCombusAE.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UTILERIAS\RibbonImprimiDisenador.resx">
-      <DependentUpon>RibbonImprimiDisenador.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VARIOS\frmConcPrestamos.resx">
       <DependentUpon>frmConcPrestamos.vb</DependentUpon>
@@ -5594,9 +5510,6 @@
     <EmbeddedResource Include="CONFIGURACION\FrmEmpresas.resx">
       <DependentUpon>FrmEmpresas.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UTILERIAS\frmCreaInsertSQL.resx">
-      <DependentUpon>frmCreaInsertSQL.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="COMPRAS\frmEnlaceCompra.resx">
       <DependentUpon>frmEnlaceCompra.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -5646,9 +5559,6 @@
     <EmbeddedResource Include="VENTAS\FrmFoliosfAE.resx">
       <DependentUpon>FrmFoliosfAE.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UTILERIAS\frmImportAsigLlantasExcel.resx">
-      <DependentUpon>frmImportAsigLlantasExcel.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UTILERIAS\frmKardexAjustar.resx">
       <DependentUpon>frmKardexAjustar.vb</DependentUpon>
     </EmbeddedResource>
@@ -5658,21 +5568,11 @@
     <EmbeddedResource Include="LLANTAS\FrmLLantasStatus.resx">
       <DependentUpon>FrmLLantasStatus.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PREREP\frmMantenimientoExterno.resx">
-      <DependentUpon>frmMantenimientoExterno.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PREREP\frmMantenimientoExternoAE.resx">
-      <DependentUpon>frmMantenimientoExternoAE.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="INVEN\FrmMinveSae.resx">
       <DependentUpon>FrmMinveSae.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="INVEN\FrmMinveSaeAE.resx">
       <DependentUpon>FrmMinveSaeAE.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PREREP\frmMovsInvOT.resx">
-      <DependentUpon>frmMovsInvOT.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VENTAS\FrmDocumentos.resx">
       <DependentUpon>FrmDocumentos.vb</DependentUpon>
@@ -5897,15 +5797,6 @@
     <EmbeddedResource Include="TRANSCG\frmOrdenDeTrabajoAE.resx">
       <DependentUpon>frmOrdenDeTrabajoAE.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PREREP\frmOrdenDeTrabajoExt.resx">
-      <DependentUpon>frmOrdenDeTrabajoExt.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PREREP\frmOrdenDeTrabajoExtAE.resx">
-      <DependentUpon>frmOrdenDeTrabajoExtAE.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PREREP\frmOrdenDeTrabajoExtMovsInv.resx">
-      <DependentUpon>frmOrdenDeTrabajoExtMovsInv.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="PARAMETROS\FrmParamCompras.resx">
       <DependentUpon>FrmParamCompras.vb</DependentUpon>
     </EmbeddedResource>
@@ -6050,7 +5941,7 @@
     <EmbeddedResource Include="CONFIGURACION\FrmSelEmpresa.resx">
       <DependentUpon>FrmSelEmpresa.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VENTAS\FrmSelItem.resx">
+    <EmbeddedResource Include="BUSQUEDAS\FrmSelItem.resx">
       <DependentUpon>FrmSelItem.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CATALOGOS ASPEL\frmSelPrecio.resx">
@@ -6321,9 +6212,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UTILERIAS\frmValidarCierre.resx">
-      <DependentUpon>frmValidarCierre.vb</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -6487,12 +6375,6 @@
     <None Include="Service References\ServiceReferenceMontellano\service_api_n1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <EmbeddedResource Include="UTILERIAS\RibbonForm1.resx">
-      <DependentUpon>RibbonForm1.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UTILERIAS\RibbonMenu.resx">
-      <DependentUpon>RibbonMenu.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Transport CG.gclicx" />
     <None Include="Service References\WSDIGIBOX\wsTimbrado.wsdl" />
     <None Include="Service References\WSRV\service1.wsdl" />
@@ -6976,6 +6858,15 @@
     <None Include="Resources\SQL6.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\diseñador.png" />
+    <Content Include="Resources\diseñador16.png" />
+    <Content Include="Resources\diseñador24.png" />
+    <Content Include="Resources\motor1.jpg" />
+    <Content Include="Resources\motor11.jpg" />
+    <Content Include="Resources\Tesoreria_Autorización_de_Gastos.png" />
+    <None Include="Resources\nube12.png" />
+    <None Include="Resources\SAT1_e.png" />
+    <None Include="Resources\AspelCOI_e.png" />
     <None Include="Resources\embalaje2.png" />
     <None Include="Resources\carga11.png" />
     <None Include="Resources\ce2.png" />
@@ -7061,7 +6952,6 @@
     <None Include="Resources\flecha16.png" />
     <None Include="Resources\flecha5.png" />
     <None Include="Resources\flecha4.png" />
-    <None Include="Resources\diseñador24.png" />
     <None Include="Resources\menu1.png" />
     <None Include="Resources\puntos8.png" />
     <None Include="Resources\terminal6.png" />
@@ -7083,7 +6973,6 @@
     <None Include="Resources\agrupar8.png" />
     <None Include="Resources\semaforo.png" />
     <None Include="Resources\agrupar4.png" />
-    <None Include="Resources\diseñador16.png" />
     <None Include="Resources\engranaje3.png" />
     <None Include="Resources\teclado.png" />
     <None Include="Resources\inventario3.png" />
@@ -7384,7 +7273,6 @@
     <None Include="Resources\kcopy1.png" />
     <None Include="Resources\Liquidacion_Deducciones.png" />
     <None Include="Resources\TesoreriaDeducciones_ Operador.png" />
-    <None Include="Resources\Tesoreria_Autorización_de_Gastos.png" />
     <None Include="Resources\xml1.jpg" />
     <None Include="Resources\refresh_20.png" />
     <None Include="Resources\finalizar43.png" />
@@ -7459,7 +7347,6 @@
     <None Include="Resources\Usuarios.png" />
     <None Include="Resources\Param_sist.png" />
     <None Include="Resources\CONEXIONSAROCE.png" />
-    <None Include="Resources\diseñador.png" />
     <None Include="Resources\Gastos1.png" />
     <None Include="Resources\empresa.png" />
     <None Include="Resources\finalizar8.jpg" />
@@ -7902,6 +7789,35 @@
     <Folder Include="CAT SAT\" />
     <Folder Include="REPORTES\FACTURAS\" />
   </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Interop.Access.Dao">
+      <Guid>{4AC9E1DA-5BAD-4AC7-86E3-24F4CDCECA28}</Guid>
+      <VersionMajor>12</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.108.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.108.0\build\net45\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -7909,9 +7825,9 @@
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.108.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.108.0\build\net45\System.Data.SQLite.Core.targets'))" />
-    <Error Condition="!Exists('packages\System.Data.SQLite.Core.1.0.111.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\System.Data.SQLite.Core.1.0.111.0\build\net45\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
   </Target>
-  <Import Project="packages\System.Data.SQLite.Core.1.0.111.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('packages\System.Data.SQLite.Core.1.0.111.0\build\net45\System.Data.SQLite.Core.targets')" />
+  <Import Project="packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

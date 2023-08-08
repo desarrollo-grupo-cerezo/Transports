@@ -137,7 +137,7 @@ Public Class FrmClientesOperativosAE
         Dim cmd As New SqlCommand With {.Connection = cnSAE}
 
         If TNOMBRE.Text.Trim.Length = 0 Then
-            MsgBox("La nombre no debe quedar vacia, verifique por favor")
+            MsgBox("El nombre del cliente operativo no debe quedar vacío, verifique por favor")
             Return
         End If
 

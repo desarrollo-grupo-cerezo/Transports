@@ -49,6 +49,10 @@ Public Class FrmTabRutasHojaAE
             TAUTO_SENC.Tag = "0" : TSUELDO_FULL.Tag = "0" : TSUELDO_SENC.Tag = "0"
             TTAR_X_VIA_SENC.Tag = "0" : tCVE_GASTO.Tag = ""
             TIMPORTE.Tag = "0" : TCVE_GASOL.Tag = "" : TLITROS_RUTA.Tag = "0"
+            TPORC_MANIOBRA_FULL.Value = 0
+            TPORC_MANIOBRA_SENC.Value = 0
+            TSUELDO_MANIOBRA_FULL.Value = 0
+            TSUELDO_MANIOBRA_SENC.Value = 0
 
             BtnClie_Op2.FlatStyle = FlatStyle.Flat
             BtnClie_Op2.FlatAppearance.BorderSize = 0
@@ -88,22 +92,22 @@ Public Class FrmTabRutasHojaAE
                 Dim dr As SqlDataReader
                 cmd.Connection = cnSAE
 
+                'SELECT C.CLAVE, C.NOMBRE, C.DOMICILIO, ISNULL(C.NOTA,0) AS C_NOTA
                 SQL = "SELECT T.CVE_TAB, T.CLIE_OP, ISNULL(OP1.NOMBRE,'') AS NOM_OP1, 
                     T.CLIE_OP_O, ISNULL(OP2.NOMBRE,'') AS NOM_OP_O, ISNULL(OP2.DOMICILIO,'') AS DOMI_O, ISNULL(OP2.CVE_PLAZA,0) AS CVE_PLAZA_O, 
                     T.CLIE_OP_D, ISNULL(OP3.NOMBRE,'') AS NOM_OP_D, ISNULL(OP3.DOMICILIO,'') AS DOMI_D, ISNULL(OP3.CVE_PLAZA,0) AS CVE_PLAZA_D, 
-                    ISNULL(P1.CIUDAD,'') AS CIUDAD_PLA_O, ISNULL(P2.CIUDAD,'') AS CIUDAD_PLA_D, T.CVE_PROD, T.CVE_ART, ISNULL(P.DESCR,'') AS DESCR_PROD, 
+                    ISNULL(OP2.MUNICIPIO,'') AS CIUDAD_PLA_O, ISNULL(OP3.MUNICIPIO,'') AS CIUDAD_PLA_D, T.CVE_PROD, T.CVE_ART, ISNULL(P.DESCR,'') AS DESCR_PROD, 
                     T.KMS, T.AUTO_SENC, T.P4_SENC, T.FULL_AUTO, T.FULL_P4, T.AUTO_SENC_LTS, T.P4_SENC_LTS, T.FULL_AUTO_LTS, T.FULL_P4_LTS, T.SUELDO_FULL,
                     T.SUELDO_SENC, T.TAR_X_TON_FULL, T.TAR_X_VIA_FULL, T.TAR_X_TON_SENC, T.TAR_X_VIA_SENC, ISNULL(CVE_CASETA,0) AS CVE_CXR, 
                     ISNULL(T.CVE_GAS,0) AS CVEGAS, ISNULL(IMPORTE_GASTO,0) AS IMPORTE_G, ISNULL(CVE_GASOL,'') AS CVE_GASOLI, ISNULL(LITROS_RUTA,0) AS LITROS,
                     TAUTO_SENC_LTS, TP4_SENC_LTS, TFULL_AUTO_LTS, TFULL_P4_LTS, CVE_SUOP, ISNULL(T.SUELDO_X_FACTOR,0) AS SUEL_X_FAC, 
                     ISNULL(T.CVE_TIPO_OPE,0) AS CLAVE_TIPO, ISNULL(PRECIO_X_TANQUE,0) AS PRE_X_TAN, ISNULL(KM_VACIOS,0) AS KM_VAC, 
-                    ISNULL(KM_CARGADO,0) AS KM_CAR, TAR_OPER_FULL, PORC_SUELDO_FULL, PORC_SUELDO_SENC, T.DESCR, T.DESCR2
+                    ISNULL(KM_CARGADO,0) AS KM_CAR, TAR_OPER_FULL, PORC_SUELDO_FULL, PORC_SUELDO_SENC, T.DESCR, T.DESCR2, PORC_MANIOBRA_FULL,
+                    PORC_MANIOBRA_SENC, SUELDO_MANIOBRA_FULL, SUELDO_MANIOBRA_SENC
                     FROM GCTAB_RUTAS_F T 
                     LEFT JOIN GCCLIE_OP OP1 ON OP1.CLAVE = T.CLIE_OP
                     LEFT JOIN GCCLIE_OP OP2 ON OP2.CLAVE = T.CLIE_OP_O
                     LEFT JOIN GCCLIE_OP OP3 ON OP3.CLAVE = T.CLIE_OP_D
-                    LEFT JOIN GCPLAZAS P1 ON P1.CLAVE = OP2.CVE_PLAZA
-                    LEFT JOIN GCPLAZAS P2 ON P2.CLAVE = OP3.CVE_PLAZA
                     LEFT JOIN GCPRODUCTOS P ON P.CVE_PROD = T.CVE_PROD
                     LEFT JOIN GCTIPO_OPERACION TP ON TP.CVE_TIPO = T.CVE_TIPO_OPE
                     WHERE CVE_TAB = '" & Var2 & "'"
@@ -135,6 +139,11 @@ Public Class FrmTabRutasHojaAE
 
                         TDESCR.Text = dr.ReadNullAsEmptyString("DESCR")
                         TDESCR2.Text = dr.ReadNullAsEmptyString("DESCR2")
+
+                        TPORC_MANIOBRA_FULL.Value = dr.ReadNullAsEmptyDecimal("PORC_MANIOBRA_FULL")
+                        TPORC_MANIOBRA_SENC.Value = dr.ReadNullAsEmptyDecimal("PORC_MANIOBRA_SENC")
+                        TSUELDO_MANIOBRA_FULL.Value = dr.ReadNullAsEmptyDecimal("SUELDO_MANIOBRA_FULL")
+                        TSUELDO_MANIOBRA_SENC.Value = dr.ReadNullAsEmptyDecimal("SUELDO_MANIOBRA_SENC")
 
                     Catch ex As Exception
                         Bitacora("40. " & ex.Message & vbNewLine & "" & ex.StackTrace)
@@ -477,24 +486,16 @@ Public Class FrmTabRutasHojaAE
 
             FrmSelItem2.ShowDialog()
             If Var4.Trim.Length > 0 Then
+                'SELECT C.CLAVE, C.NOMBRE, C.DOMICILIO, ISNULL(C.MUNICIPIO,0) AS C_NOTA
                 'Var4 = Fg(Fg.Row, 1) 'CLAVE 
                 'Var5 = Fg(Fg.Row, 2).ToString 'nombre cliente operativo
                 'Var6 = Fg(Fg.Row, 3).ToString 'plaza ciudad
                 'Var7 = Fg(Fg.Row, 4).ToString 'domicilio cliente op
-                'If tCLI_OP3.Text.Trim = Var4.Trim Then
-                'MsgBox("La planta origen no puede ser igual a la planta destino")
-                'tCLI_OP2.Text = ""
-                'TCLIE_OP_O.Text = ""
-                'TCIUDAD_O.Text = ""
-                'TDIR_O.Text = ""
-                'TCIUDAD_O.Tag = ""
-                'Return
-                'End If
                 TCLI_OP2.Text = Var4
                 TCLIE_OP_O.Text = Var5
-                TCIUDAD_O.Text = Var6
-                TDIR_O.Text = Var7
-                TCIUDAD_O.Tag = Var8
+                TCIUDAD_O.Text = Var4
+                TDIR_O.Text = Var6
+                TCIUDAD_O.Tag = Var4
                 Var2 = "" : Var4 = "" : Var5 = ""
             End If
             tCLI_OP3.Focus()
@@ -515,6 +516,7 @@ Public Class FrmTabRutasHojaAE
                 Dim DESCR As String
                 DESCR = BUSCA_CAT("Cliente operativo", TCLI_OP2.Text, False)
                 If DESCR <> "" Then
+
                     TCLIE_OP_O.Text = DESCR
                     TCIUDAD_O.Text = Var6
                     TDIR_O.Text = Var7
@@ -538,24 +540,16 @@ Public Class FrmTabRutasHojaAE
             Var8 = "D"
             FrmSelItem2.ShowDialog()
             If Var4.Trim.Length > 0 Then
+                'SELECT C.CLAVE, C.NOMBRE, C.DOMICILIO, ISNULL(C.MUNICIPIO,0) AS C_NOTA
                 'Var4 = Fg(Fg.Row, 1) 'CLAVE 
                 'Var5 = Fg(Fg.Row, 2).ToString 'nombre cliente operativo
                 'Var6 = Fg(Fg.Row, 3).ToString 'plaza ciudad
                 'Var7 = Fg(Fg.Row, 4).ToString 'domicilio cliente op
-                'If tCLI_OP2.Text.Trim = Var4.Trim Then
-                'MsgBox("La planta destino no puede ser igual a la planta origen")
-                'tCLI_OP3.Text = ""
-                'TCLIE_OP_D.Text = ""
-                'TCIUDAD_D.Text = ""
-                'TDIR_D.Text = ""
-                'TCIUDAD_D.Tag = ""
-                'Return
-                'End If
                 tCLI_OP3.Text = Var4
                 TCLIE_OP_D.Text = Var5
-                TCIUDAD_D.Text = Var6
-                TDIR_D.Text = Var7
-                TCIUDAD_D.Tag = Var8
+                TCIUDAD_D.Text = Var7
+                TDIR_D.Text = Var6
+                TCIUDAD_D.Tag = Var7
                 Var2 = "" : Var4 = "" : Var5 = ""
             End If
             TCIUDAD_O.Focus()
@@ -576,6 +570,11 @@ Public Class FrmTabRutasHojaAE
                 Dim DESCR As String
                 DESCR = BUSCA_CAT("Cliente operativo", tCLI_OP3.Text, False)
                 If DESCR <> "" Then
+                    'Var4 = dr("CLAVE") 'CLAVE 
+                    'Var5 = dr("NOMBRE") 'nombre cliente operativo
+                    'Var6 = dr("NOTA") 'plaza ciudad
+                    'Var7 = dr("DOMICILIO") 'domicilio cliente op
+
                     TCLIE_OP_D.Text = DESCR
                     TCIUDAD_D.Text = Var6
                     TDIR_D.Text = Var7
@@ -610,6 +609,11 @@ Public Class FrmTabRutasHojaAE
             TTAR_OPER_FULL.UpdateValueWithCurrentText()
             TPORC_SUELDO_FULL.UpdateValueWithCurrentText()
             TPORC_SUELDO_SENC.UpdateValueWithCurrentText()
+
+            TPORC_MANIOBRA_FULL.UpdateValueWithCurrentText()
+            TPORC_MANIOBRA_SENC.UpdateValueWithCurrentText()
+            TSUELDO_MANIOBRA_FULL.UpdateValueWithCurrentText()
+            TSUELDO_MANIOBRA_SENC.UpdateValueWithCurrentText()
         Catch ex As Exception
             Bitacora("1820. " & ex.Message & vbNewLine & "" & ex.StackTrace)
         End Try
@@ -668,7 +672,8 @@ Public Class FrmTabRutasHojaAE
                 TP4_SENC_LTS = @TP4_SENC_LTS, TFULL_AUTO_LTS = @TFULL_AUTO_LTS, TFULL_P4_LTS = @TFULL_P4_LTS, CVE_SUOP = @CVE_SUOP, 
                 SUELDO_X_FACTOR = @SUELDO_X_FACTOR, CVE_TIPO_OPE = @CVE_TIPO_OPE,PRECIO_X_TANQUE = @PRECIO_X_TANQUE,
                 KM_VACIOS = @KM_VACIOS, KM_CARGADO = @KM_CARGADO, TAR_OPER_FULL = @TAR_OPER_FULL, PORC_SUELDO_FULL = @PORC_SUELDO_FULL, 
-                PORC_SUELDO_SENC = @PORC_SUELDO_SENC, DESCR = @DESCR, DESCR2 = @DESCR2
+                PORC_SUELDO_SENC = @PORC_SUELDO_SENC, DESCR = @DESCR, DESCR2 = @DESCR2, PORC_MANIOBRA_FULL = @PORC_MANIOBRA_FULL,
+                PORC_MANIOBRA_SENC = @PORC_MANIOBRA_SENC, SUELDO_MANIOBRA_FULL = @SUELDO_MANIOBRA_FULL, SUELDO_MANIOBRA_SENC = @SUELDO_MANIOBRA_SENC
                 WHERE CVE_TAB = @CVE_TAB 
                 ELSE
                 INSERT INTO GCTAB_RUTAS_F (CVE_TAB, STATUS, FECHA, CLIE_OP, CLIE_OP_O, CLIE_OP_D, CVE_PROD, CVE_ART, KMS, 
@@ -676,14 +681,14 @@ Public Class FrmTabRutasHojaAE
                 TAR_X_VIA_SENC, CVE_CASETA, AUTO_SENC_LTS, P4_SENC_LTS, FULL_AUTO_LTS, FULL_P4_LTS, CVE_GAS, IMPORTE_GASTO, CVE_GASOL, 
                 LITROS_RUTA, TAUTO_SENC_LTS, TP4_SENC_LTS, TFULL_AUTO_LTS, TFULL_P4_LTS, CVE_SUOP, SUELDO_X_FACTOR, CVE_TIPO_OPE, 
                 PRECIO_X_TANQUE, SERIE_RE, KM_VACIOS, KM_CARGADO, UUID, FECHAELAB, DESCR, DESCR2, TAR_OPER_FULL, PORC_SUELDO_FULL, 
-                PORC_SUELDO_SENC) 
+                PORC_SUELDO_SENC, PORC_MANIOBRA_FULL, PORC_MANIOBRA_SENC, SUELDO_MANIOBRA_FULL, SUELDO_MANIOBRA_SENC) 
                 VALUES (
                 @CVE_TAB, 'A', CONVERT(varchar, GETDATE(), 112), @CLIE_OP, @CLIE_OP_O, @CLIE_OP_D, @CVE_PROD, @CVE_ART, @KMS, 
                 @AUTO_SENC, @P4_SENC, @FULL_AUTO, @FULL_P4, @SUELDO_FULL, @SUELDO_SENC, @TAR_X_TON_FULL, @TAR_X_VIA_FULL, @TAR_X_TON_SENC,
                 @TAR_X_VIA_SENC, @CVE_CASETA, @AUTO_SENC_LTS, @P4_SENC_LTS, @FULL_AUTO_LTS, @FULL_P4_LTS, @CVE_GAS, @IMPORTE_GASTO, 
                 @CVE_GASOL, @LITROS_RUTA, @TAUTO_SENC_LTS, @TP4_SENC_LTS, @TFULL_AUTO_LTS, @TFULL_P4_LTS, @CVE_SUOP, @SUELDO_X_FACTOR, 
                 @CVE_TIPO_OPE, @PRECIO_X_TANQUE, @SERIE_RE, @KM_VACIOS, @KM_CARGADO, NEWID(), GETDATE(), @DESCR, @DESCR2, @TAR_OPER_FULL, 
-                @PORC_SUELDO_FULL, @PORC_SUELDO_SENC)"
+                @PORC_SUELDO_FULL, @PORC_SUELDO_SENC, @PORC_MANIOBRA_FULL, @PORC_MANIOBRA_SENC, @SUELDO_MANIOBRA_FULL, @SUELDO_MANIOBRA_SENC)"
 
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
@@ -691,6 +696,8 @@ Public Class FrmTabRutasHojaAE
                 cmd.Parameters.Add("@CLIE_OP", SqlDbType.VarChar).Value = TCLI_OP1.Text
                 cmd.Parameters.Add("@CLIE_OP_O", SqlDbType.VarChar).Value = TCLI_OP2.Text
                 cmd.Parameters.Add("@CLIE_OP_D", SqlDbType.VarChar).Value = tCLI_OP3.Text
+
+
                 cmd.Parameters.Add("@CVE_PROD", SqlDbType.Int).Value = 0
                 cmd.Parameters.Add("@CVE_ART", SqlDbType.VarChar).Value = ""
                 cmd.Parameters.Add("@KMS", SqlDbType.Float).Value = TKM.Value
@@ -725,12 +732,16 @@ Public Class FrmTabRutasHojaAE
                 cmd.Parameters.Add("@SERIE_RE", SqlDbType.VarChar).Value = SERIE_RE
                 cmd.Parameters.Add("@KM_VACIOS", SqlDbType.Float).Value = 0
                 cmd.Parameters.Add("@KM_CARGADO", SqlDbType.Float).Value = 0
-
                 cmd.Parameters.Add("@DESCR", SqlDbType.VarChar).Value = TDESCR.Text
                 cmd.Parameters.Add("@DESCR2", SqlDbType.VarChar).Value = TDESCR2.Text
                 cmd.Parameters.Add("@TAR_OPER_FULL", SqlDbType.Float).Value = TTAR_OPER_FULL.Value
                 cmd.Parameters.Add("@PORC_SUELDO_FULL", SqlDbType.Float).Value = TPORC_SUELDO_FULL.Value
                 cmd.Parameters.Add("@PORC_SUELDO_SENC", SqlDbType.Float).Value = TPORC_SUELDO_SENC.Value
+
+                cmd.Parameters.Add("@PORC_MANIOBRA_FULL", SqlDbType.Float).Value = TPORC_MANIOBRA_FULL.Value
+                cmd.Parameters.Add("@PORC_MANIOBRA_SENC", SqlDbType.Float).Value = TPORC_MANIOBRA_SENC.Value
+                cmd.Parameters.Add("@SUELDO_MANIOBRA_FULL", SqlDbType.Float).Value = TSUELDO_MANIOBRA_FULL.Value
+                cmd.Parameters.Add("@SUELDO_MANIOBRA_SENC", SqlDbType.Float).Value = TSUELDO_MANIOBRA_SENC.Value
 
                 returnValue = cmd.ExecuteNonQuery()
                 If returnValue IsNot Nothing Then
@@ -758,71 +769,19 @@ Public Class FrmTabRutasHojaAE
                         EXECUTE_QUERY_NET("DELETE FROM GCTARIFAS WHERE CVE_RUTA = '" & tCVE_TAB.Text & "'")
 
                         ''MODIFICANDO CONTRATO Y CLIENTE OP ORIGEN
-
                         If TCLI_OP1.Text.Trim.Length > 0 And TCLIE_OP.Text.Trim.Length > 0 Then
+                            'NOMBRE CLIENTE
                             EXECUTE_QUERY_NET("UPDATE GCCLIE_OP SET NOMBRE = '" & TCLIE_OP.Text & "' WHERE CLAVE = '" & TCLI_OP1.Text & "'")
                         End If
-                        Try 'CLIENTE OP ORIGEN
-                            If TCLI_OP2.Text.Trim.Length > 0 And TCLIE_OP_O.Text.Trim.Length > 0 Then
-                                EXECUTE_QUERY_NET("UPDATE GCCLIE_OP SET NOMBRE = '" & TCLIE_OP_O.Text & "' WHERE CLAVE = '" & TCLI_OP2.Text & "'")
-                            End If
-                        Catch ex As Exception
-                            MsgBox("1860. " & ex.Message & vbNewLine & "" & ex.StackTrace)
-                            Bitacora("1860. " & ex.Message & vbNewLine & "" & ex.StackTrace)
-                        End Try
+                        'CLIENTE OP ORIGEN
+                        If TCLI_OP2.Text.Trim.Length > 0 And TCLIE_OP_O.Text.Trim.Length > 0 Then
+                            EXECUTE_QUERY_NET("UPDATE GCCLIE_OP SET NOMBRE = '" & TCLIE_OP_O.Text & "', MUNICIPIO = '" & TCIUDAD_O.Text & "', 
+                                            DOMICILIO = '" & TDIR_O.Text & "'  WHERE CLAVE = '" & TCLI_OP2.Text & "'")
+                        End If
                         'CLIENTE OP DESTINO
                         If tCLI_OP3.Text.Trim.Length > 0 And TCLIE_OP_D.Text.Trim.Length > 0 Then
-                            EXECUTE_QUERY_NET("UPDATE GCCLIE_OP SET NOMBRE = '" & TCLIE_OP_D.Text & "' WHERE CLAVE = '" & tCLI_OP3.Text & "'")
-                        End If
-
-                        Try
-                            If TCIUDAD_O.Text.Trim.Length > 0 Then
-                                Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                                    Dim CVE_PLAZA As Integer = 0
-
-                                    If IsNumeric(TCIUDAD_O.Tag) Then
-                                        CVE_PLAZA = CDec(TCIUDAD_O.Tag.ToString)
-                                    End If
-                                    If CVE_PLAZA = 0 Then
-                                        EXECUTE_QUERY_NET("INSERT INTO GCPLAZAS(CLAVE, STATUS, CIUDAD, MUNICIPIO, CVE_ESTADO, CUEN_CONT,
-                                                CLAVE_SAT_LOC, CLAVE_SAT_MUN) OUTPUT inserted.CLAVE VALUES 
-                                                (ISNULL((SELECT MAX(CLAVE) + 1 FROM GCPLAZAS),1), 'A','" & TCIUDAD_O.Text & "','', '', '', '', '')")
-
-                                        EXECUTE_QUERY_NET("UPDATE GCCLIE_OP SET CVE_PLAZA = " & returnValue & " WHERE 
-                                                                CLAVE = '" & TCLI_OP2.Text & "'")
-                                    Else
-                                        EXECUTE_QUERY_NET("UPDATE GCPLAZAS SET CIUDAD = '" & TCIUDAD_O.Text & "' WHERE CLAVE = " & CVE_PLAZA)
-                                    End If
-                                End Using
-                            End If
-                        Catch ex As Exception
-                            MsgBox("1890. " & ex.Message & vbNewLine & "" & ex.StackTrace)
-                            Bitacora("1890. " & ex.Message & vbNewLine & "" & ex.StackTrace)
-                        End Try
-                        If TCIUDAD_D.Text.ToString.Trim.Length > 0 Then
-                            Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                                Dim CVE_PLAZA As Integer = 0
-
-                                If IsNumeric(TCIUDAD_D.Tag) Then
-                                    CVE_PLAZA = CDec(TCIUDAD_D.Tag.ToString)
-                                End If
-                                If CVE_PLAZA = 0 Then
-                                    EXECUTE_QUERY_NET("INSERT INTO GCPLAZAS(CLAVE, STATUS, CIUDAD, MUNICIPIO, CVE_ESTADO, CUEN_CONT,
-                                            CLAVE_SAT_LOC, CLAVE_SAT_MUN)  OUTPUT inserted.CLAVE VALUES 
-                                            (ISNULL((SELECT MAX(CLAVE) + 1 FROM GCPLAZAS),1), 'A','" & TCIUDAD_D.Text & "','', '', '', '', '')")
-
-                                    EXECUTE_QUERY_NET("UPDATE GCCLIE_OP SET CVE_PLAZA = " & returnValue & " 
-                                                            WHERE CLAVE = '" & tCLI_OP3.Text & "'")
-                                Else
-                                    EXECUTE_QUERY_NET("UPDATE GCPLAZAS SET CIUDAD = '" & TCIUDAD_D.Text & "' WHERE CLAVE = " & CVE_PLAZA)
-                                End If
-                            End Using
-                        End If
-                        If TCLI_OP2.Text.Trim.Length > 0 And TDIR_O.Text.Trim.Length > 0 Then
-                            EXECUTE_QUERY_NET("UPDATE GCCLIE_OP SET DOMICILIO = '" & TDIR_O.Text & "' WHERE CLAVE = '" & TCLI_OP2.Text & "'")
-                        End If
-                        If tCLI_OP3.Text.Trim.Length > 0 And TDIR_D.Text.ToString.Trim.Length > 0 Then
-                            EXECUTE_QUERY_NET("UPDATE GCCLIE_OP SET DOMICILIO = '" & TDIR_D.Text & "' WHERE CLAVE = '" & tCLI_OP3.Text & "'")
+                            EXECUTE_QUERY_NET("UPDATE GCCLIE_OP SET NOMBRE = '" & TCLIE_OP_D.Text & "', DOMICILIO = '" & TDIR_D.Text & "', 
+                                            MUNICIPIO = '" & TCIUDAD_D.Text & "' WHERE CLAVE = '" & tCLI_OP3.Text & "'")
                         End If
 
                         GRABA_SUELDOS()
@@ -847,22 +806,22 @@ Public Class FrmTabRutasHojaAE
                                 If Lt7.Tag <> TCIUDAD_D.Text Then GRABA_BITA(tCVE_TAB.Text, tCVE_TAB.Text, 0, "A",
                                    "Se Cambio ciudad destino " & Lt7.Tag & " por " & TCIUDAD_D.Text, tCVE_TAB.Text)
                                 If TDIR_O.Tag <> TDIR_O.Text Then GRABA_BITA(tCVE_TAB.Text, tCVE_TAB.Text, 0, "A",
-                                   "Se Cambio direccion origen " & TDIR_O.Tag & " por " & TDIR_O.Text, tCVE_TAB.Text)
+                                   "Se Cambio dirección origen " & TDIR_O.Tag & " por " & TDIR_O.Text, tCVE_TAB.Text)
                                 If TDIR_D.Tag <> TDIR_D.Text Then GRABA_BITA(tCVE_TAB.Text, tCVE_TAB.Text, 0, "A",
-                                   "Se Cambio direccion destino " & TDIR_D.Tag & " por " & TDIR_D.Text, tCVE_TAB.Text)
+                                   "Se Cambio dirección destino " & TDIR_D.Tag & " por " & TDIR_D.Text, tCVE_TAB.Text)
                                 If TCVE_CXR.Tag <> TCVE_CXR.Text Then GRABA_BITA(tCVE_TAB.Text, tCVE_TAB.Text, 0, "A",
                                    "Se Cambio caseta por ruta " & TCVE_CXR.Tag & " por " & TCVE_CXR.Text, tCVE_TAB.Text)
                                 If TKM.Tag <> TKM.Value Then GRABA_BITA(tCVE_TAB.Text, tCVE_TAB.Text, 0, "A",
                                    "Se Cambio KM " & TKM.Tag & " por " & TKM.Text, tCVE_TAB.Text)
                                 If TAUTO_SENC.Tag <> TAUTO_SENC.Value Then GRABA_BITA(tCVE_TAB.Text, tCVE_TAB.Text, 0, "A",
-                                   "Se Cambio autonomo sencillo " & TAUTO_SENC.Tag & " por " & TAUTO_SENC.Text, tCVE_TAB.Text)
+                                   "Se Cambio autónomo sencillo " & TAUTO_SENC.Tag & " por " & TAUTO_SENC.Text, tCVE_TAB.Text)
 
                                 If TSUELDO_FULL.Tag <> TSUELDO_FULL.Value Then GRABA_BITA(tCVE_TAB.Text, tCVE_TAB.Text, 0, "A",
                                    "Se Cambio sueldo Full " & TSUELDO_FULL.Tag & " por " & TSUELDO_FULL.Text, tCVE_TAB.Text)
                                 If TSUELDO_SENC.Tag <> TSUELDO_SENC.Value Then GRABA_BITA(tCVE_TAB.Text, tCVE_TAB.Text, 0, "A",
                                    "Se Cambio sueldo Sencillo " & TSUELDO_SENC.Tag & "por " & TSUELDO_SENC.Text, tCVE_TAB.Text)
                                 If TTAR_X_VIA_SENC.Tag <> TTAR_X_VIA_SENC.Value Then GRABA_BITA(tCVE_TAB.Text, tCVE_TAB.Text, 0, "A",
-                                   "Se Cambio tarifamviaje sencillo " & TTAR_X_VIA_SENC.Tag & " por " & TTAR_X_VIA_SENC.Text, tCVE_TAB.Text)
+                                   "Se Cambio tarifa viaje sencillo " & TTAR_X_VIA_SENC.Tag & " por " & TTAR_X_VIA_SENC.Text, tCVE_TAB.Text)
                                 If tCVE_GASTO.Tag <> tCVE_GASTO.Text Then GRABA_BITA(tCVE_TAB.Text, tCVE_TAB.Text, 0, "A",
                                    "Se Cambio gastos de viaje " & tCVE_GASTO.Tag & " por " & tCVE_GASTO.Text, tCVE_TAB.Text)
                                 If TIMPORTE.Tag <> TIMPORTE.Value Then GRABA_BITA(tCVE_TAB.Text, tCVE_TAB.Text, 0, "A",
@@ -1228,7 +1187,21 @@ Public Class FrmTabRutasHojaAE
         End Try
     End Sub
 
-    Private Sub TCLI_OP1_MouseCaptureChanged(sender As Object, e As EventArgs) Handles TCLI_OP1.MouseCaptureChanged
+    Private Sub TPORC_MANIOBRA_FULL_TextChanged(sender As Object, e As EventArgs) Handles TPORC_MANIOBRA_FULL.TextChanged
+        Try
+            If Not IsNothing(TPORC_MANIOBRA_FULL.Text) AndAlso IsNumeric(TPORC_MANIOBRA_FULL.Text) Then
+                TSUELDO_MANIOBRA_FULL.Value = TPORC_MANIOBRA_FULL.Text * TTAR_OPER_FULL.Value / 100
+            End If
+        Catch ex As Exception
+        End Try
+    End Sub
 
+    Private Sub TPORC_MANIOBRA_SENC_TextChanged(sender As Object, e As EventArgs) Handles TPORC_MANIOBRA_SENC.TextChanged
+        Try
+            If Not IsNothing(TPORC_MANIOBRA_SENC.Text) AndAlso IsNumeric(TPORC_MANIOBRA_SENC.Text) Then
+                TSUELDO_MANIOBRA_SENC.Value = TPORC_MANIOBRA_SENC.Text * TTAR_X_TON_SENC.Value / 100
+            End If
+        Catch ex As Exception
+        End Try
     End Sub
 End Class

@@ -141,8 +141,7 @@ Partial Class MainRibbonForm
         Me.Windows7Button = New C1.Win.C1Ribbon.RibbonToggleButton()
         Me.MinimizeRibbonButton = New C1.Win.C1Ribbon.RibbonButton()
         Me.ExpandRibbonButton = New C1.Win.C1Ribbon.RibbonButton()
-        Me.RibEmbalaje = New C1.Win.C1Ribbon.RibbonButton()
-        Me.RibCargas = New C1.Win.C1Ribbon.RibbonButton()
+        Me.BarDescargaMasivaSAT = New C1.Win.C1Ribbon.RibbonButton()
         Me.TabMnuClientes = New C1.Win.C1Ribbon.RibbonMenu()
         Me.MnuClientes = New C1.Win.C1Ribbon.RibbonButton()
         Me.MnuConcCxC = New C1.Win.C1Ribbon.RibbonButton()
@@ -214,6 +213,8 @@ Partial Class MainRibbonForm
         Me.MNUActPrecios = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibTarjetaIAVE = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibConcepCobroViajes = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibEmbalaje = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibCargas = New C1.Win.C1Ribbon.RibbonButton()
         Me.TabMnuEmpleados = New C1.Win.C1Ribbon.RibbonMenu()
         Me.MnuOperadores = New C1.Win.C1Ribbon.RibbonButton()
         Me.MnuDescOperador = New C1.Win.C1Ribbon.RibbonButton()
@@ -252,6 +253,8 @@ Partial Class MainRibbonForm
         Me.RibbListaPrecios = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarPrecios1 = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarImpuestos1 = New C1.Win.C1Ribbon.RibbonButton()
+        Me.BarImpuestoAño = New C1.Win.C1Ribbon.RibbonButton()
+        Me.BarImpuestoMes = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarAlmacenes1 = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarMultialmacen1 = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarConcMinve1 = New C1.Win.C1Ribbon.RibbonButton()
@@ -611,6 +614,7 @@ Partial Class MainRibbonForm
         '
         'RibbonGroup11
         '
+        Me.RibbonGroup11.Items.Add(Me.BarDescargaMasivaSAT)
         Me.RibbonGroup11.Items.Add(Me.TabMnuClientes)
         Me.RibbonGroup11.Items.Add(Me.BarClientes)
         Me.RibbonGroup11.Items.Add(Me.BarProveedores)
@@ -677,6 +681,8 @@ Partial Class MainRibbonForm
         Me.RibCatPepe.Items.Add(Me.RibbListaPrecios)
         Me.RibCatPepe.Items.Add(Me.BarPrecios1)
         Me.RibCatPepe.Items.Add(Me.BarImpuestos1)
+        Me.RibCatPepe.Items.Add(Me.BarImpuestoAño)
+        Me.RibCatPepe.Items.Add(Me.BarImpuestoMes)
         Me.RibCatPepe.Items.Add(Me.BarAlmacenes1)
         Me.RibCatPepe.Items.Add(Me.BarMultialmacen1)
         Me.RibCatPepe.Items.Add(Me.BarConcMinve1)
@@ -1511,19 +1517,12 @@ Partial Class MainRibbonForm
         Me.ExpandRibbonButton.ToolTip = "Expand the Ribbon"
         Me.ExpandRibbonButton.Visible = False
         '
-        'RibEmbalaje
+        'BarDescargaMasivaSAT
         '
-        Me.RibEmbalaje.LargeImage = Global.SGT_Transport.My.Resources.Resources.embalaje2
-        Me.RibEmbalaje.Name = "RibEmbalaje"
-        Me.RibEmbalaje.SmallImage = Global.SGT_Transport.My.Resources.Resources.embalaje2
-        Me.RibEmbalaje.Text = "Embalaje"
-        '
-        'RibCargas
-        '
-        Me.RibCargas.LargeImage = Global.SGT_Transport.My.Resources.Resources.carga11
-        Me.RibCargas.Name = "RibCargas"
-        Me.RibCargas.SmallImage = Global.SGT_Transport.My.Resources.Resources.carga11
-        Me.RibCargas.Text = "Cargas"
+        Me.BarDescargaMasivaSAT.LargeImage = Global.SGT_Transport.My.Resources.Resources.nube12
+        Me.BarDescargaMasivaSAT.Name = "BarDescargaMasivaSAT"
+        Me.BarDescargaMasivaSAT.SmallImage = CType(resources.GetObject("BarDescargaMasivaSAT.SmallImage"), System.Drawing.Image)
+        Me.BarDescargaMasivaSAT.Text = "Descarga masiva"
         '
         'TabMnuClientes
         '
@@ -2033,6 +2032,20 @@ Partial Class MainRibbonForm
         Me.RibConcepCobroViajes.SmallImage = Global.SGT_Transport.My.Resources.Resources.gastos261
         Me.RibConcepCobroViajes.Text = "Conceptos de cobro de viajes"
         '
+        'RibEmbalaje
+        '
+        Me.RibEmbalaje.LargeImage = Global.SGT_Transport.My.Resources.Resources.embalaje2
+        Me.RibEmbalaje.Name = "RibEmbalaje"
+        Me.RibEmbalaje.SmallImage = Global.SGT_Transport.My.Resources.Resources.embalaje2
+        Me.RibEmbalaje.Text = "Embalaje"
+        '
+        'RibCargas
+        '
+        Me.RibCargas.LargeImage = Global.SGT_Transport.My.Resources.Resources.carga11
+        Me.RibCargas.Name = "RibCargas"
+        Me.RibCargas.SmallImage = Global.SGT_Transport.My.Resources.Resources.carga11
+        Me.RibCargas.Text = "Cargas"
+        '
         'TabMnuEmpleados
         '
         Me.TabMnuEmpleados.Items.Add(Me.MnuOperadores)
@@ -2293,6 +2306,20 @@ Partial Class MainRibbonForm
         Me.BarImpuestos1.LargeImage = CType(resources.GetObject("BarImpuestos1.LargeImage"), System.Drawing.Image)
         Me.BarImpuestos1.Name = "BarImpuestos1"
         Me.BarImpuestos1.Text = "Impuestos"
+        '
+        'BarImpuestoAño
+        '
+        Me.BarImpuestoAño.LargeImage = Global.SGT_Transport.My.Resources.Resources.impuesto
+        Me.BarImpuestoAño.Name = "BarImpuestoAño"
+        Me.BarImpuestoAño.SmallImage = Global.SGT_Transport.My.Resources.Resources.impuesto
+        Me.BarImpuestoAño.Text = "Impuestos / Año"
+        '
+        'BarImpuestoMes
+        '
+        Me.BarImpuestoMes.LargeImage = Global.SGT_Transport.My.Resources.Resources.impuesto
+        Me.BarImpuestoMes.Name = "BarImpuestoMes"
+        Me.BarImpuestoMes.SmallImage = Global.SGT_Transport.My.Resources.Resources.impuesto
+        Me.BarImpuestoMes.Text = "Impuestos / Mes"
         '
         'BarAlmacenes1
         '
@@ -4652,4 +4679,7 @@ Partial Class MainRibbonForm
     Friend WithEvents RibComercioExterior As RibbonButton
     Friend WithEvents RibEmbalaje As RibbonButton
     Friend WithEvents RibCargas As RibbonButton
+    Friend WithEvents BarImpuestoAño As RibbonButton
+    Friend WithEvents BarImpuestoMes As RibbonButton
+    Friend WithEvents BarDescargaMasivaSAT As RibbonButton
 End Class

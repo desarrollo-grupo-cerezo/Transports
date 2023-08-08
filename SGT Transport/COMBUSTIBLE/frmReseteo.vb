@@ -1,14 +1,16 @@
 ﻿Imports C1.Win.C1Themes
 Imports System.Data.SqlClient
 Imports C1.Win.C1FlexGrid
+
 Public Class frmReseteo
     Private Cm As ContextMenuStrip = New ContextMenuStrip()
 
     Private CADENA As String = ""
     Private MALLA_PERSO As Boolean = False
-    Private N_TOP As String = " TOP 300 "
+    Private N_TOP As String = " TOP 3000 "
     Private TIPO_TAB As Integer = 0
     Private NRow As Integer
+    Private ALEY(43) As String
     Private ENTRA_FG As Boolean = True
     Private BindingSource1 As Windows.Forms.BindingSource = New BindingSource
     Public Sub New()
@@ -84,17 +86,21 @@ Public Class frmReseteo
                 BarRecalculoGlobal.Visible = True
                 BarRecalculoEvento2.Visible = True
 
-                MnuMlla.Visible = True
-
-                Fg.DragMode = DragModeEnum.Automatic
-                Fg.AllowDragging = AllowDraggingEnum.Columns
+                'MnuMlla.Visible = True
+                'Fg.DragMode = DragModeEnum.Automatic
+                'Fg.AllowDragging = AllowDraggingEnum.Columns
             Else
-                MnuMlla.Visible = False
-                BarRecalculoGlobal.Visible = False
-                BarRecalculoEvento2.Visible = False
+                'MnuMlla.Visible = False
+                'BarRecalculoGlobal.Visible = False
+                'BarRecalculoEvento2.Visible = False
             End If
-            BarVales.Visible = False
 
+            MnuMlla.Visible = True
+            Fg.DragMode = DragModeEnum.Automatic
+            Fg.AllowDragging = AllowDraggingEnum.Columns
+
+
+            BarVales.Visible = False
             N_TOP = " TOP 3000 "
             CADENA = " WHERE R.STATUS = 'A' ORDER BY R.FECHAELAB DESC"
             Select Case TIPO_TAB
@@ -103,7 +109,7 @@ Public Class frmReseteo
                     Fg.Cols.Count = 45
                     'TITULOS()
                     Pag2.TabVisible = False
-                    TITULOS_TABLA()
+                    'TITULOS_TABLA()
                     DESPLEGAR()
                 Case 1
                     'TITULOS_TABLA()
@@ -114,7 +120,7 @@ Public Class frmReseteo
                     Fg.Cols.Count = 45
                     Pag2.TabVisible = False
                     'TITULOS()
-                    TITULOS_TABLA()
+                    'TITULOS_TABLA()
                     DESPLEGAR()
             End Select
 
@@ -157,11 +163,9 @@ Public Class frmReseteo
     End Sub
     Private Sub MnuItem_Clicked(sender As Object, e As EventArgs)
         Try
-            If PASS_GRUPOCE = "BR3FRAJA" Then
-                Dim item As ToolStripMenuItem = TryCast(sender, ToolStripMenuItem)
-                If item IsNot Nothing Then
-                    Fg.Cols(Fg.Col).Visible = False
-                End If
+            Dim item As ToolStripMenuItem = TryCast(sender, ToolStripMenuItem)
+            If item IsNot Nothing Then
+                Fg.Cols(Fg.Col).Visible = False
             End If
         Catch ex As Exception
             Bitacora("13. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -169,130 +173,125 @@ Public Class frmReseteo
     End Sub
 
     Sub DESPLEGAR()
-        Dim s As String, FN(42) As String, z As Integer = 0, ErrorDetec As Boolean = False
+        Dim z As Integer = 0
+
         Fg.BeginUpdate()
         Fg.Redraw = False
+
+        Me.Cursor = Cursors.WaitCursor
+
         Fg.Cols.Count = 44
 
+        MALLA_PERSO = True
         If MALLA_PERSO Then
             Try
+                SQL2 = "SELECT "
                 Using cmd As SqlCommand = cnSAE.CreateCommand
-                    SQL = "SELECT TIPO_CAMPO, CAMPO FROM GCCAMPO_X_MALLA ORDER BY ORDEN_N"
+                    SQL = "SELECT TIPO_CAMPO, CAMPO, LEYENDA, LEYENDA_N, VISIBLE  FROM GCCAMPO_X_MALLA ORDER BY ORDEN_N"
                     cmd.CommandText = SQL
                     Using dr As SqlDataReader = cmd.ExecuteReader
                         While dr.Read
-                            FN(z) = dr("CAMPO")
-                            If EXIST_FIELD_SQL_SAE("GCRESETEO", FN(z)) Then
-                                ErrorDetec = True
-                            End If
-                            'BACKUPTXT("RESETDATATYPE", "TIPO_CAMPO:" & dr("TIPO_CAMPO").ToString & " CAMPO:" & dr("CAMPO").GetType().ToString)
-                            z += 1
+
+                            Try
+                                If dr("CAMPO") IsNot Nothing Then
+                                    If dr("CAMPO").ToString.Length > 0 Then
+                                        If dr("VISIBLE") Then
+                                            SQL2 += dr("CAMPO") & " AS '" & dr("LEYENDA_N").ToString.Replace("'", "") & "', "
+                                            ALEY(z) = dr("LEYENDA")
+                                            z += 1
+                                        End If
+                                    End If
+                                End If
+                            Catch ex As Exception
+                                Bitacora("14. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & SQL2)
+                            End Try
                         End While
                     End Using
                 End Using
+                SQL2 = SQL2.Substring(0, SQL2.Length - 2)
+                SQL2 += " FROM GCRESETEO R 
+                    Left Join GCOPERADOR O ON O.CLAVE = R.CVE_OPER 
+                    Left Join GCUNIDADES U ON U.CLAVE = R.CVE_UNI 
+                    Left Join GCMODELO_UNIDAD MO ON MO.CVE_MOD = U.CVE_MODELO
+                    LEFT JOIN GCMOTORES M ON M.CVE_MOT = R.CVE_MOT " & CADENA
 
-                If ErrorDetec Then
-                    MALLA_PERSO = False
-                End If
+                SQL = SQL2
+
+                'CADENA = " WHERE R.STATUS = 'A' ORDER BY R.FECHAELAB DESC"
+
+                'FIELD_TYPE = EXIST_FIELD_SQL_SAE("GCRESETEO", FN(z))
+                'If FIELD_TYPE <> dr("TIPO_CAMPO") Then
+                'ErrorDetec = True
+                'BACKUPTXT("RESETDATATYPE", dr("CAMPO") & ", TIPO_CAMPO:" & dr("TIPO_CAMPO").ToString & " CAMPO:" & dr("CAMPO").GetType().ToString)
+                'End If
+
             Catch ex As Exception
-                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & SQL2)
                 'MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
             End Try
         End If
 
         Try
-            Fg.Rows.Count = 1 'PREDETERMINADO     PREDETERMINADO     PREDETERMINADO     PREDETERMINADO     PREDETERMINADO     PREDETERMINADO     
+            'Fg.Rows.Count = 1 'PREDETERMINADO     PREDETERMINADO     PREDETERMINADO     PREDETERMINADO     PREDETERMINADO     PREDETERMINADO     
+            If MALLA_PERSO Then
 
-            SQL = "SELECT " & N_TOP & " R.CVE_RES, R.ESTADO, R.FECHA, R.CVE_OPER, NOMBRE, R.NO_LIQUI, U.CLAVEMONTE, M.DESCR AS NOMBREMOTOR, 
-                MO.DESCR AS DESCR_MOD, R.CAL_FAC_CAR_EVA, R.CAL_RAL_EVA, R.CALIF_VEL_MAX, R.CAL_GLO_EVA, BONO_RES, R.ODOMETRO, R.KM_ECM, 
-                R.LTS_ECM, R.LTS_REAL, R.LTS_AUTORIZADOS, ISNULL(R.LTS_DESCONTAR,0) AS LTS_DESC, R.KMS_TAB, R.LTS_TAB, R.FAC_CARGA, 
-                R.HRS_TRABAJO, R.HRS_PTO_RALENTI, R.LTS_PTO_RALENTI, R.PORC_TIEMPO_PTO_RALENTI, R.PORC_LTS_PTO_RALENTI, R.REND_ECM, 
-                R.PORC_VAR_LTS_ECM_REAL, R.PORC_VAR_LTS_TAB_REAL, R.REND_REAL, R.DIF_LTS_REAL_LTS_ECM, R.DIF_LTS_REAL_LTS_TAB, 
-                R.FECHAELAB, R.UUID, R.PORC_TOL_EVENTO2, R.LTS_AUTORIZADOS2, R.LTS_VALES2, R.PRECIO_X_LTS2, R.DESCXLITROS2, 
-                CASE WHEN ISNULL(R.EVENTO,0) = 0 THEN R.LTS_DESCONTAR ELSE R.LTS_DESCONTAR2 END AS LTS_DESC_EVEN, ISNULL(R.EVENTO,0) AS EVENT,
-                VELMAX, RPM_MAX, CALIF_RPM, NO_VIAJE
-                FROM GCRESETEO R 
-                Left Join GCOPERADOR O ON O.CLAVE = R.CVE_OPER 
-                Left Join GCUNIDADES U ON U.CLAVE = R.CVE_UNI 
-                Left Join GCMODELO_UNIDAD MO ON MO.CVE_MOD = U.CVE_MODELO
-                LEFT JOIN GCMOTORES M ON M.CVE_MOT = R.CVE_MOT " & CADENA
 
-            Using cmd As SqlCommand = cnSAE.CreateCommand
-                cmd.CommandText = SQL
-                Using dr As SqlDataReader = cmd.ExecuteReader
-                    While dr.Read
+            Else
+                SQL = "SELECT " & N_TOP & " R.CVE_RES, R.ESTADO, R.FECHA, R.CVE_OPER, NOMBRE, R.NO_LIQUI, U.CLAVEMONTE, M.DESCR AS NOMBREMOTOR, 
+                    MO.DESCR AS DESCR_MOD, R.CAL_FAC_CAR_EVA, R.CAL_RAL_EVA, R.CALIF_VEL_MAX, R.CAL_GLO_EVA, BONO_RES, R.ODOMETRO, R.KM_ECM, 
+                    R.LTS_ECM, R.LTS_REAL, R.LTS_AUTORIZADOS, ISNULL(R.LTS_DESCONTAR,0) AS LTS_DESC, R.KMS_TAB, R.LTS_TAB, R.FAC_CARGA, 
+                    R.HRS_TRABAJO, R.HRS_PTO_RALENTI, R.LTS_PTO_RALENTI, R.PORC_TIEMPO_PTO_RALENTI, R.PORC_LTS_PTO_RALENTI, R.REND_ECM, 
+                    R.PORC_VAR_LTS_ECM_REAL, R.PORC_VAR_LTS_TAB_REAL, R.REND_REAL, R.DIF_LTS_REAL_LTS_ECM, R.DIF_LTS_REAL_LTS_TAB, 
+                    R.FECHAELAB, R.UUID, R.PORC_TOL_EVENTO2, R.LTS_AUTORIZADOS2, R.LTS_VALES2, R.PRECIO_X_LTS2, R.DESCXLITROS2, 
+                    CASE WHEN ISNULL(R.EVENTO,0) = 0 THEN R.LTS_DESCONTAR ELSE R.LTS_DESCONTAR2 END AS LTS_DESC_EVEN, ISNULL(R.EVENTO,0) AS EVENT,
+                    VELMAX, RPM_MAX, CALIF_RPM, NO_VIAJE
+                    FROM GCRESETEO R 
+                    Left Join GCOPERADOR O ON O.CLAVE = R.CVE_OPER 
+                    Left Join GCUNIDADES U ON U.CLAVE = R.CVE_UNI 
+                    Left Join GCMODELO_UNIDAD MO ON MO.CVE_MOD = U.CVE_MODELO
+                    LEFT JOIN GCMOTORES M ON M.CVE_MOT = R.CVE_MOT " & CADENA
+            End If
 
-                        If MALLA_PERSO Then
 
-                            '   0                 1                   2                   3                   4
-                            s = "" & vbTab & VN(dr(FN(0))) & vbTab & VN(dr(FN(1))) & vbTab & VN(dr(FN(2))) & vbTab & VN(dr(FN(3))) & vbTab
-                            '          5                  6                   7                   8
-                            s &= VN(dr(FN(4))) & vbTab & VN(dr(FN(5))) & vbTab & VN(dr(FN(6))) & vbTab & VN(dr(FN(7))) & vbTab
-                            '         9                   10                  11                   12
-                            s &= VN(dr(FN(8))) & vbTab & VN(dr(FN(9))) & vbTab & VN(dr(FN(10))) & vbTab & VN(dr(FN(11))) & vbTab
-                            '          13                   14                   15                   16
-                            s &= VN(dr(FN(12))) & vbTab & VN(dr(FN(13))) & vbTab & VN(dr(FN(14))) & vbTab & VN(dr(FN(15))) & vbTab
-                            '          17                  18                   19                   20
-                            s &= VN(dr(FN(16))) & vbTab & VN(dr(FN(17))) & vbTab & VN(dr(FN(18))) & vbTab & VN(dr(FN(19))) & vbTab
-                            '         21                   22                   23 
-                            s &= VN(dr(FN(20))) & vbTab & VN(dr(FN(21))) & vbTab & VN(dr(FN(22))) & vbTab
-                            '          24                  25                   26
-                            s &= VN(dr(FN(23))) & vbTab & VN(dr(FN(24))) & vbTab & VN(dr(FN(25))) & vbTab
-                            '             27                       28                       29
-                            s &= VN(dr(FN(26))) & vbTab & VN(dr(FN(27))) & vbTab & VN(dr(FN(28))) & vbTab
-                            '             30                       31                       32
-                            s &= VN(dr(FN(29))) & vbTab & VN(dr(FN(30))) & vbTab & VN(dr(FN(31))) & vbTab
-                            '             33                       34                       35
-                            s &= VN(dr(FN(32))) & vbTab & VN(dr(FN(33))) & vbTab & VN(dr(FN(34))) & vbTab
-                            '             36                       37                       38
-                            s &= VN(dr(FN(35))) & vbTab & VN(dr(FN(36))) & vbTab & VN(dr(FN(37))) & vbTab
-                            '             39                       40                       41                       42                  43
-                            s &= VN(dr(FN(38))) & vbTab & VN(dr(FN(39))) & vbTab & VN(dr(FN(40))) & vbTab & VN(dr(FN(41)) & vbTab & VN(dr(FN(42))))
-                        Else
-                            s = "" & vbTab & dr("CVE_RES") & vbTab & dr("ESTADO") & vbTab & dr("FECHA") & vbTab & dr("NOMBRE") & vbTab
-                            '            5                         6                         7                           8
-                            s &= dr("NO_LIQUI") & vbTab & dr("CLAVEMONTE") & vbTab & dr("DESCR_MOD") & vbTab & dr("NOMBREMOTOR") & vbTab
-                            '               9                            10                            11                          12
-                            s &= dr("CAL_FAC_CAR_EVA") & vbTab & dr("CAL_RAL_EVA") & vbTab & dr("CALIF_VEL_MAX") & vbTab & dr("CAL_GLO_EVA") & vbTab
-                            '            13                      14                      15                      16
-                            s &= dr("BONO_RES") & vbTab & dr("ODOMETRO") & vbTab & dr("KM_ECM") & vbTab & dr("LTS_ECM") & vbTab
-                            '            17                      18                      19                               20
-                            s &= dr("REND_ECM") & vbTab & dr("LTS_REAL") & vbTab & dr("REND_REAL") & vbTab & dr("DIF_LTS_REAL_LTS_ECM") & vbTab
-                            '            21                               22                                    23 
-                            s &= dr("LTS_DESC_EVEN") & vbTab & dr("PORC_VAR_LTS_ECM_REAL") & " %" & vbTab & dr("FAC_CARGA") & vbTab
-                            '            24                             25                                  26
-                            s &= dr("HRS_TRABAJO") & vbTab & dr("HRS_PTO_RALENTI") & vbTab & dr("PORC_TIEMPO_PTO_RALENTI") & " %" & vbTab
-                            '            27                                   28                                      29
-                            s &= dr("LTS_PTO_RALENTI") & vbTab & dr("PORC_LTS_PTO_RALENTI") & " %" & vbTab & dr("LTS_AUTORIZADOS") & vbTab
-                            '            30                     31                              32
-                            s &= dr("KMS_TAB") & vbTab & dr("LTS_TAB") & vbTab & dr("PORC_VAR_LTS_TAB_REAL") & vbTab
-                            '            33                                      34                            35
-                            s &= dr("DIF_LTS_REAL_LTS_TAB") & vbTab & dr("PORC_TOL_EVENTO2") & vbTab & dr("LTS_AUTORIZADOS2") & vbTab
-                            '            36                          37                              38                         39 
-                            s &= dr("LTS_VALES2") & vbTab & dr("DESCXLITROS2") & vbTab & dr("PRECIO_X_LTS2") & vbTab & dr("Event") & vbTab
-                            '           40                    41                        42                      43
-                            s &= dr("VELMAX") & vbTab & dr("RPM_MAX") & vbTab & dr("CALIF_RPM") & vbTab & dr.ReadNullAsEmptyString("NO_VIAJE")
-                        End If
-                        Fg.AddItem(s)
-                    End While
-                End Using
-            End Using
+            Dim da As New SqlDataAdapter
+            Dim dt As New DataTable
+
+            da = New SqlDataAdapter(SQL, cnSAE)
+            dt = New DataTable
+            da.SelectCommand.CommandTimeout = 120
+            da.Fill(dt)
+
+            BindingSource1.DataSource = dt
+            Fg.DataSource = BindingSource1.DataSource
 
             Fg.Cols(4).Width = 300
-            'Fg.AutoSizeCols()
+            Fg.AutoSizeCols()
+
+
             Try
                 'C1FlexGridSearchPanel1.ActiveControl.Text = ""
                 If NRow > 0 Then
                     Fg.Row = NRow
                 End If
+
+                For k = 1 To Fg.Cols.Count - 1
+                    Try
+                        Fg.SetUserData(0, k, ALEY(k - 1))
+                    Catch ex As Exception
+                        Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+                Next
             Catch ex As Exception
+                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
             End Try
         Catch ex As Exception
-            Bitacora("14. " & ex.Message & vbNewLine & ex.StackTrace)
+            Bitacora("14. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & SQL2)
             MsgBox("14. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
+
         Fg.Redraw = True
         Fg.EndUpdate()
+        Me.Cursor = Cursors.Default
     End Sub
 
     Private Function VN(FDATO) As String
@@ -728,7 +727,7 @@ Public Class frmReseteo
                 Case 1
                     DESPLEGAR_VIKINGOS()
                 Case 2
-                    DESPLEGAR
+                    DESPLEGAR()
             End Select
         Catch ex As Exception
             MsgBox("430. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -782,11 +781,11 @@ Public Class frmReseteo
                                     CADENA = " WHERE R.STATUS = 'A' ORDER BY R.FECHAELAB DESC"
                                     Select Case TIPO_TAB
                                         Case 0
-                                            DESPLEGAR
+                                            DESPLEGAR()
                                         Case 1
                                             DESPLEGAR_VIKINGOS()
                                         Case 2
-                                            DESPLEGAR
+                                            DESPLEGAR()
                                     End Select
 
                                 End If
@@ -908,15 +907,15 @@ Public Class frmReseteo
                     Using dr As SqlDataReader = cmd.ExecuteReader
                         While dr.Read
 
-                            If dr("VIS") = 0 Then
-                                Fg.Cols(z).Visible = False
-                            Else
+                            If dr("VIS") Then
                                 Fg.Cols(z).Visible = True
+
+
+                                'Else
+                                'Fg.Cols(z).Visible = False
                             End If
 
                             Fg(0, z) = dr("LEYEN_N")
-
-                            Debug.Print(dr("LEYEN_N").GetType.ToString)
 
                             Dim cc1 As Column = Fg.Cols(z)
                             Select Case dr("TIPO_CAMPO")
@@ -932,9 +931,7 @@ Public Class frmReseteo
                                 Case Else
                                     cc1.DataType = GetType(String)
                             End Select
-                            If PASS_GRUPOCE.ToUpper = "BR3FRAJA" Then
-                                cc1.AllowDragging = True
-                            End If
+                            cc1.AllowDragging = True
                             z += 1
                             h += 1
                         End While
@@ -948,9 +945,9 @@ Public Class frmReseteo
 
         If h = 0 Then
             MALLA_PERSO = False
-            TITULOS()
         Else
             MALLA_PERSO = True
+            DESPLEGAR()
         End If
 
     End Sub
@@ -1491,14 +1488,12 @@ Public Class frmReseteo
     End Sub
     Private Sub Fg_MouseDown(sender As Object, e As MouseEventArgs) Handles Fg.MouseDown
         Try
-            If PASS_GRUPOCE.ToUpper = "BR3FRAJA" Then
-                If Fg.Row > 0 Then
-                    If Fg.ColSel = 1 Then
+            If Fg.Row > 0 Then
+                If Fg.ColSel = 1 Then
 
-                    End If
-                    If e.Button = MouseButtons.Right Then
-                        Fg.ContextMenuStrip = Cm
-                    End If
+                End If
+                If e.Button = MouseButtons.Right Then
+                    Fg.ContextMenuStrip = Cm
                 End If
             End If
         Catch ex As Exception
@@ -1509,30 +1504,41 @@ Public Class frmReseteo
     Private Sub BarGrabarMalla_Click_1(sender As Object, e As EventArgs) Handles BarGrabarMalla.Click
         Try
             Dim LEYENDA As String, VISIBLE As Integer = 0
+            Dim t As Integer = 0
 
             For k = 1 To Fg.Cols.Count - 1
+                Try
+                    If Not IsNothing(Fg(0, k)) Then
+                        LEYENDA = Fg.GetUserData(0, k)
+                        LEYENDA = LEYENDA.Replace("'", "")
 
-                If Not IsNothing(Fg(0, k)) Then
-                    LEYENDA = Fg(0, k)
-                    LEYENDA = LEYENDA.Replace("'", "''")
-                    If Fg.Cols(k).IsVisible Then
-                        VISIBLE = 1
-                    Else
-                        VISIBLE = 0
-                    End If
-                    SQL = "UPDATE GCCAMPO_X_MALLA SET ORDEN_N = " & k & ", VISIBLE  = " & VISIBLE & "
-                        WHERE LEYENDA = '" & LEYENDA & "'"
-                    Using cmd As SqlCommand = cnSAE.CreateCommand
-                        cmd.CommandText = SQL
-                        returnValue = cmd.ExecuteNonQuery().ToString
-                        If returnValue IsNot Nothing Then
-                            If returnValue = "1" Then
-                            End If
+                        If Fg.Cols(k).IsVisible Then
+                            VISIBLE = 1
+                        Else
+                            VISIBLE = 0
                         End If
-                    End Using
-                End If
+
+                        t += 1
+                        SQL = "UPDATE GCCAMPO_X_MALLA SET ORDEN_N = " & k & ", VISIBLE  = " & VISIBLE & "
+                                WHERE LEYENDA = '" & LEYENDA & "'"
+                        Using cmd As SqlCommand = cnSAE.CreateCommand
+                            cmd.CommandText = SQL
+                            returnValue = cmd.ExecuteNonQuery().ToString
+                            If returnValue IsNot Nothing Then
+                                If returnValue = "1" Then
+                                End If
+                            End If
+                        End Using
+                        Debug.Print(LEYENDA)
+
+                    End If
+                Catch ex As Exception
+                    Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                End Try
             Next
+
             MsgBox("El orden en la malla se grabo correctamente")
+
         Catch ex As Exception
             Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
@@ -1540,9 +1546,14 @@ Public Class frmReseteo
     End Sub
     Private Sub BarCfgMalla_Click(sender As Object, e As EventArgs) Handles BarCfgMalla.Click
 
-        FrmOrdenMallas.ShowDialog()
+        Var25 = ""
 
-        TITULOS_TABLA()
+        FrmOrdenMallas.ShowDialog()
+        If Var25 = "SI" Then
+            'TITULOS_TABLA()
+            DESPLEGAR()
+        End If
+
     End Sub
 
     Private Sub BarReporteVales_Click(sender As Object, e As EventArgs) Handles BarReporteVales.Click
@@ -1911,5 +1922,14 @@ Public Class frmReseteo
             MsgBox("14. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
 
+    End Sub
+
+    Private Sub MnuMlla_Click(sender As Object, e As EventArgs) Handles MnuMlla.Click
+
+    End Sub
+
+    Private Sub BarImpresaionMasivaReset_Click(sender As Object, e As EventArgs) Handles BarImpresaionMasivaReset.Click
+        Dim f As New FrmReseteoImpMasiva With {.MdiParent = MainRibbonForm.Owner, .TopLevel = True}
+        f.ShowDialog()
     End Sub
 End Class

@@ -556,7 +556,9 @@ Public Class FrmSolPagoProvAE
         Dim EXISTE As Boolean = False
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
-                SQL = "SELECT CVE_DOC FROM SOL_PAGO_PAR WHERE CVE_DOC = '" & FCVE_DOC & "' AND CVE_PROV = '" & TCVE_PROV.Text & "'"
+                SQL = "SELECT P.CVE_DOC FROM SOL_PAGO_PAR P
+                    LEFT JOIN SOL_PAGO S ON S.CLAVE = P.CLAVE
+                    WHERE S.STATUS = 'A' AND P.CVE_DOC = '" & FCVE_DOC & "' AND P.CVE_PROV = '" & TCVE_PROV.Text & "'"
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     If dr.Read Then

@@ -23,26 +23,6 @@ Partial Class frmReseteo
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmReseteo))
         Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.barSalir = New System.Windows.Forms.MenuStrip()
-        Me.BarNuevo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarEdit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarEliminar = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarReactivarReseteo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarActualizar = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarVales = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarEditVale = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarReActivarVale = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarEliminarValesDiesel = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarReasignarValeDiesel = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarReporteVales = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarHorasGen = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OpcionesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarExcel = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarRecalculoGlobal = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarRecalculoEvento2 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MnuMlla = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarGrabarMalla = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarCfgMalla = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuSalir = New System.Windows.Forms.ToolStripMenuItem()
         Me.C1SuperTooltip1 = New C1.Win.C1SuperTooltip.C1SuperTooltip(Me.components)
         Me.C1FlexGridSearchPanel1 = New C1.Win.C1FlexGrid.C1FlexGridSearchPanel()
         Me.BarraAbajo = New System.Windows.Forms.ToolStrip()
@@ -61,6 +41,27 @@ Partial Class frmReseteo
         Me.Pag1 = New C1.Win.C1Command.C1DockingTabPage()
         Me.Pag2 = New C1.Win.C1Command.C1DockingTabPage()
         Me.Fg1 = New C1.Win.C1FlexGrid.C1FlexGrid()
+        Me.BarNuevo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarEdit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarEliminar = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarReactivarReseteo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarActualizar = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarVales = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarEditVale = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarReActivarVale = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarEliminarValesDiesel = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarReasignarValeDiesel = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarReporteVales = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarHorasGen = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarImpresaionMasivaReset = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpcionesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarExcel = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarRecalculoGlobal = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarRecalculoEvento2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuMlla = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarGrabarMalla = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarCfgMalla = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuSalir = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.barSalir.SuspendLayout()
         Me.BarraAbajo.SuspendLayout()
@@ -81,14 +82,13 @@ Partial Class frmReseteo
         Me.Fg.AllowFiltering = True
         Me.Fg.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
         Me.C1FlexGridSearchPanel1.SetC1FlexGridSearchPanel(Me.Fg, Me.C1FlexGridSearchPanel1)
-        Me.Fg.ColumnInfo = "5,1,0,0,0,95,Columns:1{Caption:""col1"";AllowEditing:False;}" & Global.Microsoft.VisualBasic.ChrW(9) & "2{Caption:""col2"";Allow" &
-    "Editing:False;}" & Global.Microsoft.VisualBasic.ChrW(9) & "3{Caption:""col3"";AllowEditing:False;Style:""DataType:System.Int16" &
-    ";TextAlign:GeneralCenter;"";}" & Global.Microsoft.VisualBasic.ChrW(9)
+        Me.Fg.ColumnInfo = "1,1,0,0,0,95,Columns:"
         Me.Fg.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Fg.DropMode = C1.Win.C1FlexGrid.DropModeEnum.Manual
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.Fg.Location = New System.Drawing.Point(0, 0)
         Me.Fg.Name = "Fg"
+        Me.Fg.Rows.Count = 1
         Me.Fg.Rows.DefaultSize = 19
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.ListBox
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
@@ -99,212 +99,12 @@ Partial Class frmReseteo
         '
         'barSalir
         '
-        Me.barSalir.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarNuevo, Me.BarEdit, Me.BarEliminar, Me.BarReactivarReseteo, Me.BarActualizar, Me.BarVales, Me.BarHorasGen, Me.OpcionesToolStripMenuItem, Me.MnuMlla, Me.mnuSalir})
+        Me.barSalir.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarNuevo, Me.BarEdit, Me.BarEliminar, Me.BarReactivarReseteo, Me.BarActualizar, Me.BarVales, Me.BarHorasGen, Me.BarImpresaionMasivaReset, Me.OpcionesToolStripMenuItem, Me.MnuMlla, Me.mnuSalir})
         Me.barSalir.Location = New System.Drawing.Point(0, 0)
         Me.barSalir.Name = "barSalir"
         Me.barSalir.Size = New System.Drawing.Size(1620, 55)
         Me.barSalir.TabIndex = 10
         Me.barSalir.Text = "MenuStrip1"
-        '
-        'BarNuevo
-        '
-        Me.BarNuevo.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.BarNuevo.ForeColor = System.Drawing.Color.Black
-        Me.BarNuevo.Image = Global.SGT_Transport.My.Resources.Resources.file1
-        Me.BarNuevo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarNuevo.Name = "BarNuevo"
-        Me.BarNuevo.ShortcutKeyDisplayString = "F2-Nuevo"
-        Me.BarNuevo.ShortcutKeys = System.Windows.Forms.Keys.F2
-        Me.BarNuevo.Size = New System.Drawing.Size(54, 51)
-        Me.BarNuevo.Text = "Nuevo"
-        Me.BarNuevo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.BarNuevo.ToolTipText = "F2-Nuevo"
-        '
-        'BarEdit
-        '
-        Me.BarEdit.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.BarEdit.ForeColor = System.Drawing.Color.Black
-        Me.BarEdit.Image = Global.SGT_Transport.My.Resources.Resources.edit
-        Me.BarEdit.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarEdit.Name = "BarEdit"
-        Me.BarEdit.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.BarEdit.Size = New System.Drawing.Size(44, 51)
-        Me.BarEdit.Text = "Edit"
-        Me.BarEdit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'BarEliminar
-        '
-        Me.BarEliminar.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.BarEliminar.ForeColor = System.Drawing.Color.Black
-        Me.BarEliminar.Image = Global.SGT_Transport.My.Resources.Resources.cancelar
-        Me.BarEliminar.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarEliminar.Name = "BarEliminar"
-        Me.BarEliminar.ShortcutKeys = System.Windows.Forms.Keys.F4
-        Me.BarEliminar.Size = New System.Drawing.Size(62, 51)
-        Me.BarEliminar.Text = "Eliminar"
-        Me.BarEliminar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'BarReactivarReseteo
-        '
-        Me.BarReactivarReseteo.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.BarReactivarReseteo.ForeColor = System.Drawing.Color.Black
-        Me.BarReactivarReseteo.Image = Global.SGT_Transport.My.Resources.Resources.reiniciar1
-        Me.BarReactivarReseteo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarReactivarReseteo.Name = "BarReactivarReseteo"
-        Me.BarReactivarReseteo.ShortcutKeys = System.Windows.Forms.Keys.F4
-        Me.BarReactivarReseteo.Size = New System.Drawing.Size(67, 51)
-        Me.BarReactivarReseteo.Text = "Reactivar"
-        Me.BarReactivarReseteo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'BarActualizar
-        '
-        Me.BarActualizar.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.BarActualizar.ForeColor = System.Drawing.Color.Black
-        Me.BarActualizar.Image = Global.SGT_Transport.My.Resources.Resources.rotate
-        Me.BarActualizar.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarActualizar.Name = "BarActualizar"
-        Me.BarActualizar.ShortcutKeys = System.Windows.Forms.Keys.F4
-        Me.BarActualizar.Size = New System.Drawing.Size(71, 51)
-        Me.BarActualizar.Text = "Actualizar"
-        Me.BarActualizar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'BarVales
-        '
-        Me.BarVales.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarEditVale, Me.BarReActivarVale, Me.BarEliminarValesDiesel, Me.BarReasignarValeDiesel, Me.BarReporteVales})
-        Me.BarVales.Image = Global.SGT_Transport.My.Resources.Resources.desplegar6
-        Me.BarVales.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarVales.Name = "BarVales"
-        Me.BarVales.ShowShortcutKeys = False
-        Me.BarVales.Size = New System.Drawing.Size(45, 51)
-        Me.BarVales.Text = "Vales"
-        Me.BarVales.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'BarEditVale
-        '
-        Me.BarEditVale.Image = Global.SGT_Transport.My.Resources.Resources.edit1
-        Me.BarEditVale.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarEditVale.Name = "BarEditVale"
-        Me.BarEditVale.Size = New System.Drawing.Size(176, 38)
-        Me.BarEditVale.Text = "Edit vale"
-        '
-        'BarReActivarVale
-        '
-        Me.BarReActivarVale.Image = Global.SGT_Transport.My.Resources.Resources.reactivar2
-        Me.BarReActivarVale.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarReActivarVale.Name = "BarReActivarVale"
-        Me.BarReActivarVale.Size = New System.Drawing.Size(176, 38)
-        Me.BarReActivarVale.Text = "Reactivar vale"
-        '
-        'BarEliminarValesDiesel
-        '
-        Me.BarEliminarValesDiesel.Image = Global.SGT_Transport.My.Resources.Resources.eliminar2
-        Me.BarEliminarValesDiesel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarEliminarValesDiesel.Name = "BarEliminarValesDiesel"
-        Me.BarEliminarValesDiesel.Size = New System.Drawing.Size(176, 38)
-        Me.BarEliminarValesDiesel.Text = "Eliminar vale"
-        '
-        'BarReasignarValeDiesel
-        '
-        Me.BarReasignarValeDiesel.Image = Global.SGT_Transport.My.Resources.Resources.note
-        Me.BarReasignarValeDiesel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarReasignarValeDiesel.Name = "BarReasignarValeDiesel"
-        Me.BarReasignarValeDiesel.Size = New System.Drawing.Size(176, 38)
-        Me.BarReasignarValeDiesel.Text = "Reasignar vale"
-        '
-        'BarReporteVales
-        '
-        Me.BarReporteVales.Image = Global.SGT_Transport.My.Resources.Resources.impresora6
-        Me.BarReporteVales.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarReporteVales.Name = "BarReporteVales"
-        Me.BarReporteVales.Size = New System.Drawing.Size(176, 38)
-        Me.BarReporteVales.Text = "Reporte de vales"
-        '
-        'BarHorasGen
-        '
-        Me.BarHorasGen.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.BarHorasGen.ForeColor = System.Drawing.Color.Black
-        Me.BarHorasGen.Image = Global.SGT_Transport.My.Resources.Resources.impresora6
-        Me.BarHorasGen.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarHorasGen.Name = "BarHorasGen"
-        Me.BarHorasGen.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.BarHorasGen.Size = New System.Drawing.Size(107, 51)
-        Me.BarHorasGen.Text = "Horas generador"
-        Me.BarHorasGen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'OpcionesToolStripMenuItem
-        '
-        Me.OpcionesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarExcel, Me.BarRecalculoGlobal, Me.BarRecalculoEvento2})
-        Me.OpcionesToolStripMenuItem.Image = Global.SGT_Transport.My.Resources.Resources.desplegar
-        Me.OpcionesToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.OpcionesToolStripMenuItem.Name = "OpcionesToolStripMenuItem"
-        Me.OpcionesToolStripMenuItem.Size = New System.Drawing.Size(69, 51)
-        Me.OpcionesToolStripMenuItem.Text = "Opciones"
-        Me.OpcionesToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'BarExcel
-        '
-        Me.BarExcel.Image = Global.SGT_Transport.My.Resources.Resources.excel1
-        Me.BarExcel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarExcel.Name = "BarExcel"
-        Me.BarExcel.Size = New System.Drawing.Size(180, 38)
-        Me.BarExcel.Text = "Excel"
-        '
-        'BarRecalculoGlobal
-        '
-        Me.BarRecalculoGlobal.Image = Global.SGT_Transport.My.Resources.Resources.refresh
-        Me.BarRecalculoGlobal.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarRecalculoGlobal.Name = "BarRecalculoGlobal"
-        Me.BarRecalculoGlobal.Size = New System.Drawing.Size(180, 38)
-        Me.BarRecalculoGlobal.Text = "Recalculo global"
-        '
-        'BarRecalculoEvento2
-        '
-        Me.BarRecalculoEvento2.Image = Global.SGT_Transport.My.Resources.Resources.engranaje3
-        Me.BarRecalculoEvento2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarRecalculoEvento2.Name = "BarRecalculoEvento2"
-        Me.BarRecalculoEvento2.Size = New System.Drawing.Size(180, 38)
-        Me.BarRecalculoEvento2.Text = "Recalculo evento"
-        '
-        'MnuMlla
-        '
-        Me.MnuMlla.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarGrabarMalla, Me.BarCfgMalla})
-        Me.MnuMlla.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.MnuMlla.ForeColor = System.Drawing.Color.Black
-        Me.MnuMlla.Image = Global.SGT_Transport.My.Resources.Resources.malla3
-        Me.MnuMlla.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.MnuMlla.Name = "MnuMlla"
-        Me.MnuMlla.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.MnuMlla.Size = New System.Drawing.Size(48, 51)
-        Me.MnuMlla.Text = "Malla"
-        Me.MnuMlla.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'BarGrabarMalla
-        '
-        Me.BarGrabarMalla.Image = Global.SGT_Transport.My.Resources.Resources.malla2
-        Me.BarGrabarMalla.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarGrabarMalla.Name = "BarGrabarMalla"
-        Me.BarGrabarMalla.Size = New System.Drawing.Size(198, 38)
-        Me.BarGrabarMalla.Text = "Grabar malla"
-        '
-        'BarCfgMalla
-        '
-        Me.BarCfgMalla.Image = Global.SGT_Transport.My.Resources.Resources.tol6
-        Me.BarCfgMalla.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BarCfgMalla.Name = "BarCfgMalla"
-        Me.BarCfgMalla.Size = New System.Drawing.Size(198, 38)
-        Me.BarCfgMalla.Text = "Configuración malla"
-        '
-        'mnuSalir
-        '
-        Me.mnuSalir.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.mnuSalir.ForeColor = System.Drawing.Color.Black
-        Me.mnuSalir.Image = Global.SGT_Transport.My.Resources.Resources.puertasalida
-        Me.mnuSalir.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.mnuSalir.Name = "mnuSalir"
-        Me.mnuSalir.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.mnuSalir.Size = New System.Drawing.Size(44, 51)
-        Me.mnuSalir.Text = "Salir"
-        Me.mnuSalir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'C1SuperTooltip1
         '
@@ -315,7 +115,7 @@ Partial Class frmReseteo
         '
         Me.C1FlexGridSearchPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.C1FlexGridSearchPanel1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(1028, 3)
+        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(1150, 3)
         Me.C1FlexGridSearchPanel1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.C1FlexGridSearchPanel1.Name = "C1FlexGridSearchPanel1"
         Me.C1FlexGridSearchPanel1.SearchDelay = 500
@@ -392,7 +192,7 @@ Partial Class frmReseteo
         Me.Panel2.Controls.Add(Me.F2)
         Me.Panel2.Controls.Add(Me.Label2)
         Me.Panel2.Controls.Add(Me.Label3)
-        Me.Panel2.Location = New System.Drawing.Point(710, 4)
+        Me.Panel2.Location = New System.Drawing.Point(832, 4)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(313, 51)
         Me.Panel2.TabIndex = 310
@@ -522,6 +322,218 @@ Partial Class frmReseteo
         Me.Fg1.TabIndex = 208
         Me.Fg1.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Office2010Blue
         '
+        'BarNuevo
+        '
+        Me.BarNuevo.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.BarNuevo.ForeColor = System.Drawing.Color.Black
+        Me.BarNuevo.Image = Global.SGT_Transport.My.Resources.Resources.file1
+        Me.BarNuevo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarNuevo.Name = "BarNuevo"
+        Me.BarNuevo.ShortcutKeyDisplayString = "F2-Nuevo"
+        Me.BarNuevo.ShortcutKeys = System.Windows.Forms.Keys.F2
+        Me.BarNuevo.Size = New System.Drawing.Size(54, 51)
+        Me.BarNuevo.Text = "Nuevo"
+        Me.BarNuevo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.BarNuevo.ToolTipText = "F2-Nuevo"
+        '
+        'BarEdit
+        '
+        Me.BarEdit.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.BarEdit.ForeColor = System.Drawing.Color.Black
+        Me.BarEdit.Image = Global.SGT_Transport.My.Resources.Resources.edit
+        Me.BarEdit.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarEdit.Name = "BarEdit"
+        Me.BarEdit.ShortcutKeys = System.Windows.Forms.Keys.F3
+        Me.BarEdit.Size = New System.Drawing.Size(44, 51)
+        Me.BarEdit.Text = "Edit"
+        Me.BarEdit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BarEliminar
+        '
+        Me.BarEliminar.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.BarEliminar.ForeColor = System.Drawing.Color.Black
+        Me.BarEliminar.Image = Global.SGT_Transport.My.Resources.Resources.cancelar
+        Me.BarEliminar.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarEliminar.Name = "BarEliminar"
+        Me.BarEliminar.ShortcutKeys = System.Windows.Forms.Keys.F4
+        Me.BarEliminar.Size = New System.Drawing.Size(62, 51)
+        Me.BarEliminar.Text = "Eliminar"
+        Me.BarEliminar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BarReactivarReseteo
+        '
+        Me.BarReactivarReseteo.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.BarReactivarReseteo.ForeColor = System.Drawing.Color.Black
+        Me.BarReactivarReseteo.Image = Global.SGT_Transport.My.Resources.Resources.reiniciar1
+        Me.BarReactivarReseteo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarReactivarReseteo.Name = "BarReactivarReseteo"
+        Me.BarReactivarReseteo.ShortcutKeys = System.Windows.Forms.Keys.F4
+        Me.BarReactivarReseteo.Size = New System.Drawing.Size(67, 51)
+        Me.BarReactivarReseteo.Text = "Reactivar"
+        Me.BarReactivarReseteo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BarActualizar
+        '
+        Me.BarActualizar.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.BarActualizar.ForeColor = System.Drawing.Color.Black
+        Me.BarActualizar.Image = Global.SGT_Transport.My.Resources.Resources.rotate
+        Me.BarActualizar.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarActualizar.Name = "BarActualizar"
+        Me.BarActualizar.ShortcutKeys = System.Windows.Forms.Keys.F4
+        Me.BarActualizar.Size = New System.Drawing.Size(71, 51)
+        Me.BarActualizar.Text = "Actualizar"
+        Me.BarActualizar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BarVales
+        '
+        Me.BarVales.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarEditVale, Me.BarReActivarVale, Me.BarEliminarValesDiesel, Me.BarReasignarValeDiesel, Me.BarReporteVales})
+        Me.BarVales.Image = Global.SGT_Transport.My.Resources.Resources.desplegar6
+        Me.BarVales.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarVales.Name = "BarVales"
+        Me.BarVales.ShowShortcutKeys = False
+        Me.BarVales.Size = New System.Drawing.Size(45, 51)
+        Me.BarVales.Text = "Vales"
+        Me.BarVales.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BarEditVale
+        '
+        Me.BarEditVale.Image = Global.SGT_Transport.My.Resources.Resources.edit1
+        Me.BarEditVale.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarEditVale.Name = "BarEditVale"
+        Me.BarEditVale.Size = New System.Drawing.Size(176, 38)
+        Me.BarEditVale.Text = "Edit vale"
+        '
+        'BarReActivarVale
+        '
+        Me.BarReActivarVale.Image = Global.SGT_Transport.My.Resources.Resources.reactivar2
+        Me.BarReActivarVale.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarReActivarVale.Name = "BarReActivarVale"
+        Me.BarReActivarVale.Size = New System.Drawing.Size(176, 38)
+        Me.BarReActivarVale.Text = "Reactivar vale"
+        '
+        'BarEliminarValesDiesel
+        '
+        Me.BarEliminarValesDiesel.Image = Global.SGT_Transport.My.Resources.Resources.eliminar2
+        Me.BarEliminarValesDiesel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarEliminarValesDiesel.Name = "BarEliminarValesDiesel"
+        Me.BarEliminarValesDiesel.Size = New System.Drawing.Size(176, 38)
+        Me.BarEliminarValesDiesel.Text = "Eliminar vale"
+        '
+        'BarReasignarValeDiesel
+        '
+        Me.BarReasignarValeDiesel.Image = Global.SGT_Transport.My.Resources.Resources.note
+        Me.BarReasignarValeDiesel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarReasignarValeDiesel.Name = "BarReasignarValeDiesel"
+        Me.BarReasignarValeDiesel.Size = New System.Drawing.Size(176, 38)
+        Me.BarReasignarValeDiesel.Text = "Reasignar vale"
+        '
+        'BarReporteVales
+        '
+        Me.BarReporteVales.Image = Global.SGT_Transport.My.Resources.Resources.impresora6
+        Me.BarReporteVales.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarReporteVales.Name = "BarReporteVales"
+        Me.BarReporteVales.Size = New System.Drawing.Size(176, 38)
+        Me.BarReporteVales.Text = "Reporte de vales"
+        '
+        'BarHorasGen
+        '
+        Me.BarHorasGen.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.BarHorasGen.ForeColor = System.Drawing.Color.Black
+        Me.BarHorasGen.Image = Global.SGT_Transport.My.Resources.Resources.impresora32
+        Me.BarHorasGen.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarHorasGen.Name = "BarHorasGen"
+        Me.BarHorasGen.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.BarHorasGen.Size = New System.Drawing.Size(107, 51)
+        Me.BarHorasGen.Text = "Horas generador"
+        Me.BarHorasGen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BarImpresaionMasivaReset
+        '
+        Me.BarImpresaionMasivaReset.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.BarImpresaionMasivaReset.ForeColor = System.Drawing.Color.Black
+        Me.BarImpresaionMasivaReset.Image = Global.SGT_Transport.My.Resources.Resources.impresora27
+        Me.BarImpresaionMasivaReset.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarImpresaionMasivaReset.Name = "BarImpresaionMasivaReset"
+        Me.BarImpresaionMasivaReset.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.BarImpresaionMasivaReset.Size = New System.Drawing.Size(112, 51)
+        Me.BarImpresaionMasivaReset.Text = "Impresión masiva"
+        Me.BarImpresaionMasivaReset.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'OpcionesToolStripMenuItem
+        '
+        Me.OpcionesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarExcel, Me.BarRecalculoGlobal, Me.BarRecalculoEvento2})
+        Me.OpcionesToolStripMenuItem.Image = Global.SGT_Transport.My.Resources.Resources.desplegar
+        Me.OpcionesToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.OpcionesToolStripMenuItem.Name = "OpcionesToolStripMenuItem"
+        Me.OpcionesToolStripMenuItem.Size = New System.Drawing.Size(69, 51)
+        Me.OpcionesToolStripMenuItem.Text = "Opciones"
+        Me.OpcionesToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BarExcel
+        '
+        Me.BarExcel.Image = Global.SGT_Transport.My.Resources.Resources.excel1
+        Me.BarExcel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarExcel.Name = "BarExcel"
+        Me.BarExcel.Size = New System.Drawing.Size(180, 38)
+        Me.BarExcel.Text = "Excel"
+        '
+        'BarRecalculoGlobal
+        '
+        Me.BarRecalculoGlobal.Image = Global.SGT_Transport.My.Resources.Resources.refresh
+        Me.BarRecalculoGlobal.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarRecalculoGlobal.Name = "BarRecalculoGlobal"
+        Me.BarRecalculoGlobal.Size = New System.Drawing.Size(180, 38)
+        Me.BarRecalculoGlobal.Text = "Recalculo global"
+        '
+        'BarRecalculoEvento2
+        '
+        Me.BarRecalculoEvento2.Image = Global.SGT_Transport.My.Resources.Resources.engranaje3
+        Me.BarRecalculoEvento2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarRecalculoEvento2.Name = "BarRecalculoEvento2"
+        Me.BarRecalculoEvento2.Size = New System.Drawing.Size(180, 38)
+        Me.BarRecalculoEvento2.Text = "Recalculo evento"
+        '
+        'MnuMlla
+        '
+        Me.MnuMlla.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarGrabarMalla, Me.BarCfgMalla})
+        Me.MnuMlla.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.MnuMlla.ForeColor = System.Drawing.Color.Black
+        Me.MnuMlla.Image = Global.SGT_Transport.My.Resources.Resources.malla3
+        Me.MnuMlla.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.MnuMlla.Name = "MnuMlla"
+        Me.MnuMlla.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.MnuMlla.Size = New System.Drawing.Size(48, 51)
+        Me.MnuMlla.Text = "Malla"
+        Me.MnuMlla.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BarGrabarMalla
+        '
+        Me.BarGrabarMalla.Image = Global.SGT_Transport.My.Resources.Resources.malla2
+        Me.BarGrabarMalla.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarGrabarMalla.Name = "BarGrabarMalla"
+        Me.BarGrabarMalla.Size = New System.Drawing.Size(198, 38)
+        Me.BarGrabarMalla.Text = "Grabar malla"
+        '
+        'BarCfgMalla
+        '
+        Me.BarCfgMalla.Image = Global.SGT_Transport.My.Resources.Resources.tol6
+        Me.BarCfgMalla.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarCfgMalla.Name = "BarCfgMalla"
+        Me.BarCfgMalla.Size = New System.Drawing.Size(198, 38)
+        Me.BarCfgMalla.Text = "Configuración malla"
+        '
+        'mnuSalir
+        '
+        Me.mnuSalir.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.mnuSalir.ForeColor = System.Drawing.Color.Black
+        Me.mnuSalir.Image = Global.SGT_Transport.My.Resources.Resources.puertasalida
+        Me.mnuSalir.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.mnuSalir.Name = "mnuSalir"
+        Me.mnuSalir.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.mnuSalir.Size = New System.Drawing.Size(44, 51)
+        Me.mnuSalir.Text = "Salir"
+        Me.mnuSalir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
         'frmReseteo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -596,4 +608,5 @@ Partial Class frmReseteo
     Friend WithEvents BarExcel As ToolStripMenuItem
     Friend WithEvents BarRecalculoGlobal As ToolStripMenuItem
     Friend WithEvents BarRecalculoEvento2 As ToolStripMenuItem
+    Friend WithEvents BarImpresaionMasivaReset As ToolStripMenuItem
 End Class

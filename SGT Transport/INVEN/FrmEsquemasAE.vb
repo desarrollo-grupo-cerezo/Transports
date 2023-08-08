@@ -18,6 +18,14 @@ Public Class FrmEsquemasAE
         TIMPUESTO2.Value = 0
         TIMPUESTO3.Value = 0
         TIMPUESTO4.Value = 0
+        txCtaVtas1.Text = ""
+        txCtaVtas2.Text = ""
+        txCtaVtas3.Text = ""
+        txCtaVtas4.Text = ""
+        txCtaComp1.Text = ""
+        txCtaComp2.Text = ""
+        txCtaComp3.Text = ""
+        txCtaComp4.Text = ""
 
         CboIMP1APLICA.Items.Add("Precio base")
         CboIMP1APLICA.Items.Add("Excento")
@@ -61,8 +69,11 @@ Public Class FrmEsquemasAE
             Try
 
                 Dim cmd As New SqlCommand
+                Dim cmd2 As New SqlCommand
                 Dim dr As SqlDataReader
+                Dim dr2 As SqlDataReader
                 cmd.Connection = cnSAE
+                cmd2.Connection = cnSAE
 
                 Me.KeyPreview = True
 
@@ -132,6 +143,29 @@ Public Class FrmEsquemasAE
                         Case 6
                             CboIMP4APLICA.SelectedIndex = 5
                     End Select
+
+                    SQL = "SELECT * FROM CTAESQ" & Empresa & " WHERE CVE_ESQIMPU = " & Var2
+                    cmd2.CommandText = SQL
+                    dr2 = cmd2.ExecuteReader
+                    While dr2.Read
+                        Select Case dr2("NUM_IMPU")
+                            Case 1
+                                txCtaVtas1.Text = dr2("CUEN_VENT")
+                                txCtaComp1.Text = dr2("CUEN_COMP")
+                            Case 2
+                                txCtaVtas2.Text = dr2("CUEN_VENT")
+                                txCtaComp2.Text = dr2("CUEN_COMP")
+                            Case 3
+                                txCtaVtas3.Text = dr2("CUEN_VENT")
+                                txCtaComp3.Text = dr2("CUEN_COMP")
+                            Case 4
+                                txCtaVtas4.Text = dr2("CUEN_VENT")
+                                txCtaComp4.Text = dr2("CUEN_COMP")
+                        End Select
+                    End While
+
+                    dr2.Close()
+
                 Else
                     TCVE_ESQIMPU.Text = 0
                     TDESCRIPESQ.Text = ""
@@ -143,6 +177,14 @@ Public Class FrmEsquemasAE
                     CboIMP3APLICA.SelectedIndex = 0
                     TIMPUESTO4.Value = 0
                     CboIMP4APLICA.SelectedIndex = 0
+                    txCtaVtas1.Text = ""
+                    txCtaVtas2.Text = ""
+                    txCtaVtas3.Text = ""
+                    txCtaVtas4.Text = ""
+                    txCtaComp1.Text = ""
+                    txCtaComp2.Text = ""
+                    txCtaComp3.Text = ""
+                    txCtaComp4.Text = ""
                 End If
                 dr.Close()
 
@@ -253,6 +295,35 @@ Public Class FrmEsquemasAE
                     If returnValue = "1" Then
                     End If
                 End If
+
+                SQL = "DELETE FROM CTAESQ" & Empresa & " WHERE CVE_ESQIMPU = @CVE_ESQIMPU 
+                       INSERT INTO CTAESQ" & Empresa & " (NUM_IMPU, PORCENTAJE, CUEN_VENT, CUEN_COMP, CVE_ESQIMPU) VALUES(1, @IMPUESTO1, @CTAVTA1, @CTACOMP1, @CVE_ESQIMPU)
+                       INSERT INTO CTAESQ" & Empresa & " (NUM_IMPU, PORCENTAJE, CUEN_VENT, CUEN_COMP, CVE_ESQIMPU) VALUES(2, @IMPUESTO2, @CTAVTA2, @CTACOMP2, @CVE_ESQIMPU)
+                       INSERT INTO CTAESQ" & Empresa & " (NUM_IMPU, PORCENTAJE, CUEN_VENT, CUEN_COMP, CVE_ESQIMPU) VALUES(3, @IMPUESTO3, @CTAVTA3, @CTACOMP3, @CVE_ESQIMPU)
+                       INSERT INTO CTAESQ" & Empresa & " (NUM_IMPU, PORCENTAJE, CUEN_VENT, CUEN_COMP, CVE_ESQIMPU) VALUES(4, @IMPUESTO4, @CTAVTA4, @CTACOMP4, @CVE_ESQIMPU) "
+
+                Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                    cmd2.CommandText = SQL
+                    cmd2.Parameters.Add("@CVE_ESQIMPU", SqlDbType.Int).Value = CONVERTIR_TO_INT(TCVE_ESQIMPU.Text)
+                    cmd2.Parameters.Add("@IMPUESTO1", SqlDbType.Float).Value = TIMPUESTO1.Value
+                    cmd2.Parameters.Add("@IMPUESTO2", SqlDbType.Float).Value = TIMPUESTO2.Value
+                    cmd2.Parameters.Add("@IMPUESTO3", SqlDbType.Float).Value = TIMPUESTO3.Value
+                    cmd2.Parameters.Add("@IMPUESTO4", SqlDbType.Float).Value = TIMPUESTO4.Value
+                    cmd2.Parameters.Add("@CTAVTA1", SqlDbType.VarChar).Value = txCtaVtas1.Text
+                    cmd2.Parameters.Add("@CTAVTA2", SqlDbType.VarChar).Value = txCtaVtas2.Text
+                    cmd2.Parameters.Add("@CTAVTA3", SqlDbType.VarChar).Value = txCtaVtas3.Text
+                    cmd2.Parameters.Add("@CTAVTA4", SqlDbType.VarChar).Value = txCtaVtas4.Text
+                    cmd2.Parameters.Add("@CTACOMP1", SqlDbType.VarChar).Value = txCtaComp1.Text
+                    cmd2.Parameters.Add("@CTACOMP2", SqlDbType.VarChar).Value = txCtaComp2.Text
+                    cmd2.Parameters.Add("@CTACOMP3", SqlDbType.VarChar).Value = txCtaComp3.Text
+                    cmd2.Parameters.Add("@CTACOMP4", SqlDbType.VarChar).Value = txCtaComp4.Text
+                    returnValue = cmd2.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End Using
+
                 MsgBox("El esquema se grabo correctamente")
                 Me.Close()
             End Using

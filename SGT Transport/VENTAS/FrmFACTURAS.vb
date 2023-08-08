@@ -197,7 +197,7 @@ Public Class frmFACTURAS
                 CADENA = ""
                 SQL = "SELECT " & TOP_REG & " C.CVE_DOC, C.CVE_CLPV, NOMBRE, 
                     CASE C.STATUS WHEN 'E' THEN 'Emitida' WHEN 'O' THEN 'Emitida' WHEN 'C' THEN 'Cancelada' END AS ST, CVE_PEDI,
-                    (SELECT TOP 1 CASE WHEN ISNULL(TIMBRADO,'') = 'S' THEN 'Pendiente' WHEN ISNULL(TIMBRADO,'') = 'N' THEN 'Timbrada' ELSE '' END 
+                    (SELECT TOP 1 CASE WHEN ISNULL(F.TIMBRADO,'') = 'S' THEN 'Pendiente' WHEN ISNULL(TIMBRADO,'') = 'N' THEN 'Timbrada' ELSE '' END 
                     FROM CFDI_COM_PAGO FD WHERE TDOC = 'NC' AND DOCUMENTO = C.CVE_DOC) AS 'Factura digital', C.FECHA_DOC, C.FECHA_ENT, 
                     C.FECHA_VEN, C.FECHA_CANCELA, C.CAN_TOT, C.IMP_TOT1, C.IMP_TOT2, C.IMP_TOT3, C.IMP_TOT4, C.DES_TOT, C.DES_FIN, 
                     C.NUM_ALMA, C.FECHAELAB, C.IMPORTE, ISNULL(C.DOC_ANT,'') AS D_ANT, C.USO_CFDI, C.REG_FISC, ISNULL(C.EMAILPRED,'') AS CORREO
@@ -208,7 +208,7 @@ Public Class frmFACTURAS
             Else
                 SQL = "SELECT " & TOP_REG & " F.CVE_DOC, F.CVE_CLPV, C.NOMBRE, 
                     CASE CFD.ESTATUS WHEN 'C' THEN 'Cancelada' ELSE 'Emitida' END AS ST, F.CVE_PEDI,
-                    CASE WHEN ISNULL(ESTATUS,'N') = 'C' THEN 'CANCELADA' WHEN ISNULL(TIMBRADO,'N') = 'S' THEN 'TIMBRADA' WHEN ISNULL(TIMBRADO,'N') = 'N' THEN 'Pendiente' ELSE 'Cancelada' END AS FACT_CFDI, 
+                    CASE WHEN ISNULL(ESTATUS,'N') = 'C' THEN 'CANCELADA' WHEN ISNULL(F.TIMBRADO,'N') = 'S' THEN 'TIMBRADA' WHEN ISNULL(F.TIMBRADO,'N') = 'N' THEN 'Pendiente' ELSE 'Cancelada' END AS FACT_CFDI, 
                     F.RFC, C.CODIGO, F.FECHA_DOC, F.CAN_TOT, F.IMP_TOT1, F.IMP_TOT2, F.IMP_TOT3, F.IMP_TOT4, F.IMPORTE, F.DES_TOT, F.DES_FIN, 
                     F.NUM_ALMA, F.FECHA_ENT, F.FECHA_VEN, F.FECHA_CANCELA, F.FECHAELAB, ISNULL(F.DOC_ANT,'') AS D_ANT, ISNULL(F.DOC_SIG,'') AS D_SIG, 
                     C.USO_CFDI, C.REG_FISC, ISNULL(C.EMAILPRED,'') AS CORREO

@@ -33,6 +33,7 @@ Partial Class FrmPolizaVentasFlete
         Me.LkCarpeta = New C1.Win.C1Command.C1CommandLink()
         Me.LkSalir = New C1.Win.C1Command.C1CommandLink()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.chkSinPoliza = New System.Windows.Forms.CheckBox()
         Me.RadFechaCarga = New System.Windows.Forms.RadioButton()
         Me.RadFechaTimbre = New System.Windows.Forms.RadioButton()
         Me.TPOLIZA = New System.Windows.Forms.TextBox()
@@ -45,6 +46,8 @@ Partial Class FrmPolizaVentasFlete
         Me.Label3 = New System.Windows.Forms.Label()
         Me.C1FlexGridSearchPanel1 = New C1.Win.C1FlexGrid.C1FlexGridSearchPanel()
         Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
+        Me.BarCopy = New C1.Win.C1Command.C1Command()
+        Me.LkCopy = New C1.Win.C1Command.C1CommandLink()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -58,6 +61,7 @@ Partial Class FrmPolizaVentasFlete
         Me.MenuHolder.Commands.Add(Me.BarDesplegar)
         Me.MenuHolder.Commands.Add(Me.BarGenPoliza)
         Me.MenuHolder.Commands.Add(Me.BarExcel)
+        Me.MenuHolder.Commands.Add(Me.BarCopy)
         Me.MenuHolder.Commands.Add(Me.BarCarpeta)
         Me.MenuHolder.Commands.Add(Me.BarSalir)
         Me.MenuHolder.Owner = Me
@@ -77,7 +81,6 @@ Partial Class FrmPolizaVentasFlete
         Me.BarGenPoliza.Name = "BarGenPoliza"
         Me.BarGenPoliza.ShortcutText = ""
         Me.BarGenPoliza.Text = "Generar poliza"
-        Me.BarGenPoliza.Visible = False
         '
         'BarExcel
         '
@@ -116,7 +119,7 @@ Partial Class FrmPolizaVentasFlete
         Me.C1ToolBar1.ButtonLookVert = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.C1ToolBar1.ButtonWidth = 90
         Me.C1ToolBar1.CommandHolder = Nothing
-        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkDesplegar, Me.LkGenPoliza, Me.LkExcel, Me.LkCarpeta, Me.LkSalir})
+        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkDesplegar, Me.LkGenPoliza, Me.LkExcel, Me.LkCopy, Me.LkCarpeta, Me.LkSalir})
         Me.C1ToolBar1.Dock = System.Windows.Forms.DockStyle.Top
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.C1ToolBar1.Movable = False
@@ -150,7 +153,7 @@ Partial Class FrmPolizaVentasFlete
         Me.LkCarpeta.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.LkCarpeta.Command = Me.BarCarpeta
         Me.LkCarpeta.Delimiter = True
-        Me.LkCarpeta.SortOrder = 3
+        Me.LkCarpeta.SortOrder = 4
         Me.LkCarpeta.Text = "Carpeta polizas"
         '
         'LkSalir
@@ -158,12 +161,13 @@ Partial Class FrmPolizaVentasFlete
         Me.LkSalir.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.LkSalir.Command = Me.BarSalir
         Me.LkSalir.Delimiter = True
-        Me.LkSalir.SortOrder = 4
+        Me.LkSalir.SortOrder = 5
         Me.LkSalir.ToolTipText = "SALIR"
         '
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.chkSinPoliza)
         Me.Panel1.Controls.Add(Me.RadFechaCarga)
         Me.Panel1.Controls.Add(Me.RadFechaTimbre)
         Me.Panel1.Controls.Add(Me.TPOLIZA)
@@ -179,6 +183,16 @@ Partial Class FrmPolizaVentasFlete
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1138, 78)
         Me.Panel1.TabIndex = 338
+        '
+        'chkSinPoliza
+        '
+        Me.chkSinPoliza.AutoSize = True
+        Me.chkSinPoliza.Location = New System.Drawing.Point(22, 54)
+        Me.chkSinPoliza.Name = "chkSinPoliza"
+        Me.chkSinPoliza.Size = New System.Drawing.Size(187, 19)
+        Me.chkSinPoliza.TabIndex = 342
+        Me.chkSinPoliza.Text = "Ver solo pendientes de póliza"
+        Me.chkSinPoliza.UseVisualStyleBackColor = True
         '
         'RadFechaCarga
         '
@@ -311,7 +325,7 @@ Partial Class FrmPolizaVentasFlete
         'Fg
         '
         Me.Fg.AllowEditing = False
-        Me.Fg.AllowFiltering = True
+        Me.Fg.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None
         Me.Fg.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
         Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
@@ -323,6 +337,20 @@ Partial Class FrmPolizaVentasFlete
         Me.Fg.Size = New System.Drawing.Size(923, 301)
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 341
+        '
+        'BarCopy
+        '
+        Me.BarCopy.Image = Global.SGT_Transport.My.Resources.Resources.images3
+        Me.BarCopy.ImageTransparentColor = System.Drawing.Color.White
+        Me.BarCopy.Name = "BarCopy"
+        Me.BarCopy.ShortcutText = ""
+        Me.BarCopy.Text = "Copiar"
+        '
+        'LkCopy
+        '
+        Me.LkCopy.Command = Me.BarCopy
+        Me.LkCopy.Delimiter = True
+        Me.LkCopy.SortOrder = 3
         '
         'FrmPolizaVentasFlete
         '
@@ -373,4 +401,7 @@ Partial Class FrmPolizaVentasFlete
     Friend WithEvents Fg As C1.Win.C1FlexGrid.C1FlexGrid
     Friend WithEvents RadFechaCarga As RadioButton
     Friend WithEvents RadFechaTimbre As RadioButton
+    Friend WithEvents chkSinPoliza As CheckBox
+    Friend WithEvents BarCopy As C1.Win.C1Command.C1Command
+    Friend WithEvents LkCopy As C1.Win.C1Command.C1CommandLink
 End Class

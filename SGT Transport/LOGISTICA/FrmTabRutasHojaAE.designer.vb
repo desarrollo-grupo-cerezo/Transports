@@ -91,6 +91,14 @@ Partial Class FrmTabRutasHojaAE
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TDESCR2 = New System.Windows.Forms.TextBox()
+        Me.TPORC_MANIOBRA_FULL = New C1.Win.C1Input.C1TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.TPORC_MANIOBRA_SENC = New C1.Win.C1Input.C1TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.TSUELDO_MANIOBRA_SENC = New C1.Win.C1Input.C1TextBox()
+        Me.TSUELDO_MANIOBRA_FULL = New C1.Win.C1Input.C1TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.barMenu.SuspendLayout()
         CType(Me.TAUTO_SENC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TKM, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -106,6 +114,10 @@ Partial Class FrmTabRutasHojaAE
         CType(Me.TTAR_OPER_FULL, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TPORC_SUELDO_FULL, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TPORC_SUELDO_SENC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TPORC_MANIOBRA_FULL, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TPORC_MANIOBRA_SENC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TSUELDO_MANIOBRA_SENC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TSUELDO_MANIOBRA_FULL, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'barMenu
@@ -115,7 +127,7 @@ Partial Class FrmTabRutasHojaAE
         Me.barMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.barGrabar, Me.mnuSalir})
         Me.barMenu.Location = New System.Drawing.Point(0, 0)
         Me.barMenu.Name = "barMenu"
-        Me.barMenu.Size = New System.Drawing.Size(1038, 55)
+        Me.barMenu.Size = New System.Drawing.Size(1051, 55)
         Me.barMenu.Stretch = False
         Me.barMenu.TabIndex = 11
         Me.barMenu.Text = "MenuStrip1"
@@ -151,7 +163,7 @@ Partial Class FrmTabRutasHojaAE
         Me.tCVE_TAB.AcceptsTab = True
         Me.tCVE_TAB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.tCVE_TAB.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tCVE_TAB.Location = New System.Drawing.Point(132, 73)
+        Me.tCVE_TAB.Location = New System.Drawing.Point(120, 73)
         Me.tCVE_TAB.Name = "tCVE_TAB"
         Me.tCVE_TAB.Size = New System.Drawing.Size(67, 22)
         Me.tCVE_TAB.TabIndex = 0
@@ -162,7 +174,7 @@ Partial Class FrmTabRutasHojaAE
         Me.TCLI_OP2.AcceptsTab = True
         Me.TCLI_OP2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCLI_OP2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCLI_OP2.Location = New System.Drawing.Point(132, 183)
+        Me.TCLI_OP2.Location = New System.Drawing.Point(120, 183)
         Me.TCLI_OP2.Name = "TCLI_OP2"
         Me.TCLI_OP2.Size = New System.Drawing.Size(67, 22)
         Me.TCLI_OP2.TabIndex = 5
@@ -173,7 +185,7 @@ Partial Class FrmTabRutasHojaAE
         Me.tCLI_OP3.AcceptsTab = True
         Me.tCLI_OP3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.tCLI_OP3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tCLI_OP3.Location = New System.Drawing.Point(618, 186)
+        Me.tCLI_OP3.Location = New System.Drawing.Point(640, 183)
         Me.tCLI_OP3.Name = "tCLI_OP3"
         Me.tCLI_OP3.Size = New System.Drawing.Size(67, 21)
         Me.tCLI_OP3.TabIndex = 7
@@ -182,7 +194,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt4.AutoSize = True
         Me.Lt4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt4.Location = New System.Drawing.Point(36, 186)
+        Me.Lt4.Location = New System.Drawing.Point(24, 186)
         Me.Lt4.Name = "Lt4"
         Me.Lt4.Size = New System.Drawing.Size(90, 15)
         Me.Lt4.TabIndex = 450
@@ -192,7 +204,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt5.AutoSize = True
         Me.Lt5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt5.Location = New System.Drawing.Point(517, 186)
+        Me.Lt5.Location = New System.Drawing.Point(539, 186)
         Me.Lt5.Name = "Lt5"
         Me.Lt5.Size = New System.Drawing.Size(95, 15)
         Me.Lt5.TabIndex = 448
@@ -204,7 +216,7 @@ Partial Class FrmTabRutasHojaAE
         Me.TCLI_OP1.AcceptsTab = True
         Me.TCLI_OP1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCLI_OP1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCLI_OP1.Location = New System.Drawing.Point(132, 150)
+        Me.TCLI_OP1.Location = New System.Drawing.Point(120, 149)
         Me.TCLI_OP1.Name = "TCLI_OP1"
         Me.TCLI_OP1.Size = New System.Drawing.Size(67, 22)
         Me.TCLI_OP1.TabIndex = 3
@@ -213,7 +225,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt3.AutoSize = True
         Me.Lt3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt3.Location = New System.Drawing.Point(81, 153)
+        Me.Lt3.Location = New System.Drawing.Point(69, 153)
         Me.Lt3.Name = "Lt3"
         Me.Lt3.Size = New System.Drawing.Size(45, 15)
         Me.Lt3.TabIndex = 446
@@ -225,9 +237,9 @@ Partial Class FrmTabRutasHojaAE
         Me.TCIUDAD_O.AcceptsTab = True
         Me.TCIUDAD_O.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCIUDAD_O.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCIUDAD_O.Location = New System.Drawing.Point(132, 210)
+        Me.TCIUDAD_O.Location = New System.Drawing.Point(120, 210)
         Me.TCIUDAD_O.Name = "TCIUDAD_O"
-        Me.TCIUDAD_O.Size = New System.Drawing.Size(341, 21)
+        Me.TCIUDAD_O.Size = New System.Drawing.Size(397, 21)
         Me.TCIUDAD_O.TabIndex = 9
         '
         'TCIUDAD_D
@@ -236,16 +248,16 @@ Partial Class FrmTabRutasHojaAE
         Me.TCIUDAD_D.AcceptsTab = True
         Me.TCIUDAD_D.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCIUDAD_D.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCIUDAD_D.Location = New System.Drawing.Point(619, 210)
+        Me.TCIUDAD_D.Location = New System.Drawing.Point(640, 210)
         Me.TCIUDAD_D.Name = "TCIUDAD_D"
-        Me.TCIUDAD_D.Size = New System.Drawing.Size(409, 21)
+        Me.TCIUDAD_D.Size = New System.Drawing.Size(397, 21)
         Me.TCIUDAD_D.TabIndex = 10
         '
         'Lt6
         '
         Me.Lt6.AutoSize = True
         Me.Lt6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt6.Location = New System.Drawing.Point(32, 213)
+        Me.Lt6.Location = New System.Drawing.Point(20, 213)
         Me.Lt6.Name = "Lt6"
         Me.Lt6.Size = New System.Drawing.Size(94, 15)
         Me.Lt6.TabIndex = 457
@@ -257,9 +269,9 @@ Partial Class FrmTabRutasHojaAE
         Me.TDIR_O.AcceptsTab = True
         Me.TDIR_O.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TDIR_O.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TDIR_O.Location = New System.Drawing.Point(132, 236)
+        Me.TDIR_O.Location = New System.Drawing.Point(120, 236)
         Me.TDIR_O.Name = "TDIR_O"
-        Me.TDIR_O.Size = New System.Drawing.Size(341, 21)
+        Me.TDIR_O.Size = New System.Drawing.Size(397, 21)
         Me.TDIR_O.TabIndex = 11
         '
         'TDIR_D
@@ -268,16 +280,16 @@ Partial Class FrmTabRutasHojaAE
         Me.TDIR_D.AcceptsTab = True
         Me.TDIR_D.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TDIR_D.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TDIR_D.Location = New System.Drawing.Point(619, 236)
+        Me.TDIR_D.Location = New System.Drawing.Point(640, 236)
         Me.TDIR_D.Name = "TDIR_D"
-        Me.TDIR_D.Size = New System.Drawing.Size(409, 21)
+        Me.TDIR_D.Size = New System.Drawing.Size(397, 21)
         Me.TDIR_D.TabIndex = 12
         '
         'Lt8
         '
         Me.Lt8.AutoSize = True
         Me.Lt8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt8.Location = New System.Drawing.Point(19, 239)
+        Me.Lt8.Location = New System.Drawing.Point(7, 239)
         Me.Lt8.Name = "Lt8"
         Me.Lt8.Size = New System.Drawing.Size(107, 15)
         Me.Lt8.TabIndex = 461
@@ -287,7 +299,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt9.AutoSize = True
         Me.Lt9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt9.Location = New System.Drawing.Point(501, 239)
+        Me.Lt9.Location = New System.Drawing.Point(523, 239)
         Me.Lt9.Name = "Lt9"
         Me.Lt9.Size = New System.Drawing.Size(112, 15)
         Me.Lt9.TabIndex = 460
@@ -313,7 +325,7 @@ Partial Class FrmTabRutasHojaAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TAUTO_SENC.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TAUTO_SENC.Location = New System.Drawing.Point(132, 314)
+        Me.TAUTO_SENC.Location = New System.Drawing.Point(120, 314)
         Me.TAUTO_SENC.Name = "TAUTO_SENC"
         Me.TAUTO_SENC.Size = New System.Drawing.Size(93, 20)
         Me.TAUTO_SENC.TabIndex = 15
@@ -342,7 +354,7 @@ Partial Class FrmTabRutasHojaAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TKM.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TKM.Location = New System.Drawing.Point(132, 289)
+        Me.TKM.Location = New System.Drawing.Point(120, 289)
         Me.TKM.Name = "TKM"
         Me.TKM.Size = New System.Drawing.Size(93, 20)
         Me.TKM.TabIndex = 14
@@ -356,7 +368,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt16.AutoSize = True
         Me.Lt16.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt16.Location = New System.Drawing.Point(48, 319)
+        Me.Lt16.Location = New System.Drawing.Point(36, 319)
         Me.Lt16.Name = "Lt16"
         Me.Lt16.Size = New System.Drawing.Size(78, 15)
         Me.Lt16.TabIndex = 469
@@ -366,7 +378,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt14.AutoSize = True
         Me.Lt14.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt14.Location = New System.Drawing.Point(100, 294)
+        Me.Lt14.Location = New System.Drawing.Point(88, 294)
         Me.Lt14.Name = "Lt14"
         Me.Lt14.Size = New System.Drawing.Size(26, 16)
         Me.Lt14.TabIndex = 468
@@ -376,7 +388,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt17.AutoSize = True
         Me.Lt17.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt17.Location = New System.Drawing.Point(89, 343)
+        Me.Lt17.Location = New System.Drawing.Point(77, 343)
         Me.Lt17.Name = "Lt17"
         Me.Lt17.Size = New System.Drawing.Size(37, 15)
         Me.Lt17.TabIndex = 476
@@ -388,7 +400,7 @@ Partial Class FrmTabRutasHojaAE
         Me.LtAUTO_SENC_LTS.BackColor = System.Drawing.Color.FromArgb(CType(CType(234, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.LtAUTO_SENC_LTS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtAUTO_SENC_LTS.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtAUTO_SENC_LTS.Location = New System.Drawing.Point(132, 339)
+        Me.LtAUTO_SENC_LTS.Location = New System.Drawing.Point(120, 339)
         Me.LtAUTO_SENC_LTS.Name = "LtAUTO_SENC_LTS"
         Me.LtAUTO_SENC_LTS.Size = New System.Drawing.Size(93, 20)
         Me.LtAUTO_SENC_LTS.TabIndex = 16
@@ -591,7 +603,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt28.AutoSize = True
         Me.Lt28.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt28.Location = New System.Drawing.Point(547, 469)
+        Me.Lt28.Location = New System.Drawing.Point(547, 470)
         Me.Lt28.Name = "Lt28"
         Me.Lt28.Size = New System.Drawing.Size(65, 15)
         Me.Lt28.TabIndex = 486
@@ -642,9 +654,9 @@ Partial Class FrmTabRutasHojaAE
         Me.TCLIE_OP_D.AcceptsTab = True
         Me.TCLIE_OP_D.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCLIE_OP_D.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCLIE_OP_D.Location = New System.Drawing.Point(713, 186)
+        Me.TCLIE_OP_D.Location = New System.Drawing.Point(732, 183)
         Me.TCLIE_OP_D.Name = "TCLIE_OP_D"
-        Me.TCLIE_OP_D.Size = New System.Drawing.Size(315, 21)
+        Me.TCLIE_OP_D.Size = New System.Drawing.Size(303, 21)
         Me.TCLIE_OP_D.TabIndex = 8
         '
         'TCLIE_OP
@@ -653,9 +665,9 @@ Partial Class FrmTabRutasHojaAE
         Me.TCLIE_OP.AcceptsTab = True
         Me.TCLIE_OP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCLIE_OP.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCLIE_OP.Location = New System.Drawing.Point(228, 151)
+        Me.TCLIE_OP.Location = New System.Drawing.Point(216, 149)
         Me.TCLIE_OP.Name = "TCLIE_OP"
-        Me.TCLIE_OP.Size = New System.Drawing.Size(800, 21)
+        Me.TCLIE_OP.Size = New System.Drawing.Size(823, 21)
         Me.TCLIE_OP.TabIndex = 4
         '
         'TCLIE_OP_O
@@ -664,16 +676,16 @@ Partial Class FrmTabRutasHojaAE
         Me.TCLIE_OP_O.AcceptsTab = True
         Me.TCLIE_OP_O.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCLIE_OP_O.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCLIE_OP_O.Location = New System.Drawing.Point(228, 186)
+        Me.TCLIE_OP_O.Location = New System.Drawing.Point(216, 183)
         Me.TCLIE_OP_O.Name = "TCLIE_OP_O"
-        Me.TCLIE_OP_O.Size = New System.Drawing.Size(245, 21)
+        Me.TCLIE_OP_O.Size = New System.Drawing.Size(301, 21)
         Me.TCLIE_OP_O.TabIndex = 6
         '
         'Label26
         '
         Me.Label26.AutoSize = True
         Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label26.Location = New System.Drawing.Point(65, 489)
+        Me.Label26.Location = New System.Drawing.Point(53, 489)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(61, 15)
         Me.Label26.TabIndex = 529
@@ -700,7 +712,7 @@ Partial Class FrmTabRutasHojaAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TLITROS_RUTA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TLITROS_RUTA.Location = New System.Drawing.Point(132, 490)
+        Me.TLITROS_RUTA.Location = New System.Drawing.Point(120, 490)
         Me.TLITROS_RUTA.Name = "TLITROS_RUTA"
         Me.TLITROS_RUTA.Size = New System.Drawing.Size(75, 19)
         Me.TLITROS_RUTA.TabIndex = 18
@@ -714,7 +726,7 @@ Partial Class FrmTabRutasHojaAE
         Me.TCVE_GASOL.AcceptsTab = True
         Me.TCVE_GASOL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCVE_GASOL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCVE_GASOL.Location = New System.Drawing.Point(132, 440)
+        Me.TCVE_GASOL.Location = New System.Drawing.Point(120, 440)
         Me.TCVE_GASOL.MaxLength = 9
         Me.TCVE_GASOL.Name = "TCVE_GASOL"
         Me.TCVE_GASOL.Size = New System.Drawing.Size(50, 21)
@@ -724,7 +736,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Label28.AutoSize = True
         Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(59, 441)
+        Me.Label28.Location = New System.Drawing.Point(47, 441)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(67, 15)
         Me.Label28.TabIndex = 526
@@ -734,7 +746,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt12.AutoSize = True
         Me.Lt12.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt12.Location = New System.Drawing.Point(42, 266)
+        Me.Lt12.Location = New System.Drawing.Point(30, 266)
         Me.Lt12.Name = "Lt12"
         Me.Lt12.Size = New System.Drawing.Size(84, 15)
         Me.Lt12.TabIndex = 502
@@ -745,7 +757,7 @@ Partial Class FrmTabRutasHojaAE
         Me.LtCaseXRuta.BackColor = System.Drawing.Color.FromArgb(CType(CType(234, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.LtCaseXRuta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtCaseXRuta.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtCaseXRuta.Location = New System.Drawing.Point(228, 263)
+        Me.LtCaseXRuta.Location = New System.Drawing.Point(216, 263)
         Me.LtCaseXRuta.Name = "LtCaseXRuta"
         Me.LtCaseXRuta.Size = New System.Drawing.Size(245, 21)
         Me.LtCaseXRuta.TabIndex = 501
@@ -756,7 +768,7 @@ Partial Class FrmTabRutasHojaAE
         Me.TCVE_CXR.AcceptsTab = True
         Me.TCVE_CXR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCVE_CXR.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCVE_CXR.Location = New System.Drawing.Point(132, 262)
+        Me.TCVE_CXR.Location = New System.Drawing.Point(120, 262)
         Me.TCVE_CXR.Name = "TCVE_CXR"
         Me.TCVE_CXR.Size = New System.Drawing.Size(67, 22)
         Me.TCVE_CXR.TabIndex = 13
@@ -765,7 +777,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt7.AutoSize = True
         Me.Lt7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt7.Location = New System.Drawing.Point(514, 213)
+        Me.Lt7.Location = New System.Drawing.Point(536, 213)
         Me.Lt7.Name = "Lt7"
         Me.Lt7.Size = New System.Drawing.Size(99, 15)
         Me.Lt7.TabIndex = 456
@@ -775,7 +787,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt1.AutoSize = True
         Me.Lt1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt1.Location = New System.Drawing.Point(65, 75)
+        Me.Lt1.Location = New System.Drawing.Point(53, 75)
         Me.Lt1.Name = "Lt1"
         Me.Lt1.Size = New System.Drawing.Size(61, 15)
         Me.Lt1.TabIndex = 517
@@ -785,7 +797,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt27.AutoSize = True
         Me.Lt27.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt27.Location = New System.Drawing.Point(77, 416)
+        Me.Lt27.Location = New System.Drawing.Point(65, 416)
         Me.Lt27.Name = "Lt27"
         Me.Lt27.Size = New System.Drawing.Size(49, 15)
         Me.Lt27.TabIndex = 523
@@ -797,7 +809,7 @@ Partial Class FrmTabRutasHojaAE
         Me.tCVE_GASTO.AcceptsTab = True
         Me.tCVE_GASTO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.tCVE_GASTO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tCVE_GASTO.Location = New System.Drawing.Point(132, 364)
+        Me.tCVE_GASTO.Location = New System.Drawing.Point(120, 364)
         Me.tCVE_GASTO.MaxLength = 10
         Me.tCVE_GASTO.Name = "tCVE_GASTO"
         Me.tCVE_GASTO.Size = New System.Drawing.Size(50, 21)
@@ -823,7 +835,7 @@ Partial Class FrmTabRutasHojaAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TIMPORTE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TIMPORTE.Location = New System.Drawing.Point(132, 416)
+        Me.TIMPORTE.Location = New System.Drawing.Point(120, 416)
         Me.TIMPORTE.Name = "TIMPORTE"
         Me.TIMPORTE.Size = New System.Drawing.Size(105, 19)
         Me.TIMPORTE.TabIndex = 17
@@ -837,7 +849,7 @@ Partial Class FrmTabRutasHojaAE
         Me.LtGastos.BackColor = System.Drawing.Color.FromArgb(CType(CType(234, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.LtGastos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtGastos.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtGastos.Location = New System.Drawing.Point(132, 390)
+        Me.LtGastos.Location = New System.Drawing.Point(120, 390)
         Me.LtGastos.Name = "LtGastos"
         Me.LtGastos.Size = New System.Drawing.Size(259, 21)
         Me.LtGastos.TabIndex = 522
@@ -846,7 +858,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Lt24.AutoSize = True
         Me.Lt24.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt24.Location = New System.Drawing.Point(53, 366)
+        Me.Lt24.Location = New System.Drawing.Point(41, 366)
         Me.Lt24.Name = "Lt24"
         Me.Lt24.Size = New System.Drawing.Size(73, 15)
         Me.Lt24.TabIndex = 520
@@ -857,7 +869,7 @@ Partial Class FrmTabRutasHojaAE
         Me.LtGasolinera.BackColor = System.Drawing.Color.FromArgb(CType(CType(234, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.LtGasolinera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtGasolinera.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtGasolinera.Location = New System.Drawing.Point(132, 466)
+        Me.LtGasolinera.Location = New System.Drawing.Point(120, 466)
         Me.LtGasolinera.Name = "LtGasolinera"
         Me.LtGasolinera.Size = New System.Drawing.Size(259, 19)
         Me.LtGasolinera.TabIndex = 528
@@ -866,7 +878,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(54, 392)
+        Me.Label5.Location = New System.Drawing.Point(42, 392)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(72, 15)
         Me.Label5.TabIndex = 538
@@ -876,7 +888,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(74, 466)
+        Me.Label6.Location = New System.Drawing.Point(62, 466)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(52, 15)
         Me.Label6.TabIndex = 539
@@ -887,7 +899,7 @@ Partial Class FrmTabRutasHojaAE
         Me.BtnGasolinera.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnGasolinera.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnGasolinera.Image = CType(resources.GetObject("BtnGasolinera.Image"), System.Drawing.Image)
-        Me.BtnGasolinera.Location = New System.Drawing.Point(183, 440)
+        Me.BtnGasolinera.Location = New System.Drawing.Point(171, 440)
         Me.BtnGasolinera.Name = "BtnGasolinera"
         Me.BtnGasolinera.Size = New System.Drawing.Size(24, 23)
         Me.BtnGasolinera.TabIndex = 527
@@ -898,7 +910,7 @@ Partial Class FrmTabRutasHojaAE
         Me.BtnGastosViaje.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnGastosViaje.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnGastosViaje.Image = CType(resources.GetObject("BtnGastosViaje.Image"), System.Drawing.Image)
-        Me.BtnGastosViaje.Location = New System.Drawing.Point(183, 365)
+        Me.BtnGastosViaje.Location = New System.Drawing.Point(171, 363)
         Me.BtnGastosViaje.Name = "BtnGastosViaje"
         Me.BtnGastosViaje.Size = New System.Drawing.Size(24, 23)
         Me.BtnGastosViaje.TabIndex = 521
@@ -909,7 +921,7 @@ Partial Class FrmTabRutasHojaAE
         Me.BtnCasetasXRuta.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnCasetasXRuta.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnCasetasXRuta.Image = CType(resources.GetObject("BtnCasetasXRuta.Image"), System.Drawing.Image)
-        Me.BtnCasetasXRuta.Location = New System.Drawing.Point(201, 261)
+        Me.BtnCasetasXRuta.Location = New System.Drawing.Point(189, 261)
         Me.BtnCasetasXRuta.Name = "BtnCasetasXRuta"
         Me.BtnCasetasXRuta.Size = New System.Drawing.Size(24, 23)
         Me.BtnCasetasXRuta.TabIndex = 503
@@ -920,7 +932,7 @@ Partial Class FrmTabRutasHojaAE
         Me.BtnClie_Op2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnClie_Op2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnClie_Op2.Image = CType(resources.GetObject("BtnClie_Op2.Image"), System.Drawing.Image)
-        Me.BtnClie_Op2.Location = New System.Drawing.Point(201, 184)
+        Me.BtnClie_Op2.Location = New System.Drawing.Point(188, 183)
         Me.BtnClie_Op2.Name = "BtnClie_Op2"
         Me.BtnClie_Op2.Size = New System.Drawing.Size(24, 23)
         Me.BtnClie_Op2.TabIndex = 452
@@ -931,7 +943,7 @@ Partial Class FrmTabRutasHojaAE
         Me.BtnClie_Op3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnClie_Op3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnClie_Op3.Image = CType(resources.GetObject("BtnClie_Op3.Image"), System.Drawing.Image)
-        Me.BtnClie_Op3.Location = New System.Drawing.Point(687, 186)
+        Me.BtnClie_Op3.Location = New System.Drawing.Point(707, 182)
         Me.BtnClie_Op3.Name = "BtnClie_Op3"
         Me.BtnClie_Op3.Size = New System.Drawing.Size(24, 23)
         Me.BtnClie_Op3.TabIndex = 453
@@ -941,7 +953,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.BtnClie_Op1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnClie_Op1.Image = CType(resources.GetObject("BtnClie_Op1.Image"), System.Drawing.Image)
-        Me.BtnClie_Op1.Location = New System.Drawing.Point(201, 151)
+        Me.BtnClie_Op1.Location = New System.Drawing.Point(188, 150)
         Me.BtnClie_Op1.Name = "BtnClie_Op1"
         Me.BtnClie_Op1.Size = New System.Drawing.Size(24, 21)
         Me.BtnClie_Op1.TabIndex = 445
@@ -1077,16 +1089,16 @@ Partial Class FrmTabRutasHojaAE
         Me.TDESCR.AcceptsTab = True
         Me.TDESCR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TDESCR.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TDESCR.Location = New System.Drawing.Point(132, 100)
+        Me.TDESCR.Location = New System.Drawing.Point(120, 99)
         Me.TDESCR.Name = "TDESCR"
-        Me.TDESCR.Size = New System.Drawing.Size(896, 21)
+        Me.TDESCR.Size = New System.Drawing.Size(918, 21)
         Me.TDESCR.TabIndex = 1
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(40, 100)
+        Me.Label1.Location = New System.Drawing.Point(28, 100)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(86, 15)
         Me.Label1.TabIndex = 563
@@ -1096,7 +1108,7 @@ Partial Class FrmTabRutasHojaAE
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(40, 124)
+        Me.Label2.Location = New System.Drawing.Point(28, 124)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(86, 15)
         Me.Label2.TabIndex = 565
@@ -1108,16 +1120,186 @@ Partial Class FrmTabRutasHojaAE
         Me.TDESCR2.AcceptsTab = True
         Me.TDESCR2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TDESCR2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TDESCR2.Location = New System.Drawing.Point(132, 124)
+        Me.TDESCR2.Location = New System.Drawing.Point(120, 124)
         Me.TDESCR2.Name = "TDESCR2"
-        Me.TDESCR2.Size = New System.Drawing.Size(896, 21)
+        Me.TDESCR2.Size = New System.Drawing.Size(918, 21)
         Me.TDESCR2.TabIndex = 2
+        '
+        'TPORC_MANIOBRA_FULL
+        '
+        Me.TPORC_MANIOBRA_FULL.AcceptsReturn = True
+        Me.TPORC_MANIOBRA_FULL.AcceptsTab = True
+        Me.TPORC_MANIOBRA_FULL.BackColor = System.Drawing.Color.FromArgb(CType(CType(234, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.TPORC_MANIOBRA_FULL.BorderColor = System.Drawing.SystemColors.WindowFrame
+        Me.TPORC_MANIOBRA_FULL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TPORC_MANIOBRA_FULL.CustomFormat = "###,###,##0.00"
+        Me.TPORC_MANIOBRA_FULL.DataType = GetType(Decimal)
+        Me.TPORC_MANIOBRA_FULL.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(183, Byte), Integer), CType(CType(183, Byte), Integer), CType(CType(183, Byte), Integer))
+        Me.TPORC_MANIOBRA_FULL.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TPORC_MANIOBRA_FULL.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TPORC_MANIOBRA_FULL.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TPORC_MANIOBRA_FULL.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TPORC_MANIOBRA_FULL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TPORC_MANIOBRA_FULL.Location = New System.Drawing.Point(883, 419)
+        Me.TPORC_MANIOBRA_FULL.Name = "TPORC_MANIOBRA_FULL"
+        Me.TPORC_MANIOBRA_FULL.Size = New System.Drawing.Size(37, 19)
+        Me.TPORC_MANIOBRA_FULL.TabIndex = 566
+        Me.TPORC_MANIOBRA_FULL.Tag = Nothing
+        Me.TPORC_MANIOBRA_FULL.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TPORC_MANIOBRA_FULL.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(741, 445)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(136, 15)
+        Me.Label3.TabIndex = 569
+        Me.Label3.Text = "Porc. maniobra sencillo"
+        '
+        'TPORC_MANIOBRA_SENC
+        '
+        Me.TPORC_MANIOBRA_SENC.AcceptsReturn = True
+        Me.TPORC_MANIOBRA_SENC.AcceptsTab = True
+        Me.TPORC_MANIOBRA_SENC.BackColor = System.Drawing.Color.FromArgb(CType(CType(234, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.TPORC_MANIOBRA_SENC.BorderColor = System.Drawing.SystemColors.WindowFrame
+        Me.TPORC_MANIOBRA_SENC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TPORC_MANIOBRA_SENC.CustomFormat = "###,###,##0.00"
+        Me.TPORC_MANIOBRA_SENC.DataType = GetType(Decimal)
+        Me.TPORC_MANIOBRA_SENC.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(183, Byte), Integer), CType(CType(183, Byte), Integer), CType(CType(183, Byte), Integer))
+        Me.TPORC_MANIOBRA_SENC.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TPORC_MANIOBRA_SENC.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TPORC_MANIOBRA_SENC.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TPORC_MANIOBRA_SENC.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TPORC_MANIOBRA_SENC.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TPORC_MANIOBRA_SENC.Location = New System.Drawing.Point(883, 443)
+        Me.TPORC_MANIOBRA_SENC.Name = "TPORC_MANIOBRA_SENC"
+        Me.TPORC_MANIOBRA_SENC.Size = New System.Drawing.Size(37, 19)
+        Me.TPORC_MANIOBRA_SENC.TabIndex = 567
+        Me.TPORC_MANIOBRA_SENC.Tag = Nothing
+        Me.TPORC_MANIOBRA_SENC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TPORC_MANIOBRA_SENC.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(767, 421)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(110, 15)
+        Me.Label4.TabIndex = 568
+        Me.Label4.Text = "Porc. maniobra full"
+        '
+        'TSUELDO_MANIOBRA_SENC
+        '
+        Me.TSUELDO_MANIOBRA_SENC.AcceptsReturn = True
+        Me.TSUELDO_MANIOBRA_SENC.AcceptsTab = True
+        Me.TSUELDO_MANIOBRA_SENC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TSUELDO_MANIOBRA_SENC.CustomFormat = "###,###,##0.00"
+        Me.TSUELDO_MANIOBRA_SENC.DataType = GetType(Decimal)
+        Me.TSUELDO_MANIOBRA_SENC.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TSUELDO_MANIOBRA_SENC.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TSUELDO_MANIOBRA_SENC.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TSUELDO_MANIOBRA_SENC.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TSUELDO_MANIOBRA_SENC.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TSUELDO_MANIOBRA_SENC.Location = New System.Drawing.Point(883, 492)
+        Me.TSUELDO_MANIOBRA_SENC.Name = "TSUELDO_MANIOBRA_SENC"
+        Me.TSUELDO_MANIOBRA_SENC.ReadOnly = True
+        Me.TSUELDO_MANIOBRA_SENC.Size = New System.Drawing.Size(105, 20)
+        Me.TSUELDO_MANIOBRA_SENC.TabIndex = 571
+        Me.TSUELDO_MANIOBRA_SENC.Tag = Nothing
+        Me.TSUELDO_MANIOBRA_SENC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TSUELDO_MANIOBRA_SENC.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.TSUELDO_MANIOBRA_SENC.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'TSUELDO_MANIOBRA_FULL
+        '
+        Me.TSUELDO_MANIOBRA_FULL.AcceptsReturn = True
+        Me.TSUELDO_MANIOBRA_FULL.AcceptsTab = True
+        Me.TSUELDO_MANIOBRA_FULL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TSUELDO_MANIOBRA_FULL.CustomFormat = "###,###,##0.00"
+        Me.TSUELDO_MANIOBRA_FULL.DataType = GetType(Decimal)
+        Me.TSUELDO_MANIOBRA_FULL.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TSUELDO_MANIOBRA_FULL.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TSUELDO_MANIOBRA_FULL.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TSUELDO_MANIOBRA_FULL.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TSUELDO_MANIOBRA_FULL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TSUELDO_MANIOBRA_FULL.Location = New System.Drawing.Point(883, 467)
+        Me.TSUELDO_MANIOBRA_FULL.Name = "TSUELDO_MANIOBRA_FULL"
+        Me.TSUELDO_MANIOBRA_FULL.ReadOnly = True
+        Me.TSUELDO_MANIOBRA_FULL.Size = New System.Drawing.Size(105, 20)
+        Me.TSUELDO_MANIOBRA_FULL.TabIndex = 570
+        Me.TSUELDO_MANIOBRA_FULL.Tag = Nothing
+        Me.TSUELDO_MANIOBRA_FULL.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TSUELDO_MANIOBRA_FULL.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.TSUELDO_MANIOBRA_FULL.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(730, 494)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(147, 15)
+        Me.Label7.TabIndex = 573
+        Me.Label7.Text = "Sueldo maniobra sencillo"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(756, 470)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(121, 15)
+        Me.Label8.TabIndex = 572
+        Me.Label8.Text = "Sueldo maniobra full"
         '
         'FrmTabRutasHojaAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1038, 541)
+        Me.ClientSize = New System.Drawing.Size(1051, 541)
+        Me.Controls.Add(Me.TSUELDO_MANIOBRA_SENC)
+        Me.Controls.Add(Me.TSUELDO_MANIOBRA_FULL)
+        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.TPORC_MANIOBRA_FULL)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.TPORC_MANIOBRA_SENC)
+        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.TDESCR2)
         Me.Controls.Add(Me.Label1)
@@ -1211,6 +1393,10 @@ Partial Class FrmTabRutasHojaAE
         CType(Me.TTAR_OPER_FULL, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TPORC_SUELDO_FULL, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TPORC_SUELDO_SENC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TPORC_MANIOBRA_FULL, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TPORC_MANIOBRA_SENC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TSUELDO_MANIOBRA_SENC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TSUELDO_MANIOBRA_FULL, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1287,4 +1473,12 @@ Partial Class FrmTabRutasHojaAE
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents TDESCR2 As TextBox
+    Friend WithEvents TPORC_MANIOBRA_FULL As C1.Win.C1Input.C1TextBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents TPORC_MANIOBRA_SENC As C1.Win.C1Input.C1TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents TSUELDO_MANIOBRA_SENC As C1.Win.C1Input.C1TextBox
+    Friend WithEvents TSUELDO_MANIOBRA_FULL As C1.Win.C1Input.C1TextBox
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Label8 As Label
 End Class

@@ -41,7 +41,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.LOper = New System.Windows.Forms.Label()
         Me.TCVE_OPER = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.BtnOper = New C1.Win.C1Input.C1Button()
         Me.Label47 = New System.Windows.Forms.Label()
         Me.Label49 = New System.Windows.Forms.Label()
         Me.LtVigencia = New System.Windows.Forms.Label()
@@ -81,7 +80,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TPLAZAFG = New System.Windows.Forms.TextBox()
         Me.LtPlazaFG = New System.Windows.Forms.Label()
         Me.FIFG = New C1.Win.Calendar.C1DateEdit()
-        Me.BtnPlazaFG = New System.Windows.Forms.Button()
         Me.Label76 = New System.Windows.Forms.Label()
         Me.SplitM1P2 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.SplitM1P1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
@@ -132,9 +130,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Box1 = New System.Windows.Forms.GroupBox()
         Me.ChCalleFiscal = New C1.Win.C1Input.C1CheckBox()
         Me.LtRecogerEn = New System.Windows.Forms.Label()
-        Me.BtnRecogerEn = New System.Windows.Forms.Button()
         Me.Label21 = New System.Windows.Forms.Label()
-        Me.BtnCLAVE_REM = New System.Windows.Forms.Button()
         Me.LtRFC = New System.Windows.Forms.Label()
         Me.LtNota = New System.Windows.Forms.Label()
         Me.LtPlanta = New System.Windows.Forms.Label()
@@ -156,8 +152,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Box2 = New System.Windows.Forms.GroupBox()
         Me.LtRFC2 = New System.Windows.Forms.Label()
         Me.LtEntregarEn = New System.Windows.Forms.Label()
-        Me.BtnEntregarEn = New System.Windows.Forms.Button()
-        Me.BtnCLAVE_DEST = New System.Windows.Forms.Button()
         Me.F2 = New C1.Win.Calendar.C1DateEdit()
         Me.Label23 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
@@ -177,32 +171,14 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label17 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.Label20 = New System.Windows.Forms.Label()
-        Me.BtnTanqueEdit2 = New C1.Win.C1Input.C1Button()
-        Me.BtnTanque2 = New C1.Win.C1Input.C1Button()
-        Me.BtnTanqueEdit1 = New C1.Win.C1Input.C1Button()
-        Me.BtnTanque1 = New C1.Win.C1Input.C1Button()
-        Me.BtnTractorEdit = New C1.Win.C1Input.C1Button()
-        Me.BtnDollyEdit = New C1.Win.C1Input.C1Button()
-        Me.BtnTractor = New C1.Win.C1Input.C1Button()
-        Me.BtnDolly = New C1.Win.C1Input.C1Button()
-        Me.BtnTabRutaViajes = New System.Windows.Forms.Button()
-        Me.BtnMoneda = New C1.Win.C1Input.C1Button()
-        Me.BtnCliente = New C1.Win.C1Input.C1Button()
         Me.Pag3 = New C1.Win.C1Command.C1DockingTabPage()
         Me.BoxGastos = New System.Windows.Forms.GroupBox()
         Me.LtOp1 = New System.Windows.Forms.Label()
-        Me.BarVales = New C1.Win.C1Input.C1Button()
         Me.LtNoViaje = New System.Windows.Forms.Label()
-        Me.BarImprimirGasto = New C1.Win.C1Input.C1Button()
-        Me.BtnGastosAlta = New C1.Win.C1Input.C1Button()
         Me.Label26 = New System.Windows.Forms.Label()
-        Me.FgG = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.Label34 = New System.Windows.Forms.Label()
-        Me.BtnGastosBaja = New C1.Win.C1Input.C1Button()
         Me.FgV = New C1.Win.C1FlexGrid.C1FlexGrid()
-        Me.BtnValesBaja = New C1.Win.C1Input.C1Button()
         Me.Label27 = New System.Windows.Forms.Label()
-        Me.BtnValesAlta = New C1.Win.C1Input.C1Button()
         Me.LtOp2 = New System.Windows.Forms.Label()
         Me.Label36 = New System.Windows.Forms.Label()
         Me.Pag6 = New C1.Win.C1Command.C1DockingTabPage()
@@ -228,8 +204,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.SplitM4P1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.CboCarga = New C1.Win.C1Input.C1ComboBox()
         Me.BtnCopiarCargas = New C1.Win.C1Input.C1Button()
-        Me.BtnAgregar = New C1.Win.C1Input.C1Button()
-        Me.BtnEliminar = New C1.Win.C1Input.C1Button()
         Me.SplitM4P2 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.FgCarga = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.TXTC = New C1.Win.C1Input.C1TextBox()
@@ -241,26 +215,20 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label25 = New System.Windows.Forms.Label()
         Me.Label28 = New System.Windows.Forms.Label()
         Me.CboSerieFactura = New C1.Win.C1Input.C1ComboBox()
-        Me.BtnEsquema = New C1.Win.C1Input.C1Button()
         Me.TCVE_ESQIMPU = New System.Windows.Forms.TextBox()
         Me.LtEsquema = New System.Windows.Forms.Label()
         Me.LtSerieF = New System.Windows.Forms.Label()
         Me.Label24 = New System.Windows.Forms.Label()
-        Me.BtnCveUnidad = New C1.Win.C1Input.C1Button()
-        Me.BtnCveProd = New C1.Win.C1Input.C1Button()
         Me.LtFolioF = New System.Windows.Forms.Label()
         Me.TCVE_UNIDAD = New C1.Win.C1Input.C1TextBox()
         Me.TCVE_PRODSERV = New C1.Win.C1Input.C1TextBox()
         Me.TFOLIO = New C1.Win.C1Input.C1NumericEdit()
         Me.RadPrecioXViaje = New System.Windows.Forms.RadioButton()
         Me.RadPrecioXTonelada = New System.Windows.Forms.RadioButton()
-        Me.BarMetodoPago = New C1.Win.C1Input.C1Button()
         Me.TMETODODEPAGO = New System.Windows.Forms.TextBox()
         Me.Label64 = New System.Windows.Forms.Label()
         Me.Label57 = New System.Windows.Forms.Label()
         Me.TUSO_CFDI = New System.Windows.Forms.TextBox()
-        Me.BtnUsoCFDI = New C1.Win.C1Input.C1Button()
-        Me.BtnPagoSAT = New C1.Win.C1Input.C1Button()
         Me.Label60 = New System.Windows.Forms.Label()
         Me.TFORMADEPAGOSAT = New System.Windows.Forms.TextBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -356,18 +324,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.CboConc5 = New C1.Win.C1Input.C1ComboBox()
         Me.CboConc2 = New C1.Win.C1Input.C1ComboBox()
         Me.CboConc3 = New C1.Win.C1Input.C1ComboBox()
-        Me.BtnCveUni6 = New C1.Win.C1Input.C1Button()
-        Me.BtnProdServ6 = New C1.Win.C1Input.C1Button()
-        Me.BtnCveUni4 = New C1.Win.C1Input.C1Button()
-        Me.BtnCveUni2 = New C1.Win.C1Input.C1Button()
-        Me.BtnCveUni1 = New C1.Win.C1Input.C1Button()
-        Me.BtnCveUni5 = New C1.Win.C1Input.C1Button()
-        Me.BtnCveUni3 = New C1.Win.C1Input.C1Button()
-        Me.BtnProdServ4 = New C1.Win.C1Input.C1Button()
-        Me.BtnProdServ2 = New C1.Win.C1Input.C1Button()
-        Me.BtnProdServ1 = New C1.Win.C1Input.C1Button()
-        Me.BtnProdServ5 = New C1.Win.C1Input.C1Button()
-        Me.BtnProdServ3 = New C1.Win.C1Input.C1Button()
         Me.Pag8 = New C1.Win.C1Command.C1DockingTabPage()
         Me.SplitM2 = New C1.Win.C1SplitContainer.C1SplitContainer()
         Me.SplitM2P1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
@@ -379,25 +335,19 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label103 = New System.Windows.Forms.Label()
         Me.TPAIS = New System.Windows.Forms.TextBox()
         Me.Label101 = New System.Windows.Forms.Label()
-        Me.BtnPaisAdenda = New C1.Win.C1Input.C1Button()
         Me.Label102 = New System.Windows.Forms.Label()
         Me.TNUM_EXP_CONFIABLE = New System.Windows.Forms.TextBox()
         Me.Label99 = New System.Windows.Forms.Label()
-        Me.BtnNumExpCon = New C1.Win.C1Input.C1Button()
         Me.Label100 = New System.Windows.Forms.Label()
         Me.TTIPO_OPERACION = New System.Windows.Forms.TextBox()
         Me.Label81 = New System.Windows.Forms.Label()
-        Me.BtnTipoOper = New C1.Win.C1Input.C1Button()
         Me.Label84 = New System.Windows.Forms.Label()
         Me.TUNIDAD_ADUANA = New System.Windows.Forms.TextBox()
         Me.Label78 = New System.Windows.Forms.Label()
-        Me.BtnUniAduana = New C1.Win.C1Input.C1Button()
         Me.TMOT_TRASLADO = New System.Windows.Forms.TextBox()
         Me.Label71 = New System.Windows.Forms.Label()
-        Me.BtnMotTras = New C1.Win.C1Input.C1Button()
         Me.TINCOTERM = New System.Windows.Forms.TextBox()
         Me.Label53 = New System.Windows.Forms.Label()
-        Me.BtnINCOTERM = New C1.Win.C1Input.C1Button()
         Me.Label92 = New System.Windows.Forms.Label()
         Me.Label97 = New System.Windows.Forms.Label()
         Me.Label83 = New System.Windows.Forms.Label()
@@ -409,12 +359,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label65 = New System.Windows.Forms.Label()
         Me.StiReport1 = New Stimulsoft.Report.StiReport()
         Me.MenuHolder = New C1.Win.C1Command.C1CommandHolder()
-        Me.BarGrabar = New C1.Win.C1Command.C1Command()
-        Me.BarImprimir = New C1.Win.C1Command.C1Command()
-        Me.BarCopiarViaje = New C1.Win.C1Command.C1Command()
-        Me.BarSalir = New C1.Win.C1Command.C1Command()
-        Me.BarEditarRemitente = New C1.Win.C1Command.C1Command()
-        Me.BarEditDestinatario = New C1.Win.C1Command.C1Command()
         Me.C1CommandControl1 = New C1.Win.C1Command.C1CommandControl()
         Me.C1ToolBar1 = New C1.Win.C1Command.C1ToolBar()
         Me.LkGrabar = New C1.Win.C1Command.C1CommandLink()
@@ -428,205 +372,262 @@ Partial Class FrmAsigViajeBuenoAE
         Me.C1SplitterPanel1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.Label45 = New System.Windows.Forms.Label()
         Me.TFOLIO_VIAJE = New C1.Win.C1Input.C1TextBox()
+        Me.C1XLBook1 = New C1.C1Excel.C1XLBook()
         Me.BtnSelViaje = New System.Windows.Forms.Button()
-        CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Box5.SuspendLayout()
-        CType(Me.FRD, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FRC, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnOper, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Box4.SuspendLayout()
-        CType(Me.TAB1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TAB1.SuspendLayout()
-        Me.Pag0.SuspendLayout()
-        CType(Me.SplitM1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitM1.SuspendLayout()
-        Me.SplitM1P3.SuspendLayout()
-        CType(Me.TFOLIOFG, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CboSerieFG, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FFG, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TDIAS_CRED, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FPDFG, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FIFG, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitM1P1.SuspendLayout()
-        CType(Me.FgViajes, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TNETO2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TRETE2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TSUBT2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TIVA2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Pag1.SuspendLayout()
-        CType(Me.ChComplemento, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TKMS_VACIO, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TTIPO_CAMBIO, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TVOLUMEN_PESO, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FECHA, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Box1.SuspendLayout()
-        CType(Me.ChCalleFiscal, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Box2.SuspendLayout()
-        CType(Me.F2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnTanqueEdit2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnTanque2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnTanqueEdit1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnTanque1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnTractorEdit, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnDollyEdit, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnTractor, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnDolly, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnMoneda, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCliente, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Pag3.SuspendLayout()
-        Me.BoxGastos.SuspendLayout()
-        CType(Me.BarVales, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BarImprimirGasto, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnGastosAlta, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FgG, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnGastosBaja, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FgV, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnValesBaja, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnValesAlta, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Pag6.SuspendLayout()
-        CType(Me.SplitM3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitM3.SuspendLayout()
-        Me.SplitM3P1.SuspendLayout()
-        CType(Me.ChHeader, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCopiarMercancias, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnExportarExcel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnImportarExcel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnBorrarMercancias, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CboHojas, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitM3P2.SuspendLayout()
-        CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Pag4.SuspendLayout()
-        CType(Me.SplitM4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitM4.SuspendLayout()
-        Me.SplitM4P1.SuspendLayout()
-        CType(Me.CboCarga, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCopiarCargas, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnAgregar, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnEliminar, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitM4P2.SuspendLayout()
-        CType(Me.FgCarga, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TXTC, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TXTNC, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Pag7.SuspendLayout()
-        CType(Me.TABONO_NETO, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Gpo6.SuspendLayout()
-        CType(Me.CboSerieFactura, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnEsquema, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCveUnidad, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCveProd, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_UNIDAD, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_PRODSERV, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TFOLIO, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BarMetodoPago, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnUsoCFDI, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnPagoSAT, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
-        CType(Me.TFLETE, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TSUB_TOTAL, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TIVA, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TRET, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TNETO, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TIMPORTE_CONCEP, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_UNIDAD1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_PRODSERV1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GpoRem5.SuspendLayout()
-        CType(Me.TNETO_ABO3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TRET_ABO3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TIVA_ABO3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TSUBT_ABO3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TSALDO_NETO, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TSALDO_RET, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TNETO_O2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TNETO_O, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TSALDO_IVA, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TRET_O, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TRET_O2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TIVA_O, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TIVA_O2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TSALDO_SUBTOTAL, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TSUBT_O, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TSUBT_O2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CboConc1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TIVAC6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TIVAC5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TIVAC4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TIVAC3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TFLETEA, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TIVAC2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TIVAC1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TRET6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TRET5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TRET4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TRET3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TRET2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TRET1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChCAUSA_RET6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChCAUSA_IVA6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChCAUSA_RET5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChCAUSA_IVA5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChCAUSA_RET4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChCAUSA_IVA4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChCAUSA_RET3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChCAUSA_IVA3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChCAUSA_RET2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChCAUSA_IVA2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChCAUSA_RET1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChCAUSA_IVA1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_UNIDAD6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_PRODSERV6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_PRODSERV5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_UNIDAD5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_PRODSERV4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_PRODSERV3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_UNIDAD4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_PRODSERV2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_UNIDAD3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TMONTO6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TMONTO5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TCVE_UNIDAD2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TMONTO4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TMONTO3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TMONTO2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TMONTO1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CboConc6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CboConc4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CboConc5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CboConc2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CboConc3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCveUni6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnProdServ6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCveUni4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCveUni2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCveUni1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCveUni5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCveUni3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnProdServ4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnProdServ2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnProdServ1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnProdServ5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnProdServ3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Pag8.SuspendLayout()
-        CType(Me.SplitM2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitM2.SuspendLayout()
-        Me.SplitM2P1.SuspendLayout()
-        CType(Me.BtnCopiarCamposAdic, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitM2P2.SuspendLayout()
-        CType(Me.FgA, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.PagAdenda.SuspendLayout()
-        CType(Me.BtnPaisAdenda, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnNumExpCon, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnTipoOper, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnUniAduana, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnMotTras, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnINCOTERM, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TXTN, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TXT, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SplitMG, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitMG.SuspendLayout()
-        Me.SplitMG1.SuspendLayout()
-        CType(Me.TFOLIO_VIAJE, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
+        Me.BtnPlazaFG = New System.Windows.Forms.Button()
+        Me.BtnRecogerEn = New System.Windows.Forms.Button()
+        Me.BtnCLAVE_REM = New System.Windows.Forms.Button()
+        Me.BtnEntregarEn = New System.Windows.Forms.Button()
+        Me.BtnCLAVE_DEST = New System.Windows.Forms.Button()
+        Me.BtnOper = New C1.Win.C1Input.C1Button()
+        Me.BtnTanqueEdit2 = New C1.Win.C1Input.C1Button()
+        Me.BtnTanque2 = New C1.Win.C1Input.C1Button()
+        Me.BtnTanqueEdit1 = New C1.Win.C1Input.C1Button()
+        Me.BtnTanque1 = New C1.Win.C1Input.C1Button()
+        Me.BtnTractorEdit = New C1.Win.C1Input.C1Button()
+        Me.BtnDollyEdit = New C1.Win.C1Input.C1Button()
+        Me.BtnTractor = New C1.Win.C1Input.C1Button()
+        Me.BtnDolly = New C1.Win.C1Input.C1Button()
+        Me.BtnTabRutaViajes = New System.Windows.Forms.Button()
+        Me.BtnMoneda = New C1.Win.C1Input.C1Button()
+        Me.BtnCliente = New C1.Win.C1Input.C1Button()
+        Me.BarVales = New C1.Win.C1Input.C1Button()
+        Me.BarImprimirGasto = New C1.Win.C1Input.C1Button()
+        Me.BtnGastosAlta = New C1.Win.C1Input.C1Button()
+        Me.FgG = New C1.Win.C1FlexGrid.C1FlexGrid()
+        Me.BtnGastosBaja = New C1.Win.C1Input.C1Button()
+        Me.BtnValesBaja = New C1.Win.C1Input.C1Button()
+        Me.BtnValesAlta = New C1.Win.C1Input.C1Button()
+        Me.BtnAgregar = New C1.Win.C1Input.C1Button()
+        Me.BtnEliminar = New C1.Win.C1Input.C1Button()
+        Me.BtnEsquema = New C1.Win.C1Input.C1Button()
+        Me.BtnCveUnidad = New C1.Win.C1Input.C1Button()
+        Me.BtnCveProd = New C1.Win.C1Input.C1Button()
+        Me.BarMetodoPago = New C1.Win.C1Input.C1Button()
+        Me.BtnUsoCFDI = New C1.Win.C1Input.C1Button()
+        Me.BtnPagoSAT = New C1.Win.C1Input.C1Button()
+        Me.BtnCveUni6 = New C1.Win.C1Input.C1Button()
+        Me.BtnProdServ6 = New C1.Win.C1Input.C1Button()
+        Me.BtnCveUni4 = New C1.Win.C1Input.C1Button()
+        Me.BtnCveUni2 = New C1.Win.C1Input.C1Button()
+        Me.BtnCveUni1 = New C1.Win.C1Input.C1Button()
+        Me.BtnCveUni5 = New C1.Win.C1Input.C1Button()
+        Me.BtnCveUni3 = New C1.Win.C1Input.C1Button()
+        Me.BtnProdServ4 = New C1.Win.C1Input.C1Button()
+        Me.BtnProdServ2 = New C1.Win.C1Input.C1Button()
+        Me.BtnProdServ1 = New C1.Win.C1Input.C1Button()
+        Me.BtnProdServ5 = New C1.Win.C1Input.C1Button()
+        Me.BtnProdServ3 = New C1.Win.C1Input.C1Button()
+        Me.BtnPaisAdenda = New C1.Win.C1Input.C1Button()
+        Me.BtnNumExpCon = New C1.Win.C1Input.C1Button()
+        Me.BtnTipoOper = New C1.Win.C1Input.C1Button()
+        Me.BtnUniAduana = New C1.Win.C1Input.C1Button()
+        Me.BtnMotTras = New C1.Win.C1Input.C1Button()
+        Me.BtnINCOTERM = New C1.Win.C1Input.C1Button()
+        Me.BarGrabar = New C1.Win.C1Command.C1Command()
+        Me.BarCopiarViaje = New C1.Win.C1Command.C1Command()
+        Me.BarImprimir = New C1.Win.C1Command.C1Command()
+        Me.BarEditarRemitente = New C1.Win.C1Command.C1Command()
+        Me.BarEditDestinatario = New C1.Win.C1Command.C1Command()
+        Me.BarSalir = New C1.Win.C1Command.C1Command()
+        CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.Box5.SuspendLayout
+        CType(Me.FRD, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.FRC, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.Box4.SuspendLayout
+        CType(Me.TAB1, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.TAB1.SuspendLayout
+        Me.Pag0.SuspendLayout
+        CType(Me.SplitM1, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitM1.SuspendLayout
+        Me.SplitM1P3.SuspendLayout
+        CType(Me.TFOLIOFG, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.CboSerieFG, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.FFG, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TDIAS_CRED, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.FPDFG, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.FIFG, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitM1P1.SuspendLayout
+        CType(Me.FgViajes, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TNETO2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TRETE2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TSUBT2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TIVA2, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.Pag1.SuspendLayout
+        CType(Me.ChComplemento, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TKMS_VACIO, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TTIPO_CAMBIO, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TVOLUMEN_PESO, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.FECHA, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.Box1.SuspendLayout
+        CType(Me.ChCalleFiscal, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.Box2.SuspendLayout
+        CType(Me.F2, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.Pag3.SuspendLayout
+        Me.BoxGastos.SuspendLayout
+        CType(Me.FgV, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.Pag6.SuspendLayout
+        CType(Me.SplitM3, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitM3.SuspendLayout
+        Me.SplitM3P1.SuspendLayout
+        CType(Me.ChHeader, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnCopiarMercancias, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnExportarExcel, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnImportarExcel, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnBorrarMercancias, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.CboHojas, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitM3P2.SuspendLayout
+        CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.Pag4.SuspendLayout
+        CType(Me.SplitM4, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitM4.SuspendLayout
+        Me.SplitM4P1.SuspendLayout
+        CType(Me.CboCarga, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnCopiarCargas, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitM4P2.SuspendLayout
+        CType(Me.FgCarga, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TXTC, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TXTNC, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.Pag7.SuspendLayout
+        CType(Me.TABONO_NETO, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.Gpo6.SuspendLayout
+        CType(Me.CboSerieFactura, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_UNIDAD, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_PRODSERV, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TFOLIO, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox1.SuspendLayout
+        CType(Me.TFLETE, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TSUB_TOTAL, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TIVA, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TRET, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TNETO, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TIMPORTE_CONCEP, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_UNIDAD1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_PRODSERV1, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GpoRem5.SuspendLayout
+        CType(Me.TNETO_ABO3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TRET_ABO3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TIVA_ABO3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TSUBT_ABO3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TSALDO_NETO, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TSALDO_RET, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TNETO_O2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TNETO_O, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TSALDO_IVA, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TRET_O, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TRET_O2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TIVA_O, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TIVA_O2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TSALDO_SUBTOTAL, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TSUBT_O, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TSUBT_O2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.CboConc1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TIVAC6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TIVAC5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TIVAC4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TIVAC3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TFLETEA, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TIVAC2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TIVAC1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TRET6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TRET5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TRET4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TRET3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TRET2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TRET1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ChCAUSA_RET6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ChCAUSA_IVA6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ChCAUSA_RET5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ChCAUSA_IVA5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ChCAUSA_RET4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ChCAUSA_IVA4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ChCAUSA_RET3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ChCAUSA_IVA3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ChCAUSA_RET2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ChCAUSA_IVA2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ChCAUSA_RET1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ChCAUSA_IVA1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_UNIDAD6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_PRODSERV6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_PRODSERV5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_UNIDAD5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_PRODSERV4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_PRODSERV3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_UNIDAD4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_PRODSERV2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_UNIDAD3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TMONTO6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TMONTO5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TCVE_UNIDAD2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TMONTO4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TMONTO3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TMONTO2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TMONTO1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.CboConc6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.CboConc4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.CboConc5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.CboConc2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.CboConc3, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.Pag8.SuspendLayout
+        CType(Me.SplitM2, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitM2.SuspendLayout
+        Me.SplitM2P1.SuspendLayout
+        CType(Me.BtnCopiarCamposAdic, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitM2P2.SuspendLayout
+        CType(Me.FgA, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.PagAdenda.SuspendLayout
+        CType(Me.TXTN, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TXT, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SplitMG, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitMG.SuspendLayout
+        Me.SplitMG1.SuspendLayout
+        CType(Me.TFOLIO_VIAJE, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnOper, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnTanqueEdit2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnTanque2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnTanqueEdit1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnTanque1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnTractorEdit, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnDollyEdit, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnTractor, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnDolly, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnMoneda, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnCliente, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BarVales, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BarImprimirGasto, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnGastosAlta, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.FgG, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnGastosBaja, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnValesBaja, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnValesAlta, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnAgregar, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnEliminar, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnEsquema, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnCveUnidad, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnCveProd, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BarMetodoPago, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnUsoCFDI, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnPagoSAT, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnCveUni6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnProdServ6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnCveUni4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnCveUni2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnCveUni1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnCveUni5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnCveUni3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnProdServ4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnProdServ2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnProdServ1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnProdServ5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnProdServ3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnPaisAdenda, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnNumExpCon, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnTipoOper, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnUniAduana, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnMotTras, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BtnINCOTERM, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SuspendLayout
         '
         'LtStatus
         '
@@ -890,19 +891,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label11.TabIndex = 195
         Me.Label11.Text = "Operador"
         '
-        'BtnOper
-        '
-        Me.BtnOper.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnOper.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnOper.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnOper.Image = CType(resources.GetObject("BtnOper.Image"), System.Drawing.Image)
-        Me.BtnOper.Location = New System.Drawing.Point(136, 9)
-        Me.BtnOper.Name = "BtnOper"
-        Me.BtnOper.Size = New System.Drawing.Size(24, 22)
-        Me.BtnOper.TabIndex = 196
-        Me.BtnOper.UseVisualStyleBackColor = True
-        Me.BtnOper.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
         'Label47
         '
         Me.Label47.AutoSize = True
@@ -1113,7 +1101,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TAB1.Location = New System.Drawing.Point(4, 5)
         Me.TAB1.Name = "TAB1"
         Me.TAB1.SelectedIndex = 1
-        Me.TAB1.Size = New System.Drawing.Size(1432, 570)
+        Me.TAB1.Size = New System.Drawing.Size(1451, 570)
         Me.TAB1.TabIndex = 189
         Me.TAB1.TabsShowFocusCues = False
         Me.TAB1.TabsSpacing = 2
@@ -1125,7 +1113,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Pag0.Controls.Add(Me.SplitM1)
         Me.Pag0.Location = New System.Drawing.Point(1, 33)
         Me.Pag0.Name = "Pag0"
-        Me.Pag0.Size = New System.Drawing.Size(1430, 536)
+        Me.Pag0.Size = New System.Drawing.Size(1449, 536)
         Me.Pag0.TabIndex = 8
         Me.Pag0.Text = "Principal"
         '
@@ -1438,20 +1426,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.FIFG.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
         Me.FIFG.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.FIFG.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnPlazaFG
-        '
-        Me.BtnPlazaFG.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnPlazaFG.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnPlazaFG.FlatAppearance.BorderSize = 0
-        Me.BtnPlazaFG.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnPlazaFG.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnPlazaFG.Image = CType(resources.GetObject("BtnPlazaFG.Image"), System.Drawing.Image)
-        Me.BtnPlazaFG.Location = New System.Drawing.Point(265, 168)
-        Me.BtnPlazaFG.Name = "BtnPlazaFG"
-        Me.BtnPlazaFG.Size = New System.Drawing.Size(24, 24)
-        Me.BtnPlazaFG.TabIndex = 610
-        Me.BtnPlazaFG.UseVisualStyleBackColor = True
         '
         'Label76
         '
@@ -1783,7 +1757,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Pag1.Controls.Add(Me.BtnCliente)
         Me.Pag1.Location = New System.Drawing.Point(1, 33)
         Me.Pag1.Name = "Pag1"
-        Me.Pag1.Size = New System.Drawing.Size(1430, 536)
+        Me.Pag1.Size = New System.Drawing.Size(1449, 536)
         Me.Pag1.TabIndex = 0
         Me.Pag1.Text = "Datos generales"
         '
@@ -2294,20 +2268,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.LtRecogerEn.Size = New System.Drawing.Size(365, 20)
         Me.LtRecogerEn.TabIndex = 398
         '
-        'BtnRecogerEn
-        '
-        Me.BtnRecogerEn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnRecogerEn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnRecogerEn.FlatAppearance.BorderSize = 0
-        Me.BtnRecogerEn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnRecogerEn.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnRecogerEn.Image = CType(resources.GetObject("BtnRecogerEn.Image"), System.Drawing.Image)
-        Me.BtnRecogerEn.Location = New System.Drawing.Point(135, 187)
-        Me.BtnRecogerEn.Name = "BtnRecogerEn"
-        Me.BtnRecogerEn.Size = New System.Drawing.Size(24, 24)
-        Me.BtnRecogerEn.TabIndex = 397
-        Me.BtnRecogerEn.UseVisualStyleBackColor = True
-        '
         'Label21
         '
         Me.Label21.AutoSize = True
@@ -2317,20 +2277,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label21.Size = New System.Drawing.Size(72, 14)
         Me.Label21.TabIndex = 390
         Me.Label21.Text = "Fecha carga"
-        '
-        'BtnCLAVE_REM
-        '
-        Me.BtnCLAVE_REM.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnCLAVE_REM.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnCLAVE_REM.FlatAppearance.BorderSize = 0
-        Me.BtnCLAVE_REM.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnCLAVE_REM.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCLAVE_REM.Image = CType(resources.GetObject("BtnCLAVE_REM.Image"), System.Drawing.Image)
-        Me.BtnCLAVE_REM.Location = New System.Drawing.Point(133, 15)
-        Me.BtnCLAVE_REM.Name = "BtnCLAVE_REM"
-        Me.BtnCLAVE_REM.Size = New System.Drawing.Size(24, 24)
-        Me.BtnCLAVE_REM.TabIndex = 391
-        Me.BtnCLAVE_REM.UseVisualStyleBackColor = True
         '
         'LtRFC
         '
@@ -2565,33 +2511,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.LtEntregarEn.Size = New System.Drawing.Size(352, 20)
         Me.LtEntregarEn.TabIndex = 400
         '
-        'BtnEntregarEn
-        '
-        Me.BtnEntregarEn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnEntregarEn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnEntregarEn.FlatAppearance.BorderSize = 0
-        Me.BtnEntregarEn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnEntregarEn.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnEntregarEn.Image = CType(resources.GetObject("BtnEntregarEn.Image"), System.Drawing.Image)
-        Me.BtnEntregarEn.Location = New System.Drawing.Point(133, 185)
-        Me.BtnEntregarEn.Name = "BtnEntregarEn"
-        Me.BtnEntregarEn.Size = New System.Drawing.Size(24, 24)
-        Me.BtnEntregarEn.TabIndex = 399
-        Me.BtnEntregarEn.UseVisualStyleBackColor = True
-        '
-        'BtnCLAVE_DEST
-        '
-        Me.BtnCLAVE_DEST.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnCLAVE_DEST.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnCLAVE_DEST.FlatAppearance.BorderSize = 0
-        Me.BtnCLAVE_DEST.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnCLAVE_DEST.Image = CType(resources.GetObject("BtnCLAVE_DEST.Image"), System.Drawing.Image)
-        Me.BtnCLAVE_DEST.Location = New System.Drawing.Point(133, 14)
-        Me.BtnCLAVE_DEST.Name = "BtnCLAVE_DEST"
-        Me.BtnCLAVE_DEST.Size = New System.Drawing.Size(24, 24)
-        Me.BtnCLAVE_DEST.TabIndex = 392
-        Me.BtnCLAVE_DEST.UseVisualStyleBackColor = True
-        '
         'F2
         '
         Me.F2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -2791,160 +2710,12 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label20.TabIndex = 268
         Me.Label20.Text = "Domicilio 2"
         '
-        'BtnTanqueEdit2
-        '
-        Me.BtnTanqueEdit2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnTanqueEdit2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnTanqueEdit2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnTanqueEdit2.Image = CType(resources.GetObject("BtnTanqueEdit2.Image"), System.Drawing.Image)
-        Me.BtnTanqueEdit2.Location = New System.Drawing.Point(1190, 74)
-        Me.BtnTanqueEdit2.Name = "BtnTanqueEdit2"
-        Me.BtnTanqueEdit2.Size = New System.Drawing.Size(24, 22)
-        Me.BtnTanqueEdit2.TabIndex = 513
-        Me.BtnTanqueEdit2.UseVisualStyleBackColor = True
-        Me.BtnTanqueEdit2.Visible = False
-        Me.BtnTanqueEdit2.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnTanque2
-        '
-        Me.BtnTanque2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnTanque2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnTanque2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnTanque2.Image = CType(resources.GetObject("BtnTanque2.Image"), System.Drawing.Image)
-        Me.BtnTanque2.Location = New System.Drawing.Point(991, 71)
-        Me.BtnTanque2.Name = "BtnTanque2"
-        Me.BtnTanque2.Size = New System.Drawing.Size(24, 22)
-        Me.BtnTanque2.TabIndex = 202
-        Me.BtnTanque2.UseVisualStyleBackColor = True
-        Me.BtnTanque2.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnTanqueEdit1
-        '
-        Me.BtnTanqueEdit1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnTanqueEdit1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnTanqueEdit1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnTanqueEdit1.Image = CType(resources.GetObject("BtnTanqueEdit1.Image"), System.Drawing.Image)
-        Me.BtnTanqueEdit1.Location = New System.Drawing.Point(1190, 49)
-        Me.BtnTanqueEdit1.Name = "BtnTanqueEdit1"
-        Me.BtnTanqueEdit1.Size = New System.Drawing.Size(24, 22)
-        Me.BtnTanqueEdit1.TabIndex = 512
-        Me.BtnTanqueEdit1.UseVisualStyleBackColor = True
-        Me.BtnTanqueEdit1.Visible = False
-        Me.BtnTanqueEdit1.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnTanque1
-        '
-        Me.BtnTanque1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnTanque1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnTanque1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnTanque1.Image = CType(resources.GetObject("BtnTanque1.Image"), System.Drawing.Image)
-        Me.BtnTanque1.Location = New System.Drawing.Point(991, 47)
-        Me.BtnTanque1.Name = "BtnTanque1"
-        Me.BtnTanque1.Size = New System.Drawing.Size(24, 22)
-        Me.BtnTanque1.TabIndex = 198
-        Me.BtnTanque1.UseVisualStyleBackColor = True
-        Me.BtnTanque1.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnTractorEdit
-        '
-        Me.BtnTractorEdit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnTractorEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnTractorEdit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnTractorEdit.Image = CType(resources.GetObject("BtnTractorEdit.Image"), System.Drawing.Image)
-        Me.BtnTractorEdit.Location = New System.Drawing.Point(1190, 24)
-        Me.BtnTractorEdit.Name = "BtnTractorEdit"
-        Me.BtnTractorEdit.Size = New System.Drawing.Size(24, 22)
-        Me.BtnTractorEdit.TabIndex = 514
-        Me.BtnTractorEdit.UseVisualStyleBackColor = True
-        Me.BtnTractorEdit.Visible = False
-        Me.BtnTractorEdit.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnDollyEdit
-        '
-        Me.BtnDollyEdit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnDollyEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnDollyEdit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnDollyEdit.Image = CType(resources.GetObject("BtnDollyEdit.Image"), System.Drawing.Image)
-        Me.BtnDollyEdit.Location = New System.Drawing.Point(1190, 97)
-        Me.BtnDollyEdit.Name = "BtnDollyEdit"
-        Me.BtnDollyEdit.Size = New System.Drawing.Size(24, 22)
-        Me.BtnDollyEdit.TabIndex = 515
-        Me.BtnDollyEdit.UseVisualStyleBackColor = True
-        Me.BtnDollyEdit.Visible = False
-        Me.BtnDollyEdit.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnTractor
-        '
-        Me.BtnTractor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnTractor.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnTractor.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnTractor.Image = CType(resources.GetObject("BtnTractor.Image"), System.Drawing.Image)
-        Me.BtnTractor.Location = New System.Drawing.Point(991, 23)
-        Me.BtnTractor.Name = "BtnTractor"
-        Me.BtnTractor.Size = New System.Drawing.Size(24, 22)
-        Me.BtnTractor.TabIndex = 208
-        Me.BtnTractor.UseVisualStyleBackColor = True
-        Me.BtnTractor.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnDolly
-        '
-        Me.BtnDolly.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnDolly.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnDolly.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnDolly.Image = CType(resources.GetObject("BtnDolly.Image"), System.Drawing.Image)
-        Me.BtnDolly.Location = New System.Drawing.Point(991, 93)
-        Me.BtnDolly.Name = "BtnDolly"
-        Me.BtnDolly.Size = New System.Drawing.Size(24, 22)
-        Me.BtnDolly.TabIndex = 212
-        Me.BtnDolly.UseVisualStyleBackColor = True
-        Me.BtnDolly.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnTabRutaViajes
-        '
-        Me.BtnTabRutaViajes.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnTabRutaViajes.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnTabRutaViajes.FlatAppearance.BorderSize = 0
-        Me.BtnTabRutaViajes.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnTabRutaViajes.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnTabRutaViajes.Image = CType(resources.GetObject("BtnTabRutaViajes.Image"), System.Drawing.Image)
-        Me.BtnTabRutaViajes.Location = New System.Drawing.Point(155, 11)
-        Me.BtnTabRutaViajes.Name = "BtnTabRutaViajes"
-        Me.BtnTabRutaViajes.Size = New System.Drawing.Size(24, 24)
-        Me.BtnTabRutaViajes.TabIndex = 448
-        Me.BtnTabRutaViajes.UseVisualStyleBackColor = True
-        '
-        'BtnMoneda
-        '
-        Me.BtnMoneda.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnMoneda.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnMoneda.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnMoneda.Image = CType(resources.GetObject("BtnMoneda.Image"), System.Drawing.Image)
-        Me.BtnMoneda.Location = New System.Drawing.Point(130, 113)
-        Me.BtnMoneda.Name = "BtnMoneda"
-        Me.BtnMoneda.Size = New System.Drawing.Size(24, 22)
-        Me.BtnMoneda.TabIndex = 427
-        Me.BtnMoneda.UseVisualStyleBackColor = True
-        Me.BtnMoneda.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnCliente
-        '
-        Me.BtnCliente.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnCliente.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCliente.Image = CType(resources.GetObject("BtnCliente.Image"), System.Drawing.Image)
-        Me.BtnCliente.Location = New System.Drawing.Point(155, 84)
-        Me.BtnCliente.Name = "BtnCliente"
-        Me.BtnCliente.Size = New System.Drawing.Size(24, 21)
-        Me.BtnCliente.TabIndex = 498
-        Me.BtnCliente.UseVisualStyleBackColor = True
-        Me.BtnCliente.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
         'Pag3
         '
         Me.Pag3.Controls.Add(Me.BoxGastos)
         Me.Pag3.Location = New System.Drawing.Point(1, 33)
         Me.Pag3.Name = "Pag3"
-        Me.Pag3.Size = New System.Drawing.Size(1430, 536)
+        Me.Pag3.Size = New System.Drawing.Size(1449, 536)
         Me.Pag3.TabIndex = 2
         Me.Pag3.Text = "Gastos de viaje"
         '
@@ -2981,16 +2752,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.LtOp1.TabIndex = 372
         Me.LtOp1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'BarVales
-        '
-        Me.BarVales.Image = Global.SGT_Transport.My.Resources.Resources.impresora27
-        Me.BarVales.Location = New System.Drawing.Point(1022, 234)
-        Me.BarVales.Name = "BarVales"
-        Me.BarVales.Size = New System.Drawing.Size(41, 33)
-        Me.BarVales.TabIndex = 376
-        Me.BarVales.UseVisualStyleBackColor = True
-        Me.BarVales.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
         'LtNoViaje
         '
         Me.LtNoViaje.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -3000,26 +2761,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.LtNoViaje.Size = New System.Drawing.Size(164, 20)
         Me.LtNoViaje.TabIndex = 205
         Me.LtNoViaje.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'BarImprimirGasto
-        '
-        Me.BarImprimirGasto.Image = Global.SGT_Transport.My.Resources.Resources.impresora27
-        Me.BarImprimirGasto.Location = New System.Drawing.Point(1022, 31)
-        Me.BarImprimirGasto.Name = "BarImprimirGasto"
-        Me.BarImprimirGasto.Size = New System.Drawing.Size(41, 33)
-        Me.BarImprimirGasto.TabIndex = 375
-        Me.BarImprimirGasto.UseVisualStyleBackColor = True
-        Me.BarImprimirGasto.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnGastosAlta
-        '
-        Me.BtnGastosAlta.Image = Global.SGT_Transport.My.Resources.Resources.mas12
-        Me.BtnGastosAlta.Location = New System.Drawing.Point(876, 29)
-        Me.BtnGastosAlta.Name = "BtnGastosAlta"
-        Me.BtnGastosAlta.Size = New System.Drawing.Size(34, 35)
-        Me.BtnGastosAlta.TabIndex = 368
-        Me.BtnGastosAlta.UseVisualStyleBackColor = True
-        Me.BtnGastosAlta.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'Label26
         '
@@ -3031,27 +2772,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label26.TabIndex = 373
         Me.Label26.Text = "VALES DE COMBUSTIBLE"
         '
-        'FgG
-        '
-        Me.FgG.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
-        Me.FgG.CellButtonImage = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.FgG.ColumnInfo = resources.GetString("FgG.ColumnInfo")
-        Me.FgG.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Solid
-        Me.FgG.Font = New System.Drawing.Font("Tahoma", 9.0!)
-        Me.FgG.KeyActionEnter = C1.Win.C1FlexGrid.KeyActionEnum.MoveAcross
-        Me.FgG.KeyActionTab = C1.Win.C1FlexGrid.KeyActionEnum.MoveAcross
-        Me.FgG.Location = New System.Drawing.Point(16, 69)
-        Me.FgG.Name = "FgG"
-        Me.FgG.Rows.Count = 1
-        Me.FgG.Rows.DefaultSize = 21
-        Me.FgG.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Cell
-        Me.FgG.ShowButtons = C1.Win.C1FlexGrid.ShowButtonsEnum.Always
-        Me.FgG.ShowCursor = True
-        Me.FgG.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.FgG.Size = New System.Drawing.Size(1391, 161)
-        Me.FgG.StyleInfo = resources.GetString("FgG.StyleInfo")
-        Me.FgG.TabIndex = 6
-        '
         'Label34
         '
         Me.Label34.AutoSize = True
@@ -3061,16 +2781,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label34.Size = New System.Drawing.Size(65, 16)
         Me.Label34.TabIndex = 199
         Me.Label34.Text = "Operador"
-        '
-        'BtnGastosBaja
-        '
-        Me.BtnGastosBaja.Image = Global.SGT_Transport.My.Resources.Resources.equis2
-        Me.BtnGastosBaja.Location = New System.Drawing.Point(924, 31)
-        Me.BtnGastosBaja.Name = "BtnGastosBaja"
-        Me.BtnGastosBaja.Size = New System.Drawing.Size(32, 33)
-        Me.BtnGastosBaja.TabIndex = 369
-        Me.BtnGastosBaja.UseVisualStyleBackColor = True
-        Me.BtnGastosBaja.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'FgV
         '
@@ -3092,16 +2802,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.FgV.StyleInfo = resources.GetString("FgV.StyleInfo")
         Me.FgV.TabIndex = 206
         '
-        'BtnValesBaja
-        '
-        Me.BtnValesBaja.Image = Global.SGT_Transport.My.Resources.Resources.equis2
-        Me.BtnValesBaja.Location = New System.Drawing.Point(924, 234)
-        Me.BtnValesBaja.Name = "BtnValesBaja"
-        Me.BtnValesBaja.Size = New System.Drawing.Size(32, 33)
-        Me.BtnValesBaja.TabIndex = 371
-        Me.BtnValesBaja.UseVisualStyleBackColor = True
-        Me.BtnValesBaja.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
         'Label27
         '
         Me.Label27.AutoSize = True
@@ -3111,16 +2811,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label27.Size = New System.Drawing.Size(140, 16)
         Me.Label27.TabIndex = 374
         Me.Label27.Text = "GASTOS DE VIAJE"
-        '
-        'BtnValesAlta
-        '
-        Me.BtnValesAlta.Image = Global.SGT_Transport.My.Resources.Resources.mas12
-        Me.BtnValesAlta.Location = New System.Drawing.Point(876, 234)
-        Me.BtnValesAlta.Name = "BtnValesAlta"
-        Me.BtnValesAlta.Size = New System.Drawing.Size(32, 33)
-        Me.BtnValesAlta.TabIndex = 370
-        Me.BtnValesAlta.UseVisualStyleBackColor = True
-        Me.BtnValesAlta.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'LtOp2
         '
@@ -3147,7 +2837,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Pag6.Controls.Add(Me.SplitM3)
         Me.Pag6.Location = New System.Drawing.Point(1, 33)
         Me.Pag6.Name = "Pag6"
-        Me.Pag6.Size = New System.Drawing.Size(1430, 536)
+        Me.Pag6.Size = New System.Drawing.Size(1449, 536)
         Me.Pag6.TabIndex = 5
         Me.Pag6.Text = "Mercancias"
         '
@@ -3163,7 +2853,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.SplitM3.Name = "SplitM3"
         Me.SplitM3.Panels.Add(Me.SplitM3P1)
         Me.SplitM3.Panels.Add(Me.SplitM3P2)
-        Me.SplitM3.Size = New System.Drawing.Size(1420, 404)
+        Me.SplitM3.Size = New System.Drawing.Size(1420, 505)
         Me.SplitM3.SplitterColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
         Me.SplitM3.TabIndex = 620
         Me.SplitM3.ToolTipGradient = C1.Win.C1SplitContainer.ToolTipGradient.Blue
@@ -3182,10 +2872,10 @@ Partial Class FrmAsigViajeBuenoAE
         Me.SplitM3P1.Controls.Add(Me.Label69)
         Me.SplitM3P1.Controls.Add(Me.BtnExcel)
         Me.SplitM3P1.Controls.Add(Me.CboHojas)
-        Me.SplitM3P1.Height = 88
+        Me.SplitM3P1.Height = 110
         Me.SplitM3P1.Location = New System.Drawing.Point(1, 1)
         Me.SplitM3P1.Name = "SplitM3P1"
-        Me.SplitM3P1.Size = New System.Drawing.Size(1418, 88)
+        Me.SplitM3P1.Size = New System.Drawing.Size(1418, 110)
         Me.SplitM3P1.SizeRatio = 22.0R
         Me.SplitM3P1.TabIndex = 1
         '
@@ -3330,10 +3020,10 @@ Partial Class FrmAsigViajeBuenoAE
         Me.SplitM3P2.Controls.Add(Me.Fg)
         Me.SplitM3P2.Controls.Add(Me.TMAGICO2)
         Me.SplitM3P2.Controls.Add(Me.TMAGICO)
-        Me.SplitM3P2.Height = 310
-        Me.SplitM3P2.Location = New System.Drawing.Point(1, 93)
+        Me.SplitM3P2.Height = 389
+        Me.SplitM3P2.Location = New System.Drawing.Point(1, 115)
         Me.SplitM3P2.Name = "SplitM3P2"
-        Me.SplitM3P2.Size = New System.Drawing.Size(1418, 310)
+        Me.SplitM3P2.Size = New System.Drawing.Size(1418, 389)
         Me.SplitM3P2.SizeRatio = 78.0R
         Me.SplitM3P2.TabIndex = 0
         '
@@ -3356,7 +3046,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Fg.Rows.DefaultSize = 19
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Cell
         Me.Fg.ShowButtons = C1.Win.C1FlexGrid.ShowButtonsEnum.Always
-        Me.Fg.Size = New System.Drawing.Size(1415, 259)
+        Me.Fg.Size = New System.Drawing.Size(1397, 299)
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 3
         Me.Fg.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Office2010Blue
@@ -3386,7 +3076,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Pag4.Controls.Add(Me.SplitM4)
         Me.Pag4.Location = New System.Drawing.Point(1, 33)
         Me.Pag4.Name = "Pag4"
-        Me.Pag4.Size = New System.Drawing.Size(1430, 536)
+        Me.Pag4.Size = New System.Drawing.Size(1449, 536)
         Me.Pag4.TabIndex = 3
         Me.Pag4.Text = "Cargas"
         Me.Pag4.Visible = False
@@ -3452,26 +3142,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnCopiarCargas.Text = "Copiar cargas"
         Me.BtnCopiarCargas.UseVisualStyleBackColor = True
         Me.BtnCopiarCargas.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2007Blue
-        '
-        'BtnAgregar
-        '
-        Me.BtnAgregar.Image = Global.SGT_Transport.My.Resources.Resources.mas12
-        Me.BtnAgregar.Location = New System.Drawing.Point(14, 18)
-        Me.BtnAgregar.Name = "BtnAgregar"
-        Me.BtnAgregar.Size = New System.Drawing.Size(41, 38)
-        Me.BtnAgregar.TabIndex = 1
-        Me.BtnAgregar.UseVisualStyleBackColor = True
-        Me.BtnAgregar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnEliminar
-        '
-        Me.BtnEliminar.Image = Global.SGT_Transport.My.Resources.Resources.equis2
-        Me.BtnEliminar.Location = New System.Drawing.Point(76, 18)
-        Me.BtnEliminar.Name = "BtnEliminar"
-        Me.BtnEliminar.Size = New System.Drawing.Size(42, 38)
-        Me.BtnEliminar.TabIndex = 2
-        Me.BtnEliminar.UseVisualStyleBackColor = True
-        Me.BtnEliminar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'SplitM4P2
         '
@@ -3608,7 +3278,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Pag7.Controls.Add(Me.BtnProdServ3)
         Me.Pag7.Location = New System.Drawing.Point(1, 33)
         Me.Pag7.Name = "Pag7"
-        Me.Pag7.Size = New System.Drawing.Size(1430, 536)
+        Me.Pag7.Size = New System.Drawing.Size(1449, 536)
         Me.Pag7.TabIndex = 6
         Me.Pag7.Text = "Importes"
         '
@@ -3736,20 +3406,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.CboSerieFactura.Tag = Nothing
         Me.CboSerieFactura.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
-        'BtnEsquema
-        '
-        Me.BtnEsquema.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnEsquema.FlatAppearance.BorderSize = 0
-        Me.BtnEsquema.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnEsquema.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnEsquema.Image = CType(resources.GetObject("BtnEsquema.Image"), System.Drawing.Image)
-        Me.BtnEsquema.Location = New System.Drawing.Point(103, 174)
-        Me.BtnEsquema.Name = "BtnEsquema"
-        Me.BtnEsquema.Size = New System.Drawing.Size(21, 22)
-        Me.BtnEsquema.TabIndex = 429
-        Me.BtnEsquema.UseVisualStyleBackColor = True
-        Me.BtnEsquema.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
         'TCVE_ESQIMPU
         '
         Me.TCVE_ESQIMPU.AcceptsReturn = True
@@ -3794,34 +3450,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label24.Size = New System.Drawing.Size(60, 15)
         Me.Label24.TabIndex = 621
         Me.Label24.Text = "Esquema"
-        '
-        'BtnCveUnidad
-        '
-        Me.BtnCveUnidad.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnCveUnidad.FlatAppearance.BorderSize = 0
-        Me.BtnCveUnidad.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnCveUnidad.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCveUnidad.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BtnCveUnidad.Location = New System.Drawing.Point(269, 61)
-        Me.BtnCveUnidad.Name = "BtnCveUnidad"
-        Me.BtnCveUnidad.Size = New System.Drawing.Size(22, 22)
-        Me.BtnCveUnidad.TabIndex = 619
-        Me.BtnCveUnidad.UseVisualStyleBackColor = True
-        Me.BtnCveUnidad.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnCveProd
-        '
-        Me.BtnCveProd.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnCveProd.FlatAppearance.BorderSize = 0
-        Me.BtnCveProd.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnCveProd.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCveProd.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BtnCveProd.Location = New System.Drawing.Point(269, 37)
-        Me.BtnCveProd.Name = "BtnCveProd"
-        Me.BtnCveProd.Size = New System.Drawing.Size(22, 22)
-        Me.BtnCveProd.TabIndex = 618
-        Me.BtnCveProd.UseVisualStyleBackColor = True
-        Me.BtnCveProd.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'LtFolioF
         '
@@ -3925,20 +3553,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.RadPrecioXTonelada.Text = "Valor por tonelada"
         Me.RadPrecioXTonelada.UseVisualStyleBackColor = False
         '
-        'BarMetodoPago
-        '
-        Me.BarMetodoPago.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BarMetodoPago.FlatAppearance.BorderSize = 0
-        Me.BarMetodoPago.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BarMetodoPago.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BarMetodoPago.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BarMetodoPago.Location = New System.Drawing.Point(269, 117)
-        Me.BarMetodoPago.Name = "BarMetodoPago"
-        Me.BarMetodoPago.Size = New System.Drawing.Size(22, 22)
-        Me.BarMetodoPago.TabIndex = 592
-        Me.BarMetodoPago.UseVisualStyleBackColor = True
-        Me.BarMetodoPago.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
         'TMETODODEPAGO
         '
         Me.TMETODODEPAGO.AcceptsReturn = True
@@ -3980,34 +3594,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TUSO_CFDI.Name = "TUSO_CFDI"
         Me.TUSO_CFDI.Size = New System.Drawing.Size(54, 21)
         Me.TUSO_CFDI.TabIndex = 6
-        '
-        'BtnUsoCFDI
-        '
-        Me.BtnUsoCFDI.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnUsoCFDI.FlatAppearance.BorderSize = 0
-        Me.BtnUsoCFDI.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnUsoCFDI.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnUsoCFDI.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BtnUsoCFDI.Location = New System.Drawing.Point(269, 146)
-        Me.BtnUsoCFDI.Name = "BtnUsoCFDI"
-        Me.BtnUsoCFDI.Size = New System.Drawing.Size(22, 22)
-        Me.BtnUsoCFDI.TabIndex = 581
-        Me.BtnUsoCFDI.UseVisualStyleBackColor = True
-        Me.BtnUsoCFDI.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnPagoSAT
-        '
-        Me.BtnPagoSAT.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnPagoSAT.FlatAppearance.BorderSize = 0
-        Me.BtnPagoSAT.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnPagoSAT.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnPagoSAT.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BtnPagoSAT.Location = New System.Drawing.Point(269, 89)
-        Me.BtnPagoSAT.Name = "BtnPagoSAT"
-        Me.BtnPagoSAT.Size = New System.Drawing.Size(22, 22)
-        Me.BtnPagoSAT.TabIndex = 583
-        Me.BtnPagoSAT.UseVisualStyleBackColor = True
-        Me.BtnPagoSAT.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'Label60
         '
@@ -6087,6 +5673,1016 @@ Partial Class FrmAsigViajeBuenoAE
         Me.CboConc3.Tag = Nothing
         Me.CboConc3.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
+        'Pag8
+        '
+        Me.Pag8.Controls.Add(Me.SplitM2)
+        Me.Pag8.Location = New System.Drawing.Point(1, 33)
+        Me.Pag8.Name = "Pag8"
+        Me.Pag8.Size = New System.Drawing.Size(1449, 536)
+        Me.Pag8.TabIndex = 7
+        Me.Pag8.Text = "Campos adicionales"
+        '
+        'SplitM2
+        '
+        Me.SplitM2.AutoSizeElement = C1.Framework.AutoSizeElement.Both
+        Me.SplitM2.BackColor = System.Drawing.Color.FromArgb(CType(CType(207, Byte), Integer), CType(CType(221, Byte), Integer), CType(CType(238, Byte), Integer))
+        Me.SplitM2.BorderWidth = 1
+        Me.SplitM2.CollapsingAreaColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(245, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.SplitM2.FixedLineColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.SplitM2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(30, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(91, Byte), Integer))
+        Me.SplitM2.Location = New System.Drawing.Point(15, 14)
+        Me.SplitM2.Name = "SplitM2"
+        Me.SplitM2.Panels.Add(Me.SplitM2P1)
+        Me.SplitM2.Panels.Add(Me.SplitM2P2)
+        Me.SplitM2.Size = New System.Drawing.Size(1118, 329)
+        Me.SplitM2.SplitterColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.SplitM2.TabIndex = 576
+        Me.SplitM2.ToolTipGradient = C1.Win.C1SplitContainer.ToolTipGradient.Blue
+        '
+        'SplitM2P1
+        '
+        Me.SplitM2P1.Controls.Add(Me.BtnCopiarCamposAdic)
+        Me.SplitM2P1.Height = 78
+        Me.SplitM2P1.Location = New System.Drawing.Point(1, 1)
+        Me.SplitM2P1.Name = "SplitM2P1"
+        Me.SplitM2P1.Size = New System.Drawing.Size(1116, 78)
+        Me.SplitM2P1.SizeRatio = 24.0R
+        Me.SplitM2P1.TabIndex = 0
+        '
+        'BtnCopiarCamposAdic
+        '
+        Me.BtnCopiarCamposAdic.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnCopiarCamposAdic.Location = New System.Drawing.Point(31, 15)
+        Me.BtnCopiarCamposAdic.Name = "BtnCopiarCamposAdic"
+        Me.BtnCopiarCamposAdic.Size = New System.Drawing.Size(116, 37)
+        Me.BtnCopiarCamposAdic.TabIndex = 575
+        Me.BtnCopiarCamposAdic.Text = "Copiar campos adicionales"
+        Me.BtnCopiarCamposAdic.UseVisualStyleBackColor = True
+        Me.BtnCopiarCamposAdic.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2007Blue
+        '
+        'SplitM2P2
+        '
+        Me.SplitM2P2.Controls.Add(Me.FgA)
+        Me.SplitM2P2.Height = 245
+        Me.SplitM2P2.Location = New System.Drawing.Point(1, 83)
+        Me.SplitM2P2.Name = "SplitM2P2"
+        Me.SplitM2P2.Size = New System.Drawing.Size(1116, 245)
+        Me.SplitM2P2.TabIndex = 1
+        '
+        'FgA
+        '
+        Me.FgA.AllowFiltering = True
+        Me.FgA.AutoClipboard = True
+        Me.FgA.BackColor = System.Drawing.Color.White
+        Me.FgA.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
+        Me.FgA.ClipboardCopyMode = C1.Win.C1FlexGrid.ClipboardCopyModeEnum.DataAndColumnHeaders
+        Me.FgA.ColumnInfo = "3,1,0,0,0,95,Columns:0{Style:""Font:Microsoft Sans Serif, 9pt;"";}" & Global.Microsoft.VisualBasic.ChrW(9) & "1{Width:50;Style" &
+    ":""DataType:System.Int32;TextAlign:GeneralCenter;"";}" & Global.Microsoft.VisualBasic.ChrW(9) & "2{Width:1200;Caption:""Descri" &
+    "pción"";}" & Global.Microsoft.VisualBasic.ChrW(9)
+        Me.FgA.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Solid
+        Me.FgA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FgA.ForeColor = System.Drawing.Color.Black
+        Me.FgA.KeyActionTab = C1.Win.C1FlexGrid.KeyActionEnum.MoveDown
+        Me.FgA.Location = New System.Drawing.Point(17, 3)
+        Me.FgA.Name = "FgA"
+        Me.FgA.Rows.Count = 1
+        Me.FgA.Rows.DefaultSize = 22
+        Me.FgA.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.ListBox
+        Me.FgA.Size = New System.Drawing.Size(544, 208)
+        Me.FgA.StyleInfo = resources.GetString("FgA.StyleInfo")
+        Me.FgA.TabIndex = 314
+        Me.FgA.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Office2010Blue
+        '
+        'PagAdenda
+        '
+        Me.PagAdenda.Controls.Add(Me.TOBS)
+        Me.PagAdenda.Controls.Add(Me.Label103)
+        Me.PagAdenda.Controls.Add(Me.TPAIS)
+        Me.PagAdenda.Controls.Add(Me.Label101)
+        Me.PagAdenda.Controls.Add(Me.Label102)
+        Me.PagAdenda.Controls.Add(Me.TNUM_EXP_CONFIABLE)
+        Me.PagAdenda.Controls.Add(Me.Label99)
+        Me.PagAdenda.Controls.Add(Me.Label100)
+        Me.PagAdenda.Controls.Add(Me.TTIPO_OPERACION)
+        Me.PagAdenda.Controls.Add(Me.Label81)
+        Me.PagAdenda.Controls.Add(Me.Label84)
+        Me.PagAdenda.Controls.Add(Me.TUNIDAD_ADUANA)
+        Me.PagAdenda.Controls.Add(Me.Label78)
+        Me.PagAdenda.Controls.Add(Me.TMOT_TRASLADO)
+        Me.PagAdenda.Controls.Add(Me.Label71)
+        Me.PagAdenda.Controls.Add(Me.TINCOTERM)
+        Me.PagAdenda.Controls.Add(Me.Label53)
+        Me.PagAdenda.Controls.Add(Me.Label92)
+        Me.PagAdenda.Controls.Add(Me.Label97)
+        Me.PagAdenda.Controls.Add(Me.Label83)
+        Me.PagAdenda.Controls.Add(Me.Label82)
+        Me.PagAdenda.Controls.Add(Me.TPEDIMENTO)
+        Me.PagAdenda.Controls.Add(Me.BtnPaisAdenda)
+        Me.PagAdenda.Controls.Add(Me.BtnNumExpCon)
+        Me.PagAdenda.Controls.Add(Me.BtnTipoOper)
+        Me.PagAdenda.Controls.Add(Me.BtnUniAduana)
+        Me.PagAdenda.Controls.Add(Me.BtnMotTras)
+        Me.PagAdenda.Controls.Add(Me.BtnINCOTERM)
+        Me.PagAdenda.Location = New System.Drawing.Point(1, 33)
+        Me.PagAdenda.Name = "PagAdenda"
+        Me.PagAdenda.Size = New System.Drawing.Size(1449, 536)
+        Me.PagAdenda.TabIndex = 9
+        Me.PagAdenda.Text = "Addenda comercio exterior"
+        '
+        'TOBS
+        '
+        Me.TOBS.AcceptsReturn = True
+        Me.TOBS.AcceptsTab = True
+        Me.TOBS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TOBS.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TOBS.Location = New System.Drawing.Point(180, 231)
+        Me.TOBS.Name = "TOBS"
+        Me.TOBS.Size = New System.Drawing.Size(736, 22)
+        Me.TOBS.TabIndex = 8
+        '
+        'Label103
+        '
+        Me.Label103.AutoSize = True
+        Me.Label103.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label103.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label103.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label103.Location = New System.Drawing.Point(75, 234)
+        Me.Label103.Name = "Label103"
+        Me.Label103.Size = New System.Drawing.Size(99, 16)
+        Me.Label103.TabIndex = 710
+        Me.Label103.Text = "Observaciones"
+        Me.Label103.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TPAIS
+        '
+        Me.TPAIS.AcceptsReturn = True
+        Me.TPAIS.AcceptsTab = True
+        Me.TPAIS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TPAIS.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TPAIS.Location = New System.Drawing.Point(180, 202)
+        Me.TPAIS.Name = "TPAIS"
+        Me.TPAIS.Size = New System.Drawing.Size(70, 22)
+        Me.TPAIS.TabIndex = 7
+        '
+        'Label101
+        '
+        Me.Label101.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label101.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label101.Location = New System.Drawing.Point(280, 201)
+        Me.Label101.Name = "Label101"
+        Me.Label101.Size = New System.Drawing.Size(228, 23)
+        Me.Label101.TabIndex = 707
+        Me.Label101.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label102
+        '
+        Me.Label102.AutoSize = True
+        Me.Label102.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label102.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label102.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label102.Location = New System.Drawing.Point(140, 205)
+        Me.Label102.Name = "Label102"
+        Me.Label102.Size = New System.Drawing.Size(34, 16)
+        Me.Label102.TabIndex = 705
+        Me.Label102.Text = "Pais"
+        Me.Label102.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TNUM_EXP_CONFIABLE
+        '
+        Me.TNUM_EXP_CONFIABLE.AcceptsReturn = True
+        Me.TNUM_EXP_CONFIABLE.AcceptsTab = True
+        Me.TNUM_EXP_CONFIABLE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TNUM_EXP_CONFIABLE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TNUM_EXP_CONFIABLE.Location = New System.Drawing.Point(180, 116)
+        Me.TNUM_EXP_CONFIABLE.Name = "TNUM_EXP_CONFIABLE"
+        Me.TNUM_EXP_CONFIABLE.Size = New System.Drawing.Size(70, 22)
+        Me.TNUM_EXP_CONFIABLE.TabIndex = 3
+        '
+        'Label99
+        '
+        Me.Label99.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label99.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label99.Location = New System.Drawing.Point(280, 116)
+        Me.Label99.Name = "Label99"
+        Me.Label99.Size = New System.Drawing.Size(228, 23)
+        Me.Label99.TabIndex = 703
+        Me.Label99.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label100
+        '
+        Me.Label100.AutoSize = True
+        Me.Label100.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label100.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label100.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label100.Location = New System.Drawing.Point(14, 119)
+        Me.Label100.Name = "Label100"
+        Me.Label100.Size = New System.Drawing.Size(160, 16)
+        Me.Label100.TabIndex = 701
+        Me.Label100.Text = "Nún. exportador confiable"
+        Me.Label100.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TTIPO_OPERACION
+        '
+        Me.TTIPO_OPERACION.AcceptsReturn = True
+        Me.TTIPO_OPERACION.AcceptsTab = True
+        Me.TTIPO_OPERACION.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TTIPO_OPERACION.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TTIPO_OPERACION.Location = New System.Drawing.Point(180, 57)
+        Me.TTIPO_OPERACION.Name = "TTIPO_OPERACION"
+        Me.TTIPO_OPERACION.Size = New System.Drawing.Size(70, 22)
+        Me.TTIPO_OPERACION.TabIndex = 1
+        '
+        'Label81
+        '
+        Me.Label81.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label81.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label81.Location = New System.Drawing.Point(280, 57)
+        Me.Label81.Name = "Label81"
+        Me.Label81.Size = New System.Drawing.Size(228, 23)
+        Me.Label81.TabIndex = 699
+        Me.Label81.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label84
+        '
+        Me.Label84.AutoSize = True
+        Me.Label84.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label84.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label84.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label84.Location = New System.Drawing.Point(75, 60)
+        Me.Label84.Name = "Label84"
+        Me.Label84.Size = New System.Drawing.Size(99, 16)
+        Me.Label84.TabIndex = 697
+        Me.Label84.Text = "Tipo operación"
+        '
+        'TUNIDAD_ADUANA
+        '
+        Me.TUNIDAD_ADUANA.AcceptsReturn = True
+        Me.TUNIDAD_ADUANA.AcceptsTab = True
+        Me.TUNIDAD_ADUANA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TUNIDAD_ADUANA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TUNIDAD_ADUANA.Location = New System.Drawing.Point(180, 173)
+        Me.TUNIDAD_ADUANA.Name = "TUNIDAD_ADUANA"
+        Me.TUNIDAD_ADUANA.Size = New System.Drawing.Size(70, 22)
+        Me.TUNIDAD_ADUANA.TabIndex = 6
+        '
+        'Label78
+        '
+        Me.Label78.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label78.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label78.Location = New System.Drawing.Point(280, 173)
+        Me.Label78.Name = "Label78"
+        Me.Label78.Size = New System.Drawing.Size(228, 23)
+        Me.Label78.TabIndex = 695
+        Me.Label78.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'TMOT_TRASLADO
+        '
+        Me.TMOT_TRASLADO.AcceptsReturn = True
+        Me.TMOT_TRASLADO.AcceptsTab = True
+        Me.TMOT_TRASLADO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TMOT_TRASLADO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TMOT_TRASLADO.Location = New System.Drawing.Point(180, 28)
+        Me.TMOT_TRASLADO.Name = "TMOT_TRASLADO"
+        Me.TMOT_TRASLADO.Size = New System.Drawing.Size(70, 22)
+        Me.TMOT_TRASLADO.TabIndex = 0
+        '
+        'Label71
+        '
+        Me.Label71.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label71.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label71.Location = New System.Drawing.Point(280, 28)
+        Me.Label71.Name = "Label71"
+        Me.Label71.Size = New System.Drawing.Size(228, 23)
+        Me.Label71.TabIndex = 692
+        Me.Label71.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'TINCOTERM
+        '
+        Me.TINCOTERM.AcceptsReturn = True
+        Me.TINCOTERM.AcceptsTab = True
+        Me.TINCOTERM.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TINCOTERM.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TINCOTERM.Location = New System.Drawing.Point(180, 145)
+        Me.TINCOTERM.Name = "TINCOTERM"
+        Me.TINCOTERM.Size = New System.Drawing.Size(70, 22)
+        Me.TINCOTERM.TabIndex = 4
+        '
+        'Label53
+        '
+        Me.Label53.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label53.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label53.Location = New System.Drawing.Point(280, 145)
+        Me.Label53.Name = "Label53"
+        Me.Label53.Size = New System.Drawing.Size(228, 23)
+        Me.Label53.TabIndex = 689
+        Me.Label53.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label92
+        '
+        Me.Label92.AutoSize = True
+        Me.Label92.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label92.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label92.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label92.Location = New System.Drawing.Point(75, 31)
+        Me.Label92.Name = "Label92"
+        Me.Label92.Size = New System.Drawing.Size(99, 16)
+        Me.Label92.TabIndex = 687
+        Me.Label92.Text = "Motivo traslado"
+        '
+        'Label97
+        '
+        Me.Label97.AutoSize = True
+        Me.Label97.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label97.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label97.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label97.Location = New System.Drawing.Point(74, 176)
+        Me.Label97.Name = "Label97"
+        Me.Label97.Size = New System.Drawing.Size(100, 16)
+        Me.Label97.TabIndex = 686
+        Me.Label97.Text = "Unidad aduana"
+        Me.Label97.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label83
+        '
+        Me.Label83.AutoSize = True
+        Me.Label83.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label83.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label83.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label83.Location = New System.Drawing.Point(96, 148)
+        Me.Label83.Name = "Label83"
+        Me.Label83.Size = New System.Drawing.Size(78, 16)
+        Me.Label83.TabIndex = 685
+        Me.Label83.Text = "INCOTERM"
+        Me.Label83.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label82
+        '
+        Me.Label82.AutoSize = True
+        Me.Label82.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label82.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label82.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label82.Location = New System.Drawing.Point(46, 89)
+        Me.Label82.Name = "Label82"
+        Me.Label82.Size = New System.Drawing.Size(128, 16)
+        Me.Label82.TabIndex = 682
+        Me.Label82.Text = "Clave de pedimento"
+        '
+        'TPEDIMENTO
+        '
+        Me.TPEDIMENTO.AcceptsReturn = True
+        Me.TPEDIMENTO.AcceptsTab = True
+        Me.TPEDIMENTO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TPEDIMENTO.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TPEDIMENTO.ForeColor = System.Drawing.Color.Black
+        Me.TPEDIMENTO.Location = New System.Drawing.Point(180, 86)
+        Me.TPEDIMENTO.MaxLength = 50
+        Me.TPEDIMENTO.Name = "TPEDIMENTO"
+        Me.TPEDIMENTO.Size = New System.Drawing.Size(328, 23)
+        Me.TPEDIMENTO.TabIndex = 2
+        '
+        'TXTN
+        '
+        Me.TXTN.AcceptsEscape = False
+        Me.TXTN.BackColor = System.Drawing.Color.White
+        Me.TXTN.BorderColor = System.Drawing.Color.SteelBlue
+        Me.TXTN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TXTN.CustomFormat = "###,###,##0.000"
+        Me.TXTN.Location = New System.Drawing.Point(879, 625)
+        Me.TXTN.Name = "TXTN"
+        Me.TXTN.Size = New System.Drawing.Size(123, 18)
+        Me.TXTN.TabIndex = 1
+        Me.TXTN.Tag = Nothing
+        Me.TXTN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'TXT
+        '
+        Me.TXT.AcceptsEscape = False
+        Me.TXT.BackColor = System.Drawing.Color.White
+        Me.TXT.BorderColor = System.Drawing.Color.SteelBlue
+        Me.TXT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TXT.Location = New System.Drawing.Point(879, 648)
+        Me.TXT.Name = "TXT"
+        Me.TXT.Size = New System.Drawing.Size(123, 18)
+        Me.TXT.TabIndex = 2
+        Me.TXT.Tag = Nothing
+        '
+        'Ltviaje2
+        '
+        Me.Ltviaje2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Ltviaje2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Ltviaje2.Font = New System.Drawing.Font("Tahoma", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Ltviaje2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Ltviaje2.Location = New System.Drawing.Point(965, 9)
+        Me.Ltviaje2.Name = "Ltviaje2"
+        Me.Ltviaje2.Size = New System.Drawing.Size(133, 26)
+        Me.Ltviaje2.TabIndex = 417
+        Me.Ltviaje2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label65
+        '
+        Me.Label65.AutoSize = True
+        Me.Label65.BackColor = System.Drawing.Color.FromArgb(CType(CType(187, Byte), Integer), CType(CType(206, Byte), Integer), CType(CType(230, Byte), Integer))
+        Me.Label65.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label65.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label65.Location = New System.Drawing.Point(886, 14)
+        Me.Label65.Name = "Label65"
+        Me.Label65.Size = New System.Drawing.Size(73, 15)
+        Me.Label65.TabIndex = 416
+        Me.Label65.Text = "Folio viaje"
+        '
+        'StiReport1
+        '
+        Me.StiReport1.CookieContainer = Nothing
+        Me.StiReport1.EngineVersion = Stimulsoft.Report.Engine.StiEngineVersion.EngineV2
+        Me.StiReport1.ReferencedAssemblies = New String() {"System.Dll", "System.Drawing.Dll", "System.Windows.Forms.Dll", "System.Data.Dll", "System.Xml.Dll", "Stimulsoft.Controls.Dll", "Stimulsoft.Base.Dll", "Stimulsoft.Report.Dll"}
+        Me.StiReport1.ReportAlias = "Report"
+        Me.StiReport1.ReportGuid = "82e48cc8cb2d41aea07eb92558731f3a"
+        Me.StiReport1.ReportImage = Nothing
+        Me.StiReport1.ReportName = "Report"
+        Me.StiReport1.ReportSource = Nothing
+        Me.StiReport1.ReportUnit = Stimulsoft.Report.StiReportUnitType.Centimeters
+        Me.StiReport1.ScriptLanguage = Stimulsoft.Report.StiReportLanguageType.CSharp
+        Me.StiReport1.UseProgressInThread = False
+        '
+        'MenuHolder
+        '
+        Me.MenuHolder.Animation = C1.Win.C1Command.C1AnimationEnum.[On]
+        Me.MenuHolder.Commands.Add(Me.BarGrabar)
+        Me.MenuHolder.Commands.Add(Me.BarImprimir)
+        Me.MenuHolder.Commands.Add(Me.BarCopiarViaje)
+        Me.MenuHolder.Commands.Add(Me.BarSalir)
+        Me.MenuHolder.Commands.Add(Me.BarEditarRemitente)
+        Me.MenuHolder.Commands.Add(Me.BarEditDestinatario)
+        Me.MenuHolder.Commands.Add(Me.C1CommandControl1)
+        Me.MenuHolder.Owner = Me
+        '
+        'C1CommandControl1
+        '
+        Me.C1CommandControl1.CommandActive = True
+        Me.C1CommandControl1.Control = Me.TFOLIOFG.Calculator
+        Me.C1CommandControl1.Name = "C1CommandControl1"
+        Me.C1CommandControl1.ShortcutText = ""
+        '
+        'C1ToolBar1
+        '
+        Me.C1ToolBar1.AccessibleName = "Tool Bar"
+        Me.C1ToolBar1.AutoSize = False
+        Me.C1ToolBar1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.C1ToolBar1.BackImageInImageBar = True
+        Me.C1ToolBar1.Border.Style = C1.Win.C1Command.BorderStyleEnum.Ridge
+        Me.C1ToolBar1.ButtonLayoutHorz = C1.Win.C1Command.ButtonLayoutEnum.TextBelow
+        Me.C1ToolBar1.ButtonLookHorz = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
+        Me.C1ToolBar1.ButtonLookVert = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
+        Me.C1ToolBar1.ButtonWidth = 98
+        Me.C1ToolBar1.CommandHolder = Nothing
+        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkGrabar, Me.LkCopiarViaje, Me.LkImprimir, Me.LkEditarRemitente, Me.LkEditDestinatario, Me.LkSalir})
+        Me.C1ToolBar1.Dock = System.Windows.Forms.DockStyle.Top
+        Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
+        Me.C1ToolBar1.Movable = False
+        Me.C1ToolBar1.Name = "C1ToolBar1"
+        Me.C1ToolBar1.Size = New System.Drawing.Size(1485, 43)
+        Me.C1ToolBar1.Text = "C1ToolBar1"
+        Me.C1ToolBar1.VisualStyle = C1.Win.C1Command.VisualStyle.Office2010Blue
+        Me.C1ToolBar1.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
+        '
+        'LkGrabar
+        '
+        Me.LkGrabar.Command = Me.BarGrabar
+        Me.LkGrabar.Delimiter = True
+        Me.LkGrabar.Text = "Grabar"
+        '
+        'LkCopiarViaje
+        '
+        Me.LkCopiarViaje.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
+        Me.LkCopiarViaje.Command = Me.BarCopiarViaje
+        Me.LkCopiarViaje.Delimiter = True
+        Me.LkCopiarViaje.SortOrder = 1
+        Me.LkCopiarViaje.Text = "Copiar viaje"
+        '
+        'LkImprimir
+        '
+        Me.LkImprimir.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
+        Me.LkImprimir.Command = Me.BarImprimir
+        Me.LkImprimir.Delimiter = True
+        Me.LkImprimir.SortOrder = 2
+        Me.LkImprimir.Text = "Imprimir"
+        '
+        'LkEditarRemitente
+        '
+        Me.LkEditarRemitente.Command = Me.BarEditarRemitente
+        Me.LkEditarRemitente.Delimiter = True
+        Me.LkEditarRemitente.SortOrder = 3
+        '
+        'LkEditDestinatario
+        '
+        Me.LkEditDestinatario.Command = Me.BarEditDestinatario
+        Me.LkEditDestinatario.Delimiter = True
+        Me.LkEditDestinatario.SortOrder = 4
+        Me.LkEditDestinatario.Text = "Editar destinatario"
+        '
+        'LkSalir
+        '
+        Me.LkSalir.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
+        Me.LkSalir.Command = Me.BarSalir
+        Me.LkSalir.Delimiter = True
+        Me.LkSalir.SortOrder = 5
+        Me.LkSalir.ToolTipText = "SALIR"
+        '
+        'SplitMG
+        '
+        Me.SplitMG.AutoSizeElement = C1.Framework.AutoSizeElement.Both
+        Me.SplitMG.BackColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer))
+        Me.SplitMG.BorderWidth = 1
+        Me.SplitMG.CollapsingCueColor = System.Drawing.Color.FromArgb(CType(CType(133, Byte), Integer), CType(CType(133, Byte), Integer), CType(CType(150, Byte), Integer))
+        Me.SplitMG.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.SplitMG.Location = New System.Drawing.Point(3, 47)
+        Me.SplitMG.Name = "SplitMG"
+        Me.SplitMG.Panels.Add(Me.SplitMG1)
+        Me.SplitMG.Panels.Add(Me.C1SplitterPanel1)
+        Me.SplitMG.Size = New System.Drawing.Size(1510, 678)
+        Me.SplitMG.TabIndex = 419
+        '
+        'SplitMG1
+        '
+        Me.SplitMG1.AutoScroll = True
+        Me.SplitMG1.AutoScrollMargin = New System.Drawing.Size(20, 20)
+        Me.SplitMG1.AutoScrollMinSize = New System.Drawing.Size(20, 20)
+        Me.SplitMG1.BorderWidth = 1
+        Me.SplitMG1.Controls.Add(Me.TAB1)
+        Me.SplitMG1.Dock = C1.Win.C1SplitContainer.PanelDockStyle.Left
+        Me.SplitMG1.Height = 676
+        Me.SplitMG1.Location = New System.Drawing.Point(2, 2)
+        Me.SplitMG1.Name = "SplitMG1"
+        Me.SplitMG1.Size = New System.Drawing.Size(1448, 674)
+        Me.SplitMG1.SizeRatio = 96.387R
+        Me.SplitMG1.TabIndex = 0
+        Me.SplitMG1.Width = 1450
+        '
+        'C1SplitterPanel1
+        '
+        Me.C1SplitterPanel1.AutoScroll = True
+        Me.C1SplitterPanel1.AutoScrollMargin = New System.Drawing.Size(20, 20)
+        Me.C1SplitterPanel1.Height = 676
+        Me.C1SplitterPanel1.Location = New System.Drawing.Point(1455, 1)
+        Me.C1SplitterPanel1.Name = "C1SplitterPanel1"
+        Me.C1SplitterPanel1.Size = New System.Drawing.Size(54, 676)
+        Me.C1SplitterPanel1.TabIndex = 1
+        '
+        'Label45
+        '
+        Me.Label45.AutoSize = True
+        Me.Label45.BackColor = System.Drawing.Color.FromArgb(CType(CType(187, Byte), Integer), CType(CType(206, Byte), Integer), CType(CType(230, Byte), Integer))
+        Me.Label45.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label45.Location = New System.Drawing.Point(643, 15)
+        Me.Label45.Name = "Label45"
+        Me.Label45.Size = New System.Drawing.Size(96, 15)
+        Me.Label45.TabIndex = 626
+        Me.Label45.Text = "Seleccione viaje"
+        '
+        'TFOLIO_VIAJE
+        '
+        Me.TFOLIO_VIAJE.BorderColor = System.Drawing.Color.LightSkyBlue
+        Me.TFOLIO_VIAJE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TFOLIO_VIAJE.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.TFOLIO_VIAJE.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TFOLIO_VIAJE.Location = New System.Drawing.Point(741, 12)
+        Me.TFOLIO_VIAJE.MaxLength = 9
+        Me.TFOLIO_VIAJE.Name = "TFOLIO_VIAJE"
+        Me.TFOLIO_VIAJE.Size = New System.Drawing.Size(105, 21)
+        Me.TFOLIO_VIAJE.TabIndex = 625
+        Me.TFOLIO_VIAJE.Tag = Nothing
+        Me.TFOLIO_VIAJE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TFOLIO_VIAJE.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnSelViaje
+        '
+        Me.BtnSelViaje.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnSelViaje.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnSelViaje.FlatAppearance.BorderSize = 0
+        Me.BtnSelViaje.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnSelViaje.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnSelViaje.Image = CType(resources.GetObject("BtnSelViaje.Image"), System.Drawing.Image)
+        Me.BtnSelViaje.Location = New System.Drawing.Point(849, 10)
+        Me.BtnSelViaje.Name = "BtnSelViaje"
+        Me.BtnSelViaje.Size = New System.Drawing.Size(24, 24)
+        Me.BtnSelViaje.TabIndex = 628
+        Me.BtnSelViaje.UseVisualStyleBackColor = True
+        '
+        'BtnPlazaFG
+        '
+        Me.BtnPlazaFG.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnPlazaFG.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnPlazaFG.FlatAppearance.BorderSize = 0
+        Me.BtnPlazaFG.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnPlazaFG.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnPlazaFG.Image = CType(resources.GetObject("BtnPlazaFG.Image"), System.Drawing.Image)
+        Me.BtnPlazaFG.Location = New System.Drawing.Point(265, 168)
+        Me.BtnPlazaFG.Name = "BtnPlazaFG"
+        Me.BtnPlazaFG.Size = New System.Drawing.Size(24, 24)
+        Me.BtnPlazaFG.TabIndex = 610
+        Me.BtnPlazaFG.UseVisualStyleBackColor = True
+        '
+        'BtnRecogerEn
+        '
+        Me.BtnRecogerEn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnRecogerEn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnRecogerEn.FlatAppearance.BorderSize = 0
+        Me.BtnRecogerEn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnRecogerEn.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnRecogerEn.Image = CType(resources.GetObject("BtnRecogerEn.Image"), System.Drawing.Image)
+        Me.BtnRecogerEn.Location = New System.Drawing.Point(135, 187)
+        Me.BtnRecogerEn.Name = "BtnRecogerEn"
+        Me.BtnRecogerEn.Size = New System.Drawing.Size(24, 24)
+        Me.BtnRecogerEn.TabIndex = 397
+        Me.BtnRecogerEn.UseVisualStyleBackColor = True
+        '
+        'BtnCLAVE_REM
+        '
+        Me.BtnCLAVE_REM.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnCLAVE_REM.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnCLAVE_REM.FlatAppearance.BorderSize = 0
+        Me.BtnCLAVE_REM.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnCLAVE_REM.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnCLAVE_REM.Image = CType(resources.GetObject("BtnCLAVE_REM.Image"), System.Drawing.Image)
+        Me.BtnCLAVE_REM.Location = New System.Drawing.Point(133, 15)
+        Me.BtnCLAVE_REM.Name = "BtnCLAVE_REM"
+        Me.BtnCLAVE_REM.Size = New System.Drawing.Size(24, 24)
+        Me.BtnCLAVE_REM.TabIndex = 391
+        Me.BtnCLAVE_REM.UseVisualStyleBackColor = True
+        '
+        'BtnEntregarEn
+        '
+        Me.BtnEntregarEn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnEntregarEn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnEntregarEn.FlatAppearance.BorderSize = 0
+        Me.BtnEntregarEn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnEntregarEn.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnEntregarEn.Image = CType(resources.GetObject("BtnEntregarEn.Image"), System.Drawing.Image)
+        Me.BtnEntregarEn.Location = New System.Drawing.Point(133, 185)
+        Me.BtnEntregarEn.Name = "BtnEntregarEn"
+        Me.BtnEntregarEn.Size = New System.Drawing.Size(24, 24)
+        Me.BtnEntregarEn.TabIndex = 399
+        Me.BtnEntregarEn.UseVisualStyleBackColor = True
+        '
+        'BtnCLAVE_DEST
+        '
+        Me.BtnCLAVE_DEST.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnCLAVE_DEST.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnCLAVE_DEST.FlatAppearance.BorderSize = 0
+        Me.BtnCLAVE_DEST.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnCLAVE_DEST.Image = CType(resources.GetObject("BtnCLAVE_DEST.Image"), System.Drawing.Image)
+        Me.BtnCLAVE_DEST.Location = New System.Drawing.Point(133, 14)
+        Me.BtnCLAVE_DEST.Name = "BtnCLAVE_DEST"
+        Me.BtnCLAVE_DEST.Size = New System.Drawing.Size(24, 24)
+        Me.BtnCLAVE_DEST.TabIndex = 392
+        Me.BtnCLAVE_DEST.UseVisualStyleBackColor = True
+        '
+        'BtnOper
+        '
+        Me.BtnOper.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnOper.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnOper.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnOper.Image = CType(resources.GetObject("BtnOper.Image"), System.Drawing.Image)
+        Me.BtnOper.Location = New System.Drawing.Point(136, 9)
+        Me.BtnOper.Name = "BtnOper"
+        Me.BtnOper.Size = New System.Drawing.Size(24, 22)
+        Me.BtnOper.TabIndex = 196
+        Me.BtnOper.UseVisualStyleBackColor = True
+        Me.BtnOper.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnTanqueEdit2
+        '
+        Me.BtnTanqueEdit2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnTanqueEdit2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnTanqueEdit2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnTanqueEdit2.Image = CType(resources.GetObject("BtnTanqueEdit2.Image"), System.Drawing.Image)
+        Me.BtnTanqueEdit2.Location = New System.Drawing.Point(1190, 74)
+        Me.BtnTanqueEdit2.Name = "BtnTanqueEdit2"
+        Me.BtnTanqueEdit2.Size = New System.Drawing.Size(24, 22)
+        Me.BtnTanqueEdit2.TabIndex = 513
+        Me.BtnTanqueEdit2.UseVisualStyleBackColor = True
+        Me.BtnTanqueEdit2.Visible = False
+        Me.BtnTanqueEdit2.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnTanque2
+        '
+        Me.BtnTanque2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnTanque2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnTanque2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnTanque2.Image = CType(resources.GetObject("BtnTanque2.Image"), System.Drawing.Image)
+        Me.BtnTanque2.Location = New System.Drawing.Point(991, 71)
+        Me.BtnTanque2.Name = "BtnTanque2"
+        Me.BtnTanque2.Size = New System.Drawing.Size(24, 22)
+        Me.BtnTanque2.TabIndex = 202
+        Me.BtnTanque2.UseVisualStyleBackColor = True
+        Me.BtnTanque2.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnTanqueEdit1
+        '
+        Me.BtnTanqueEdit1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnTanqueEdit1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnTanqueEdit1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnTanqueEdit1.Image = CType(resources.GetObject("BtnTanqueEdit1.Image"), System.Drawing.Image)
+        Me.BtnTanqueEdit1.Location = New System.Drawing.Point(1190, 49)
+        Me.BtnTanqueEdit1.Name = "BtnTanqueEdit1"
+        Me.BtnTanqueEdit1.Size = New System.Drawing.Size(24, 22)
+        Me.BtnTanqueEdit1.TabIndex = 512
+        Me.BtnTanqueEdit1.UseVisualStyleBackColor = True
+        Me.BtnTanqueEdit1.Visible = False
+        Me.BtnTanqueEdit1.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnTanque1
+        '
+        Me.BtnTanque1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnTanque1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnTanque1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnTanque1.Image = CType(resources.GetObject("BtnTanque1.Image"), System.Drawing.Image)
+        Me.BtnTanque1.Location = New System.Drawing.Point(991, 47)
+        Me.BtnTanque1.Name = "BtnTanque1"
+        Me.BtnTanque1.Size = New System.Drawing.Size(24, 22)
+        Me.BtnTanque1.TabIndex = 198
+        Me.BtnTanque1.UseVisualStyleBackColor = True
+        Me.BtnTanque1.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnTractorEdit
+        '
+        Me.BtnTractorEdit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnTractorEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnTractorEdit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnTractorEdit.Image = CType(resources.GetObject("BtnTractorEdit.Image"), System.Drawing.Image)
+        Me.BtnTractorEdit.Location = New System.Drawing.Point(1190, 24)
+        Me.BtnTractorEdit.Name = "BtnTractorEdit"
+        Me.BtnTractorEdit.Size = New System.Drawing.Size(24, 22)
+        Me.BtnTractorEdit.TabIndex = 514
+        Me.BtnTractorEdit.UseVisualStyleBackColor = True
+        Me.BtnTractorEdit.Visible = False
+        Me.BtnTractorEdit.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnDollyEdit
+        '
+        Me.BtnDollyEdit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnDollyEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnDollyEdit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnDollyEdit.Image = CType(resources.GetObject("BtnDollyEdit.Image"), System.Drawing.Image)
+        Me.BtnDollyEdit.Location = New System.Drawing.Point(1190, 97)
+        Me.BtnDollyEdit.Name = "BtnDollyEdit"
+        Me.BtnDollyEdit.Size = New System.Drawing.Size(24, 22)
+        Me.BtnDollyEdit.TabIndex = 515
+        Me.BtnDollyEdit.UseVisualStyleBackColor = True
+        Me.BtnDollyEdit.Visible = False
+        Me.BtnDollyEdit.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnTractor
+        '
+        Me.BtnTractor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnTractor.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnTractor.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnTractor.Image = CType(resources.GetObject("BtnTractor.Image"), System.Drawing.Image)
+        Me.BtnTractor.Location = New System.Drawing.Point(991, 23)
+        Me.BtnTractor.Name = "BtnTractor"
+        Me.BtnTractor.Size = New System.Drawing.Size(24, 22)
+        Me.BtnTractor.TabIndex = 208
+        Me.BtnTractor.UseVisualStyleBackColor = True
+        Me.BtnTractor.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnDolly
+        '
+        Me.BtnDolly.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnDolly.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnDolly.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnDolly.Image = CType(resources.GetObject("BtnDolly.Image"), System.Drawing.Image)
+        Me.BtnDolly.Location = New System.Drawing.Point(991, 93)
+        Me.BtnDolly.Name = "BtnDolly"
+        Me.BtnDolly.Size = New System.Drawing.Size(24, 22)
+        Me.BtnDolly.TabIndex = 212
+        Me.BtnDolly.UseVisualStyleBackColor = True
+        Me.BtnDolly.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnTabRutaViajes
+        '
+        Me.BtnTabRutaViajes.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnTabRutaViajes.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnTabRutaViajes.FlatAppearance.BorderSize = 0
+        Me.BtnTabRutaViajes.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnTabRutaViajes.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnTabRutaViajes.Image = CType(resources.GetObject("BtnTabRutaViajes.Image"), System.Drawing.Image)
+        Me.BtnTabRutaViajes.Location = New System.Drawing.Point(155, 11)
+        Me.BtnTabRutaViajes.Name = "BtnTabRutaViajes"
+        Me.BtnTabRutaViajes.Size = New System.Drawing.Size(24, 24)
+        Me.BtnTabRutaViajes.TabIndex = 448
+        Me.BtnTabRutaViajes.UseVisualStyleBackColor = True
+        '
+        'BtnMoneda
+        '
+        Me.BtnMoneda.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnMoneda.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnMoneda.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnMoneda.Image = CType(resources.GetObject("BtnMoneda.Image"), System.Drawing.Image)
+        Me.BtnMoneda.Location = New System.Drawing.Point(130, 113)
+        Me.BtnMoneda.Name = "BtnMoneda"
+        Me.BtnMoneda.Size = New System.Drawing.Size(24, 22)
+        Me.BtnMoneda.TabIndex = 427
+        Me.BtnMoneda.UseVisualStyleBackColor = True
+        Me.BtnMoneda.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnCliente
+        '
+        Me.BtnCliente.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnCliente.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnCliente.Image = CType(resources.GetObject("BtnCliente.Image"), System.Drawing.Image)
+        Me.BtnCliente.Location = New System.Drawing.Point(155, 84)
+        Me.BtnCliente.Name = "BtnCliente"
+        Me.BtnCliente.Size = New System.Drawing.Size(24, 21)
+        Me.BtnCliente.TabIndex = 498
+        Me.BtnCliente.UseVisualStyleBackColor = True
+        Me.BtnCliente.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BarVales
+        '
+        Me.BarVales.Image = Global.SGT_Transport.My.Resources.Resources.impresora27
+        Me.BarVales.Location = New System.Drawing.Point(1022, 234)
+        Me.BarVales.Name = "BarVales"
+        Me.BarVales.Size = New System.Drawing.Size(41, 33)
+        Me.BarVales.TabIndex = 376
+        Me.BarVales.UseVisualStyleBackColor = True
+        Me.BarVales.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BarImprimirGasto
+        '
+        Me.BarImprimirGasto.Image = Global.SGT_Transport.My.Resources.Resources.impresora27
+        Me.BarImprimirGasto.Location = New System.Drawing.Point(1022, 31)
+        Me.BarImprimirGasto.Name = "BarImprimirGasto"
+        Me.BarImprimirGasto.Size = New System.Drawing.Size(41, 33)
+        Me.BarImprimirGasto.TabIndex = 375
+        Me.BarImprimirGasto.UseVisualStyleBackColor = True
+        Me.BarImprimirGasto.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnGastosAlta
+        '
+        Me.BtnGastosAlta.Image = Global.SGT_Transport.My.Resources.Resources.mas12
+        Me.BtnGastosAlta.Location = New System.Drawing.Point(876, 29)
+        Me.BtnGastosAlta.Name = "BtnGastosAlta"
+        Me.BtnGastosAlta.Size = New System.Drawing.Size(34, 35)
+        Me.BtnGastosAlta.TabIndex = 368
+        Me.BtnGastosAlta.UseVisualStyleBackColor = True
+        Me.BtnGastosAlta.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'FgG
+        '
+        Me.FgG.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
+        Me.FgG.CellButtonImage = Global.SGT_Transport.My.Resources.Resources.lupa15
+        Me.FgG.ColumnInfo = resources.GetString("FgG.ColumnInfo")
+        Me.FgG.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Solid
+        Me.FgG.Font = New System.Drawing.Font("Tahoma", 9.0!)
+        Me.FgG.KeyActionEnter = C1.Win.C1FlexGrid.KeyActionEnum.MoveAcross
+        Me.FgG.KeyActionTab = C1.Win.C1FlexGrid.KeyActionEnum.MoveAcross
+        Me.FgG.Location = New System.Drawing.Point(16, 69)
+        Me.FgG.Name = "FgG"
+        Me.FgG.Rows.Count = 1
+        Me.FgG.Rows.DefaultSize = 21
+        Me.FgG.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Cell
+        Me.FgG.ShowButtons = C1.Win.C1FlexGrid.ShowButtonsEnum.Always
+        Me.FgG.ShowCursor = True
+        Me.FgG.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
+        Me.FgG.Size = New System.Drawing.Size(1391, 161)
+        Me.FgG.StyleInfo = resources.GetString("FgG.StyleInfo")
+        Me.FgG.TabIndex = 6
+        '
+        'BtnGastosBaja
+        '
+        Me.BtnGastosBaja.Image = Global.SGT_Transport.My.Resources.Resources.equis2
+        Me.BtnGastosBaja.Location = New System.Drawing.Point(924, 31)
+        Me.BtnGastosBaja.Name = "BtnGastosBaja"
+        Me.BtnGastosBaja.Size = New System.Drawing.Size(32, 33)
+        Me.BtnGastosBaja.TabIndex = 369
+        Me.BtnGastosBaja.UseVisualStyleBackColor = True
+        Me.BtnGastosBaja.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnValesBaja
+        '
+        Me.BtnValesBaja.Image = Global.SGT_Transport.My.Resources.Resources.equis2
+        Me.BtnValesBaja.Location = New System.Drawing.Point(924, 234)
+        Me.BtnValesBaja.Name = "BtnValesBaja"
+        Me.BtnValesBaja.Size = New System.Drawing.Size(32, 33)
+        Me.BtnValesBaja.TabIndex = 371
+        Me.BtnValesBaja.UseVisualStyleBackColor = True
+        Me.BtnValesBaja.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnValesAlta
+        '
+        Me.BtnValesAlta.Image = Global.SGT_Transport.My.Resources.Resources.mas12
+        Me.BtnValesAlta.Location = New System.Drawing.Point(876, 234)
+        Me.BtnValesAlta.Name = "BtnValesAlta"
+        Me.BtnValesAlta.Size = New System.Drawing.Size(32, 33)
+        Me.BtnValesAlta.TabIndex = 370
+        Me.BtnValesAlta.UseVisualStyleBackColor = True
+        Me.BtnValesAlta.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnAgregar
+        '
+        Me.BtnAgregar.Image = Global.SGT_Transport.My.Resources.Resources.mas12
+        Me.BtnAgregar.Location = New System.Drawing.Point(14, 18)
+        Me.BtnAgregar.Name = "BtnAgregar"
+        Me.BtnAgregar.Size = New System.Drawing.Size(41, 38)
+        Me.BtnAgregar.TabIndex = 1
+        Me.BtnAgregar.UseVisualStyleBackColor = True
+        Me.BtnAgregar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnEliminar
+        '
+        Me.BtnEliminar.Image = Global.SGT_Transport.My.Resources.Resources.equis2
+        Me.BtnEliminar.Location = New System.Drawing.Point(76, 18)
+        Me.BtnEliminar.Name = "BtnEliminar"
+        Me.BtnEliminar.Size = New System.Drawing.Size(42, 38)
+        Me.BtnEliminar.TabIndex = 2
+        Me.BtnEliminar.UseVisualStyleBackColor = True
+        Me.BtnEliminar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnEsquema
+        '
+        Me.BtnEsquema.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnEsquema.FlatAppearance.BorderSize = 0
+        Me.BtnEsquema.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnEsquema.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnEsquema.Image = CType(resources.GetObject("BtnEsquema.Image"), System.Drawing.Image)
+        Me.BtnEsquema.Location = New System.Drawing.Point(103, 174)
+        Me.BtnEsquema.Name = "BtnEsquema"
+        Me.BtnEsquema.Size = New System.Drawing.Size(21, 22)
+        Me.BtnEsquema.TabIndex = 429
+        Me.BtnEsquema.UseVisualStyleBackColor = True
+        Me.BtnEsquema.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnCveUnidad
+        '
+        Me.BtnCveUnidad.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnCveUnidad.FlatAppearance.BorderSize = 0
+        Me.BtnCveUnidad.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnCveUnidad.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnCveUnidad.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
+        Me.BtnCveUnidad.Location = New System.Drawing.Point(269, 61)
+        Me.BtnCveUnidad.Name = "BtnCveUnidad"
+        Me.BtnCveUnidad.Size = New System.Drawing.Size(22, 22)
+        Me.BtnCveUnidad.TabIndex = 619
+        Me.BtnCveUnidad.UseVisualStyleBackColor = True
+        Me.BtnCveUnidad.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnCveProd
+        '
+        Me.BtnCveProd.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnCveProd.FlatAppearance.BorderSize = 0
+        Me.BtnCveProd.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnCveProd.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnCveProd.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
+        Me.BtnCveProd.Location = New System.Drawing.Point(269, 37)
+        Me.BtnCveProd.Name = "BtnCveProd"
+        Me.BtnCveProd.Size = New System.Drawing.Size(22, 22)
+        Me.BtnCveProd.TabIndex = 618
+        Me.BtnCveProd.UseVisualStyleBackColor = True
+        Me.BtnCveProd.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BarMetodoPago
+        '
+        Me.BarMetodoPago.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BarMetodoPago.FlatAppearance.BorderSize = 0
+        Me.BarMetodoPago.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BarMetodoPago.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BarMetodoPago.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
+        Me.BarMetodoPago.Location = New System.Drawing.Point(269, 117)
+        Me.BarMetodoPago.Name = "BarMetodoPago"
+        Me.BarMetodoPago.Size = New System.Drawing.Size(22, 22)
+        Me.BarMetodoPago.TabIndex = 592
+        Me.BarMetodoPago.UseVisualStyleBackColor = True
+        Me.BarMetodoPago.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnUsoCFDI
+        '
+        Me.BtnUsoCFDI.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnUsoCFDI.FlatAppearance.BorderSize = 0
+        Me.BtnUsoCFDI.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnUsoCFDI.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnUsoCFDI.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
+        Me.BtnUsoCFDI.Location = New System.Drawing.Point(269, 146)
+        Me.BtnUsoCFDI.Name = "BtnUsoCFDI"
+        Me.BtnUsoCFDI.Size = New System.Drawing.Size(22, 22)
+        Me.BtnUsoCFDI.TabIndex = 581
+        Me.BtnUsoCFDI.UseVisualStyleBackColor = True
+        Me.BtnUsoCFDI.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'BtnPagoSAT
+        '
+        Me.BtnPagoSAT.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnPagoSAT.FlatAppearance.BorderSize = 0
+        Me.BtnPagoSAT.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnPagoSAT.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnPagoSAT.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
+        Me.BtnPagoSAT.Location = New System.Drawing.Point(269, 89)
+        Me.BtnPagoSAT.Name = "BtnPagoSAT"
+        Me.BtnPagoSAT.Size = New System.Drawing.Size(22, 22)
+        Me.BtnPagoSAT.TabIndex = 583
+        Me.BtnPagoSAT.UseVisualStyleBackColor = True
+        Me.BtnPagoSAT.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
         'BtnCveUni6
         '
         Me.BtnCveUni6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
@@ -6255,167 +6851,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnProdServ3.UseVisualStyleBackColor = True
         Me.BtnProdServ3.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
-        'Pag8
-        '
-        Me.Pag8.Controls.Add(Me.SplitM2)
-        Me.Pag8.Location = New System.Drawing.Point(1, 33)
-        Me.Pag8.Name = "Pag8"
-        Me.Pag8.Size = New System.Drawing.Size(1430, 536)
-        Me.Pag8.TabIndex = 7
-        Me.Pag8.Text = "Campos adicionales"
-        '
-        'SplitM2
-        '
-        Me.SplitM2.AutoSizeElement = C1.Framework.AutoSizeElement.Both
-        Me.SplitM2.BackColor = System.Drawing.Color.FromArgb(CType(CType(207, Byte), Integer), CType(CType(221, Byte), Integer), CType(CType(238, Byte), Integer))
-        Me.SplitM2.BorderWidth = 1
-        Me.SplitM2.CollapsingAreaColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(245, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.SplitM2.FixedLineColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
-        Me.SplitM2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(30, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(91, Byte), Integer))
-        Me.SplitM2.Location = New System.Drawing.Point(15, 14)
-        Me.SplitM2.Name = "SplitM2"
-        Me.SplitM2.Panels.Add(Me.SplitM2P1)
-        Me.SplitM2.Panels.Add(Me.SplitM2P2)
-        Me.SplitM2.Size = New System.Drawing.Size(1118, 329)
-        Me.SplitM2.SplitterColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
-        Me.SplitM2.TabIndex = 576
-        Me.SplitM2.ToolTipGradient = C1.Win.C1SplitContainer.ToolTipGradient.Blue
-        '
-        'SplitM2P1
-        '
-        Me.SplitM2P1.Controls.Add(Me.BtnCopiarCamposAdic)
-        Me.SplitM2P1.Height = 78
-        Me.SplitM2P1.Location = New System.Drawing.Point(1, 1)
-        Me.SplitM2P1.Name = "SplitM2P1"
-        Me.SplitM2P1.Size = New System.Drawing.Size(1116, 78)
-        Me.SplitM2P1.SizeRatio = 24.0R
-        Me.SplitM2P1.TabIndex = 0
-        '
-        'BtnCopiarCamposAdic
-        '
-        Me.BtnCopiarCamposAdic.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCopiarCamposAdic.Location = New System.Drawing.Point(31, 15)
-        Me.BtnCopiarCamposAdic.Name = "BtnCopiarCamposAdic"
-        Me.BtnCopiarCamposAdic.Size = New System.Drawing.Size(116, 37)
-        Me.BtnCopiarCamposAdic.TabIndex = 575
-        Me.BtnCopiarCamposAdic.Text = "Copiar campos adicionales"
-        Me.BtnCopiarCamposAdic.UseVisualStyleBackColor = True
-        Me.BtnCopiarCamposAdic.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2007Blue
-        '
-        'SplitM2P2
-        '
-        Me.SplitM2P2.Controls.Add(Me.FgA)
-        Me.SplitM2P2.Height = 245
-        Me.SplitM2P2.Location = New System.Drawing.Point(1, 83)
-        Me.SplitM2P2.Name = "SplitM2P2"
-        Me.SplitM2P2.Size = New System.Drawing.Size(1116, 245)
-        Me.SplitM2P2.TabIndex = 1
-        '
-        'FgA
-        '
-        Me.FgA.AllowFiltering = True
-        Me.FgA.AutoClipboard = True
-        Me.FgA.BackColor = System.Drawing.Color.White
-        Me.FgA.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
-        Me.FgA.ClipboardCopyMode = C1.Win.C1FlexGrid.ClipboardCopyModeEnum.DataAndColumnHeaders
-        Me.FgA.ColumnInfo = "3,1,0,0,0,95,Columns:0{Style:""Font:Microsoft Sans Serif, 9pt;"";}" & Global.Microsoft.VisualBasic.ChrW(9) & "1{Width:50;Style" &
-    ":""DataType:System.Int32;TextAlign:GeneralCenter;"";}" & Global.Microsoft.VisualBasic.ChrW(9) & "2{Width:1200;Caption:""Descri" &
-    "pción"";}" & Global.Microsoft.VisualBasic.ChrW(9)
-        Me.FgA.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Solid
-        Me.FgA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FgA.ForeColor = System.Drawing.Color.Black
-        Me.FgA.KeyActionTab = C1.Win.C1FlexGrid.KeyActionEnum.MoveDown
-        Me.FgA.Location = New System.Drawing.Point(17, 3)
-        Me.FgA.Name = "FgA"
-        Me.FgA.Rows.Count = 1
-        Me.FgA.Rows.DefaultSize = 22
-        Me.FgA.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.ListBox
-        Me.FgA.Size = New System.Drawing.Size(544, 208)
-        Me.FgA.StyleInfo = resources.GetString("FgA.StyleInfo")
-        Me.FgA.TabIndex = 314
-        Me.FgA.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Office2010Blue
-        '
-        'PagAdenda
-        '
-        Me.PagAdenda.Controls.Add(Me.TOBS)
-        Me.PagAdenda.Controls.Add(Me.Label103)
-        Me.PagAdenda.Controls.Add(Me.TPAIS)
-        Me.PagAdenda.Controls.Add(Me.Label101)
-        Me.PagAdenda.Controls.Add(Me.BtnPaisAdenda)
-        Me.PagAdenda.Controls.Add(Me.Label102)
-        Me.PagAdenda.Controls.Add(Me.TNUM_EXP_CONFIABLE)
-        Me.PagAdenda.Controls.Add(Me.Label99)
-        Me.PagAdenda.Controls.Add(Me.BtnNumExpCon)
-        Me.PagAdenda.Controls.Add(Me.Label100)
-        Me.PagAdenda.Controls.Add(Me.TTIPO_OPERACION)
-        Me.PagAdenda.Controls.Add(Me.Label81)
-        Me.PagAdenda.Controls.Add(Me.BtnTipoOper)
-        Me.PagAdenda.Controls.Add(Me.Label84)
-        Me.PagAdenda.Controls.Add(Me.TUNIDAD_ADUANA)
-        Me.PagAdenda.Controls.Add(Me.Label78)
-        Me.PagAdenda.Controls.Add(Me.BtnUniAduana)
-        Me.PagAdenda.Controls.Add(Me.TMOT_TRASLADO)
-        Me.PagAdenda.Controls.Add(Me.Label71)
-        Me.PagAdenda.Controls.Add(Me.BtnMotTras)
-        Me.PagAdenda.Controls.Add(Me.TINCOTERM)
-        Me.PagAdenda.Controls.Add(Me.Label53)
-        Me.PagAdenda.Controls.Add(Me.BtnINCOTERM)
-        Me.PagAdenda.Controls.Add(Me.Label92)
-        Me.PagAdenda.Controls.Add(Me.Label97)
-        Me.PagAdenda.Controls.Add(Me.Label83)
-        Me.PagAdenda.Controls.Add(Me.Label82)
-        Me.PagAdenda.Controls.Add(Me.TPEDIMENTO)
-        Me.PagAdenda.Location = New System.Drawing.Point(1, 33)
-        Me.PagAdenda.Name = "PagAdenda"
-        Me.PagAdenda.Size = New System.Drawing.Size(1430, 536)
-        Me.PagAdenda.TabIndex = 9
-        Me.PagAdenda.Text = "Addenda comercio exterior"
-        '
-        'TOBS
-        '
-        Me.TOBS.AcceptsReturn = True
-        Me.TOBS.AcceptsTab = True
-        Me.TOBS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TOBS.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TOBS.Location = New System.Drawing.Point(180, 231)
-        Me.TOBS.Name = "TOBS"
-        Me.TOBS.Size = New System.Drawing.Size(736, 22)
-        Me.TOBS.TabIndex = 8
-        '
-        'Label103
-        '
-        Me.Label103.AutoSize = True
-        Me.Label103.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label103.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label103.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label103.Location = New System.Drawing.Point(75, 234)
-        Me.Label103.Name = "Label103"
-        Me.Label103.Size = New System.Drawing.Size(99, 16)
-        Me.Label103.TabIndex = 710
-        Me.Label103.Text = "Observaciones"
-        Me.Label103.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TPAIS
-        '
-        Me.TPAIS.AcceptsReturn = True
-        Me.TPAIS.AcceptsTab = True
-        Me.TPAIS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TPAIS.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TPAIS.Location = New System.Drawing.Point(180, 202)
-        Me.TPAIS.Name = "TPAIS"
-        Me.TPAIS.Size = New System.Drawing.Size(70, 22)
-        Me.TPAIS.TabIndex = 7
-        '
-        'Label101
-        '
-        Me.Label101.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label101.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label101.Location = New System.Drawing.Point(280, 201)
-        Me.Label101.Name = "Label101"
-        Me.Label101.Size = New System.Drawing.Size(228, 23)
-        Me.Label101.TabIndex = 707
-        Me.Label101.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'BtnPaisAdenda
         '
         Me.BtnPaisAdenda.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
@@ -6428,40 +6863,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnPaisAdenda.TabIndex = 708
         Me.BtnPaisAdenda.UseVisualStyleBackColor = True
         Me.BtnPaisAdenda.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'Label102
-        '
-        Me.Label102.AutoSize = True
-        Me.Label102.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label102.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label102.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label102.Location = New System.Drawing.Point(140, 205)
-        Me.Label102.Name = "Label102"
-        Me.Label102.Size = New System.Drawing.Size(34, 16)
-        Me.Label102.TabIndex = 705
-        Me.Label102.Text = "Pais"
-        Me.Label102.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TNUM_EXP_CONFIABLE
-        '
-        Me.TNUM_EXP_CONFIABLE.AcceptsReturn = True
-        Me.TNUM_EXP_CONFIABLE.AcceptsTab = True
-        Me.TNUM_EXP_CONFIABLE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TNUM_EXP_CONFIABLE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TNUM_EXP_CONFIABLE.Location = New System.Drawing.Point(180, 116)
-        Me.TNUM_EXP_CONFIABLE.Name = "TNUM_EXP_CONFIABLE"
-        Me.TNUM_EXP_CONFIABLE.Size = New System.Drawing.Size(70, 22)
-        Me.TNUM_EXP_CONFIABLE.TabIndex = 3
-        '
-        'Label99
-        '
-        Me.Label99.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label99.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label99.Location = New System.Drawing.Point(280, 116)
-        Me.Label99.Name = "Label99"
-        Me.Label99.Size = New System.Drawing.Size(228, 23)
-        Me.Label99.TabIndex = 703
-        Me.Label99.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'BtnNumExpCon
         '
@@ -6476,40 +6877,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnNumExpCon.UseVisualStyleBackColor = True
         Me.BtnNumExpCon.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
-        'Label100
-        '
-        Me.Label100.AutoSize = True
-        Me.Label100.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label100.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label100.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label100.Location = New System.Drawing.Point(14, 119)
-        Me.Label100.Name = "Label100"
-        Me.Label100.Size = New System.Drawing.Size(160, 16)
-        Me.Label100.TabIndex = 701
-        Me.Label100.Text = "Nún. exportador confiable"
-        Me.Label100.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TTIPO_OPERACION
-        '
-        Me.TTIPO_OPERACION.AcceptsReturn = True
-        Me.TTIPO_OPERACION.AcceptsTab = True
-        Me.TTIPO_OPERACION.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TTIPO_OPERACION.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TTIPO_OPERACION.Location = New System.Drawing.Point(180, 57)
-        Me.TTIPO_OPERACION.Name = "TTIPO_OPERACION"
-        Me.TTIPO_OPERACION.Size = New System.Drawing.Size(70, 22)
-        Me.TTIPO_OPERACION.TabIndex = 1
-        '
-        'Label81
-        '
-        Me.Label81.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label81.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label81.Location = New System.Drawing.Point(280, 57)
-        Me.Label81.Name = "Label81"
-        Me.Label81.Size = New System.Drawing.Size(228, 23)
-        Me.Label81.TabIndex = 699
-        Me.Label81.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'BtnTipoOper
         '
         Me.BtnTipoOper.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
@@ -6522,39 +6889,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnTipoOper.TabIndex = 700
         Me.BtnTipoOper.UseVisualStyleBackColor = True
         Me.BtnTipoOper.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'Label84
-        '
-        Me.Label84.AutoSize = True
-        Me.Label84.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label84.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label84.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label84.Location = New System.Drawing.Point(75, 60)
-        Me.Label84.Name = "Label84"
-        Me.Label84.Size = New System.Drawing.Size(99, 16)
-        Me.Label84.TabIndex = 697
-        Me.Label84.Text = "Tipo operación"
-        '
-        'TUNIDAD_ADUANA
-        '
-        Me.TUNIDAD_ADUANA.AcceptsReturn = True
-        Me.TUNIDAD_ADUANA.AcceptsTab = True
-        Me.TUNIDAD_ADUANA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TUNIDAD_ADUANA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TUNIDAD_ADUANA.Location = New System.Drawing.Point(180, 173)
-        Me.TUNIDAD_ADUANA.Name = "TUNIDAD_ADUANA"
-        Me.TUNIDAD_ADUANA.Size = New System.Drawing.Size(70, 22)
-        Me.TUNIDAD_ADUANA.TabIndex = 6
-        '
-        'Label78
-        '
-        Me.Label78.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label78.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label78.Location = New System.Drawing.Point(280, 173)
-        Me.Label78.Name = "Label78"
-        Me.Label78.Size = New System.Drawing.Size(228, 23)
-        Me.Label78.TabIndex = 695
-        Me.Label78.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'BtnUniAduana
         '
@@ -6569,27 +6903,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnUniAduana.UseVisualStyleBackColor = True
         Me.BtnUniAduana.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
-        'TMOT_TRASLADO
-        '
-        Me.TMOT_TRASLADO.AcceptsReturn = True
-        Me.TMOT_TRASLADO.AcceptsTab = True
-        Me.TMOT_TRASLADO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TMOT_TRASLADO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TMOT_TRASLADO.Location = New System.Drawing.Point(180, 28)
-        Me.TMOT_TRASLADO.Name = "TMOT_TRASLADO"
-        Me.TMOT_TRASLADO.Size = New System.Drawing.Size(70, 22)
-        Me.TMOT_TRASLADO.TabIndex = 0
-        '
-        'Label71
-        '
-        Me.Label71.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label71.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label71.Location = New System.Drawing.Point(280, 28)
-        Me.Label71.Name = "Label71"
-        Me.Label71.Size = New System.Drawing.Size(228, 23)
-        Me.Label71.TabIndex = 692
-        Me.Label71.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'BtnMotTras
         '
         Me.BtnMotTras.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
@@ -6602,27 +6915,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnMotTras.TabIndex = 693
         Me.BtnMotTras.UseVisualStyleBackColor = True
         Me.BtnMotTras.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'TINCOTERM
-        '
-        Me.TINCOTERM.AcceptsReturn = True
-        Me.TINCOTERM.AcceptsTab = True
-        Me.TINCOTERM.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TINCOTERM.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TINCOTERM.Location = New System.Drawing.Point(180, 145)
-        Me.TINCOTERM.Name = "TINCOTERM"
-        Me.TINCOTERM.Size = New System.Drawing.Size(70, 22)
-        Me.TINCOTERM.TabIndex = 4
-        '
-        'Label53
-        '
-        Me.Label53.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label53.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label53.Location = New System.Drawing.Point(280, 145)
-        Me.Label53.Name = "Label53"
-        Me.Label53.Size = New System.Drawing.Size(228, 23)
-        Me.Label53.TabIndex = 689
-        Me.Label53.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'BtnINCOTERM
         '
@@ -6637,151 +6929,19 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnINCOTERM.UseVisualStyleBackColor = True
         Me.BtnINCOTERM.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
-        'Label92
-        '
-        Me.Label92.AutoSize = True
-        Me.Label92.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label92.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label92.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label92.Location = New System.Drawing.Point(75, 31)
-        Me.Label92.Name = "Label92"
-        Me.Label92.Size = New System.Drawing.Size(99, 16)
-        Me.Label92.TabIndex = 687
-        Me.Label92.Text = "Motivo traslado"
-        '
-        'Label97
-        '
-        Me.Label97.AutoSize = True
-        Me.Label97.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label97.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label97.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label97.Location = New System.Drawing.Point(74, 176)
-        Me.Label97.Name = "Label97"
-        Me.Label97.Size = New System.Drawing.Size(100, 16)
-        Me.Label97.TabIndex = 686
-        Me.Label97.Text = "Unidad aduana"
-        Me.Label97.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label83
-        '
-        Me.Label83.AutoSize = True
-        Me.Label83.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label83.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label83.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label83.Location = New System.Drawing.Point(96, 148)
-        Me.Label83.Name = "Label83"
-        Me.Label83.Size = New System.Drawing.Size(78, 16)
-        Me.Label83.TabIndex = 685
-        Me.Label83.Text = "INCOTERM"
-        Me.Label83.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label82
-        '
-        Me.Label82.AutoSize = True
-        Me.Label82.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label82.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label82.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label82.Location = New System.Drawing.Point(46, 89)
-        Me.Label82.Name = "Label82"
-        Me.Label82.Size = New System.Drawing.Size(128, 16)
-        Me.Label82.TabIndex = 682
-        Me.Label82.Text = "Clave de pedimento"
-        '
-        'TPEDIMENTO
-        '
-        Me.TPEDIMENTO.AcceptsReturn = True
-        Me.TPEDIMENTO.AcceptsTab = True
-        Me.TPEDIMENTO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TPEDIMENTO.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TPEDIMENTO.ForeColor = System.Drawing.Color.Black
-        Me.TPEDIMENTO.Location = New System.Drawing.Point(180, 86)
-        Me.TPEDIMENTO.MaxLength = 50
-        Me.TPEDIMENTO.Name = "TPEDIMENTO"
-        Me.TPEDIMENTO.Size = New System.Drawing.Size(328, 23)
-        Me.TPEDIMENTO.TabIndex = 2
-        '
-        'TXTN
-        '
-        Me.TXTN.AcceptsEscape = False
-        Me.TXTN.BackColor = System.Drawing.Color.White
-        Me.TXTN.BorderColor = System.Drawing.Color.SteelBlue
-        Me.TXTN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TXTN.CustomFormat = "###,###,##0.000"
-        Me.TXTN.Location = New System.Drawing.Point(879, 625)
-        Me.TXTN.Name = "TXTN"
-        Me.TXTN.Size = New System.Drawing.Size(123, 18)
-        Me.TXTN.TabIndex = 1
-        Me.TXTN.Tag = Nothing
-        Me.TXTN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'TXT
-        '
-        Me.TXT.AcceptsEscape = False
-        Me.TXT.BackColor = System.Drawing.Color.White
-        Me.TXT.BorderColor = System.Drawing.Color.SteelBlue
-        Me.TXT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TXT.Location = New System.Drawing.Point(879, 648)
-        Me.TXT.Name = "TXT"
-        Me.TXT.Size = New System.Drawing.Size(123, 18)
-        Me.TXT.TabIndex = 2
-        Me.TXT.Tag = Nothing
-        '
-        'Ltviaje2
-        '
-        Me.Ltviaje2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Ltviaje2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Ltviaje2.Font = New System.Drawing.Font("Tahoma", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Ltviaje2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Ltviaje2.Location = New System.Drawing.Point(965, 9)
-        Me.Ltviaje2.Name = "Ltviaje2"
-        Me.Ltviaje2.Size = New System.Drawing.Size(133, 26)
-        Me.Ltviaje2.TabIndex = 417
-        Me.Ltviaje2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label65
-        '
-        Me.Label65.AutoSize = True
-        Me.Label65.BackColor = System.Drawing.Color.FromArgb(CType(CType(187, Byte), Integer), CType(CType(206, Byte), Integer), CType(CType(230, Byte), Integer))
-        Me.Label65.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label65.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label65.Location = New System.Drawing.Point(886, 14)
-        Me.Label65.Name = "Label65"
-        Me.Label65.Size = New System.Drawing.Size(73, 15)
-        Me.Label65.TabIndex = 416
-        Me.Label65.Text = "Folio viaje"
-        '
-        'StiReport1
-        '
-        Me.StiReport1.CookieContainer = Nothing
-        Me.StiReport1.EngineVersion = Stimulsoft.Report.Engine.StiEngineVersion.EngineV2
-        Me.StiReport1.ReferencedAssemblies = New String() {"System.Dll", "System.Drawing.Dll", "System.Windows.Forms.Dll", "System.Data.Dll", "System.Xml.Dll", "Stimulsoft.Controls.Dll", "Stimulsoft.Base.Dll", "Stimulsoft.Report.Dll"}
-        Me.StiReport1.ReportAlias = "Report"
-        Me.StiReport1.ReportGuid = "82e48cc8cb2d41aea07eb92558731f3a"
-        Me.StiReport1.ReportImage = Nothing
-        Me.StiReport1.ReportName = "Report"
-        Me.StiReport1.ReportSource = Nothing
-        Me.StiReport1.ReportUnit = Stimulsoft.Report.StiReportUnitType.Centimeters
-        Me.StiReport1.ScriptLanguage = Stimulsoft.Report.StiReportLanguageType.CSharp
-        Me.StiReport1.UseProgressInThread = False
-        '
-        'MenuHolder
-        '
-        Me.MenuHolder.Animation = C1.Win.C1Command.C1AnimationEnum.[On]
-        Me.MenuHolder.Commands.Add(Me.BarGrabar)
-        Me.MenuHolder.Commands.Add(Me.BarImprimir)
-        Me.MenuHolder.Commands.Add(Me.BarCopiarViaje)
-        Me.MenuHolder.Commands.Add(Me.BarSalir)
-        Me.MenuHolder.Commands.Add(Me.BarEditarRemitente)
-        Me.MenuHolder.Commands.Add(Me.BarEditDestinatario)
-        Me.MenuHolder.Commands.Add(Me.C1CommandControl1)
-        Me.MenuHolder.Owner = Me
-        '
         'BarGrabar
         '
         Me.BarGrabar.Image = Global.SGT_Transport.My.Resources.Resources.disco1
         Me.BarGrabar.Name = "BarGrabar"
         Me.BarGrabar.ShortcutText = ""
         Me.BarGrabar.Text = "Salir"
+        '
+        'BarCopiarViaje
+        '
+        Me.BarCopiarViaje.Image = Global.SGT_Transport.My.Resources.Resources.unidadroja
+        Me.BarCopiarViaje.Name = "BarCopiarViaje"
+        Me.BarCopiarViaje.ShortcutText = ""
+        Me.BarCopiarViaje.Text = "Copiar viaje"
         '
         'BarImprimir
         '
@@ -6792,20 +6952,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BarImprimir.ShowTextAsToolTip = False
         Me.BarImprimir.Text = "Imprimir"
         Me.BarImprimir.Visible = False
-        '
-        'BarCopiarViaje
-        '
-        Me.BarCopiarViaje.Image = Global.SGT_Transport.My.Resources.Resources.unidadroja
-        Me.BarCopiarViaje.Name = "BarCopiarViaje"
-        Me.BarCopiarViaje.ShortcutText = ""
-        Me.BarCopiarViaje.Text = "Copiar viaje"
-        '
-        'BarSalir
-        '
-        Me.BarSalir.Image = Global.SGT_Transport.My.Resources.Resources.puertasalida
-        Me.BarSalir.Name = "BarSalir"
-        Me.BarSalir.ShortcutText = ""
-        Me.BarSalir.Text = "Salir"
         '
         'BarEditarRemitente
         '
@@ -6821,163 +6967,18 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BarEditDestinatario.ShortcutText = ""
         Me.BarEditDestinatario.Text = "Edit destinatario"
         '
-        'C1CommandControl1
+        'BarSalir
         '
-        Me.C1CommandControl1.CommandActive = True
-        Me.C1CommandControl1.Control = Me.TFOLIOFG.Calculator
-        Me.C1CommandControl1.Name = "C1CommandControl1"
-        Me.C1CommandControl1.ShortcutText = ""
-        '
-        'C1ToolBar1
-        '
-        Me.C1ToolBar1.AccessibleName = "Tool Bar"
-        Me.C1ToolBar1.AutoSize = False
-        Me.C1ToolBar1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.C1ToolBar1.BackImageInImageBar = True
-        Me.C1ToolBar1.Border.Style = C1.Win.C1Command.BorderStyleEnum.Ridge
-        Me.C1ToolBar1.ButtonLayoutHorz = C1.Win.C1Command.ButtonLayoutEnum.TextBelow
-        Me.C1ToolBar1.ButtonLookHorz = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
-        Me.C1ToolBar1.ButtonLookVert = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
-        Me.C1ToolBar1.ButtonWidth = 98
-        Me.C1ToolBar1.CommandHolder = Nothing
-        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkGrabar, Me.LkCopiarViaje, Me.LkImprimir, Me.LkEditarRemitente, Me.LkEditDestinatario, Me.LkSalir})
-        Me.C1ToolBar1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
-        Me.C1ToolBar1.Movable = False
-        Me.C1ToolBar1.Name = "C1ToolBar1"
-        Me.C1ToolBar1.Size = New System.Drawing.Size(1386, 43)
-        Me.C1ToolBar1.Text = "C1ToolBar1"
-        Me.C1ToolBar1.VisualStyle = C1.Win.C1Command.VisualStyle.Office2010Blue
-        Me.C1ToolBar1.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
-        '
-        'LkGrabar
-        '
-        Me.LkGrabar.Command = Me.BarGrabar
-        Me.LkGrabar.Delimiter = True
-        Me.LkGrabar.Text = "Grabar"
-        '
-        'LkCopiarViaje
-        '
-        Me.LkCopiarViaje.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
-        Me.LkCopiarViaje.Command = Me.BarCopiarViaje
-        Me.LkCopiarViaje.Delimiter = True
-        Me.LkCopiarViaje.SortOrder = 1
-        Me.LkCopiarViaje.Text = "Copiar viaje"
-        '
-        'LkImprimir
-        '
-        Me.LkImprimir.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
-        Me.LkImprimir.Command = Me.BarImprimir
-        Me.LkImprimir.Delimiter = True
-        Me.LkImprimir.SortOrder = 2
-        Me.LkImprimir.Text = "Imprimir"
-        '
-        'LkEditarRemitente
-        '
-        Me.LkEditarRemitente.Command = Me.BarEditarRemitente
-        Me.LkEditarRemitente.Delimiter = True
-        Me.LkEditarRemitente.SortOrder = 3
-        '
-        'LkEditDestinatario
-        '
-        Me.LkEditDestinatario.Command = Me.BarEditDestinatario
-        Me.LkEditDestinatario.Delimiter = True
-        Me.LkEditDestinatario.SortOrder = 4
-        Me.LkEditDestinatario.Text = "Editar destinatario"
-        '
-        'LkSalir
-        '
-        Me.LkSalir.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
-        Me.LkSalir.Command = Me.BarSalir
-        Me.LkSalir.Delimiter = True
-        Me.LkSalir.SortOrder = 5
-        Me.LkSalir.ToolTipText = "SALIR"
-        '
-        'SplitMG
-        '
-        Me.SplitMG.AutoSizeElement = C1.Framework.AutoSizeElement.Both
-        Me.SplitMG.BackColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer))
-        Me.SplitMG.BorderWidth = 1
-        Me.SplitMG.CollapsingCueColor = System.Drawing.Color.FromArgb(CType(CType(133, Byte), Integer), CType(CType(133, Byte), Integer), CType(CType(150, Byte), Integer))
-        Me.SplitMG.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.SplitMG.Location = New System.Drawing.Point(3, 47)
-        Me.SplitMG.Name = "SplitMG"
-        Me.SplitMG.Panels.Add(Me.SplitMG1)
-        Me.SplitMG.Panels.Add(Me.C1SplitterPanel1)
-        Me.SplitMG.Size = New System.Drawing.Size(1510, 678)
-        Me.SplitMG.TabIndex = 419
-        '
-        'SplitMG1
-        '
-        Me.SplitMG1.AutoScroll = True
-        Me.SplitMG1.AutoScrollMargin = New System.Drawing.Size(20, 20)
-        Me.SplitMG1.AutoScrollMinSize = New System.Drawing.Size(20, 20)
-        Me.SplitMG1.BorderWidth = 1
-        Me.SplitMG1.Controls.Add(Me.TAB1)
-        Me.SplitMG1.Dock = C1.Win.C1SplitContainer.PanelDockStyle.Left
-        Me.SplitMG1.Height = 676
-        Me.SplitMG1.Location = New System.Drawing.Point(2, 2)
-        Me.SplitMG1.Name = "SplitMG1"
-        Me.SplitMG1.Size = New System.Drawing.Size(1448, 674)
-        Me.SplitMG1.SizeRatio = 96.387R
-        Me.SplitMG1.TabIndex = 0
-        Me.SplitMG1.Width = 1450
-        '
-        'C1SplitterPanel1
-        '
-        Me.C1SplitterPanel1.AutoScroll = True
-        Me.C1SplitterPanel1.AutoScrollMargin = New System.Drawing.Size(20, 20)
-        Me.C1SplitterPanel1.Height = 676
-        Me.C1SplitterPanel1.Location = New System.Drawing.Point(1455, 1)
-        Me.C1SplitterPanel1.Name = "C1SplitterPanel1"
-        Me.C1SplitterPanel1.Size = New System.Drawing.Size(54, 676)
-        Me.C1SplitterPanel1.TabIndex = 1
-        '
-        'Label45
-        '
-        Me.Label45.AutoSize = True
-        Me.Label45.BackColor = System.Drawing.Color.FromArgb(CType(CType(187, Byte), Integer), CType(CType(206, Byte), Integer), CType(CType(230, Byte), Integer))
-        Me.Label45.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label45.Location = New System.Drawing.Point(643, 15)
-        Me.Label45.Name = "Label45"
-        Me.Label45.Size = New System.Drawing.Size(96, 15)
-        Me.Label45.TabIndex = 626
-        Me.Label45.Text = "Seleccione viaje"
-        '
-        'TFOLIO_VIAJE
-        '
-        Me.TFOLIO_VIAJE.BorderColor = System.Drawing.Color.LightSkyBlue
-        Me.TFOLIO_VIAJE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TFOLIO_VIAJE.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
-        Me.TFOLIO_VIAJE.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TFOLIO_VIAJE.Location = New System.Drawing.Point(741, 12)
-        Me.TFOLIO_VIAJE.MaxLength = 9
-        Me.TFOLIO_VIAJE.Name = "TFOLIO_VIAJE"
-        Me.TFOLIO_VIAJE.Size = New System.Drawing.Size(105, 21)
-        Me.TFOLIO_VIAJE.TabIndex = 625
-        Me.TFOLIO_VIAJE.Tag = Nothing
-        Me.TFOLIO_VIAJE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.TFOLIO_VIAJE.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'BtnSelViaje
-        '
-        Me.BtnSelViaje.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnSelViaje.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.BtnSelViaje.FlatAppearance.BorderSize = 0
-        Me.BtnSelViaje.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnSelViaje.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnSelViaje.Image = CType(resources.GetObject("BtnSelViaje.Image"), System.Drawing.Image)
-        Me.BtnSelViaje.Location = New System.Drawing.Point(849, 10)
-        Me.BtnSelViaje.Name = "BtnSelViaje"
-        Me.BtnSelViaje.Size = New System.Drawing.Size(24, 24)
-        Me.BtnSelViaje.TabIndex = 628
-        Me.BtnSelViaje.UseVisualStyleBackColor = True
+        Me.BarSalir.Image = Global.SGT_Transport.My.Resources.Resources.puertasalida
+        Me.BarSalir.Name = "BarSalir"
+        Me.BarSalir.ShortcutText = ""
+        Me.BarSalir.Text = "Salir"
         '
         'FrmAsigViajeBuenoAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1386, 788)
+        Me.ClientSize = New System.Drawing.Size(1485, 788)
         Me.Controls.Add(Me.BtnSelViaje)
         Me.Controls.Add(Me.Label45)
         Me.Controls.Add(Me.TFOLIO_VIAJE)
@@ -6993,220 +6994,220 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Name = "FrmAsigViajeBuenoAE"
         Me.VisualStyleHolder = C1.Win.C1Ribbon.VisualStyle.Custom
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
-        CType(Me.F1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.F1, System.ComponentModel.ISupportInitialize).EndInit
         Me.Box5.ResumeLayout(False)
-        Me.Box5.PerformLayout()
-        CType(Me.FRD, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FRC, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnOper, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Box5.PerformLayout
+        CType(Me.FRD, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.FRC, System.ComponentModel.ISupportInitialize).EndInit
         Me.Box4.ResumeLayout(False)
-        Me.Box4.PerformLayout()
-        CType(Me.TAB1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Box4.PerformLayout
+        CType(Me.TAB1, System.ComponentModel.ISupportInitialize).EndInit
         Me.TAB1.ResumeLayout(False)
         Me.Pag0.ResumeLayout(False)
-        CType(Me.SplitM1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SplitM1, System.ComponentModel.ISupportInitialize).EndInit
         Me.SplitM1.ResumeLayout(False)
         Me.SplitM1P3.ResumeLayout(False)
-        Me.SplitM1P3.PerformLayout()
-        CType(Me.TFOLIOFG, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CboSerieFG, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FFG, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TDIAS_CRED, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FPDFG, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FIFG, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitM1P3.PerformLayout
+        CType(Me.TFOLIOFG, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.CboSerieFG, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.FFG, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TDIAS_CRED, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.FPDFG, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.FIFG, System.ComponentModel.ISupportInitialize).EndInit
         Me.SplitM1P1.ResumeLayout(False)
-        Me.SplitM1P1.PerformLayout()
-        CType(Me.FgViajes, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TNETO2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TRETE2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TSUBT2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TIVA2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitM1P1.PerformLayout
+        CType(Me.FgViajes, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TNETO2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TRETE2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TSUBT2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TIVA2, System.ComponentModel.ISupportInitialize).EndInit
         Me.Pag1.ResumeLayout(False)
-        Me.Pag1.PerformLayout()
-        CType(Me.ChComplemento, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TKMS_VACIO, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TTIPO_CAMBIO, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TVOLUMEN_PESO, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FECHA, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Pag1.PerformLayout
+        CType(Me.ChComplemento, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TKMS_VACIO, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TTIPO_CAMBIO, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TVOLUMEN_PESO, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.FECHA, System.ComponentModel.ISupportInitialize).EndInit
         Me.Box1.ResumeLayout(False)
-        Me.Box1.PerformLayout()
-        CType(Me.ChCalleFiscal, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Box1.PerformLayout
+        CType(Me.ChCalleFiscal, System.ComponentModel.ISupportInitialize).EndInit
         Me.Box2.ResumeLayout(False)
-        Me.Box2.PerformLayout()
-        CType(Me.F2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnTanqueEdit2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnTanque2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnTanqueEdit1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnTanque1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnTractorEdit, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnDollyEdit, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnTractor, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnDolly, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnMoneda, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCliente, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Box2.PerformLayout
+        CType(Me.F2, System.ComponentModel.ISupportInitialize).EndInit
         Me.Pag3.ResumeLayout(False)
         Me.BoxGastos.ResumeLayout(False)
-        Me.BoxGastos.PerformLayout()
-        CType(Me.BarVales, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BarImprimirGasto, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnGastosAlta, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FgG, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnGastosBaja, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FgV, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnValesBaja, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnValesAlta, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.BoxGastos.PerformLayout
+        CType(Me.FgV, System.ComponentModel.ISupportInitialize).EndInit
         Me.Pag6.ResumeLayout(False)
-        CType(Me.SplitM3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SplitM3, System.ComponentModel.ISupportInitialize).EndInit
         Me.SplitM3.ResumeLayout(False)
         Me.SplitM3P1.ResumeLayout(False)
-        Me.SplitM3P1.PerformLayout()
-        CType(Me.ChHeader, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCopiarMercancias, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnExportarExcel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnImportarExcel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnBorrarMercancias, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CboHojas, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitM3P1.PerformLayout
+        CType(Me.ChHeader, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnCopiarMercancias, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnExportarExcel, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnImportarExcel, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnBorrarMercancias, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.CboHojas, System.ComponentModel.ISupportInitialize).EndInit
         Me.SplitM3P2.ResumeLayout(False)
-        Me.SplitM3P2.PerformLayout()
-        CType(Me.Fg, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitM3P2.PerformLayout
+        CType(Me.Fg, System.ComponentModel.ISupportInitialize).EndInit
         Me.Pag4.ResumeLayout(False)
-        CType(Me.SplitM4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SplitM4, System.ComponentModel.ISupportInitialize).EndInit
         Me.SplitM4.ResumeLayout(False)
         Me.SplitM4P1.ResumeLayout(False)
-        CType(Me.CboCarga, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCopiarCargas, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnAgregar, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnEliminar, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboCarga, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnCopiarCargas, System.ComponentModel.ISupportInitialize).EndInit
         Me.SplitM4P2.ResumeLayout(False)
-        CType(Me.FgCarga, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TXTC, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TXTNC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FgCarga, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TXTC, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TXTNC, System.ComponentModel.ISupportInitialize).EndInit
         Me.Pag7.ResumeLayout(False)
-        Me.Pag7.PerformLayout()
-        CType(Me.TABONO_NETO, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Pag7.PerformLayout
+        CType(Me.TABONO_NETO, System.ComponentModel.ISupportInitialize).EndInit
         Me.Gpo6.ResumeLayout(False)
-        Me.Gpo6.PerformLayout()
-        CType(Me.CboSerieFactura, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnEsquema, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCveUnidad, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCveProd, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_UNIDAD, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_PRODSERV, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TFOLIO, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BarMetodoPago, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnUsoCFDI, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnPagoSAT, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Gpo6.PerformLayout
+        CType(Me.CboSerieFactura, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_UNIDAD, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_PRODSERV, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TFOLIO, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
-        CType(Me.TFLETE, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TSUB_TOTAL, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TIVA, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TRET, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TNETO, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TIMPORTE_CONCEP, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_UNIDAD1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_PRODSERV1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox1.PerformLayout
+        CType(Me.TFLETE, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TSUB_TOTAL, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TIVA, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TRET, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TNETO, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TIMPORTE_CONCEP, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_UNIDAD1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_PRODSERV1, System.ComponentModel.ISupportInitialize).EndInit
         Me.GpoRem5.ResumeLayout(False)
-        Me.GpoRem5.PerformLayout()
-        CType(Me.TNETO_ABO3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TRET_ABO3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TIVA_ABO3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TSUBT_ABO3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TSALDO_NETO, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TSALDO_RET, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TNETO_O2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TNETO_O, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TSALDO_IVA, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TRET_O, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TRET_O2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TIVA_O, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TIVA_O2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TSALDO_SUBTOTAL, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TSUBT_O, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TSUBT_O2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CboConc1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TIVAC6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TIVAC5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TIVAC4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TIVAC3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TFLETEA, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TIVAC2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TIVAC1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TRET6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TRET5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TRET4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TRET3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TRET2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TRET1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChCAUSA_RET6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChCAUSA_IVA6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChCAUSA_RET5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChCAUSA_IVA5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChCAUSA_RET4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChCAUSA_IVA4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChCAUSA_RET3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChCAUSA_IVA3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChCAUSA_RET2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChCAUSA_IVA2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChCAUSA_RET1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChCAUSA_IVA1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_UNIDAD6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_PRODSERV6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_PRODSERV5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_UNIDAD5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_PRODSERV4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_PRODSERV3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_UNIDAD4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_PRODSERV2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_UNIDAD3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TMONTO6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TMONTO5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TCVE_UNIDAD2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TMONTO4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TMONTO3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TMONTO2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TMONTO1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CboConc6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CboConc4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CboConc5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CboConc2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CboConc3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCveUni6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnProdServ6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCveUni4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCveUni2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCveUni1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCveUni5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCveUni3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnProdServ4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnProdServ2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnProdServ1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnProdServ5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnProdServ3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GpoRem5.PerformLayout
+        CType(Me.TNETO_ABO3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TRET_ABO3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TIVA_ABO3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TSUBT_ABO3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TSALDO_NETO, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TSALDO_RET, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TNETO_O2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TNETO_O, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TSALDO_IVA, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TRET_O, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TRET_O2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TIVA_O, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TIVA_O2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TSALDO_SUBTOTAL, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TSUBT_O, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TSUBT_O2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.CboConc1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TIVAC6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TIVAC5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TIVAC4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TIVAC3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TFLETEA, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TIVAC2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TIVAC1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TRET6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TRET5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TRET4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TRET3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TRET2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TRET1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ChCAUSA_RET6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ChCAUSA_IVA6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ChCAUSA_RET5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ChCAUSA_IVA5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ChCAUSA_RET4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ChCAUSA_IVA4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ChCAUSA_RET3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ChCAUSA_IVA3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ChCAUSA_RET2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ChCAUSA_IVA2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ChCAUSA_RET1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ChCAUSA_IVA1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_UNIDAD6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_PRODSERV6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_PRODSERV5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_UNIDAD5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_PRODSERV4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_PRODSERV3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_UNIDAD4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_PRODSERV2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_UNIDAD3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TMONTO6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TMONTO5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TCVE_UNIDAD2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TMONTO4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TMONTO3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TMONTO2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TMONTO1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.CboConc6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.CboConc4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.CboConc5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.CboConc2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.CboConc3, System.ComponentModel.ISupportInitialize).EndInit
         Me.Pag8.ResumeLayout(False)
-        CType(Me.SplitM2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SplitM2, System.ComponentModel.ISupportInitialize).EndInit
         Me.SplitM2.ResumeLayout(False)
         Me.SplitM2P1.ResumeLayout(False)
-        CType(Me.BtnCopiarCamposAdic, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCopiarCamposAdic, System.ComponentModel.ISupportInitialize).EndInit
         Me.SplitM2P2.ResumeLayout(False)
-        CType(Me.FgA, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FgA, System.ComponentModel.ISupportInitialize).EndInit
         Me.PagAdenda.ResumeLayout(False)
-        Me.PagAdenda.PerformLayout()
-        CType(Me.BtnPaisAdenda, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnNumExpCon, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnTipoOper, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnUniAduana, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnMotTras, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnINCOTERM, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TXTN, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TXT, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SplitMG, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.PagAdenda.PerformLayout
+        CType(Me.TXTN, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TXT, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SplitMG, System.ComponentModel.ISupportInitialize).EndInit
         Me.SplitMG.ResumeLayout(False)
         Me.SplitMG1.ResumeLayout(False)
-        CType(Me.TFOLIO_VIAJE, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TFOLIO_VIAJE, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnOper, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnTanqueEdit2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnTanque2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnTanqueEdit1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnTanque1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnTractorEdit, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnDollyEdit, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnTractor, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnDolly, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnMoneda, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnCliente, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BarVales, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BarImprimirGasto, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnGastosAlta, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.FgG, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnGastosBaja, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnValesBaja, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnValesAlta, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnAgregar, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnEliminar, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnEsquema, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnCveUnidad, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnCveProd, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BarMetodoPago, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnUsoCFDI, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnPagoSAT, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnCveUni6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnProdServ6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnCveUni4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnCveUni2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnCveUni1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnCveUni5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnCveUni3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnProdServ4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnProdServ2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnProdServ1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnProdServ5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnProdServ3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnPaisAdenda, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnNumExpCon, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnTipoOper, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnUniAduana, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnMotTras, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnINCOTERM, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
-        Me.PerformLayout()
+        Me.PerformLayout
 
     End Sub
     Friend WithEvents Box5 As GroupBox
@@ -7618,4 +7619,5 @@ Partial Class FrmAsigViajeBuenoAE
     Friend WithEvents TVIAJE_COMPLE As TextBox
     Friend WithEvents Lt2 As Label
     Friend WithEvents ChComplemento As C1.Win.C1Input.C1CheckBox
+    Friend WithEvents C1XLBook1 As C1.C1Excel.C1XLBook
 End Class

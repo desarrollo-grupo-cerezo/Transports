@@ -170,8 +170,6 @@ Partial Class FrmAsignacionViajeAE
         Me.Pag5 = New C1.Win.C1Command.C1DockingTabPage()
         Me.Box10 = New System.Windows.Forms.GroupBox()
         Me.LtRuta1 = New System.Windows.Forms.Label()
-        Me.Label35 = New System.Windows.Forms.Label()
-        Me.TNOTA = New System.Windows.Forms.TextBox()
         Me.Label33 = New System.Windows.Forms.Label()
         Me.Label37 = New System.Windows.Forms.Label()
         Me.Label38 = New System.Windows.Forms.Label()
@@ -183,6 +181,8 @@ Partial Class FrmAsignacionViajeAE
         Me.TRUTAL_FULL_CAR = New System.Windows.Forms.TextBox()
         Me.TRUTA_SE_CAR = New System.Windows.Forms.TextBox()
         Me.TRUTA_FULL_VAC = New System.Windows.Forms.TextBox()
+        Me.Label35 = New System.Windows.Forms.Label()
+        Me.TNOTA = New System.Windows.Forms.TextBox()
         Me.StiReport1 = New Stimulsoft.Report.StiReport()
         Me.BarMenu.SuspendLayout()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1919,25 +1919,6 @@ Partial Class FrmAsignacionViajeAE
         Me.LtRuta1.Size = New System.Drawing.Size(471, 20)
         Me.LtRuta1.TabIndex = 285
         '
-        'Label35
-        '
-        Me.Label35.AutoSize = True
-        Me.Label35.Location = New System.Drawing.Point(74, 634)
-        Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(30, 13)
-        Me.Label35.TabIndex = 282
-        Me.Label35.Text = "Nota"
-        '
-        'TNOTA
-        '
-        Me.TNOTA.AcceptsReturn = True
-        Me.TNOTA.AcceptsTab = True
-        Me.TNOTA.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TNOTA.Location = New System.Drawing.Point(108, 630)
-        Me.TNOTA.Name = "TNOTA"
-        Me.TNOTA.Size = New System.Drawing.Size(745, 21)
-        Me.TNOTA.TabIndex = 32
-        '
         'Label33
         '
         Me.Label33.AutoSize = True
@@ -2040,6 +2021,25 @@ Partial Class FrmAsignacionViajeAE
         Me.TRUTA_FULL_VAC.Name = "TRUTA_FULL_VAC"
         Me.TRUTA_FULL_VAC.Size = New System.Drawing.Size(745, 21)
         Me.TRUTA_FULL_VAC.TabIndex = 30
+        '
+        'Label35
+        '
+        Me.Label35.AutoSize = True
+        Me.Label35.Location = New System.Drawing.Point(74, 634)
+        Me.Label35.Name = "Label35"
+        Me.Label35.Size = New System.Drawing.Size(30, 13)
+        Me.Label35.TabIndex = 282
+        Me.Label35.Text = "Nota"
+        '
+        'TNOTA
+        '
+        Me.TNOTA.AcceptsReturn = True
+        Me.TNOTA.AcceptsTab = True
+        Me.TNOTA.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TNOTA.Location = New System.Drawing.Point(108, 630)
+        Me.TNOTA.Name = "TNOTA"
+        Me.TNOTA.Size = New System.Drawing.Size(745, 21)
+        Me.TNOTA.TabIndex = 32
         '
         'StiReport1
         '

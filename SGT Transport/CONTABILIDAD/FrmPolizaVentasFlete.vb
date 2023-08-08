@@ -4,10 +4,14 @@ Imports System.Xml
 Imports C1.Win.C1Command
 Imports C1.Win.C1FlexGrid
 Imports System.Data.SqlClient
+Imports C1.Win
 
 Public Class FrmPolizaVentasFlete
 
     Private RUTA_MODELO As String = ""
+    Private lstPolizas As List(Of Poliza) = New List(Of Poliza)
+    Private lstCuentas As List(Of CuentaContable) = New List(Of CuentaContable)
+    Dim Debe As Decimal, Haber As Decimal
     Private Sub FrmPolizaVentasFlete_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If Not Valida_Conexion() Then
             Me.Close()
@@ -45,6 +49,7 @@ Public Class FrmPolizaVentasFlete
 
             F1.Value = D1
             F2.Value = D2
+
         Catch ex As Exception
             MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace)
             Bitacora("12. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -83,10 +88,10 @@ Public Class FrmPolizaVentasFlete
             c5.DataType = GetType(String)
             c5.Name = "Viaje"
 
-            Fg(0, 6) = "Formato Columnas Importes"
+            Fg(0, 6) = "IdPoliza"
             Dim c6 As Column = Fg.Cols(6)
             c6.DataType = GetType(String)
-            c6.Name = "Formato"
+            c6.Name = "IdPoliza"
 
             Fg(0, 7) = "Orden"
             Dim c7 As Column = Fg.Cols(7)
@@ -205,9 +210,11 @@ Public Class FrmPolizaVentasFlete
             Return
         End If
 
-        Dim Debe As Decimal, Haber As Decimal
+
         Dim Filtro As String
-        Dim NewStyle1 As CellStyle, NewStyle2 As CellStyle
+        Dim NewStyle1 As CellStyle, NewStyle2 As CellStyle, NewStyle3 As CellStyle, NewStyle4 As CellStyle
+        Dim TotalDocumentos As Integer = 0
+
         NewStyle1 = Fg.Styles.Add("NewStyle1")
         NewStyle1.BackColor = Color.CadetBlue
         NewStyle1.ForeColor = Color.Black
@@ -220,6 +227,12 @@ Public Class FrmPolizaVentasFlete
         NewStyle2.DataType = GetType(Decimal)
         NewStyle2.Format = "###,###,##0.00"
 
+        NewStyle3 = Fg.Styles.Add("NewStyle3")
+        NewStyle3.ForeColor = Color.DarkBlue
+
+        NewStyle4 = Fg.Styles.Add("NewStyle4")
+        NewStyle4.ForeColor = Color.Red
+
         Me.Cursor = Cursors.WaitCursor
         Fg.Cursor = Cursors.WaitCursor
         Fg.Focus()
@@ -227,11 +240,21 @@ Public Class FrmPolizaVentasFlete
         Fg.Rows.Count = 1
         Fg.Redraw = False
 
-        Filtro = String.Format("WHERE {0} BETWEEN '{1:yyyyMMdd}' AND '{2:yyyyMMdd}'", IIf(RadFechaCarga.Checked, "FechaViaje", "FechaFactura"), F1.Value, F2.Value)
+        Filtro = String.Format("{0} BETWEEN '{1:yyyyMMdd}' AND '{2:yyyyMMdd}' {3}",
+                               IIf(RadFechaCarga.Checked, "FechaViaje", "FechaFactura"), F1.Value, F2.Value,
+                               IIf(chkSinPoliza.CheckState = CheckState.Checked, "AND IdPoliza = 0", ""))
 
         Try
-            SQL = String.Format("SELECT FechaFactura, Factura, TipoFacturacion, FechaViaje, Viaje, FormatoColumnasImportes, Orden, TipoPoliza, NoPolizaCuenta, ConceptoPolizaDepto, DiaConceptoMov, TipoCambio, Debe, Haber, CentroCostos, Proyecto
-                   FROM VT_CTB_POLIZA_FACTURAS {0} ORDER BY FechaFactura, Factura, Orden", Filtro)
+            SQL = String.Format("SELECT a.*, b.EstaCuadrada, b.TotalDebe, b.TotalHaber, Diferencia = b.TotalDebe - b.TotalHaber  
+                                FROM VT_CTB_POLIZA_FACTURAS a
+                                INNER JOIN (SELECT Factura, IIF(SUM(cast(iif(Debe = '', '0.00', Debe) AS decimal(27, 6)))-SUM(cast(iif(Haber = '', '0.00', Haber) AS decimal(27, 6))) = 0, 1, 0) AS EstaCuadrada, 
+					                               TotalDebe	= SUM(cast(iif(Debe = '', '0.00', Debe) AS decimal(27, 6))),
+					                               TotalHaber	= SUM(cast(iif(Haber = '', '0.00', Haber) AS decimal(27, 6)))
+			                                FROM VT_CTB_POLIZA_FACTURAS
+			                                WHERE Orden IN (2, 6, 7, 8) AND {0} 
+                                GROUP BY Factura) b ON b.Factura = a.Factura
+                                WHERE {0}
+                                ORDER BY a.FechaFactura, a.Factura, a.Orden", Filtro)
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
@@ -243,23 +266,151 @@ Public Class FrmPolizaVentasFlete
                                        " " & vbTab & " " & vbTab & " " & vbTab & " " & vbTab & " " & vbTab &
                                        " " & vbTab & " " & vbTab & " " & vbTab & " " & vbTab & " " & vbTab &
                                        " " & vbTab & " ")
+
+                    Dim poliza As New Poliza()
+                    Dim auxiliar As New Auxiliar()
+                    Dim numPartida As Integer = 0
+                    lstPolizas = New List(Of Poliza)
+                    lstCuentas = New List(Of CuentaContable)
+                    Debe = 0
+                    Haber = 0
                     While dr.Read
 
-
                         Try
+#Region "Listado de Pólizas"
+                            ' Solo se prepara el listado con pólizas pendientes por generar
+                            If dr("IdPoliza").ToString().Equals("0") Then
+
+                                Select Case dr("Orden").ToString()
+                                    Case "1"
+                                        poliza = New Poliza()
+                                        numPartida = 0
+                                        With poliza
+                                            .TipoPoliza = dr("TipoPoliza").ToString()
+                                            .NumPoliza = ""
+                                            .Periodo = Convert.ToDateTime(dr("FechaFactura")).Month()
+                                            .Ejercicio = Convert.ToDateTime(dr("FechaFactura")).Year()
+                                            .FechaPoliza = Convert.ToDateTime(dr("FechaFactura"))
+                                            .ConceptoPoliza = dr("ConceptoPolizaDepto").ToString()
+                                            '.NumPartida
+                                            .LogAudita = "N"
+                                            .Contabiliza = "S"
+                                            .NumParCua = 0
+                                            .TieneDocumentos = 0
+                                            .PROCCONTAB = 0
+                                            .Origen = "SGT"
+                                            '.UUID
+                                            .EsPolizaPrivada = 0
+                                            '.UUIDOP
+                                            .TipoDocumentoPoliza = EnmTipoDocumentoPoliza.VentasFletes
+                                            .Documentos.Add(New Documento(EnmTipoDocumento.FacturaVentas, dr("Factura").ToString()))
+                                        End With
+                                    Case "2"
+                                        numPartida = numPartida + 1
+                                        auxiliar = New Auxiliar()
+                                        With auxiliar
+                                            .TipoPoliza = poliza.TipoPoliza
+                                            .NumPoliza = poliza.NumPoliza
+                                            .NumPartida = numPartida
+                                            .Periodo = poliza.Periodo
+                                            .Ejercicio = poliza.Ejercicio
+                                            .NumCuenta = dr("NoPolizaCuenta").ToString()
+                                            .FechaPoliza = poliza.FechaPoliza
+                                            .ConceptoPoliza = dr("DiaConceptoMov").ToString()
+                                            .DebeHaber = "D"
+                                            .MontoMovimiento = Convert.ToDouble(dr("Debe"))
+                                            .NumDepartamento = 0
+                                            .TipoCambio = Convert.ToDouble(dr("TipoCambio"))
+                                            .ContraPartida = 0
+                                            .Orden = numPartida
+                                            .CCostos = 0
+                                            .CGupos = 0
+                                            .IDINFADIPAR = -1
+
+                                        End With
+                                        RegistraCuenta(poliza.Ejercicio, dr("NoPolizaCuenta").ToString())
+                                    'Continua en el 4
+                                    'poliza.Auxiliares.Add(auxiliar)
+                                    Case "4"
+                                        With auxiliar.UUID
+                                            .NumReg = -1
+                                            .UUID = dr("Proyecto").ToString()
+                                            .Monto = Convert.ToDouble(dr("CentroCostos").ToString().Replace(",", ""))
+                                            .Serie = dr("DiaConceptoMov").ToString()
+                                            .Folio = dr("TipoCambio").ToString()
+                                            .RfcEmisor = dr("Debe").ToString()
+                                            .RfcReceptor = dr("Haber").ToString()
+                                            .Orden = 1
+                                            .Fecha = Convert.ToDateTime(dr("FechaFactura"))
+                                            .TipoComprobante = 1
+                                            .TipoCambio = Convert.ToDouble(dr("TipoCambioCFDI"))
+                                            .VersionCFDI = dr("VersionCFDI").ToString()
+                                            .Moneda = dr("MonedaCFDI").ToString()
+                                        End With
+                                        poliza.Auxiliares.Add(auxiliar)
+                                        poliza.UUID = dr("Proyecto").ToString()
+                                    Case "6", "7", "8"
+                                        numPartida = numPartida + 1
+                                        auxiliar = New Auxiliar()
+                                        With auxiliar
+                                            .TipoPoliza = poliza.TipoPoliza
+                                            .NumPoliza = poliza.NumPoliza
+                                            .NumPartida = numPartida
+                                            .Periodo = poliza.Periodo
+                                            .Ejercicio = poliza.Ejercicio
+                                            .NumCuenta = dr("NoPolizaCuenta").ToString()
+                                            .FechaPoliza = poliza.FechaPoliza
+                                            .ConceptoPoliza = dr("DiaConceptoMov").ToString()
+                                            .DebeHaber = IIf(dr("Orden").ToString().Equals("6"), "D", "H")
+                                            .MontoMovimiento = Convert.ToDouble(IIf(dr("Orden").ToString().Equals("6"), dr("Debe"), dr("Haber")))
+                                            .NumDepartamento = 0
+                                            .TipoCambio = Convert.ToDouble(dr("TipoCambio"))
+                                            .ContraPartida = 0
+                                            .Orden = numPartida
+                                            .CCostos = 0
+                                            .CGupos = 0
+                                            .IDINFADIPAR = -1
+                                            .UUID.NumReg = -1
+                                        End With
+                                        RegistraCuenta(poliza.Ejercicio, dr("NoPolizaCuenta").ToString())
+                                        poliza.Auxiliares.Add(auxiliar)
+
+                                        ' Se considera el Orden 8 ya que es el registro que contiene los viajes relacionados
+                                        If dr("Orden").ToString().Equals("8") Then
+                                            poliza.Documentos.Add(New Documento(EnmTipoDocumento.Viaje, dr("Viaje").ToString()))
+                                        End If
+
+                                    Case "9"
+                                        poliza.NumPartida = numPartida
+                                        lstPolizas.Add(poliza)
+
+                                End Select
+                            End If
+#End Region
 
                             Fg.AddItem("" & vbTab & dr("FechaFactura") & vbTab & dr("Factura") & vbTab & dr("TipoFacturacion") & vbTab & dr("FechaViaje") & vbTab &
-                                       dr("Viaje") & vbTab & dr("FormatoColumnasImportes") & vbTab & dr("Orden") & vbTab & dr("TipoPoliza") & vbTab & dr("NoPolizaCuenta") & vbTab &
+                                       dr("Viaje") & vbTab & dr("IdPoliza") & vbTab & dr("Orden") & vbTab & dr("TipoPoliza") & vbTab & dr("NoPolizaCuenta") & vbTab &
                                        dr("ConceptoPolizaDepto") & vbTab & dr("DiaConceptoMov") & vbTab & dr("TipoCambio") & vbTab & dr("Debe") & vbTab & dr("Haber") & vbTab &
                                        dr("CentroCostos") & vbTab & dr("Proyecto"))
 
                             If dr("Orden").ToString().Equals("2") Or dr("Orden").ToString().Equals("6") Then
                                 Debe += Convert.ToDecimal(dr("Debe").ToString().Replace(",", ""))
+                                If dr("EstaCuadrada").ToString().Equals("0") Then
+                                    Fg.SetCellStyle(Fg.Rows.Count - 1, 13, NewStyle4)
+                                End If
                             End If
                             If dr("Orden").ToString().Equals("7") Or dr("Orden").ToString().Equals("8") Then
                                 Haber += Convert.ToDecimal(dr("Haber").ToString().Replace(",", ""))
+                                If dr("EstaCuadrada").ToString().Equals("0") Then
+                                    Fg.SetCellStyle(Fg.Rows.Count - 1, 14, NewStyle4)
+                                End If
                             End If
-
+                            If dr("Orden").ToString().Equals("1") And Not dr("IdPoliza").ToString().Equals("0") Then
+                                Fg.SetCellStyle(Fg.Rows.Count - 1, 9, NewStyle3)
+                            End If
+                            If dr("Orden").ToString().Equals("1") Then
+                                TotalDocumentos = TotalDocumentos + 1
+                            End If
                         Catch ex As Exception
                             Bitacora("14. " & ex.Message & vbNewLine & ex.StackTrace)
                         End Try
@@ -275,7 +426,7 @@ Public Class FrmPolizaVentasFlete
             Fg.SetCellStyle(Fg.Rows.Count - 1, 14, IIf(Debe = Haber, NewStyle1, NewStyle2))
             Fg.AutoSizeCols()
 
-            LtNUm.Text = "Registros encontrados: " & Fg.Rows.Count - 1
+            LtNUm.Text = "Pólizas encontradas: " & TotalDocumentos
             Fg.Select()
         Catch ex As Exception
             Bitacora("14. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -290,9 +441,31 @@ Public Class FrmPolizaVentasFlete
 
     Private Sub BarExcel_Click(sender As Object, e As ClickEventArgs) Handles BarExcel.Click
         Try
+            Fg.AllowFiltering = True
             Fg.FilterDefinition = "<ColumnFilters><ColumnFilter ColumnIndex='6' ColumnName='Orden' DataType='System.String'><ConditionFilter AndConditions='True'><Condition Operator='DoesNotContain' Parameter='99' /></ConditionFilter></ColumnFilter></ColumnFilters>"
             EXPORTAR_EXCEL_TRANSPORT(Fg, "Poliza ventas flete", True)
+
             Fg.FilterDefinition = ""
+            Fg.AllowFiltering = False
+
+        Catch ex As Exception
+            MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace)
+            Bitacora("12. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
+    Private Sub BarCopy_Click(sender As Object, e As ClickEventArgs) Handles BarCopy.Click
+        Try
+            If Fg.Rows.Count < 2 Then Return
+
+            Dim rng As New CellRange()
+            rng.r1 = 1
+            rng.r2 = Fg.Rows.Count - 2
+            rng.c1 = 8
+            rng.c2 = 16
+
+            Copia_Portapapeles_Grid(Fg, rng)
+
         Catch ex As Exception
             MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace)
             Bitacora("12. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -308,6 +481,47 @@ Public Class FrmPolizaVentasFlete
     End Sub
 
     Private Sub BarGenPoliza_Click(sender As Object, e As ClickEventArgs) Handles BarGenPoliza.Click
+        Try
+
+            If lstPolizas.Count = 0 Then
+                MsgBox("No hay pólizas pendientes de generar")
+                Return
+            End If
+
+            If Debe <> Haber Then
+                MsgBox("Totales de pólizas descuadradas, favor de verificar")
+                Return
+            End If
+
+            Dim coi As New COIdb()
+            If Not coi.ValidaConexion() Then
+                MsgBox("No se pudo establecer conexion con la Base de Datos, favor de verificar")
+                Return
+            End If
+
+            If Not coi.ValidaCuentas(lstCuentas) Then
+                MarcaCuentas()
+                MsgBox("Algunas cuentas no existen en COI y/o mas de una coincidencia, favor de verificar")
+                Return
+            End If
+
+            If Not coi.GeneraPoliza(lstPolizas, lstCuentas) Then
+                MsgBox("Error al generar la póliza")
+                Return
+            End If
+
+            Fg.Rows.Count = 1
+            'Fg.Redraw = False
+            lstPolizas = New List(Of Poliza)
+            lstCuentas = New List(Of CuentaContable)
+            Debe = 0
+            Haber = 0
+            MsgBox("Pólizas generadas correctamente")
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            Bitacora("14. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
 
     End Sub
 
@@ -315,5 +529,43 @@ Public Class FrmPolizaVentasFlete
         Me.Close()
     End Sub
 
+    Private Sub RegistraCuenta(Anio As Integer, Cuenta As String)
+        If Not lstCuentas.Where(Function(x) x.Ejercicio = Anio And x.NumCuenta = Cuenta).Any() Then
+            lstCuentas.Add(New CuentaContable(Anio, Cuenta))
+        End If
+    End Sub
+
+    Private Function CuentaOk(Anio As Integer, Cuenta As String) As Boolean
+        If lstCuentas.Where(Function(x) x.Ejercicio = Anio And x.NumCuenta = Cuenta And (x.NumCuentaAsignada = "" Or x.Coincidencias > 1)).Any() Then
+            Return False
+        End If
+
+        Return True
+    End Function
+
+    Private Sub MarcaCuentas()
+        Dim k As Integer
+        Dim fecha As DateTime
+        Dim cuenta As String
+        Dim NewStyle1 As CellStyle
+
+        NewStyle1 = Fg.Styles.Add("NewStyle1")
+        NewStyle1.BackColor = Color.Red
+        NewStyle1.ForeColor = Color.White
+
+        For k = 1 To Fg.Rows.Count - 1
+
+            If Fg(k, 7).Equals("2") Or Fg(k, 7).Equals("6") Or Fg(k, 7).Equals("7") Or Fg(k, 7).Equals("8") Then ' Orden
+
+                fecha = Convert.ToDateTime(Fg(k, 1)) ' Fecha Factura
+                cuenta = Fg(k, 9) ' Núm. Póliza / No. Cuenta
+                If Not CuentaOk(fecha.Year, cuenta) Then
+                    Fg.SetCellStyle(k, 9, NewStyle1)
+                End If
+
+            End If
+
+        Next
+    End Sub
 
 End Class

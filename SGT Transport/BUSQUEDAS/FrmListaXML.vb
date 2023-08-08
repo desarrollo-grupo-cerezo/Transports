@@ -156,10 +156,22 @@ Public Class FrmListaXML
                     'Fg(0, 2) = "Estado"
                     'Fg(0, 3) = "Municipio"
                     'Fg(0, 4) = "Localidad"
-                    Var4 = Fg(Fg.Row, 1)
-                    Var7 = Fg(Fg.Row, 2)
-                    Var8 = Fg(Fg.Row, 3)
-                    Var9 = Fg(Fg.Row, 4)
+                    Var4 = "" : Var7 = "" : Var8 = "" : Var9 = ""
+                    If Not IsDBNull(Fg(Fg.Row, 1)) AndAlso Fg(Fg.Row, 1) IsNot Nothing Then
+                        Var4 = Fg(Fg.Row, 1)
+                    End If
+
+                    If Not IsDBNull(Fg(Fg.Row, 2)) AndAlso Fg(Fg.Row, 2) IsNot Nothing Then
+                        Var7 = Fg(Fg.Row, 2)
+                    End If
+
+                    If Not IsDBNull(Fg(Fg.Row, 3)) AndAlso Fg(Fg.Row, 3) IsNot Nothing Then
+                        Var8 = Fg(Fg.Row, 3)
+                    End If
+
+                    If Not IsDBNull(Fg(Fg.Row, 4)) AndAlso Fg(Fg.Row, 4) IsNot Nothing Then
+                        Var9 = Fg(Fg.Row, 4)
+                    End If
 
                 End If
                 Me.Close()

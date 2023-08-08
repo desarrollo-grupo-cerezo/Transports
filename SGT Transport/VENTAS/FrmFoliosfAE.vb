@@ -23,6 +23,8 @@ Public Class FrmFoliosfAE
         tFOLIOHASTA.Text = ""
         tSERIE.Text = ""
         tULT_DOC.Text = ""
+        txCtaMN.Text = ""
+        txCtaUSD.Text = ""
 
         CboTipo.Items.Add("Impresión")
         CboTipo.Items.Add("Digital")
@@ -45,7 +47,7 @@ Public Class FrmFoliosfAE
                 Dim dr As SqlDataReader
                 cmd.Connection = cnSAE
 
-                SQL = "SELECT L.TIP_DOC, L.TIPO, L.FOLIODESDE, L.FOLIOHASTA, L.SERIE, L.ULT_DOC, L.FECH_ULT_DOC, L.STATUS
+                SQL = "SELECT L.TIP_DOC, L.TIPO, L.FOLIODESDE, L.FOLIOHASTA, L.SERIE, L.ULT_DOC, L.FECH_ULT_DOC, L.STATUS, L.CTA_VTA_MN, L.CTA_VTA_USD
                     FROM FOLIOSF" & Empresa & " L 
                     WHERE TIP_DOC = '" & TIP_DOC & "' AND SERIE = '" & Var6 & "'"
                 cmd.CommandText = SQL
@@ -62,6 +64,8 @@ Public Class FrmFoliosfAE
                     Else
                         CboTipo.SelectedIndex = 1
                     End If
+                    txCtaMN.Text = dr("CTA_VTA_MN").ToString
+                    txCtaUSD.Text = dr("CTA_VTA_USD").ToString
                 End If
                 dr.Close()
 
@@ -108,11 +112,11 @@ Public Class FrmFoliosfAE
             Return
         End If
 
-        SQL = "UPDATE FOLIOSF" & Empresa & " SET FOLIODESDE = @FOLIODESDE, FOLIOHASTA = @FOLIOHASTA, ULT_DOC = @ULT_DOC, TIPO = @TIPO
+        SQL = "UPDATE FOLIOSF" & Empresa & " SET FOLIODESDE = @FOLIODESDE, FOLIOHASTA = @FOLIOHASTA, ULT_DOC = @ULT_DOC, TIPO = @TIPO, CTA_VTA_MN = @CTA_VTA_MN, CTA_VTA_USD = @CTA_VTA_USD
             WHERE TIP_DOC = @TIP_DOC AND SERIE = @SERIE
             IF @@ROWCOUNT = 0
-            INSERT INTO FOLIOSF" & Empresa & " (TIP_DOC, TIPO, FOLIODESDE, FOLIOHASTA, SERIE, ULT_DOC, FECH_ULT_DOC, STATUS)
-            VALUES(@TIP_DOC, @TIPO, @FOLIODESDE, @FOLIOHASTA, @SERIE, @ULT_DOC, GETDATE(), 'D')"
+            INSERT INTO FOLIOSF" & Empresa & " (TIP_DOC, TIPO, FOLIODESDE, FOLIOHASTA, SERIE, ULT_DOC, FECH_ULT_DOC, STATUS, CTA_VTA_MN, CTA_VTA_USD)
+            VALUES(@TIP_DOC, @TIPO, @FOLIODESDE, @FOLIOHASTA, @SERIE, @ULT_DOC, GETDATE(), 'D', @CTA_VTA_MN, @CTA_VTA_USD)"
 
         Dim cmd As New SqlCommand
         cmd.Connection = cnSAE
@@ -124,6 +128,8 @@ Public Class FrmFoliosfAE
             cmd.Parameters.Add("@FOLIOHASTA", SqlDbType.Int).Value = CONVERTIR_TO_INT(tFOLIOHASTA.Text)
             cmd.Parameters.Add("@SERIE", SqlDbType.VarChar).Value = tSERIE.Text
             cmd.Parameters.Add("@ULT_DOC", SqlDbType.Int).Value = CONVERTIR_TO_INT(tULT_DOC.Text)
+            cmd.Parameters.Add("@CTA_VTA_MN", SqlDbType.VarChar).Value = txCtaMN.Text
+            cmd.Parameters.Add("@CTA_VTA_USD", SqlDbType.VarChar).Value = txCtaUSD.Text
             returnValue = cmd.ExecuteNonQuery().ToString
             If returnValue IsNot Nothing Then
                 If returnValue = "1" Then

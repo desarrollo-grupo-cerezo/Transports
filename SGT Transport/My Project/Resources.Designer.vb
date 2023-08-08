@@ -423,6 +423,16 @@ Namespace My.Resources
         '''<summary>
         '''  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property AspelCOI_e() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("AspelCOI_e", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property B() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("B", resourceCulture)
@@ -6393,6 +6403,16 @@ Namespace My.Resources
         '''<summary>
         '''  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property nube12() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("nube12", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property ok() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("ok", resourceCulture)
@@ -7806,6 +7826,16 @@ Namespace My.Resources
         Friend ReadOnly Property salvar() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("salvar", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property SAT1_e() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("SAT1_e", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

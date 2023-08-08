@@ -148,6 +148,8 @@ Partial Class FrmProvAE
         Me.SplitM1 = New C1.Win.C1SplitContainer.C1SplitContainer()
         Me.Split1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.Split2 = New C1.Win.C1SplitContainer.C1SplitterPanel()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.TCUENTA_MANTE = New System.Windows.Forms.TextBox()
         Me.BarraMenu.SuspendLayout()
         CType(Me.BtnAnterior, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnInicial, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -339,7 +341,7 @@ Partial Class FrmProvAE
         Me.TAB1.HotTrack = True
         Me.TAB1.Location = New System.Drawing.Point(8, 6)
         Me.TAB1.Name = "TAB1"
-        Me.TAB1.Size = New System.Drawing.Size(1411, 428)
+        Me.TAB1.Size = New System.Drawing.Size(1411, 451)
         Me.TAB1.TabIndex = 2
         Me.TAB1.TabSizeMode = C1.Win.C1Command.TabSizeModeEnum.Fit
         Me.TAB1.TabsShowFocusCues = False
@@ -361,7 +363,7 @@ Partial Class FrmProvAE
         Me.PAG1.Controls.Add(Me.GroupBox9)
         Me.PAG1.Location = New System.Drawing.Point(1, 24)
         Me.PAG1.Name = "PAG1"
-        Me.PAG1.Size = New System.Drawing.Size(1409, 403)
+        Me.PAG1.Size = New System.Drawing.Size(1409, 426)
         Me.PAG1.TabIndex = 0
         Me.PAG1.Text = "Datos Generales"
         '
@@ -427,7 +429,7 @@ Partial Class FrmProvAE
         Me.GroupBox12.Controls.Add(Me.ChENVIOSILEN)
         Me.GroupBox12.Location = New System.Drawing.Point(602, 318)
         Me.GroupBox12.Name = "GroupBox12"
-        Me.GroupBox12.Size = New System.Drawing.Size(677, 83)
+        Me.GroupBox12.Size = New System.Drawing.Size(677, 105)
         Me.GroupBox12.TabIndex = 28
         Me.GroupBox12.TabStop = False
         '
@@ -795,6 +797,8 @@ Partial Class FrmProvAE
         '
         'GroupBox8
         '
+        Me.GroupBox8.Controls.Add(Me.Label9)
+        Me.GroupBox8.Controls.Add(Me.TCUENTA_MANTE)
         Me.GroupBox8.Controls.Add(Me.LtPais)
         Me.GroupBox8.Controls.Add(Me.BtnPais)
         Me.GroupBox8.Controls.Add(Me.TTIP_OPERA)
@@ -852,7 +856,7 @@ Partial Class FrmProvAE
         Me.GroupBox8.Controls.Add(Me.Label21)
         Me.GroupBox8.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox8.Name = "GroupBox8"
-        Me.GroupBox8.Size = New System.Drawing.Size(597, 397)
+        Me.GroupBox8.Size = New System.Drawing.Size(597, 420)
         Me.GroupBox8.TabIndex = 0
         Me.GroupBox8.TabStop = False
         '
@@ -860,7 +864,7 @@ Partial Class FrmProvAE
         '
         Me.LtPais.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtPais.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtPais.Location = New System.Drawing.Point(438, 112)
+        Me.LtPais.Location = New System.Drawing.Point(438, 104)
         Me.LtPais.Name = "LtPais"
         Me.LtPais.Size = New System.Drawing.Size(148, 20)
         Me.LtPais.TabIndex = 258
@@ -870,7 +874,7 @@ Partial Class FrmProvAE
         Me.BtnPais.AutoSize = True
         Me.BtnPais.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnPais.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BtnPais.Location = New System.Drawing.Point(410, 112)
+        Me.BtnPais.Location = New System.Drawing.Point(408, 103)
         Me.BtnPais.Name = "BtnPais"
         Me.BtnPais.Size = New System.Drawing.Size(22, 22)
         Me.BtnPais.TabIndex = 200
@@ -894,10 +898,10 @@ Partial Class FrmProvAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TTIP_OPERA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TTIP_OPERA.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.TTIP_OPERA.Location = New System.Drawing.Point(139, 356)
+        Me.TTIP_OPERA.Location = New System.Drawing.Point(150, 368)
         Me.TTIP_OPERA.Name = "TTIP_OPERA"
         Me.TTIP_OPERA.Size = New System.Drawing.Size(50, 20)
-        Me.TTIP_OPERA.TabIndex = 22
+        Me.TTIP_OPERA.TabIndex = 23
         Me.TTIP_OPERA.Tag = Nothing
         Me.TTIP_OPERA.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TTIP_OPERA.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
@@ -921,10 +925,10 @@ Partial Class FrmProvAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TTIP_TERCERO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TTIP_TERCERO.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.TTIP_TERCERO.Location = New System.Drawing.Point(139, 328)
+        Me.TTIP_TERCERO.Location = New System.Drawing.Point(150, 340)
         Me.TTIP_TERCERO.Name = "TTIP_TERCERO"
         Me.TTIP_TERCERO.Size = New System.Drawing.Size(50, 20)
-        Me.TTIP_TERCERO.TabIndex = 21
+        Me.TTIP_TERCERO.TabIndex = 22
         Me.TTIP_TERCERO.Tag = Nothing
         Me.TTIP_TERCERO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TTIP_TERCERO.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
@@ -935,7 +939,7 @@ Partial Class FrmProvAE
         '
         Me.BtnDocModelo.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnDocModelo.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BtnDocModelo.Location = New System.Drawing.Point(425, 297)
+        Me.BtnDocModelo.Location = New System.Drawing.Point(435, 309)
         Me.BtnDocModelo.Name = "BtnDocModelo"
         Me.BtnDocModelo.Size = New System.Drawing.Size(25, 24)
         Me.BtnDocModelo.TabIndex = 273
@@ -956,7 +960,7 @@ Partial Class FrmProvAE
         '
         Me.Label25.AutoSize = True
         Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label25.Location = New System.Drawing.Point(8, 302)
+        Me.Label25.Location = New System.Drawing.Point(22, 316)
         Me.Label25.Name = "Label25"
         Me.Label25.Size = New System.Drawing.Size(125, 16)
         Me.Label25.TabIndex = 261
@@ -976,17 +980,17 @@ Partial Class FrmProvAE
         '
         Me.Label17.AutoSize = True
         Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.Location = New System.Drawing.Point(29, 275)
+        Me.Label17.Location = New System.Drawing.Point(8, 257)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(104, 16)
+        Me.Label17.Size = New System.Drawing.Size(139, 16)
         Me.Label17.TabIndex = 255
-        Me.Label17.Text = "Cuenta contable"
+        Me.Label17.Text = "Cuenta administración"
         '
         'LtTip_Opera
         '
         Me.LtTip_Opera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtTip_Opera.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtTip_Opera.Location = New System.Drawing.Point(216, 356)
+        Me.LtTip_Opera.Location = New System.Drawing.Point(227, 368)
         Me.LtTip_Opera.Name = "LtTip_Opera"
         Me.LtTip_Opera.Size = New System.Drawing.Size(270, 20)
         Me.LtTip_Opera.TabIndex = 283
@@ -997,17 +1001,17 @@ Partial Class FrmProvAE
         Me.TCUENTA_CONTABLE.AcceptsReturn = True
         Me.TCUENTA_CONTABLE.AcceptsTab = True
         Me.TCUENTA_CONTABLE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCUENTA_CONTABLE.Location = New System.Drawing.Point(139, 272)
+        Me.TCUENTA_CONTABLE.Location = New System.Drawing.Point(150, 254)
         Me.TCUENTA_CONTABLE.MaxLength = 28
         Me.TCUENTA_CONTABLE.Name = "TCUENTA_CONTABLE"
-        Me.TCUENTA_CONTABLE.Size = New System.Drawing.Size(169, 22)
+        Me.TCUENTA_CONTABLE.Size = New System.Drawing.Size(283, 22)
         Me.TCUENTA_CONTABLE.TabIndex = 19
         '
         'Label13
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(347, 214)
+        Me.Label13.Location = New System.Drawing.Point(347, 199)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(46, 15)
         Me.Label13.TabIndex = 256
@@ -1018,16 +1022,16 @@ Partial Class FrmProvAE
         Me.TMODELO.AcceptsReturn = True
         Me.TMODELO.AcceptsTab = True
         Me.TMODELO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TMODELO.Location = New System.Drawing.Point(139, 298)
+        Me.TMODELO.Location = New System.Drawing.Point(150, 310)
         Me.TMODELO.Name = "TMODELO"
         Me.TMODELO.Size = New System.Drawing.Size(283, 22)
-        Me.TMODELO.TabIndex = 20
+        Me.TMODELO.TabIndex = 21
         '
         'Label51
         '
         Me.Label51.AutoSize = True
         Me.Label51.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label51.Location = New System.Drawing.Point(15, 357)
+        Me.Label51.Location = New System.Drawing.Point(29, 371)
         Me.Label51.Name = "Label51"
         Me.Label51.Size = New System.Drawing.Size(118, 16)
         Me.Label51.TabIndex = 280
@@ -1037,7 +1041,7 @@ Partial Class FrmProvAE
         '
         Me.Label29.AutoSize = True
         Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label29.Location = New System.Drawing.Point(24, 90)
+        Me.Label29.Location = New System.Drawing.Point(24, 84)
         Me.Label29.Name = "Label29"
         Me.Label29.Size = New System.Drawing.Size(68, 16)
         Me.Label29.TabIndex = 233
@@ -1047,7 +1051,7 @@ Partial Class FrmProvAE
         '
         Me.LtTip_Tercero.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtTip_Tercero.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtTip_Tercero.Location = New System.Drawing.Point(216, 329)
+        Me.LtTip_Tercero.Location = New System.Drawing.Point(227, 341)
         Me.LtTip_Tercero.Name = "LtTip_Tercero"
         Me.LtTip_Tercero.Size = New System.Drawing.Size(270, 20)
         Me.LtTip_Tercero.TabIndex = 282
@@ -1058,7 +1062,7 @@ Partial Class FrmProvAE
         Me.TFax.AcceptsReturn = True
         Me.TFax.AcceptsTab = True
         Me.TFax.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TFax.Location = New System.Drawing.Point(395, 212)
+        Me.TFax.Location = New System.Drawing.Point(395, 197)
         Me.TFax.Name = "TFax"
         Me.TFax.Size = New System.Drawing.Size(191, 21)
         Me.TFax.TabIndex = 17
@@ -1069,7 +1073,7 @@ Partial Class FrmProvAE
         Me.BtnTip_Opera.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnTip_Opera.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnTip_Opera.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BtnTip_Opera.Location = New System.Drawing.Point(191, 355)
+        Me.BtnTip_Opera.Location = New System.Drawing.Point(202, 367)
         Me.BtnTip_Opera.Name = "BtnTip_Opera"
         Me.BtnTip_Opera.Size = New System.Drawing.Size(22, 22)
         Me.BtnTip_Opera.TabIndex = 203
@@ -1081,7 +1085,7 @@ Partial Class FrmProvAE
         Me.TRFC.AcceptsReturn = True
         Me.TRFC.AcceptsTab = True
         Me.TRFC.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TRFC.Location = New System.Drawing.Point(98, 187)
+        Me.TRFC.Location = New System.Drawing.Point(98, 174)
         Me.TRFC.Name = "TRFC"
         Me.TRFC.Size = New System.Drawing.Size(218, 21)
         Me.TRFC.TabIndex = 14
@@ -1090,7 +1094,7 @@ Partial Class FrmProvAE
         '
         Me.Label48.AutoSize = True
         Me.Label48.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label48.Location = New System.Drawing.Point(34, 329)
+        Me.Label48.Location = New System.Drawing.Point(48, 343)
         Me.Label48.Name = "Label48"
         Me.Label48.Size = New System.Drawing.Size(99, 16)
         Me.Label48.TabIndex = 277
@@ -1100,7 +1104,7 @@ Partial Class FrmProvAE
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(352, 190)
+        Me.Label12.Location = New System.Drawing.Point(352, 177)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(41, 15)
         Me.Label12.TabIndex = 254
@@ -1112,7 +1116,7 @@ Partial Class FrmProvAE
         Me.BtnTip_Tercero.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnTip_Tercero.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnTip_Tercero.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BtnTip_Tercero.Location = New System.Drawing.Point(191, 327)
+        Me.BtnTip_Tercero.Location = New System.Drawing.Point(202, 339)
         Me.BtnTip_Tercero.Name = "BtnTip_Tercero"
         Me.BtnTip_Tercero.Size = New System.Drawing.Size(22, 22)
         Me.BtnTip_Tercero.TabIndex = 202
@@ -1123,7 +1127,7 @@ Partial Class FrmProvAE
         '
         Me.Label30.AutoSize = True
         Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label30.Location = New System.Drawing.Point(335, 90)
+        Me.Label30.Location = New System.Drawing.Point(335, 84)
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(29, 15)
         Me.Label30.TabIndex = 234
@@ -1134,7 +1138,7 @@ Partial Class FrmProvAE
         Me.TMunicipio.AcceptsReturn = True
         Me.TMunicipio.AcceptsTab = True
         Me.TMunicipio.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TMunicipio.Location = New System.Drawing.Point(98, 137)
+        Me.TMunicipio.Location = New System.Drawing.Point(98, 128)
         Me.TMunicipio.Name = "TMunicipio"
         Me.TMunicipio.Size = New System.Drawing.Size(214, 21)
         Me.TMunicipio.TabIndex = 11
@@ -1144,7 +1148,7 @@ Partial Class FrmProvAE
         Me.TCURP.AcceptsReturn = True
         Me.TCURP.AcceptsTab = True
         Me.TCURP.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCURP.Location = New System.Drawing.Point(395, 187)
+        Me.TCURP.Location = New System.Drawing.Point(395, 174)
         Me.TCURP.Name = "TCURP"
         Me.TCURP.Size = New System.Drawing.Size(191, 21)
         Me.TCURP.TabIndex = 15
@@ -1153,7 +1157,7 @@ Partial Class FrmProvAE
         '
         Me.LtZona.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtZona.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtZona.Location = New System.Drawing.Point(181, 162)
+        Me.LtZona.Location = New System.Drawing.Point(181, 151)
         Me.LtZona.Name = "LtZona"
         Me.LtZona.Size = New System.Drawing.Size(191, 20)
         Me.LtZona.TabIndex = 252
@@ -1163,7 +1167,7 @@ Partial Class FrmProvAE
         Me.TNumInt.AcceptsReturn = True
         Me.TNumInt.AcceptsTab = True
         Me.TNumInt.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TNumInt.Location = New System.Drawing.Point(211, 37)
+        Me.TNumInt.Location = New System.Drawing.Point(211, 35)
         Me.TNumInt.Name = "TNumInt"
         Me.TNumInt.Size = New System.Drawing.Size(69, 21)
         Me.TNumInt.TabIndex = 2
@@ -1173,7 +1177,7 @@ Partial Class FrmProvAE
         Me.BtnZona.AutoSize = True
         Me.BtnZona.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnZona.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BtnZona.Location = New System.Drawing.Point(155, 161)
+        Me.BtnZona.Location = New System.Drawing.Point(155, 150)
         Me.BtnZona.Name = "BtnZona"
         Me.BtnZona.Size = New System.Drawing.Size(22, 22)
         Me.BtnZona.TabIndex = 201
@@ -1184,7 +1188,7 @@ Partial Class FrmProvAE
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(49, 190)
+        Me.Label5.Location = New System.Drawing.Point(49, 177)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(43, 16)
         Me.Label5.TabIndex = 231
@@ -1195,7 +1199,7 @@ Partial Class FrmProvAE
         Me.TCVE_ZONA.AcceptsReturn = True
         Me.TCVE_ZONA.AcceptsTab = True
         Me.TCVE_ZONA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCVE_ZONA.Location = New System.Drawing.Point(98, 162)
+        Me.TCVE_ZONA.Location = New System.Drawing.Point(98, 151)
         Me.TCVE_ZONA.Name = "TCVE_ZONA"
         Me.TCVE_ZONA.Size = New System.Drawing.Size(55, 21)
         Me.TCVE_ZONA.TabIndex = 13
@@ -1205,7 +1209,7 @@ Partial Class FrmProvAE
         Me.TPAG_WEB.AcceptsReturn = True
         Me.TPAG_WEB.AcceptsTab = True
         Me.TPAG_WEB.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TPAG_WEB.Location = New System.Drawing.Point(98, 237)
+        Me.TPAG_WEB.Location = New System.Drawing.Point(98, 220)
         Me.TPAG_WEB.Name = "TPAG_WEB"
         Me.TPAG_WEB.Size = New System.Drawing.Size(488, 21)
         Me.TPAG_WEB.TabIndex = 18
@@ -1214,7 +1218,7 @@ Partial Class FrmProvAE
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(54, 163)
+        Me.Label11.Location = New System.Drawing.Point(54, 152)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(38, 16)
         Me.Label11.TabIndex = 13
@@ -1224,7 +1228,7 @@ Partial Class FrmProvAE
         '
         Me.LtImss.AutoSize = True
         Me.LtImss.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtImss.Location = New System.Drawing.Point(8, 239)
+        Me.LtImss.Location = New System.Drawing.Point(8, 222)
         Me.LtImss.Name = "LtImss"
         Me.LtImss.Size = New System.Drawing.Size(84, 16)
         Me.LtImss.TabIndex = 230
@@ -1235,7 +1239,7 @@ Partial Class FrmProvAE
         Me.TNacionalidad.AcceptsReturn = True
         Me.TNacionalidad.AcceptsTab = True
         Me.TNacionalidad.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TNacionalidad.Location = New System.Drawing.Point(395, 137)
+        Me.TNacionalidad.Location = New System.Drawing.Point(395, 128)
         Me.TNacionalidad.Name = "TNacionalidad"
         Me.TNacionalidad.Size = New System.Drawing.Size(191, 21)
         Me.TNacionalidad.TabIndex = 12
@@ -1245,7 +1249,7 @@ Partial Class FrmProvAE
         Me.TNumExt.AcceptsReturn = True
         Me.TNumExt.AcceptsTab = True
         Me.TNumExt.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TNumExt.Location = New System.Drawing.Point(98, 37)
+        Me.TNumExt.Location = New System.Drawing.Point(98, 35)
         Me.TNumExt.Name = "TNumExt"
         Me.TNumExt.Size = New System.Drawing.Size(48, 21)
         Me.TNumExt.TabIndex = 1
@@ -1254,7 +1258,7 @@ Partial Class FrmProvAE
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(312, 140)
+        Me.Label10.Location = New System.Drawing.Point(312, 131)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(80, 15)
         Me.Label10.TabIndex = 248
@@ -1264,7 +1268,7 @@ Partial Class FrmProvAE
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(30, 39)
+        Me.Label3.Location = New System.Drawing.Point(30, 37)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(62, 16)
         Me.Label3.TabIndex = 229
@@ -1275,7 +1279,7 @@ Partial Class FrmProvAE
         Me.tCRUZAMIENTOS2.AcceptsReturn = True
         Me.tCRUZAMIENTOS2.AcceptsTab = True
         Me.tCRUZAMIENTOS2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tCRUZAMIENTOS2.Location = New System.Drawing.Point(98, 62)
+        Me.tCRUZAMIENTOS2.Location = New System.Drawing.Point(98, 58)
         Me.tCRUZAMIENTOS2.Name = "tCRUZAMIENTOS2"
         Me.tCRUZAMIENTOS2.Size = New System.Drawing.Size(215, 21)
         Me.tCRUZAMIENTOS2.TabIndex = 4
@@ -1284,7 +1288,7 @@ Partial Class FrmProvAE
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(42, 64)
+        Me.Label2.Location = New System.Drawing.Point(42, 60)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(50, 16)
         Me.Label2.TabIndex = 228
@@ -1295,7 +1299,7 @@ Partial Class FrmProvAE
         Me.TPais.AcceptsReturn = True
         Me.TPais.AcceptsTab = True
         Me.TPais.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TPais.Location = New System.Drawing.Point(366, 112)
+        Me.TPais.Location = New System.Drawing.Point(366, 104)
         Me.TPais.Name = "TPais"
         Me.TPais.Size = New System.Drawing.Size(41, 21)
         Me.TPais.TabIndex = 10
@@ -1305,7 +1309,7 @@ Partial Class FrmProvAE
         Me.TClasific.AcceptsReturn = True
         Me.TClasific.AcceptsTab = True
         Me.TClasific.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TClasific.Location = New System.Drawing.Point(526, 87)
+        Me.TClasific.Location = New System.Drawing.Point(526, 81)
         Me.TClasific.Name = "TClasific"
         Me.TClasific.Size = New System.Drawing.Size(60, 21)
         Me.TClasific.TabIndex = 8
@@ -1314,7 +1318,7 @@ Partial Class FrmProvAE
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(315, 68)
+        Me.Label8.Location = New System.Drawing.Point(315, 64)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(49, 15)
         Me.Label8.TabIndex = 244
@@ -1324,7 +1328,7 @@ Partial Class FrmProvAE
         '
         Me.Label18.AutoSize = True
         Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label18.Location = New System.Drawing.Point(155, 41)
+        Me.Label18.Location = New System.Drawing.Point(155, 39)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(56, 15)
         Me.Label18.TabIndex = 235
@@ -1335,7 +1339,7 @@ Partial Class FrmProvAE
         Me.TCRUZAMIENTOS.AcceptsReturn = True
         Me.TCRUZAMIENTOS.AcceptsTab = True
         Me.TCRUZAMIENTOS.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCRUZAMIENTOS.Location = New System.Drawing.Point(366, 37)
+        Me.TCRUZAMIENTOS.Location = New System.Drawing.Point(366, 35)
         Me.TCRUZAMIENTOS.Name = "TCRUZAMIENTOS"
         Me.TCRUZAMIENTOS.Size = New System.Drawing.Size(220, 21)
         Me.TCRUZAMIENTOS.TabIndex = 3
@@ -1345,7 +1349,7 @@ Partial Class FrmProvAE
         Me.TTELEFONO.AcceptsReturn = True
         Me.TTELEFONO.AcceptsTab = True
         Me.TTELEFONO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TTELEFONO.Location = New System.Drawing.Point(98, 212)
+        Me.TTELEFONO.Location = New System.Drawing.Point(98, 197)
         Me.TTELEFONO.Name = "TTELEFONO"
         Me.TTELEFONO.Size = New System.Drawing.Size(219, 21)
         Me.TTELEFONO.TabIndex = 16
@@ -1354,7 +1358,7 @@ Partial Class FrmProvAE
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(299, 41)
+        Me.Label7.Location = New System.Drawing.Point(299, 39)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(65, 15)
         Me.Label7.TabIndex = 242
@@ -1364,7 +1368,7 @@ Partial Class FrmProvAE
         '
         Me.Label45.AutoSize = True
         Me.Label45.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label45.Location = New System.Drawing.Point(446, 90)
+        Me.Label45.Location = New System.Drawing.Point(446, 84)
         Me.Label45.Name = "Label45"
         Me.Label45.Size = New System.Drawing.Size(76, 15)
         Me.Label45.TabIndex = 236
@@ -1375,7 +1379,7 @@ Partial Class FrmProvAE
         Me.TCODIGO.AcceptsReturn = True
         Me.TCODIGO.AcceptsTab = True
         Me.TCODIGO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCODIGO.Location = New System.Drawing.Point(366, 87)
+        Me.TCODIGO.Location = New System.Drawing.Point(366, 81)
         Me.TCODIGO.Name = "TCODIGO"
         Me.TCODIGO.Size = New System.Drawing.Size(68, 21)
         Me.TCODIGO.TabIndex = 7
@@ -1385,7 +1389,7 @@ Partial Class FrmProvAE
         Me.TLOCALIDAD.AcceptsReturn = True
         Me.TLOCALIDAD.AcceptsTab = True
         Me.TLOCALIDAD.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TLOCALIDAD.Location = New System.Drawing.Point(98, 87)
+        Me.TLOCALIDAD.Location = New System.Drawing.Point(98, 81)
         Me.TLOCALIDAD.Name = "TLOCALIDAD"
         Me.TLOCALIDAD.Size = New System.Drawing.Size(215, 21)
         Me.TLOCALIDAD.TabIndex = 6
@@ -1394,7 +1398,7 @@ Partial Class FrmProvAE
         '
         Me.Label16.AutoSize = True
         Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(333, 115)
+        Me.Label16.Location = New System.Drawing.Point(333, 107)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(31, 15)
         Me.Label16.TabIndex = 240
@@ -1404,7 +1408,7 @@ Partial Class FrmProvAE
         '
         Me.Label44.AutoSize = True
         Me.Label44.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label44.Location = New System.Drawing.Point(42, 115)
+        Me.Label44.Location = New System.Drawing.Point(42, 107)
         Me.Label44.Name = "Label44"
         Me.Label44.Size = New System.Drawing.Size(50, 16)
         Me.Label44.TabIndex = 237
@@ -1415,7 +1419,7 @@ Partial Class FrmProvAE
         Me.TCOLONIA.AcceptsReturn = True
         Me.TCOLONIA.AcceptsTab = True
         Me.TCOLONIA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCOLONIA.Location = New System.Drawing.Point(366, 62)
+        Me.TCOLONIA.Location = New System.Drawing.Point(366, 58)
         Me.TCOLONIA.Name = "TCOLONIA"
         Me.TCOLONIA.Size = New System.Drawing.Size(220, 21)
         Me.TCOLONIA.TabIndex = 5
@@ -1425,7 +1429,7 @@ Partial Class FrmProvAE
         Me.TEstado.AcceptsReturn = True
         Me.TEstado.AcceptsTab = True
         Me.TEstado.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TEstado.Location = New System.Drawing.Point(98, 112)
+        Me.TEstado.Location = New System.Drawing.Point(98, 104)
         Me.TEstado.Name = "TEstado"
         Me.TEstado.Size = New System.Drawing.Size(215, 21)
         Me.TEstado.TabIndex = 9
@@ -1434,7 +1438,7 @@ Partial Class FrmProvAE
         '
         Me.Label34.AutoSize = True
         Me.Label34.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label34.Location = New System.Drawing.Point(28, 140)
+        Me.Label34.Location = New System.Drawing.Point(28, 131)
         Me.Label34.Name = "Label34"
         Me.Label34.Size = New System.Drawing.Size(64, 16)
         Me.Label34.TabIndex = 239
@@ -1444,7 +1448,7 @@ Partial Class FrmProvAE
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.Location = New System.Drawing.Point(31, 214)
+        Me.Label21.Location = New System.Drawing.Point(31, 199)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(61, 16)
         Me.Label21.TabIndex = 238
@@ -1458,7 +1462,7 @@ Partial Class FrmProvAE
         Me.GroupBox1.Controls.Add(Me.TULT_PAGOD)
         Me.GroupBox1.Controls.Add(Me.TULT_PAGOM)
         Me.GroupBox1.Controls.Add(Me.Label37)
-        Me.GroupBox1.Location = New System.Drawing.Point(606, 218)
+        Me.GroupBox1.Location = New System.Drawing.Point(602, 218)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(248, 96)
         Me.GroupBox1.TabIndex = 26
@@ -1724,7 +1728,7 @@ Partial Class FrmProvAE
         Me.PAG4.Controls.Add(Me.GroupBox11)
         Me.PAG4.Location = New System.Drawing.Point(1, 24)
         Me.PAG4.Name = "PAG4"
-        Me.PAG4.Size = New System.Drawing.Size(1409, 403)
+        Me.PAG4.Size = New System.Drawing.Size(1409, 426)
         Me.PAG4.TabIndex = 41
         Me.PAG4.Text = "Datos Adicionales"
         '
@@ -1826,6 +1830,27 @@ Partial Class FrmProvAE
         Me.Split2.Name = "Split2"
         Me.Split2.Size = New System.Drawing.Size(1440, 460)
         Me.Split2.TabIndex = 1
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(8, 285)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(139, 16)
+        Me.Label9.TabIndex = 285
+        Me.Label9.Text = "Cuenta mantenimiento"
+        '
+        'TCUENTA_MANTE
+        '
+        Me.TCUENTA_MANTE.AcceptsReturn = True
+        Me.TCUENTA_MANTE.AcceptsTab = True
+        Me.TCUENTA_MANTE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCUENTA_MANTE.Location = New System.Drawing.Point(150, 282)
+        Me.TCUENTA_MANTE.MaxLength = 35
+        Me.TCUENTA_MANTE.Name = "TCUENTA_MANTE"
+        Me.TCUENTA_MANTE.Size = New System.Drawing.Size(283, 22)
+        Me.TCUENTA_MANTE.TabIndex = 20
         '
         'FrmProvAE
         '
@@ -2028,4 +2053,6 @@ Partial Class FrmProvAE
     Friend WithEvents SplitM1 As C1.Win.C1SplitContainer.C1SplitContainer
     Friend WithEvents Split1 As C1.Win.C1SplitContainer.C1SplitterPanel
     Friend WithEvents Split2 As C1.Win.C1SplitContainer.C1SplitterPanel
+    Friend WithEvents Label9 As Label
+    Friend WithEvents TCUENTA_MANTE As TextBox
 End Class

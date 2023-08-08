@@ -89,16 +89,14 @@ Public Class FrmClientesOperativos
             Dim da As New SqlDataAdapter
             Dim dt As New DataTable
 
-            SQL = "SELECT C.CLAVE AS 'Clave', CASE WHEN C.STATUS = 'A' THEN 'Activo' ELSE 'Cancelado' END AS 'Estatus', C.NOMBRE AS 'Nombre', P.CIUDAD AS 'Plaza', 
+            SQL = "SELECT C.CLAVE AS 'Clave', CASE WHEN C.STATUS = 'A' THEN 'Activo' ELSE 'Cancelado' END AS 'Estatus', C.NOMBRE AS 'Nombre', 
                 C.DOMICILIO AS 'Domicilio', C.DOMICILIO2 AS 'Domicilio2', C.PLANTA AS 'Planta', C.RFC AS 'R.F.C.', 
-                P.CIUDAD AS 'Localidad', P.CLAVE_SAT_LOC AS 'Clave SAT localidad', P.MUNICIPIO AS 'Municipio', P.CLAVE_SAT_MUN AS 'Clave SAT municipio', 
-                E.NOMBRE AS 'Estado', E.CLAVE_SAT_EST AS 'Clave SAT estado', E.PAIS AS 'Pais', E.CLAVE_SAT_PAIS AS 'Clave SAT pais', 
+                C.POBLACION AS 'Localidad', C.POBLACION_SAT AS 'Clave SAT localidad', C.MUNICIPIO AS 'Municipio', C.MUNICIPIO_SAT AS 'Clave SAT municipio', 
+                C.NOMBRE AS 'Estado', C.ESTADO_SAT AS 'Clave SAT estado', C.PAIS AS 'País', C.PAIS_SAT AS 'Clave SAT país', 
                 C.NOTA AS 'Nota'
                 FROM GCCLIE_OP C
-                LEFT JOIN GCPLAZAS P ON P.CLAVE = C.CVE_PLAZA
-                LEFT JOIN GCESTADOS E ON E.CVE_ESTADO = P.CVE_ESTADO
                 WHERE " & CADENA & "
-                ORDER BY TRY_PARSE(C.CLAVE AS INT)"
+                ORDER BY TRY_PARSE(C.CLAVE AS INT) DESC"
 
             da = New SqlDataAdapter(SQL, cnSAE)
             dt = New DataTable ' crear un DataTable
@@ -118,7 +116,6 @@ Public Class FrmClientesOperativos
                     Fg.Cols(5).Width = 250
                     Fg.Cols(6).Width = 250
                     Fg.Cols(9).Width = 200
-                    Fg.Cols(17).Width = 600
                     Lt1.Text = "Registros encontrados " & Fg.Rows.Count - 1
                     Fg.AutoSizeRows()
                     Fg.Redraw = True
@@ -130,7 +127,6 @@ Public Class FrmClientesOperativos
                     FgR2.Cols(5).Width = 250
                     FgR2.Cols(6).Width = 250
                     FgR2.Cols(9).Width = 200
-                    FgR2.Cols(17).Width = 600
                     Lt1.Text = "Registros encontrados " & FgR2.Rows.Count - 1
                     FgR2.AutoSizeRows()
                     FgR2.Redraw = True
@@ -145,7 +141,6 @@ Public Class FrmClientesOperativos
                     Fg2.Cols(5).Width = 250
                     Fg2.Cols(6).Width = 250
                     Fg2.Cols(7).Width = 200
-                    Fg2.Cols(17).Width = 600
                     Lt1.Text = "Registros encontrados " & Fg2.Rows.Count - 1
                     Fg2.AutoSizeRows()
                     Fg2.Redraw = True
@@ -157,7 +152,6 @@ Public Class FrmClientesOperativos
                     FgD2.Cols(5).Width = 250
                     FgD2.Cols(6).Width = 250
                     FgD2.Cols(9).Width = 200
-                    FgD2.Cols(17).Width = 600
                     Lt1.Text = "Registros encontrados " & FgD2.Rows.Count - 1
                     FgD2.AutoSizeRows()
                     FgD2.Redraw = True
@@ -210,7 +204,7 @@ Public Class FrmClientesOperativos
 
 
             FrmClientesOperativosAE.ShowDialog()
-
+            DESPLEGAR()
         Else
             MsgBox("Por favor seleccione un registro")
         End If

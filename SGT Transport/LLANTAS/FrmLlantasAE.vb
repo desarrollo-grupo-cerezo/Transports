@@ -111,13 +111,17 @@ Public Class FrmLlantasAE
                     LEFT JOIN GCOBS O ON O.CVE_OBS = L.CVE_OBS
                     LEFT JOIN GCMARCAS_RENOVADO M ON M.CVE_MARCA = L.CVE_MARCA
                     LEFT JOIN GCPROVRENOVADO P ON P.CVE_PRE = L.CVE_PRE
-                    WHERE CVE_LLANTA = '" & Var2 & "' AND L.STATUS = 'A'"
+                    WHERE L.NUM_ECONOMICO = '" & Var2 & "' AND L.STATUS = 'A'"
                 cmd.CommandText = SQL
                 dr = cmd.ExecuteReader
 
                 If dr.Read Then
                     Try
                         TCVE_LLANTA.Text = dr.ReadNullAsEmptyString("CVE_LLANTA")
+                        If TCVE_LLANTA.Text.Trim.Length = 0 Then
+                            TCVE_LLANTA.Text = GET_MAX("GCLLANTAS", "CVE_LLANTA")
+                        End If
+
                         TNUM_ECONOMICO.Text = dr.ReadNullAsEmptyString("NUM_ECONOMICO")
 
                         TO_R.Text = dr.ReadNullAsEmptyString("O_R")
@@ -344,6 +348,7 @@ Public Class FrmLlantasAE
 
         Dim CVE_OBS As Long, Exist As Boolean, CVE_LLANTA As String, PROFUNDIDAD As Decimal, COSTO As Decimal = 0, OBSER_BIT As String
         Dim CVE_DOC As String = "DLL" & Now.ToShortDateString.Replace("/", "") & Now.Hour & Now.Minute
+        Dim CVE_UNIDAD As String
 
         Dim cmd As New SqlCommand With {.Connection = cnSAE}
 
@@ -358,6 +363,17 @@ Public Class FrmLlantasAE
             Return
         End If
 
+        If TCVE_LLANTA.Text.Trim.Length = 0 Then
+            TCVE_LLANTA.Text = GET_MAX("GCLLANTAS", "CVE_LLANTA")
+        End If
+
+        If NewLlanta Then
+            CVE_UNIDAD = EXIST_NUM_ECONOMICO(TNUM_ECONOMICO.Text)
+            If CVE_UNIDAD.Trim.Length > 0 Then
+                MsgBox("El número económico ya se encuentra asignado en la unidad (" & CVE_UNIDAD & "), verifique por favor")
+                Return
+            End If
+        End If
         Try
             TKM.UpdateValueWithCurrentText()
             TKMS_ACTUAL.UpdateValueWithCurrentText()
@@ -406,7 +422,7 @@ Public Class FrmLlantasAE
                 dr.Close()
 
                 If Exist Then
-                    MsgBox("El número económico actualemnte se encuentra asignado a la llanta  " & CVE_LLANTA)
+                    MsgBox("El número económico actualmente se encuentra asignado a la llanta  " & CVE_LLANTA)
                     Return
                 End If
             End If
@@ -462,22 +478,22 @@ Public Class FrmLlantasAE
         'SET IDENTITY_INSERT GCLLANTAS OFF
         'SET IDENTITY_INSERT GCLLANTAS ON
         SQL = "
-         IF EXISTS (SELECT CVE_LLANTA FROM GCLLANTAS WHERE CVE_LLANTA = @CVE_LLANTA)    
-            UPDATE GCLLANTAS SET POSICION = @POSICION, POSICION2 = @POSICION2, NUM_ECONOMICO = @NUM_ECONOMICO, O_R = @O_R, FECHA_MON = @FECHA_MON, 
+         IF EXISTS (SELECT CVE_LLANTA FROM GCLLANTAS WHERE NUM_ECONOMICO = @NUM_ECONOMICO)
+            UPDATE GCLLANTAS SET CVE_LLANTA = @CVE_LLANTA, NUM_ECONOMICO = @NUM_ECONOMICO, POSICION = @POSICION, POSICION2 = @POSICION2, O_R = @O_R, FECHA_MON = @FECHA_MON, 
             MARCA = @MARCA, MODELO = @MODELO, MODELO_RENOVADO = @MODELO_RENOVADO, KM = @KM, MEDIDA = @MEDIDA, PROFUNDIDA_ORIGINAL = @PROFUNDIDA_ORIGINAL, 
             ROFUNDIDA_MINIMA = @ROFUNDIDA_MINIMA, PROFUNDIDAD_ACTUAL = @PROFUNDIDAD_ACTUAL, PRESION_MINIMA = @PRESION_MINIMA, 
             PRESION_ORIGINAL = @PRESION_ORIGINAL, PRESION_ACTUAL = @PRESION_ACTUAL, TIPO_LLANTA = @TIPO_LLANTA, DISPONIBLE_DESDE = @DISPONIBLE_DESDE, 
             VIDA_UTIL = @VIDA_UTIL, COSTO_LLANTA_MN = @COSTO_LLANTA_MN, COSTO_LLANTA_DLS = @COSTO_LLANTA_DLS, FECHA_REG = @FECHA_REG, CVE_OBS = @CVE_OBS, 
             CUEN_CONT = @CUEN_CONT, KMS_MONTAR = @KMS_MONTAR, KMS_DESMONTAR = @KMS_DESMONTAR, CVE_ART = @CVE_ART, TIPO_NUEVA_RENO = @TIPO_NUEVA_RENO,
             NO_RENOVADOS = @NO_RENOVADOS, KMS_ACTUAL = @KMS_ACTUAL, DOT = @DOT, CVE_MARCA = @CVE_MARCA, CVE_PRE = @CVE_PRE
-            WHERE CVE_LLANTA = @CVE_LLANTA
+            WHERE NUM_ECONOMICO = @NUM_ECONOMICO
         ELSE
-            INSERT INTO GCLLANTAS (STATUS, TIPO_NUEVA_RENO, POSICION, POSICION2, NUM_ECONOMICO, O_R, FECHA_MON, MARCA, MODELO, MODELO_RENOVADO, 
+            INSERT INTO GCLLANTAS (CVE_LLANTA, NUM_ECONOMICO, STATUS, TIPO_NUEVA_RENO, POSICION, POSICION2, O_R, FECHA_MON, MARCA, MODELO, MODELO_RENOVADO, 
             KM, MEDIDA, PROFUNDIDA_ORIGINAL, ROFUNDIDA_MINIMA, PROFUNDIDAD_ACTUAL, PRESION_MINIMA, PRESION_ORIGINAL, PRESION_ACTUAL, TIPO_LLANTA, 
             STATUS_LLANTA, DISPONIBLE_DESDE, VIDA_UTIL, COSTO_LLANTA_MN, COSTO_LLANTA_DLS, FECHA_REG, CVE_OBS, CUEN_CONT, KMS_MONTAR, KMS_DESMONTAR, 
             CVE_ART, FECHAELAB, NO_RENOVADOS, KMS_ACTUAL, DOT, CVE_MARCA, CVE_PRE)
             VALUES (
-            'A', 0, @POSICION, @POSICION2, @NUM_ECONOMICO, @O_R, @FECHA_MON, @MARCA, @MODELO, @MODELO_RENOVADO, @KM, @MEDIDA, 
+            @CVE_LLANTA, @NUM_ECONOMICO, 'A', 0, @POSICION, @POSICION2, @O_R, @FECHA_MON, @MARCA, @MODELO, @MODELO_RENOVADO, @KM, @MEDIDA, 
             @PROFUNDIDA_ORIGINAL, @ROFUNDIDA_MINIMA, @PROFUNDIDAD_ACTUAL, @PRESION_MINIMA, @PRESION_ORIGINAL, @PRESION_ACTUAL, @TIPO_LLANTA, '2',
             @DISPONIBLE_DESDE, @VIDA_UTIL, @COSTO_LLANTA_MN, @COSTO_LLANTA_DLS, @FECHA_REG, @CVE_OBS, @CUEN_CONT, @KMS_MONTAR, @KMS_DESMONTAR, 
             @CVE_ART, GETDATE(), @NO_RENOVADOS, @KMS_ACTUAL, @DOT, @CVE_MARCA, @CVE_PRE)"

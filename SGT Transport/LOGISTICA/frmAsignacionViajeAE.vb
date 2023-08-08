@@ -1232,7 +1232,7 @@ Public Class FrmAsignacionViajeAE
                     Next
 
                     FgG.AddItem("" & vbTab & CVE_FOLIO & vbTab & FECHA.Value & vbTab & CVE_GAS & vbTab & GAS_DESCR & vbTab & IMPORTE & vbTab &
-                                CVE_FOLIO & vbTab & "EDICION" & vbTab & "S" & vbTab & " " & vbTab & "" & vbTab & TCVE_DOC.Text)
+                                CVE_FOLIO & vbTab & "EDICION" & vbTab & "S" & vbTab & " " & vbTab & "TRANSFERENCIA" & vbTab & TCVE_DOC.Text)
                 End If
             End If
         Catch ex As Exception
@@ -2436,12 +2436,13 @@ Public Class FrmAsignacionViajeAE
 
 
             If Sigue Or FgG.Rows.Count = 1 Then
+
                 STATUS_VIAJE = OBTENER_STATUS_GASTOS_VIAJE(1)
 
                 FOLIO_AG = GET_MAX_TRY("GCASIGNACION_VIAJE_GASTOS", "FOLIO")
 
                 FgG.AddItem("" & vbTab & (FOLIO_AG + Fol) & vbTab & DateTime.Now.ToString("dd/MM/yyyy") & vbTab & "" & vbTab & "" & vbTab &
-                            "0" & vbTab & "" & vbTab & STATUS_VIAJE & vbTab & "N" & vbTab & " " & vbTab & " " & vbTab & " ")
+                            "0" & vbTab & "" & vbTab & STATUS_VIAJE & vbTab & "N" & vbTab & " " & vbTab & "TRANSFERENCIA" & vbTab & " ")
             Else
                 MsgBox("Por favor capture el gasto")
             End If

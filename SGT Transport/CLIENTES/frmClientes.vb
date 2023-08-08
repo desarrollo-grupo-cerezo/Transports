@@ -122,7 +122,7 @@ Public Class frmClientes
                 ESTADO_ENVIO, PAIS_ENVIO, CODIGO_ENVIO, CVE_ZONA_ENVIO, REFERENCIA_ENVIO, CUENTA_CONTABLE, ADDENDAF, ADDENDAD,
                 NAMESPACE, METODODEPAGO, NUMCTAPAGO, MODELO, DES_IMPU1, DES_IMPU2, DES_IMPU3, DES_IMPU4, DES_PER, LAT_GENERAL, 
                 LON_GENERAL, LAT_ENVIO, LON_ENVIO, CVE_PAIS_SAT, NUMIDREGFISCAL
-                FROM CLIE" & Empresa & FSTATUS
+                FROM CLIE" & Empresa & FSTATUS & " ORDER BY TRY_PARSE(CLAVE AS INT)"
             da = New SqlDataAdapter(SQL, cnSAE)
             dt = New DataTable
             da.SelectCommand.CommandTimeout = 120

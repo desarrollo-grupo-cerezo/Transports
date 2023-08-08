@@ -243,6 +243,10 @@ Public Class FrmAntiguedadSaldosProv
                         r("CLIENTE1") = TPROV1.Text
                         r("CLIENTE2") = TPROV2.Text
 
+                        If dr("REFER") = "          0000008915" Or dr("REFER") = "          0000008920" Then
+                            Debug.Print("")
+                        End If
+
                         If TPROV1.Text.Trim.Length > 0 Or TPROV2.Text.Trim.Length > 0 Then
                             r("DEL_AL") = "Desde el proveedor  " & TPROV1.Text.Trim & "      hasta el proveedor " & TPROV2.Text.Trim
                         Else

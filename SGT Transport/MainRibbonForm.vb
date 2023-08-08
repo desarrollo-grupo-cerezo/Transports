@@ -111,7 +111,7 @@ Public Class MainRibbonForm
         End Try
 
         Try
-            If PASS_GRUPOCE.ToUpper <> "BR3FRAJA" And PASS_GRUPOCE.ToUpper <> "BUS" Then
+            If PASS_GRUPOCE.ToUpper <> "BR3FRAJA" And PASS_GRUPOCE.ToUpper <> "BUS" And Servidor_SAROCE <> "LAP-GS\SQLDEV" Then
                 If Not ValidarLicencia() Then
                     MsgBox("La licencia ha expirado si desea comprar el sistema de transporte TransportCG favor de comunicarse a " & vbNewLine &
                                 "martin@grupo-cerezo.com, gustavo@grupo-cerezo.com, c.cerezo@grupo-cerezo.com" & vbNewLine & "Serial: " & GET_ID())
@@ -1531,10 +1531,10 @@ Public Class MainRibbonForm
     End Sub
     Private Sub BarCreaInsertData_Click(sender As Object, e As EventArgs) Handles BarCreaInsertData.Click
         If pwPoder Then
-            BACKUPTXT("XTAB_CAPTION", "frmCreaInsertSQL")
-            CREA_TAB(frmCreaInsertSQL, "Crea Insert data")
+            'BACKUPTXT("XTAB_CAPTION", "frmCreaInsertSQL")
+            'CREA_TAB(frmCreaInsertSQL, "Crea Insert data")
         Else
-            MsgBox("Acceso denegado")
+            'MsgBox("Acceso denegado")
         End If
     End Sub
     Private Sub BarContratos_Click(sender As Object, e As EventArgs) Handles BarContratos.Click
@@ -1703,21 +1703,21 @@ Public Class MainRibbonForm
                 Case "Ordenes de Trabajo"
                     Select Case TIPO_OTI
                         Case 0
-                            frmOrdenDeTrabajoExt.Dispose()
+                            'frmOrdenDeTrabajoExt.Dispose()
                         Case 1
                             frmOTI.Dispose()
                     End Select
                 Case "Orden de Trabajo"
                     Select Case TIPO_OTI
                         Case 0
-                            FrmOrdenDeTrabajoExtAE.Dispose()
+                            'FrmOrdenDeTrabajoExtAE.Dispose()
                         Case 1
                             frmOTIAE.Dispose()
                     End Select
                 Case "Mantenimiento Externo"
                     Select Case TIPO_OTI
                         Case 0
-                            frmMantenimientoExterno.Dispose()
+                            'frmMantenimientoExterno.Dispose()
                         Case 1
                             frmOTE.Dispose()
                     End Select
@@ -1729,7 +1729,7 @@ Public Class MainRibbonForm
                                 'MessageBox.Show("Existen partidas en la orden de trabajo externa para confirmar por favor utilice la opción Salir")
                                 'e.Cancel = True
                                 'Else
-                                frmMantenimientoExternoAE.Dispose()
+                                'frmMantenimientoExternoAE.Dispose()
                                 'End If
                             Catch ex As Exception
                             End Try
@@ -1745,13 +1745,13 @@ Public Class MainRibbonForm
                             End Try
                     End Select
                 Case "Movs. Inv. TOT"
-                    FrmMovsInvOT.Dispose()
+                    'FrmMovsInvOT.Dispose()
                 Case "Gasolineras"
                     frmGasolineras.Dispose()
                 Case "Movimientos Carta Porte", "Carta Porte"
-                    FrmCartaPorteAE.Dispose()
+                    'FrmCartaPorteAE.Dispose()
                 Case "Consulta carta porte"
-                    FrmCartaPorteAE.Dispose()
+                    'FrmCartaPorteAE.Dispose()
                 Case "Tipo de Cobro"
                     frmTipoDeCobroAE.Dispose()
                 Case "Número de viaje"
@@ -1923,7 +1923,7 @@ Public Class MainRibbonForm
                 Case "Tabulador combustible"
                     frmTabuladorCombustibleAE.Dispose()
                 Case "Entrega de productos OT", "Movs. Inv. OT"
-                    FrmMovsInvOT.Dispose()
+                    'FrmMovsInvOT.Dispose()
                 Case "Movimientos al Inventario"
                     FrmMinveSae.Dispose()
                 Case "Documentos"
@@ -1931,7 +1931,7 @@ Public Class MainRibbonForm
                 Case "Punto de venta"
                     FrmTPV.Dispose()
                 Case "Movs. Ordenes de Trabajo"
-                    frmOrdenDeTrabajoExtMovsInv.Dispose()
+                    'frmOrdenDeTrabajoExtMovsInv.Dispose()
                 Case "Derechos"
                     FrmDerechos.Dispose()
                 Case "Trazabilidad"
@@ -2150,6 +2150,10 @@ Public Class MainRibbonForm
                     FrmEmbalajeBueno.Dispose()
                 Case "Cargas"
                     FrmCargasBueno.Dispose()
+                Case "Impuestos/Cuentas por año"
+                    FrmEsquemasYear.Dispose()
+                Case "Impuestos/Cuentas por mes"
+                    FrmEsquemasMes.Dispose()
                 Case Else
                     BACKUPTXT("XYTAB_CAPTION", "----------------------------------------------------------------------------")
                     BACKUPTXT("XYTAB_CAPTION", Tab1.TabPages(Tab1.SelectedIndex).Text)
@@ -2371,8 +2375,8 @@ Public Class MainRibbonForm
         CREA_TAB(frmGasolineras, "Gasolineras")
     End Sub
     Private Sub BarCartaPorte_Click(sender As Object, e As EventArgs) Handles BarCartaPorte.Click
-        BACKUPTXT("XTAB_CAPTION", "frmCartaPorte")
-        CREA_TAB(FrmCartaPorte, "Carta Porte")
+        'BACKUPTXT("XTAB_CAPTION", "frmCartaPorte")
+        'CREA_TAB(FrmCartaPorte, "Carta Porte")
     End Sub
     Private Sub MnuTipoDeCobro_Click(sender As Object, e As EventArgs) Handles MnuTipoDeCobro.Click
         BACKUPTXT("XTAB_CAPTION", "frmTipoDeCobro")
@@ -2429,9 +2433,12 @@ Public Class MainRibbonForm
         CREA_TAB(frmFormaDescuento, "Forma Descuento")
     End Sub
     Private Sub BarBajaViajes_Click(sender As Object, e As EventArgs) Handles BarBajaViajes.Click
+
         Var17 = ""
-        BACKUPTXT("XTAB_CAPTION", "FrmAsigViajeBueno")
-        CREA_TAB(FrmAsigViajeBueno, "Facturar viaje")
+        'BACKUPTXT("XTAB_CAPTION", "FrmAsigViajeBueno")
+        'CREA_TAB(FrmAsigViajeBueno, "Facturar viaje")
+
+        Process.Start(Application.StartupPath & "\Control de viajes.exe", Servidor & " " & Base & " " & Usuario & " " & Pass & " " & Empresa & " " & USER_GRUPOCE & " " & PASS_GRUPOCE & " " & pwPoder)
 
     End Sub
     Private Sub BarProveedores4_Click(sender As Object, e As EventArgs) Handles BarProdCargar.Click
@@ -2599,14 +2606,14 @@ Public Class MainRibbonForm
 
         Select Case TIPO_OTI
             Case 0
-                If FORM_IS_OPEN("frmOrdenDeTrabajoExt") Then
-                    Try
-                        frmOrdenDeTrabajoExt.Close()
-                        frmOrdenDeTrabajoExt.Dispose()
+                'If FORM_IS_OPEN("frmOrdenDeTrabajoExt") Then
+                Try
+                        'frmOrdenDeTrabajoExt.Close()
+                        'frmOrdenDeTrabajoExt.Dispose()
                     Catch ex As Exception
                     End Try
-                End If
-                CREA_TAB(frmOrdenDeTrabajoExt, "Ordenes de Trabajo")
+                'End If
+                'CREA_TAB(frmOrdenDeTrabajoExt, "Ordenes de Trabajo")
             Case 1
                 If FORM_IS_OPEN("frmOTI") Then
                     Try
@@ -2648,8 +2655,8 @@ Public Class MainRibbonForm
         CREA_TAB(FrmLlantas, "Llantas")
     End Sub
     Private Sub MnuOrdenesDeTrabajo_Click(sender As Object, e As EventArgs) Handles MnuOrdenesDeTrabajo.Click
-        BACKUPTXT("XTAB_CAPTION", "frmOrdenDeTrabajoExt")
-        CREA_TAB(frmOrdenDeTrabajoExt, "Orden de Trabajo Externa")
+        'BACKUPTXT("XTAB_CAPTION", "frmOrdenDeTrabajoExt")
+        'CREA_TAB(frmOrdenDeTrabajoExt, "Orden de Trabajo Externa")
     End Sub
     Private Sub MnuReporteDeFallas_Click(sender As Object, e As EventArgs) Handles MnuReporteDeFallas.Click
         BACKUPTXT("XTAB_CAPTION", "frmReporteFalla")
@@ -2684,6 +2691,8 @@ Public Class MainRibbonForm
         BACKUPTXT("XTAB_CAPTION", "frmAsignacionViaje")
 
         CREA_TAB(FrmAsignacionViaje, "Asignación de Viajes")
+
+
     End Sub
     Private Sub BarTabRutas_Click(sender As Object, e As EventArgs) Handles BarTabRutas.Click
         BACKUPTXT("XTAB_CAPTION", "frmTabRutas")
@@ -2745,10 +2754,10 @@ Public Class MainRibbonForm
         CREA_TAB(frmTabuladorCombustibleAE, "Tabulador combustible")
     End Sub
     Private Sub BarMovsInvOT_Click(sender As Object, e As EventArgs) Handles BarMovsInvOT.Click
-        BACKUPTXT("XTAB_CAPTION", "frmOrdenDeTrabajoExtMovsInv")
-        Var15 = "EXTTOT"
-        Var16 = "MIOT"
-        CREA_TAB(frmOrdenDeTrabajoExtMovsInv, "Movs. Ordenes de Trabajo")
+        'BACKUPTXT("XTAB_CAPTION", "frmOrdenDeTrabajoExtMovsInv")
+        'Var15 = "EXTTOT"
+        'Var16 = "MIOT"
+        'CREA_TAB(frmOrdenDeTrabajoExtMovsInv, "Movs. Ordenes de Trabajo")
     End Sub
     Private Sub BarMinveTOT_Click(sender As Object, e As EventArgs) Handles BarMinveTOT.Click
         BACKUPTXT("XTAB_CAPTION", "frmMinveSae")
@@ -2847,8 +2856,8 @@ Public Class MainRibbonForm
         OT_EXT = "M"
         Select Case TIPO_OTI
             Case 0
-                BACKUPTXT("XTAB_CAPTION", "frmMantenimientoExterno")
-                CREA_TAB(frmMantenimientoExterno, "Mantenimiento Externo")
+                'BACKUPTXT("XTAB_CAPTION", "frmMantenimientoExterno")
+                'CREA_TAB(frmMantenimientoExterno, "Mantenimiento Externo")
             Case 1
                 BACKUPTXT("XTAB_CAPTION", "frmOTEAE")
                 CREA_TAB(frmOTE, "Mantenimiento Externo")
@@ -2901,7 +2910,7 @@ Public Class MainRibbonForm
         End Try
     End Sub
     Private Sub BarValidarCierre_Click(sender As Object, e As EventArgs) Handles BarValidarCierre.Click
-        frmValidarCierre.ShowDialog()
+        'frmValidarCierre.ShowDialog()
     End Sub
     Private Sub BarReporteFacturas_Click(sender As Object, e As EventArgs) Handles BarReporteFacturas.Click
         BACKUPTXT("XTAB_CAPTION", "frmReporteFactutras")
@@ -2911,7 +2920,7 @@ Public Class MainRibbonForm
         CREA_TAB(FrmUtilerias, "UTILERIAS")
     End Sub
     Private Sub BarTools2_Click(sender As Object, e As EventArgs) Handles BarTools2.Click
-        frmUtils.ShowDialog()
+        'frmUtils.ShowDialog()
     End Sub
     Private Sub MnuPedidos_Click(sender As Object, e As EventArgs) Handles MnuPedidos.Click
         BACKUPTXT("XTAB_CAPTION", "frmPedidos")
@@ -3086,9 +3095,9 @@ Public Class MainRibbonForm
 
     Private Sub MnuManagamentSQL_Click(sender As Object, e As EventArgs) Handles MnuManagamentSQL.Click
         Try
-            If PASS_GRUPOCE.ToUpper = "BR3FRAJA" Then
-                FrmSQL.Show()
-            End If
+            'If PASS_GRUPOCE.ToUpper = "BR3FRAJA" Then
+            'FrmSQL.Show()
+            'End If
         Catch ex As Exception
         End Try
     End Sub
@@ -3234,8 +3243,8 @@ Public Class MainRibbonForm
 
     Private Sub MnuValidarImportesFacturas_Click(sender As Object, e As EventArgs) Handles MnuValidarImportesFacturas.Click
         Try
-            BACKUPTXT("XTAB_CAPTION", "frmValidaFacturas")
-            CREA_TAB(frmValidaFacturas, "Validar facturas")
+            'BACKUPTXT("XTAB_CAPTION", "frmValidaFacturas")
+            'CREA_TAB(frmValidaFacturas, "Validar facturas")
         Catch ex As Exception
         End Try
     End Sub
@@ -3538,7 +3547,7 @@ Public Class MainRibbonForm
     End Sub
     Private Sub RibValidaExcel_Click(sender As Object, e As EventArgs) Handles RibValidaExcel.Click
         BACKUPTXT("XTAB_CAPTION", "frmImportAsigLlantasExcel")
-        FrmImportAsigLlantasExcel.Show()
+        'FrmImportAsigLlantasExcel.Show()
     End Sub
     Private Sub RibConsolidado_Click(sender As Object, e As EventArgs) Handles RMante_Rep_Consolidado.Click
         BACKUPTXT("XTAB_CAPTION", "FrmReportConsolidado")
@@ -4213,5 +4222,22 @@ Public Class MainRibbonForm
     Private Sub RibCargas_Click(sender As Object, e As EventArgs) Handles RibCargas.Click
         BACKUPTXT("XTAB_CAPTION", "FrmCargasBueno")
         CREA_TAB(FrmCargasBueno, "Cargas")
+    End Sub
+
+    Private Sub BarImpuestoAño_Click(sender As Object, e As EventArgs) Handles BarImpuestoAño.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmEsquemasYear")
+        CREA_TAB(FrmEsquemasYear, "Impuestos/Cuentas por año")
+    End Sub
+
+    Private Sub BarImpuestoMes_Click(sender As Object, e As EventArgs) Handles BarImpuestoMes.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmEsquemasMes")
+        CREA_TAB(FrmEsquemasMes, "Impuestos/Cuentas por mes")
+    End Sub
+
+    Private Sub BarDescargaMasivaSAT_Click(sender As Object, e As EventArgs) Handles BarDescargaMasivaSAT.Click
+        Try
+            Process.Start(Application.StartupPath & "\Descarga SAT Masiva\Descarga SAT Masiva.exe")
+        Catch ex As Exception
+        End Try
     End Sub
 End Class

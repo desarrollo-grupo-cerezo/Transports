@@ -86,7 +86,7 @@ Partial Class FrmOrdenMallas
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.C1ToolBar1.Movable = False
         Me.C1ToolBar1.Name = "C1ToolBar1"
-        Me.C1ToolBar1.Size = New System.Drawing.Size(513, 43)
+        Me.C1ToolBar1.Size = New System.Drawing.Size(743, 43)
         Me.C1ToolBar1.Text = "C1ToolBar1"
         Me.C1ToolBar1.VisualStyle = C1.Win.C1Command.VisualStyle.Office2010Blue
         Me.C1ToolBar1.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
@@ -122,14 +122,14 @@ Partial Class FrmOrdenMallas
         Me.Fg.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
         Me.Fg.ClipboardCopyMode = C1.Win.C1FlexGrid.ClipboardCopyModeEnum.DataAndColumnHeaders
         Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
-        Me.Fg.Dock = System.Windows.Forms.DockStyle.Left
+        Me.Fg.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Fg.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Solid
         Me.Fg.ForeColor = System.Drawing.Color.Black
         Me.Fg.Location = New System.Drawing.Point(0, 43)
         Me.Fg.Name = "Fg"
         Me.Fg.Rows.DefaultSize = 19
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.ListBox
-        Me.Fg.Size = New System.Drawing.Size(501, 551)
+        Me.Fg.Size = New System.Drawing.Size(743, 551)
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 313
         Me.Fg.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Office2010Blue
@@ -138,7 +138,7 @@ Partial Class FrmOrdenMallas
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(513, 594)
+        Me.ClientSize = New System.Drawing.Size(743, 594)
         Me.Controls.Add(Me.Fg)
         Me.Controls.Add(Me.C1ToolBar1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)

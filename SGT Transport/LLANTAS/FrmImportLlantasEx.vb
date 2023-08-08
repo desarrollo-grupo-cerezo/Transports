@@ -53,9 +53,9 @@ Public Class FrmImportLlantasEx
         Dim NUM_ECONOMICO As String, UNIDAD As String, POSICION As Integer
         Dim FECHA_MON As Date, MARCA As String, MARCA_RENOVADO As String, MODELO As String, MODELO_RENOVADO As String, KM As Decimal, MEDIDA As String
         Dim PROFUNDIDA_ORIGINAL As Decimal, ROFUNDIDA_MINIMA As Decimal, PROFUNDIDAD_ACTUAL As Decimal, CVE_TIPO_UNI As Integer
-        Dim TIPO_LLANTA As String, STATUS_LLANTA As String, COSTO_LLANTA_MN As Decimal, nCol As Integer = 0, Z As Long
-        Dim KMS_MONTAR As Decimal, TIPO_NUEVA_RENO As String, SEMAFORO As String, nReg As Long = 0, KMS_ACTUAL As Decimal, NO_RENOVADOS As Integer
-        Dim TIP_NEW_RENO As Integer, MARCA_RENO As String, PROV_RENO As String
+        Dim TIPO_LLANTA As String, STATUS_LLANTA As String, COSTO_LLANTA_MN As Decimal, Z As Long
+        Dim KMS_MONTAR As Decimal, TIPO_NUEVA_RENO As String, SEMAFORO As String, KMS_ACTUAL As Decimal, NO_RENOVADOS As Integer
+        Dim TIP_NEW_RENO As Integer, MARCA_RENO As String, PROV_RENO As String, CVE_LLANTA As String
 
         If MsgBox("Realmente desea importar las llantas?", vbYesNo) = vbNo Then
             Return
@@ -85,9 +85,7 @@ Public Class FrmImportLlantasEx
 
                 'CVE_LLANTA = BUSCA_CVE_LLANTA(NUM_ECONOMICO)
 
-                'If CVE_LLANTA.Trim.Length = 0 Then
-                'CVE_LLANTA = GET_MAX_TRY("GCLLANTAS", "CVE_LLANTA")
-                'End If
+                CVE_LLANTA = GET_MAX_TRY("GCLLANTAS", "CVE_LLANTA")
 
                 UNIDAD = VALIDA_VALOR(Fg(k, 1), "S")
                 UNIDAD = UNIDAD.Trim.ToUpper
@@ -153,12 +151,12 @@ Public Class FrmImportLlantasEx
 
                 If NUM_ECONOMICO.Trim.Length > 0 Then
                     SQL = "IF NOT EXISTS (SELECT NUM_ECONOMICO FROM GCLLANTAS WHERE NUM_ECONOMICO = '" & NUM_ECONOMICO & "')
-                    INSERT INTO GCLLANTAS (NUM_ECONOMICO, STATUS, UNIDAD, POSICION, FECHA_MON, MARCA, 
+                    INSERT INTO GCLLANTAS (CVE_LLANTA, NUM_ECONOMICO, STATUS, UNIDAD, POSICION, FECHA_MON, MARCA, 
                     MARCA_RENOVADO, MODELO, MODELO_RENOVADO, KM, MEDIDA, PROFUNDIDA_ORIGINAL, ROFUNDIDA_MINIMA, 
                     PROFUNDIDAD_ACTUAL, TIPO_LLANTA, STATUS_LLANTA, COSTO_LLANTA_MN, FECHA_REG, FECHAELAB, KMS_MONTAR, 
                     TIPO_NUEVA_RENO, SEMAFORO, KMS_ACTUAL, NO_RENOVADOS, CVE_MARCA, CVE_PRE) 
                     VALUES ('" &
-                    NUM_ECONOMICO & "','A','" & UNIDAD & "','" & POSICION & "','" & FSQL(FECHA_MON) & "','" &
+                    CVE_LLANTA & "','" & NUM_ECONOMICO & "','A','" & UNIDAD & "','" & POSICION & "','" & FSQL(FECHA_MON) & "','" &
                     MARCA & "','" & MARCA_RENOVADO & "','" & MODELO & "','" & MODELO_RENOVADO & "','" & KM & "','" & MEDIDA & "','" &
                     PROFUNDIDA_ORIGINAL & "','" & ROFUNDIDA_MINIMA & "','" & PROFUNDIDAD_ACTUAL & "','" & TIPO_LLANTA & "','" &
                     STATUS_LLANTA & "','" & COSTO_LLANTA_MN & "',CONVERT(varchar, GETDATE(), 112),GETDATE(),'" & KMS_MONTAR & "','" &

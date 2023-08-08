@@ -2,7 +2,6 @@
 Imports System.IO
 Imports C1.Win.C1FlexGrid
 Imports System.Data.SqlClient
-Imports C1.Util.DX.Direct2D.Effects
 
 Public Class frmClientesAE
     Private CLIENTE_SECUENCIAL As Int16 = 0
@@ -263,6 +262,10 @@ Public Class frmClientesAE
         If EVENTO <> "XXX" Then
             CloseTab("Cliente")
         End If
+
+        If ExisteTab("Clientes") Then
+            frmClientes.DESPLEGAR()
+        End If
     End Sub
     Private Sub FrmClientesAE_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         Select Case e.KeyCode
@@ -300,7 +303,7 @@ Public Class frmClientesAE
                 I.PAIS_ENVIO, I.CODIGO_ENVIO, I.CVE_ZONA_ENVIO, I.REFERENCIA_ENVIO, I.CUENTA_CONTABLE, I.METODODEPAGO, I.NUMCTAPAGO, 
                 I.MODELO, I.USO_CFDI, I.CVE_PAIS_SAT, I.NUMIDREGFISCAL, I.FORMADEPAGOSAT, ISNULL(OB.STR_OBS,'') AS OBSTR, I.REG_FISC,
                 R.descripcion as DESC_REG_FISC, I.NOMBRECOMERCIAL, I.FLETE, I.TIPO_CAMBIO, CVE_ESQIMPU, I.NUM_MON,
-                MUNICIPIO_SAT, LOCALIDAD_SAT, ESTADO_SAT, PAIS_SAT, COLONIA_SAT, ALIAS
+                MUNICIPIO_SAT, LOCALIDAD_SAT, ESTADO_SAT, PAIS_SAT, COLONIA_SAT, ALIAS, APLICACION
                 FROM CLIE" & Empresa & " I
                 LEFT JOIN tblcregimenfiscal R ON R.regimenFiscal = I.REG_FISC
                 LEFT JOIN OCLI" & Empresa & " OB ON OB.CVE_OBS = I.CVE_OBS                
@@ -341,6 +344,8 @@ Public Class frmClientesAE
                     TPAIS_SAT.Text = dr.ReadNullAsEmptyString("PAIS_SAT")
                     TCOLONIA_SAT.Text = dr.ReadNullAsEmptyString("COLONIA_SAT")
                     TALIAS.Text = dr.ReadNullAsEmptyString("ALIAS")
+
+                    TAPLICACION.Text = dr.ReadNullAsEmptyString("APLICACION")
                 Catch ex As Exception
                     MsgBox("10. " & ex.Message & vbNewLine & ex.StackTrace)
                     Bitacora("10. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -514,9 +519,12 @@ Public Class frmClientesAE
                     TNUMCTAPAGO.Text = IIf(IsDBNull(dr("NUMCTAPAGO")), "", dr("NUMCTAPAGO"))
                     TMODELO.Text = IIf(IsDBNull(dr("MODELO")), "", dr("MODELO"))
                     TUSO_CFDI.Text = IIf(IsDBNull(dr("USO_CFDI")), "", dr("USO_CFDI"))
+                    LtUsoCFDI.Text = BUSCA_CAT("USO CFDI", TUSO_CFDI.Text)
+
                     TCVE_PAIS_SAT.Text = IIf(IsDBNull(dr("CVE_PAIS_SAT")), "", dr("CVE_PAIS_SAT"))
                     TNUMIDREGFISCAL.Text = IIf(IsDBNull(dr("NUMIDREGFISCAL")), "", dr("NUMIDREGFISCAL"))
                     TFORMADEPAGOSAT.Text = IIf(IsDBNull(dr("FORMADEPAGOSAT")), "", dr("FORMADEPAGOSAT"))
+                    Label70.Text = BUSCA_CAT("tblcformapago", TFORMADEPAGOSAT.Text)
 
                     TREGIMEN_FISCAL.Text = dr.ReadNullAsEmptyString("REG_FISC")
                     LtRegFis.Text = OBTENER_REGIMEN_FISCAL_XML(TREGIMEN_FISCAL.Text)
@@ -742,11 +750,11 @@ Public Class frmClientesAE
         TCLAVE.MaxLength = 10
         TNOMBRE.MaxLength = 120
         TRFC.MaxLength = 15
-        TCALLE.MaxLength = 80
+        TCALLE.MaxLength = 255
         TNumInt.MaxLength = 15
         TNumExt.MaxLength = 15
-        TCRUZAMIENTOS.MaxLength = 40
-        TCRUZAMIENTOS2.MaxLength = 40
+        TCRUZAMIENTOS.MaxLength = 255
+        TCRUZAMIENTOS2.MaxLength = 255
         TCOLONIA.MaxLength = 50
         TCODIGO.MaxLength = 5
         TLOCALIDAD.MaxLength = 50
@@ -976,19 +984,19 @@ Public Class frmClientesAE
             CRUZAMIENTOS = @CRUZAMIENTOS, CRUZAMIENTOS2 = @CRUZAMIENTOS2, COLONIA = @COLONIA, CODIGO = @CODIGO, LOCALIDAD = @LOCALIDAD, 
             MUNICIPIO = @MUNICIPIO, ESTADO = @ESTADO, PAIS = @PAIS, NACIONALIDAD = @NACIONALIDAD, REFERDIR = @REFERDIR, TELEFONO = @TELEFONO, 
             CLASIFIC = @CLASIFIC, FAX = @FAX, PAG_WEB = @PAG_WEB, CURP = @CURP, CVE_ZONA = @CVE_ZONA, IMPRIR = @IMPRIR, MAIL = @MAIL, 
-            ENVIOSILEN = @ENVIOSILEN, EMAILPRED = @EMAILPRED, DIAREV = @DIAREV, DIAPAGO = @DIAPAGO,
-            CON_CREDITO = @CON_CREDITO, DIASCRED = @DIASCRED, LIMCRED = @LIMCRED, LISTA_PREC = @LISTA_PREC, CVE_BITA = @CVE_BITA,
-            ULT_PAGOD = @ULT_PAGOD, ULT_PAGOM = @ULT_PAGOM, ULT_PAGOF = @ULT_PAGOF, DESCUENTO = @DESCUENTO, ULT_VENTAD = @ULT_VENTAD, 
-            ULT_COMPM = @ULT_COMPM, FCH_ULTCOM = @FCH_ULTCOM, VENTAS = @VENTAS, CVE_VEND = @CVE_VEND, CVE_OBS = @CVE_OBS, 
-            TIPO_EMPRESA = @TIPO_EMPRESA, MATRIZ = @MATRIZ, CALLE_ENVIO = @CALLE_ENVIO, NUMINT_ENVIO = @NUMINT_ENVIO,
-            NUMEXT_ENVIO = @NUMEXT_ENVIO, CRUZAMIENTOS_ENVIO = @CRUZAMIENTOS_ENVIO, CRUZAMIENTOS_ENVIO2 = @CRUZAMIENTOS_ENVIO2,
-            COLONIA_ENVIO = @COLONIA_ENVIO, LOCALIDAD_ENVIO = @LOCALIDAD_ENVIO, MUNICIPIO_ENVIO = @MUNICIPIO_ENVIO, ESTADO_ENVIO = @ESTADO_ENVIO, 
-            PAIS_ENVIO = @PAIS_ENVIO, CODIGO_ENVIO = @CODIGO_ENVIO, CVE_ZONA_ENVIO = @CVE_ZONA_ENVIO, REFERENCIA_ENVIO = @REFERENCIA_ENVIO, 
-            CUENTA_CONTABLE = @CUENTA_CONTABLE, METODODEPAGO = @METODODEPAGO, NUMCTAPAGO = @NUMCTAPAGO, MODELO = @MODELO, USO_CFDI = @USO_CFDI, 
-            CVE_PAIS_SAT = @CVE_PAIS_SAT, NUMIDREGFISCAL = @NUMIDREGFISCAL, FORMADEPAGOSAT = @FORMADEPAGOSAT, STATUS = @STATUS, 
-            REG_FISC = @REG_FISC, NOMBRECOMERCIAL = @NOMBRECOMERCIAL, FLETE = @FLETE, NUM_MON = @NUM_MON, CVE_ESQIMPU = @CVE_ESQIMPU,
-            MUNICIPIO_SAT = @MUNICIPIO_SAT, LOCALIDAD_SAT = @LOCALIDAD_SAT, ESTADO_SAT = @ESTADO_SAT, PAIS_SAT = @PAIS_SAT, COLONIA_SAT = @COLONIA_SAT,
-            ALIAS = @ALIAS
+            ENVIOSILEN = @ENVIOSILEN, EMAILPRED = @EMAILPRED, DIAREV = @DIAREV, DIAPAGO = @DIAPAGO, CON_CREDITO = @CON_CREDITO, 
+            DIASCRED = @DIASCRED, LIMCRED = @LIMCRED, LISTA_PREC = @LISTA_PREC, CVE_BITA = @CVE_BITA, ULT_PAGOD = @ULT_PAGOD, 
+            ULT_PAGOM = @ULT_PAGOM, ULT_PAGOF = @ULT_PAGOF, DESCUENTO = @DESCUENTO, ULT_VENTAD = @ULT_VENTAD, ULT_COMPM = @ULT_COMPM, 
+            FCH_ULTCOM = @FCH_ULTCOM, VENTAS = @VENTAS, CVE_VEND = @CVE_VEND, CVE_OBS = @CVE_OBS, TIPO_EMPRESA = @TIPO_EMPRESA, MATRIZ = @MATRIZ, 
+            CALLE_ENVIO = @CALLE_ENVIO, NUMINT_ENVIO = @NUMINT_ENVIO, NUMEXT_ENVIO = @NUMEXT_ENVIO, CRUZAMIENTOS_ENVIO = @CRUZAMIENTOS_ENVIO, 
+            CRUZAMIENTOS_ENVIO2 = @CRUZAMIENTOS_ENVIO2, COLONIA_ENVIO = @COLONIA_ENVIO, LOCALIDAD_ENVIO = @LOCALIDAD_ENVIO, 
+            MUNICIPIO_ENVIO = @MUNICIPIO_ENVIO, ESTADO_ENVIO = @ESTADO_ENVIO, PAIS_ENVIO = @PAIS_ENVIO, CODIGO_ENVIO = @CODIGO_ENVIO, 
+            CVE_ZONA_ENVIO = @CVE_ZONA_ENVIO, REFERENCIA_ENVIO = @REFERENCIA_ENVIO, CUENTA_CONTABLE = @CUENTA_CONTABLE, 
+            METODODEPAGO = @METODODEPAGO, NUMCTAPAGO = @NUMCTAPAGO, MODELO = @MODELO, USO_CFDI = @USO_CFDI, CVE_PAIS_SAT = @CVE_PAIS_SAT, 
+            NUMIDREGFISCAL = @NUMIDREGFISCAL, FORMADEPAGOSAT = @FORMADEPAGOSAT, STATUS = @STATUS, REG_FISC = @REG_FISC, 
+            NOMBRECOMERCIAL = @NOMBRECOMERCIAL, FLETE = @FLETE, NUM_MON = @NUM_MON, CVE_ESQIMPU = @CVE_ESQIMPU, MUNICIPIO_SAT = @MUNICIPIO_SAT, 
+            LOCALIDAD_SAT = @LOCALIDAD_SAT, ESTADO_SAT = @ESTADO_SAT, PAIS_SAT = @PAIS_SAT, COLONIA_SAT = @COLONIA_SAT,
+            ALIAS = @ALIAS, APLICACION = @APLICACION
             WHERE CLAVE = @CLAVE
             ELSE
             INSERT INTO CLIE" & Empresa & " (CLAVE, STATUS, NOMBRE, RFC, CALLE, NUMINT, NUMEXT, CRUZAMIENTOS, CRUZAMIENTOS2, COLONIA, CODIGO,
@@ -998,7 +1006,7 @@ Public Class frmClientesAE
             NUMINT_ENVIO, NUMEXT_ENVIO, CRUZAMIENTOS_ENVIO, CRUZAMIENTOS_ENVIO2, COLONIA_ENVIO, LOCALIDAD_ENVIO, MUNICIPIO_ENVIO, 
             ESTADO_ENVIO, PAIS_ENVIO, CODIGO_ENVIO, CVE_ZONA_ENVIO, REFERENCIA_ENVIO, CUENTA_CONTABLE, METODODEPAGO, NUMCTAPAGO, MODELO, 
             USO_CFDI, CVE_PAIS_SAT, NUMIDREGFISCAL, FORMADEPAGOSAT, REG_FISC, NOMBRECOMERCIAL, FLETE, NUM_MON, CVE_ESQIMPU, MUNICIPIO_SAT,
-            LOCALIDAD_SAT, ESTADO_SAT, PAIS_SAT, COLONIA_SAT, ALIAS) 
+            LOCALIDAD_SAT, ESTADO_SAT, PAIS_SAT, COLONIA_SAT, ALIAS, APLICACION) 
             VALUES(
             @CLAVE, 'A', @NOMBRE, @RFC, @CALLE, @NUMINT, @NUMEXT, @CRUZAMIENTOS, @CRUZAMIENTOS2, @COLONIA, @CODIGO, @LOCALIDAD,
             @MUNICIPIO, @ESTADO, @PAIS, @NACIONALIDAD, @REFERDIR, @TELEFONO, @CLASIFIC, @FAX, @PAG_WEB, @CURP, @CVE_ZONA, @IMPRIR, @MAIL,
@@ -1007,7 +1015,7 @@ Public Class frmClientesAE
             @MATRIZ, @CALLE_ENVIO, @NUMINT_ENVIO, @NUMEXT_ENVIO, @CRUZAMIENTOS_ENVIO, @CRUZAMIENTOS_ENVIO2, @COLONIA_ENVIO, @LOCALIDAD_ENVIO,
             @MUNICIPIO_ENVIO, @ESTADO_ENVIO, @PAIS_ENVIO, @CODIGO_ENVIO, @CVE_ZONA_ENVIO, @REFERENCIA_ENVIO, @CUENTA_CONTABLE, @METODODEPAGO,
             @NUMCTAPAGO, @MODELO, @USO_CFDI, @CVE_PAIS_SAT, @NUMIDREGFISCAL, @FORMADEPAGOSAT, @REG_FISC, @NOMBRECOMERCIAL, @FLETE, 
-            @NUM_MON, @CVE_ESQIMPU, @MUNICIPIO_SAT, @LOCALIDAD_SAT, @ESTADO_SAT, @PAIS_SAT, @COLONIA_SAT, @ALIAS)"
+            @NUM_MON, @CVE_ESQIMPU, @MUNICIPIO_SAT, @LOCALIDAD_SAT, @ESTADO_SAT, @PAIS_SAT, @COLONIA_SAT, @ALIAS, @APLICACION)"
 
         cmd.Connection = cnSAE
         cmd.CommandText = SQL
@@ -1093,6 +1101,7 @@ Public Class frmClientesAE
             cmd.Parameters.Add("@PAIS_SAT", SqlDbType.VarChar).Value = TPAIS_SAT.Text.Trim
             cmd.Parameters.Add("@COLONIA_SAT", SqlDbType.VarChar).Value = TCOLONIA_SAT.Text
             cmd.Parameters.Add("@ALIAS", SqlDbType.VarChar).Value = TALIAS.Text
+            cmd.Parameters.Add("@APLICACION", SqlDbType.VarChar).Value = TAPLICACION.Text
 
             returnValue = cmd.ExecuteNonQuery().ToString
             If returnValue IsNot Nothing Then
@@ -1521,33 +1530,21 @@ Public Class frmClientesAE
 
     Private Sub TFORMADEPAGOSAT_Validated(sender As Object, e As EventArgs) Handles TFORMADEPAGOSAT.Validated
         Try
-            Dim Clave As String, Descr As String = ""
-
             If TFORMADEPAGOSAT.Text.Trim.Length > 0 Then
-                Dim doc As New XmlDocument()
-                doc.Load(Application.StartupPath & "\CatalogosSat\CAT_FORMA_PAGO.xml")
-                Dim child_nodes As XmlNodeList = doc.GetElementsByTagName("row")
-                Dim Existe As Boolean = False
-
-                Dim txt As String = ""
-                For Each child As XmlNode In child_nodes
-                    Clave = child.Attributes("c_FormaPago").InnerXml '& " = " & child.InnerText & vbCrLf
-                    Descr = child.Attributes("Descripcion").InnerXml
-
-                    If child.Attributes("c_FormaPago").InnerXml = TFORMADEPAGOSAT.Text Then
-                        Existe = True
-                        Exit For
-                    End If
-                Next child
-                If Not Existe Then
-                    MsgBox("Forma de pago inexistemte, verifique por favor")
-                    TFORMADEPAGOSAT.Text = TFORMADEPAGOSAT.Tag
+                Dim DESCR As String
+                DESCR = BUSCA_CAT("tblcformapago", TFORMADEPAGOSAT.Text)
+                If DESCR <> "N" And DESCR <> "" Then
+                    Label70.Text = DESCR
                 Else
-                    Label70.Text = Descr
+                    MsgBox("Forma de pago SAT inexistente")
+                    Label70.Text = ""
+                    TFORMADEPAGOSAT.Text = ""
                 End If
+            Else
+                LtVend.Text = ""
             End If
         Catch ex As Exception
-            Bitacora("140. " & ex.Message & vbNewLine & ex.StackTrace)
+            Bitacora("120. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
 
@@ -2413,6 +2410,45 @@ Public Class frmClientesAE
         Catch ex As Exception
             Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+    End Sub
+    Private Sub BtnApli_Click(sender As Object, e As EventArgs) Handles BtnApli.Click
+        Try
+            Var2 = "PagoSAT"
+
+            frmUsoCFDI.ShowDialog()
+            If Var4.Trim.Length > 0 Then
+                TAPLICACION.Text = Var4
+                Label78.Text = Var5
+                Var2 = ""
+                Var4 = ""
+                Var5 = ""
+            End If
+        Catch ex As Exception
+        End Try
+    End Sub
+    Private Sub TAPLICACION_KeyDown(sender As Object, e As KeyEventArgs) Handles TAPLICACION.KeyDown
+        If e.KeyCode = Keys.F2 Then
+            BtnApli_Click(Nothing, Nothing)
+        End If
+    End Sub
+    Private Sub TAPLICACION_Validated(sender As Object, e As EventArgs) Handles TAPLICACION.Validated
+        Try
+            If TAPLICACION.Text.Trim.Length > 0 Then
+                Dim DESCR As String
+                DESCR = BUSCA_CAT("tblcformapago", TAPLICACION.Text)
+                If DESCR <> "N" And DESCR <> "" Then
+                    Label70.Text = DESCR
+                Else
+                    MsgBox("Forma de pago SAT inexistente")
+                    Label70.Text = ""
+                    TAPLICACION.Text = ""
+                End If
+            Else
+                LtVend.Text = ""
+            End If
+        Catch ex As Exception
+            Bitacora("120. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
 End Class

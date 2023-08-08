@@ -371,7 +371,7 @@ Public Class FrmBaja_viaje_CartaPorte
         If Fg.Row > 0 Then
             Var1 = "Edit"
             Var2 = Fg(Fg.Row, 2)
-            CREA_TAB(FrmCartaPorteAE, "Movimientos Carta Porte")
+            'CREA_TAB(FrmCartaPorteAE, "Movimientos Carta Porte")
         Else
             MsgBox("Por favor seleccione un registro")
         End If

@@ -5749,11 +5749,12 @@ Public Class FrmTPV
             Dim lista As List(Of cMoneda) = New List(Of cMoneda)()
 
             Using cmd As SqlCommand = cnSAE.CreateCommand
-                SQL = "SELECT NUM_MONED, DESCR, TCAMBIO, CVE_MONED FROM MONED" & Empresa & " WHERE STATUS = 'A' ORDER BY NUM_MONED"
+                SQL = "SELECT NUM_MONED, DESCR, TCAMBIO, CVE_MONED 
+                    FROM MONED" & Empresa & " WHERE ISNULL(STATUS,'') = 'A' ORDER BY NUM_MONED"
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
-                        lista.Add(New cMoneda(dr("NUM_MONED"), dr("CVE_MONED"), dr("DESCR")))
+                        lista.Add(New cMoneda(dr.ReadNullAsEmptyString("NUM_MONED"), dr.ReadNullAsEmptyString("CVE_MONED"), dr.ReadNullAsEmptyString("DESCR")))
                     End While
                 End Using
                 cbMoneda.DataSource = lista

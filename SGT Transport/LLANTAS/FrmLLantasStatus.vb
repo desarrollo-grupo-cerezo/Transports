@@ -123,12 +123,10 @@ Public Class FrmLLantasStatus
                     OTRO = ""
                 End If
 
-                Dim CVE_PILA As String
+                Dim CVE_PILA As String = ""
 
-                CVE_PILA = CboPilaStatus.Items(CboPilaStatus.SelectedIndex)
-
-                If CVE_PILA = "0" Then
-                    CVE_PILA = ""
+                If CboPilaStatus.SelectedIndex > -1 Then
+                    CVE_PILA = CboPilaStatus.Items(CboPilaStatus.SelectedIndex)
                 End If
 
                 SQL = "UPDATE GCLLANTAS SET STATUS_LLANTA = " & CVE_ST & ", LLANTA1 = '" & OTRO & "', CVE_PILA = '" & CVE_PILA & "'

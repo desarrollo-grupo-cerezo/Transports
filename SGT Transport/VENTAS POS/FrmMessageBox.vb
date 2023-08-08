@@ -1,5 +1,4 @@
-﻿Imports GMap.NET
-
+﻿
 Public Class FrmMessageBox
     Private Sub FrmMessageBox_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 

@@ -45,4 +45,8 @@
 
         f.ShowDialog()
     End Sub
+
+    Private Sub ToolStripButton2_Click(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
+        FrmCOI.ShowDialog()
+    End Sub
 End Class

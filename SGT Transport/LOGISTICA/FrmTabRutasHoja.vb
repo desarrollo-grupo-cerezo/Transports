@@ -134,7 +134,7 @@ Public Class FrmTabRutasHoja
                 LEFT JOIN GCCONC_GASTOS GT ON GT.CVE_GAS = T.CVE_GAS
                 LEFT JOIN GCGASOLINERAS GS ON GS.CVE_GAS = T.CVE_GASOL
                 WHERE T.STATUS = 'A' " & CADENA & "
-                ORDER BY TRY_PARSE(T.CVE_TAB AS INT)"
+                ORDER BY TRY_PARSE(T.CVE_TAB AS INT) DESC"
 
             cmd.CommandText = SQL
             dr = cmd.ExecuteReader

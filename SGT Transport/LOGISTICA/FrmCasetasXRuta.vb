@@ -8,7 +8,7 @@ Public Class FrmCasetasXRuta
             Return
         End If
         Try
-
+            Fg.Styles.EmptyArea.BackColor = ColoFondoFG
             Me.WindowState = FormWindowState.Maximized
             Fg.Rows.Count = 1
             Fg.Cols.Count = 13
@@ -32,7 +32,7 @@ Public Class FrmCasetasXRuta
             Dim da As New SqlDataAdapter
             Dim dt As New DataTable
 
-            SQL = "SELECT C.CVE_CXR, C.STATUS, C.CVE_PLAZA, C.CVE_PLAZA2, P1.CIUDAD AS CIUDAD1, P2.CIUDAD AS CIUDAD2, IMPORTE_CASETAS
+            SQL = "SELECT C.CVE_CXR, C.STATUS, C.CVE_PLAZA, P1.CIUDAD AS CIUDAD1, C.CVE_PLAZA2, P2.CIUDAD AS CIUDAD2, IMPORTE_CASETAS
                 FROM GCCASETAS_X_RUTA C 
                 LEFT JOIN GCPLAZAS P1 On P1.CLAVE = C.CVE_PLAZA 
                 LEFT JOIN GCPLAZAS P2 On P2.CLAVE = C.CVE_PLAZA2

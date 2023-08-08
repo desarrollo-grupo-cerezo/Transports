@@ -72,6 +72,38 @@ Public Class FrmLiquidacionesAE
         BtnReset.FlatAppearance.BorderSize = 0
 
 
+        FgCasetas.Cols(1).StarWidth = "2*"
+        FgCasetas.Cols(2).StarWidth = "*"
+        FgCasetas.Cols(3).StarWidth = "*"
+        FgCasetas.Cols(4).StarWidth = "4*"
+        FgCasetas.Cols(5).StarWidth = "*"
+        FgCasetas.Cols(6).StarWidth = "4*"
+        FgCasetas.Cols(7).StarWidth = "2*"
+
+        SQL = "SELECT C.CVE_CXR, C.CVE_PLAZA, P1.CIUDAD AS CIUDAD1, C.CVE_PLAZA2, P2.CIUDAD AS CIUDAD2, IMPORTE_CASETAS
+            FROM GCCASETAS_X_RUTA C 
+            LEFT JOIN GCPLAZAS P1 On P1.CLAVE = C.CVE_PLAZA 
+            LEFT JOIN GCPLAZAS P2 On P2.CLAVE = C.CVE_PLAZA2
+            WHERE C.STATUS = 'A' ORDER BY CVE_CXR"
+        FgCasetas.Rows.Count = 1
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+                        FgCasetas.AddItem("" & vbTab & "" & vbTab & dr("CVE_CXR") & vbTab & dr("CVE_PLAZA") & vbTab &
+                                          dr("CIUDAD1") & vbTab & dr("CVE_PLAZA2") & vbTab & dr("CIUDAD2") & vbTab &
+                                          dr("IMPORTE_CASETAS"))
+                    End While
+                End Using
+            End Using
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+
+
+
         FgG.Rows.Count = 1
         FgV.Rows.Count = 1
         FgGC.Rows.Count = 1
@@ -263,6 +295,8 @@ Public Class FrmLiquidacionesAE
                     DESPLEGAR_LIQ_DEDUCCIONES(CLng(TCVE_LIQ.Text))
                     'FgPA   GCLIQ_PENSION_ALI 
                     DESPLEGAR_LIQ_PENSION_ALIMENTICIA(CLng(TCVE_LIQ.Text))
+                    'FgCasetas   GCLIQ_CASETAS
+                    DESPLEGAR_LIQ_CASETAS(CLng(TCVE_LIQ.Text))
 
                     LtValesCombustible.Text = Format(dr.ReadNullAsEmptyDecimal("VALES_COMBUSTIBLE"), "###,###,##0.00")
                     LtPerXViaje.Text = Format(dr.ReadNullAsEmptyDecimal("PERCEP_X_VIAJE"), "###,###,##0.00")
@@ -453,7 +487,30 @@ Public Class FrmLiquidacionesAE
         Fg.Cols(23).Visible = False
         Fg.Cols(24).Visible = True
     End Sub
+    Sub DESPLEGAR_LIQ_CASETAS(FCVE_LIQ As Long)
+        Try
+            SQL = "SELECT CVE_LIQ, CVE_CXR, CVE_PLAZA, CVE_PLAZA2, IMPORTE
+                FROM GCLIQ_CASETAS
+                WHERE CVE_LIQ = " & FCVE_LIQ & " ORDER BY CVE_LIQ, CVE_CXR"
 
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+                        For k = 1 To FgCasetas.Rows.Count - 1
+                            If dr.ReadNullAsEmptyInteger("CVE_CXR") = FgCasetas(k, 2) Then
+                                FgCasetas(k, 1) = True
+                                Exit For
+                            End If
+                        Next
+                    End While
+                End Using
+            End Using
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+    End Sub
     Sub DESPLEGAR_LIQ_PARTIDAS(fCVE_LIQ As Long)
         Try
             Dim s As String = "", ExistViaje As Boolean = False, CVE_CAP1 As String, CVE_CAP2 As String, TIP_VIAJE As String
@@ -1032,16 +1089,18 @@ Public Class FrmLiquidacionesAE
                     returnValue = cmd.ExecuteNonQuery().ToString
                     If returnValue IsNot Nothing Then
                         If returnValue = "1" Then
-
-                            SE_GRABO = True
-                            GRABAR_LIQ_PARTIDAS(CVE_LIQ) 'Fg   GCLIQ_PARTIDAS 
-                            GRABAR_LIQ_GASTOS_VIAJE(CVE_LIQ) 'FgG  GCASIGNACION_VIAJE_GASTOS 
-                            GRABAR_LIQ_VALES_VIAJE(CVE_LIQ) 'FgV   UPDATE GCASIGNACION_VIAJE_VALES 
-                            GRABAR_LIQ_GASTOS_COMPROBADOS(CVE_LIQ) 'FgGC   GCLIQ_GASTOS_COMPROBADOS 
-                            GRABAR_LIQ_DEDUCCIONES(CVE_LIQ) 'FgD   GCLIQ_DEDUCCIONES 
-                            GRABAR_LIQ_PENSION_ALIMENTICIA(CVE_LIQ)
                         End If
                     End If
+
+                    SE_GRABO = True
+                    GRABAR_LIQ_PARTIDAS(CVE_LIQ) 'Fg   GCLIQ_PARTIDAS 
+                    GRABAR_LIQ_GASTOS_VIAJE(CVE_LIQ) 'FgG  GCASIGNACION_VIAJE_GASTOS 
+                    GRABAR_LIQ_VALES_VIAJE(CVE_LIQ) 'FgV   UPDATE GCASIGNACION_VIAJE_VALES 
+                    GRABAR_LIQ_GASTOS_COMPROBADOS(CVE_LIQ) 'FgGC   GCLIQ_GASTOS_COMPROBADOS 
+                    GRABAR_LIQ_DEDUCCIONES(CVE_LIQ) 'FgD   GCLIQ_DEDUCCIONES 
+                    GRABAR_LIQ_PENSION_ALIMENTICIA(CVE_LIQ)
+                    GRABAR_LIQ_CASETAS(CVE_LIQ)
+
                     Exit For
                 Catch ex As SqlException
                     ' Log the original exception here
@@ -1425,6 +1484,41 @@ Public Class FrmLiquidacionesAE
         End Try
 
         IsNew = False
+
+    End Sub
+    Private Sub GRABAR_LIQ_CASETAS(FCVE_LIQ)
+
+
+        SQL = "DELETE FROM GCLIQ_CASETAS WHERE CVE_LIQ = " & FCVE_LIQ
+        EXECUTE_QUERY_NET(SQL)
+
+        For k = 1 To FgCasetas.Rows.Count - 1
+            Try
+                If FgCasetas(k, 1) Then
+                    SQL = "INSERT INTO GCLIQ_CASETAS (CVE_LIQ, CVE_CXR, FECHA, CVE_PLAZA, CVE_PLAZA2, IMPORTE, FECHAELAB, UUID)
+                    VALUES(@CVE_LIQ, @CVE_CXR, CONVERT(varchar, GETDATE(), 112), @CVE_PLAZA, @CVE_PLAZA2, @IMPORTE, GETDATE(), NEWID())"
+
+                    Using cmd As SqlCommand = cnSAE.CreateCommand
+                        cmd.CommandText = SQL
+                        cmd.Parameters.Clear()
+                        cmd.Parameters.Add("@CVE_LIQ", SqlDbType.Int).Value = FCVE_LIQ
+                        cmd.Parameters.Add("@CVE_CXR", SqlDbType.Int).Value = CONVERTIR_TO_INT(FgCasetas(k, 2))
+                        cmd.Parameters.Add("@CVE_PLAZA", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(FgCasetas(k, 3))
+                        cmd.Parameters.Add("@CVE_PLAZA2", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(FgCasetas(k, 5))
+                        cmd.Parameters.Add("@IMPORTE", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(FgCasetas(k, 7))
+                        returnValue = cmd.ExecuteNonQuery().ToString
+                        If returnValue IsNot Nothing Then
+                            If returnValue = "1" Then
+
+                            End If
+                        End If
+                    End Using
+                End If
+            Catch ex As Exception
+                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                'MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+            End Try
+        Next
 
     End Sub
     Private Function VERIFICAR_SIGUIENTE_FOLIO_GCDEDUC_OPER(fCVE_DED_OPER As Long) As Long
@@ -4243,6 +4337,16 @@ Public Class FrmLiquidacionesAE
                                 End If
                             Next
 
+                            Using cmdSDO As SqlCommand = cnSAE.CreateCommand
+                                cmdSDO.CommandText = "EXEC [dbo].[sp_LiqCalculaSueldo] @CveLiq"
+                                cmdSDO.Parameters.Add("@CveLiq", SqlDbType.Int).Value = CONVERTIR_TO_INT(TCVE_LIQ.Text)
+                                returnValue = cmdSDO.ExecuteNonQuery().ToString
+                                If returnValue IsNot Nothing Then
+                                    If returnValue = "1" Then
+                                    End If
+                                End If
+                            End Using
+
                         Catch ex As Exception
                             BITACORA_LIQ("1840. " & ex.Message & vbNewLine & ex.StackTrace)
                             MsgBox("1840. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -5344,6 +5448,21 @@ Public Class FrmLiquidacionesAE
                                 MsgBox("730. " & ex.Message & vbNewLine & ex.StackTrace)
                             End Try
 
+                            'BORRANDO DEDUCCION 10
+                            Try
+                                SQL = "DELETE FROM GCDEDUC_OPER WHERE CVE_LIQ = " & CLng(TCVE_LIQ.Text) & " AND CVE_DED = 10"
+                                Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                                    cmd2.CommandText = SQL
+                                    returnValue = cmd2.ExecuteNonQuery().ToString
+                                    If returnValue IsNot Nothing Then
+                                        If returnValue = "1" Then
+                                        End If
+                                    End If
+                                End Using
+                            Catch ex As Exception
+                                BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                            End Try
+
                             Try
                                 If CONVERTIR_TO_INT(TCVE_RES.Text) > 0 Then
                                     If Not Valida_Conexion() Then
@@ -5785,8 +5904,8 @@ Public Class FrmLiquidacionesAE
     Private Sub BtnAltaPA_Click(sender As Object, e As EventArgs) Handles BtnAltaPA.Click
         Try
             If FgRowVisPA() = 0 Then
-                '                                                     1                          2           3            4          
-                '                                                 Documento	               Articulo      button	   descripcion	 
+                '                                                     1                                    2           3            4          
+                '                                                 Documento	                           Articulo      button	   descripcion	 
                 FgPA.AddItem(FgPA.Rows.Count & vbTab & GET_MAX("GCLIQ_PENSION_ALI", "CVE_FOLIO") & vbTab & "" & vbTab & "" & vbTab & "" & vbTab &
                              Date.Now.ToShortDateString & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "")
                 '                             5                    6            7            8            9           10            11

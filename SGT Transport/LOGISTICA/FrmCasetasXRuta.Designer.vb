@@ -51,11 +51,12 @@ Partial Class FrmCasetasXRuta
         Me.Fg.BackColor = System.Drawing.Color.White
         Me.Fg.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
         Me.C1FlexGridSearchPanel1.SetC1FlexGridSearchPanel(Me.Fg, Me.C1FlexGridSearchPanel1)
-        Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
+        Me.Fg.ColumnInfo = "1,1,0,0,0,95,Columns:"
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.Fg.ForeColor = System.Drawing.Color.Black
         Me.Fg.Location = New System.Drawing.Point(12, 58)
         Me.Fg.Name = "Fg"
+        Me.Fg.Rows.Count = 1
         Me.Fg.Rows.DefaultSize = 19
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None

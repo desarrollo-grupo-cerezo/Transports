@@ -47,6 +47,7 @@ Public Class FrmReseteoAE
     Private TIPO_TAB As Integer = 0
     Private BONO_ESPECIAL As Boolean = False
     Private BONO_ESPECIAL_DESCR As String = ""
+    Private ENTRA As Boolean = True
     Private Tipo_movs As String
 
     Public Sub New()
@@ -250,19 +251,86 @@ Public Class FrmReseteoAE
             LtDIF_LTS_REAL_LTS_TAB.Text = ""
             TCVE_UNI.Tag = ""
 
+            TAJUST_TAB.Value = 0
+            TLTS_AUTORIZADOS.Value = 0
+            TPRECIO_X_LTS.Value = 0
+            TPRECIO_X_LTS2.Value = 0
+            TLTS_UREA_REAL.Value = 0
+            TDESCT.Value = 0
+            TVELMAX.Value = 0
             TLTS_DESCONTAR.Value = 0
+            TLTS_DESCONTAR2.Value = 0
+            TCARGO_X_PUNTO_MUERTO.Value = 0
+            TLITROS_UREA.Value = 0
+            TPORC_TOLERANCIA.Value = 0
+            TPORC_TOL_EVENTO2.Value = 0
+            TLTS_FORANEOS.Value = 0
+            TNO_VIAJES.Value = 0
+            TBONO_RES.Value = 0
+            TPORC_RALENTI.Value = 0
+            TBONO_RES.Value = 0
+            TNO_VIAJES_VACIO.Value = 0
+            TBONO_RES_VACIO.Value = 0
+            TLTS_VALES.Value = 0
+            THRS_TRABAJO.Value = 0
+            THRS_PTO_RALENTI.Value = 0
+            TLTS_PTO_RALENTI.Value = 0
+            TODOMETRO.Value = 0
+            TKM_ECM.Value = 0
+            TFAC_CARGA.Value = 0
+            THORAS_GEN3.Value = 0
+            THORAS_GEN4.Value = 0
+            THORAS_USO2.Value = 0
 
-            TPRECIO_X_LTS.Value = 0 'PRECIO_X_LTS
-            TPRECIO_X_LTS2.Value = 0 'PRECIO_X_LTS
+            TAJUST_TAB.ErrorInfo.ShowErrorMessage = False
+            TLTS_AUTORIZADOS.ErrorInfo.ShowErrorMessage = False
+            TPRECIO_X_LTS.ErrorInfo.ShowErrorMessage = False
+            TPRECIO_X_LTS2.ErrorInfo.ShowErrorMessage = False
+            TLTS_UREA_REAL.ErrorInfo.ShowErrorMessage = False
+            TDESCT.ErrorInfo.ShowErrorMessage = False
+            TVELMAX.ErrorInfo.ShowErrorMessage = False
+            TLTS_DESCONTAR.ErrorInfo.ShowErrorMessage = False
+            TLTS_DESCONTAR2.ErrorInfo.ShowErrorMessage = False
+            TCARGO_X_PUNTO_MUERTO.ErrorInfo.ShowErrorMessage = False
+            TLITROS_UREA.ErrorInfo.ShowErrorMessage = False
+            TPORC_TOLERANCIA.ErrorInfo.ShowErrorMessage = False
+            TPORC_TOL_EVENTO2.ErrorInfo.ShowErrorMessage = False
+            TLTS_FORANEOS.ErrorInfo.ShowErrorMessage = False
+            TNO_VIAJES.ErrorInfo.ShowErrorMessage = False
+            TBONO_RES.ErrorInfo.ShowErrorMessage = False
+            TPORC_RALENTI.ErrorInfo.ShowErrorMessage = False
+            TBONO_RES.ErrorInfo.ShowErrorMessage = False
+            TNO_VIAJES_VACIO.ErrorInfo.ShowErrorMessage = False
+            TBONO_RES_VACIO.ErrorInfo.ShowErrorMessage = False
+            TLTS_VALES.ErrorInfo.ShowErrorMessage = False
+            THRS_TRABAJO.ErrorInfo.ShowErrorMessage = False
+            THRS_PTO_RALENTI.ErrorInfo.ShowErrorMessage = False
+            TLTS_PTO_RALENTI.ErrorInfo.ShowErrorMessage = False
+            TODOMETRO.ErrorInfo.ShowErrorMessage = False
+            TKM_ECM.ErrorInfo.ShowErrorMessage = False
+            TFAC_CARGA.ErrorInfo.ShowErrorMessage = False
+            THORAS_GEN3.ErrorInfo.ShowErrorMessage = False
+            THORAS_GEN4.ErrorInfo.ShowErrorMessage = False
+            THORAS_USO2.ErrorInfo.ShowErrorMessage = False
 
+            LtLTS_VALES.Tag = "0"
+            LtLTS_VALES2.Tag = "0"
+
+            Try
+                TCALIF.Text = "0"
+                LtLTS_VALES.Tag = "0"
+                LtLTS_VALES2.Tag = "0"
+                TLTSDESCGEN.Value = 0
+            Catch ex As Exception
+                Bitacora("1. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '===============
             TPRECIO_X_LTS.Tag = PRECIO_X_LTS
             TPRECIO_X_LTS2.Tag = PRECIO_X_LTS
 
-            TLTS_AUTORIZADOS.Value = 0
-
             TLTS_AUTORIZADOS2.Value = 0
             LtLTS_VALES2.Text = "0"
-            TLTS_DESCONTAR2.Value = 0
 
             TPORC_TOL_EVENTO2.Tag = 0
             TLTS_AUTORIZADOS2.Tag = 0
@@ -281,8 +349,6 @@ Public Class FrmReseteoAE
             LtLTS_VALES.Tag = 0
             LtDescXLitros.Tag = 0
 
-            TODOMETRO.Value = 0
-            TKM_ECM.Value = 0
             TLTS_LLEGADA.Tag = "0"
             TLTS_SALIDA.Tag = "0"
             TFACTOR_CARGA.Tag = "0"
@@ -293,33 +359,9 @@ Public Class FrmReseteoAE
             TLTS_LLEGADA.Text = "0"
             TLTS_SALIDA.Text = "0"
             LtLTS_VALES.Text = "0"
-            'LtLTS_FIS.Text = "0"
-            'LtLTS_TAB.Text = "0"
-            TFAC_CARGA.Value = 0
-            THRS_TRABAJO.Value = 0
-            THRS_PTO_RALENTI.Value = 0
             LtREND_ECM.Text = 0
             TPDF.Tag = RUTA_DOC
             Fg.Rows.Count = 1
-            Try
-                TDESCT.Value = 0
-                TCALIF.Text = "0"
-                TVELMAX.Value = 0
-                TLITROS_UREA.Value = 0
-                TCARGO_X_PUNTO_MUERTO.Value = 0
-                THORAS_GEN3.Value = 0
-                THORAS_GEN4.Value = 0
-                THORAS_USO2.Value = 0
-
-                LtLTS_VALES.Tag = "0"
-                LtLTS_VALES2.Tag = "0"
-                TLTSDESCGEN.Value = 0
-
-                TNO_VIAJES_VACIO.Value = 0
-
-            Catch ex As Exception
-                Bitacora("1. " & ex.Message & vbNewLine & ex.StackTrace)
-            End Try
 
             If PASS_GRUPOCE.ToUpper = "BUS" Then
                 Fg.Cols(11).Width = 90
@@ -452,6 +494,8 @@ Public Class FrmReseteoAE
 
         If Var1 = "Nuevo" Then
             Try
+                GroupBox3.Width = 320
+
                 NewRecord = True
                 TCVE_RES.Text = GET_MAX("GCRESETEO", "CVE_RES")
                 TCVE_RES.Enabled = False
@@ -487,7 +531,8 @@ Public Class FrmReseteoAE
                     R.LTS_AUTORIZADOS2, R.LTS_VALES2, R.LTS_DESCONTAR2, R.PRECIO_X_LTS2, R.EVENTO, R.EVENTO_LTS, R.PORC_TOL_EVENTO2, 
                     R.DESCXLITROS2, ISNULL(R.TABULADOR,0) AS TABULA, ISNULL(R.HORAS_GEN3,0) AS H_GEN3, ISNULL(R.HORAS_GEN4,0) AS H_GEN4, 
                     ISNULL(R.HORAS_USO2,0) AS H_USO2, ISNULL(R.LTS_GENERADOR2,0) AS LTS_GEN2, R.LTSDESCGEN, ISNULL(R.CVE_EVA,0) AS C_EVA, 
-                    ISNULL(C.DESCR,'') AS DES, R.NUMGEN1, R.NUMGEN2, ISNULL(G1.DESCR,'') AS DES_GEN1, ISNULL(G2.DESCR,'') AS DES_GEN2
+                    ISNULL(C.DESCR,'') AS DES, R.NUMGEN1, R.NUMGEN2, ISNULL(G1.DESCR,'') AS DES_GEN1, ISNULL(G2.DESCR,'') AS DES_GEN2,
+                    AJUST_TAB
                     FROM GCRESETEO R 
                     LEFT JOIN GCCATEVA C ON C.CVE_EVA = R.CVE_EVA
                     LEFT JOIN GCHORAS_GEN G1 ON G1.CVE_GEN = R.NUMGEN1
@@ -627,21 +672,33 @@ Public Class FrmReseteoAE
                         LtLTS_ECM.Tag = Format(Convert.ToDecimal(TLTS_ECM.Value), "###,###,##0.00")
 
                         LtPORC_LTS_PTO_RALENTI.Text = dr.ReadNullAsEmptyDecimal("PORC_LTS_PTO_RALENTI").ToString
+
+
+                        TLTS_VALES.Value = dr.ReadNullAsEmptyDecimal("LTS_VALES")
+                        LtLTS_VALES.Text = Format(CDec(TLTS_VALES.Value), "###,###,##0.00")
+
+                        TLTS_VALES.Tag = TLTS_VALES.Value
+                        LtLTS_VALES.Tag = LtLTS_VALES.Text
+
                     Catch ex As Exception
                         Bitacora("20. " & ex.Message & vbNewLine & ex.StackTrace)
                     End Try
                     Try
                         '████████████████████████████████████████████████████████████████
 
+                        ENTRA = False
+
+                        TAJUST_TAB.Value = dr.ReadNullAsEmptyDecimal("AJUST_TAB")
                         LtLTS_VALES2.Text = dr.ReadNullAsEmptyDecimal("LTS_VALES2")
                         TPORC_TOL_EVENTO2.Value = dr.ReadNullAsEmptyDecimal("PORC_TOL_EVENTO2")
+
                         TLTS_AUTORIZADOS2.Value = dr.ReadNullAsEmptyDecimal("LTS_AUTORIZADOS2")
+                        TLTS_AUTORIZADOS2.Tag = dr.ReadNullAsEmptyDecimal("LTS_AUTORIZADOS2")
 
                         TLTS_DESCONTAR2.Value = dr.ReadNullAsEmptyDecimal("LTS_DESCONTAR2")
                         TPRECIO_X_LTS2.Value = dr.ReadNullAsEmptyDecimal("PRECIO_X_LTS")
 
                         TPORC_TOL_EVENTO2.Tag = dr.ReadNullAsEmptyDecimal("PORC_TOL_EVENTO2")
-                        TLTS_AUTORIZADOS2.Tag = dr.ReadNullAsEmptyDecimal("LTS_AUTORIZADOS2")
                         LtLTS_VALES2.Tag = dr.ReadNullAsEmptyDecimal("LTS_VALES2")
                         TLTS_DESCONTAR2.Tag = dr.ReadNullAsEmptyDecimal("LTS_DESCONTAR2")
                         TPRECIO_X_LTS2.Tag = dr.ReadNullAsEmptyDecimal("PRECIO_X_LTS")
@@ -661,13 +718,17 @@ Public Class FrmReseteoAE
 
                             If EVENTO_LTS = 0 Then
                                 RadLTS_ECM.Checked = True
+                                GroupBox3.Width = 320
                             Else
                                 RadLTS_TAB.Checked = True
+
+                                GroupBox3.Width = 545
                             End If
                         End If
                     Catch ex As Exception
                         Bitacora("20. " & ex.Message & vbNewLine & ex.StackTrace)
                     End Try
+                    ENTRA = True
                     Try
                         TCAL_FAC_CAR_EVA.Text = dr.ReadNullAsEmptyDecimal("CAL_FAC_CAR_EVA")
                         TCAL_RAL_EVA.Text = dr.ReadNullAsEmptyDecimal("CAL_RAL_EVA")
@@ -749,11 +810,7 @@ Public Class FrmReseteoAE
 
 
                     Try
-                        TLTS_VALES.Value = dr.ReadNullAsEmptyDecimal("LTS_VALES")
-                        LtLTS_VALES.Text = Format(CDec(TLTS_VALES.Value), "###,###,##0.00")
-
-                        TLTS_VALES.Tag = TLTS_VALES.Value
-                        LtLTS_VALES.Tag = LtLTS_VALES.Text
+                        'LTS VALES
 
                     Catch ex As Exception
                         Bitacora("35. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -903,6 +960,11 @@ Public Class FrmReseteoAE
                         LtDescXLitros2.Text = Format(dr.ReadNullAsEmptyDecimal("DESCXLITROS2"), "###,###,##0.00")
 
                         LtDescXLitros2.Tag = dr.ReadNullAsEmptyDecimal("DESCXLITROS2")
+
+
+                        TLTS_AUTORIZADOS2.Value = dr.ReadNullAsEmptyDecimal("LTS_AUTORIZADOS2")
+                        TLTS_AUTORIZADOS2.Tag = dr.ReadNullAsEmptyDecimal("LTS_AUTORIZADOS2")
+
                     Catch ex As Exception
                         Bitacora("20. " & ex.Message & vbNewLine & ex.StackTrace)
                     End Try
@@ -1322,16 +1384,6 @@ Public Class FrmReseteoAE
                 LtLTS_VALES.Text = 0
                 TPRECIO_X_LTS.Value = 0
                 LtDescXLitros.Text = 0
-                'FIN CAMBIO 19 DE JULIO
-                'TPORC_TOL_EVENTO2.Value = TPORC_TOL_EVENTO2.Tag
-                'TLTS_AUTORIZADOS2.Value = TLTS_AUTORIZADOS2.Tag
-                'LtLTS_VALES2.Text = LtLTS_VALES2.Tag
-                'TLTS_DESCONTAR2.Value = TLTS_DESCONTAR2.Tag
-
-
-                'if IsNumeric(LtDescXLitros2.Tag) Then
-                'LtDescXLitros2.Text = Format(Convert.ToDecimal(LtDescXLitros2.Tag), "###,###,##0.00")
-                'End If
 
                 ENTRA_EVENTO1 = True
                 ENTRA_EVENTO2 = True
@@ -1641,8 +1693,6 @@ Public Class FrmReseteoAE
         Select Case e.KeyCode
             Case Keys.F3
                 BarGrabar_Click(Nothing, Nothing)
-            Case Keys.F5
-                MnuSalir_Click(Nothing, Nothing)
         End Select
     End Sub
 
@@ -1662,8 +1712,37 @@ Public Class FrmReseteoAE
         Dim V7 As Single, V8 As Single, V9 As Single, RUTA_PDF As String = "", ARCHIVO As String = "", NO_DE_VIAJES As Decimal = 0
         Dim CVE_RES As Long, NO_DE_VIAJES_VACIO As Decimal = 0, BONO_RES_VACIO As Decimal = 0, RUTA_X As String = ""
         Dim PORC_TOL_EVENTO2 As Decimal, LT1 As Decimal, LT2 As Decimal, DESCXLITROS As Decimal, RPM_MAX As Decimal = 0, CALIF_RPM As Decimal = 0
+        Dim SI_GRABO_RESETEO As Boolean = False, DETEC_ERROR_VIOLATION_KEY As Boolean = False
 
         Dim cmd As New SqlCommand With {.Connection = cnSAE}
+
+        Try
+            TAJUST_TAB.UpdateValueWithCurrentText()
+            TLTS_AUTORIZADOS.UpdateValueWithCurrentText()
+            TPRECIO_X_LTS.UpdateValueWithCurrentText()
+            TPRECIO_X_LTS2.UpdateValueWithCurrentText()
+            TLTS_UREA_REAL.UpdateValueWithCurrentText()
+            TDESCT.UpdateValueWithCurrentText()
+            TVELMAX.UpdateValueWithCurrentText()
+            TLTS_DESCONTAR.UpdateValueWithCurrentText()
+            TLTS_DESCONTAR2.UpdateValueWithCurrentText()
+            TCARGO_X_PUNTO_MUERTO.Update()
+            TLITROS_UREA.UpdateValueWithCurrentText()
+            TPORC_TOLERANCIA.UpdateValueWithCurrentText()
+            TPORC_TOL_EVENTO2.UpdateValueWithCurrentText()
+            TLTS_FORANEOS.UpdateValueWithCurrentText()
+            TNO_VIAJES.UpdateValueWithCurrentText()
+            TBONO_RES.UpdateValueWithCurrentText()
+            TPORC_RALENTI.UpdateValueWithCurrentText()
+            TBONO_RES.UpdateValueWithCurrentText()
+            TNO_VIAJES_VACIO.UpdateValueWithCurrentText()
+            TBONO_RES_VACIO.UpdateValueWithCurrentText()
+            TLTS_VALES.UpdateValueWithCurrentText()
+            THRS_TRABAJO.UpdateValueWithCurrentText()
+            THRS_PTO_RALENTI.UpdateValueWithCurrentText()
+            TLTS_PTO_RALENTI.UpdateValueWithCurrentText()
+        Catch ex As Exception
+        End Try
 
         Try
             If IsNumeric(TLTS_AUTORIZADOS.Text.Trim.Replace(",", "")) And IsNumeric(LtLTS_VALES.Text.Trim.Replace(",", "")) Then
@@ -1730,11 +1809,6 @@ Public Class FrmReseteoAE
                 TLTS_DESCONTAR2.Value = 0
             End If
 
-            'If TPRECIO_X_LTS.Text.Trim.Length = 0 Then
-            'TPRECIO_X_LTS.Value = 0
-            'TPRECIO_X_LTS2.Value = 0
-            'End If
-
             If TPRECIO_X_LTS2.Value <= 0 Then
                 If TPRECIO_X_LTS.Value > 0 Then
                     TPRECIO_X_LTS2.Value = TPRECIO_X_LTS.Value
@@ -1758,11 +1832,6 @@ Public Class FrmReseteoAE
                 TCARGO_X_PUNTO_MUERTO.Value = 0
             End If
 
-            'If tCVE_EVE.Text.Trim.Length > 0 Then
-            'If IsNumeric(tCVE_EVE.Text) Then
-            'CVE_EVE = tCVE_EVE.Text
-            'End If
-            'End If
             If TPORC_TOLERANCIA.Text.Trim.Length > 0 Then
                 If IsNumeric(TPORC_TOLERANCIA.Text) Then
                     EVE_PORC_TOLERANCIA = TPORC_TOLERANCIA.Text
@@ -1839,7 +1908,7 @@ Public Class FrmReseteoAE
         Catch ex As Exception
         End Try
         Try
-            TPORC_TOL_EVENTO2.Update()
+            TPORC_TOL_EVENTO2.UpdateValueWithCurrentText()
 
             PORC_TOL_EVENTO2 = TPORC_TOL_EVENTO2.Value
         Catch ex As Exception
@@ -1867,6 +1936,7 @@ Public Class FrmReseteoAE
         End Try
 
         Try
+
             Dim LRC1 As Decimal = 0, LRC2 As Decimal = 0, LRC3 As Decimal = 0, LRC4 As Decimal = 0
             Try
                 LRC1 = TLTS_SALIDA.Text.Replace(",", "")
@@ -1894,265 +1964,296 @@ Public Class FrmReseteoAE
         Catch ex As Exception
         End Try
 
-        If NewRecord Then
-            SQL = "INSERT INTO GCRESETEO (CVE_RES, STATUS, ESTADO, FECHA, CVE_OPER, CVE_UNI, CVE_MOT, ODOMETRO, KM_ECM, LTS_ECM, LTS_REAL, LTS_TAB, 
-                FAC_CARGA, HRS_TRABAJO, HRS_PTO_RALENTI, LTS_PTO_RALENTI, LTS_SALIDA, LTS_VALES, LTS_LLEGADA, REND_ECM, PORC_VAR_LTS_ECM_REAL, 
-                PORC_VAR_LTS_TAB_REAL, KMS_TAB, PORC_TIEMPO_PTO_RALENTI, PORC_LTS_PTO_RALENTI, REND_TAB, REND_REAL, DIF_LTS_REAL_LTS_TAB, DESCT, 
-                CALIF, VELMAX, TIEMPO_MARCH_INERCIA, PDF, FECHAELAB, UUID, CALIF_FACTOR_CARGA, CALIF_RALENTI, CALIF_GLOBAL, CAL_FAC_CAR_EVA, 
-                CAL_RAL_EVA, CAL_GLO_EVA, LTS_DESCONTAR, PRECIO_X_LTS, LTS_AUTORIZADOS, LITROS_UREA, CARGO_X_PUNTO_MUERTO, FACTOR_CARGA, 
-                PORC_USO_RALENTI, LTS_UREA_REAL, CVE_EVE, EVE_PORC_TOLERANCIA, EVE_PORC_RALENTI, PORC_TOLERANCIA, PORC_RALENTI, NO_VIAJE, NO_LIQUI, 
-                LTS_FORANEOS, CALIF_VEL_MAX, BONO_RES, NO_DE_VIAJES, NO_DE_VIAJES_VACIO, BONO_RES_VACIO, LTS_AUTORIZADOS2, LTS_VALES2, LTS_DESCONTAR2, 
-                PRECIO_X_LTS2, EVENTO, EVENTO_LTS, PORC_TOL_EVENTO2, DESCXLITROS2, TABULADOR, HORAS_GEN3, HORAS_GEN4, HORAS_USO2, CVE_EVA, 
-                LTS_GENERADOR2, NUMGEN1, NUMGEN2, LTSDESCGEN, DESCXLITROS, RPM_MAX, CALIF_RPM, DIF_LTS_REAL_LTS_ECM) 
-                OUTPUT Inserted.CVE_RES VALUES 
-                (ISNULL((SELECT ISNULL(MAX(CVE_RES),0) + 1 FROM GCRESETEO),1),
-                'A', 'EDICION', @FECHA, @CVE_OPER, @CVE_UNI, @CVE_MOT, @ODOMETRO, @KM_ECM, @LTS_ECM, @LTS_REAL, @LTS_TAB, @FAC_CARGA, @HRS_TRABAJO, 
-                @HRS_PTO_RALENTI, @LTS_PTO_RALENTI, @LTS_SALIDA, @LTS_VALES, @LTS_LLEGADA, @REND_ECM, @PORC_VAR_LTS_ECM_REAL, @PORC_VAR_LTS_TAB_REAL, 
-                @KMS_TAB, @PORC_TIEMPO_PTO_RALENTI, @PORC_LTS_PTO_RALENTI, @REND_TAB, @REND_REAL, @DIF_LTS_REAL_LTS_TAB, @DESCT, @CALIF, @VELMAX, 
-                @TIEMPO_MARCH_INERCIA, @PDF, GETDATE(), NEWID(), @CALIF_FACTOR_CARGA, @CALIF_RALENTI, @CALIF_GLOBAL, @CAL_FAC_CAR_EVA, @CAL_RAL_EVA, 
-                @CAL_GLO_EVA, @LTS_DESCONTAR, @PRECIO_X_LTS, @LTS_AUTORIZADOS, @LITROS_UREA, @CARGO_X_PUNTO_MUERTO, @FACTOR_CARGA, @PORC_USO_RALENTI, 
-                @LTS_UREA_REAL, @CVE_EVE, @EVE_PORC_TOLERANCIA, @EVE_PORC_RALENTI, @PORC_TOLERANCIA, @PORC_RALENTI, @NO_VIAJE, @NO_LIQUI, 
-                @LTS_FORANEOS, @CALIF_VEL_MAX, @BONO_RES, @NO_DE_VIAJES, @NO_DE_VIAJES_VACIO, @BONO_RES_VACIO, @LTS_AUTORIZADOS2, @LTS_VALES2, 
-                @LTS_DESCONTAR2, @PRECIO_X_LTS2, @EVENTO, @EVENTO_LTS, @PORC_TOL_EVENTO2, @DESCXLITROS2, @TABULADOR, @HORAS_GEN3, @HORAS_GEN4, 
-                @HORAS_USO2, @CVE_EVA, @LTS_GENERADOR2, @NUMGEN1, @NUMGEN2, @LTSDESCGEN, @DESCXLITROS, @RPM_MAX, @CALIF_RPM, @DIF_LTS_REAL_LTS_ECM)"
-        Else
-            SQL = "UPDATE GCRESETEO SET FECHA = @FECHA, CVE_OPER = @CVE_OPER, CVE_UNI = @CVE_UNI, CVE_MOT= @CVE_MOT, ODOMETRO = @ODOMETRO, 
-                KM_ECM = @KM_ECM, LTS_ECM = @LTS_ECM, LTS_REAL = @LTS_REAL, LTS_TAB = @LTS_TAB, FAC_CARGA = @FAC_CARGA, HRS_TRABAJO = @HRS_TRABAJO, 
-                HRS_PTO_RALENTI = @HRS_PTO_RALENTI, LTS_PTO_RALENTI = @LTS_PTO_RALENTI, LTS_SALIDA = @LTS_SALIDA, LTS_VALES = @LTS_VALES, 
-                LTS_LLEGADA = @LTS_LLEGADA, PDF = @PDF, REND_ECM = @REND_ECM, PORC_VAR_LTS_ECM_REAL = @PORC_VAR_LTS_ECM_REAL, 
-                PORC_VAR_LTS_TAB_REAL = @PORC_VAR_LTS_TAB_REAL, KMS_TAB = @KMS_TAB, PORC_TIEMPO_PTO_RALENTI = @PORC_TIEMPO_PTO_RALENTI, 
-                PORC_LTS_PTO_RALENTI = @PORC_LTS_PTO_RALENTI, REND_TAB = @REND_TAB, REND_REAL = @REND_REAL, DIF_LTS_REAL_LTS_ECM = @DIF_LTS_REAL_LTS_ECM, 
-                DIF_LTS_REAL_LTS_TAB = @DIF_LTS_REAL_LTS_TAB, DESCT = @DESCT, CALIF = @CALIF, VELMAX = @VELMAX, 
-                TIEMPO_MARCH_INERCIA = @TIEMPO_MARCH_INERCIA, CALIF_FACTOR_CARGA = @CALIF_FACTOR_CARGA, CALIF_RALENTI = @CALIF_RALENTI, 
-                CALIF_GLOBAL = @CALIF_GLOBAL, CAL_FAC_CAR_EVA = @CAL_FAC_CAR_EVA, CAL_RAL_EVA = @CAL_RAL_EVA, CAL_GLO_EVA = @CAL_GLO_EVA,
-                LTS_DESCONTAR = @LTS_DESCONTAR, PRECIO_X_LTS = @PRECIO_X_LTS, LTS_AUTORIZADOS = @LTS_AUTORIZADOS, LITROS_UREA = @LITROS_UREA, 
-                CARGO_X_PUNTO_MUERTO = @CARGO_X_PUNTO_MUERTO, FACTOR_CARGA = @FACTOR_CARGA, PORC_USO_RALENTI = @PORC_USO_RALENTI, 
-                LTS_UREA_REAL = @LTS_UREA_REAL, CVE_EVE = @CVE_EVE, EVE_PORC_TOLERANCIA = @EVE_PORC_TOLERANCIA, EVE_PORC_RALENTI = @EVE_PORC_RALENTI, 
-                PORC_TOLERANCIA = @PORC_TOLERANCIA, PORC_RALENTI = @PORC_RALENTI, NO_VIAJE = @NO_VIAJE, NO_LIQUI = @NO_LIQUI, 
-                LTS_FORANEOS = @LTS_FORANEOS, CALIF_VEL_MAX = @CALIF_VEL_MAX, BONO_RES = @BONO_RES, NO_DE_VIAJES = @NO_DE_VIAJES, 
-                BONO_RES_VACIO = @BONO_RES_VACIO, NO_DE_VIAJES_VACIO = @NO_DE_VIAJES_VACIO, LTS_AUTORIZADOS2 = @LTS_AUTORIZADOS2, LTS_VALES2 = @LTS_VALES2,
-                LTS_DESCONTAR2= @LTS_DESCONTAR2, PRECIO_X_LTS2 = @PRECIO_X_LTS2, EVENTO = @EVENTO, EVENTO_LTS = @EVENTO_LTS, 
-                PORC_TOL_EVENTO2 = @PORC_TOL_EVENTO2, DESCXLITROS2 = @DESCXLITROS2, HORAS_GEN3 = @HORAS_GEN3, HORAS_GEN4 = @HORAS_GEN4, 
-                HORAS_USO2 = @HORAS_USO2, CVE_EVA = @CVE_EVA, LTS_GENERADOR2 = @LTS_GENERADOR2, NUMGEN1 = @NUMGEN1, NUMGEN2 = @NUMGEN2, 
-                LTSDESCGEN = @LTSDESCGEN, DESCXLITROS = @DESCXLITROS, RPM_MAX = @RPM_MAX, CALIF_RPM = @CALIF_RPM
-                WHERE CVE_RES = @CVE_RES"
-        End If
-        cmd.CommandText = SQL
-
-        Try
-            V7 = Math.Round(THRS_TRABAJO.Value, 6)
-            V8 = Math.Round(THRS_PTO_RALENTI.Value, 6)
-            V9 = Math.Round(TLTS_PTO_RALENTI.Value, 6)
-
-            cmd.Parameters.Add("@CVE_RES", SqlDbType.Int).Value = CONVERTIR_TO_INT(TCVE_RES.Text)
-            cmd.Parameters.Add("@FECHA", SqlDbType.Date).Value = F1.Value
-            cmd.Parameters.Add("@CVE_OPER", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(TCVE_OPER.Text)
-            cmd.Parameters.Add("@CVE_UNI", SqlDbType.VarChar).Value = TCVE_UNI.Text
-            cmd.Parameters.Add("@CVE_MOT", SqlDbType.VarChar).Value = TCVE_MOT.Text
-
-            cmd.Parameters.Add("@ODOMETRO", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TODOMETRO.Value), 6)
-            cmd.Parameters.Add("@KM_ECM", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TKM_ECM.Value), 6)
-            cmd.Parameters.Add("@LTS_ECM", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TLTS_ECM.Value), 6)
-            cmd.Parameters.Add("@LTS_REAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TLTS_REAL.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@LTS_TAB", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TLTS_TAB.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@FAC_CARGA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TFAC_CARGA.Value), 6)
-            cmd.Parameters.Add("@HRS_TRABAJO", SqlDbType.Float).Value = Math.Round(THRS_TRABAJO.Value, 6)
-            cmd.Parameters.Add("@HRS_PTO_RALENTI", SqlDbType.Float).Value = Math.Round(THRS_PTO_RALENTI.Value, 6)
-            cmd.Parameters.Add("@LTS_PTO_RALENTI", SqlDbType.Float).Value = Math.Round(TLTS_PTO_RALENTI.Value, 6)
-            cmd.Parameters.Add("@LTS_SALIDA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TLTS_SALIDA.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@LTS_VALES", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TLTS_VALES.Value), 6)
-            cmd.Parameters.Add("@LTS_LLEGADA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TLTS_LLEGADA.Text.Replace(",", "")), 6)
-
-            cmd.Parameters.Add("@REND_ECM", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtREND_ECM.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@PORC_VAR_LTS_ECM_REAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtPORC_VAR_LTS_ECM_REAL.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@PORC_VAR_LTS_TAB_REAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtPORC_VAR_LTS_TAB_REAL.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@KMS_TAB", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtKMS_TAB.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@REND_TAB", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtREND_TAB.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@REND_REAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtREND_REAL.Text.Replace(",", "")), 6)
-
-            cmd.Parameters.Add("@PORC_TIEMPO_PTO_RALENTI", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtPORC_TIEMPO_PTO_RALENTI.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@PORC_LTS_PTO_RALENTI", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtPORC_LTS_PTO_RALENTI.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@DIF_LTS_REAL_LTS_TAB", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtDIF_LTS_REAL_LTS_TAB.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@DIF_LTS_REAL_LTS_ECM", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtDIF_LTS_REAL_LTS_ECM.Text.Replace(",", "")), 6)
-
-            cmd.Parameters.Add("@DESCT", SqlDbType.Float).Value = Math.Round(CDec(TDESCT.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@CALIF", SqlDbType.Float).Value = Math.Round(CDec(TCALIF.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@VELMAX", SqlDbType.Float).Value = Math.Round(CDec(TVELMAX.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@TIEMPO_MARCH_INERCIA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TTIEMPO_MARCH_INERCIA.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@PDF", SqlDbType.VarChar).Value = ARCHIVO
-            cmd.Parameters.Add("@CALIF_FACTOR_CARGA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TCALIF_FACTOR_CARGA.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@CALIF_RALENTI", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TCALIF_RALENTI.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@CALIF_GLOBAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TCALIF_GLOBAL.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@CAL_FAC_CAR_EVA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TCAL_FAC_CAR_EVA.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@CAL_RAL_EVA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TCAL_RAL_EVA.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@CAL_GLO_EVA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TCAL_GLO_EVA.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@LTS_AUTORIZADOS", SqlDbType.Float).Value = Math.Round(CDec(TLTS_AUTORIZADOS.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@LTS_DESCONTAR", SqlDbType.Float).Value = Math.Round(CDec(TLTS_DESCONTAR.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@PRECIO_X_LTS", SqlDbType.Float).Value = Math.Round(CDec(TPRECIO_X_LTS.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@LITROS_UREA", SqlDbType.Float).Value = Math.Round(CDec(TLITROS_UREA.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@CARGO_X_PUNTO_MUERTO", SqlDbType.Float).Value = Math.Round(CDec(TCARGO_X_PUNTO_MUERTO.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@FACTOR_CARGA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TFACTOR_CARGA.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@PORC_USO_RALENTI", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TPORC_USO_RALENTI.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@LTS_UREA_REAL", SqlDbType.Float).Value = Math.Round(CDec(TLTS_UREA_REAL.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@CVE_EVE", SqlDbType.Float).Value = CVE_EVE
-            cmd.Parameters.Add("@EVE_PORC_TOLERANCIA", SqlDbType.Float).Value = Math.Round(EVE_PORC_TOLERANCIA, 6)
-            cmd.Parameters.Add("@EVE_PORC_RALENTI", SqlDbType.Float).Value = Math.Round(EVE_PORC_RALENTI, 6)
-            cmd.Parameters.Add("@PORC_TOLERANCIA", SqlDbType.Float).Value = Math.Round(CDec(TPORC_TOLERANCIA.Text), 6)
-            cmd.Parameters.Add("@PORC_RALENTI", SqlDbType.Float).Value = Math.Round(CDec(TPORC_RALENTI.Text), 6)
-            cmd.Parameters.Add("@NO_VIAJE", SqlDbType.VarChar).Value = TNO_VIAJE.Text
-            cmd.Parameters.Add("@NO_LIQUI", SqlDbType.VarChar).Value = TNO_LIQUI.Text
-            cmd.Parameters.Add("@LTS_FORANEOS", SqlDbType.Float).Value = TLTS_FORANEOS.Text
-            cmd.Parameters.Add("@CALIF_VEL_MAX", SqlDbType.VarChar).Value = CALIF_VEL_MX
-            cmd.Parameters.Add("@BONO_RES", SqlDbType.Float).Value = BONO_RES
-            cmd.Parameters.Add("@NO_DE_VIAJES", SqlDbType.Float).Value = NO_DE_VIAJES
-            cmd.Parameters.Add("@BONO_RES_VACIO", SqlDbType.Float).Value = BONO_RES_VACIO
-            cmd.Parameters.Add("@NO_DE_VIAJES_VACIO", SqlDbType.Float).Value = NO_DE_VIAJES_VACIO
-
-            cmd.Parameters.Add("@PORC_TOL_EVENTO2", SqlDbType.Float).Value = Math.Round(PORC_TOL_EVENTO2, 6)
-            cmd.Parameters.Add("@LTS_AUTORIZADOS2", SqlDbType.Float).Value = Math.Round(CDec(TLTS_AUTORIZADOS2.Text.Replace(",", "")), 6)
-
-            cmd.Parameters.Add("@LTS_VALES2", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtLTS_VALES2.Text.Trim.Replace(",", "")), 6)
-            cmd.Parameters.Add("@LTS_DESCONTAR2", SqlDbType.Float).Value = Math.Round(CDec(TLTS_DESCONTAR2.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@PRECIO_X_LTS2", SqlDbType.Float).Value = Math.Round(CDec(TPRECIO_X_LTS2.Text.Replace(",", "")), 6)
-            cmd.Parameters.Add("@EVENTO", SqlDbType.SmallInt).Value = IIf(ChEvento1.Checked, 0, 1)
-            cmd.Parameters.Add("@EVENTO_LTS", SqlDbType.SmallInt).Value = IIf(RadLTS_ECM.Checked, 0, 1)
-            cmd.Parameters.Add("@DESCXLITROS2", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(LtDescXLitros2.Text.Replace(",", ""))
-            cmd.Parameters.Add("@TABULADOR", SqlDbType.SmallInt).Value = 1
-            cmd.Parameters.Add("@HORAS_GEN3", SqlDbType.Float).Value = THORAS_GEN3.Value
-            cmd.Parameters.Add("@HORAS_GEN4", SqlDbType.Float).Value = THORAS_GEN4.Value
-            cmd.Parameters.Add("@HORAS_USO2", SqlDbType.Float).Value = THORAS_USO2.Value
-            cmd.Parameters.Add("@CVE_EVA", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(TCVE_EVA.Text)
-            cmd.Parameters.Add("@LTS_GENERADOR2", SqlDbType.Float).Value = TLTS_GENERADOR2.Value
-
-            cmd.Parameters.Add("@NUMGEN1", SqlDbType.VarChar).Value = TNUMGEN1.Text
-            cmd.Parameters.Add("@NUMGEN2", SqlDbType.VarChar).Value = TNUMGEN2.Text
-            cmd.Parameters.Add("@LTSDESCGEN", SqlDbType.Float).Value = TLTSDESCGEN.Value
-            cmd.Parameters.Add("@DESCXLITROS", SqlDbType.Float).Value = DESCXLITROS
-            cmd.Parameters.Add("@RPM_MAX", SqlDbType.Float).Value = RPM_MAX
-            cmd.Parameters.Add("@CALIF_RPM", SqlDbType.Float).Value = CALIF_RPM
+        For k = 1 To 5
             If NewRecord Then
-                returnValue = cmd.ExecuteScalar.ToString
-                Try
-                    CVE_RES = returnValue
-                Catch ex As Exception
-                    CVE_RES = 1
-                End Try
-                NewRecord = False
+                SQL = "INSERT INTO GCRESETEO (CVE_RES, STATUS, ESTADO, FECHA, CVE_OPER, CVE_UNI, CVE_MOT, ODOMETRO, KM_ECM, LTS_ECM, LTS_REAL, LTS_TAB, 
+                    FAC_CARGA, HRS_TRABAJO, HRS_PTO_RALENTI, LTS_PTO_RALENTI, LTS_SALIDA, LTS_VALES, LTS_LLEGADA, REND_ECM, PORC_VAR_LTS_ECM_REAL, 
+                    PORC_VAR_LTS_TAB_REAL, KMS_TAB, PORC_TIEMPO_PTO_RALENTI, PORC_LTS_PTO_RALENTI, REND_TAB, REND_REAL, DIF_LTS_REAL_LTS_TAB, DESCT, 
+                    CALIF, VELMAX, TIEMPO_MARCH_INERCIA, PDF, FECHAELAB, UUID, CALIF_FACTOR_CARGA, CALIF_RALENTI, CALIF_GLOBAL, CAL_FAC_CAR_EVA, 
+                    CAL_RAL_EVA, CAL_GLO_EVA, LTS_DESCONTAR, PRECIO_X_LTS, LTS_AUTORIZADOS, LITROS_UREA, CARGO_X_PUNTO_MUERTO, FACTOR_CARGA, 
+                    PORC_USO_RALENTI, LTS_UREA_REAL, CVE_EVE, EVE_PORC_TOLERANCIA, EVE_PORC_RALENTI, PORC_TOLERANCIA, PORC_RALENTI, NO_VIAJE, NO_LIQUI, 
+                    LTS_FORANEOS, CALIF_VEL_MAX, BONO_RES, NO_DE_VIAJES, NO_DE_VIAJES_VACIO, BONO_RES_VACIO, LTS_AUTORIZADOS2, LTS_VALES2, LTS_DESCONTAR2, 
+                    PRECIO_X_LTS2, EVENTO, EVENTO_LTS, PORC_TOL_EVENTO2, DESCXLITROS2, TABULADOR, HORAS_GEN3, HORAS_GEN4, HORAS_USO2, CVE_EVA, 
+                    LTS_GENERADOR2, NUMGEN1, NUMGEN2, LTSDESCGEN, DESCXLITROS, RPM_MAX, CALIF_RPM, DIF_LTS_REAL_LTS_ECM, AJUST_TAB) 
+                    OUTPUT Inserted.CVE_RES VALUES (
+                    ISNULL((SELECT ISNULL(MAX(CVE_RES),0) + 1 FROM GCRESETEO),1),
+                    'A', 'EDICION', @FECHA, @CVE_OPER, @CVE_UNI, @CVE_MOT, @ODOMETRO, @KM_ECM, @LTS_ECM, @LTS_REAL, @LTS_TAB, @FAC_CARGA, @HRS_TRABAJO, 
+                    @HRS_PTO_RALENTI, @LTS_PTO_RALENTI, @LTS_SALIDA, @LTS_VALES, @LTS_LLEGADA, @REND_ECM, @PORC_VAR_LTS_ECM_REAL, @PORC_VAR_LTS_TAB_REAL, 
+                    @KMS_TAB, @PORC_TIEMPO_PTO_RALENTI, @PORC_LTS_PTO_RALENTI, @REND_TAB, @REND_REAL, @DIF_LTS_REAL_LTS_TAB, @DESCT, @CALIF, @VELMAX, 
+                    @TIEMPO_MARCH_INERCIA, @PDF, GETDATE(), NEWID(), @CALIF_FACTOR_CARGA, @CALIF_RALENTI, @CALIF_GLOBAL, @CAL_FAC_CAR_EVA, @CAL_RAL_EVA, 
+                    @CAL_GLO_EVA, @LTS_DESCONTAR, @PRECIO_X_LTS, @LTS_AUTORIZADOS, @LITROS_UREA, @CARGO_X_PUNTO_MUERTO, @FACTOR_CARGA, @PORC_USO_RALENTI, 
+                    @LTS_UREA_REAL, @CVE_EVE, @EVE_PORC_TOLERANCIA, @EVE_PORC_RALENTI, @PORC_TOLERANCIA, @PORC_RALENTI, @NO_VIAJE, @NO_LIQUI, 
+                    @LTS_FORANEOS, @CALIF_VEL_MAX, @BONO_RES, @NO_DE_VIAJES, @NO_DE_VIAJES_VACIO, @BONO_RES_VACIO, @LTS_AUTORIZADOS2, @LTS_VALES2, 
+                    @LTS_DESCONTAR2, @PRECIO_X_LTS2, @EVENTO, @EVENTO_LTS, @PORC_TOL_EVENTO2, @DESCXLITROS2, @TABULADOR, @HORAS_GEN3, @HORAS_GEN4, 
+                    @HORAS_USO2, @CVE_EVA, @LTS_GENERADOR2, @NUMGEN1, @NUMGEN2, @LTSDESCGEN, @DESCXLITROS, @RPM_MAX, @CALIF_RPM, @DIF_LTS_REAL_LTS_ECM, @AJUST_TAB)"
             Else
-                returnValue = cmd.ExecuteNonQuery().ToString
-                CVE_RES = TCVE_RES.Text
+                SQL = "UPDATE GCRESETEO SET FECHA = @FECHA, CVE_OPER = @CVE_OPER, CVE_UNI = @CVE_UNI, CVE_MOT= @CVE_MOT, ODOMETRO = @ODOMETRO, 
+                    KM_ECM = @KM_ECM, LTS_ECM = @LTS_ECM, LTS_REAL = @LTS_REAL, LTS_TAB = @LTS_TAB, FAC_CARGA = @FAC_CARGA, HRS_TRABAJO = @HRS_TRABAJO, 
+                    HRS_PTO_RALENTI = @HRS_PTO_RALENTI, LTS_PTO_RALENTI = @LTS_PTO_RALENTI, LTS_SALIDA = @LTS_SALIDA, LTS_VALES = @LTS_VALES, 
+                    LTS_LLEGADA = @LTS_LLEGADA, PDF = @PDF, REND_ECM = @REND_ECM, PORC_VAR_LTS_ECM_REAL = @PORC_VAR_LTS_ECM_REAL, 
+                    PORC_VAR_LTS_TAB_REAL = @PORC_VAR_LTS_TAB_REAL, KMS_TAB = @KMS_TAB, PORC_TIEMPO_PTO_RALENTI = @PORC_TIEMPO_PTO_RALENTI, 
+                    PORC_LTS_PTO_RALENTI = @PORC_LTS_PTO_RALENTI, REND_TAB = @REND_TAB, REND_REAL = @REND_REAL, DIF_LTS_REAL_LTS_ECM = @DIF_LTS_REAL_LTS_ECM, 
+                    DIF_LTS_REAL_LTS_TAB = @DIF_LTS_REAL_LTS_TAB, DESCT = @DESCT, CALIF = @CALIF, VELMAX = @VELMAX, 
+                    TIEMPO_MARCH_INERCIA = @TIEMPO_MARCH_INERCIA, CALIF_FACTOR_CARGA = @CALIF_FACTOR_CARGA, CALIF_RALENTI = @CALIF_RALENTI, 
+                    CALIF_GLOBAL = @CALIF_GLOBAL, CAL_FAC_CAR_EVA = @CAL_FAC_CAR_EVA, CAL_RAL_EVA = @CAL_RAL_EVA, CAL_GLO_EVA = @CAL_GLO_EVA,
+                    LTS_DESCONTAR = @LTS_DESCONTAR, PRECIO_X_LTS = @PRECIO_X_LTS, LTS_AUTORIZADOS = @LTS_AUTORIZADOS, LITROS_UREA = @LITROS_UREA, 
+                    CARGO_X_PUNTO_MUERTO = @CARGO_X_PUNTO_MUERTO, FACTOR_CARGA = @FACTOR_CARGA, PORC_USO_RALENTI = @PORC_USO_RALENTI, 
+                    LTS_UREA_REAL = @LTS_UREA_REAL, CVE_EVE = @CVE_EVE, EVE_PORC_TOLERANCIA = @EVE_PORC_TOLERANCIA, EVE_PORC_RALENTI = @EVE_PORC_RALENTI, 
+                    PORC_TOLERANCIA = @PORC_TOLERANCIA, PORC_RALENTI = @PORC_RALENTI, NO_VIAJE = @NO_VIAJE, NO_LIQUI = @NO_LIQUI, 
+                    LTS_FORANEOS = @LTS_FORANEOS, CALIF_VEL_MAX = @CALIF_VEL_MAX, BONO_RES = @BONO_RES, NO_DE_VIAJES = @NO_DE_VIAJES, 
+                    BONO_RES_VACIO = @BONO_RES_VACIO, NO_DE_VIAJES_VACIO = @NO_DE_VIAJES_VACIO, LTS_AUTORIZADOS2 = @LTS_AUTORIZADOS2, LTS_VALES2 = @LTS_VALES2,
+                    LTS_DESCONTAR2= @LTS_DESCONTAR2, PRECIO_X_LTS2 = @PRECIO_X_LTS2, EVENTO = @EVENTO, EVENTO_LTS = @EVENTO_LTS, 
+                    PORC_TOL_EVENTO2 = @PORC_TOL_EVENTO2, DESCXLITROS2 = @DESCXLITROS2, HORAS_GEN3 = @HORAS_GEN3, HORAS_GEN4 = @HORAS_GEN4, 
+                    HORAS_USO2 = @HORAS_USO2, CVE_EVA = @CVE_EVA, LTS_GENERADOR2 = @LTS_GENERADOR2, NUMGEN1 = @NUMGEN1, NUMGEN2 = @NUMGEN2, 
+                    LTSDESCGEN = @LTSDESCGEN, DESCXLITROS = @DESCXLITROS, RPM_MAX = @RPM_MAX, CALIF_RPM = @CALIF_RPM, AJUST_TAB = @AJUST_TAB
+                    WHERE CVE_RES = @CVE_RES"
             End If
-            If returnValue IsNot Nothing Then
-                If returnValue = "1" Then
+            cmd.CommandText = SQL
+
+            Try
+                V7 = Math.Round(THRS_TRABAJO.Value, 6)
+                V8 = Math.Round(THRS_PTO_RALENTI.Value, 6)
+                V9 = Math.Round(TLTS_PTO_RALENTI.Value, 6)
+
+                cmd.Parameters.Add("@CVE_RES", SqlDbType.Int).Value = CONVERTIR_TO_INT(TCVE_RES.Text)
+                cmd.Parameters.Add("@FECHA", SqlDbType.Date).Value = F1.Value
+                cmd.Parameters.Add("@CVE_OPER", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(TCVE_OPER.Text)
+                cmd.Parameters.Add("@CVE_UNI", SqlDbType.VarChar).Value = TCVE_UNI.Text
+                cmd.Parameters.Add("@CVE_MOT", SqlDbType.VarChar).Value = TCVE_MOT.Text
+
+                cmd.Parameters.Add("@ODOMETRO", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TODOMETRO.Value), 6)
+                cmd.Parameters.Add("@KM_ECM", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TKM_ECM.Value), 6)
+                cmd.Parameters.Add("@LTS_ECM", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TLTS_ECM.Value), 6)
+                cmd.Parameters.Add("@LTS_REAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TLTS_REAL.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@LTS_TAB", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TLTS_TAB.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@FAC_CARGA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TFAC_CARGA.Value), 6)
+                cmd.Parameters.Add("@HRS_TRABAJO", SqlDbType.Float).Value = Math.Round(THRS_TRABAJO.Value, 6)
+                cmd.Parameters.Add("@HRS_PTO_RALENTI", SqlDbType.Float).Value = Math.Round(THRS_PTO_RALENTI.Value, 6)
+                cmd.Parameters.Add("@LTS_PTO_RALENTI", SqlDbType.Float).Value = Math.Round(TLTS_PTO_RALENTI.Value, 6)
+                cmd.Parameters.Add("@LTS_SALIDA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TLTS_SALIDA.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@LTS_VALES", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TLTS_VALES.Value), 6)
+                cmd.Parameters.Add("@LTS_LLEGADA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TLTS_LLEGADA.Text.Replace(",", "")), 6)
+
+                cmd.Parameters.Add("@REND_ECM", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtREND_ECM.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@PORC_VAR_LTS_ECM_REAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtPORC_VAR_LTS_ECM_REAL.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@PORC_VAR_LTS_TAB_REAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtPORC_VAR_LTS_TAB_REAL.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@KMS_TAB", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtKMS_TAB.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@REND_TAB", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtREND_TAB.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@REND_REAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtREND_REAL.Text.Replace(",", "")), 6)
+
+                cmd.Parameters.Add("@PORC_TIEMPO_PTO_RALENTI", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtPORC_TIEMPO_PTO_RALENTI.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@PORC_LTS_PTO_RALENTI", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtPORC_LTS_PTO_RALENTI.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@DIF_LTS_REAL_LTS_TAB", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtDIF_LTS_REAL_LTS_TAB.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@DIF_LTS_REAL_LTS_ECM", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtDIF_LTS_REAL_LTS_ECM.Text.Replace(",", "")), 6)
+
+                cmd.Parameters.Add("@DESCT", SqlDbType.Float).Value = Math.Round(CDec(TDESCT.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@CALIF", SqlDbType.Float).Value = Math.Round(CDec(TCALIF.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@VELMAX", SqlDbType.Float).Value = Math.Round(CDec(TVELMAX.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@TIEMPO_MARCH_INERCIA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TTIEMPO_MARCH_INERCIA.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@PDF", SqlDbType.VarChar).Value = ARCHIVO
+                cmd.Parameters.Add("@CALIF_FACTOR_CARGA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TCALIF_FACTOR_CARGA.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@CALIF_RALENTI", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TCALIF_RALENTI.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@CALIF_GLOBAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TCALIF_GLOBAL.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@CAL_FAC_CAR_EVA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TCAL_FAC_CAR_EVA.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@CAL_RAL_EVA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TCAL_RAL_EVA.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@CAL_GLO_EVA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TCAL_GLO_EVA.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@LTS_AUTORIZADOS", SqlDbType.Float).Value = Math.Round(CDec(TLTS_AUTORIZADOS.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@LTS_DESCONTAR", SqlDbType.Float).Value = Math.Round(CDec(TLTS_DESCONTAR.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@PRECIO_X_LTS", SqlDbType.Float).Value = Math.Round(CDec(TPRECIO_X_LTS.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@LITROS_UREA", SqlDbType.Float).Value = Math.Round(CDec(TLITROS_UREA.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@CARGO_X_PUNTO_MUERTO", SqlDbType.Float).Value = Math.Round(CDec(TCARGO_X_PUNTO_MUERTO.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@FACTOR_CARGA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TFACTOR_CARGA.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@PORC_USO_RALENTI", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(TPORC_USO_RALENTI.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@LTS_UREA_REAL", SqlDbType.Float).Value = Math.Round(CDec(TLTS_UREA_REAL.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@CVE_EVE", SqlDbType.Float).Value = CVE_EVE
+                cmd.Parameters.Add("@EVE_PORC_TOLERANCIA", SqlDbType.Float).Value = Math.Round(EVE_PORC_TOLERANCIA, 6)
+                cmd.Parameters.Add("@EVE_PORC_RALENTI", SqlDbType.Float).Value = Math.Round(EVE_PORC_RALENTI, 6)
+                cmd.Parameters.Add("@PORC_TOLERANCIA", SqlDbType.Float).Value = Math.Round(CDec(TPORC_TOLERANCIA.Text), 6)
+                cmd.Parameters.Add("@PORC_RALENTI", SqlDbType.Float).Value = Math.Round(CDec(TPORC_RALENTI.Text), 6)
+                cmd.Parameters.Add("@NO_VIAJE", SqlDbType.VarChar).Value = TNO_VIAJE.Text
+                cmd.Parameters.Add("@NO_LIQUI", SqlDbType.VarChar).Value = TNO_LIQUI.Text
+                cmd.Parameters.Add("@LTS_FORANEOS", SqlDbType.Float).Value = TLTS_FORANEOS.Text
+                cmd.Parameters.Add("@CALIF_VEL_MAX", SqlDbType.VarChar).Value = CALIF_VEL_MX
+                cmd.Parameters.Add("@BONO_RES", SqlDbType.Float).Value = BONO_RES
+                cmd.Parameters.Add("@NO_DE_VIAJES", SqlDbType.Float).Value = NO_DE_VIAJES
+                cmd.Parameters.Add("@BONO_RES_VACIO", SqlDbType.Float).Value = BONO_RES_VACIO
+                cmd.Parameters.Add("@NO_DE_VIAJES_VACIO", SqlDbType.Float).Value = NO_DE_VIAJES_VACIO
+
+                cmd.Parameters.Add("@PORC_TOL_EVENTO2", SqlDbType.Float).Value = Math.Round(PORC_TOL_EVENTO2, 6)
+                cmd.Parameters.Add("@LTS_AUTORIZADOS2", SqlDbType.Float).Value = Math.Round(TLTS_AUTORIZADOS2.Value, 6) '<-----------------
+
+                cmd.Parameters.Add("@LTS_VALES2", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(LtLTS_VALES2.Text.Trim.Replace(",", "")), 6)
+                cmd.Parameters.Add("@LTS_DESCONTAR2", SqlDbType.Float).Value = TLTS_DESCONTAR2.Value
+                cmd.Parameters.Add("@PRECIO_X_LTS2", SqlDbType.Float).Value = Math.Round(CDec(TPRECIO_X_LTS2.Text.Replace(",", "")), 6)
+                cmd.Parameters.Add("@EVENTO", SqlDbType.SmallInt).Value = IIf(ChEvento1.Checked, 0, 1)
+                cmd.Parameters.Add("@EVENTO_LTS", SqlDbType.SmallInt).Value = IIf(RadLTS_ECM.Checked, 0, 1)
+                cmd.Parameters.Add("@DESCXLITROS2", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(LtDescXLitros2.Text.Replace(",", ""))
+                cmd.Parameters.Add("@TABULADOR", SqlDbType.SmallInt).Value = 1
+                cmd.Parameters.Add("@HORAS_GEN3", SqlDbType.Float).Value = THORAS_GEN3.Value
+                cmd.Parameters.Add("@HORAS_GEN4", SqlDbType.Float).Value = THORAS_GEN4.Value
+                cmd.Parameters.Add("@HORAS_USO2", SqlDbType.Float).Value = THORAS_USO2.Value
+                cmd.Parameters.Add("@CVE_EVA", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(TCVE_EVA.Text)
+                cmd.Parameters.Add("@LTS_GENERADOR2", SqlDbType.Float).Value = TLTS_GENERADOR2.Value
+
+                cmd.Parameters.Add("@NUMGEN1", SqlDbType.VarChar).Value = TNUMGEN1.Text
+                cmd.Parameters.Add("@NUMGEN2", SqlDbType.VarChar).Value = TNUMGEN2.Text
+                cmd.Parameters.Add("@LTSDESCGEN", SqlDbType.Float).Value = TLTSDESCGEN.Value
+                cmd.Parameters.Add("@DESCXLITROS", SqlDbType.Float).Value = DESCXLITROS
+                cmd.Parameters.Add("@RPM_MAX", SqlDbType.Float).Value = RPM_MAX
+                cmd.Parameters.Add("@CALIF_RPM", SqlDbType.Float).Value = CALIF_RPM
+                cmd.Parameters.Add("@AJUST_TAB", SqlDbType.Float).Value = TAJUST_TAB.Value
+
+                If NewRecord Then
+                    returnValue = cmd.ExecuteScalar.ToString
+                    CVE_RES = returnValue
+                    NewRecord = False
+                Else
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    CVE_RES = TCVE_RES.Text
+                End If
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
                 End If
 
-                Select Case TIPO_TAB
-                    Case 0
-                        GRABAR_PARTIDAS_GASTOS()
-                    Case 1
-                        GRABAR_TAB_VIKINGOS_PAR()
-                    Case 2
-                        GRABAR_TAB_FLORES_PAR()
-                End Select
+                SI_GRABO_RESETEO = True
+                Exit For
 
-                Try
-                    If CONVERTIR_TO_DECIMAL(TLTS_LLEGADA.Text.Replace(",", "")) > 0 Or CONVERTIR_TO_DECIMAL(TLTS_SALIDA.Text.Replace(",", "")) > 0 Then
-                        Try
-                            Dim CLAVE_MED As Long
+            Catch ex As SqlException
+                For Each sqlError As SqlError In ex.Errors
+                    Debug.Print(sqlError.Number & ", " & sqlError.ToString)
+                    Select Case sqlError.Number
+                        Case 207 ' 207 = InvalidColumn
+                            'do your Stuff here
+                            Exit Select
+                        Case 547 ' 547 = (Foreign) Key violation
+                            'do your Stuff here
+                            DETEC_ERROR_VIOLATION_KEY = True
+                            Exit Select
+                        Case 2601, 2627 ' 2601 = (Primary) key violation
+                            'do your Stuff here
+                            DETEC_ERROR_VIOLATION_KEY = True
+                            Exit Select
+                        Case 3621
+                            'The statement has been terminated.
+                        Case Else                        'do your Stuff here
+                            Exit Select
+                    End Select
+                Next
+            Catch ex As Exception
+                Bitacora("110. " & ex.Message & vbNewLine & ex.StackTrace)
+                MsgBox("110. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            If Not Valida_Conexion() Then
+            End If
+        Next
 
-                            If IsNumeric(TLTS_LLEGADA.Tag.ToString) Then
-                                CLAVE_MED = TLTS_LLEGADA.Tag.ToString
-                                If CLAVE_MED > 0 Then
-                                    Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                                        SQL = "UPDATE GCMEDICIONCOMBUSTIBLE SET CVE_RES = " & CVE_RES & " WHERE CLAVE = " & CLAVE_MED
-                                        cmd2.CommandText = SQL
-                                        returnValue = cmd2.ExecuteNonQuery().ToString
-                                        If returnValue IsNot Nothing Then
-                                            If returnValue = "1" Then
-                                            End If
+        TCVE_RES.Text = CVE_RES
+
+        If SI_GRABO_RESETEO Then
+            Select Case TIPO_TAB
+                Case 0
+                    GRABAR_PARTIDAS_GASTOS()
+                Case 1
+                    GRABAR_TAB_VIKINGOS_PAR()
+                Case 2
+                    GRABAR_TAB_FLORES_PAR()
+            End Select
+
+            Try
+                If CONVERTIR_TO_DECIMAL(TLTS_LLEGADA.Text.Replace(",", "")) > 0 Or CONVERTIR_TO_DECIMAL(TLTS_SALIDA.Text.Replace(",", "")) > 0 Then
+                    Try
+                        Dim CLAVE_MED As Long
+
+                        If IsNumeric(TLTS_LLEGADA.Tag.ToString) Then
+                            CLAVE_MED = TLTS_LLEGADA.Tag.ToString
+                            If CLAVE_MED > 0 Then
+                                Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                                    SQL = "UPDATE GCMEDICIONCOMBUSTIBLE SET CVE_RES = " & CVE_RES & " WHERE CLAVE = " & CLAVE_MED
+                                    cmd2.CommandText = SQL
+                                    returnValue = cmd2.ExecuteNonQuery().ToString
+                                    If returnValue IsNot Nothing Then
+                                        If returnValue = "1" Then
                                         End If
-                                    End Using
-                                End If
-                            End If
-                        Catch ex As Exception
-                            Bitacora("70. " & ex.Message & vbNewLine & ex.StackTrace)
-                            MsgBox("70. " & ex.Message & vbNewLine & ex.StackTrace)
-                        End Try
-                        Try
-                            Dim CLAVE_MED As Long
-
-                            If IsNumeric(TLTS_SALIDA.Tag.ToString) Then
-                                CLAVE_MED = TLTS_SALIDA.Tag.ToString
-                                If CLAVE_MED > 0 Then
-                                    Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                                        SQL = "UPDATE GCMEDICIONCOMBUSTIBLE SET CVE_RES = " & CVE_RES & " WHERE CLAVE = " & CLAVE_MED
-                                        cmd2.CommandText = SQL
-                                        returnValue = cmd2.ExecuteNonQuery().ToString
-                                        If returnValue IsNot Nothing Then
-                                            If returnValue = "1" Then
-                                            End If
-                                        End If
-                                    End Using
-                                End If
-                            End If
-                        Catch ex As Exception
-                            Bitacora("90. " & ex.Message & vbNewLine & ex.StackTrace)
-                            MsgBox("90. " & ex.Message & vbNewLine & ex.StackTrace)
-                        End Try
-                    End If
-                Catch ex As Exception
-                    Bitacora("100. " & ex.Message & vbNewLine & ex.StackTrace)
-                    MsgBox("100. " & ex.Message & vbNewLine & ex.StackTrace)
-                End Try
-
-                Try
-                    SQL = "UPDATE GCPARAMGENERALES SET PRECIO_X_LTS = " & TPRECIO_X_LTS.Text
-                    Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                        cmd2.CommandText = SQL
-                        returnValue = cmd2.ExecuteNonQuery().ToString
-                        If returnValue IsNot Nothing Then
-                            If returnValue = "1" Then
+                                    End If
+                                End Using
                             End If
                         End If
-                    End Using
-                Catch ex As Exception
-                    Bitacora("100. " & ex.Message & vbNewLine & ex.StackTrace)
-                End Try
+                    Catch ex As Exception
+                        Bitacora("70. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("70. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+                    Try
+                        Dim CLAVE_MED As Long
 
-                MsgBox("El registro se grabo satisfactoriamente")
-
-                Try
-                    If ARCHIVO.Trim.Length > 0 Then
-                        Dim RutaArchivo = TPDF.Tag
-                        Dim newPath = Path.Combine(RutaArchivo, ARCHIVO)
-
-                        'FileCopy(newPath, RUTA_PDF & "\" & ARCHIVO)
-                        RUTA_X = newPath & "  ---   " & RUTA_PDF & "\" & ARCHIVO
-
-                        Dim Copier = New CopyFile_Ex
-                        Copier.CopyEx(newPath, RUTA_PDF & "\" & ARCHIVO, True)
-                        'File.Copy(newPath, RUTA_PDF & "\" & ARCHIVO)
-                    End If
-                Catch ex As Exception
-                    Bitacora("100. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & RUTA_X)
-                    'MsgBox("100. " & ex.Message & vbNewLine & ex.StackTrace)
-                End Try
-
-                TCVE_RES.Text = CVE_RES
-
-                If TIPO_TAB = 1 Then
-                    BarNuevoVale.Visible = True
+                        If IsNumeric(TLTS_SALIDA.Tag.ToString) Then
+                            CLAVE_MED = TLTS_SALIDA.Tag.ToString
+                            If CLAVE_MED > 0 Then
+                                Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                                    SQL = "UPDATE GCMEDICIONCOMBUSTIBLE SET CVE_RES = " & CVE_RES & " WHERE CLAVE = " & CLAVE_MED
+                                    cmd2.CommandText = SQL
+                                    returnValue = cmd2.ExecuteNonQuery().ToString
+                                    If returnValue IsNot Nothing Then
+                                        If returnValue = "1" Then
+                                        End If
+                                    End If
+                                End Using
+                            End If
+                        End If
+                    Catch ex As Exception
+                        Bitacora("90. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("90. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
                 End If
+            Catch ex As Exception
+                Bitacora("100. " & ex.Message & vbNewLine & ex.StackTrace)
+                MsgBox("100. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
 
-                BarImprimir_Click(Nothing, Nothing)
+            Try
+                SQL = "UPDATE GCPARAMGENERALES SET PRECIO_X_LTS = " & TPRECIO_X_LTS.Text
+                Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                    cmd2.CommandText = SQL
+                    returnValue = cmd2.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End Using
+            Catch ex As Exception
+                Bitacora("100. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
 
-            Else
-                MsgBox("No se logro grabar el registro")
+            MsgBox("El registro se grabo satisfactoriamente")
+
+            Try
+                If ARCHIVO.Trim.Length > 0 Then
+                    Dim RutaArchivo = TPDF.Tag
+                    Dim newPath = Path.Combine(RutaArchivo, ARCHIVO)
+
+                    'FileCopy(newPath, RUTA_PDF & "\" & ARCHIVO)
+                    RUTA_X = newPath & "  ---   " & RUTA_PDF & "\" & ARCHIVO
+
+                    Dim Copier = New CopyFile_Ex
+                    Copier.CopyEx(newPath, RUTA_PDF & "\" & ARCHIVO, True)
+                    'File.Copy(newPath, RUTA_PDF & "\" & ARCHIVO)
+                End If
+            Catch ex As Exception
+                Bitacora("100. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & RUTA_X)
+                'MsgBox("100. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            If TIPO_TAB = 1 Then
+                BarNuevoVale.Visible = True
             End If
-        Catch ex As Exception
-            Bitacora("110. " & ex.Message & vbNewLine & ex.StackTrace)
-            MsgBox("110. " & ex.Message & vbNewLine & ex.StackTrace)
-        End Try
+
+            BarImprimir_Click(Nothing, Nothing)
+        Else
+            MsgBox("No se logro grabar el registro")
+
+        End If
+
+
         NewRecord = False
 
     End Sub
@@ -2162,7 +2263,6 @@ Public Class FrmReseteoAE
         Dim FACTOR As Decimal
 
         If Not Valida_Conexion() Then
-            Return
         End If
         Try
             If IsNumeric(TCVE_RES.Text) Then
@@ -2180,20 +2280,6 @@ Public Class FrmReseteoAE
             MsgBox("80. " & ex.Message & vbNewLine & "" & ex.StackTrace)
             Bitacora("80. " & ex.Message & vbNewLine & "" & ex.StackTrace)
         End Try
-        'Try
-        'Using cmd2 As SqlCommand = cnSAE.CreateCommand
-        'SQL = "DELETE FROM GCRESET_TAB_FLORES_PAR WHERE CVE_RES = " & TCVE_RES.Text
-        'cmd2.CommandText = SQL
-        'returnValue = cmd2.ExecuteNonQuery().ToString
-        'If returnValue IsNot Nothing Then
-        'If returnValue = "1" Then
-        'End If
-        'End If
-        'End Using
-        'Catch ex As Exception
-        'MsgBox("80. " & ex.Message & vbNewLine & "" & ex.StackTrace)
-        'Bitacora("80. " & ex.Message & vbNewLine & "" & ex.StackTrace)
-        'End Try
         Try
             For k = 1 To Fg.Rows.Count - 1
                 Try
@@ -2250,37 +2336,35 @@ Public Class FrmReseteoAE
                             LITROS = 0
                         End If
 
-                        If Not Valida_Conexion() Then
-                        End If
-
-                        SQL = "INSERT INTO GCRESET_TAB_FLORES_PAR (CVE_TAB, NUM_PAR, CVE_VIAJE, STATUS, CVE_RES, KMS, 
-                            FACTOR, KMS_REAL, RENDIMIENTO, LITROS, UUID) VALUES(@CVE_TAB, 
-                            ISNULL((SELECT MAX(NUM_PAR) +1 FROM GCRESET_TAB_FLORES_PAR),1), 
-                            @CVE_VIAJE, 'A', @CVE_RES, @KMS, @FACTOR, @KMS_REAL, @RENDIMIENTO, @LITROS, NEWID())"
-                        Using cmd As SqlCommand = cnSAE.CreateCommand
-                            cmd.CommandText = SQL
-                            cmd.Parameters.Clear()
-                            cmd.Parameters.Add("@CVE_TAB", SqlDbType.VarChar).Value = CVE_TAB
-                            cmd.Parameters.Add("@CVE_VIAJE", SqlDbType.VarChar).Value = CVE_VIAJE
-                            cmd.Parameters.Add("@KMS", SqlDbType.Float).Value = KMS
-                            cmd.Parameters.Add("@FACTOR", SqlDbType.Float).Value = FACTOR
-                            cmd.Parameters.Add("@KMS_REAL", SqlDbType.Float).Value = Math.Round((KMS * FACTOR), 4)
-                            cmd.Parameters.Add("@RENDIMIENTO", SqlDbType.Float).Value = Math.Round(RENDIMIENTO, 2)
-                            cmd.Parameters.Add("@LITROS", SqlDbType.Float).Value = LITROS
-                            cmd.Parameters.Add("@CVE_RES", SqlDbType.Float).Value = TCVE_RES.Text
-                            returnValue = cmd.ExecuteNonQuery
-                            If returnValue IsNot Nothing Then
-                                If returnValue = "1" Then
+                        If Valida_Conexion() Then
+                            SQL = "INSERT INTO GCRESET_TAB_FLORES_PAR (CVE_TAB, NUM_PAR, CVE_VIAJE, STATUS, CVE_RES, KMS, 
+                                FACTOR, KMS_REAL, RENDIMIENTO, LITROS, UUID) VALUES(@CVE_TAB, 
+                                ISNULL((SELECT MAX(NUM_PAR) + 1 FROM GCRESET_TAB_FLORES_PAR),1), 
+                                @CVE_VIAJE, 'A', @CVE_RES, @KMS, @FACTOR, @KMS_REAL, @RENDIMIENTO, @LITROS, NEWID())"
+                            Using cmd As SqlCommand = cnSAE.CreateCommand
+                                cmd.CommandText = SQL
+                                cmd.Parameters.Clear()
+                                cmd.Parameters.Add("@CVE_TAB", SqlDbType.VarChar).Value = CVE_TAB
+                                cmd.Parameters.Add("@CVE_VIAJE", SqlDbType.VarChar).Value = CVE_VIAJE
+                                cmd.Parameters.Add("@KMS", SqlDbType.Float).Value = KMS
+                                cmd.Parameters.Add("@FACTOR", SqlDbType.Float).Value = FACTOR
+                                cmd.Parameters.Add("@KMS_REAL", SqlDbType.Float).Value = Math.Round((KMS * FACTOR), 4)
+                                cmd.Parameters.Add("@RENDIMIENTO", SqlDbType.Float).Value = Math.Round(RENDIMIENTO, 2)
+                                cmd.Parameters.Add("@LITROS", SqlDbType.Float).Value = LITROS
+                                cmd.Parameters.Add("@CVE_RES", SqlDbType.Float).Value = TCVE_RES.Text
+                                returnValue = cmd.ExecuteNonQuery
+                                If returnValue IsNot Nothing Then
+                                    If returnValue = "1" Then
+                                    End If
                                 End If
-                            End If
-                        End Using
+                            End Using
+                        End If
                     End If
                 Catch ex As Exception
                     Bitacora("95. " & ex.Message & vbNewLine & "" & ex.StackTrace)
                     MsgBox("95. " & ex.Message & vbNewLine & "" & ex.StackTrace)
                 End Try
             Next
-
 
             Try
                 Using cmd2 As SqlCommand = cnSAE.CreateCommand
@@ -2311,9 +2395,8 @@ Public Class FrmReseteoAE
         Dim KMS As Decimal = 0, LITROS As Decimal = 0, UUID As String, RENDIMIENTO As Decimal = 0, CVE_TAB As Long
         Dim CVE_OPER As Integer, CVE_UNI As String = "", TIPO_VIAJE As String
 
-        Dim cmd As New SqlCommand With {
-            .Connection = cnSAE
-        }
+        If Not Valida_Conexion() Then
+        End If
 
         Try
             Using cmd2 As SqlCommand = cnSAE.CreateCommand
@@ -2329,17 +2412,6 @@ Public Class FrmReseteoAE
             Bitacora("170. " & ex.Message & vbNewLine & "" & ex.StackTrace)
             MsgBox("170. " & ex.Message & vbNewLine & "" & ex.StackTrace)
         End Try
-
-        SQL = "UPDATE GCRESETEO_TABULADOR SET CVE_OPER = @CVE_OPER, CVE_UNI = @CVE_UNI, TIPO_VIAJE = @TIPO_VIAJE, CVE_ORI = @CVE_ORI, 
-            CVE_DES = @CVE_DES, CARGADO_VACIO = @CARGADO_VACIO, CLIENTE = @CLIENTE, KMS = @KMS, RENDIMIENTO = @RENDIMIENTO, 
-            LITROS = @LITROS, STATUS = 'A' 
-            WHERE UUID = @UUID 
-            IF @@ROWCOUNT = 0 
-            INSERT INTO GCRESETEO_TABULADOR (CVE_RES, CVE_OPER, CVE_UNI, NUM_PAR, STATUS, CVE_TAB, CVE_ORI, CVE_DES, CARGADO_VACIO, 
-            TIPO_VIAJE, CLIENTE, KMS, RENDIMIENTO, LITROS, UUID) VALUES (@CVE_RES, @CVE_OPER, @CVE_UNI, 
-            ISNULL((SELECT MAX(NUM_PAR) + 1 FROM GCRESETEO_TABULADOR WHERE CVE_RES = @CVE_RES),1),'A', @CVE_TAB, @CVE_ORI, @CVE_DES, 
-            @CARGADO_VACIO, @TIPO_VIAJE, @CLIENTE, @KMS, @RENDIMIENTO, @LITROS, NEWID())"
-        cmd.CommandText = SQL
 
         Try
             For k = 1 To Fg.Rows.Count - 1
@@ -2407,25 +2479,41 @@ Public Class FrmReseteoAE
                             MsgBox("275. " & ex.Message & vbNewLine & "" & ex.StackTrace)
                         End Try
 
-                        cmd.Parameters.Clear()
-                        cmd.Parameters.Add("@CVE_RES", SqlDbType.Int).Value = TCVE_RES.Text
-                        cmd.Parameters.Add("@CVE_OPER", SqlDbType.Int).Value = CVE_OPER
-                        cmd.Parameters.Add("@CVE_UNI", SqlDbType.VarChar).Value = CVE_UNI
-                        cmd.Parameters.Add("@CVE_TAB", SqlDbType.Int).Value = CVE_TAB
-                        cmd.Parameters.Add("@CVE_ORI", SqlDbType.Int).Value = CONVERTIR_TO_INT(CVE_ORI)
-                        cmd.Parameters.Add("@CVE_DES", SqlDbType.Int).Value = CONVERTIR_TO_INT(CVE_DES)
-                        cmd.Parameters.Add("@CARGADO_VACIO", SqlDbType.Int).Value = CARGADO_VACIO
-                        cmd.Parameters.Add("@TIPO_VIAJE", SqlDbType.VarChar).Value = TIPO_VIAJE
-                        cmd.Parameters.Add("@CLIENTE", SqlDbType.VarChar).Value = CLIENTE
-                        cmd.Parameters.Add("@KMS", SqlDbType.Float).Value = KMS
-                        cmd.Parameters.Add("@RENDIMIENTO", SqlDbType.Float).Value = RENDIMIENTO
-                        cmd.Parameters.Add("@LITROS", SqlDbType.Float).Value = LITROS
-                        cmd.Parameters.Add("@UUID", SqlDbType.VarChar).Value = UUID
-                        returnValue = cmd.ExecuteNonQuery().ToString
-                        If returnValue IsNot Nothing Then
-                            If returnValue = "1" Then
+                        If Valida_Conexion() Then
+                            Using cmd As SqlCommand = cnSAE.CreateCommand
+                                SQL = "IF EXISTS (SELECT UUID FROM GCRESETEO_TABULADOR WHERE UUID = @UUID)
+                                    UPDATE GCRESETEO_TABULADOR SET CVE_OPER = @CVE_OPER, CVE_UNI = @CVE_UNI, TIPO_VIAJE = @TIPO_VIAJE, CVE_ORI = @CVE_ORI, 
+                                    CVE_DES = @CVE_DES, CARGADO_VACIO = @CARGADO_VACIO, CLIENTE = @CLIENTE, KMS = @KMS, RENDIMIENTO = @RENDIMIENTO, 
+                                    LITROS = @LITROS, STATUS = 'A' 
+                                    WHERE UUID = @UUID 
+                                    ELSE
+                                    INSERT INTO GCRESETEO_TABULADOR (CVE_RES, CVE_OPER, CVE_UNI, NUM_PAR, STATUS, CVE_TAB, CVE_ORI, CVE_DES, CARGADO_VACIO, 
+                                    TIPO_VIAJE, CLIENTE, KMS, RENDIMIENTO, LITROS, UUID) VALUES (@CVE_RES, @CVE_OPER, @CVE_UNI, 
+                                    ISNULL((SELECT MAX(NUM_PAR) + 1 FROM GCRESETEO_TABULADOR WHERE CVE_RES = @CVE_RES),1),'A', @CVE_TAB, @CVE_ORI, @CVE_DES, 
+                                    @CARGADO_VACIO, @TIPO_VIAJE, @CLIENTE, @KMS, @RENDIMIENTO, @LITROS, NEWID())"
 
-                            End If
+                                cmd.CommandText = SQL
+                                cmd.Parameters.Clear()
+                                cmd.Parameters.Add("@CVE_RES", SqlDbType.Int).Value = TCVE_RES.Text
+                                cmd.Parameters.Add("@CVE_OPER", SqlDbType.Int).Value = CVE_OPER
+                                cmd.Parameters.Add("@CVE_UNI", SqlDbType.VarChar).Value = CVE_UNI
+                                cmd.Parameters.Add("@CVE_TAB", SqlDbType.Int).Value = CVE_TAB
+                                cmd.Parameters.Add("@CVE_ORI", SqlDbType.Int).Value = CONVERTIR_TO_INT(CVE_ORI)
+                                cmd.Parameters.Add("@CVE_DES", SqlDbType.Int).Value = CONVERTIR_TO_INT(CVE_DES)
+                                cmd.Parameters.Add("@CARGADO_VACIO", SqlDbType.Int).Value = CARGADO_VACIO
+                                cmd.Parameters.Add("@TIPO_VIAJE", SqlDbType.VarChar).Value = TIPO_VIAJE
+                                cmd.Parameters.Add("@CLIENTE", SqlDbType.VarChar).Value = CLIENTE
+                                cmd.Parameters.Add("@KMS", SqlDbType.Float).Value = KMS
+                                cmd.Parameters.Add("@RENDIMIENTO", SqlDbType.Float).Value = RENDIMIENTO
+                                cmd.Parameters.Add("@LITROS", SqlDbType.Float).Value = LITROS
+                                cmd.Parameters.Add("@UUID", SqlDbType.VarChar).Value = UUID
+                                returnValue = cmd.ExecuteNonQuery().ToString
+                                If returnValue IsNot Nothing Then
+                                    If returnValue = "1" Then
+
+                                    End If
+                                End If
+                            End Using
                         End If
                     End If
                 Catch ex As Exception
@@ -3245,7 +3333,6 @@ Public Class FrmReseteoAE
     End Sub
     Private Sub FrmReseteoAE_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         Me.Dispose()
-
     End Sub
     Private Sub TLTS_PTO_RALENTI_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TLTS_PTO_RALENTI.PreviewKeyDown
         If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Tab Then
@@ -5770,14 +5857,76 @@ Public Class FrmReseteoAE
         Try
             'EVENTO 2 
             'OPCION 2
+            'If EVENTO_LTS = 0 Then
+            '   GroupBox3.Width = 320
+            'Else
+            '   GroupBox3.Width = 545
+            'End If
+
             If RadLTS_TAB.Checked Then
+                GroupBox3.Width = 545
+
+
                 CALCULO_EVENTO2_LTS_TAB()
+            Else
+                GroupBox3.Width = 320
             End If
         Catch ex As Exception
             Bitacora("1340. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
-
     End Sub
+    Private Sub TLTS_AUTORIZADOS2_TextChanged(sender As Object, e As EventArgs) Handles TLTS_AUTORIZADOS2.TextChanged
+        If Not ENTRA Then
+            Return
+        End If
+        Try
+            If IsNumeric(TLTS_AUTORIZADOS2.Text) Then
+                TLTS_AUTORIZADOS2.Tag = TLTS_AUTORIZADOS2.Text
+            End If
+        Catch ex As Exception
+            Bitacora("1340. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+    Private Sub TAJUST_TAB_TextChanged(sender As Object, e As EventArgs) Handles TAJUST_TAB.TextChanged
+        Try
+            ENTRA = False
+
+            Dim LTS_AUTORIZADOS2 As Decimal = 0
+
+            If TLTS_AUTORIZADOS2.Tag Is Nothing OrElse TLTS_AUTORIZADOS2.Value = 0 Then
+                ENTRA = False
+                Return
+            End If
+
+            If IsNumeric(TLTS_AUTORIZADOS2.Tag) Then
+                If CDec(TLTS_AUTORIZADOS2.Tag) > 0 Then
+                    LTS_AUTORIZADOS2 = CDec(TLTS_AUTORIZADOS2.Tag)
+                Else
+                    LTS_AUTORIZADOS2 = TLTS_AUTORIZADOS2.Value
+                End If
+            Else
+                LTS_AUTORIZADOS2 = TLTS_AUTORIZADOS2.Value
+            End If
+
+            If IsNumeric(TAJUST_TAB.Text) Then
+                If LTS_AUTORIZADOS2 > 0 Then
+                    If CDec(TAJUST_TAB.Text) > 0 Then
+                        TLTS_AUTORIZADOS2.Value = LTS_AUTORIZADOS2 + (LTS_AUTORIZADOS2 * CDec(TAJUST_TAB.Text) / 100)
+                    Else
+                        TLTS_AUTORIZADOS2.Value = LTS_AUTORIZADOS2 + (LTS_AUTORIZADOS2 * CDec(TAJUST_TAB.Text) / 100)
+                    End If
+                End If
+            Else
+                TLTS_AUTORIZADOS2.Value = LTS_AUTORIZADOS2
+            End If
+        Catch ex As Exception
+            Bitacora("320. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        ENTRA = True
+    End Sub
+
     Private Sub Fg_OwnerDrawCell(sender As Object, e As OwnerDrawCellEventArgs) Handles Fg.OwnerDrawCell
         If e.Row >= Fg.Rows.Fixed And e.Col = Fg.Cols.Fixed - 1 Then
             Dim rowNumber As Integer = e.Row - Fg.Rows.Fixed + 1
@@ -6431,11 +6580,7 @@ Public Class FrmReseteoAE
         MsgBox("Desc. x litros = Lts. a descontar *  Precio x litro")
     End Sub
 
-    Private Sub BtnBonoFull_Click(sender As Object, e As EventArgs) Handles BtnBonoFull.Click
-
-    End Sub
-
-    Private Sub BtnBono1_Click(sender As Object, e As EventArgs) Handles BtnBono1.Click
+    Private Sub TAJUST_TAB_QueryAccessibilityHelp(sender As Object, e As QueryAccessibilityHelpEventArgs) Handles TAJUST_TAB.QueryAccessibilityHelp
 
     End Sub
 End Class

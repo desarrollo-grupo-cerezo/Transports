@@ -1586,6 +1586,8 @@ Public Class FrmAsigViajeBuenoAE
                 TCLAVE_D.Tag = dr("DESTINO")
 
                 If dr.ReadNullAsEmptyInteger("CALLE_FISCAL") = 1 Then
+
+                    ChCalleFiscal.Checked = True
                     Try
                         ChCalleFiscal.CheckState = Windows.Forms.CheckState.Checked
                         Using cmd3 As SqlCommand = cnSAE.CreateCommand
@@ -1614,10 +1616,15 @@ Public Class FrmAsigViajeBuenoAE
                             End Using
                         End Using
                         TCLAVE_O.Text = ""
+                        TCLAVE_O.Enabled = False
+                        BtnCLAVE_REM.Enabled = False
                     Catch ex As Exception
                         Bitacora("15. " & ex.Message & vbNewLine & ex.StackTrace)
                     End Try
                 Else
+                    ChCalleFiscal.Checked = False
+                    TCLAVE_O.Enabled = True
+                    BtnCLAVE_REM.Enabled = True
                     If TCLAVE_O.Text.Trim.Length > 0 Then
                         DESPLEGAR_CLIENTE_OPER(TCLAVE_O.Text)
                     End If
@@ -1625,172 +1632,172 @@ Public Class FrmAsigViajeBuenoAE
 
                 DESPLEGAR_CLIENTE_OPER2(TCLAVE_D.Text) 'GCCLIE_OP 
 
-                    FECHA.Value = dr("FECHA").ToString
+                FECHA.Value = dr("FECHA").ToString
 
-                    TCVE_OPER.Text = dr("CVE_OPER").ToString
-                    TCVE_OPER.Tag = TCVE_OPER.Text
+                TCVE_OPER.Text = dr("CVE_OPER").ToString
+                TCVE_OPER.Tag = TCVE_OPER.Text
 
-                    If TCVE_OPER.Text = "0" Then
-                        TCVE_OPER.Text = ""
-                        TCVE_OPER.Tag = ""
-                    End If
+                If TCVE_OPER.Text = "0" Then
+                    TCVE_OPER.Text = ""
+                    TCVE_OPER.Tag = ""
+                End If
 
-                    If TCVE_OPER.Text.Trim.Length > 0 Then
-                        LOper.Text = BUSCA_CAT("Operador", TCVE_OPER.Text)
-                        LtOp1.Text = TCVE_OPER.Text
-                        LtOp2.Text = LOper.Text
-                        Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                            SQL = "SELECT ISNULL(NOMBRE,'') AS DES, LICENCIA, LIC_VENC FROM GCOPERADOR WHERE CLAVE = '" & TCVE_OPER.Text & "' AND STATUS  = 'A'"
-                            cmd2.CommandText = SQL
-                            Using dr2 As SqlDataReader = cmd2.ExecuteReader
-                                If dr2.Read Then
-                                    LtLicencia.Text = dr2("LICENCIA")
-                                    LtVigencia.Text = dr2("LIC_VENC")
-                                End If
-                                dr2.Close()
-                            End Using
+                If TCVE_OPER.Text.Trim.Length > 0 Then
+                    LOper.Text = BUSCA_CAT("Operador", TCVE_OPER.Text)
+                    LtOp1.Text = TCVE_OPER.Text
+                    LtOp2.Text = LOper.Text
+                    Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                        SQL = "SELECT ISNULL(NOMBRE,'') AS DES, LICENCIA, LIC_VENC FROM GCOPERADOR WHERE CLAVE = '" & TCVE_OPER.Text & "' AND STATUS  = 'A'"
+                        cmd2.CommandText = SQL
+                        Using dr2 As SqlDataReader = cmd2.ExecuteReader
+                            If dr2.Read Then
+                                LtLicencia.Text = dr2("LICENCIA")
+                                LtVigencia.Text = dr2("LIC_VENC")
+                            End If
+                            dr2.Close()
                         End Using
-                    End If
+                    End Using
+                End If
 
-                    TCVE_TRACTOR.Text = dr("CVE_TRACTOR").ToString
-                    TCVE_TRACTOR.Tag = TCVE_TRACTOR.Text
-                    LTractor.Tag = TCVE_TRACTOR.Text
+                TCVE_TRACTOR.Text = dr("CVE_TRACTOR").ToString
+                TCVE_TRACTOR.Tag = TCVE_TRACTOR.Text
+                LTractor.Tag = TCVE_TRACTOR.Text
 
-                    LTractor.Text = BUSCA_CAT("Unidad", TCVE_TRACTOR.Text)
+                LTractor.Text = BUSCA_CAT("Unidad", TCVE_TRACTOR.Text)
 
-                    TCVE_TANQUE1.Text = dr("CVE_TANQUE1").ToString
-                    TCVE_TANQUE1.Tag = TCVE_TANQUE1.Text
-                    LTanque1.Tag = TCVE_TANQUE1.Text
+                TCVE_TANQUE1.Text = dr("CVE_TANQUE1").ToString
+                TCVE_TANQUE1.Tag = TCVE_TANQUE1.Text
+                LTanque1.Tag = TCVE_TANQUE1.Text
 
-                    LTanque1.Text = BUSCA_CAT("Unidad", TCVE_TANQUE1.Text)
+                LTanque1.Text = BUSCA_CAT("Unidad", TCVE_TANQUE1.Text)
 
-                    TCVE_TANQUE2.Text = dr("CVE_TANQUE2").ToString
-                    TCVE_TANQUE2.Tag = TCVE_TANQUE2.Text
-                    LTanque2.Tag = TCVE_TANQUE2.Text
+                TCVE_TANQUE2.Text = dr("CVE_TANQUE2").ToString
+                TCVE_TANQUE2.Tag = TCVE_TANQUE2.Text
+                LTanque2.Tag = TCVE_TANQUE2.Text
 
-                    LTanque2.Text = BUSCA_CAT("Unidad", TCVE_TANQUE2.Text)
+                LTanque2.Text = BUSCA_CAT("Unidad", TCVE_TANQUE2.Text)
 
-                    TCVE_DOLLY.Text = dr("CVE_DOLLY").ToString
-                    TCVE_DOLLY.Tag = dr("CVE_DOLLY").ToString
+                TCVE_DOLLY.Text = dr("CVE_DOLLY").ToString
+                TCVE_DOLLY.Tag = dr("CVE_DOLLY").ToString
 
-                    LDolly.Text = BUSCA_CAT("Unidad", TCVE_DOLLY.Text)
+                LDolly.Text = BUSCA_CAT("Unidad", TCVE_DOLLY.Text)
 
-                    If TCVE_TRACTOR.Text.Trim.Length > 0 Then
-                        If TCVE_TANQUE1.Text.Trim.Length > 0 And TCVE_TANQUE2.Text.Trim.Length > 0 Then
-                            LtTipoViaje.Text = "Full"
-                        Else
-                            LtTipoViaje.Text = "Sencillo"
-                        End If
-                    End If
-
-                    If dr.ReadNullAsEmptyInteger("TIPO_VIAJE") = 1 Then
-                        RadCargado.Checked = True
-                        RadVacio.Checked = False
+                If TCVE_TRACTOR.Text.Trim.Length > 0 Then
+                    If TCVE_TANQUE1.Text.Trim.Length > 0 And TCVE_TANQUE2.Text.Trim.Length > 0 Then
+                        LtTipoViaje.Text = "Full"
                     Else
-                        RadCargado.Checked = False
-                        RadVacio.Checked = True
+                        LtTipoViaje.Text = "Sencillo"
                     End If
+                End If
 
-                    Try
+                If dr.ReadNullAsEmptyInteger("TIPO_VIAJE") = 1 Then
+                    RadCargado.Checked = True
+                    RadVacio.Checked = False
+                Else
+                    RadCargado.Checked = False
+                    RadVacio.Checked = True
+                End If
 
-                        TCVE_PRODSERV.Value = dr.ReadNullAsEmptyString("CVE_PRODSERV")
-                        TCVE_UNIDAD.Value = dr.ReadNullAsEmptyString("CVE_UNIDAD")
+                Try
 
-                        If TCVE_PRODSERV.Value.ToString.Trim.Length = 0 Then TCVE_PRODSERV.Value = CVE_PRODSERV
-                        If TCVE_UNIDAD.Value.ToString.Trim.Length = 0 Then TCVE_UNIDAD.Value = CVE_UNIDAD
+                    TCVE_PRODSERV.Value = dr.ReadNullAsEmptyString("CVE_PRODSERV")
+                    TCVE_UNIDAD.Value = dr.ReadNullAsEmptyString("CVE_UNIDAD")
+
+                    If TCVE_PRODSERV.Value.ToString.Trim.Length = 0 Then TCVE_PRODSERV.Value = CVE_PRODSERV
+                    If TCVE_UNIDAD.Value.ToString.Trim.Length = 0 Then TCVE_UNIDAD.Value = CVE_UNIDAD
 
                     'TAR_X_VIA_FULL
                     'TAR_X_VIA_SENC
                     'TTAR_X_TON_FULL
                     TVOLUMEN_PESO.Value = dr.ReadNullAsEmptyDecimal("VOLUMEN_PESO")
 
-                        TIMPORTE_CONCEP.Value = dr.ReadNullAsEmptyDecimal("IMPORTE_CONCEP")
-                        TFLETE.Value = dr("FLET")
-                        TFLETE.Tag = dr("FLET")
+                    TIMPORTE_CONCEP.Value = dr.ReadNullAsEmptyDecimal("IMPORTE_CONCEP")
+                    TFLETE.Value = dr("FLET")
+                    TFLETE.Tag = dr("FLET")
 
-                        If dr.ReadNullAsEmptyInteger("PRECIO_VIAJE_TONE") = 0 Then
-                            RadPrecioXViaje.Checked = True
-                            MONTO_X_VIAJE = TFLETE.Value
-                        Else
-                            RadPrecioXTonelada.Checked = True
-                            MONTO_X_TON = TFLETE.Value
+                    If dr.ReadNullAsEmptyInteger("PRECIO_VIAJE_TONE") = 0 Then
+                        RadPrecioXViaje.Checked = True
+                        MONTO_X_VIAJE = TFLETE.Value
+                    Else
+                        RadPrecioXTonelada.Checked = True
+                        MONTO_X_TON = TFLETE.Value
+                    End If
+
+                    TSUB_TOTAL.Value = dr("SUBT")
+                    TRET.Value = dr("RET")
+                    TIVA.Value = dr("IV")
+                    TNETO.Value = dr("NET")
+
+                    If ESCENARIO = 0 Then
+                        If FACTURA_UNO_O_MULT = "VVM" Then
+                            Pag0.TabVisible = False
                         End If
-
-                        TSUB_TOTAL.Value = dr("SUBT")
-                        TRET.Value = dr("RET")
-                        TIVA.Value = dr("IV")
-                        TNETO.Value = dr("NET")
-
-                        If ESCENARIO = 0 Then
-                            If FACTURA_UNO_O_MULT = "VVM" Then
-                                Pag0.TabVisible = False
-                            End If
-                        End If
+                    End If
 
 
-                        TCVE_ESQIMPU.Text = dr("CVE_ESQ")
+                    TCVE_ESQIMPU.Text = dr("CVE_ESQ")
+
+                    If TCVE_ESQIMPU.Text = "0" Then TCVE_ESQIMPU.Text = ""
+
+                    If TCVE_ESQIMPU.Text.Trim.Length > 0 Then
+                        LtEsquema.Text = BUSCA_CAT("Esquema", TCVE_ESQIMPU.Text)
+                    Else
+                        TCVE_ESQIMPU.Text = dr("CVE_ESQ_CLIE")
 
                         If TCVE_ESQIMPU.Text = "0" Then TCVE_ESQIMPU.Text = ""
 
-                        If TCVE_ESQIMPU.Text.Trim.Length > 0 Then
-                            LtEsquema.Text = BUSCA_CAT("Esquema", TCVE_ESQIMPU.Text)
-                        Else
-                            TCVE_ESQIMPU.Text = dr("CVE_ESQ_CLIE")
+                        If TCVE_ESQIMPU.Text.Trim.Length > 0 AndAlso IsNumeric(TCVE_ESQIMPU.Text.Trim) Then
 
-                            If TCVE_ESQIMPU.Text = "0" Then TCVE_ESQIMPU.Text = ""
-
-                            If TCVE_ESQIMPU.Text.Trim.Length > 0 AndAlso IsNumeric(TCVE_ESQIMPU.Text.Trim) Then
-
-                                Try
-                                    Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                                        SQL = "SELECT ISNULL(CVE_ESQIMPU, 0) AS CVE_ESQ, ISNULL(DESCRIPESQ,'') AS DES
+                            Try
+                                Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                                    SQL = "SELECT ISNULL(CVE_ESQIMPU, 0) AS CVE_ESQ, ISNULL(DESCRIPESQ,'') AS DES
                                          FROM IMPU" & Empresa & " 
                                          WHERE ISNULL(CVE_ESQIMPU, 0) = " & CONVERTIR_TO_INT(TCVE_ESQIMPU.Text.Trim)
-                                        cmd2.CommandText = SQL
-                                        Using dr2 As SqlDataReader = cmd2.ExecuteReader
-                                            If dr2.Read Then
-                                                If dr2("CVE_ESQ") > 0 Then
-                                                    TCVE_ESQIMPU.Text = dr2("CVE_ESQ")
-                                                    LtEsquema.Text = dr2("DES")
-                                                Else
-                                                    TCVE_ESQIMPU.Text = "0"
-                                                    LtEsquema.Text = ""
-                                                End If
+                                    cmd2.CommandText = SQL
+                                    Using dr2 As SqlDataReader = cmd2.ExecuteReader
+                                        If dr2.Read Then
+                                            If dr2("CVE_ESQ") > 0 Then
+                                                TCVE_ESQIMPU.Text = dr2("CVE_ESQ")
+                                                LtEsquema.Text = dr2("DES")
+                                            Else
+                                                TCVE_ESQIMPU.Text = "0"
+                                                LtEsquema.Text = ""
                                             End If
-                                        End Using
+                                        End If
                                     End Using
-                                Catch ex As Exception
-                                    Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
-                                    MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
-                                End Try
-                            End If
+                                End Using
+                            Catch ex As Exception
+                                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                                MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+                            End Try
                         End If
+                    End If
 
-                    Catch ex As Exception
-                        Bitacora("15. " & ex.Message & vbNewLine & ex.StackTrace)
-                    End Try
+                Catch ex As Exception
+                    Bitacora("15. " & ex.Message & vbNewLine & ex.StackTrace)
+                End Try
 
 
-                    DESPLEGAR_GASTOS_VIAJE(FCVE_VIAJE, dr("STATUS_VIA"))
+                DESPLEGAR_GASTOS_VIAJE(FCVE_VIAJE, dr("STATUS_VIA"))
 
-                    DESPLEGAR_GASTOS_VALES(FCVE_VIAJE, dr("STATUS_VALE"))
+                DESPLEGAR_GASTOS_VALES(FCVE_VIAJE, dr("STATUS_VALE"))
 
-                    'AQUI  ESTABA EL ERROR
-                    DESPLEGAR_MERCANCIAS(FCVE_VIAJE)
+                'AQUI  ESTABA EL ERROR
+                DESPLEGAR_MERCANCIAS(FCVE_VIAJE)
 
-                    DESPLEGAR_ADIC(FCVE_VIAJE)
-                    DESPLEGAR_CONCEP_PAR(FCVE_VIAJE)
+                DESPLEGAR_ADIC(FCVE_VIAJE)
+                DESPLEGAR_CONCEP_PAR(FCVE_VIAJE)
 
-                    DESPLEGAR_CARGAS(FCVE_VIAJE)
+                DESPLEGAR_CARGAS(FCVE_VIAJE)
 
-                    CARGAR_ABONOS_ESCENARIO3(FCVE_VIAJE)
+                CARGAR_ABONOS_ESCENARIO3(FCVE_VIAJE)
 
-                Else
-                    'BUSCA SI NO EXISTE EN LA TABLA GCASIGNACION_VIAJE 
-                    'LtCVE_VIAJE.Text = SIGUIENTE_FOLIO_VIAJE(SERIE_A, FOLIO_A)
-                    'LtCVE_VIAJE.Tag = ""
-                    'Ltviaje2.Text = LtCVE_VIAJE.Text
-                    MsgBox("1. Viaje inexistente, verifique por favor")
+            Else
+                'BUSCA SI NO EXISTE EN LA TABLA GCASIGNACION_VIAJE 
+                'LtCVE_VIAJE.Text = SIGUIENTE_FOLIO_VIAJE(SERIE_A, FOLIO_A)
+                'LtCVE_VIAJE.Tag = ""
+                'Ltviaje2.Text = LtCVE_VIAJE.Text
+                MsgBox("1. Viaje inexistente, verifique por favor")
                 TFOLIO_VIAJE.Value = ""
             End If
             dr.Close()
@@ -11604,6 +11611,8 @@ Public Class FrmAsigViajeBuenoAE
                     End Using
                 End Using
                 TCLAVE_O.Text = ""
+                TCLAVE_O.Enabled = False
+                BtnCLAVE_REM.Enabled = False
             Else
                 LtNombre1.Text = ""
                 LtAliasO.Text = ""
@@ -11620,6 +11629,9 @@ Public Class FrmAsigViajeBuenoAE
                 LtAliasO.Text = LtAliasO.Tag
                 LtPlanta.Text = LtPlanta.Tag
                 LtNota.Text = LtNota.Tag
+                TCLAVE_O.Enabled = True
+                BtnCLAVE_REM.Enabled = True
+
             End If
 
         Catch ex As Exception

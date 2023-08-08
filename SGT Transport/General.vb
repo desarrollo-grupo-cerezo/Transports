@@ -358,28 +358,7 @@ Module General
             Bitacora("1. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
-    Public Sub EXPORTAR_EXCEL_TRANSPORT(FFG As C1FlexGrid, FNOMBRE_EXCEL As String)
-        Try
-            Try
-                If Not Directory.Exists(RUTA_EXCEL) Then
-                    Directory.CreateDirectory(RUTA_EXCEL)
-                End If
-            Catch ex As Exception
-                RUTA_EXCEL = Application.StartupPath
-            End Try
 
-            If EXPORTAR_COMO_CSV = 0 Then
-                FFG.SaveExcel(RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".xls", FileFlags.IncludeFixedCells)
-                Process.Start(RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".xls")
-            Else
-                FFG.SaveGrid(RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".csv", FileFormatEnum.TextComma, FileFlags.AsDisplayed Or FileFlags.IncludeFixedCells)
-                Process.Start(RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".csv")
-            End If
-        Catch ex As Exception
-            MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".xls")
-            Bitacora("12. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".xls")
-        End Try
-    End Sub
     Sub CREA_RUTA_XLS()
         Try
             If RUTA_X_USUARIO = 1 Then
@@ -930,8 +909,10 @@ Module General
                 MacAdres = GET_ID()
 
                 cmdSql.Connection = sqlNube
-                SQL = "SELECT ISNULL(RTAVTA,'') AS RV, ISNULL(PAG,'') AS PAGADO, ISNULL(FECHA_VENC,'') AS F_VENC " &
-                "FROM merkkaba_sa.REGLIC WHERE MAC = '" & MacAdres & "' AND SISTEMA = 'TransportCG'"
+
+                SQL = "SELECT ISNULL(RTAVTA,'') AS RV, ISNULL(PAG,'') AS PAGADO, ISNULL(FECHA_VENC,'') AS F_VENC
+                    FROM merkkaba_sa.REGLIC WHERE MAC = '" & MacAdres & "' AND SISTEMA = 'TransportCG'"
+
                 cmdSql.CommandText = SQL
 
                 reader = cmdSql.ExecuteReader
@@ -980,6 +961,8 @@ Module General
                     cmdSql.ExecuteNonQuery()
                 End If
                 sqlNube.Close()
+
+                BACKUPTXT("LIC", SQL, True)
 
                 Dim cmd As New SQLiteCommand(SQLConn)
                 cmd = SQLConn.CreateCommand
@@ -2164,7 +2147,7 @@ Module General
                     If Not IsNumeric(fCLAVE) Then fCLAVE = "0"
                     SQL = "SELECT DESCR AS DES FROM GCTIPO_OPERACION T WHERE ISNULL(STATUS,'A') = 'A' AND CVE_TIPO = " & fCLAVE
                 Case "tblcformapago"
-                    SQL = "SELECT formaPago AS DES FROM tblcformapago WHERE formaPago = '" & fCLAVE & "'"
+                    SQL = "SELECT descripcion AS DES FROM tblcformapago WHERE formaPago = '" & fCLAVE & "'"
                 Case "Sueldo operadores"
                     If Not IsNumeric(fCLAVE) Then fCLAVE = "0"
                     SQL = "SELECT CVE_SUOP AS DES FROM GCSUELDO_OPER WHERE CVE_SUOP = " & fCLAVE
@@ -2707,6 +2690,12 @@ Module General
                             LEFT JOIN GCPLAZAS P1 ON P1.CLAVE = C.CVE_PLAZA
                             WHERE C.CLAVE = '" & fCLAVE & "'"
                     End If
+
+                    SQL = "SELECT C.CLAVE, C.NOMBRE AS DES, C.DOMICILIO, ISNULL(C.MUNICIPIO,0) AS C_NOTA
+                          FROM GCCLIE_OP C
+                          WHERE C.CLAVE = '" & fCLAVE & "'
+                          ORDER BY C.CLAVE"
+
             End Select
             CADENA = ""
             If SQL.Trim.Length > 0 Then
@@ -2857,9 +2846,13 @@ Module General
                         Var4 = Format(dr.ReadNullAsEmptyDecimal("IMPORTE"), "###,###,##0.00")
                     End If
                     If fTABLA = "Cliente operativo" Then
-                        Var6 = dr("PLAZA") 'plaza ciudad
-                        Var7 = dr("DOMI") 'domicilio cliente op
-                        Var8 = dr("C_PLAZA") 'CVE_PLAZA
+                        'SELECT C.CLAVE, C.NOMBRE, C.DOMICILIO, ISNULL(C.NOTA,0) AS C_NOTA
+                        'From GCCLIE_OP C
+                        'WHERE C.STATUS = 'A' ORDER BY C.CLAVE"
+                        Var4 = dr("CLAVE") 'CLAVE 
+                        Var5 = dr("DES") 'nombre cliente operativo
+                        Var6 = dr("C_NOTA") 'plaza ciudad
+                        Var7 = dr("DOMICILIO") 'domicilio cliente op
                     End If
                     If fTABLA = "ConcSAT" Then
                         Var6 = dr("NUM_CPTO")
@@ -4077,7 +4070,7 @@ Module General
             End If
             Var6 = ""
 
-            SQL = "SELECT UNIDAD FROM GCLLANTAS WHERE CVE_LLANTA = " & FCVE_LLANTA & "'"
+            SQL = "SELECT ISNULL(UNIDAD,'') AS CVE_MONTE FROM GCLLANTAS WHERE CVE_LLANTA = " & FCVE_LLANTA & "'"
 
             cmd.Connection = cnSAE
             cmd.CommandText = SQL
@@ -4095,6 +4088,40 @@ Module General
 
         Return ExistLlanta
     End Function
+
+    Public Function EXIST_NUM_ECONOMICO(FNUM_ECONOMICO As String) As String
+        Dim ExistLlanta As String = ""
+
+        Try
+            Dim cmd As New SqlCommand
+            Dim dr As SqlDataReader
+
+            If FNUM_ECONOMICO.Trim.Length = 0 Then
+                Return False
+            End If
+            Var6 = ""
+
+            SQL = "SELECT ISNULL(UNIDAD,'') AS CVE_MONTE FROM GCLLANTAS WHERE NUM_ECONOMICO = '" & FNUM_ECONOMICO & "'"
+
+            cmd.Connection = cnSAE
+            cmd.CommandText = SQL
+            dr = cmd.ExecuteReader
+            If dr.Read Then
+                ExistLlanta = dr("CVE_MONTE")
+                If ExistLlanta.Trim.Length = 0 Then
+                    ExistLlanta = "Existe pero no tiene unidad asignada"
+                End If
+            End If
+            dr.Close()
+
+        Catch ex As Exception
+            Bitacora("475. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("475. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Return ExistLlanta
+    End Function
+
 
     Public Function Closo_Form_Open(fFrm As Form)
         Dim SiOpen As Boolean
@@ -6294,5 +6321,61 @@ Module General
 
         Return Descr
     End Function
+
+    Public Sub EXPORTAR_EXCEL_TRANSPORT(FFG As C1FlexGrid, FNOMBRE_EXCEL As String, Optional ByVal SoloColumnasVisibles As Boolean = False)
+        Try
+            Try
+                If Not Directory.Exists(RUTA_EXCEL) Then
+                    Directory.CreateDirectory(RUTA_EXCEL)
+                End If
+            Catch ex As Exception
+                RUTA_EXCEL = Application.StartupPath
+            End Try
+
+            If EXPORTAR_COMO_CSV = 0 Then
+                If SoloColumnasVisibles Then
+                    FFG.SaveExcel(RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".xls", FileFlags.VisibleOnly)
+                Else
+                    FFG.SaveExcel(RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".xls", FileFlags.IncludeFixedCells)
+
+
+                End If
+
+                Process.Start(RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".xls")
+            Else
+                FFG.SaveGrid(RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".csv", FileFormatEnum.TextComma, IIf(SoloColumnasVisibles, FileFlags.VisibleOnly, FileFlags.AsDisplayed Or FileFlags.IncludeFixedCells))
+                Process.Start(RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".csv")
+            End If
+        Catch ex As Exception
+            MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".xls")
+            Bitacora("12. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & RUTA_EXCEL & "\" & FNOMBRE_EXCEL & ".xls")
+        End Try
+    End Sub
+
+    Public Sub Copia_Portapapeles_Grid(Flgd As C1FlexGrid, Rango As CellRange)
+        Dim StrCopy As String = ""
+
+        If Flgd.Rows.Count < Rango.r2 Or Flgd.Cols.Count < Rango.c2 Then Return
+
+        For i = Rango.r1 To Rango.r2
+            If Flgd.Rows(i).Visible = True Then
+                For j = Rango.c1 To Rango.c2
+
+                    If Flgd.Cols(j).Visible = True Then
+                        StrCopy = StrCopy & Flgd(i, j).ToString()
+
+                        If j <> Rango.c2 Then
+                            StrCopy = StrCopy & vbTab
+                        End If
+                    End If
+                Next
+
+                StrCopy = StrCopy & vbLf
+            End If
+        Next
+
+        Clipboard.SetDataObject(StrCopy)
+    End Sub
+
 End Module
 

@@ -21,6 +21,8 @@ Partial Class FrmParametros
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmParametros))
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.Tab1 = New C1.Win.C1Command.C1DockingTab()
+        Me.C1ThemeController1 = New C1.Win.C1Themes.C1ThemeController()
         Me.barDatosEmpresa = New System.Windows.Forms.ToolStripButton()
         Me.barParamGenerales = New System.Windows.Forms.ToolStripButton()
         Me.barClientes = New System.Windows.Forms.ToolStripButton()
@@ -32,8 +34,7 @@ Partial Class FrmParametros
         Me.BarSMTP = New System.Windows.Forms.ToolStripButton()
         Me.BarParamFacturaElec = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
-        Me.Tab1 = New C1.Win.C1Command.C1DockingTab()
-        Me.C1ThemeController1 = New C1.Win.C1Themes.C1ThemeController()
+        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
         Me.ToolStrip1.SuspendLayout()
         CType(Me.Tab1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.C1ThemeController1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -43,13 +44,35 @@ Partial Class FrmParametros
         '
         Me.ToolStrip1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Left
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.barDatosEmpresa, Me.barParamGenerales, Me.barClientes, Me.barProv, Me.barInvent, Me.barCompras, Me.barVentas, Me.barMontellano, Me.BarSMTP, Me.BarParamFacturaElec, Me.ToolStripButton1})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.barDatosEmpresa, Me.barParamGenerales, Me.barClientes, Me.barProv, Me.barInvent, Me.barCompras, Me.barVentas, Me.barMontellano, Me.BarSMTP, Me.BarParamFacturaElec, Me.ToolStripButton1, Me.ToolStripButton2})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(122, 620)
+        Me.ToolStrip1.Size = New System.Drawing.Size(122, 678)
         Me.ToolStrip1.TabIndex = 0
         Me.ToolStrip1.Text = "ToolStrip1"
         Me.C1ThemeController1.SetTheme(Me.ToolStrip1, "Office2010Blue")
+        '
+        'Tab1
+        '
+        Me.Tab1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Tab1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Tab1.CanCloseTabs = True
+        Me.Tab1.CanMoveTabs = True
+        Me.Tab1.CloseBox = C1.Win.C1Command.CloseBoxPositionEnum.AllPages
+        Me.Tab1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Tab1.HotTrack = True
+        Me.Tab1.Location = New System.Drawing.Point(122, 0)
+        Me.Tab1.Name = "Tab1"
+        Me.Tab1.SelectedIndex = 1
+        Me.Tab1.SelectedTabBold = True
+        Me.Tab1.ShowTabList = True
+        Me.Tab1.Size = New System.Drawing.Size(840, 678)
+        Me.Tab1.TabIndex = 4
+        Me.Tab1.TabSizeMode = C1.Win.C1Command.TabSizeModeEnum.Fit
+        Me.Tab1.TabsShowFocusCues = False
+        Me.Tab1.TabsSpacing = 2
+        Me.Tab1.TabStyle = C1.Win.C1Command.TabStyleEnum.Office2007
+        Me.C1ThemeController1.SetTheme(Me.Tab1, "Office2010Blue")
         '
         'barDatosEmpresa
         '
@@ -171,33 +194,21 @@ Partial Class FrmParametros
         Me.ToolStripButton1.Text = "Series CFDI"
         Me.ToolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'Tab1
+        'ToolStripButton2
         '
-        Me.Tab1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Tab1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Tab1.CanCloseTabs = True
-        Me.Tab1.CanMoveTabs = True
-        Me.Tab1.CloseBox = C1.Win.C1Command.CloseBoxPositionEnum.AllPages
-        Me.Tab1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Tab1.HotTrack = True
-        Me.Tab1.Location = New System.Drawing.Point(122, 0)
-        Me.Tab1.Name = "Tab1"
-        Me.Tab1.SelectedIndex = 1
-        Me.Tab1.SelectedTabBold = True
-        Me.Tab1.ShowTabList = True
-        Me.Tab1.Size = New System.Drawing.Size(840, 620)
-        Me.Tab1.TabIndex = 4
-        Me.Tab1.TabSizeMode = C1.Win.C1Command.TabSizeModeEnum.Fit
-        Me.Tab1.TabsShowFocusCues = False
-        Me.Tab1.TabsSpacing = 2
-        Me.Tab1.TabStyle = C1.Win.C1Command.TabStyleEnum.Office2007
-        Me.C1ThemeController1.SetTheme(Me.Tab1, "Office2010Blue")
+        Me.ToolStripButton2.Image = Global.SGT_Transport.My.Resources.Resources.AspelCOI_e
+        Me.ToolStripButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton2.Name = "ToolStripButton2"
+        Me.ToolStripButton2.Size = New System.Drawing.Size(119, 51)
+        Me.ToolStripButton2.Text = "Aspel COI"
+        Me.ToolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'FrmParametros
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(962, 620)
+        Me.ClientSize = New System.Drawing.Size(962, 678)
         Me.Controls.Add(Me.Tab1)
         Me.Controls.Add(Me.ToolStrip1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
@@ -232,4 +243,5 @@ Partial Class FrmParametros
     Friend WithEvents BarParamFacturaElec As ToolStripButton
     Friend WithEvents C1ThemeController1 As C1.Win.C1Themes.C1ThemeController
     Friend WithEvents ToolStripButton1 As ToolStripButton
+    Friend WithEvents ToolStripButton2 As ToolStripButton
 End Class

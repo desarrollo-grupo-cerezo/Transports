@@ -51,6 +51,16 @@ Partial Class FrmEsquemasAE
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.txCtaVtas1 = New System.Windows.Forms.TextBox()
+        Me.txCtaComp1 = New System.Windows.Forms.TextBox()
+        Me.txCtaComp2 = New System.Windows.Forms.TextBox()
+        Me.txCtaVtas2 = New System.Windows.Forms.TextBox()
+        Me.txCtaComp3 = New System.Windows.Forms.TextBox()
+        Me.txCtaVtas3 = New System.Windows.Forms.TextBox()
+        Me.txCtaComp4 = New System.Windows.Forms.TextBox()
+        Me.txCtaVtas4 = New System.Windows.Forms.TextBox()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TIMPUESTO2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TIMPUESTO1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -144,7 +154,7 @@ Partial Class FrmEsquemasAE
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.C1ToolBar1.Movable = False
         Me.C1ToolBar1.Name = "C1ToolBar1"
-        Me.C1ToolBar1.Size = New System.Drawing.Size(552, 43)
+        Me.C1ToolBar1.Size = New System.Drawing.Size(821, 43)
         Me.C1ToolBar1.Text = "C1ToolBar1"
         Me.C1ToolBar1.VisualStyle = C1.Win.C1Command.VisualStyle.Office2010Blue
         Me.C1ToolBar1.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
@@ -193,7 +203,7 @@ Partial Class FrmEsquemasAE
         Me.TIMPUESTO2.Location = New System.Drawing.Point(152, 215)
         Me.TIMPUESTO2.Name = "TIMPUESTO2"
         Me.TIMPUESTO2.Size = New System.Drawing.Size(92, 20)
-        Me.TIMPUESTO2.TabIndex = 4
+        Me.TIMPUESTO2.TabIndex = 6
         Me.TIMPUESTO2.Tag = Nothing
         Me.TIMPUESTO2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TIMPUESTO2.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
@@ -285,7 +295,7 @@ Partial Class FrmEsquemasAE
         Me.TIMPUESTO4.Location = New System.Drawing.Point(152, 283)
         Me.TIMPUESTO4.Name = "TIMPUESTO4"
         Me.TIMPUESTO4.Size = New System.Drawing.Size(92, 20)
-        Me.TIMPUESTO4.TabIndex = 8
+        Me.TIMPUESTO4.TabIndex = 14
         Me.TIMPUESTO4.Tag = Nothing
         Me.TIMPUESTO4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TIMPUESTO4.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
@@ -331,7 +341,7 @@ Partial Class FrmEsquemasAE
         Me.TIMPUESTO3.Location = New System.Drawing.Point(152, 249)
         Me.TIMPUESTO3.Name = "TIMPUESTO3"
         Me.TIMPUESTO3.Size = New System.Drawing.Size(92, 20)
-        Me.TIMPUESTO3.TabIndex = 6
+        Me.TIMPUESTO3.TabIndex = 10
         Me.TIMPUESTO3.Tag = Nothing
         Me.TIMPUESTO3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TIMPUESTO3.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
@@ -359,12 +369,12 @@ Partial Class FrmEsquemasAE
         Me.CboIMP2APLICA.ImagePadding = New System.Windows.Forms.Padding(0)
         Me.CboIMP2APLICA.ItemsDisplayMember = ""
         Me.CboIMP2APLICA.ItemsValueMember = ""
-        Me.CboIMP2APLICA.Location = New System.Drawing.Point(303, 215)
+        Me.CboIMP2APLICA.Location = New System.Drawing.Point(284, 215)
         Me.CboIMP2APLICA.Name = "CboIMP2APLICA"
         Me.CboIMP2APLICA.Size = New System.Drawing.Size(133, 20)
         Me.CboIMP2APLICA.Style.DropDownBackColor = System.Drawing.Color.White
         Me.CboIMP2APLICA.Style.DropDownBorderColor = System.Drawing.Color.Gainsboro
-        Me.CboIMP2APLICA.TabIndex = 5
+        Me.CboIMP2APLICA.TabIndex = 7
         Me.CboIMP2APLICA.Tag = Nothing
         Me.CboIMP2APLICA.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
@@ -380,7 +390,7 @@ Partial Class FrmEsquemasAE
         Me.CboIMP1APLICA.ImagePadding = New System.Windows.Forms.Padding(0)
         Me.CboIMP1APLICA.ItemsDisplayMember = ""
         Me.CboIMP1APLICA.ItemsValueMember = ""
-        Me.CboIMP1APLICA.Location = New System.Drawing.Point(303, 181)
+        Me.CboIMP1APLICA.Location = New System.Drawing.Point(284, 181)
         Me.CboIMP1APLICA.Name = "CboIMP1APLICA"
         Me.CboIMP1APLICA.Size = New System.Drawing.Size(133, 20)
         Me.CboIMP1APLICA.Style.DropDownBackColor = System.Drawing.Color.White
@@ -401,12 +411,12 @@ Partial Class FrmEsquemasAE
         Me.CboIMP4APLICA.ImagePadding = New System.Windows.Forms.Padding(0)
         Me.CboIMP4APLICA.ItemsDisplayMember = ""
         Me.CboIMP4APLICA.ItemsValueMember = ""
-        Me.CboIMP4APLICA.Location = New System.Drawing.Point(303, 283)
+        Me.CboIMP4APLICA.Location = New System.Drawing.Point(284, 283)
         Me.CboIMP4APLICA.Name = "CboIMP4APLICA"
         Me.CboIMP4APLICA.Size = New System.Drawing.Size(133, 20)
         Me.CboIMP4APLICA.Style.DropDownBackColor = System.Drawing.Color.White
         Me.CboIMP4APLICA.Style.DropDownBorderColor = System.Drawing.Color.Gainsboro
-        Me.CboIMP4APLICA.TabIndex = 9
+        Me.CboIMP4APLICA.TabIndex = 15
         Me.CboIMP4APLICA.Tag = Nothing
         Me.CboIMP4APLICA.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
@@ -422,12 +432,12 @@ Partial Class FrmEsquemasAE
         Me.CboIMP3APLICA.ImagePadding = New System.Windows.Forms.Padding(0)
         Me.CboIMP3APLICA.ItemsDisplayMember = ""
         Me.CboIMP3APLICA.ItemsValueMember = ""
-        Me.CboIMP3APLICA.Location = New System.Drawing.Point(303, 249)
+        Me.CboIMP3APLICA.Location = New System.Drawing.Point(284, 249)
         Me.CboIMP3APLICA.Name = "CboIMP3APLICA"
         Me.CboIMP3APLICA.Size = New System.Drawing.Size(133, 20)
         Me.CboIMP3APLICA.Style.DropDownBackColor = System.Drawing.Color.White
         Me.CboIMP3APLICA.Style.DropDownBorderColor = System.Drawing.Color.Gainsboro
-        Me.CboIMP3APLICA.TabIndex = 7
+        Me.CboIMP3APLICA.TabIndex = 11
         Me.CboIMP3APLICA.Tag = Nothing
         Me.CboIMP3APLICA.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
@@ -485,17 +495,135 @@ Partial Class FrmEsquemasAE
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(328, 153)
+        Me.Label8.Location = New System.Drawing.Point(309, 153)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(83, 16)
         Me.Label8.TabIndex = 380
         Me.Label8.Text = "Aplica sobre"
         '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(457, 153)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(140, 16)
+        Me.Label9.TabIndex = 382
+        Me.Label9.Text = "Cuenta Conrable Vtas."
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label10.Location = New System.Drawing.Point(634, 153)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(148, 16)
+        Me.Label10.TabIndex = 383
+        Me.Label10.Text = "Cuenta Contable Comp."
+        '
+        'txCtaVtas1
+        '
+        Me.txCtaVtas1.AcceptsReturn = True
+        Me.txCtaVtas1.AcceptsTab = True
+        Me.txCtaVtas1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCtaVtas1.Location = New System.Drawing.Point(449, 180)
+        Me.txCtaVtas1.MaxLength = 28
+        Me.txCtaVtas1.Name = "txCtaVtas1"
+        Me.txCtaVtas1.Size = New System.Drawing.Size(157, 22)
+        Me.txCtaVtas1.TabIndex = 4
+        '
+        'txCtaComp1
+        '
+        Me.txCtaComp1.AcceptsReturn = True
+        Me.txCtaComp1.AcceptsTab = True
+        Me.txCtaComp1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCtaComp1.Location = New System.Drawing.Point(630, 180)
+        Me.txCtaComp1.MaxLength = 28
+        Me.txCtaComp1.Name = "txCtaComp1"
+        Me.txCtaComp1.Size = New System.Drawing.Size(157, 22)
+        Me.txCtaComp1.TabIndex = 5
+        '
+        'txCtaComp2
+        '
+        Me.txCtaComp2.AcceptsReturn = True
+        Me.txCtaComp2.AcceptsTab = True
+        Me.txCtaComp2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCtaComp2.Location = New System.Drawing.Point(630, 214)
+        Me.txCtaComp2.MaxLength = 28
+        Me.txCtaComp2.Name = "txCtaComp2"
+        Me.txCtaComp2.Size = New System.Drawing.Size(157, 22)
+        Me.txCtaComp2.TabIndex = 9
+        '
+        'txCtaVtas2
+        '
+        Me.txCtaVtas2.AcceptsReturn = True
+        Me.txCtaVtas2.AcceptsTab = True
+        Me.txCtaVtas2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCtaVtas2.Location = New System.Drawing.Point(449, 214)
+        Me.txCtaVtas2.MaxLength = 28
+        Me.txCtaVtas2.Name = "txCtaVtas2"
+        Me.txCtaVtas2.Size = New System.Drawing.Size(157, 22)
+        Me.txCtaVtas2.TabIndex = 8
+        '
+        'txCtaComp3
+        '
+        Me.txCtaComp3.AcceptsReturn = True
+        Me.txCtaComp3.AcceptsTab = True
+        Me.txCtaComp3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCtaComp3.Location = New System.Drawing.Point(630, 248)
+        Me.txCtaComp3.MaxLength = 28
+        Me.txCtaComp3.Name = "txCtaComp3"
+        Me.txCtaComp3.Size = New System.Drawing.Size(157, 22)
+        Me.txCtaComp3.TabIndex = 13
+        '
+        'txCtaVtas3
+        '
+        Me.txCtaVtas3.AcceptsReturn = True
+        Me.txCtaVtas3.AcceptsTab = True
+        Me.txCtaVtas3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCtaVtas3.Location = New System.Drawing.Point(449, 249)
+        Me.txCtaVtas3.MaxLength = 28
+        Me.txCtaVtas3.Name = "txCtaVtas3"
+        Me.txCtaVtas3.Size = New System.Drawing.Size(157, 22)
+        Me.txCtaVtas3.TabIndex = 12
+        '
+        'txCtaComp4
+        '
+        Me.txCtaComp4.AcceptsReturn = True
+        Me.txCtaComp4.AcceptsTab = True
+        Me.txCtaComp4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCtaComp4.Location = New System.Drawing.Point(630, 282)
+        Me.txCtaComp4.MaxLength = 28
+        Me.txCtaComp4.Name = "txCtaComp4"
+        Me.txCtaComp4.Size = New System.Drawing.Size(157, 22)
+        Me.txCtaComp4.TabIndex = 17
+        '
+        'txCtaVtas4
+        '
+        Me.txCtaVtas4.AcceptsReturn = True
+        Me.txCtaVtas4.AcceptsTab = True
+        Me.txCtaVtas4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCtaVtas4.Location = New System.Drawing.Point(449, 282)
+        Me.txCtaVtas4.MaxLength = 28
+        Me.txCtaVtas4.Name = "txCtaVtas4"
+        Me.txCtaVtas4.Size = New System.Drawing.Size(157, 22)
+        Me.txCtaVtas4.TabIndex = 16
+        '
         'FrmEsquemasAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(552, 375)
+        Me.ClientSize = New System.Drawing.Size(821, 345)
+        Me.Controls.Add(Me.txCtaComp4)
+        Me.Controls.Add(Me.txCtaVtas4)
+        Me.Controls.Add(Me.txCtaComp3)
+        Me.Controls.Add(Me.txCtaVtas3)
+        Me.Controls.Add(Me.txCtaComp2)
+        Me.Controls.Add(Me.txCtaVtas2)
+        Me.Controls.Add(Me.txCtaComp1)
+        Me.Controls.Add(Me.txCtaVtas1)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label3)
@@ -567,4 +695,14 @@ Partial Class FrmEsquemasAE
     Friend WithEvents Label6 As Label
     Friend WithEvents Label7 As Label
     Friend WithEvents Label8 As Label
+    Friend WithEvents Label10 As Label
+    Friend WithEvents Label9 As Label
+    Friend WithEvents txCtaComp4 As TextBox
+    Friend WithEvents txCtaVtas4 As TextBox
+    Friend WithEvents txCtaComp3 As TextBox
+    Friend WithEvents txCtaVtas3 As TextBox
+    Friend WithEvents txCtaComp2 As TextBox
+    Friend WithEvents txCtaVtas2 As TextBox
+    Friend WithEvents txCtaComp1 As TextBox
+    Friend WithEvents txCtaVtas1 As TextBox
 End Class

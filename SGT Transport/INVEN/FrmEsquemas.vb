@@ -82,7 +82,7 @@ Public Class FrmEsquemas
             Fg.Rows.Count = 1
 
             Do While dr.Read
-                Fg.AddItem("" & vbTab & dr("CVE_ESQIMPU") & vbTab & vbTab & dr("STATUS") & dr("DESCRIPESQ") & vbTab & dr("IMPUESTO1") & vbTab &
+                Fg.AddItem("" & vbTab & dr("CVE_ESQIMPU") & vbTab & dr("STATUS") & vbTab & dr("DESCRIPESQ") & vbTab & dr("IMPUESTO1") & vbTab &
                            dr("IMPUESTO2") & vbTab & dr("IMPUESTO3") & vbTab & dr("IMPUESTO4"))
             Loop
             dr.Close()

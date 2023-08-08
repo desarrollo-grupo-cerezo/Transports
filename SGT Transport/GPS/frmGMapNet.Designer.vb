@@ -30,7 +30,6 @@ Partial Class frmGMapNet
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Pic = New System.Windows.Forms.PictureBox()
-        Me.MP1 = New GMap.NET.WindowsForms.GMapControl()
         Me.Lt = New System.Windows.Forms.Label()
         Me.ToolStrip1.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -136,29 +135,6 @@ Partial Class frmGMapNet
         '
         'MP1
         '
-        Me.MP1.Bearing = 0!
-        Me.MP1.CanDragMap = True
-        Me.MP1.EmptyTileColor = System.Drawing.Color.Navy
-        Me.MP1.GrayScaleMode = False
-        Me.MP1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow
-        Me.MP1.LevelsKeepInMemmory = 5
-        Me.MP1.Location = New System.Drawing.Point(0, 54)
-        Me.MP1.MarkersEnabled = True
-        Me.MP1.MaxZoom = 2
-        Me.MP1.MinZoom = 2
-        Me.MP1.MouseWheelZoomEnabled = True
-        Me.MP1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter
-        Me.MP1.Name = "MP1"
-        Me.MP1.NegativeMode = False
-        Me.MP1.PolygonsEnabled = True
-        Me.MP1.RetryLoadTile = 0
-        Me.MP1.RoutesEnabled = True
-        Me.MP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.[Integer]
-        Me.MP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(CType(CType(33, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(105, Byte), Integer), CType(CType(225, Byte), Integer))
-        Me.MP1.ShowTileGridLines = False
-        Me.MP1.Size = New System.Drawing.Size(882, 374)
-        Me.MP1.TabIndex = 3
-        Me.MP1.Zoom = 0R
         '
         'Lt
         '
@@ -176,7 +152,6 @@ Partial Class frmGMapNet
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1122, 638)
         Me.Controls.Add(Me.Lt)
-        Me.Controls.Add(Me.MP1)
         Me.Controls.Add(Me.Panel1)
         Me.Name = "frmGMapNet"
         Me.Text = "GMapNet"
@@ -200,7 +175,6 @@ Partial Class frmGMapNet
     Friend WithEvents Pic As PictureBox
     Friend WithEvents barTrace As ToolStripButton
     Friend WithEvents barRuta As ToolStripButton
-    Friend WithEvents MP1 As GMap.NET.WindowsForms.GMapControl
     Friend WithEvents barNew1 As ToolStripButton
     Friend WithEvents Lt As Label
     Friend WithEvents BarTodasUnidades As ToolStripButton

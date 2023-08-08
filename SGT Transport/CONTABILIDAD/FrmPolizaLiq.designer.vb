@@ -23,48 +23,38 @@ Partial Class FrmPolizaLiq
         Me.MenuHolder = New C1.Win.C1Command.C1CommandHolder()
         Me.BarDesplegar = New C1.Win.C1Command.C1Command()
         Me.BarGenPoliza = New C1.Win.C1Command.C1Command()
-        Me.BarExcel2 = New C1.Win.C1Command.C1Command()
         Me.BarExcel = New C1.Win.C1Command.C1Command()
         Me.BarCarpeta = New C1.Win.C1Command.C1Command()
         Me.BarSalir = New C1.Win.C1Command.C1Command()
         Me.C1ToolBar1 = New C1.Win.C1Command.C1ToolBar()
         Me.LkDesplegar = New C1.Win.C1Command.C1CommandLink()
         Me.LkGenPoliza = New C1.Win.C1Command.C1CommandLink()
-        Me.LkExcel2 = New C1.Win.C1Command.C1CommandLink()
         Me.LkExcel = New C1.Win.C1Command.C1CommandLink()
         Me.LkCarpeta = New C1.Win.C1Command.C1CommandLink()
         Me.LkSalir = New C1.Win.C1Command.C1CommandLink()
-        Me.tPOLIZA = New System.Windows.Forms.TextBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.BtnOper = New System.Windows.Forms.Button()
+        Me.TCVE_OPER = New System.Windows.Forms.TextBox()
+        Me.LtOper = New System.Windows.Forms.Label()
+        Me.chkSinPoliza = New System.Windows.Forms.CheckBox()
+        Me.TPOLIZA = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.LtNUm = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.F1 = New C1.Win.Calendar.C1DateEdit()
         Me.F2 = New C1.Win.Calendar.C1DateEdit()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.C1FlexGridSearchPanel1 = New C1.Win.C1FlexGrid.C1FlexGridSearchPanel()
         Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
-        Me.FgF = New C1.Win.C1FlexGrid.C1FlexGrid()
-        Me.BtnFiltrar = New C1.Win.C1Input.C1Button()
-        Me.SplitM = New C1.Win.C1SplitContainer.C1SplitContainer()
-        Me.Split1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
-        Me.Split2 = New C1.Win.C1SplitContainer.C1SplitterPanel()
-        Me.Split3 = New C1.Win.C1SplitContainer.C1SplitterPanel()
-        Me.C1SplitContainer1 = New C1.Win.C1SplitContainer.C1SplitContainer()
-        Me.SplitterM2 = New C1.Win.C1SplitContainer.C1SplitterPanel()
+        Me.BarCopy = New C1.Win.C1Command.C1Command()
+        Me.C1CommandLink1 = New C1.Win.C1Command.C1CommandLink()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel1.SuspendLayout()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.F2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FgF, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnFiltrar, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SplitM, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitM.SuspendLayout()
-        Me.Split1.SuspendLayout()
-        Me.Split2.SuspendLayout()
-        Me.Split3.SuspendLayout()
-        CType(Me.C1SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.C1SplitContainer1.SuspendLayout()
-        Me.SplitterM2.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuHolder
@@ -72,15 +62,15 @@ Partial Class FrmPolizaLiq
         Me.MenuHolder.Animation = C1.Win.C1Command.C1AnimationEnum.[On]
         Me.MenuHolder.Commands.Add(Me.BarDesplegar)
         Me.MenuHolder.Commands.Add(Me.BarGenPoliza)
-        Me.MenuHolder.Commands.Add(Me.BarExcel2)
         Me.MenuHolder.Commands.Add(Me.BarExcel)
         Me.MenuHolder.Commands.Add(Me.BarCarpeta)
         Me.MenuHolder.Commands.Add(Me.BarSalir)
+        Me.MenuHolder.Commands.Add(Me.BarCopy)
         Me.MenuHolder.Owner = Me
         '
         'BarDesplegar
         '
-        Me.BarDesplegar.Image = Global.SGT_Transport.My.Resources.Resources.desplegar
+        Me.BarDesplegar.Image = Global.SGT_Transport.My.Resources.Resources.traza4
         Me.BarDesplegar.Name = "BarDesplegar"
         Me.BarDesplegar.ShortcutText = ""
         Me.BarDesplegar.ShowShortcut = False
@@ -89,24 +79,17 @@ Partial Class FrmPolizaLiq
         '
         'BarGenPoliza
         '
-        Me.BarGenPoliza.Image = Global.SGT_Transport.My.Resources.Resources.engrane1
+        Me.BarGenPoliza.Image = Global.SGT_Transport.My.Resources.Resources.poliza6
         Me.BarGenPoliza.Name = "BarGenPoliza"
         Me.BarGenPoliza.ShortcutText = ""
         Me.BarGenPoliza.Text = "Generar poliza"
-        '
-        'BarExcel2
-        '
-        Me.BarExcel2.Image = Global.SGT_Transport.My.Resources.Resources.xls
-        Me.BarExcel2.Name = "BarExcel2"
-        Me.BarExcel2.ShortcutText = ""
-        Me.BarExcel2.Text = "Excel 1"
         '
         'BarExcel
         '
         Me.BarExcel.Image = Global.SGT_Transport.My.Resources.Resources.xls
         Me.BarExcel.Name = "BarExcel"
         Me.BarExcel.ShortcutText = ""
-        Me.BarExcel.Text = "Excel 2"
+        Me.BarExcel.Text = "Excel"
         '
         'BarCarpeta
         '
@@ -138,13 +121,12 @@ Partial Class FrmPolizaLiq
         Me.C1ToolBar1.ButtonLookVert = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.C1ToolBar1.ButtonWidth = 90
         Me.C1ToolBar1.CommandHolder = Nothing
-        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkDesplegar, Me.LkGenPoliza, Me.LkExcel2, Me.LkExcel, Me.LkCarpeta, Me.LkSalir})
+        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkDesplegar, Me.LkGenPoliza, Me.LkExcel, Me.C1CommandLink1, Me.LkCarpeta, Me.LkSalir})
         Me.C1ToolBar1.Dock = System.Windows.Forms.DockStyle.Top
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
-        Me.C1ToolBar1.MinButtonSize = 30
         Me.C1ToolBar1.Movable = False
         Me.C1ToolBar1.Name = "C1ToolBar1"
-        Me.C1ToolBar1.Size = New System.Drawing.Size(1131, 50)
+        Me.C1ToolBar1.Size = New System.Drawing.Size(1193, 45)
         Me.C1ToolBar1.Text = "C1ToolBar1"
         Me.C1ToolBar1.VisualStyle = C1.Win.C1Command.VisualStyle.Office2010Blue
         Me.C1ToolBar1.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
@@ -158,22 +140,15 @@ Partial Class FrmPolizaLiq
         'LkGenPoliza
         '
         Me.LkGenPoliza.Command = Me.BarGenPoliza
-        Me.LkGenPoliza.Delimiter = True
         Me.LkGenPoliza.SortOrder = 1
         Me.LkGenPoliza.Text = "Generar poliza"
-        '
-        'LkExcel2
-        '
-        Me.LkExcel2.Command = Me.BarExcel2
-        Me.LkExcel2.SortOrder = 2
-        Me.LkExcel2.Text = "Excel 1"
         '
         'LkExcel
         '
         Me.LkExcel.Command = Me.BarExcel
         Me.LkExcel.Delimiter = True
-        Me.LkExcel.SortOrder = 3
-        Me.LkExcel.Text = "Excel 2"
+        Me.LkExcel.SortOrder = 2
+        Me.LkExcel.Text = "Excel"
         '
         'LkCarpeta
         '
@@ -191,33 +166,118 @@ Partial Class FrmPolizaLiq
         Me.LkSalir.SortOrder = 5
         Me.LkSalir.ToolTipText = "SALIR"
         '
-        'tPOLIZA
+        'Panel1
         '
-        Me.tPOLIZA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tPOLIZA.Location = New System.Drawing.Point(529, 28)
-        Me.tPOLIZA.Name = "tPOLIZA"
-        Me.tPOLIZA.Size = New System.Drawing.Size(466, 22)
-        Me.tPOLIZA.TabIndex = 4
+        Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.Label6)
+        Me.Panel1.Controls.Add(Me.BtnOper)
+        Me.Panel1.Controls.Add(Me.TCVE_OPER)
+        Me.Panel1.Controls.Add(Me.LtOper)
+        Me.Panel1.Controls.Add(Me.chkSinPoliza)
+        Me.Panel1.Controls.Add(Me.TPOLIZA)
+        Me.Panel1.Controls.Add(Me.Label4)
+        Me.Panel1.Controls.Add(Me.LtNUm)
+        Me.Panel1.Controls.Add(Me.Label1)
+        Me.Panel1.Controls.Add(Me.F1)
+        Me.Panel1.Controls.Add(Me.F2)
+        Me.Panel1.Controls.Add(Me.Label2)
+        Me.Panel1.Controls.Add(Me.Label3)
+        Me.Panel1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Panel1.Location = New System.Drawing.Point(7, 51)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(1138, 78)
+        Me.Panel1.TabIndex = 338
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(302, 8)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(59, 15)
+        Me.Label6.TabIndex = 347
+        Me.Label6.Text = "Operador"
+        '
+        'BtnOper
+        '
+        Me.BtnOper.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnOper.BackColor = System.Drawing.Color.Transparent
+        Me.BtnOper.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnOper.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.BtnOper.Image = CType(resources.GetObject("BtnOper.Image"), System.Drawing.Image)
+        Me.BtnOper.Location = New System.Drawing.Point(376, 25)
+        Me.BtnOper.Name = "BtnOper"
+        Me.BtnOper.Size = New System.Drawing.Size(24, 23)
+        Me.BtnOper.TabIndex = 3
+        Me.BtnOper.UseVisualStyleBackColor = True
+        '
+        'TCVE_OPER
+        '
+        Me.TCVE_OPER.AcceptsReturn = True
+        Me.TCVE_OPER.AcceptsTab = True
+        Me.TCVE_OPER.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCVE_OPER.ForeColor = System.Drawing.Color.Black
+        Me.TCVE_OPER.Location = New System.Drawing.Point(305, 26)
+        Me.TCVE_OPER.Name = "TCVE_OPER"
+        Me.TCVE_OPER.Size = New System.Drawing.Size(70, 21)
+        Me.TCVE_OPER.TabIndex = 2
+        '
+        'LtOper
+        '
+        Me.LtOper.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.LtOper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LtOper.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LtOper.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.LtOper.Location = New System.Drawing.Point(401, 26)
+        Me.LtOper.Name = "LtOper"
+        Me.LtOper.Size = New System.Drawing.Size(319, 20)
+        Me.LtOper.TabIndex = 345
+        '
+        'chkSinPoliza
+        '
+        Me.chkSinPoliza.AutoSize = True
+        Me.chkSinPoliza.Location = New System.Drawing.Point(22, 51)
+        Me.chkSinPoliza.Name = "chkSinPoliza"
+        Me.chkSinPoliza.Size = New System.Drawing.Size(187, 19)
+        Me.chkSinPoliza.TabIndex = 5
+        Me.chkSinPoliza.Text = "Ver solo pendientes de póliza"
+        Me.chkSinPoliza.UseVisualStyleBackColor = True
+        '
+        'TPOLIZA
+        '
+        Me.TPOLIZA.Location = New System.Drawing.Point(740, 25)
+        Me.TPOLIZA.Name = "TPOLIZA"
+        Me.TPOLIZA.Size = New System.Drawing.Size(376, 21)
+        Me.TPOLIZA.TabIndex = 4
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(526, 7)
+        Me.Label4.Location = New System.Drawing.Point(737, 8)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(144, 16)
+        Me.Label4.Size = New System.Drawing.Size(133, 15)
         Me.Label4.TabIndex = 338
         Me.Label4.Text = "Nombre poliza modelo"
         '
         'LtNUm
         '
         Me.LtNUm.AutoSize = True
-        Me.LtNUm.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtNUm.Location = New System.Drawing.Point(600, 18)
+        Me.LtNUm.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LtNUm.Location = New System.Drawing.Point(489, 55)
         Me.LtNUm.Name = "LtNUm"
-        Me.LtNUm.Size = New System.Drawing.Size(63, 16)
+        Me.LtNUm.Size = New System.Drawing.Size(63, 15)
         Me.LtNUm.TabIndex = 339
         Me.LtNUm.Text = "________"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(19, 8)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(100, 15)
+        Me.Label1.TabIndex = 309
+        Me.Label1.Text = "Rango de fechas"
         '
         'F1
         '
@@ -229,7 +289,7 @@ Partial Class FrmPolizaLiq
         Me.F1.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.F1.Font = New System.Drawing.Font("Tahoma", 9.0!)
         Me.F1.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F1.Location = New System.Drawing.Point(61, 26)
+        Me.F1.Location = New System.Drawing.Point(51, 26)
         Me.F1.Name = "F1"
         Me.F1.Size = New System.Drawing.Size(100, 20)
         Me.F1.TabIndex = 0
@@ -248,7 +308,7 @@ Partial Class FrmPolizaLiq
         Me.F2.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.F2.Font = New System.Drawing.Font("Tahoma", 9.0!)
         Me.F2.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F2.Location = New System.Drawing.Point(190, 26)
+        Me.F2.Location = New System.Drawing.Point(180, 26)
         Me.F2.Name = "F2"
         Me.F2.Size = New System.Drawing.Size(100, 20)
         Me.F2.TabIndex = 1
@@ -261,7 +321,7 @@ Partial Class FrmPolizaLiq
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(29, 28)
+        Me.Label2.Location = New System.Drawing.Point(19, 29)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(26, 15)
         Me.Label2.TabIndex = 305
@@ -271,7 +331,7 @@ Partial Class FrmPolizaLiq
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(167, 28)
+        Me.Label3.Location = New System.Drawing.Point(157, 29)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(17, 15)
         Me.Label3.TabIndex = 307
@@ -280,162 +340,64 @@ Partial Class FrmPolizaLiq
         'C1FlexGridSearchPanel1
         '
         Me.C1FlexGridSearchPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(817, 4)
+        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(829, 3)
         Me.C1FlexGridSearchPanel1.Name = "C1FlexGridSearchPanel1"
         Me.C1FlexGridSearchPanel1.SearchDelay = 400
         Me.C1FlexGridSearchPanel1.SearchMode = C1.Win.C1FlexGrid.SearchMode.Always
-        Me.C1FlexGridSearchPanel1.Size = New System.Drawing.Size(209, 39)
+        Me.C1FlexGridSearchPanel1.Size = New System.Drawing.Size(295, 39)
         Me.C1FlexGridSearchPanel1.TabIndex = 340
         Me.C1FlexGridSearchPanel1.Watermark = "Texto a buscar"
         '
         'Fg
         '
         Me.Fg.AllowEditing = False
-        Me.Fg.AllowFiltering = True
+        Me.Fg.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None
         Me.Fg.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
         Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
-        Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
-        Me.Fg.Location = New System.Drawing.Point(64, 27)
+        Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
+        Me.Fg.Location = New System.Drawing.Point(7, 135)
         Me.Fg.Name = "Fg"
-        Me.Fg.Rows.DefaultSize = 22
-        Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row
+        Me.Fg.Rows.DefaultSize = 19
+        Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.ListBox
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg.Size = New System.Drawing.Size(471, 203)
+        Me.Fg.Size = New System.Drawing.Size(923, 301)
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 341
-        Me.Fg.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Custom
         '
-        'FgF
+        'BarCopy
         '
-        Me.FgF.AllowFiltering = True
-        Me.FgF.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
-        Me.FgF.ColumnInfo = resources.GetString("FgF.ColumnInfo")
-        Me.FgF.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FgF.Location = New System.Drawing.Point(36, 48)
-        Me.FgF.Name = "FgF"
-        Me.FgF.Rows.DefaultSize = 22
-        Me.FgF.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row
-        Me.FgF.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.FgF.Size = New System.Drawing.Size(384, 162)
-        Me.FgF.StyleInfo = resources.GetString("FgF.StyleInfo")
-        Me.FgF.TabIndex = 343
-        Me.FgF.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Custom
+        Me.BarCopy.Image = Global.SGT_Transport.My.Resources.Resources.images3
+        Me.BarCopy.Name = "BarCopy"
+        Me.BarCopy.ShortcutText = ""
+        Me.BarCopy.Text = "Copiar"
         '
-        'BtnFiltrar
+        'C1CommandLink1
         '
-        Me.BtnFiltrar.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnFiltrar.Location = New System.Drawing.Point(312, 21)
-        Me.BtnFiltrar.Name = "BtnFiltrar"
-        Me.BtnFiltrar.Size = New System.Drawing.Size(85, 29)
-        Me.BtnFiltrar.TabIndex = 344
-        Me.BtnFiltrar.Text = "Filtrar"
-        Me.BtnFiltrar.UseVisualStyleBackColor = True
-        Me.BtnFiltrar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'SplitM
-        '
-        Me.SplitM.AutoSizeElement = C1.Framework.AutoSizeElement.Both
-        Me.SplitM.BackColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer))
-        Me.SplitM.BorderWidth = 1
-        Me.SplitM.CollapsingCueColor = System.Drawing.Color.FromArgb(CType(CType(133, Byte), Integer), CType(CType(133, Byte), Integer), CType(CType(150, Byte), Integer))
-        Me.SplitM.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.SplitM.Location = New System.Drawing.Point(12, 56)
-        Me.SplitM.Name = "SplitM"
-        Me.SplitM.Panels.Add(Me.Split1)
-        Me.SplitM.Panels.Add(Me.Split2)
-        Me.SplitM.Panels.Add(Me.Split3)
-        Me.SplitM.Size = New System.Drawing.Size(1054, 433)
-        Me.SplitM.TabIndex = 346
-        '
-        'Split1
-        '
-        Me.Split1.Controls.Add(Me.tPOLIZA)
-        Me.Split1.Controls.Add(Me.BtnFiltrar)
-        Me.Split1.Controls.Add(Me.F1)
-        Me.Split1.Controls.Add(Me.Label2)
-        Me.Split1.Controls.Add(Me.Label4)
-        Me.Split1.Controls.Add(Me.Label3)
-        Me.Split1.Controls.Add(Me.F2)
-        Me.Split1.Height = 63
-        Me.Split1.Location = New System.Drawing.Point(1, 1)
-        Me.Split1.Name = "Split1"
-        Me.Split1.Size = New System.Drawing.Size(1052, 63)
-        Me.Split1.SizeRatio = 14.754R
-        Me.Split1.TabIndex = 0
-        '
-        'Split2
-        '
-        Me.Split2.Controls.Add(Me.FgF)
-        Me.Split2.Dock = C1.Win.C1SplitContainer.PanelDockStyle.Left
-        Me.Split2.Height = 364
-        Me.Split2.Location = New System.Drawing.Point(1, 68)
-        Me.Split2.Name = "Split2"
-        Me.Split2.Size = New System.Drawing.Size(450, 364)
-        Me.Split2.SizeRatio = 42.939R
-        Me.Split2.TabIndex = 1
-        Me.Split2.Width = 450
-        '
-        'Split3
-        '
-        Me.Split3.Controls.Add(Me.C1SplitContainer1)
-        Me.Split3.Height = 364
-        Me.Split3.Location = New System.Drawing.Point(455, 68)
-        Me.Split3.Name = "Split3"
-        Me.Split3.Size = New System.Drawing.Size(598, 364)
-        Me.Split3.TabIndex = 2
-        '
-        'C1SplitContainer1
-        '
-        Me.C1SplitContainer1.AutoSizeElement = C1.Framework.AutoSizeElement.Both
-        Me.C1SplitContainer1.CollapsingCueColor = System.Drawing.Color.FromArgb(CType(CType(133, Byte), Integer), CType(CType(133, Byte), Integer), CType(CType(150, Byte), Integer))
-        Me.C1SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.C1SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.C1SplitContainer1.Name = "C1SplitContainer1"
-        Me.C1SplitContainer1.Panels.Add(Me.SplitterM2)
-        Me.C1SplitContainer1.Size = New System.Drawing.Size(598, 364)
-        Me.C1SplitContainer1.TabIndex = 0
-        '
-        'SplitterM2
-        '
-        Me.SplitterM2.Controls.Add(Me.Fg)
-        Me.SplitterM2.Dock = C1.Win.C1SplitContainer.PanelDockStyle.Left
-        Me.SplitterM2.Location = New System.Drawing.Point(0, 0)
-        Me.SplitterM2.Name = "SplitterM2"
-        Me.SplitterM2.Size = New System.Drawing.Size(598, 364)
-        Me.SplitterM2.TabIndex = 0
-        Me.SplitterM2.Width = 598
+        Me.C1CommandLink1.Command = Me.BarCopy
+        Me.C1CommandLink1.Delimiter = True
+        Me.C1CommandLink1.SortOrder = 3
         '
         'FrmPolizaLiq
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1131, 580)
-        Me.Controls.Add(Me.SplitM)
-        Me.Controls.Add(Me.LtNUm)
+        Me.ClientSize = New System.Drawing.Size(1193, 524)
+        Me.Controls.Add(Me.Fg)
         Me.Controls.Add(Me.C1FlexGridSearchPanel1)
+        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.C1ToolBar1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "FrmPolizaLiq"
-        Me.Text = "Poliza Liquidaciones"
+        Me.Text = "FrmPolizaVentas"
         Me.VisualStyleHolder = C1.Win.C1Ribbon.VisualStyle.Custom
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.F2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FgF, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnFiltrar, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SplitM, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitM.ResumeLayout(False)
-        Me.Split1.ResumeLayout(False)
-        Me.Split1.PerformLayout()
-        Me.Split2.ResumeLayout(False)
-        Me.Split3.ResumeLayout(False)
-        CType(Me.C1SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.C1SplitContainer1.ResumeLayout(False)
-        Me.SplitterM2.ResumeLayout(False)
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 
@@ -451,23 +413,22 @@ Partial Class FrmPolizaLiq
     Friend WithEvents LkExcel As C1.Win.C1Command.C1CommandLink
     Friend WithEvents LkCarpeta As C1.Win.C1Command.C1CommandLink
     Friend WithEvents LkSalir As C1.Win.C1Command.C1CommandLink
-    Friend WithEvents tPOLIZA As TextBox
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents TPOLIZA As TextBox
     Friend WithEvents Label4 As Label
-    Friend WithEvents C1FlexGridSearchPanel1 As C1.Win.C1FlexGrid.C1FlexGridSearchPanel
-    Friend WithEvents LtNUm As Label
-    Friend WithEvents Fg As C1.Win.C1FlexGrid.C1FlexGrid
+    Friend WithEvents Label1 As Label
     Friend WithEvents F1 As C1.Win.Calendar.C1DateEdit
     Friend WithEvents F2 As C1.Win.Calendar.C1DateEdit
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
-    Friend WithEvents FgF As C1.Win.C1FlexGrid.C1FlexGrid
-    Friend WithEvents BtnFiltrar As C1.Win.C1Input.C1Button
-    Friend WithEvents BarExcel2 As C1.Win.C1Command.C1Command
-    Friend WithEvents LkExcel2 As C1.Win.C1Command.C1CommandLink
-    Friend WithEvents SplitM As C1.Win.C1SplitContainer.C1SplitContainer
-    Friend WithEvents Split1 As C1.Win.C1SplitContainer.C1SplitterPanel
-    Friend WithEvents Split2 As C1.Win.C1SplitContainer.C1SplitterPanel
-    Friend WithEvents Split3 As C1.Win.C1SplitContainer.C1SplitterPanel
-    Friend WithEvents C1SplitContainer1 As C1.Win.C1SplitContainer.C1SplitContainer
-    Friend WithEvents SplitterM2 As C1.Win.C1SplitContainer.C1SplitterPanel
+    Friend WithEvents C1FlexGridSearchPanel1 As C1.Win.C1FlexGrid.C1FlexGridSearchPanel
+    Friend WithEvents LtNUm As Label
+    Friend WithEvents Fg As C1.Win.C1FlexGrid.C1FlexGrid
+    Friend WithEvents chkSinPoliza As CheckBox
+    Friend WithEvents TCVE_OPER As TextBox
+    Friend WithEvents LtOper As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents BtnOper As Button
+    Friend WithEvents BarCopy As C1.Win.C1Command.C1Command
+    Friend WithEvents C1CommandLink1 As C1.Win.C1Command.C1CommandLink
 End Class

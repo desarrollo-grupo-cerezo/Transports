@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 Imports C1.Win.C1Themes
 Imports C1.Win.C1FlexGrid
 Imports C1.Win.C1Command
+Imports CSJ2K.j2k.io
 
 Public Class FrmLlantas
     Private ReadOnly BindingSource1 As New BindingSource
@@ -13,6 +14,7 @@ Public Class FrmLlantas
     Private R21 As Decimal, R22 As Decimal
     Private R31 As Decimal, R32 As Decimal
     Private NUM_TOP As String = " TOP 2000"
+    Private ENTRAR As Boolean = True
 
     Private ReadOnly list As New List(Of MyItem)()
     Private ReadOnly worker As New BackgroundWorker()
@@ -88,7 +90,8 @@ Public Class FrmLlantas
             Fg.Styles.Fixed.WordWrap = True
 
             CLAVE_LLANTA = ""
-            CADENA = " WHERE LL.STATUS <> 'B'"
+            CADENA = " WHERE ISNULL(LL.STATUS,'A') <> 'B' AND ISNULL(U.STATUS,'A') <> 'B'"
+
             DESPLEGAR2()
 
         Catch ex As Exception
@@ -144,6 +147,7 @@ Public Class FrmLlantas
         If Not Valida_Conexion() Then
             Return
         End If
+        ENTRAR = False
         Try
             BarraMenu.Enabled = False
             Fg.Cursor = Cursors.WaitCursor
@@ -261,6 +265,7 @@ Public Class FrmLlantas
         Me.Cursor = Cursors.Default
         Fg.Cursor = Cursors.Default
         BarraMenu.Enabled = True
+        ENTRAR = True
 
     End Sub
     Sub DESPLEGAR_INSPECCION()
@@ -575,23 +580,39 @@ Public Class FrmLlantas
     Private Sub BarEdit_Click(sender As Object, e As EventArgs) Handles BarEdit.Click
         If Fg.Row > 0 Then
             Var1 = "Edit"
-            Var2 = Fg(Fg.Row, 1)
-            r_ = Fg.Row
-            CLAVE_LLANTA = Var2
-            CREA_TAB(FrmLlantasAE, "Movimientos Llantas")
+
+            If Not IsDBNull(Fg(Fg.Row, 5)) AndAlso Fg(Fg.Row, 5) IsNot Nothing Then
+
+                Var2 = Fg(Fg.Row, 5)
+                r_ = Fg.Row
+
+                If Not IsDBNull(Fg(Fg.Row, 1)) AndAlso Fg(Fg.Row, 1) IsNot Nothing Then
+                    CLAVE_LLANTA = Fg(Fg.Row, 1)
+                Else
+                    CLAVE_LLANTA = ""
+                End If
+
+                CREA_TAB(FrmLlantasAE, "Movimientos Llantas")
+            Else
+                MsgBox("Clave invalida verifique por favor")
+            End If
         Else
             MsgBox("Por favor seleccione un registro")
         End If
     End Sub
     Private Sub BarEliminar_Click(sender As Object, e As EventArgs) Handles BarEliminar.Click
         Try
+            If IsDBNull(Fg(Fg.Row, 1)) OrElse Fg(Fg.Row, 1) Is Nothing Then
+                MsgBox("Clave invalida verifique por favor")
+                Return
+            End If
+
             If MsgBox("Realmente desea eliminar el registro?", vbYesNo) = vbYes Then
+
                 SQL = "UPDATE GCLLANTAS SET STATUS = 'B' WHERE CVE_LLANTA = '" & Fg(Fg.Row, 1) & "'"
-                Dim cmd As New SqlCommand With {
-                    .Connection = cnSAE,
-                    .CommandTimeout = 120,
-                    .CommandText = SQL
-                }
+
+                Dim cmd As New SqlCommand With {.Connection = cnSAE, .CommandTimeout = 120, .CommandText = SQL}
+
                 returnValue = cmd.ExecuteNonQuery().ToString
                 If returnValue IsNot Nothing Then
                     If returnValue = "1" Then
@@ -665,7 +686,8 @@ Public Class FrmLlantas
                 FrmAsignacionLlantas.ShowDialog()
 
                 NUM_TOP = " TOP 1000"
-                CADENA = " WHERE LL.STATUS <> 'B'"
+
+                CADENA = " WHERE ISNULL(LL.STATUS,'A') <> 'B' AND ISNULL(U.STATUS,'A') <> 'B'"
                 DESPLEGAR2()
 
             Else
@@ -683,29 +705,37 @@ Public Class FrmLlantas
         FrmAsignacionLlantas.ShowDialog()
 
         NUM_TOP = " TOP 1000"
-        CADENA = " WHERE LL.STATUS <> 'B'"
+        CADENA = " WHERE ISNULL(LL.STATUS,'A') <> 'B' AND ISNULL(U.STATUS,'A') <> 'B'"
         DESPLEGAR2()
     End Sub
     Private Sub MnuStatusLlantas_Click(sender As Object, e As EventArgs) Handles MnuStatusLlantas.Click
         Try
             If Fg.Row > 0 Then
-                Var13 = ""
-                Var14 = ""
-                Var15 = Fg(Fg.Row, 2)
-                Var16 = Fg(Fg.Row, 1)
-                Var17 = Fg(Fg.Row, 13)
-                Var18 = Fg(Fg.Row, Fg.Cols.Count - 1)
+                Var13 = "" : Var14 = "" : Var15 = "" : Var16 = "" : Var17 = "" : Var18 = ""
+                If Not IsDBNull(Fg(Fg.Row, 2)) AndAlso Fg(Fg.Row, 2) IsNot Nothing Then
+                    Var15 = Fg(Fg.Row, 2)
+                End If
+                If Not IsDBNull(Fg(Fg.Row, 1)) AndAlso Fg(Fg.Row, 1) IsNot Nothing Then
+                    Var16 = Fg(Fg.Row, 1)
+                End If
+                If Not IsDBNull(Fg(Fg.Row, 13)) AndAlso Fg(Fg.Row, 13) IsNot Nothing Then
+                    Var17 = Fg(Fg.Row, 13)
+                End If
+                If Not IsDBNull(Fg(Fg.Row, Fg.Cols.Count - 1)) AndAlso Fg(Fg.Row, Fg.Cols.Count - 1) IsNot Nothing Then
+                    Var18 = Fg(Fg.Row, Fg.Cols.Count - 1)
+                End If
+
                 FrmLLantasStatus.ShowDialog()
 
-                If Var14.Trim.Length > 0 Then
+                    If Var14.Trim.Length > 0 Then
 
-                    NUM_TOP = " TOP 1200"
-                    CADENA = " WHERE LL.STATUS <> 'B'"
+                        NUM_TOP = " TOP 1200"
+                        CADENA = " WHERE ISNULL(LL.STATUS,'A') <> 'B' AND ISNULL(U.STATUS,'A') <> 'B'"
 
-                    DESPLEGAR2()
-                End If
-            Else
-                MsgBox("Por favor seleccione una llanta")
+                        DESPLEGAR2()
+                    End If
+                Else
+                    MsgBox("Por favor seleccione una llanta")
             End If
         Catch ex As Exception
             MsgBox("70. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -715,7 +745,7 @@ Public Class FrmLlantas
     Private Sub MnuLlantasSinAsignar_Click(sender As Object, e As EventArgs) Handles MnuLlantasSinAsignar.Click
         Try
 
-            CADENA = " WHERE LL.STATUS <> 'B' AND ISNULL((SELECT TOP 1 CLAVEMONTE FROM GCUNIDADES WHERE ISNULL(STATUS, 'A') = 'A' AND (CHLL1 = CVE_LLANTA OR CHLL2 = CVE_LLANTA OR CHLL3 = CVE_LLANTA OR " &
+            CADENA = " WHERE ISNULL(LL.STATUS,'A') <> 'B' AND ISNULL(U.STATUS,'A') <> 'B' AND ISNULL((SELECT TOP 1 CLAVEMONTE FROM GCUNIDADES WHERE ISNULL(STATUS, 'A') = 'A' AND (CHLL1 = CVE_LLANTA OR CHLL2 = CVE_LLANTA OR CHLL3 = CVE_LLANTA OR " &
                  "CHLL4 = CVE_LLANTA OR CHLL5 = CVE_LLANTA OR CHLL6 = CVE_LLANTA OR CHLL7 = CVE_LLANTA OR CHLL8 = CVE_LLANTA OR " &
                  "CHLL9 = CVE_LLANTA OR CHLL10 = CVE_LLANTA OR CHLL11 = CVE_LLANTA OR CHLL12 = CVE_LLANTA)),'') = ''"
             'DESPLEGAR()
@@ -765,6 +795,12 @@ Public Class FrmLlantas
             If Not Valida_Conexion() Then
                 Return
             End If
+
+            Fg.Redraw = False
+            Fg.BeginUpdate()
+
+            Me.Cursor = Cursors.WaitCursor
+
 
             Dim da As New SqlDataAdapter
             Dim dt As New DataTable
@@ -840,16 +876,21 @@ Public Class FrmLlantas
             Dim c12 As Column = Fg.Cols(12)
             c12.DataType = GetType(String)
 
-            Fg.AutoSizeCols()
+            'Fg.AutoSizeCols()
         Catch ex As Exception
             MsgBox("13. " & ex.Message & vbNewLine & ex.StackTrace)
             Bitacora("13. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
+
+        Fg.Redraw = True
+        Fg.EndUpdate()
+        Me.Cursor = Cursors.Default
+
     End Sub
     Private Sub BarActualizar_Click(sender As Object, e As EventArgs) Handles BarActualizar.Click
         Try
             NUM_TOP = " TOP 2000"
-            CADENA = " WHERE LL.STATUS <> 'B'"
+            CADENA = " WHERE ISNULL(LL.STATUS,'A') <> 'B' AND ISNULL(U.STATUS,'A') <> 'B'"
             DESPLEGAR2()
         Catch ex As Exception
         End Try
@@ -865,13 +906,48 @@ Public Class FrmLlantas
     Private Sub BarDesgaste_Click(sender As Object, e As EventArgs) Handles BarDesgaste.Click
         Try
             If Fg.Row > 0 Then
-                Var10 = Fg(Fg.Row, 1)
-                Var11 = Fg(Fg.Row, 5)
 
-                FrmLLantasHistorialDesgaste.ShowDialog()
+                If Not IsDBNull(Fg(Fg.Row, 1)) AndAlso Fg(Fg.Row, 1) IsNot Nothing AndAlso Fg(Fg.Row, 5) IsNot Nothing Then
+                    Var10 = Fg(Fg.Row, 1)
+                    Var11 = Fg(Fg.Row, 5)
+
+                    FrmLLantasHistorialDesgaste.ShowDialog()
+                Else
+                    If IsDBNull(Fg(Fg.Row, 5)) Then
+                        MsgBox("Número económico invalido")
+                    ElseIf Fg(Fg.Row, 5) Is Nothing Then
+                        MsgBox("Número económico invalido")
+                    ElseIf IsDBNull(Fg(Fg.Row, 1)) Then
+
+                        Var10 = GET_MAX("GCLLANTAS", "CVE_LLANTA")
+                        Fg(Fg.Row, 1) = Var10
+                        Var11 = Fg(Fg.Row, 5)
+
+                        SQL = "UPDATE GCLLANTAS SET CVE_LLANTA = '" & Var10 & "' WHERE NUM_ECONOMICO = '" & Var11 & "'"
+                        EXECUTE_QUERY_NET(SQL)
+
+                        FrmLLantasHistorialDesgaste.ShowDialog()
+
+                        'MsgBox("Clave llanta invalida")
+                    ElseIf Fg(Fg.Row, 1) Is Nothing Then
+                        Var10 = GET_MAX("GCLLANTAS", "CVE_LLANTA")
+                        Fg(Fg.Row, 1) = Var10
+                        Var11 = Fg(Fg.Row, 5)
+
+                        SQL = "UPDATE GCLLANTAS SET CVE_LLANTA = '" & Var10 & "' WHERE NUM_ECONOMICO = '" & Var11 & "'"
+                        EXECUTE_QUERY_NET(SQL)
+
+                        FrmLLantasHistorialDesgaste.ShowDialog()
+                        'MsgBox("Clave llanta invalida")
+                    Else
+                        MsgBox("Clave llanta invalida")
+                    End If
+                End If
             End If
         Catch ex As Exception
+            Bitacora("13. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
+        'TCVE_LLANTA.Text = GET_MAX("GCLLANTAS", "CVE_LLANTA")
     End Sub
     Private Sub MnuMovsInvLlantas_Click(sender As Object, e As EventArgs) Handles MnuMovsInvLlantas.Click
         CREA_TAB(FrmLlantasMinve, "Movs. inv. llantas")
@@ -1241,6 +1317,11 @@ Public Class FrmLlantas
     End Sub
 
     Private Sub Fg_OwnerDrawCell(sender As Object, e As OwnerDrawCellEventArgs) Handles Fg.OwnerDrawCell
+
+        If Not ENTRAR Then
+            Return
+        End If
+
         Dim cs1 As CellStyle
         cs1 = Fg.Styles.Add("cs1")
         cs1.BackColor = Color.Green
@@ -1262,22 +1343,23 @@ Public Class FrmLlantas
             Dim rowNumber As Integer = e.Row - Fg.Rows.Fixed + 1
             e.Text = rowNumber.ToString()
 
-            Try
-                If Fg(e.Row, 15) >= R11 And Fg(e.Row, 15) <= R12 Then
-                    Fg.SetCellStyle(e.Row, 15, cs3)
-                Else
-                    If Fg(e.Row, 15) >= R21 And Fg(e.Row, 15) <= R22 Then
-                        Fg.SetCellStyle(e.Row, 15, cs2)
+            If Fg.Cols.Count > 14 Then
+                Try
+                    If Fg(e.Row, 15) >= R11 And Fg(e.Row, 15) <= R12 Then
+                        Fg.SetCellStyle(e.Row, 15, cs3)
                     Else
-                        If Fg(e.Row, 15) >= R31 And Fg(e.Row, 15) <= R32 Then
-                            Fg.SetCellStyle(e.Row, 15, cs1)
+                        If Fg(e.Row, 15) >= R21 And Fg(e.Row, 15) <= R22 Then
+                            Fg.SetCellStyle(e.Row, 15, cs2)
+                        Else
+                            If Fg(e.Row, 15) >= R31 And Fg(e.Row, 15) <= R32 Then
+                                Fg.SetCellStyle(e.Row, 15, cs1)
+                            End If
                         End If
                     End If
-                End If
-            Catch ex As Exception
-                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
-            End Try
-
+                Catch ex As Exception
+                    Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                End Try
+            End If
         End If
     End Sub
     Private Sub Fg_SearchApplied(sender As Object, e As SearchAppliedEventArgs) Handles Fg.SearchApplied
@@ -1292,7 +1374,7 @@ Public Class FrmLlantas
     Private Sub BarTodos_Click(sender As Object, e As EventArgs) Handles BarTodos.Click
 
         NUM_TOP = ""
-        CADENA = " WHERE LL.STATUS <> 'B'"
+        CADENA = " WHERE ISNULL(LL.STATUS,'A') <> 'B' AND ISNULL(U.STATUS,'A') <> 'B'"
         DESPLEGAR2()
 
     End Sub
@@ -1302,7 +1384,7 @@ Public Class FrmLlantas
             FrmLlantasFiltro.ShowDialog()
             If Var14.Trim.Length > 0 Then
                 NUM_TOP = ""
-                CADENA = " WHERE LL.STATUS <> 'B' AND STATUS_LLANTA IN (" & Var14 & ")"
+                CADENA = " WHERE ISNULL(LL.STATUS,'A') <> 'B' AND ISNULL(U.STATUS,'A') <> 'B' AND STATUS_LLANTA IN (" & Var14 & ")"
                 DESPLEGAR2()
             End If
         Catch ex As Exception
@@ -1549,7 +1631,8 @@ Public Class FrmLlantas
                         MsgBox("El estatus se grabo satisfactoriamente")
 
                         NUM_TOP = " TOP 1200"
-                        CADENA = " WHERE LL.STATUS <> 'B' AND ((CVE_LLANTA >= '" & CVE1 & "' AND CVE_LLANTA <= '" & CVE2 & "') OR (CVE_LLANTA >= '" & CVE2 & "' AND CVE_LLANTA <= '" & CVE1 & "'))"
+                        CADENA = " WHERE ISNULL(LL.STATUS,'A') <> 'B' AND ISNULL(U.STATUS,'A') <> 'B' AND 
+                                ((CVE_LLANTA >= '" & CVE1 & "' AND CVE_LLANTA <= '" & CVE2 & "') OR (CVE_LLANTA >= '" & CVE2 & "' AND CVE_LLANTA <= '" & CVE1 & "'))"
                         DESPLEGAR2()
                     Catch ex As Exception
                         Bitacora("110. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -1567,7 +1650,7 @@ Public Class FrmLlantas
         Try
             NUM_TOP = ""
 
-            CADENA = " WHERE LL.STATUS <> 'B' AND (UNIDAD LIKE '%" & TBUSCAR.Text & "%' OR CVE_LLANTA LIKE '%" & TBUSCAR.Text & "%' OR SL.DESCR LIKE '%" & TBUSCAR.Text & "%' OR 
+            CADENA = " WHERE ISNULL(LL.STATUS,'A') <> 'B' AND ISNULL(U.STATUS,'A') <> 'B' AND (UNIDAD LIKE '%" & TBUSCAR.Text & "%' OR CVE_LLANTA LIKE '%" & TBUSCAR.Text & "%' OR SL.DESCR LIKE '%" & TBUSCAR.Text & "%' OR 
                     LL.NUM_ECONOMICO LIKE '%" & TBUSCAR.Text & "%' OR T.DESCR LIKE '%" & TBUSCAR.Text & "%' OR KMS_MONTAR LIKE '%" & TBUSCAR.Text & "%' OR 
                     KMS_DESMONTAR LIKE '%" & TBUSCAR.Text & "%' OR KMS_ACTUAL LIKE '%" & TBUSCAR.Text & "%' OR 
                     M.DESCR LIKE '%" & TBUSCAR.Text & "%' OR D.DESCR LIKE '%" & TBUSCAR.Text & "%')"

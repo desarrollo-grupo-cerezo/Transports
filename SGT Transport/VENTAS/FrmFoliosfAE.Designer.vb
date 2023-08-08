@@ -38,6 +38,10 @@ Partial Class FrmFoliosfAE
         Me.CboTipo = New C1.Win.C1Input.C1ComboBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.C1ThemeController1 = New C1.Win.C1Themes.C1ThemeController()
+        Me.txCtaMN = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.txCtaUSD = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.BarraMenu.SuspendLayout()
         CType(Me.CboTipo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.C1ThemeController1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -73,9 +77,9 @@ Partial Class FrmFoliosfAE
         '
         Me.tULT_DOC.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tULT_DOC.ForeColor = System.Drawing.Color.Black
-        Me.tULT_DOC.Location = New System.Drawing.Point(157, 269)
+        Me.tULT_DOC.Location = New System.Drawing.Point(157, 229)
         Me.tULT_DOC.Name = "tULT_DOC"
-        Me.tULT_DOC.Size = New System.Drawing.Size(97, 22)
+        Me.tULT_DOC.Size = New System.Drawing.Size(161, 22)
         Me.tULT_DOC.TabIndex = 5
         Me.C1ThemeController1.SetTheme(Me.tULT_DOC, "Office2010Blue")
         '
@@ -85,7 +89,7 @@ Partial Class FrmFoliosfAE
         Me.Label1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label1.Location = New System.Drawing.Point(35, 272)
+        Me.Label1.Location = New System.Drawing.Point(35, 232)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(115, 16)
         Me.Label1.TabIndex = 111
@@ -96,9 +100,9 @@ Partial Class FrmFoliosfAE
         '
         Me.tFOLIOHASTA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tFOLIOHASTA.ForeColor = System.Drawing.Color.Black
-        Me.tFOLIOHASTA.Location = New System.Drawing.Point(157, 233)
+        Me.tFOLIOHASTA.Location = New System.Drawing.Point(157, 201)
         Me.tFOLIOHASTA.Name = "tFOLIOHASTA"
-        Me.tFOLIOHASTA.Size = New System.Drawing.Size(97, 22)
+        Me.tFOLIOHASTA.Size = New System.Drawing.Size(161, 22)
         Me.tFOLIOHASTA.TabIndex = 4
         Me.C1ThemeController1.SetTheme(Me.tFOLIOHASTA, "Office2010Blue")
         '
@@ -108,7 +112,7 @@ Partial Class FrmFoliosfAE
         Me.tCORREO.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.tCORREO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tCORREO.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.tCORREO.Location = New System.Drawing.Point(70, 236)
+        Me.tCORREO.Location = New System.Drawing.Point(70, 204)
         Me.tCORREO.Name = "tCORREO"
         Me.tCORREO.Size = New System.Drawing.Size(80, 16)
         Me.tCORREO.TabIndex = 110
@@ -121,7 +125,7 @@ Partial Class FrmFoliosfAE
         Me.tSERIE.AcceptsTab = True
         Me.tSERIE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tSERIE.ForeColor = System.Drawing.Color.Black
-        Me.tSERIE.Location = New System.Drawing.Point(157, 161)
+        Me.tSERIE.Location = New System.Drawing.Point(157, 145)
         Me.tSERIE.Name = "tSERIE"
         Me.tSERIE.Size = New System.Drawing.Size(61, 22)
         Me.tSERIE.TabIndex = 2
@@ -133,7 +137,7 @@ Partial Class FrmFoliosfAE
         Me.Label27.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label27.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label27.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label27.Location = New System.Drawing.Point(111, 164)
+        Me.Label27.Location = New System.Drawing.Point(111, 148)
         Me.Label27.Name = "Label27"
         Me.Label27.Size = New System.Drawing.Size(39, 16)
         Me.Label27.TabIndex = 109
@@ -146,9 +150,9 @@ Partial Class FrmFoliosfAE
         Me.tFOLIODESDE.AcceptsTab = True
         Me.tFOLIODESDE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tFOLIODESDE.ForeColor = System.Drawing.Color.Black
-        Me.tFOLIODESDE.Location = New System.Drawing.Point(157, 197)
+        Me.tFOLIODESDE.Location = New System.Drawing.Point(157, 173)
         Me.tFOLIODESDE.Name = "tFOLIODESDE"
-        Me.tFOLIODESDE.Size = New System.Drawing.Size(97, 22)
+        Me.tFOLIODESDE.Size = New System.Drawing.Size(161, 22)
         Me.tFOLIODESDE.TabIndex = 3
         Me.C1ThemeController1.SetTheme(Me.tFOLIODESDE, "Office2010Blue")
         '
@@ -158,7 +162,7 @@ Partial Class FrmFoliosfAE
         Me.Nombre.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Nombre.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Nombre.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Nombre.Location = New System.Drawing.Point(64, 200)
+        Me.Nombre.Location = New System.Drawing.Point(64, 176)
         Me.Nombre.Name = "Nombre"
         Me.Nombre.Size = New System.Drawing.Size(86, 16)
         Me.Nombre.TabIndex = 108
@@ -222,7 +226,7 @@ Partial Class FrmFoliosfAE
         Me.CboTipo.ImagePadding = New System.Windows.Forms.Padding(0)
         Me.CboTipo.ItemsDisplayMember = ""
         Me.CboTipo.ItemsValueMember = ""
-        Me.CboTipo.Location = New System.Drawing.Point(157, 126)
+        Me.CboTipo.Location = New System.Drawing.Point(157, 118)
         Me.CboTipo.Name = "CboTipo"
         Me.CboTipo.Size = New System.Drawing.Size(111, 21)
         Me.CboTipo.Style.DropDownBackColor = System.Drawing.Color.White
@@ -238,18 +242,70 @@ Partial Class FrmFoliosfAE
         Me.Label3.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label3.Location = New System.Drawing.Point(115, 128)
+        Me.Label3.Location = New System.Drawing.Point(115, 120)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(35, 16)
         Me.Label3.TabIndex = 408
         Me.Label3.Text = "Tipo"
         Me.C1ThemeController1.SetTheme(Me.Label3, "Office2010Blue")
         '
-        'frmFoliosfAE
+        'txCtaMN
+        '
+        Me.txCtaMN.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCtaMN.ForeColor = System.Drawing.Color.Black
+        Me.txCtaMN.Location = New System.Drawing.Point(157, 257)
+        Me.txCtaMN.MaxLength = 30
+        Me.txCtaMN.Name = "txCtaMN"
+        Me.txCtaMN.Size = New System.Drawing.Size(161, 22)
+        Me.txCtaMN.TabIndex = 6
+        Me.C1ThemeController1.SetTheme(Me.txCtaMN, "Office2010Blue")
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label4.Location = New System.Drawing.Point(20, 260)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(130, 16)
+        Me.Label4.TabIndex = 410
+        Me.Label4.Text = "Cuenta Contable MN"
+        Me.C1ThemeController1.SetTheme(Me.Label4, "Office2010Blue")
+        '
+        'txCtaUSD
+        '
+        Me.txCtaUSD.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCtaUSD.ForeColor = System.Drawing.Color.Black
+        Me.txCtaUSD.Location = New System.Drawing.Point(157, 285)
+        Me.txCtaUSD.MaxLength = 30
+        Me.txCtaUSD.Name = "txCtaUSD"
+        Me.txCtaUSD.Size = New System.Drawing.Size(161, 22)
+        Me.txCtaUSD.TabIndex = 7
+        Me.C1ThemeController1.SetTheme(Me.txCtaUSD, "Office2010Blue")
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label5.Location = New System.Drawing.Point(12, 288)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(138, 16)
+        Me.Label5.TabIndex = 412
+        Me.Label5.Text = "Cuenta Contable USD"
+        Me.C1ThemeController1.SetTheme(Me.Label5, "Office2010Blue")
+        '
+        'FrmFoliosfAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(453, 331)
+        Me.ClientSize = New System.Drawing.Size(453, 370)
+        Me.Controls.Add(Me.txCtaUSD)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.txCtaMN)
+        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.CboTipo)
         Me.Controls.Add(Me.tTIP_DOC)
@@ -267,7 +323,7 @@ Partial Class FrmFoliosfAE
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "frmFoliosfAE"
+        Me.Name = "FrmFoliosfAE"
         Me.ShowInTaskbar = False
         Me.Text = "Series"
         Me.C1ThemeController1.SetTheme(Me, "Office2010Blue")
@@ -298,4 +354,8 @@ Partial Class FrmFoliosfAE
     Friend WithEvents CboTipo As C1.Win.C1Input.C1ComboBox
     Friend WithEvents Label3 As Label
     Friend WithEvents C1ThemeController1 As C1.Win.C1Themes.C1ThemeController
+    Friend WithEvents txCtaMN As TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents txCtaUSD As TextBox
+    Friend WithEvents Label5 As Label
 End Class

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ejb.integracion.tecnomotum.com.mx/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="integracion" targetNamespace="http://ejb.integracion.tecnomotum.com.mx/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <ns1:Policy xmlns:ns1="http://www.w3.org/ns/ws-policy" wsu:Id="service_api_n1PortBinding_obtenerEventos_WSAT_Policy">
+    <ns1:ExactlyOne>
+      <ns1:All>
+        <ns2:ATAlwaysCapability xmlns:ns2="http://schemas.xmlsoap.org/ws/2004/10/wsat">
+        </ns2:ATAlwaysCapability>
+        <ns3:ATAssertion xmlns:ns4="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:ns3="http://schemas.xmlsoap.org/ws/2004/10/wsat" ns1:Optional="true" ns4:Optional="true">
+        </ns3:ATAssertion>
+      </ns1:All>
+    </ns1:ExactlyOne>
+  </ns1:Policy>
+  <ns5:Policy xmlns:ns5="http://www.w3.org/ns/ws-policy" wsu:Id="service_api_n1PortBinding_obtenerPosiciones_WSAT_Policy">
+    <ns5:ExactlyOne>
+      <ns5:All>
+        <ns6:ATAlwaysCapability xmlns:ns6="http://schemas.xmlsoap.org/ws/2004/10/wsat">
+        </ns6:ATAlwaysCapability>
+        <ns7:ATAssertion xmlns:ns8="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:ns7="http://schemas.xmlsoap.org/ws/2004/10/wsat" ns5:Optional="true" ns8:Optional="true">
+        </ns7:ATAssertion>
+      </ns5:All>
+    </ns5:ExactlyOne>
+  </ns5:Policy>
+  <ns9:Policy xmlns:ns9="http://www.w3.org/ns/ws-policy" wsu:Id="service_api_n1PortBinding_obtenerPuntosCruzados_WSAT_Policy">
+    <ns9:ExactlyOne>
+      <ns9:All>
+        <ns10:ATAlwaysCapability xmlns:ns10="http://schemas.xmlsoap.org/ws/2004/10/wsat">
+        </ns10:ATAlwaysCapability>
+        <ns11:ATAssertion xmlns:ns12="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:ns11="http://schemas.xmlsoap.org/ws/2004/10/wsat" ns9:Optional="true" ns12:Optional="true">
+        </ns11:ATAssertion>
+      </ns9:All>
+    </ns9:ExactlyOne>
+  </ns9:Policy>
+  <ns13:Policy xmlns:ns13="http://www.w3.org/ns/ws-policy" wsu:Id="service_api_n1PortBinding_pruebaConexion_WSAT_Policy">
+    <ns13:ExactlyOne>
+      <ns13:All>
+        <ns14:ATAlwaysCapability xmlns:ns14="http://schemas.xmlsoap.org/ws/2004/10/wsat">
+        </ns14:ATAlwaysCapability>
+        <ns15:ATAssertion xmlns:ns16="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:ns15="http://schemas.xmlsoap.org/ws/2004/10/wsat" ns13:Optional="true" ns16:Optional="true">
+        </ns15:ATAssertion>
+      </ns13:All>
+    </ns13:ExactlyOne>
+  </ns13:Policy>
+  <ns17:Policy xmlns:ns17="http://www.w3.org/ns/ws-policy" wsu:Id="service_api_n1PortBinding_obtenerGeocercas_WSAT_Policy">
+    <ns17:ExactlyOne>
+      <ns17:All>
+        <ns18:ATAlwaysCapability xmlns:ns18="http://schemas.xmlsoap.org/ws/2004/10/wsat">
+        </ns18:ATAlwaysCapability>
+        <ns19:ATAssertion xmlns:ns20="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:ns19="http://schemas.xmlsoap.org/ws/2004/10/wsat" ns17:Optional="true" ns20:Optional="true">
+        </ns19:ATAssertion>
+      </ns17:All>
+    </ns17:ExactlyOne>
+  </ns17:Policy>
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://enlacefreightliner.com:8080/integracion/service_api_n1?xsd=1" namespace="http://ejb.integracion.tecnomotum.com.mx/" />
+    </xsd:schema>
+  </types>
+  <message name="obtenerPosiciones">
+    <part name="parameters" element="tns:obtenerPosiciones" />
+  </message>
+  <message name="obtenerPosicionesResponse">
+    <part name="parameters" element="tns:obtenerPosicionesResponse" />
+  </message>
+  <message name="obtenerPuntosCruzados">
+    <part name="parameters" element="tns:obtenerPuntosCruzados" />
+  </message>
+  <message name="obtenerPuntosCruzadosResponse">
+    <part name="parameters" element="tns:obtenerPuntosCruzadosResponse" />
+  </message>
+  <message name="obtenerEventos">
+    <part name="parameters" element="tns:obtenerEventos" />
+  </message>
+  <message name="obtenerEventosResponse">
+    <part name="parameters" element="tns:obtenerEventosResponse" />
+  </message>
+  <message name="obtenerGeocercas">
+    <part name="parameters" element="tns:obtenerGeocercas" />
+  </message>
+  <message name="obtenerGeocercasResponse">
+    <part name="parameters" element="tns:obtenerGeocercasResponse" />
+  </message>
+  <message name="pruebaConexion">
+    <part name="parameters" element="tns:pruebaConexion" />
+  </message>
+  <message name="pruebaConexionResponse">
+    <part name="parameters" element="tns:pruebaConexionResponse" />
+  </message>
+  <portType name="service_api_n1">
+    <operation name="obtenerPosiciones">
+      <input message="tns:obtenerPosiciones" />
+      <output message="tns:obtenerPosicionesResponse" />
+    </operation>
+    <operation name="obtenerPuntosCruzados">
+      <input message="tns:obtenerPuntosCruzados" />
+      <output message="tns:obtenerPuntosCruzadosResponse" />
+    </operation>
+    <operation name="obtenerEventos">
+      <input message="tns:obtenerEventos" />
+      <output message="tns:obtenerEventosResponse" />
+    </operation>
+    <operation name="obtenerGeocercas">
+      <input message="tns:obtenerGeocercas" />
+      <output message="tns:obtenerGeocercasResponse" />
+    </operation>
+    <operation name="pruebaConexion">
+      <input message="tns:pruebaConexion" />
+      <output message="tns:pruebaConexionResponse" />
+    </operation>
+  </portType>
+  <binding name="service_api_n1PortBinding" type="tns:service_api_n1">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="obtenerPosiciones">
+      <ns21:PolicyReference xmlns:ns21="http://www.w3.org/ns/ws-policy" URI="#service_api_n1PortBinding_obtenerPosiciones_WSAT_Policy">
+      </ns21:PolicyReference>
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerPuntosCruzados">
+      <ns22:PolicyReference xmlns:ns22="http://www.w3.org/ns/ws-policy" URI="#service_api_n1PortBinding_obtenerPuntosCruzados_WSAT_Policy">
+      </ns22:PolicyReference>
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerEventos">
+      <ns23:PolicyReference xmlns:ns23="http://www.w3.org/ns/ws-policy" URI="#service_api_n1PortBinding_obtenerEventos_WSAT_Policy">
+      </ns23:PolicyReference>
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerGeocercas">
+      <ns24:PolicyReference xmlns:ns24="http://www.w3.org/ns/ws-policy" URI="#service_api_n1PortBinding_obtenerGeocercas_WSAT_Policy">
+      </ns24:PolicyReference>
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="pruebaConexion">
+      <ns25:PolicyReference xmlns:ns25="http://www.w3.org/ns/ws-policy" URI="#service_api_n1PortBinding_pruebaConexion_WSAT_Policy">
+      </ns25:PolicyReference>
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="integracion">
+    <port name="service_api_n1Port" binding="tns:service_api_n1PortBinding">
+      <soap:address location="http://enlacefreightliner.com:8080/integracion/service_api_n1" />
+    </port>
+  </service>
+</definitions>

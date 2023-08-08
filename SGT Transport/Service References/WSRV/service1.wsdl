@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="GetTicket">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="base64Cfd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTicketResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTicketResult" type="tns:StructCfd" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="StructCfd">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RfcEmisor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RfcReceptor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Version" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Serie" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Folio" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FechaExpedicion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MontoOperacion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MontoImpuesto" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoComprobante" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Cadena" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Firma" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SerieCertificado" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Cfdi" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Timbre" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descripcion" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="state" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AuthSoapHd" type="tns:AuthSoapHd" />
+      <s:complexType name="AuthSoapHd">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="strPassword" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="GetTicketSC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="base64Cfd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTicketSCResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTicketSCResult" type="tns:StructCfd" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTicketCSF">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="base64Cfd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTicketCSFResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTicketCSFResult" type="tns:StructCfd" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTicketAU">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="base64Cfd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rfcAdministrador" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cuentaAdministrador" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="claveAdministrador" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTicketAUResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTicketAUResult" type="tns:StructCfd" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TimbrarCDClave">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="rfc_emisor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="usuario_ws" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clave_ws" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="base64Cfd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cadena_xml" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClaveServicio" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TimbrarCDClaveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TimbrarCDClaveResult" type="tns:StructCfd" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestCfd33">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="base64Cfd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestCfd33Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TestCfd33Result" type="tns:StructCfd" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestCfd33SC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="base64Cfd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestCfd33SCResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TestCfd33SCResult" type="tns:StructCfd" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelTicket">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="base64Cfd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelTicketResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CancelTicketResult" type="tns:StructCancel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="StructCancel">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="EstatusCFDI" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RfcSolicitante" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Fecha" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UUIDs" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NoSerieFirmante" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descripcion" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="state" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Acuse" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RutaDescargaAcuse" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EsCancelable" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EstatusCancelacion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensaje" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CancelTicketSC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="base64Cfd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelTicketSCResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CancelTicketSCResult" type="tns:StructCancel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelTicketExt">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="base64Cfd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="totalfactura" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rfcreceptor" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelTicketExtResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CancelTicketExtResult" type="tns:StructCancel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelTest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CanB64" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelTestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CancelTestResult" type="tns:StructCancel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarSolicitudesPendientesDeCancelacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RfcReceptor" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="produccion" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultarSolicitudesPendientesDeCancelacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultarSolicitudesPendientesDeCancelacionResult" type="tns:StructSolicitudesPendientes" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="StructSolicitudesPendientes">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Estatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoEstatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UUIDs" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensaje" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descripcion" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AceptarRechazarSolicitudDeCancelacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="produccion" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="aceptacion" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AceptarRechazarSolicitudDeCancelacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AceptarRechazarSolicitudDeCancelacionResult" type="tns:StructAceptarRechazar" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="StructAceptarRechazar">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Estatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoEstatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Acuse" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Folios" type="tns:ArrayOfInvoicesStatus" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensaje" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descripcion" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfInvoicesStatus">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="invoicesStatus" nillable="true" type="tns:invoicesStatus" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="invoicesStatus">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="uuid" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="estatusUUID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="respuesta" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="EstatusCFDI">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RfcEmisor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RfcReceptor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="total" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="uuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EstatusCFDIResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EstatusCFDIResult" type="tns:StructCancel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GenerarPdf33">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XMLBase64" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="EstatusCFDI" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="TipoCFDI" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Logo" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="Telefono" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Correo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Observacion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GenerarPdf33Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GenerarPdf33Result" type="tns:StructPDF" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="StructPDF">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Archivo" type="s:base64Binary" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descripcion" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Estado" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GenerarPdf33Interno">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XMLBase64" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="EstatusCFDI" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="TipoCFDI" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Logo" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="Telefono" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Correo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Observacion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="uid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="claveAccesoServicio" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GenerarPdf33InternoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GenerarPdf33InternoResult" type="tns:StructPDF" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetTicketSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTicket" />
+  </wsdl:message>
+  <wsdl:message name="GetTicketSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTicketResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTicketAuthSoapHd">
+    <wsdl:part name="AuthSoapHd" element="tns:AuthSoapHd" />
+  </wsdl:message>
+  <wsdl:message name="GetTicketSCSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTicketSC" />
+  </wsdl:message>
+  <wsdl:message name="GetTicketSCSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTicketSCResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTicketCSFSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTicketCSF" />
+  </wsdl:message>
+  <wsdl:message name="GetTicketCSFSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTicketCSFResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTicketCSFAuthSoapHd">
+    <wsdl:part name="AuthSoapHd" element="tns:AuthSoapHd" />
+  </wsdl:message>
+  <wsdl:message name="GetTicketAUSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTicketAU" />
+  </wsdl:message>
+  <wsdl:message name="GetTicketAUSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTicketAUResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTicketAUAuthSoapHd">
+    <wsdl:part name="AuthSoapHd" element="tns:AuthSoapHd" />
+  </wsdl:message>
+  <wsdl:message name="TimbrarCDClaveSoapIn">
+    <wsdl:part name="parameters" element="tns:TimbrarCDClave" />
+  </wsdl:message>
+  <wsdl:message name="TimbrarCDClaveSoapOut">
+    <wsdl:part name="parameters" element="tns:TimbrarCDClaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestCfd33SoapIn">
+    <wsdl:part name="parameters" element="tns:TestCfd33" />
+  </wsdl:message>
+  <wsdl:message name="TestCfd33SoapOut">
+    <wsdl:part name="parameters" element="tns:TestCfd33Response" />
+  </wsdl:message>
+  <wsdl:message name="TestCfd33AuthSoapHd">
+    <wsdl:part name="AuthSoapHd" element="tns:AuthSoapHd" />
+  </wsdl:message>
+  <wsdl:message name="TestCfd33SCSoapIn">
+    <wsdl:part name="parameters" element="tns:TestCfd33SC" />
+  </wsdl:message>
+  <wsdl:message name="TestCfd33SCSoapOut">
+    <wsdl:part name="parameters" element="tns:TestCfd33SCResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelTicketSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelTicket" />
+  </wsdl:message>
+  <wsdl:message name="CancelTicketSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelTicketResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelTicketAuthSoapHd">
+    <wsdl:part name="AuthSoapHd" element="tns:AuthSoapHd" />
+  </wsdl:message>
+  <wsdl:message name="CancelTicketSCSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelTicketSC" />
+  </wsdl:message>
+  <wsdl:message name="CancelTicketSCSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelTicketSCResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelTicketExtSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelTicketExt" />
+  </wsdl:message>
+  <wsdl:message name="CancelTicketExtSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelTicketExtResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelTicketExtAuthSoapHd">
+    <wsdl:part name="AuthSoapHd" element="tns:AuthSoapHd" />
+  </wsdl:message>
+  <wsdl:message name="CancelTestSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelTest" />
+  </wsdl:message>
+  <wsdl:message name="CancelTestSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelTestResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelTestAuthSoapHd">
+    <wsdl:part name="AuthSoapHd" element="tns:AuthSoapHd" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarSolicitudesPendientesDeCancelacionSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultarSolicitudesPendientesDeCancelacion" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarSolicitudesPendientesDeCancelacionSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultarSolicitudesPendientesDeCancelacionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultarSolicitudesPendientesDeCancelacionAuthSoapHd">
+    <wsdl:part name="AuthSoapHd" element="tns:AuthSoapHd" />
+  </wsdl:message>
+  <wsdl:message name="AceptarRechazarSolicitudDeCancelacionSoapIn">
+    <wsdl:part name="parameters" element="tns:AceptarRechazarSolicitudDeCancelacion" />
+  </wsdl:message>
+  <wsdl:message name="AceptarRechazarSolicitudDeCancelacionSoapOut">
+    <wsdl:part name="parameters" element="tns:AceptarRechazarSolicitudDeCancelacionResponse" />
+  </wsdl:message>
+  <wsdl:message name="AceptarRechazarSolicitudDeCancelacionAuthSoapHd">
+    <wsdl:part name="AuthSoapHd" element="tns:AuthSoapHd" />
+  </wsdl:message>
+  <wsdl:message name="EstatusCFDISoapIn">
+    <wsdl:part name="parameters" element="tns:EstatusCFDI" />
+  </wsdl:message>
+  <wsdl:message name="EstatusCFDISoapOut">
+    <wsdl:part name="parameters" element="tns:EstatusCFDIResponse" />
+  </wsdl:message>
+  <wsdl:message name="EstatusCFDIAuthSoapHd">
+    <wsdl:part name="AuthSoapHd" element="tns:AuthSoapHd" />
+  </wsdl:message>
+  <wsdl:message name="GenerarPdf33SoapIn">
+    <wsdl:part name="parameters" element="tns:GenerarPdf33" />
+  </wsdl:message>
+  <wsdl:message name="GenerarPdf33SoapOut">
+    <wsdl:part name="parameters" element="tns:GenerarPdf33Response" />
+  </wsdl:message>
+  <wsdl:message name="GenerarPdf33AuthSoapHd">
+    <wsdl:part name="AuthSoapHd" element="tns:AuthSoapHd" />
+  </wsdl:message>
+  <wsdl:message name="GenerarPdf33InternoSoapIn">
+    <wsdl:part name="parameters" element="tns:GenerarPdf33Interno" />
+  </wsdl:message>
+  <wsdl:message name="GenerarPdf33InternoSoapOut">
+    <wsdl:part name="parameters" element="tns:GenerarPdf33InternoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GenerarPdf33InternoAuthSoapHd">
+    <wsdl:part name="AuthSoapHd" element="tns:AuthSoapHd" />
+  </wsdl:message>
+  <wsdl:portType name="ServiceSoap">
+    <wsdl:operation name="GetTicket">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Obtiene el timbre, regresa el timbre y el cfdi</wsdl:documentation>
+      <wsdl:input message="tns:GetTicketSoapIn" />
+      <wsdl:output message="tns:GetTicketSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTicketSC">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Obtiene el timbre, regresa el timbre y el cfdi sin usar cabeceras</wsdl:documentation>
+      <wsdl:input message="tns:GetTicketSCSoapIn" />
+      <wsdl:output message="tns:GetTicketSCSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTicketCSF">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Obtiene el timbre, regresa el timbre y el cfdi, validando sólo serie y folio</wsdl:documentation>
+      <wsdl:input message="tns:GetTicketCSFSoapIn" />
+      <wsdl:output message="tns:GetTicketCSFSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTicketAU">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Obtiene el timbre, regresa el timbre y el cfdi, agrega un usuario si no existe</wsdl:documentation>
+      <wsdl:input message="tns:GetTicketAUSoapIn" />
+      <wsdl:output message="tns:GetTicketAUSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TimbrarCDClave">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Timbrado interno</wsdl:documentation>
+      <wsdl:input message="tns:TimbrarCDClaveSoapIn" />
+      <wsdl:output message="tns:TimbrarCDClaveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestCfd33">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Obtiene el timbre, regresa el timbre y el cfdi en ambiente de pruebas</wsdl:documentation>
+      <wsdl:input message="tns:TestCfd33SoapIn" />
+      <wsdl:output message="tns:TestCfd33SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestCfd33SC">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Obtiene el timbre, regresa el timbre y el cfdi en ambiente de pruebas sin usar cabecera</wsdl:documentation>
+      <wsdl:input message="tns:TestCfd33SCSoapIn" />
+      <wsdl:output message="tns:TestCfd33SCSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelTicket">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancela el timbre</wsdl:documentation>
+      <wsdl:input message="tns:CancelTicketSoapIn" />
+      <wsdl:output message="tns:CancelTicketSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelTicketSC">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancela el timbre sin usar cabecera</wsdl:documentation>
+      <wsdl:input message="tns:CancelTicketSCSoapIn" />
+      <wsdl:output message="tns:CancelTicketSCSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelTicketExt">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancela el timbre de otros PAC</wsdl:documentation>
+      <wsdl:input message="tns:CancelTicketExtSoapIn" />
+      <wsdl:output message="tns:CancelTicketExtSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelTest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancela el timbre en ambiente de pruebas</wsdl:documentation>
+      <wsdl:input message="tns:CancelTestSoapIn" />
+      <wsdl:output message="tns:CancelTestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarSolicitudesPendientesDeCancelacion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Consulta las solicitudes pendientes de cancelación por aceptar o rechazar para un Receptor</wsdl:documentation>
+      <wsdl:input message="tns:ConsultarSolicitudesPendientesDeCancelacionSoapIn" />
+      <wsdl:output message="tns:ConsultarSolicitudesPendientesDeCancelacionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AceptarRechazarSolicitudDeCancelacion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Permite a un Receptor aceptar o rechazar una solicitud de cancelación</wsdl:documentation>
+      <wsdl:input message="tns:AceptarRechazarSolicitudDeCancelacionSoapIn" />
+      <wsdl:output message="tns:AceptarRechazarSolicitudDeCancelacionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EstatusCFDI">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Obtiene el Estatus de un CFDI en el SAT</wsdl:documentation>
+      <wsdl:input message="tns:EstatusCFDISoapIn" />
+      <wsdl:output message="tns:EstatusCFDISoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GenerarPdf33">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Genera el PDF de un CFDI 3.3 a partir de un XML consumiendo timbres.</wsdl:documentation>
+      <wsdl:input message="tns:GenerarPdf33SoapIn" />
+      <wsdl:output message="tns:GenerarPdf33SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GenerarPdf33Interno">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Genera el PDF de un CFDI 3.3 a partir de un XML consumiendo timbres.</wsdl:documentation>
+      <wsdl:input message="tns:GenerarPdf33InternoSoapIn" />
+      <wsdl:output message="tns:GenerarPdf33InternoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiceSoap" type="tns:ServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetTicket">
+      <soap:operation soapAction="http://tempuri.org/GetTicket" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetTicketAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTicketSC">
+      <soap:operation soapAction="http://tempuri.org/GetTicketSC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTicketCSF">
+      <soap:operation soapAction="http://tempuri.org/GetTicketCSF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetTicketCSFAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTicketAU">
+      <soap:operation soapAction="http://tempuri.org/GetTicketAU" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetTicketAUAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TimbrarCDClave">
+      <soap:operation soapAction="http://tempuri.org/TimbrarCDClave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestCfd33">
+      <soap:operation soapAction="http://tempuri.org/TestCfd33" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:TestCfd33AuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestCfd33SC">
+      <soap:operation soapAction="http://tempuri.org/TestCfd33SC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelTicket">
+      <soap:operation soapAction="http://tempuri.org/CancelTicket" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CancelTicketAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelTicketSC">
+      <soap:operation soapAction="http://tempuri.org/CancelTicketSC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelTicketExt">
+      <soap:operation soapAction="http://tempuri.org/CancelTicketExt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CancelTicketExtAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelTest">
+      <soap:operation soapAction="http://tempuri.org/CancelTest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CancelTestAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarSolicitudesPendientesDeCancelacion">
+      <soap:operation soapAction="http://tempuri.org/ConsultarSolicitudesPendientesDeCancelacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ConsultarSolicitudesPendientesDeCancelacionAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AceptarRechazarSolicitudDeCancelacion">
+      <soap:operation soapAction="http://tempuri.org/AceptarRechazarSolicitudDeCancelacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AceptarRechazarSolicitudDeCancelacionAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EstatusCFDI">
+      <soap:operation soapAction="http://tempuri.org/EstatusCFDI" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:EstatusCFDIAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerarPdf33">
+      <soap:operation soapAction="http://tempuri.org/GenerarPdf33" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GenerarPdf33AuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerarPdf33Interno">
+      <soap:operation soapAction="http://tempuri.org/GenerarPdf33Interno" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GenerarPdf33InternoAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceSoap12" type="tns:ServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetTicket">
+      <soap12:operation soapAction="http://tempuri.org/GetTicket" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetTicketAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTicketSC">
+      <soap12:operation soapAction="http://tempuri.org/GetTicketSC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTicketCSF">
+      <soap12:operation soapAction="http://tempuri.org/GetTicketCSF" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetTicketCSFAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTicketAU">
+      <soap12:operation soapAction="http://tempuri.org/GetTicketAU" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetTicketAUAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TimbrarCDClave">
+      <soap12:operation soapAction="http://tempuri.org/TimbrarCDClave" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestCfd33">
+      <soap12:operation soapAction="http://tempuri.org/TestCfd33" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:TestCfd33AuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestCfd33SC">
+      <soap12:operation soapAction="http://tempuri.org/TestCfd33SC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelTicket">
+      <soap12:operation soapAction="http://tempuri.org/CancelTicket" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CancelTicketAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelTicketSC">
+      <soap12:operation soapAction="http://tempuri.org/CancelTicketSC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelTicketExt">
+      <soap12:operation soapAction="http://tempuri.org/CancelTicketExt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CancelTicketExtAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelTest">
+      <soap12:operation soapAction="http://tempuri.org/CancelTest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CancelTestAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarSolicitudesPendientesDeCancelacion">
+      <soap12:operation soapAction="http://tempuri.org/ConsultarSolicitudesPendientesDeCancelacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ConsultarSolicitudesPendientesDeCancelacionAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AceptarRechazarSolicitudDeCancelacion">
+      <soap12:operation soapAction="http://tempuri.org/AceptarRechazarSolicitudDeCancelacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AceptarRechazarSolicitudDeCancelacionAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EstatusCFDI">
+      <soap12:operation soapAction="http://tempuri.org/EstatusCFDI" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:EstatusCFDIAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerarPdf33">
+      <soap12:operation soapAction="http://tempuri.org/GenerarPdf33" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GenerarPdf33AuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerarPdf33Interno">
+      <soap12:operation soapAction="http://tempuri.org/GenerarPdf33Interno" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GenerarPdf33InternoAuthSoapHd" part="AuthSoapHd" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service">
+    <wsdl:port name="ServiceSoap" binding="tns:ServiceSoap">
+      <soap:address location="http://generacfdi.com.mx/rvltimbrado/service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServiceSoap12" binding="tns:ServiceSoap12">
+      <soap12:address location="http://generacfdi.com.mx/rvltimbrado/service1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://ejb.integracion.tecnomotum.com.mx/" targetNamespace="http://ejb.integracion.tecnomotum.com.mx/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="obtenerEventos" type="tns:obtenerEventos" />
+  <xs:element name="obtenerEventosResponse" type="tns:obtenerEventosResponse" />
+  <xs:element name="obtenerGeocercas" type="tns:obtenerGeocercas" />
+  <xs:element name="obtenerGeocercasResponse" type="tns:obtenerGeocercasResponse" />
+  <xs:element name="obtenerPosiciones" type="tns:obtenerPosiciones" />
+  <xs:element name="obtenerPosicionesResponse" type="tns:obtenerPosicionesResponse" />
+  <xs:element name="obtenerPuntosCruzados" type="tns:obtenerPuntosCruzados" />
+  <xs:element name="obtenerPuntosCruzadosResponse" type="tns:obtenerPuntosCruzadosResponse" />
+  <xs:element name="pruebaConexion" type="tns:pruebaConexion" />
+  <xs:element name="pruebaConexionResponse" type="tns:pruebaConexionResponse" />
+  <xs:complexType name="obtenerPosiciones">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="user" type="xs:string" />
+      <xs:element minOccurs="0" name="password" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerPosicionesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:respuestaWSObtenerPosiciones" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="respuestaWSObtenerPosiciones">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" type="xs:int" />
+      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="posiciones" nillable="true" type="tns:posicion" />
+      <xs:element minOccurs="0" name="status" type="tns:statusType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="posicion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alias" type="xs:string" />
+      <xs:element minOccurs="0" name="altitud" type="xs:double" />
+      <xs:element minOccurs="0" name="cercaCiudad" type="xs:string" />
+      <xs:element minOccurs="0" name="combustibletotal" type="xs:double" />
+      <xs:element minOccurs="0" name="fechacreacion" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="flota" type="xs:string" />
+      <xs:element minOccurs="0" name="ignicion" type="xs:boolean" />
+      <xs:element minOccurs="0" name="importacionid" type="xs:long" />
+      <xs:element minOccurs="0" name="lat" type="xs:double" />
+      <xs:element minOccurs="0" name="lng" type="xs:double" />
+      <xs:element minOccurs="0" name="odometrototal" type="xs:double" />
+      <xs:element minOccurs="0" name="operador" type="xs:string" />
+      <xs:element minOccurs="0" name="placas" type="xs:string" />
+      <xs:element minOccurs="0" name="rpm" type="xs:int" />
+      <xs:element minOccurs="0" name="subflota" type="xs:string" />
+      <xs:element minOccurs="0" name="unitno" type="xs:string" />
+      <xs:element minOccurs="0" name="velpromedio" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerGeocercas">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="user" type="xs:string" />
+      <xs:element minOccurs="0" name="password" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerGeocercasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:respuestaWSObtenerGeocercas" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="respuestaWSObtenerGeocercas">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="geocerca" nillable="true" type="tns:geocerca" />
+      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+      <xs:element minOccurs="0" name="status" type="tns:statusType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="geocerca">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alias" type="xs:string" />
+      <xs:element minOccurs="0" name="altitud" type="xs:double" />
+      <xs:element minOccurs="0" name="combustibletotal" type="xs:double" />
+      <xs:element minOccurs="0" name="evento" type="xs:string" />
+      <xs:element minOccurs="0" name="eventoMotum" type="xs:string" />
+      <xs:element minOccurs="0" name="fechacreacion" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="flota" type="xs:string" />
+      <xs:element minOccurs="0" name="idAlar" type="xs:long" />
+      <xs:element minOccurs="0" name="ignicion" type="xs:boolean" />
+      <xs:element minOccurs="0" name="importacionID" type="xs:long" />
+      <xs:element minOccurs="0" name="lat" type="xs:double" />
+      <xs:element minOccurs="0" name="lng" type="xs:double" />
+      <xs:element minOccurs="0" name="odometrototal" type="xs:double" />
+      <xs:element minOccurs="0" name="operador" type="xs:string" />
+      <xs:element minOccurs="0" name="placas" type="xs:string" />
+      <xs:element minOccurs="0" name="rpm" type="xs:int" />
+      <xs:element minOccurs="0" name="subflota" type="xs:string" />
+      <xs:element minOccurs="0" name="tipo" type="xs:int" />
+      <xs:element minOccurs="0" name="unitno" type="xs:string" />
+      <xs:element minOccurs="0" name="valorEvento" type="xs:string" />
+      <xs:element minOccurs="0" name="velpromedio" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerEventos">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="user" type="xs:string" />
+      <xs:element minOccurs="0" name="password" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerEventosResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:respuestaWSObtenerEventos" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="respuestaWSObtenerEventos">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="eventos" nillable="true" type="tns:evento" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="eventosV2" nillable="true" type="tns:eventov2" />
+      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+      <xs:element minOccurs="0" name="status" type="tns:statusType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="evento">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alias" type="xs:string" />
+      <xs:element minOccurs="0" name="altitud" type="xs:double" />
+      <xs:element minOccurs="0" name="combustibletotal" type="xs:double" />
+      <xs:element minOccurs="0" name="evento" type="xs:string" />
+      <xs:element minOccurs="0" name="eventoMotum" type="xs:string" />
+      <xs:element minOccurs="0" name="fechacreacion" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="flota" type="xs:string" />
+      <xs:element minOccurs="0" name="idAlar" type="xs:long" />
+      <xs:element minOccurs="0" name="ignicion" type="xs:boolean" />
+      <xs:element minOccurs="0" name="importacionID" type="xs:long" />
+      <xs:element minOccurs="0" name="lat" type="xs:double" />
+      <xs:element minOccurs="0" name="lng" type="xs:double" />
+      <xs:element minOccurs="0" name="odometrototal" type="xs:double" />
+      <xs:element minOccurs="0" name="operador" type="xs:string" />
+      <xs:element minOccurs="0" name="placas" type="xs:string" />
+      <xs:element minOccurs="0" name="rpm" type="xs:int" />
+      <xs:element minOccurs="0" name="subflota" type="xs:string" />
+      <xs:element minOccurs="0" name="tipo" type="xs:int" />
+      <xs:element minOccurs="0" name="unitno" type="xs:string" />
+      <xs:element minOccurs="0" name="valorEvento" type="xs:string" />
+      <xs:element minOccurs="0" name="velpromedio" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eventov2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alias" type="xs:string" />
+      <xs:element minOccurs="0" name="cercaCiudad" type="xs:string" />
+      <xs:element minOccurs="0" name="clave" type="xs:string" />
+      <xs:element minOccurs="0" name="combustible" type="xs:double" />
+      <xs:element minOccurs="0" name="direccion" type="xs:string" />
+      <xs:element minOccurs="0" name="distanciaCerca" type="xs:string" />
+      <xs:element minOccurs="0" name="distanciaReferecnia" type="xs:string" />
+      <xs:element minOccurs="0" name="estado" type="xs:string" />
+      <xs:element minOccurs="0" name="fechacreacion" type="xs:string" />
+      <xs:element minOccurs="0" name="ignicion" type="xs:boolean" />
+      <xs:element minOccurs="0" name="importacionid" type="xs:int" />
+      <xs:element minOccurs="0" name="lat" type="xs:double" />
+      <xs:element minOccurs="0" name="lng" type="xs:double" />
+      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+      <xs:element minOccurs="0" name="odometro" type="xs:double" />
+      <xs:element minOccurs="0" name="operador" type="xs:string" />
+      <xs:element minOccurs="0" name="placas" type="xs:string" />
+      <xs:element minOccurs="0" name="puntoInteres" type="xs:string" />
+      <xs:element minOccurs="0" name="referencia" type="xs:string" />
+      <xs:element minOccurs="0" name="rpm" type="xs:int" />
+      <xs:element minOccurs="0" name="tipo" type="xs:string" />
+      <xs:element minOccurs="0" name="tipoEvento" type="xs:int" />
+      <xs:element minOccurs="0" name="velGPS" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerPuntosCruzados">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="user" type="xs:string" />
+      <xs:element minOccurs="0" name="password" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerPuntosCruzadosResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:respuestaWSObtenerPuntosCruzados" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="respuestaWSObtenerPuntosCruzados">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" type="xs:int" />
+      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="puntosCruzados" nillable="true" type="tns:puntoCruzado" />
+      <xs:element minOccurs="0" name="status" type="tns:statusType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="puntoCruzado">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alias" type="xs:string" />
+      <xs:element minOccurs="0" name="dentroEstado" type="xs:string" />
+      <xs:element minOccurs="0" name="direccion" type="xs:string" />
+      <xs:element minOccurs="0" name="fechaMX" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="fechaUTC" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="lat" type="xs:double" />
+      <xs:element minOccurs="0" name="lng" type="xs:double" />
+      <xs:element minOccurs="0" name="mrefc" type="xs:double" />
+      <xs:element minOccurs="0" name="mrefp" type="xs:double" />
+      <xs:element minOccurs="0" name="nombrePI" type="xs:string" />
+      <xs:element minOccurs="0" name="operador" type="xs:string" />
+      <xs:element minOccurs="0" name="placas" type="xs:string" />
+      <xs:element minOccurs="0" name="puntoInteresID" type="xs:int" />
+      <xs:element minOccurs="0" name="puntoViajeID" type="xs:long" />
+      <xs:element minOccurs="0" name="refCiudad" type="xs:string" />
+      <xs:element minOccurs="0" name="refPunto" type="xs:string" />
+      <xs:element minOccurs="0" name="status" type="xs:string" />
+      <xs:element minOccurs="0" name="unitno" type="xs:string" />
+      <xs:element minOccurs="0" name="velpromedio" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pruebaConexion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="user" type="xs:string" />
+      <xs:element minOccurs="0" name="password" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pruebaConexionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="statusType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ERROR" />
+      <xs:enumeration value="WARNING" />
+      <xs:enumeration value="OK" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

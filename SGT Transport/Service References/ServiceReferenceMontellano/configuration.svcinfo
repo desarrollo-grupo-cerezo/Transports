@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configurationSnapshot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:schemas-microsoft-com:xml-wcfconfigurationsnapshot">
+  <behaviors />
+  <bindings>
+    <binding digest="System.ServiceModel.Configuration.CustomBindingElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089:&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data name=&quot;service_api_n1PortBinding&quot;&gt;&lt;httpTransport /&gt;&lt;textMessageEncoding messageVersion=&quot;Soap11&quot; /&gt;&lt;transactionFlow transactionProtocol=&quot;WSAtomicTransactionOctober2004&quot; /&gt;&lt;/Data&gt;" bindingType="customBinding" name="service_api_n1PortBinding" />
+  </bindings>
+  <endpoints>
+    <endpoint normalizedDigest="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data address=&quot;http://enlacefreightliner.com:8080/integracion/service_api_n1&quot; binding=&quot;customBinding&quot; bindingConfiguration=&quot;service_api_n1PortBinding&quot; contract=&quot;ServiceReferenceMontellano.service_api_n1&quot; name=&quot;service_api_n1Port&quot; /&gt;" digest="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data address=&quot;http://enlacefreightliner.com:8080/integracion/service_api_n1&quot; binding=&quot;customBinding&quot; bindingConfiguration=&quot;service_api_n1PortBinding&quot; contract=&quot;ServiceReferenceMontellano.service_api_n1&quot; name=&quot;service_api_n1Port&quot; /&gt;" contractName="ServiceReferenceMontellano.service_api_n1" name="service_api_n1Port" />
+  </endpoints>
+</configurationSnapshot>

@@ -1,0 +1,10496 @@
+﻿Imports System.IO
+Imports System.Data.SqlClient
+Imports System.Text.RegularExpressions
+
+Module ModCREATABLAS
+    Public Function CREATE_TABLAS_GPS(fSERVER As String, fUSER As String, fPASSW As String) As Boolean
+        Dim OpenG As Boolean
+        Dim cmd2 As New SqlCommand
+
+        OpenG = False
+        Try
+
+            If OpenGPS(fSERVER, "GCGPS", fUSER, fPASSW) Then
+                SQL = "IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'POSICIONES' and xtype ='U')
+                     CREATE TABLE POSICIONES (STATUS VARCHAR(1) NULL, UNIDAD VARCHAR(10) NULL, ALTITUD FLOAT NULL, 
+                     CERCACIUDAD VARCHAR(90) NULL, COMBUSTIBLETOTAL FLOAT NULL, FECHA DATE NULL, FECHACREACION DATETIME NULL, 
+                     IGNICION BIT NULL, IMPORTACIONID INT NULL, LAT FLOAT NULL, LNG FLOAT NULL, ODOMETROTOTAL FLOAT NULL, 
+                     OPERADOR VARCHAR(50) NULL, PLACAS VARCHAR(40) NULL, SUBFLOTA VARCHAR(40) NULL, UNITNO FLOAT NULL, 
+                     VELPROMEDIO FLOAT NULL, UUID VARCHAR(50) NULL)"
+                cmd2.Connection = cnGPS
+                cmd2.CommandText = SQL
+                returnValue = cmd2.ExecuteNonQuery()
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Or returnValue = "-1" Then
+
+                    End If
+                End If
+                OpenG = True
+            Else
+                'MsgBox("1. No se logro conectar a la base GPS")
+            End If
+            Return OpenG
+        Catch ex As Exception
+            MsgBox("32. " & ex.Message & vbNewLine & ex.StackTrace)
+            BITACORADB("32. " & ex.Message & vbNewLine & ex.StackTrace)
+            Return False
+        End Try
+    End Function
+
+    Public Function EXISTE_DATA(FTABLA As String, FDATA As String) As Boolean
+
+        Try
+            Dim cmd As New SqlCommand
+            Dim dr As SqlDataReader
+            Dim Existe As Boolean
+
+            cmd.Connection = cnSAE
+
+            Select Case FTABLA
+                Case "MONED"
+                    SQL = "SELECT NUM_MONED FROM MONED" & Empresa & " WHERE NUM_MONED = " & FDATA
+            End Select
+
+            cmd.CommandText = SQL
+            dr = cmd.ExecuteReader
+            Existe = False
+            If dr.Read Then
+                Existe = True
+            End If
+            dr.Close()
+            Return Existe
+
+        Catch ex As Exception
+            BITACORADB("33. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("33. " & ex.Message & vbNewLine & ex.StackTrace)
+            Return False
+        End Try
+    End Function
+    Sub AGREGA_CAMPOS_SAROCE()
+        CREA_CAMPO_SAROCE("EMPRESAS", "VISIBLE", "BIT", "")
+
+        Try
+            If Not EXISTE_TABLA_SAROCE("CONFIG") Then
+                SQL = "CREATE TABLE CONFIG (EMPRESA VARCHAR(2) NOT NULL, RUTA_HUELLAS VARCHAR(255) NULL, 
+                    RUTA_FOTOS VARCHAR(255) NULL) ON [PRIMARY] "
+                Using cmd As SqlCommand = cnSAROCE.CreateCommand
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End Using
+            End If
+        Catch ex As Exception
+            BITACORADB("50. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        CREA_CAMPO_SAROCE("CONFIG", "CREA_TABLAS", "VARCHAR", "30")
+        CREA_CAMPO_SAROCE("CONFIG", "UTILIZAR_LECTOR_HUELLA", "SMALLINT", "0")
+        CREA_CAMPO_SAROCE("CONFIG", "RUTA_HUELLAS", "VARCHAR", "255")
+        CREA_CAMPO_SAROCE("CONFIG", "RUTA_FOTOS", "VARCHAR", "255")
+
+    End Sub
+
+    Sub AGREGA_CAMPOS_SAE()
+        CREA_CAMPO("GCCATGASTOS", "CUENTA_CONT", "VARCHAR", "25", "")
+        CREA_CAMPO("GCRESETEO", "LTS_SALIDA", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "LTS_LLEGADA", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "PDF", "VARCHAR", "255", "")
+        CREA_CAMPO("GCRESETEO", "KMS_TAB", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "REND_TAB", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "ESTADO", "VARCHAR", "15", "")
+        CREA_CAMPO("GCRESETEO", "DESCT", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CALIF", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "VELMAX", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "TIEMPO_MARCH_INERCIA", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CALIF_FACTOR_CARGA", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CALIF_RALENTI", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CALIF_GLOBAL", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CAL_FAC_CAR_EVA", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CAL_RAL_EVA", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CAL_GLO_EVA", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CVE_MOT", "INT", "", "")
+
+        CREA_CAMPO("GCRESETEO", "LITROS_UREA", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CARGO_X_PUNTO_MUERTO", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "FACTOR_CARGA", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "PORC_USO_RALENTI", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "LTS_UREA_REAL", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CVE_EVE", "SMALLINT", "", "")
+        CREA_CAMPO("GCRESETEO", "EVE_PORC_TOLERANCIA", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "EVE_PORC_RALENTI", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "PORC_TOLERANCIA", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "PORC_RALENTI", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "NO_VIAJE", "VARCHAR", "20", "")
+        CREA_CAMPO("GCRESETEO", "NO_LIQUI", "VARCHAR", "20", "")
+        CREA_CAMPO("GCRESETEO", "BONO_RES", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "LTS_FORANEOS", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CALIF_VEL_MAX", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "NO_DE_VIAJES", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CALIF_VEL_MAX", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "NO_DE_VIAJES_VACIO", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "BONO_RES_VACIO", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "LTS_AUTORIZADOS", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "LTS_VALES", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "LTS_DESCONTAR", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "PRECIO_X_LTS", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "LTS_AUTORIZADOS2", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "LTS_VALES2", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "LTS_DESCONTAR2", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "PRECIO_X_LTS2", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "EVENTO", "SMALLINT", "", "")
+        CREA_CAMPO("GCRESETEO", "EVENTO_LTS", "SMALLINT", "", "")
+        CREA_CAMPO("GCRESETEO", "PORC_TOL_EVENTO2", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "DESCXLITROS2", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "TABULADOR", "SMALLINT", "", "")
+
+        CREA_CAMPO("GCRESETEO", "RPM_MAX", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CALIF_RPM", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "HORAS_GEN3", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "HORAS_GEN4", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "HORAS_USO2", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "CVE_EVA", "SMALLINT", "", "")
+        CREA_CAMPO("GCRESETEO", "LTS_GENERADOR2", "FLOAT", "", "")
+
+        CREA_CAMPO("GCRESETEO", "NUMGEN1", "VARCHAR", "30", "")
+        CREA_CAMPO("GCRESETEO", "NUMGEN2", "VARCHAR", "30", "")
+        CREA_CAMPO("GCRESETEO", "LTSDESCGEN", "FLOAT", "", "")
+        CREA_CAMPO("GCRESETEO", "DESCXLITROS", "FLOAT", "", "")
+
+
+
+        '29 JULIO 21
+        CREA_CAMPO("GCCLIE_OP", "CP", "VARCHAR", "5", "")
+        CREA_CAMPO("GCCLIE_OP", "COLONIA", "VARCHAR", "50", "")
+        CREA_CAMPO("GCCLIE_OP", "POBLACION", "VARCHAR", "50", "")
+        CREA_CAMPO("GCCLIE_OP", "MUNICIPIO", "VARCHAR", "50", "")
+        CREA_CAMPO("GCCLIE_OP", "ESTADO", "VARCHAR", "50", "")
+        CREA_CAMPO("GCCLIE_OP", "PAIS", "VARCHAR", "50", "")
+        CREA_CAMPO("GCCLIE_OP", "CP_SAT", "VARCHAR", "10", "")
+        CREA_CAMPO("GCCLIE_OP", "COLONIA_SAT", "VARCHAR", "10", "")
+        CREA_CAMPO("GCCLIE_OP", "POBLACION_SAT", "VARCHAR", "10", "")
+        CREA_CAMPO("GCCLIE_OP", "MUNICIPIO_SAT", "VARCHAR", "10", "")
+        CREA_CAMPO("GCCLIE_OP", "ESTADO_SAT", "VARCHAR", "10", "")
+        CREA_CAMPO("GCCLIE_OP", "PAIS_SAT", "VARCHAR", "10", "")
+        CREA_CAMPO("GCCLIE_OP", "CUEN_CONT", "VARCHAR", "28", "")
+
+        Try
+            CREA_CAMPO("GCVALOR_DECLARADO", "DESCR", "Varchar", "120", "")
+            CREA_CAMPO("GCSTATUS_GASTOS_VIAJE", "CLASIFIC", "VARCHAR", "40", "")
+            CREA_CAMPO("GCOPERADOR", "CVE_IMAGEN", "VARCHAR", "255", "")
+            CREA_CAMPO("GCOPERADOR", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCOPERADOR", "CVE_ST_OPER", "SMALLINT", "", "")
+            CREA_CAMPO("GCOPERADOR", "CVE_TANQUE1", "VARCHAR", "40", "")
+            CREA_CAMPO("GCOPERADOR", "CVE_TANQUE2", "VARCHAR", "40", "")
+            CREA_CAMPO("GCOPERADOR", "OBS", "VARCHAR", "255", "")
+            CREA_CAMPO("GCOPERADOR", "NOMBRE_OPER", "VARCHAR", "50", "")
+            CREA_CAMPO("GCOPERADOR", "AP_PATERNO", "VARCHAR", "50", "")
+            CREA_CAMPO("GCOPERADOR", "AP_MATERNO", "VARCHAR", "50", "")
+            CREA_CAMPO("GCOPERADOR", "AP_MATERNO", "VARCHAR", "50", "")
+            CREA_CAMPO("GCOPERADOR", "NUM_EXT", "VARCHAR", "50", "")
+            CREA_CAMPO("GCOPERADOR", "COLONIA_SAT", "VARCHAR", "10", "")
+            CREA_CAMPO("GCOPERADOR", "CP_SAT", "VARCHAR", "10", "")
+            CREA_CAMPO("GCOPERADOR", "MUNICIPIO", "VARCHAR", "50", "")
+            CREA_CAMPO("GCOPERADOR", "MUNICIPIO_SAT", "VARCHAR", "10", "")
+            CREA_CAMPO("GCOPERADOR", "POBLACION_SAT", "VARCHAR", "10", "")
+            CREA_CAMPO("GCOPERADOR", "ESTADO_SAT", "VARCHAR", "10", "")
+            CREA_CAMPO("GCOPERADOR", "REFRENDO_MEDICO", "D", "0", "")
+            CREA_CAMPO("GCOPERADOR", "PAIS", "VARCHAR", "50", "")
+            CREA_CAMPO("GCOPERADOR", "PAIS_SAT", "VARCHAR", "10", "")
+            CREA_CAMPO("GCOPERADOR", "CORREO_PER", "VARCHAR", "255", "")
+            CREA_CAMPO("GCOPERADOR", "MOTIVO_BAJA", "VARCHAR", "255", "")
+            CREA_CAMPO("GCOPERADOR", "USUARIO_BAJA", "VARCHAR", "30", "")
+            CREA_CAMPO("GCOPERADOR", "CVE_MTC", "INT", "", "")
+            CREA_CAMPO("GCOPERADOR", "CTA_CONTA_PCIERR", "VARCHAR", "50", "")
+
+            CREA_CAMPO("GCCONC_GASTOS", "USUARIO", "VARCHAR", "30", "")
+            CREA_CAMPO("GCCONC_GASTOS", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCCONC_GASTOS", "CLASIFIC", "VARCHAR", "40", "")
+
+            CREA_CAMPO("GCDETALLE_RUTAS", "CVE_PLA1", "SMALLINT", "", "")
+            CREA_CAMPO("GCDETALLE_RUTAS", "CVE_PLA2", "SMALLINT", "", "")
+
+            CREA_CAMPO("GCASIGNACION_VIAJE_VALES", "LITROS_REALES", "FLOAT", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_VALES", "ST_VALES", "VARCHAR", "20", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_VALES", "STATUS", "VARCHAR", "21", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_VALES", "OBS", "VARCHAR", "255", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_VALES", "CONCILIADO", "SMALLINT", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_VALES", "CVE_LIQ", "INT", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_VALES", "FECHA_CARGA", "D", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_VALES", "FECHA_TRASPASO", "D", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_VALES", "CVE_RESET", "INT", "", "")
+
+            CREA_CAMPO("GCPARAMTRANSCG", "IEPS", "FLOAT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "MODULO_UNIDADES_COMPLETA", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "PERMITIR_UNIDAD", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "SOLICITAR_ACT_MANTE", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "PORC_ORDEN_TRA_EXT", "FLOAT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "PORC_O_MONTO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "SERIE_CARTA_PORTE", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "SERIE_CARTA_PORTE_VIRTUAL", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "ULT_DOC_CARTA_PORTE", "INT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "ULT_DOC_CARTA_PORTE_VIRTUAL", "INT", "", "")
+
+            CREA_CAMPO("GCPARAMTRANSCG", "DIAS_ANTICIPACION", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "SERIE_VALE_COMBUS", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "VALOR_DECLA_DESDE_SAE", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "LIN_PROD", "VARCHAR", "5", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "GRABAR_CERO_LIQ", "BIT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "IEPS_MAGNA", "FLOAT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "IEPS_PREMIUN", "FLOAT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "IEPS_DIESEL", "FLOAT", "", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "SERIE_UTILITARIOS", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "FOLIO_UTILITARIOS", "INT", "", "")
+
+            CREA_CAMPO("GCPARAMTRANSCG", "SERIE_RE", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMTRANSCG", "FOLIO_RE", "INT", "", "")
+
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_COMPRA", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_COMPRA_DEV", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_ORDEN_COMPRA", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_COMPRA_OT", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_ORDEN_COMPRA_OT", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_RECEPCION_OT", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_COMPRA_OTEXT", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_ORDEN_COMPRA_OTEXT", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_RECEPCION_OTEXT", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "AFEC_TABLA_INVE", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "FTO_COMP", "VARCHAR", "60", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "FTO_ODEC", "VARCHAR", "60", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "FTO_RECE", "VARCHAR", "60", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "FTO_REQU", "VARCHAR", "60", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "FTO_DEVO", "VARCHAR", "60", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SEL_FTO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_COMP_CONCI_VAL_DIESEL", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "OBSER_X_DOCUMENTO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "ALM_COTI", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "ALM_ROTI", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "ALM_OOTI", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_PEDIDOS", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "ALM_COTE", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "ALM_ROTE", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "ALM_OOTE", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_GASTO", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_PRE_OC", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "SERIE_OC_DESDE_PRE_OC", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMCOMPRAS", "IMPUESTOS", "SMALLINT", "", "")
+
+            CREA_CAMPO("GCPARAMVENTAS", "SERIE_REMISION", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMVENTAS", "SERIE_REMISION_EXT", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMVENTAS", "C_ALTA_PROVEEDORES", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "CAPTURA_PAGO_VENTAS", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "C_ALTA_CLIENTES", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "OBSER_X_DOC", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "IMP_PART_KIT", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "BLOQUEAR_PRECIO_PV", "SMALLINT", "", "")
+
+            CREA_CAMPO("GCPARAMVENTAS", "SERIE_CARTA_PORTE", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMVENTAS", "CVE_ART_CP", "VARCHAR", "16", "")
+            CREA_CAMPO("GCPARAMVENTAS", "SERIE_CAP_FACTURA", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMVENTAS", "SERIE_PROGPEDIDOS", "VARCHAR", "12", "")
+            CREA_CAMPO("GCPARAMVENTAS", "LINEA_EN_VENTAS", "VARCHAR", "5", "")
+            CREA_CAMPO("GCPARAMVENTAS", "LIN_FAC_CFDI", "VARCHAR", "5", "")
+            CREA_CAMPO("GCPARAMVENTAS", "SERIE_TIMBRE_TEA", "VARCHAR", "12", "")
+
+            CREA_CAMPO("GCPARAMVENTAS", "OCULTAR_CRE_ENG", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "OCULTAR_CREDITO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "NOVALIDAR_LIM_CRED", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "HABILITAR_DESC", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "PER_VEND_ABA_MIN", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "PER_VEND_ABA_COST", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "ACTIVAR_POLITICAS", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "ACTIVAR_GAD", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "ART_CON_IMP_INCLU", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "VENDER_SIN_EXIST", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "BLOQEAR_LISTA_PREC", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "UTILIZAR_LECTOR_HUELLA", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "ALTA_CTE_POS", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "ALTA_PROD_POS", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMVENTAS", "CLIE_MOSTR", "VARCHAR", "10", "")
+            CREA_CAMPO("GCPARAMVENTAS", "LISTAPRECPRED", "SMALLINT", "", "")
+
+
+            CREA_CAMPO("GCPARAMINVENT", "AFEC_TABLA_INVE", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_ART_TOT", "VARCHAR", "16", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_CPTO_OT", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_CPTO_OT_SAL", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_CPTO_SAL_OPER", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_CPTO_SAL_UNIDAD", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMINVENT", "ACTIVAR_RENOVADO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_ART_RNBDO", "VARCHAR", "16", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_ALM_RNBDO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_ART_NUEVAS", "VARCHAR", "16", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_CPTO_RENOVADO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_CPTO_RENOVADO_ENT", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_ART_REPARA", "VARCHAR", "16", "")
+            CREA_CAMPO("GCPARAMINVENT", "LINEA_VALOR_DECLA", "VARCHAR", "5", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_ART_TARIFA", "VARCHAR", "16", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_ART_NC", "VARCHAR", "16", "")
+            CREA_CAMPO("GCPARAMINVENT", "CVE_D_CAMPLIBCTE", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMINVENT", "LIB_CLIENTE", "VARCHAR", "30", "")
+            CREA_CAMPO("GCPARAMINVENT", "LINEA_TAB_RUTAS", "VARCHAR", "5", "")
+            'SERIE_ORDEN_COMPRA
+            CREA_CAMPO("GCUNIDADES", "CVE_OPER", "INT", "", "")
+            CREA_CAMPO("GCUNIDADES", "CVE_TAQ", "INT", "", "")
+            CREA_CAMPO("GCUNIDADES", "CVE_MOT", "INT", "", "")
+            CREA_CAMPO("GCUNIDADES", "CVE_PROD", "INT", "", "")
+            CREA_CAMPO("GCUNIDADES", "OBS", "VARCHAR", "255", "")
+            CREA_CAMPO("GCUNIDADES", "USUARIO", "VARCHAR", "30", "")
+            CREA_CAMPO("GCUNIDADES", "SUBTIPOREM", "VARCHAR", "6", "")
+            CREA_CAMPO("GCUNIDADES", "ANO_MODELO", "VARCHAR", "20", "")
+            CREA_CAMPO("GCUNIDADES", "CVE_REND", "SMALLINT", "", "")
+            CREA_CAMPO("GCUNIDADES", "CUEN_CONT", "VARCHAR", "30", "")
+            CREA_CAMPO("GCUNIDADES", "CUEN_CONT2", "VARCHAR", "30", "")
+            CREA_CAMPO("GCUNIDADES", "CUEN_CONT_VTA", "VARCHAR", "30", "")
+            CREA_CAMPO("GCUNIDADES", "CTA_CON_DIESEL", "VARCHAR", "30", "")
+            CREA_CAMPO("GCUNIDADES", "CTA_CON_DIESEL_SIVA", "VARCHAR", "30", "")
+            CREA_CAMPO("GCUNIDADES", "MOTIVO_BAJA", "VARCHAR", "255", "")
+            CREA_CAMPO("GCUNIDADES", "USUARIO_BAJA", "VARCHAR", "30", "")
+            CREA_CAMPO("GCUNIDADES", "CVE_MTC", "INT", "", "")
+
+            'TIEMPO_REAL 
+            'CSERVICIOS_MANTE_PAR
+            CREA_CAMPO("GCSERVICIOS_MANTE_PAR", "TIEMPO_REAL", "FLOAT", "0", "")
+            CREA_CAMPO("GCSERVICIOS_MANTE_PAR", "STATUS", "VARCHAR", "1", "")
+            CREA_CAMPO("GCSERVICIOS_MANTE_PAR", "CANT", "FLOAT", "0", "")
+
+            CREA_CAMPO("GCPROGAMACION_SERVICIOS", "CVE_SER", "VARCHAR", "10", "")
+            CREA_CAMPO("GCPROGAMACION_SERVICIOS", "FECHA_CANC", "DT", "", "")
+            CREA_CAMPO("GCPROGAMACION_SERVICIOS", "CVE_ORD", "VARCHAR", "10", "")
+            CREA_CAMPO("GCPROGAMACION_SERVICIOS", "CVE_UNI", "VARCHAR", "10", "")
+            CREA_CAMPO("GCPROGAMACION_SERVICIOS", "FECHA_PROG", "D", "0", "")
+            CREA_CAMPO("GCPROGAMACION_SERVICIOS", "FECHA_CREA", "D", "0", "")
+            CREA_CAMPO("GCPROGAMACION_SERVICIOS", "FECHA_INI_SER", "D", "0", "")
+            CREA_CAMPO("GCPROGAMACION_SERVICIOS", "FECHA_FIN", "D", "0", "")
+            'FECHA_CREA, FECHA_PROG, FECHA_INI_SER, FECHA_FIN
+            CREA_CAMPO("GCUSUARIOS", "CLAVE_SAE", "SMALLINT", "0", "")
+            CREA_CAMPO("GCUSUARIOS", "PASS", "VARCHAR", "30", "")
+            CREA_CAMPO("GCUSUARIOS", "PASS_ALTERNA", "VARCHAR", "30", "")
+
+
+            CREA_CAMPO("GCDOCTOSIG", "TIPO_DOC", "VARCHAR", "1", "")
+
+            CREA_CAMPO("GCCONTRATOS_TAB_RUTAS", "FLETE", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATOS_TAB_RUTAS", "SUELDO_OPER", "FLOAT", "0", "")
+
+            CREA_CAMPO("GCCONTRATO", "FECHAELAB", "D", "0", "")
+            CREA_CAMPO("GCCONTRATO", "UUID", "VARCHAR", "50", "")
+            CREA_CAMPO("GCCONTRATO", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCCONTRATO", "CVE_GTO", "INT", "", "")
+            CREA_CAMPO("GCCONTRATO", "IMPORTE_GAS", "FLOAT", "", "")
+            CREA_CAMPO("GCCONTRATO", "CVE_GAV", "VARCHAR", "10", "")
+            CREA_CAMPO("GCCONTRATO", "LITROS", "FLOAT", "", "")
+            'LINEAS AGREGADAS 3 AGOSTO
+            CREA_CAMPO("GCCONTRATO", "REM_CARGA1", "VARCHAR", "60", "")
+            CREA_CAMPO("GCCONTRATO", "REM_CARGA2", "VARCHAR", "60", "")
+            CREA_CAMPO("GCCONTRATO", "REM_CARGA3", "VARCHAR", "60", "")
+            CREA_CAMPO("GCCONTRATO", "REM_CARGA4", "VARCHAR", "60", "")
+            CREA_CAMPO("GCCONTRATO", "PESO_BRUTO1", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "PESO_BRUTO2", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "PESO_BRUTO3", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "PESO_BRUTO4", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "TARA1", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "TARA2", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "TARA3", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "TARA4", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "SUBTOTAL", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "IVA", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "RETENCION", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "NETO", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "FLETE", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "REM_CARGA", "SMALLINT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "CVE_VAL_DECLA", "INT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "VALOR_DECLARADO", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "CVE_ART_FAC", "VARCHAR", "16", "")
+            CREA_CAMPO("GCCONTRATO", "IMPORTE_FAC", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "CVE_TAB_VIAJE", "VARCHAR", "20", "")
+            CREA_CAMPO("GCCONTRATO", "KMS", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "P4_SENC_LTS", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "FULL_P4_LTS", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "LTR_DIESEL_SEN", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "LTR_DIESEL_FULL", "FLOAT", "0", "")
+            CREA_CAMPO("GCCONTRATO", "CVE_MTC", "INT", "0", "")
+
+            CREA_CAMPO("GCTAB_RUTAS", "CVE_RUTA", "SMALLINT", "0", "")
+            CREA_CAMPO("GCTAB_RUTAS", "OBSER", "VARCHAR", "255", "")
+
+            CREA_CAMPO("GCASIGNACION_VIAJE_GASTOS", "USUARIO1", "VARCHAR", "80", "0")
+            CREA_CAMPO("GCASIGNACION_VIAJE_GASTOS", "USUARIO2", "VARCHAR", "80", "0")
+            CREA_CAMPO("GCASIGNACION_VIAJE_GASTOS", "ST_GASTOS", "VARCHAR", "20", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_GASTOS", "AUTORIZADO", "BIT", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_GASTOS", "STATUS", "VARCHAR", "1", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_GASTOS", "CVE_LIQ", "INT", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_GASTOS", "TIPO_PAGO", "SMALLINT", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_GASTOS", "REF_BAN", "VARCHAR", "80", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_GASTOS", "POL_GEN", "VARCHAR", "1", "")
+
+            CREA_CAMPO("GCASIGNACION_VIAJE_TAB_RUTAS", "CVE_RUTA", "SMALLINT", "", "")
+
+            CREA_CAMPO("GCBAJA_VIAJE", "FECHA", "D", "0", "")
+            CREA_CAMPO("GCBAJA_VIAJE", "FECHAELAB", "DT", "0", "")
+            CREA_CAMPO("GCBAJA_VIAJE", "CLIENTE", "VARCHAR", "10", "")
+            CREA_CAMPO("GCBAJA_VIAJE", "UUID", "VARCHAR", "50", "")
+
+            CREA_CAMPO("GCCOTIZADOR", "STATUS", "VARCHAR", "1", "")
+            CREA_CAMPO("GCCOTIZADOR", "REND_G", "FLOAT", "", "")
+            CREA_CAMPO("GCCOTIZADOR", "DIAS_DURA_CIRC", "FLOAT", "", "")
+
+            CREA_CAMPO("GCCOTIZADOR_PAR", "STATUS", "VARCHAR", "1", "")
+            CREA_CAMPO("GCCOTIZADOR_PAR", "UUID", "VARCHAR", "50", "")
+            'USUARIO
+            CREA_CAMPO("GCPEDIDOS", "NUM_TALON", "VARCHAR", "80", "")
+            CREA_CAMPO("GCPEDIDOS", "CVE_OPER", "INT", "0", "")
+            CREA_CAMPO("GCPEDIDOS", "CVE_CAP", "VARCHAR", "10", "")
+            CREA_CAMPO("GCPEDIDOS", "CVE_TRACTOR", "VARCHAR", "40", "")
+            CREA_CAMPO("GCPEDIDOS", "CVE_TANQUE1", "VARCHAR", "40", "")
+            CREA_CAMPO("GCPEDIDOS", "CVE_TANQUE2", "VARCHAR", "40", "")
+            CREA_CAMPO("GCPEDIDOS", "ENTREGAR_EN", "VARCHAR", "10", "")
+            CREA_CAMPO("GCPEDIDOS", "RECOGER_EN", "VARCHAR", "10", "")
+            CREA_CAMPO("GCPEDIDOS", "CLAVE_O", "VARCHAR", "10", "")
+            CREA_CAMPO("GCPEDIDOS", "CLAVE_D", "VARCHAR", "10", "")
+            CREA_CAMPO("GCPEDIDOS", "CVE_PLAZA1", "INT", "", "")
+            CREA_CAMPO("GCPEDIDOS", "CVE_PLAZA2", "INT", "", "")
+            CREA_CAMPO("GCPEDIDOS", "NUM_TALON2", "VARCHAR", "40", "")
+            CREA_CAMPO("GCPEDIDOS", "LEYENDA", "VARCHAR", "120", "")
+            CREA_CAMPO("GCPEDIDOS", "VALOR_DECLA", "INT", "", "")
+            CREA_CAMPO("GCPEDIDOS", "ORDEN_DE", "VARCHAR", "255", "")
+            CREA_CAMPO("GCPEDIDOS", "EMBARQUE", "VARCHAR", "255", "")
+            CREA_CAMPO("GCPEDIDOS", "CARGA_ANTERIOR", "VARCHAR", "255", "")
+            CREA_CAMPO("GCPEDIDOS", "PEDIMENTO", "VARCHAR", "100", "")
+            CREA_CAMPO("GCPEDIDOS", "PED_ENLAZADO", "VARCHAR", "20", "")
+            CREA_CAMPO("GCPEDIDOS", "CVE_TAB_VIAJE", "VARCHAR", "20", "")
+            CREA_CAMPO("GCPEDIDOS", "CVE_MTC", "INT", "", "")
+
+            CREA_CAMPO("GCPEDIDOSPROG", "PEDIMENTO", "VARCHAR", "100", "")
+            CREA_CAMPO("GCPEDIDOSPROG", "ENLAZADO", "VARCHAR", "1", "")
+
+
+            CREA_CAMPO("GCASIGNACION_VIAJE", "ORDEN_DE", "VARCHAR", "120", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "EMBARQUE", "VARCHAR", "120", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "CARGA_ANTERIOR", "VARCHAR", "120", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_TAB_VIAJE", "VARCHAR", "20", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_TRANSBORDO", "INT", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_VIAJE_TRANSBORDO", "VARCHAR", "20", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "FECHA_CARGA", "D", "", "0")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "FECHA_DESCARGA", "D", "", "0")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "KM_RECORRIDOS", "FLOAT", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "ENTREGAR_EN", "VARCHAR", "10", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "RECOGER_EN", "VARCHAR", "10", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_PLAZA1", "INT", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_PLAZA2", "INT", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_CAP1", "VARCHAR", "20", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_CAP2", "VARCHAR", "20", "")
+
+            CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_MTC", "INT", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "ACT_COI", "VARCHAR", "1", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "UUID", "VARCHAR", "50", "")
+
+            CREA_CAMPO("GCREPORTE_FALLAS", "FECHAELAB", "DT", "", "")
+            CREA_CAMPO("GCREPORTE_FALLAS", "GUID", "VARCHAR", "50", "")
+            CREA_CAMPO("GCREPORTE_FALLAS", "KMS", "FLOAT", "", "")
+            CREA_CAMPO("GCREPORTE_FALLAS", "TIPO_VIAJE", "SMALLINT", "", "")
+            CREA_CAMPO("GCREPORTE_FALLAS", "ESTATUS", "VARCHAR", "15", "")
+
+            CREA_CAMPO("GCLLANTAS", "KMS_MONTAR", "FLOAT", "", "")
+            CREA_CAMPO("GCLLANTAS", "KMS_DESMONTAR", "FLOAT", "", "")
+            CREA_CAMPO("GCLLANTAS", "FECHAELAB", "DT", "", "")
+            CREA_CAMPO("GCLLANTAS", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCLLANTAS", "USUARIO", "VARCHAR", "30", "")
+            CREA_CAMPO("GCLLANTAS", "NUM_MOV", "INT", "", "")
+            CREA_CAMPO("GCLLANTAS", "CVE_ART", "VARCHAR", "16", "")
+            CREA_CAMPO("GCLLANTAS", "TIPO_NUEVA_RENO", "SMALLINT", "", "")
+            CREA_CAMPO("GCLLANTAS", "PROFUNDIDAD_ACTUAL2", "FLOAT", "", "")
+            CREA_CAMPO("GCLLANTAS", "PROFUNDIDAD_ACTUAL3", "FLOAT", "", "")
+            CREA_CAMPO("GCLLANTAS", "PROFUNDIDAD_ACTUAL4", "FLOAT", "", "")
+
+            CREA_CAMPO("GCLLANTAS", "TIPO_RIN", "VARCHAR", "20", "")
+
+            CREA_CAMPO("GCINSPEC_LLANTAS", "PROFUNDIDAD_ACTUAL2", "FLOAT", "", "")
+            CREA_CAMPO("GCINSPEC_LLANTAS", "PROFUNDIDAD_ACTUAL3", "FLOAT", "", "")
+            CREA_CAMPO("GCINSPEC_LLANTAS", "PROFUNDIDAD_ACTUAL4", "FLOAT", "", "")
+            CREA_CAMPO("GCINSPEC_LLANTAS", "KMS_ACTUAL", "FLOAT", "", "")
+
+            CREA_CAMPO("GCLLA_REN_COMP", "NUM_MOV", "INT", "", "")
+            CREA_CAMPO("GCLLA_REN_COMP", "NUM_PAR", "SMALLINT", "", "")
+            CREA_CAMPO("GCLLA_REN_COMP", "CVE_UNI", "VARCHAR", "10", "")
+            CREA_CAMPO("GCLLA_REN_COMP", "POSICION", "SMALLINT", "", "")
+
+            CREA_CAMPO("GCLLA_REN_TMP", "TIPO_LLANTA", "VARCHAR", "10", "")
+            CREA_CAMPO("GCLLA_REN_TMP", "CVE_ART", "VARCHAR", "16", "")
+            CREA_CAMPO("GCLLA_REN_TMP", "NUM_PAR", "SMALLINT", "", "")
+
+
+            CREA_CAMPO("GCLLANTAS_MINVE", "CVE_DOC", "VARCHAR", "20", "")
+            CREA_CAMPO("GCLLANTAS_MINVE", "DOC_ANT", "VARCHAR", "20", "")
+            CREA_CAMPO("GCLLANTAS_MINVE", "ENLAZADO", "VARCHAR", "1", "")
+            CREA_CAMPO("GCLLANTAS_MINVE", "TIP_DOC", "VARCHAR", "1", "")
+            CREA_CAMPO("GCLLANTAS_MINVE", "CVE_ART", "VARCHAR", "16", "")
+            CREA_CAMPO("GCLLANTAS_MINVE", "NUM_PAR", "SMALLINT", "", "")
+            CREA_CAMPO("GCLLANTAS_MINVE", "CVE_TIPO", "VARCHAR", "10", "")
+            CREA_CAMPO("GCLLANTAS_MINVE", "SIGNO", "SMALLINT", "", "")
+            CREA_CAMPO("GCLLANTAS_MINVE", "NUM_ALM", "SMALLINT", "", "")
+            CREA_CAMPO("GCLLANTAS_MINVE", "CVE_CPTO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPROGAMACION_SERVICIOS", "UUID", "VARCHAR", "50", "")
+
+
+            CREA_CAMPO("GCCARTA_PORTE", "ORDEN_DE", "VARCHAR", "255", "")
+            CREA_CAMPO("GCCARTA_PORTE", "EMBARQUE", "VARCHAR", "255", "")
+            CREA_CAMPO("GCCARTA_PORTE", "CARGA_ANTERIOR", "VARCHAR", "255", "")
+            CREA_CAMPO("GCCARTA_PORTE", "SUBTOTAL", "FLOAT", "", "")
+            CREA_CAMPO("GCCARTA_PORTE", "IVA", "FLOAT", "", "")
+            CREA_CAMPO("GCCARTA_PORTE", "RETENCION", "FLOAT", "", "")
+            CREA_CAMPO("GCCARTA_PORTE", "NETO", "FLOAT", "", "")
+            CREA_CAMPO("GCCARTA_PORTE", "ST_CARTA_PORTE", "SMALLINT", "", "")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_CAP", "INT", "", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CONCILIADO", "BIT", "", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_PLAZA1", "INT", "", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_PLAZA2", "INT", "", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "FECHA_CARGA", "D", "", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "FECHA_DESCARGA", "D", "", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_DOCP", "VARCHAR", "20", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "SELECCIONE", "INT", "", "")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_DOCR", "VARCHAR", "20", "")
+            CREA_CAMPO("GCCARTA_PORTE", "REM_CARGA", "SMALLINT", "0", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_VAL_DECLA", "INT", "0", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "VALOR_DECLARADO", "FLOAT", "0", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_MAT", "VARCHAR", "16", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CANT", "FLOAT", "0", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "SERIE", "VARCHAR", "10", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "FOLIO", "INT", "", "")
+            CREA_CAMPO("GCCARTA_PORTE", "TIMBRADA", "VARCHAR", "1", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "PEDIMENTO", "VARCHAR", "100", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "OBSER_CFDI", "VARCHAR", "255", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_TAB_VIAJE", "VARCHAR", "20", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_CON", "VARCHAR", "20", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_ESQIMPU", "SMALLINT", "", "")
+            CREA_CAMPO("GCCARTA_PORTE", "KM_RECORRIDOS", "FLOAT", "0", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "FECHA_TIMBRE", "DT", "", "")
+            CREA_CAMPO("GCCARTA_PORTE", "FECHA_CARGA_TIMBRE", "DT", "", "")
+            CREA_CAMPO("GCCARTA_PORTE", "FECHA_REAL_CARGA", "DT", "", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "FECHA_REAL_DESCARGA", "DT", "", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_OBSP", "INT", "0", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_MTC", "INT", "0", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_TIPO_OPE", "SMALLINT", "", "")
+            CREA_CAMPO("GCCARTA_PORTE", "CVE_OBS_BAJA", "INT", "0", "0")
+            CREA_CAMPO("GCCARTA_PORTE", "CP_VIRTUAL", "SMALLINT", "0", "0")
+
+            CREA_CAMPO("GCPARAMGENERALES", "TIPO_OTI", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "TIPO_OTE", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "TIPO_MEDICION_COMBUSTIBLE", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "TIPO_TAB", "SMALLINT", "", "")
+
+            CREA_CAMPO("GCPARAMGENERALES", "RUTA_XML", "VARCHAR", "255", "")
+
+            CREA_CAMPO("GCPARAMGENERALES", "DESCUENTO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "CALIFICACION", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "VELOCIDADMAXIMA", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "TIEMPOMARCHAINERCIA", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "LITROSDESCONTAR", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "PRECIOXLITRO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "DESCXLITRO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "LTSAUTORIZ", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "LTSUREA", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "LTSUREA_REAL", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "CARGOXPUNTOMUERTO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "NO_VIAJE", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "NO_LIQUI", "SMALLINT", "", "")
+            '26-08-21
+            CREA_CAMPO("GCPARAMGENERALES", "PRECIO_X_LTS", "FLOAT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "RUTA_EXCEL", "VARCHAR", "255", "")
+            CREA_CAMPO("GCPARAMGENERALES", "EXPORTAR_COMO_CSV", "SMALLINT", "", "")
+            CREA_CAMPO("GCPARAMGENERALES", "RUTA_X_USUARIO", "SMALLINT", "", "")
+            'NUEVAS
+            CREA_CAMPO("GCPARAMGENERALES", "HORAS_GEN1", "SMALLINT", "", "1")
+            CREA_CAMPO("GCPARAMGENERALES", "HORAS_GEN2", "SMALLINT", "", "1")
+            CREA_CAMPO("GCPARAMGENERALES", "HORAS_USO1", "SMALLINT", "", "1")
+            CREA_CAMPO("GCPARAMGENERALES", "HORAS_GEN3", "SMALLINT", "", "1")
+            CREA_CAMPO("GCPARAMGENERALES", "HORAS_GEN4", "SMALLINT", "", "1")
+            CREA_CAMPO("GCPARAMGENERALES", "HORAS_USO2", "SMALLINT", "", "1")
+
+            CREA_CAMPO("GCPARAMGENERALES", "LTS_GEN2", "SMALLINT", "", "1")
+            CREA_CAMPO("GCPARAMGENERALES", "NUM_VIAJES_FULL", "SMALLINT", "", "1")
+            CREA_CAMPO("GCPARAMGENERALES", "NUM_VIAJES_SENC", "SMALLINT", "", "1")
+            CREA_CAMPO("GCPARAMGENERALES", "RPM_MAXIMA", "SMALLINT", "", "1")
+
+            CREA_CAMPO("GCPARAMGENERALES", "NUMGEN1", "SMALLINT", "", "1")
+            CREA_CAMPO("GCPARAMGENERALES", "NUMGEN2", "SMALLINT", "", "1")
+            CREA_CAMPO("GCPARAMGENERALES", "LTSDESCGEN", "SMALLINT", "", "1")
+
+            '----------------------
+            CREA_CAMPO("GCORDEN_TRA_SER", "COSTO", "FLOAT", "0", "")
+            CREA_CAMPO("GCORDEN_TRA_SER", "UUID", "VARCHAR", "50", "")
+            CREA_CAMPO("GCORDEN_TRA_SER", "CANT_ENTREGADA", "FLOAT", "0", "")
+
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "UUID", "VARCHAR", "50", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "COSTO", "FLOAT", "0", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "CANT_ENTREGADA", "FLOAT", "0", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "CVE_PROV", "VARCHAR", "10", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "TIPO_PROD", "VARCHAR", "1", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "CVE_ALM", "SMALLINT", "", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "CONTROL", "VARCHAR", "1", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "CVE_MEC", "SMALLINT", "", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "CANT_ORIGINAL", "FLOAT", "0", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "NUM_MOV", "INT", "0", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "USUARIO_ALTA", "VARCHAR", "20", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "USUARIO_EDIT", "VARCHAR", "20", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "USUARIO_CANC", "VARCHAR", "20", "")
+            CREA_CAMPO("GCORDEN_TRA_SER_EXT", "FECHA", "D", "", "")
+
+            CREA_CAMPO("GCORDEN_TRABAJO_EXT", "DOC_SIG", "VARCHAR", "20", "")
+            CREA_CAMPO("GCORDEN_TRABAJO_EXT", "DOC_ANTR", "VARCHAR", "20", "")
+            CREA_CAMPO("GCORDEN_TRABAJO_EXT", "DOC_ANT", "VARCHAR", "20", "")
+            CREA_CAMPO("GCORDEN_TRABAJO_EXT", "PORC_UTIL", "SMALLINT", "0", "")
+            CREA_CAMPO("GCORDEN_TRABAJO_EXT", "CVE_PROG", "VARCHAR", "10", "")
+            CREA_CAMPO("GCORDEN_TRABAJO_EXT", "A_M", "VARCHAR", "1", "")
+            CREA_CAMPO("GCORDEN_TRABAJO_EXT", "RESPONSABLE", "VARCHAR", "80", "")
+            CREA_CAMPO("GCORDEN_TRABAJO_EXT", "ACT_COI", "VARCHAR", "1", "")
+
+            CREA_CAMPO("GCBANCOS", "CTA_BANCARIA", "VARCHAR", "60", "")
+            CREA_CAMPO("GCBANCOS", "CLABE", "VARCHAR", "30", "")
+            CREA_CAMPO("GCBANCOS", "FECHA_APER", "DT", "", "")
+            CREA_CAMPO("GCBANCOS", "EJECUTIVO", "VARCHAR", "120", "")
+            CREA_CAMPO("GCBANCOS", "Alias", "VARCHAR", "60", "")
+            CREA_CAMPO("GCBANCOS", "SUCURSAL", "VARCHAR", "80", "")
+            CREA_CAMPO("GCBANCOS", "SALDO", "FLOAT", "", "")
+            CREA_CAMPO("GCMEDICIONCOMBUSTIBLE", "LITROS", "FLOAT", "", "")
+            CREA_CAMPO("GCMEDICIONCOMBUSTIBLE", "TIPO_LITROS", "SMALLINT", "", "")
+            CREA_CAMPO("GCMEDICIONCOMBUSTIBLE", "CVE_RES", "INT", "", "")
+            CREA_CAMPO("GCMEDICIONCOMBUSTIBLE", "CVE_TAQ", "INT", "", "")
+
+            CREA_CAMPO("GCTABULADOR_PAR", "TIPO_VIAJE", "VARCHAR", "10", "")
+            CREA_CAMPO("GCTABULADOR_PAR", "CVE_OPER", "INT", "", "")
+            CREA_CAMPO("GCTABULADOR_PAR", "CVE_UNI", "VARCHAR", "10", "")
+            CREA_CAMPO("GCTABULADOR_PAR", "STATUS", "VARCHAR", "1", "")
+            CREA_CAMPO("GCTABULADOR_PAR", "ESTADO", "VARCHAR", "1", "")
+            CREA_CAMPO("GCTABULADOR_PAR", "TONELADAS", "FLOAT", "", "")
+            CREA_CAMPO("GCTABULADOR_PAR", "OBSER", "VARCHAR", "255", "")
+
+            CREA_CAMPO("GCRESETEO_TABULADOR", "CVE_OPER", "INT", "", "")
+            CREA_CAMPO("GCRESETEO_TABULADOR", "CVE_UNI", "VARCHAR", "10", "")
+            CREA_CAMPO("GCRESETEO_TABULADOR", "TIPO_VIAJE", "VARCHAR", "10", "")
+
+            CREA_CAMPO("GCTANQUES", "T1_PROFUNDIDAD", "FLOAT", "", "")
+            CREA_CAMPO("GCTANQUES", "T2_PROFUNDIDAD", "FLOAT", "", "")
+
+            CREA_CAMPO("GCCATEVA", "PONDE_FC", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "PONDE_RALENTI", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "CAL_FAC_CAR_EVA", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "CAL_RAL_EVA", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "CAL_GLO_EVA", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "VEL_MAX", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "CALIF_VEL_MAX", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "PON_VEL_MAX", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "TIPO_VIAJE", "SMALLINT", "", "")
+
+            CREA_CAMPO("GCCATEVA", "CALIF_GLOBAL2", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "CALIF_GLOBAL3", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "CALIF_GLOBAL4", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "CALIF_GLOBAL5", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "CALIF_GLOBAL6", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "CALIF_GLOBAL7", "FLOAT", "", "")
+
+            CREA_CAMPO("GCCATEVA", "BONO2", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "BONO3", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "BONO4", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "BONO5", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "BONO6", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "BONO7", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "CALCULO_POSITIVO", "SMALLINT", "", "")
+
+            CREA_CAMPO("GCCATEVA", "RPM_MAX", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "PON_RPM_MAX", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "CALIF_RPM_MAX", "FLOAT", "", "")
+            CREA_CAMPO("GCCATEVA", "DESCR", "VARCHAR", "120", "")
+
+
+            CREA_CAMPO("GCCAT_STATUS_UNIDADES", "ORDEN", "SMALLINT", "", "")
+
+            CREA_CAMPO("GCMECANICOS", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCMECANICOS", "MOTIVO_BAJA", "VARCHAR", "255", "")
+            CREA_CAMPO("GCMECANICOS", "CVE_MTC", "INT", "", "")
+
+            CREA_CAMPO("GCASEGURADORAS", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCASEGURADORAS", "POLIZARESPCIVIL", "VARCHAR", "50", "")
+            CREA_CAMPO("GCASEGURADORAS", "ASEGURARESPCIVIL", "VARCHAR", "50", "")
+
+            CREA_CAMPO("GCDESC_OPERADOR", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCRECOGER_EN_ENTREGAR_EN", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCPLAZAS", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCPLAZAS", "CLAVE_SAT_LOC", "VARCHAR", "10", "")
+            CREA_CAMPO("GCPLAZAS", "CLAVE_SAT_MUN", "VARCHAR", "10", "")
+
+            CREA_CAMPO("GCESTADOS", "CLAVE_SAT_EST", "VARCHAR", "20", "")
+            CREA_CAMPO("GCESTADOS", "CLAVE_SAT_PAIS", "VARCHAR", "20", "")
+            CREA_CAMPO("GCESTADOS", "PAIS", "VARCHAR", "20", "")
+
+            CREA_CAMPO("GCPRODUCTOS", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCPRODUCTOS", "MAT_PELIGROSO", "SMALLINT", "", "")
+            CREA_CAMPO("GCPRODUCTOS", "CVE_MAT_PELIGROSO", "VARCHAR", "6", "")
+            CREA_CAMPO("GCPRODUCTOS", "EMBALAJE", "VARCHAR", "6", "")
+            CREA_CAMPO("GCPRODUCTOS", "UNIDADPESO", "VARCHAR", "6", "")
+            CREA_CAMPO("GCPRODUCTOS", "BIENESTRANSP", "VARCHAR", "12", "")
+
+            CREA_CAMPO("GCGASOLINERAS", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCGASOLINERAS", "CORREO", "VARCHAR", "255", "")
+            CREA_CAMPO("GCGASOLINERAS", "CVE_PROV", "VARCHAR", "10", "")
+
+
+            CREA_CAMPO("GCCLASIFIC_SERVICIOS", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCCONC_PRESTAMOS", "CUEN_CONT", "VARCHAR", "28", "")
+            CREA_CAMPO("GCCONCI_VALES_COMBUS_PAR", "CVE_VIAJE", "VARCHAR", "20", "")
+            CREA_CAMPO("GCCONCI_VALES_COMBUS_PAR", "STATUS", "VARCHAR", "1", "A")
+            CREA_CAMPO("GCCONCI_VALES_COMBUS", "XML", "VARCHAR", "255", "")
+            CREA_CAMPO("GCCONCI_VALES_COMBUS", "CVE_PROV", "VARCHAR", "10", "")
+            CREA_CAMPO("GCCONCI_VALES_COMBUS", "POL_GEN", "VARCHAR", "11", "")
+            CREA_CAMPO("GCCONCI_VALES_COMBUS", "FOLIO_CFDI", "INT", "", "")
+            CREA_CAMPO("GCCONCI_VALES_COMBUS", "SERIE_CFDI", "VARCHAR", "12", "")
+            CREA_CAMPO("GCCONCI_VALES_COMBUS", "REFER_PAGA_M", "VARCHAR", "20", "")
+            CREA_CAMPO("GCCONCI_VALES_COMBUS", "ACT_COI", "VARCHAR", "1", "")
+
+            CREA_CAMPO("GCBAJA_VIAJE_PAR", "CVE_VIAJE", "VARCHAR", "20", "A")
+            CREA_CAMPO("GCREPORT1", "NMES", "SMALLINT", "", "")
+            CREA_CAMPO("GCMOTORES", "MOTOR", "VARCHAR", "30", "")
+            CREA_CAMPO("GCMOTORES", "TIPO_VIAJE", "SMALLINT", "", "")
+            CREA_CAMPO("GCLIQ_DEDUCCIONES", "CVE_OBS", "INT", "", "")
+            CREA_CAMPO("GCLIQ_DEDUCCIONES", "FOLIO_LIQ_DED", "INT", "", "")
+            CREA_CAMPO("GCLIQ_DEDUCCIONES", "DESCR", "VARCHAR", "60", "")
+            CREA_CAMPO("GCBITA", "CVE_DOC", "VARCHAR", "20", "")
+            CREA_CAMPO("GCBITA", "CVE_ART", "VARCHAR", "16", "")
+            CREA_CAMPO("GCSUELDO_OPER", "OBSER", "VARCHAR", "255", "")
+            CREA_CAMPO("GCSUELDO_OPER", "CLIE_OP", "VARCHAR", "10", "")
+            CREA_CAMPO("GCSUELDO_OPER", "SUELDO_SENC", "FLOAT", "", "")
+            CREA_CAMPO("GCSUELDO_OPER", "CVE_TAB", "VARCHAR", "20", "")
+            CREA_CAMPO("GCSUELDO_OPER", "CVE_MTC", "INT", "", "")
+
+
+            CREA_CAMPO("GCCASETAS", "CVE_PLAZA", "INT", "", "")
+            CREA_CAMPO("GCCASETAS", "IMPORTE1", "FLOAT", "", "")
+            CREA_CAMPO("GCCASETAS", "CLAVE_OP", "VARCHAR", "10", "")
+            CREA_CAMPO("GCCASETAS", "IAVE", "VARCHAR", "20", "")
+
+            CREA_CAMPO("GCDEDUC_OPER", "RESETEO", "VARCHAR", "10", "")
+            CREA_CAMPO("GCDEDUC_OPER", "CVE_LIQ", "INT", "", "")
+            CREA_CAMPO("GCDEDUC_OPER", "CVE_RES", "INT", "", "")
+
+            CREA_CAMPO("GCLIQUIDACIONES", "CVE_DED_RES", "INT", "", "")
+            CREA_CAMPO("GCLIQUIDACIONES", "CVE_MTC", "INT", "", "")
+            'SE AGREO EL DIA 31 DE AGOSTO 2022
+            CREA_CAMPO("GCLIQUIDACIONES", "CVE_DED_DESCUENTO", "INT", "", "")
+            CREA_CAMPO("GCLIQUIDACIONES", "CVE_DED_CARGO_P_MUERTO", "INT", "", "")
+            CREA_CAMPO("GCLIQUIDACIONES", "CONTABILIZADO", "VARCHAR", "1", "")
+
+            CREA_CAMPO("GCLIQ_PARTIDAS", "CVE_SUOP", "INT", "", "")
+
+            CREA_CAMPO("GCASIGNACION_VALES_UTIL", "CVE_TIPO_GAS", "SMALLINT", "", "")
+            CREA_CAMPO("GCASIGNACION_VALES_UTIL", "FACTOR_IEPS", "FLOAT", "", "")
+            CREA_CAMPO("GCASIGNACION_VALES_UTIL", "POL_GEN", "VARCHAR", "15", "")
+            CREA_CAMPO("GCASIGNACION_VALES_UTIL", "XML", "VARCHAR", "255", "")
+            CREA_CAMPO("GCASIGNACION_VALES_UTIL", "FACTURA_CFDI", "VARCHAR", "40", "")
+            CREA_CAMPO("GCASIGNACION_VALES_UTIL", "FECHA_CFDI", "DT", "", "")
+
+
+            CREA_CAMPO("GCCASETAS_X_RUTA", "CLAVE_OP", "VARCHAR", "10", "")
+            CREA_CAMPO("GCCASETAS_X_RUTA", "IAVE", "VARCHAR", "20", "")
+            CREA_CAMPO("CFDI_CFG", "CORREO1", "VARCHAR", "255", "")
+            CREA_CAMPO("CFDI_CFG", "CORREO2", "VARCHAR", "255", "")
+            CREA_CAMPO("CFDI_CFG", "TIMBRADO_DEMO", "SMALLINT", "", "")
+            CREA_CAMPO("CFDI_CFG", "PERMSCT", "VARCHAR", "50", "")
+            CREA_CAMPO("CFDI_CFG", "NUMPERMISOSCT", "VARCHAR", "50", "")
+            CREA_CAMPO("CFDI_CFG", "POLIZAMEDAMBIENTE", "VARCHAR", "50", "")
+            CREA_CAMPO("CFDI_CFG", "ASEGURAMEDAMBIENTE", "VARCHAR", "50", "")
+            CREA_CAMPO("CFDI_CFG", "SERIE_CP", "VARCHAR", "12", "")
+            CREA_CAMPO("CFDI_CFG", "RUTA_XML_TIMBRADO_CONPRECIOS", "VARCHAR", "255", "")
+            CREA_CAMPO("CFDI_CFG", "RUTA_XML_NOTIMBRADO_CONPRECIOS", "VARCHAR", "255", "")
+            CREA_CAMPO("CFDI_CFG", "FTOFACTURA", "VARCHAR", "255", "")
+            CREA_CAMPO("CFDI_CFG", "FTODEV", "VARCHAR", "255", "")
+            CREA_CAMPO("CFDI_CFG", "FTOCOMPPAGO", "VARCHAR", "255", "")
+
+            CREA_CAMPO("CFDI_CFG", "COLONIA_NOSAT", "VARCHAR", "40", "")
+            CREA_CAMPO("CFDI_CFG", "LOCALIDAD_NOSAT", "VARCHAR", "100", "")
+            CREA_CAMPO("CFDI_CFG", "MUNICIPIO_NOSAT", "VARCHAR", "100", "")
+            CREA_CAMPO("CFDI_CFG", "REFERENCIA", "VARCHAR", "255", "")
+
+            CREA_CAMPO("CFDI", "DOCUMENT2", "VARCHAR", "20", "")
+            CREA_CAMPO("CFDI", "FACTURA", "VARCHAR", "20", "")
+            CREA_CAMPO("CFDI", "FOLIO", "INT", "", "")
+            CREA_CAMPO("CFDI", "FECHA_CANCELADA", "D", "", "")
+            CREA_CAMPO("CFDI", "USUARIO_CANCELA", "VARCHAR", "20", "")
+            CREA_CAMPO("CFDI", "CVE_MCANC", "VARCHAR", "5", "")
+            CREA_CAMPO("CFDI", "ESTATUS", "VARCHAR", "1", "")
+            CREA_CAMPO("CFDI", "CLIENTE", "VARCHAR", "10", "")
+            CREA_CAMPO("CFDI", "SUBTOTAL", "FLOAT", "", "")
+            CREA_CAMPO("CFDI", "IMP_TOT1", "FLOAT", "", "")
+            CREA_CAMPO("CFDI", "IMP_TOT2", "FLOAT", "", "")
+            CREA_CAMPO("CFDI", "RETENCION", "FLOAT", "", "")
+            CREA_CAMPO("CFDI", "IVA", "FLOAT", "", "")
+            CREA_CAMPO("CFDI", "IMPORTE", "FLOAT", "", "")
+            CREA_CAMPO("CFDI", "COM_PAGO", "VARCHAR", "1", "")
+            CREA_CAMPO("CFDI", "POLIZA", "VARCHAR", "255", "")
+            CREA_CAMPO("CFDI", "MONEDA", "VARCHAR", "5", "")
+            CREA_CAMPO("CFDI", "METODODEPAGO", "VARCHAR", "50", "")
+            CREA_CAMPO("CFDI", "FORMADEPAGOSAT", "VARCHAR", "5", "")
+            CREA_CAMPO("CFDI", "USO_CFDI", "VARCHAR", "5", "")
+            CREA_CAMPO("CFDI", "ACT_COI", "VARCHAR", "1", "")
+            CREA_CAMPO("CFDI", "NO_CERTIFICADO", "VARCHAR", "30", "")
+            CREA_CAMPO("CFDI", "SELLO_SAT", "VARCHAR", "MAX", "")
+            CREA_CAMPO("CFDI", "SELLO_CFD", "VARCHAR", "MAX", "")
+            CREA_CAMPO("CFDI", "NO_CERTIFICADO_SAT", "VARCHAR", "30", "")
+            CREA_CAMPO("CFDI", "RFCPROVCERTIF", "VARCHAR", "30", "")
+            CREA_CAMPO("CFDI", "UUID_CFDI", "VARCHAR", "50", "")
+            CREA_CAMPO("CFDI", "FECHA_TIMBRADO", "VARCHAR", "30", "")
+            CREA_CAMPO("CFDI", "FECHA_CFDI", "DT", "", "")
+
+
+
+            CREA_CAMPO("CFDI_CONC_LV", "FECHAELAB", "DT", "", "")
+            CREA_CAMPO("CFDI_CONC_LV", "SUBTOTAL", "FLOAT", "", "")
+            CREA_CAMPO("CFDI_CONC_LV", "IVA", "FLOAT", "", "")
+            CREA_CAMPO("CFDI_CONC_LV", "RET", "FLOAT", "", "")
+            CREA_CAMPO("CFDI_CONC_LV", "IMPORTE", "FLOAT", "", "")
+            CREA_CAMPO("CFDI_CONC_LV", "TOTALLETRA", "VARCHAR", "255", "")
+
+
+            CREA_CAMPO("CFDI_CONC_LV", "MONEDA", "VARCHAR", "5", "")
+            CREA_CAMPO("CFDI_CONC_LV", "METODODEPAGO", "VARCHAR", "50", "")
+            CREA_CAMPO("CFDI_CONC_LV", "FORMADEPAGOSAT", "VARCHAR", "5", "")
+            CREA_CAMPO("CFDI_CONC_LV", "USO_CFDI", "VARCHAR", "5", "")
+            CREA_CAMPO("CFDI_CONC_LV", "CVE_TRACTOR", "VARCHAR", "40", "")
+            CREA_CAMPO("CFDI_CONC_LV", "BIENESTRANSP", "VARCHAR", "10", "")
+            CREA_CAMPO("CFDI_CONC_LV", "CLAVE_O", "VARCHAR", "10", "")
+            CREA_CAMPO("CFDI_CONC_LV", "CLAVE_D", "VARCHAR", "10", "")
+            CREA_CAMPO("CFDI_CONC_LV", "CVE_OPER", "VARCHAR", "10", "")
+
+            CREA_CAMPO("GCDERECHOS", "CLAVE", "INT", "", "")
+
+            CREA_CAMPO("GCGASTOS_RENOVADO", "FECHA", "D", "", "")
+            CREA_CAMPO("GCGASTOS_RENOVADO", "ACT_COI", "VARCHAR", "1", "")
+
+            CREA_CAMPO("GCCOMPRAS", "TIPO_DOC", "VARCHAR", "3", "")
+
+            CREA_CAMPO("GCTAB_RUTAS_F", "CVE_CASETA", "INT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "CVE_ART", "VARCHAR", "16", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "CVE_CON", "VARCHAR", "20", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "CVE_GAS", "SMALLINT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "IMPORTE_GASTO", "FLOAT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "CVE_GASOL", "VARCHAR", "10", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "LITROS_RUTA", "FLOAT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "TAUTO_SENC_LTS", "FLOAT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "TP4_SENC_LTS", "FLOAT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "TFULL_AUTO_LTS", "FLOAT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "TFULL_P4_LTS", "FLOAT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "CVE_SUOP", "INT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "SUELDO_X_FACTOR", "SMALLINT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "CVE_TIPO_OPE", "SMALLINT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "PRECIO_X_TANQUE", "SMALLINT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "SERIE_RE", "VARCHAR", "10", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "KM_VACIOS", "FLOAT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "KM_CARGADO", "FLOAT", "", "")
+            CREA_CAMPO("GCTAB_RUTAS_F", "IMPORTE_GAS", "FLOAT", "", "")
+
+            CREA_CAMPO("GCRESET_TAB_FLORES_PAR", "NUM_PAR", "SMALLINT", "", "")
+
+            CREA_CAMPO("GCASIGNACION_VIAJE_GASTOS", "FECHA_AUT", "D", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE_GASTOS", "FECHA_DEP", "D", "", "")
+            CREA_CAMPO("GCSERVICIOS_MANTE_PAR", "NUM_PAR", "SMALLINT", "", "")
+            CREA_CAMPO("GCTABULADOR_EXCEL", "FECHA_IDA", "D", "", "")
+            CREA_CAMPO("GCRESET_TAB_VIKINGOS_PAR", "FECHA_IDA", "D", "", "")
+
+            CREA_CAMPO("CFDI_COMPAGO", "NO_CERTIFICADO", "VARCHAR", "30", "")
+            CREA_CAMPO("CFDI_COMPAGO", "SELLO_SAT", "VARCHAR", "MAX", "")
+            CREA_CAMPO("CFDI_COMPAGO", "SELLO_CFD", "VARCHAR", "MAX", "")
+            CREA_CAMPO("CFDI_COMPAGO", "NO_CERTIFICADO_SAT", "VARCHAR", "30", "")
+            CREA_CAMPO("CFDI_COMPAGO", "RFCPROVCERTIF", "VARCHAR", "30", "")
+            CREA_CAMPO("CFDI_COMPAGO_PAR", "NUM_CPTO", "SMALLINT", "", "")
+            CREA_CAMPO("CFDI_COMPAGO_PAR", "FECHA_PAGO", "DT", "", "")
+
+            CREA_CAMPO("CLIE" & Empresa, "REG_FISC", "VARCHAR", "4", "")
+            CREA_CAMPO("GCGASTOS", "CVE_DEPTO", "VARCHAR", "10", "")
+            CREA_CAMPO("GCDEDUCCIONES", "CVE_MTC", "INT", "", "")
+            CREA_CAMPO("GCDEDUCCIONES", "CTA_CONTABLE", "VARCHAR", "28", "")
+            CREA_CAMPO("GCCOMPRAS", "NUM_REG", "INT", "", "")
+            CREA_CAMPO("GCCOMPRAS", "MODULO", "VARCHAR", "40", "")
+            CREA_CAMPO("GCCAMPO_X_MALLA", "LEYENDA_N", "VARCHAR", "80", "")
+
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "STATUS", "VARCHAR", "1", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "CALLE", "VARCHAR", "120", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "TELEFONO", "VARCHAR", "60", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "CIUDAD", "VARCHAR", "60", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "CLABE", "VARCHAR", "30", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "FECHA_APER", "DT", "", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "EJECUTIVO", "VARCHAR", "120", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "ALIAS", "VARCHAR", "60", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "SUCURSAL", "VARCHAR", "80", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "SALDO", "FLOAT", "", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "CORREO1", "VARCHAR", "80", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "CORREO2", "VARCHAR", "80", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "CORREO3", "VARCHAR", "80", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "UUID", "VARCHAR", "40", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "NUM_MONED", "SMALLINT", "", "")
+
+
+            CREA_CAMPO("CUENTA_ORD" & Empresa, "CLABE", "VARCHAR", "30", "")
+
+
+            'Var12 = SELLO_SAT
+            'Var13 = NO_CERTIFICADO_SAT
+            'Var14 = SELLO_CFD
+            ''
+            INSERT_DERECHOS_CAT1()
+            INSERT_DERECHOS_CAT2()
+            INSERT_DERECHOS_CAT3()
+            INSERT_DERECHOS_CAT4()
+            INSERT_DERECHOS()
+
+            If RunningAsAdmin() Then
+                'ALTER_FIELD_SAE("GCTAB_RUTAS_F", "CVE_TAB", "INT", "VARCHAR(20)", -1)
+
+                'ALTER_FIELD_SAE("GCPEDIDOS", "FECHA_CARGA", "Date", "DATETIME", -1)
+                'ALTER_FIELD_SAE("GCPEDIDOS", "FECHA_DESCARGA", "Date", "DATETIME", -1)
+                'ALTER_FIELD_SAE("GCPEDIDOS", "VALOR_DECLA", "FLOAT", "INT", -1)
+                'ALTER_FIELD_SAE("GCCONTRATO", "VALOR_DECLA", "FLOAT", "INT", -1)
+                'aqui esta el error
+                'ALTER_FIELD_SAE("GCPEDIDOS", "ORDEN_DE", "VARCHAR", "VARCHAR(255)", -1)
+                'ALTER_FIELD_SAE("GCPEDIDOS", "EMBARQUE", "VARCHAR", "VARCHAR(255)", -1)
+                'ALTER_FIELD_SAE("GCPEDIDOS", "CARGA_ANTERIOR", "VARCHAR", "VARCHAR(255)", -1)		
+
+                'ALTER_FIELD_SAE("GCCARTA_PORTE", "FECHA_CARGA", "Date", "DATETIME", -1)
+                'ALTER_FIELD_SAE("GCCARTA_PORTE", "FECHA_DESCARGA", "Date", "DATETIME", -1)
+                'ALTER_FIELD_SAE("GCCARTA_PORTE", "ORDEN_DE", "VARCHAR", "VARCHAR(255)", -1)
+                'ALTER_FIELD_SAE("GCCARTA_PORTE", "EMBARQUE", "VARCHAR", "VARCHAR(255)", -1)
+                'ALTER_FIELD_SAE("GCCARTA_PORTE", "CVE_TAB_VIAJE", "INT", "VARCHAR(20)", -1)
+                'ALTER_FIELD_SAE("GCRESETEO_TABULADOR", "CARGADO_VACIO", "BIT", "SMALLINT", -1)			
+                'ALTER_FIELD_SAE("GCRESETEO", "NO_VIAJE", "VARCHAR", "VARCHAR(80)", -1)
+                'ALTER_FIELD_SAE("GCPEDIDOS", "ORDEN_DE", "VARCHAR", "VARCHAR(255)", -1)
+                'ALTER_FIELD_SAE("GCFORMATOS", "NOMBRE", "VARCHAR", "VARCHAR(80)", -1)
+                'ALTER_FIELD_SAE("GCREPORTE_FALLAS", "CVE_OPER", "VARCHAR", "INT", -1)
+                'ALTER_FIELD_SAE("GCUNIDADES", "CLAVEMONTE", "VARCHAR", "VARCHAR(20)", -1)
+                'CREATE_INDEX("GCCARTA_PORTE", "CVE_FOLIO", "PK_GCCARTA_PORTE")
+                'CREATE_INDEX("GCPEDIDOS", "CVE_DOC", "PK_PEDIDOS")
+                'CREATE_INDEX("GCCONTRATO", "CVE_CON", "PK_GCCONTRATO")
+                'CREATE_INDEX("GCASIGNACION_VIAJE", "CVE_VIAJE", "PK_GCASIGNACION_VIAJE")
+                'CREATE_INDEX("GCASIGNACION_VIAJE_VALES", "FOLIO", "PK_GCASIGNACION_VIAJE_VALES")
+                'CREATE_INDEX("CFDI", "FACTURA", "PK_FACTURA")
+
+            Else
+                If PASS_GRUPOCE.ToUpper = "BUS" Then
+                    'ALTER_FIELD_SAE("GCCARTA_PORTE", "CVE_TAB_VIAJE", "INT", "VARCHAR(20)", -1)
+                    'CREATE_INDEX("GCASIGNACION_VIAJE_VALES", "FOLIO", "PK_GCASIGNACION_VIAJE_VALES")
+                    'CREATE_INDEX("GCASIGNACION_VIAJE_GASTOS", "FOLIO", "PK_GCASIGNACION_VIAJE_GASTOS")
+                    'ALTER_FIELD_SAE("GCRESET_TAB_FLORES_PAR", "FACTOR", "SMALLINT", "FLOAT", -1)
+                End If
+            End If
+            'ADD_INDEX("GCCARTA_PORTE", "CVE_FOLIO", "PK_GCCARTA_PORTE")
+        Catch ex As Exception
+            BITACORADB("33. " & ex.Message & vbNewLine & ex.StackTrace)
+            'MsgBox("33. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Try
+            SQL = "TRUNCATE TABLE GCCAMPO_X_MALLA"
+            Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                cmd2.CommandText = SQL
+                returnValue = cmd2.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+
+                    End If
+                End If
+            End Using
+
+            Dim Objread As New StreamReader(Application.StartupPath & "\sql\CAMPO_X_MALLA.sql")
+            Dim cmd As New SqlCommand With {.CommandType = CommandType.Text, .Connection = cnSAE, .CommandText = Objread.ReadToEnd()}
+            cmd.ExecuteNonQuery()
+
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Try
+            'AGREGANDO 3 REGISTROS A CATEVALUACIONES
+            Dim HayReg As Boolean = False
+            Try
+                'TABULADOR FULL
+                'TABULADOR SENCILLO
+                'TABULADOR FULL / SENCILLO
+                Dim BONO As Decimal = 0
+                SQL = "IF NOT EXISTS (SELECT CVE_EVA FROM GCCATEVA WHERE DESCR = 'TABULADOR FULL')
+                    INSERT INTO GCCATEVA (CVE_EVA, STATUS, CVE_MOT, FACTOR_CARGA, CALIF_FACTOR_CARGA, PORC_USO_RALENTI, 
+                    CALIF_RALENTI, CALIF_GLOBAL, BONO, UUID, PONDE_FC, PONDE_RALENTI, CAL_FAC_CAR_EVA, CAL_RAL_EVA, 
+                    CAL_GLO_EVA, VEL_MAX, CALIF_VEL_MAX, PON_VEL_MAX, TIPO_VIAJE, CALIF_GLOBAL2, CALIF_GLOBAL3, 
+                    CALIF_GLOBAL4, CALIF_GLOBAL5, CALIF_GLOBAL6, CALIF_GLOBAL7, BONO2, BONO3, BONO4, BONO5, BONO6, 
+                    BONO7, CALCULO_POSITIVO, RPM_MAX, PON_RPM_MAX, CALIF_RPM_MAX, DESCR) VALUES(
+                    ISNULL((SELECT MAX(CVE_EVA) + 1 FROM GCCATEVA),1),'A',0,0.0,0.0,0.0,0.0,0.0," & BONO & ",NEWID(),0.0,
+                    0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,
+                    'TABULADOR FULL')"
+                EXECUTE_QUERY_NET(SQL)
+
+                SQL = "IF NOT EXISTS (SELECT CVE_EVA FROM GCCATEVA WHERE DESCR = 'TABULADOR SENCILLO')
+                    INSERT INTO GCCATEVA (CVE_EVA, STATUS, CVE_MOT, FACTOR_CARGA, CALIF_FACTOR_CARGA, PORC_USO_RALENTI, 
+                    CALIF_RALENTI, CALIF_GLOBAL, BONO, UUID, PONDE_FC, PONDE_RALENTI, CAL_FAC_CAR_EVA, CAL_RAL_EVA, 
+                    CAL_GLO_EVA, VEL_MAX, CALIF_VEL_MAX, PON_VEL_MAX, TIPO_VIAJE, CALIF_GLOBAL2, CALIF_GLOBAL3, 
+                    CALIF_GLOBAL4, CALIF_GLOBAL5, CALIF_GLOBAL6, CALIF_GLOBAL7, BONO2, BONO3, BONO4, BONO5, BONO6, 
+                    BONO7, CALCULO_POSITIVO, RPM_MAX, PON_RPM_MAX, CALIF_RPM_MAX, DESCR) VALUES(
+                    ISNULL((SELECT MAX(CVE_EVA) + 1 FROM GCCATEVA),1),'A',0,0.0,0.0,0.0,0.0,0.0," & BONO & ",NEWID(),0.0,
+                    0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,
+                    'TABULADOR SENCILLO')"
+                EXECUTE_QUERY_NET(SQL)
+
+                SQL = "IF NOT EXISTS (SELECT CVE_EVA FROM GCCATEVA WHERE DESCR = 'TABULADOR FULL / SENCILLO')
+                    INSERT INTO GCCATEVA (CVE_EVA, STATUS, CVE_MOT, FACTOR_CARGA, CALIF_FACTOR_CARGA, PORC_USO_RALENTI, 
+                    CALIF_RALENTI, CALIF_GLOBAL, BONO, UUID, PONDE_FC, PONDE_RALENTI, CAL_FAC_CAR_EVA, CAL_RAL_EVA, 
+                    CAL_GLO_EVA, VEL_MAX, CALIF_VEL_MAX, PON_VEL_MAX, TIPO_VIAJE, CALIF_GLOBAL2, CALIF_GLOBAL3, 
+                    CALIF_GLOBAL4, CALIF_GLOBAL5, CALIF_GLOBAL6, CALIF_GLOBAL7, BONO2, BONO3, BONO4, BONO5, BONO6, 
+                    BONO7, CALCULO_POSITIVO, RPM_MAX, PON_RPM_MAX, CALIF_RPM_MAX, DESCR) VALUES(
+                    ISNULL((SELECT MAX(CVE_EVA) + 1 FROM GCCATEVA),1),'A',0,0.0,0.0,0.0,0.0,0.0," & BONO & ",NEWID(),0.0,
+                    0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,
+                    'TABULADOR FULL / SENCILLO')"
+                EXECUTE_QUERY_NET(SQL)
+
+            Catch ex As Exception
+                BITACORADB("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+            End Try
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+    Sub AGREGA_CAMPOS_SAE_2022()
+        CREA_CAMPO("CUENTA_BENEF" & Empresa, "NUM_MONED", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "SERIE_TIMBRE_TEA", "VARCHAR", "12", "")
+        CREA_CAMPO("GCPARAMVENTAS", "OCULTAR_CRE_ENG", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "OCULTAR_CREDITO", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "NOVALIDAR_LIM_CRED", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "HABILITAR_DESC", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "PER_VEND_ABA_MIN", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "PER_VEND_ABA_COST", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "ACTIVAR_POLITICAS", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "ACTIVAR_GAD", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "ART_CON_IMP_INCLU", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "VENDER_SIN_EXIST", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "BLOQEAR_LISTA_PREC", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "UTILIZAR_LECTOR_HUELLA", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "ALTA_CTE_POS", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "ALTA_PROD_POS", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "CLIE_MOSTR", "VARCHAR", "10", "")
+        CREA_CAMPO("GCPARAMVENTAS", "LISTAPRECPRED", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "SERIE_FACTURA_GLOBAL", "VARCHAR", "12", "")
+        CREA_CAMPO("GCPARAMVENTAS", "PERIODICIDAD", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMVENTAS", "CVE_ART_FG", "VARCHAR", "16", "")
+        CREA_CAMPO("GCPARAMVENTAS", "CVE_PRODSERV", "VARCHAR", "9", "")
+        CREA_CAMPO("GCPARAMVENTAS", "CVE_UNIDAD", "VARCHAR", "4", "")
+        CREA_CAMPO("GCPARAMVENTAS", "SERIE_FAC_BUENO", "VARCHAR", "12", "")
+
+        CREA_CAMPO("CFDI_SERIES", "CVE_CLIE", "VARCHAR", "10", "")
+        CREA_CAMPO("GCASIGNACION_VALES_UTIL", "KM", "FLOAT", "", "")
+
+        CREA_CAMPO("GCPARAMTRANSCG", "DIAS_TRABAJADOS1", "FLOAT", "", "")
+        CREA_CAMPO("GCPARAMTRANSCG", "DIAS_MES1", "FLOAT", "", "")
+        CREA_CAMPO("GCPARAMTRANSCG", "DIAS_TRABAJADOSP", "FLOAT", "", "")
+        CREA_CAMPO("GCPARAMTRANSCG", "DIAS_MESP", "FLOAT", "", "")
+        CREA_CAMPO("GCPARAMTRANSCG", "INGRESO_DIARIOP", "FLOAT", "", "")
+        CREA_CAMPO("GCPARAMTRANSCG", "INGRESO_ACUMULADOP", "FLOAT", "", "")
+        CREA_CAMPO("GCPARAMTRANSCG", "UNIDADES_DIAP", "FLOAT", "", "")
+        CREA_CAMPO("GCPARAMTRANSCG", "UNIDADES_MESP", "FLOAT", "", "")
+        CREA_CAMPO("GCPARAMTRANSCG", "CONFIGVEHICULAR", "VARCHAR", "10", "")
+
+        CREA_CAMPO("GCUNIDADES", "FECHA_ST_UNI", "DT", "", "")
+
+        CREA_CAMPO("GCUNIDADES", "HLL9", "SMALLINT", "", "")
+        CREA_CAMPO("GCUNIDADES", "HLL10", "SMALLINT", "", "")
+        CREA_CAMPO("GCUNIDADES", "HLL11", "SMALLINT", "", "")
+        CREA_CAMPO("GCUNIDADES", "HLL12", "SMALLINT", "", "")
+
+        CREA_CAMPO("CFDI_CPT", "FECHA_CARGA", "DT", "", "")
+        CREA_CAMPO("CFDI_CPT", "FECHA_DESCARGA", "DT", "", "")
+        CREA_CAMPO("CFDI_CPT", "KMS_RECORRIDOS", "FLOAT", "", "")
+        CREA_CAMPO("CFDI_CPT", "CVE_UNI", "VARCHAR", "10", "")
+        CREA_CAMPO("CFDI_CPT", "CONFIGVEHICULAR", "VARCHAR", "10", "")
+
+        'KMS_RECORRIDOS FLOAT NULL, CVE_UNI VARCHAR(10) NULL, CVE_OPER INT NULL, 
+        'TRANSPINTERNAC VARCHAR(2) NULL, CONFIGVEHICULAR VARCHAR(10) NULL, PESOBRUTOTOTAL FLOAT NULL, 
+
+        CREA_CAMPO("CFDI_UBICACIONES", "KMS_RECORRIDOS", "FLOAT", "", "")
+
+        CREA_CAMPO("GCSTATUS_UNIDADES", "CVE_OPER", "INT", "", "")
+        CREA_CAMPO("GCSTATUS_UNIDADES", "CVE_OPER_POSTURA", "INT", "", "")
+        CREA_CAMPO("GCSTATUS_UNIDADES", "CVE_OPER_ST", "SMALLINT", "", "")
+        CREA_CAMPO("GCSTATUS_UNIDADES", "CVE_OPER_POSTURA_ST", "SMALLINT", "", "")
+
+        CREA_CAMPO("GCINSPEC_LLANTAS", "SEMAFORO", "VARCHAR", "1", "")
+        CREA_CAMPO("GCINSPEC_LLANTAS", "PROFUNDIDAD_ACTUAL2", "FLOAT", "", "")
+        CREA_CAMPO("GCINSPEC_LLANTAS", "PROFUNDIDAD_ACTUAL3", "FLOAT", "", "")
+        CREA_CAMPO("GCINSPEC_LLANTAS", "PROFUNDIDAD_ACTUAL4", "FLOAT", "", "")
+        CREA_CAMPO("GCINSPEC_LLANTAS", "PRESION_ACTUAL", "FLOAT", "", "")
+        CREA_CAMPO("GCINSPEC_LLANTAS", "KMS_ACTUAL", "FLOAT", "", "")
+
+        CREA_CAMPO("GCPARAMGENERALES", "TIPO_LLANTAS", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMGENERALES", "RUTA_IMAGEN", "VARCHAR", "255", "")
+        CREA_CAMPO("GCPARAMGENERALES", "CAT_RUTAS", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMGENERALES", "ASIG_VIAJES", "SMALLINT", "", "")
+        CREA_CAMPO("GCPARAMGENERALES", "BAJA_VIAJE_FACTURACION", "SMALLINT", "", "")
+
+
+        CREA_CAMPO("GCUSUARIOS", "FOTO", "VARCHAR", "255", "")
+        CREA_CAMPO("GCUSUARIOS", "PASS_ALTERNA", "VARCHAR", "30", "")
+
+        CREA_CAMPO("GCPARAMCOMPRAS", "MODULO_COMPRAS", "SMALLINT", "", "")
+
+        If PASS_GRUPOCE = "BUS" Then
+            CREATE_INDEX("GCCONCI_VALES_COMBUS", "CVE_COVC", "PK_GCCONCI_VALES_COMBUS")
+        End If
+
+        CREA_CAMPO("GCLLANTAS", "SEMAFORO", "VARCHAR", "1", "")
+        CREA_CAMPO("GCLLANTAS", "NO_RENOVADOS", "SMALLINT", "", "")
+        CREA_CAMPO("GCLLANTAS", "PROFUNDIDAD_ACTUAL2", "FLOAT", "", "")
+        CREA_CAMPO("GCLLANTAS", "PROFUNDIDAD_ACTUAL3", "FLOAT", "", "")
+        CREA_CAMPO("GCLLANTAS", "PROFUNDIDAD_ACTUAL4", "FLOAT", "", "")
+        CREA_CAMPO("GCLLANTAS", "KMS_ACTUAL", "FLOAT", "", "")
+        CREA_CAMPO("GCLLANTAS", "DOT", "VARCHAR", "10", "")
+        CREA_CAMPO("GCLLANTAS", "CVE_MARCA", "VARCHAR", "10", "")
+        CREA_CAMPO("GCLLANTAS", "CVE_PRE", "VARCHAR", "10", "")
+        CREA_CAMPO("GCLLANTAS", "CVE_PILA", "VARCHAR", "10", "")
+
+        CREA_CAMPO("GCTAB_RUTAS_F", "SUELDO_X_PORC", "FLOAT", "", "")
+        CREA_CAMPO("GCTAB_RUTAS_F", "PORC", "FLOAT", "", "")
+        CREA_CAMPO("GCTAB_RUTAS_F", "SUELDO_X_CONVENIO", "FLOAT", "", "")
+        CREA_CAMPO("GCTAB_RUTAS_F", "IMPORTE_GAS", "FLOAT", "", "")
+        CREA_CAMPO("GCTAB_RUTAS_F", "IMPORTE_GAS", "FLOAT", "", "")
+
+        CREA_CAMPO("GCASIGNACION_VIAJE", "CLIENTE", "VARCHAR", "10", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_MONED", "SMALLINT", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "VOLUMEN_PESO", "FLOAT", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "SELECCIONE", "BIT", "", "")
+
+        CREA_CAMPO("GCASIGNACION_VIAJE", "REM_CARGA1", "VARCHAR", "60", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "REM_CARGA2", "VARCHAR", "60", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "REM_CARGA3", "VARCHAR", "60", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "REM_CARGA4", "VARCHAR", "60", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "PESO_BRUTO1", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "PESO_BRUTO2", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "PESO_BRUTO3", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "PESO_BRUTO4", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "TARA1", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "TARA2", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "TARA3", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "TARA4", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "SUBTOTAL", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "IVA", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "RETENCION", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "NETO", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "FLETE", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "CANT", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "REM_CARGA", "SMALLINT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_ESQIMPU", "SMALLINT", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "FACTURA_CFDI", "VARCHAR", "20", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "PRECIO_VIAJE_TONE", "SMALLINT", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_COBRO", "SMALLINT", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "IMPORTE_CONCEP", "FLOAT", "", "")
+
+        CREA_CAMPO("GCASIGNACION_VIAJE", "SERIE", "VARCHAR", "12", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "FOLIO", "INT", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_PRODSERV", "VARCHAR", "9", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_UNIDAD", "VARCHAR", "4", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "UUID", "VARCHAR", "50", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "FACTURADO", "VARCHAR", "1", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "TIMBRADO", "VARCHAR", "1", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "TIPO_FACTURACION", "SMALLINT", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "FORMADEPAGOSAT", "VARCHAR", "5", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "TIPO_CAMBIO_LEYENDA", "VARCHAR", "60", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "TIPO_CAMBIO", "FLOAT", "", "")
+
+        CREA_CAMPO("GCASIGNACION_VIAJE", "CALLE_FISCAL", "SMALLINT", "0", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "CALLE1", "VARCHAR", "255", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "CALLE2", "VARCHAR", "255", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "FECHA_REAL_CARGA", "DT", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "FECHA_REAL_DESCARGA", "DT", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "KMS_VACIO", "FLOAT", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "CVE_REL", "VARCHAR", "10", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "USUARIO", "VARCHAR", "30", "")
+
+        CREA_CAMPO("GCASIGNACION_VIAJE", "COMPLEMENTO", "SMALLINT", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "VIAJE_COMPLE", "VARCHAR", "20", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE", "OBS_COMPLE", "VARCHAR", "255", "")
+
+
+        CREA_CAMPO("GCASIGNACION_BUENO", "SERIE", "VARCHAR", "12", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "FOLIO", "INT", "", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "CVE_PRODSERV", "VARCHAR", "9", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "CVE_UNIDAD", "VARCHAR", "4", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "UUID", "VARCHAR", "50", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "TIPO_CAMBIO", "FLOAT", "", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "CALLE_FISCAL", "SMALLINT", "0", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "FACTURADO", "VARCHAR", "1", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "TIMBRADO", "VARCHAR", "1", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "TIPO_FACTURACION", "SMALLINT", "", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "FORMADEPAGOSAT", "VARCHAR", "5", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "TIPO_CAMBIO_LEYENDA", "VARCHAR", "60", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "CALLE1", "VARCHAR", "255", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "CALLE2", "VARCHAR", "255", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "FECHA_REAL_CARGA", "DT", "", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "FECHA_REAL_DESCARGA", "DT", "", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "KMS_VACIO", "FLOAT", "", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "CVE_REL", "VARCHAR", "10", "")
+        CREA_CAMPO("GCASIGNACION_BUENO", "USUARIO", "VARCHAR", "30", "")
+
+        CREA_CAMPO("CFDI_COMPAGO", "CVE_DOC_REL", "VARCHAR", "20", "")
+        CREA_CAMPO("CFDI_COMPAGO", "UUID_REL", "VARCHAR", "50", "")
+        CREA_CAMPO("PARAM_FOLIOSF" & Empresa, "FTOEMISIONCFDI40", "VARCHAR", "1024", "")
+        CREA_CAMPO("GCLLANTAS", "TIPO_RIN", "VARCHAR", "20", "")
+        CREA_CAMPO("GCINSPEC_LLANTAS", "TIPO_RIN", "VARCHAR", "20", "")
+
+        CREA_CAMPO("GCASIGCONCEP_COBRO", "IVA", "FLOAT", "0", "")
+        CREA_CAMPO("GCASIGCONCEP_COBRO", "RET", "FLOAT", "0", "")
+
+        CREA_CAMPO("GCASIG_CONCEP_PAR", "IVA_PORC", "FLOAT", "0", "")
+
+        CREA_CAMPO("FACTF" & Empresa, "CVE_VIAJE", "VARCHAR", "20", "")
+        CREA_CAMPO("FACTF" & Empresa, "CVE_TRACTOR", "VARCHAR", "10", "")
+        CREA_CAMPO("FACTF" & Empresa, "CVE_TANQUE1", "VARCHAR", "10", "")
+        CREA_CAMPO("FACTF" & Empresa, "CVE_TANQUE2", "VARCHAR", "10", "")
+        CREA_CAMPO("FACTF" & Empresa, "CVE_DOLLY", "VARCHAR", "10", "")
+        CREA_CAMPO("FACTF" & Empresa, "CLAVE_O", "VARCHAR", "10", "")
+        CREA_CAMPO("FACTF" & Empresa, "RECOGER_EN", "VARCHAR", "255", "")
+        CREA_CAMPO("FACTF" & Empresa, "CLAVE_D", "VARCHAR", "10", "")
+        CREA_CAMPO("FACTF" & Empresa, "ENTREGAR_EN", "VARCHAR", "255", "")
+        CREA_CAMPO("FACTF" & Empresa, "CVE_OPER", "SMALLINT", "", "")
+        CREA_CAMPO("FACTF" & Empresa, "TIMBRADO", "VARCHAR", "1", "")
+
+        CREA_CAMPO("GCASIGNACION_VIAJE_ABONOS", "FECHA", "D", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE_ABONOS", "FECHAELAB", "D", "", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE_ABONOS", "CVE_DOC", "VARCHAR", "20", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE_ABONOS", "STATUS", "VARCHAR", "1", "")
+        CREA_CAMPO("GCASIGNACION_VIAJE_ABONOS", "USUARIO", "VARCHAR", "30", "")
+
+
+        CREA_CAMPO("PAR_FACTF" & Empresa, "CVE_VIAJE", "VARCHAR", "20", "")
+
+        CREA_CAMPO("CLIE" & Empresa, "CAUSA_IVA", "SMALLINT", "", "")
+        CREA_CAMPO("CLIE" & Empresa, "RETIENE_IVA", "SMALLINT", "", "")
+        CREA_CAMPO("CLIE" & Empresa, "RETIENE_IVA", "SMALLINT", "", "")
+        CREA_CAMPO("CLIE" & Empresa, "NOMBRECOMERCIAL", "VARCHAR", "254", "")
+        CREA_CAMPO("CLIE" & Empresa, "CATEGORIA", "VARCHAR", "90", "")
+        CREA_CAMPO("CLIE" & Empresa, "COLONIA_SAT", "VARCHAR", "5", "")
+        CREA_CAMPO("CLIE" & Empresa, "LOCALIDAD_SAT", "VARCHAR", "5", "")
+        CREA_CAMPO("CLIE" & Empresa, "MUNICIPIO_SAT", "VARCHAR", "5", "")
+        CREA_CAMPO("CLIE" & Empresa, "ESTADO_SAT", "VARCHAR", "5", "")
+        CREA_CAMPO("CLIE" & Empresa, "PAIS_SAT", "VARCHAR", "5", "")
+        CREA_CAMPO("CLIE" & Empresa, "APLICACION_PAGO_SAT", "VARCHAR", "5", "")
+        CREA_CAMPO("CLIE" & Empresa, "FLETE", "FLOAT", "", "")
+        CREA_CAMPO("CLIE" & Empresa, "TIPO_CAMBIO", "FLOAT", "", "")
+        CREA_CAMPO("CLIE" & Empresa, "CVE_ESQIMPU", "SMALLINT", "", "")
+        CREA_CAMPO("CLIE" & Empresa, "NUM_MON", "SMALLINT", "", "")
+        CREA_CAMPO("CLIE" & Empresa, "CVE_ADD", "VARCHAR", "10", "")
+        CREA_CAMPO("CLIE" & Empresa, "USUARIO", "VARCHAR", "30", "")
+
+        CREA_CAMPO("CLIE" & Empresa, "MUNICIPIO_SAT", "VARCHAR", "10", "")
+        CREA_CAMPO("CLIE" & Empresa, "LOCALIDAD_SAT", "VARCHAR", "10", "")
+        CREA_CAMPO("CLIE" & Empresa, "ESTADO_SAT", "VARCHAR", "10", "")
+        CREA_CAMPO("CLIE" & Empresa, "PAIS_SAT", "VARCHAR", "5", "")
+        CREA_CAMPO("CLIE" & Empresa, "COLONIA_SAT", "VARCHAR", "10", "")
+        CREA_CAMPO("CLIE" & Empresa, "ALIAS", "VARCHAR", "255", "")
+
+        CREA_CAMPO("GCMERCANCIAS", "CVE_DOC", "VARCHAR", "20", "")
+
+        CREA_CAMPO("GCOPERADOR", "APODO", "VARCHAR", "60", "")
+        CREA_CAMPO("GCOPERADOR", "INE", "VARCHAR", "40", "")
+        CREA_CAMPO("GCOPERADOR", "DIRECCION1", "VARCHAR", "255", "")
+        CREA_CAMPO("GCOPERADOR", "DIRECCION2", "VARCHAR", "255", "")
+        CREA_CAMPO("GCOPERADOR", "CELULAR", "VARCHAR", "60", "")
+        CREA_CAMPO("GCOPERADOR", "CVE_BANCO2", "VARCHAR", "10", "")
+        CREA_CAMPO("GCOPERADOR", "NUM_CUENTA2", "VARCHAR", "35", "")
+
+        CREA_CAMPO("GCUNIDADES", "NUM_TARJ_CIRCULACION", "VARCHAR", "60", "")
+        CREA_CAMPO("GCUNIDADES", "ULTIMO_CAMBIO_ACEITE", "D", "", "")
+        CREA_CAMPO("GCUNIDADES", "KMCAMBIOACEITE", "FLOAT", "", "")
+        CREA_CAMPO("GCUNIDADES", "ULTCAMBIOACEITEDIF", "D", "", "")
+        CREA_CAMPO("GCUNIDADES", "KMCAMBIOACEITEDIF", "FLOAT", "", "")
+        CREA_CAMPO("GCUNIDADES", "FECHA_VERIFICACION", "D", "", "")
+        CREA_CAMPO("GCUNIDADES", "PESO", "FLOAT", "", "")
+        CREA_CAMPO("GCUNIDADES", "UNIDAD_PESO", "VARCHAR", "6", "")
+        CREA_CAMPO("GCUNIDADES", "LONGITUD", "FLOAT", "", "")
+        CREA_CAMPO("GCUNIDADES", "ID_UMLONGITUD", "VARCHAR", "6", "")
+        CREA_CAMPO("GCUNIDADES", "FECHACOMPRA", "D", "", "")
+        CREA_CAMPO("GCUNIDADES", "NUMFACTURA", "VARCHAR", "60", "")
+        CREA_CAMPO("GCUNIDADES", "IMPORTECOMPRA", "FLOAT", "", "")
+        CREA_CAMPO("GCUNIDADES", "FECHALECTURAODOMETRO", "D", "", "")
+        CREA_CAMPO("GCUNIDADES", "TMC", "VARCHAR", "20", "")
+        CREA_CAMPO("GCUNIDADES", "BASEOPERACION", "VARCHAR", "30", "")
+        CREA_CAMPO("GCUNIDADES", "IAVE2", "VARCHAR", "30", "")
+        CREA_CAMPO("GCUNIDADES", "CONFIG_AUTOTRANSPORTE_SAT", "VARCHAR", "10", "")
+        CREA_CAMPO("GCUNIDADES", "TIPO_PERMISO_SAT", "VARCHAR", "10", "")
+        CREA_CAMPO("GCUNIDADES", "NUMPOLIZASEGURO_DANOSAMBIENTALES", "VARCHAR", "30", "")
+        CREA_CAMPO("GCUNIDADES", "VENCIMIENTOSEGURO_DANOSAMBIENTALES", "D", "", "")
+        CREA_CAMPO("GCUNIDADES", "PARTETRANSPORTE", "VARCHAR", "5", "")
+
+        CREA_CAMPO("GCCLIE_OP", "RD", "VARCHAR", "1", "")
+        CREA_CAMPO("GCCLIE_OP", "NUMREGIDTRIB", "VARCHAR", "60", "")
+        CREA_CAMPO("GCCLIE_OP", "REFERENCIA", "VARCHAR", "255", "")
+        CREA_CAMPO("GCCLIE_OP", "NUMINT", "VARCHAR", "15", "")
+        CREA_CAMPO("GCCLIE_OP", "NUMEXT", "VARCHAR", "15", "")
+
+        CREA_CAMPO("GCMERCANCIAS_CFG", "COLN", "VARCHAR", "3", "")
+        CREA_CAMPO("GCTAB_RUTAS_F", "DESCR", "VARCHAR", "255", "")
+        CREA_CAMPO("GCTAB_RUTAS_F", "DESCR2", "VARCHAR", "255", "")
+        CREA_CAMPO("GCTAB_RUTAS_F", "TAR_OPER_FULL", "FLOAT", "", "")
+        CREA_CAMPO("GCTAB_RUTAS_F", "PORC_SUELDO_FULL", "FLOAT", "", "")
+        CREA_CAMPO("GCTAB_RUTAS_F", "PORC_SUELDO_SENC", "FLOAT", "", "")
+        CREA_CAMPO("GCMERCANCIAS", "CVE_MAT_PELIGROSO", "VARCHAR", "6", "")
+        CREA_CAMPO("GCMERCANCIAS2", "CVE_MAT_PELIGROSO", "VARCHAR", "6", "")
+        CREA_CAMPO("CFDI", "CVE_REL", "VARCHAR", "10", "")
+        CREA_CAMPO("CFDI_CFG", "REFERENCIA", "VARCHAR", "255", "")
+        CREA_CAMPO("CFDI_CFG", "ADDENDA_CE", "SMALLINT", "", "")
+
+        Try
+            SQL = "UPDATE GCCLIE_OP SET RD = 'R' WHERE SUBSTRING(CLAVE,1,1) = 'R'"
+            EXECUTE_QUERY_NET(SQL)
+
+            SQL = "UPDATE GCCLIE_OP SET RD = 'D' WHERE SUBSTRING(CLAVE,1,1) = 'D'"
+            EXECUTE_QUERY_NET(SQL)
+
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        ALTER_FIELD_SAE("GCLLANTAS", "UNIDAD", "VARCHAR", "VARCHAR(40)", -1)
+        ALTER_FIELD_SAE("GCUNIDADES", "CLAVEMONTE", "VARCHAR", "VARCHAR(40)", -1)
+        ALTER_FIELD_SAE("GCUNIDADES", "SE_ASEGURADORA", "VARCHAR", "VARCHAR(10)", -1)
+
+        ALTER_FIELD_SAE("GCUNIDADES", "CVE_TANQUE1", "SMALLINT", "VARCHAR(10)", -1)
+        ALTER_FIELD_SAE("GCUNIDADES", "CVE_TANQUE2", "SMALLINT", "VARCHAR(10)", -1)
+        ALTER_FIELD_SAE("GCUNIDADES", "CVE_DOLLY", "SMALLINT", "VARCHAR(10)", -1)
+        ALTER_FIELD_SAE("CFDI", "CLIENTE", "VARCHAR(5)", "VARCHAR(10)", -1)
+
+        'ALTER TABLE [Table] ALTER COLUMN [Column] INTEGER NOT NULL
+    End Sub
+    Sub CREATE_INDEX(FTABLA As String, FCAMPO As String, FNAME_INDEX As String)
+        Dim TIPO_CAMPO As String, Continua As Boolean = True
+        Try
+
+            Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT name from sys.indexes WHERE name = '" & FNAME_INDEX & "' And object_id = OBJECT_ID('" & FTABLA & "', N'U')"
+                cmd2.CommandText = SQL
+                Using dr2 As SqlDataReader = cmd2.ExecuteReader
+                    If dr2.HasRows Then
+                        Continua = False
+                    End If
+                End Using
+            End Using
+
+            If Continua Then
+
+                'VERIFICA SI NULL o NOT NULL
+                Using cmd As SqlCommand = cnSAE.CreateCommand
+                    SQL = "SELECT * from sys.columns c inner join sys.tables t on
+                        t.object_id = c.object_id where t.name = '" & FTABLA & "' and c.name = '" & FCAMPO & "' AND is_nullable = 1"
+                    cmd.CommandText = SQL
+                    Using dr As SqlDataReader = cmd.ExecuteReader
+                        If dr.HasRows Then
+                            Try
+                                'SI PASA POR ACA ES NULL 
+                                SQL = "DELETE FROM " & FTABLA & " WHERE " & FCAMPO & " IS NULL"
+                                EXECUTE_QUERY_NET(SQL)
+
+                                TIPO_CAMPO = GET_DATATYPE(FTABLA, FCAMPO)
+
+                                SQL = "ALTER TABLE " & FTABLA & " ALTER COLUMN " & FCAMPO & " " & TIPO_CAMPO & " NOT NULL;"
+                                Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                                    cmd2.CommandText = SQL
+                                    returnValue = cmd2.ExecuteNonQuery().ToString
+                                    If returnValue IsNot Nothing Then
+                                        If returnValue = "1" Then
+                                        End If
+                                    End If
+                                End Using
+                            Catch ex As Exception
+                                BITACORADB("33. " & ex.Message & vbNewLine & ex.StackTrace)
+                            End Try
+                        End If
+                    End Using
+                End Using
+
+                SQL = "If NOT EXISTS (SELECT name from sys.indexes WHERE name = '" & FNAME_INDEX & "' And object_id = OBJECT_ID('" & FTABLA & "', N'U'))
+                     ALTER TABLE " & FTABLA & " ADD CONSTRAINT " & FNAME_INDEX & " PRIMARY KEY (" & FCAMPO & ");"
+                Using cmd As SqlCommand = cnSAE.CreateCommand
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End Using
+            End If
+        Catch ex As Exception
+            BITACORADB("33. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+    End Sub
+    Sub ADD_INDEX(FTABLA As String, FCAMPO As String)
+        Try
+
+            SQL = "ALTER TABLE  " & FTABLA & " PRIMARY KEY (" & FCAMPO & ");"
+
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            End Using
+        Catch ex As Exception
+            BITACORADB("33. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+    Sub ALTER_FIELD_SAE(fTABLA As String, fCAMPO As String, fTIPO_ACTUAL As String, fTIPO_NUEVO As String, fLONG As Integer)
+        'ALTER TABLE GCOBS ALTER COLUMN DESCR VARCHAR(MAX)
+        Dim cmd As New SqlCommand
+        Dim ExistField As Boolean
+        Dim DBFIELD As String, DBLONG As Integer
+        Dim SQL3 As String
+        Try
+            cmd.Connection = cnSAE
+            cmd.CommandTimeout = 360
+
+            Try
+                ExistField = False
+                SQL3 = "Select DATA_TYPE, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE " &
+                    "TABLE_NAME = '" & fTABLA & "' AND COLUMN_NAME = '" & fCAMPO & "'"
+
+                Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                    cmd2.CommandText = SQL3
+                    Using dr As SqlDataReader = cmd2.ExecuteReader
+                        If Not dr.Read Then
+                            DBFIELD = dr("DATA_TYPE").ToString.ToUpper
+                            Select Case DBFIELD
+                                Case "SMALLINT", "INT", "FLOAT", "BIT", "DECIMAL", "NUMERIC", "DATE", "DATETIME"
+                                    If DBFIELD = fTIPO_NUEVO Then
+                                        ExistField = True
+                                    End If
+                                Case Else
+                                    DBLONG = dr("CHARACTER_MAXIMUM_LENGTH")
+                                    If DBFIELD = fTIPO_ACTUAL And DBLONG = fLONG Then
+                                        ExistField = True
+                                    End If
+                            End Select
+                        End If
+                    End Using
+                End Using
+            Catch ex As Exception
+                BACKUPTXT("ERROR CREA_CAMPO", "1.Alter field " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            If Not ExistField Then
+                If fLONG = -1 Then
+                    SQL = "ALTER TABLE " & fTABLA & " ALTER COLUMN " & fCAMPO & " " & fTIPO_NUEVO
+                Else
+                    SQL = "ALTER TABLE " & fTABLA & " ALTER COLUMN " & fCAMPO & " " & fTIPO_NUEVO & "(" & fLONG & ")"
+                End If
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery.ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            BACKUPTXT("ERROR CREA_CAMPO", "2.Alter field " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & SQL)
+        End Try
+    End Sub
+    Sub CREA_CAMPO(ByVal fTABLA As String, ByVal fCAMPO As String, ByVal fTIPO As String, ByVal fSIZE As String, Optional ByVal fDefault As String = "")
+        Dim Exist_field As Boolean = False
+        Dim CADENA_DEDAULT As String, SQL3 As String
+
+        Dim cmd As New SqlCommand
+        Try
+            cmd.Connection = cnSAE
+            cmd.CommandTimeout = 180
+
+            SQL3 = "SELECT * From INFORMATION_SCHEMA.COLUMNS WHERE 
+                   COLUMN_NAME = '" & fCAMPO & "' AND TABLE_NAME = '" & fTABLA & "'"
+
+            Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                cmd2.CommandText = SQL3
+                Using dr As SqlDataReader = cmd2.ExecuteReader
+                    If Not dr.Read Then
+                        Exist_field = True
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            BACKUPTXT("ERROR CREA_CAMPO", ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        If Exist_field Then
+            Try
+                Select Case fTIPO.ToUpper
+                    Case "VARCHAR"
+                        If fDefault.Length > 0 Then
+                            CADENA_DEDAULT = " DEFAULT ('" & fDefault & "')"
+                        Else
+                            CADENA_DEDAULT = ""
+                        End If
+                        SQL = "ALTER TABLE " & fTABLA & " ADD " & fCAMPO & " " & fTIPO & "(" & fSIZE & ") NULL " & CADENA_DEDAULT
+
+                    Case "SMALLINT", "INT", "DOUBLE", "FLOAT", "BIT"
+                        If fDefault.Trim.Length > 0 Then
+                            CADENA_DEDAULT = " DEFAULT (" & fDefault & ")"
+                        Else
+                            CADENA_DEDAULT = ""
+                        End If
+                        SQL = "ALTER TABLE " & fTABLA & " ADD " & fCAMPO & " " & fTIPO & " NULL " & CADENA_DEDAULT
+                    Case "D"
+                        SQL = "ALTER TABLE " & fTABLA & " ADD " & fCAMPO & " DATE NULL"
+                    Case "DT"
+                        SQL = "ALTER TABLE " & fTABLA & " ADD " & fCAMPO & " DATETIME NULL"
+                    Case "TEXT"
+                        SQL = "ALTER TABLE " & fTABLA & " ADD " & fCAMPO & " TEXT NULL"
+                    Case Else
+                        SQL = ""
+                End Select
+                If SQL.Trim.Length > 0 Then
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                Else
+                    BACKUPTXT("ERROR CREA_CAMPO", "error query en CREA_CAPO " & fTABLA & ", " & fCAMPO)
+                End If
+            Catch ex As Exception
+                BACKUPTXT("ERROR CREA_CAMPO", ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+        End If
+    End Sub
+    Sub CREA_CAMPO_SAROCE(fTABLA As String, fCAMPO As String, fTIPO As String, fSIZE As String)
+
+        SQL = "SELECT * From INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME = '" & fCAMPO & "' AND TABLE_NAME = '" & fTABLA & "'"
+
+        Dim cmd As New SqlCommand
+        Dim reader As SqlDataReader
+        Dim Exist_field As Boolean
+
+        Try
+            Exist_field = False
+            cmd.Connection = cnSAROCE
+            cmd.CommandText = SQL
+            reader = cmd.ExecuteReader
+            If Not reader.Read Then
+                Exist_field = True
+            End If
+            reader.Close()
+
+            If Exist_field Then
+                Try
+                    Select Case fTIPO
+                        Case "VARCHAR"
+                            SQL = "ALTER TABLE " & fTABLA & " ADD " & fCAMPO & " " & fTIPO & "(" & fSIZE & ") NULL"
+                        Case "SMALLINT", "INT", "DOUBLE", "FLOAT", "BIT"
+                            SQL = "ALTER TABLE " & fTABLA & " ADD " & fCAMPO & " " & fTIPO & " NULL"
+                        Case "D"
+                            SQL = "ALTER TABLE " & fTABLA & " ADD " & fCAMPO & " DATETIME NULL"
+                    End Select
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                    If fCAMPO = "VISIBLE" Then
+                        BACKUPTXT("campos", SQL)
+                    End If
+                Catch ex As Exception
+                    BITACORADB("20. " & ex.Message & vbNewLine & ex.StackTrace)
+                    MsgBox("20. " & ex.Message & vbNewLine & ex.StackTrace)
+                End Try
+            End If
+
+        Catch ex As Exception
+            BITACORADB("20. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("20. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+    End Sub
+
+    Public Function EXISTE_STORE_PROCEDURE(fPROC As String) As Boolean
+        Dim Exist_Table As Boolean
+
+        If Not Valida_Conexion() Then
+            Return True
+        End If
+
+        Exist_Table = False
+
+        Try
+            SQL = "SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[" & fPROC & "]') AND type in (N'P', N'PC')"
+
+            Dim cmd As New SqlCommand
+            Dim reader As SqlDataReader
+
+            cmd.Connection = cnSAE
+            cmd.CommandText = SQL
+            reader = cmd.ExecuteReader
+            If reader.Read Then
+                Exist_Table = True
+            End If
+            reader.Close()
+
+            EXISTE_STORE_PROCEDURE = Exist_Table
+        Catch ex As Exception
+            EXISTE_STORE_PROCEDURE = True
+            BITACORADB("37. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & SQL)
+        End Try
+    End Function
+    Sub CREA_TABLAS()
+        Dim cmd As New SqlCommand With {.Connection = cnSAE}
+
+        Try
+            Try
+                If Not EXISTE_TABLA("GCMARCAS") Then
+                    cmd.CommandText = "CREATE TABLE GCMARCAS (CVE_MARCA VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, 
+                        TIPO VARCHAR(10) NULL, GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                        CREATE UNIQUE CLUSTERED INDEX UK_GCMARCAS ON dbo.GCMARCAS (CVE_MARCA) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("50. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCMARCAS_RENOVADO") Then
+                    cmd.CommandText = "CREATE TABLE GCMARCAS_RENOVADO (CVE_MARCA VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, 
+                            TIPO VARCHAR(10) NULL, GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCMARCAS_RENOVADO ON dbo.GCMARCAS_RENOVADO (CVE_MARCA) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("51. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCMARCAUNIDAD") Then
+                    cmd.CommandText = "CREATE TABLE GCMARCAUNIDAD (CVE_MARCA VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(60) NULL, 
+                            GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCMARCAUNIDAD ON dbo.GCMARCAUNIDAD (CVE_MARCA) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("54. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCTIPO_UNIDAD") Then
+                    cmd.CommandText = "CREATE TABLE GCTIPO_UNIDAD (CVE_UNI VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, 
+                            GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCTIPO_UNIDAD ON dbo.GCTIPO_UNIDAD (CVE_UNI) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("56. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCMODELO_UNIDAD") Then
+                    cmd.CommandText = "CREATE TABLE GCMODELO_UNIDAD (CVE_MOD SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, 
+                            GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCMODELO_UNIDAD ON dbo.GCMODELO_UNIDAD (CVE_MOD) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("61. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCPLACAS_DEFA") Then
+                    cmd.CommandText = "CREATE TABLE GCPLACAS_DEFA (CVE_PLA SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, 
+                            GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCPLACAS_DEFA ON dbo.GCPLACAS_DEFA (CVE_PLA) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("62. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCGRUPO_UNI") Then
+                    cmd.CommandText = "CREATE TABLE GCGRUPO_UNI (CVE_GPO SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, 
+                            GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCGRUPO_UNI ON dbo.GCGRUPO_UNI (CVE_GPO) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("64. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCSUCURSAL") Then
+                    cmd.CommandText = "CREATE TABLE GCSUCURSAL (CVE_SUC SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, 
+                            GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCSUCURSAL ON dbo.GCSUCURSAL (CVE_SUC) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("65. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCTIPO_COMBUSTIBLE") Then
+                    cmd.CommandText = "CREATE TABLE GCTIPO_COMBUSTIBLE (CVE_TIPO SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, 
+                            GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCTIPO_COMBUSTIBLE ON dbo.GCTIPO_COMBUSTIBLE (CVE_TIPO) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("66. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCLLANTAS") Then
+                    SQL = "CREATE TABLE GCLLANTAS (NUM_ECONOMICO varchar(60) NOT NULL, CVE_LLANTA varchar(10) NULL, STATUS varchar(1) NULL, 
+                        UNIDAD varchar(40) NULL, POSICION smallint NULL, POSICION2 varchar(20) NULL, DISENO varchar(20) NULL, O_R varchar(20) NULL, 
+                        FECHA_MON date NULL, MARCA varchar(10) NULL, MARCA_RENOVADO varchar(10) NULL, MODELO varchar(10) NULL, 
+                        MODELO_RENOVADO varchar(10) NULL, KM float NULL, MEDIDA varchar(20) NULL, PROFUNDIDA_ORIGINAL float NULL, 
+                        ROFUNDIDA_MINIMA float NULL, PROFUNDIDAD_ACTUAL float NULL, PROFUNDIDAD_ACTUAL2 float NULL, PROFUNDIDAD_ACTUAL3 float NULL, 
+                        PROFUNDIDAD_ACTUAL4 float NULL, PRESION_MINIMA float NULL, 
+                        PRESION_ORIGINAL float NULL, PRESION_ACTUAL float NULL, TIPO_LLANTA varchar(10) NULL, STATUS_LLANTA varchar(10) NULL, 
+                        DISPONIBLE_DESDE date NULL, VIDA_UTIL varchar(20) NULL, COSTO_LLANTA_MN float NULL, COSTO_LLANTA_DLS float NULL, 
+                        FECHA_REG date NULL, LLANTA1 varchar(20) NULL, EJES smallint NULL, CVE_OBS int NULL, FECHA_MONTAJE date NULL,
+                        FECHA_REGISTRO date NULL, FECHAELAB datetime NULL, CUEN_CONT varchar(28) NULL, KMS_MONTAR float NULL, 
+                        KMS_DESMONTAR float NULL, USUARIO varchar(30) NULL, NUM_MOV int NULL, CVE_ART varchar(16) NULL, 
+                        TIPO_NUEVA_RENO smallint NULL, SEMAFORO VARCHAR(1) NULL, KMS_ACTUAL FLOAT NULL, NO_RENOVADOS SMALLINT NULL,
+                        DOT VARCHAR(10) NULL, TIPO_RIN VARCHAR(20) NULL, CVE_MARCA VARCHAR(10) NULL, CVE_PRE VARCHAR(10) NULL,
+                        CONSTRAINT PK_GCLLANTAS PRIMARY KEY CLUSTERED (NUM_ECONOMICO) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("67. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try            'GCLLANTAS_ALMACEN
+                If Not EXISTE_TABLA("GCLLANTAS_CONM") Then
+                    SQL = "CREATE TABLE GCLLANTAS_CONM (CVE_CPTO INT NOT NULL, STATUS_LLANTA VARCHAR(10) NULL, DESCR VARCHAR(35) NULL, TIPO_MOV VARCHAR(1) NULL,
+                        STATUS VARCHAR(1) NULL, SIGNO SMALLINT NULL, CONSTRAINT PK_GCLLANTAS_CONM PRIMARY KEY CLUSTERED (CVE_CPTO)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try            'GCLLANTAS_ALMACEN
+                If Not EXISTE_TABLA("GCLLANTAS_ALMACENES") Then
+                    SQL = "CREATE TABLE GCLLANTAS_ALMACENES (TIPO_LLANTA VARCHAR(10) NULL, NUM_ALM SMALLINT NOT NULL, UUID VARCHAR(50) NULL) ON [PRIMARY] 
+                        CREATE UNIQUE CLUSTERED INDEX UK_GCLLANTAS_ALMACENES ON dbo.GCLLANTAS_ALMACENES (TIPO_LLANTA, NUM_ALM) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try            'GCLLANTAS_DESGASTE
+                If Not EXISTE_TABLA("GCLLANTAS_DESGASTE") Then
+                    SQL = "CREATE TABLE GCLLANTAS_DESGASTE (CVE_LLANTA VARCHAR(10) NOT NULL, STATUS varchar(1) NULL, PROFUNDIDAD FLOAT NULL,
+                        FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL) ON [PRIMARY]
+                        CREATE UNIQUE CLUSTERED INDEX UK_GCLLANTAS_DESGASTE ON dbo.GCLLANTAS_DESGASTE (CVE_LLANTA, UUID) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCLLANTA_TIPO") Then
+                    cmd.CommandText = "CREATE TABLE GCLLANTA_TIPO (CVE_TIPO VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, " &
+                            "GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCLLANTA_TIPO ON dbo.GCLLANTA_TIPO (CVE_TIPO) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("55. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCLLANTA_STATUS") Then
+                    cmd.CommandText = "CREATE TABLE GCLLANTA_STATUS (CVE_STATUS VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, 
+                            GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCLLANTA_STATUS ON dbo.GCLLANTA_STATUS (CVE_STATUS) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("57. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCLLANTA_MODELO") Then
+                    cmd.CommandText = "CREATE TABLE GCLLANTA_MODELO (CVE_MODELO VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, 
+                            GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCLLANTA_MODELO ON dbo.GCLLANTA_MODELO (CVE_MODELO) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("58. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCMODELO_RENOVADO") Then
+                    cmd.CommandText = "CREATE TABLE GCMODELO_RENOVADO (CVE_MODELO VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, 
+                            GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCMODELO_RENOVADO ON dbo.GCMODELO_RENOVADO (CVE_MODELO) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("59. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCLLANTA_MEDIDA") Then
+                    cmd.CommandText = "CREATE TABLE GCLLANTA_MEDIDA (CVE_MED SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, 
+                            GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCLLANTA_MEDIDA ON dbo.GCLLANTA_MEDIDA (CVE_MED) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("60. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try            'GCLLANTAS_RENOVADO
+                If Not EXISTE_TABLA("GCLLANTAS_RENOVADO") Then
+                    SQL = "CREATE TABLE GCLLANTAS_RENOVADO (CVE_DOC VARCHAR(20) NULL, TIPO_DOC VARCHAR(1) NULL, CVE_LLANTA VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, 
+                        NUM_ECONOMICO VARCHAR(60) NULL, FECHA DATE NULL, DOC_SIG VARCHAR(20) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL) 
+                        ON [PRIMARY] CREATE UNIQUE CLUSTERED INDEX UK_GCLLANTAS_RENOVADO ON dbo.GCLLANTAS_RENOVADO (UUID) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try            'GCLLANTAS_RENOVADO EN CAPTURA ORDENES DE COMPORA
+                If Not EXISTE_TABLA("GCLLA_REN_COMP") Then
+                    SQL = "CREATE TABLE GCLLA_REN_COMP (CVE_DOC VARCHAR(20) NULL, TIPO_DOC VARCHAR(1) NULL, CVE_LLANTA VARCHAR(10) NOT NULL, 
+                        STATUS VARCHAR(1) NULL, NUM_ECONOMICO VARCHAR(60) NULL, NUM_MOV INT NULL, FECHA DATE NULL, DOC_SIG VARCHAR(20) NULL, 
+                        FECHAELAB DATETIME NULL, NUM_PAR SMALLINT NULL, CVE_UNI VARCHAR(19) NULL, POSICION SMALLINT NULL, UUID VARCHAR(50) NULL) 
+                        ON [PRIMARY] CREATE UNIQUE CLUSTERED INDEX UK_GCLLA_REN_COMP ON dbo.GCLLA_REN_COMP (UUID) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try            'GCLLANTAS_RENOVADO TEMPORAL ORDENES DE COMPRAS
+                If Not EXISTE_TABLA("GCLLA_REN_TMP") Then
+                    SQL = "CREATE TABLE GCLLA_REN_TMP (TIPO_LLANTA VARCHAR(10) NULL, CVE_ART VARCHAR(16) NULL, NUM_ECONOMICO VARCHAR(60) NULL, 
+                        NUM_PAR SMALLINT NULL, UUID VARCHAR(50) NOT NULL) ON [PRIMARY] 
+                        CREATE UNIQUE CLUSTERED INDEX UK_GCLLA_REN_TMP ON dbo.GCLLA_REN_TMP (NUM_ECONOMICO) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCOBS") Then
+                    cmd.CommandText = "CREATE TABLE  GCOBS (CVE_OBS INT NOT NULL, DESCR VARCHAR(MAX) NULL, GUID VARCHAR(50) NULL, " &
+                        "CONSTRAINT PK_GCOBS PRIMARY KEY CLUSTERED (CVE_OBS))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCACTIVIDADES_MANTE") Then
+                    cmd.CommandText = "CREATE TABLE GCACTIVIDADES_MANTE (CVE_ACT VARCHAR(10) NOT NULL, DESCR VARCHAR(255) NULL, " &
+                            "TIPO_SERVICIO VARCHAR(1) NULL, CVE_ART VARCHAR(16) NULL, GUID VARCHAR(50) NULL) ON [PRIMARY] 
+                            CREATE UNIQUE CLUSTERED INDEX UK_GCACTIVIDADES_MANTE ON dbo.GCACTIVIDADES_MANTE (CVE_ACT) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("69. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCPROGAMACION_SERVICIOS") Then
+                    cmd.CommandText = "CREATE TABLE GCPROGAMACION_SERVICIOS (CVE_PROG VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, 
+                        FECHA_CREA DATETIME NULL, FECHA_PROG DATETIME NULL, FECHA_INI_SER DATETIME NULL, FECHA_FIN DATETIME NULL, FECHA_CAN DATETIME NULL, 
+                        CVE_UNI VARCHAR(10) NULL, CVE_SER VARCHAR(10) NULL, KM_ACTUAL FLOAT NULL, KM_PROX_SERVICIO FLOAT NULL, CVE_ORD VARCHAR(10) NULL, 
+                        FECHAELAB DATETIME NULL, HORAS_ACTUALES FLOAT NULL, HORAS_PROX_SERVICIO FLOAT NULL, CVE_OBS VARCHAR(255) NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCGCPROGAMACION_SERVICIOS PRIMARY KEY CLUSTERED (CVE_PROG) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("83. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCPROGAMACION_SERVICIOS_PAR") Then
+                    cmd.CommandText = "CREATE TABLE GCPROGAMACION_SERVICIOS_PAR (CVE_PROG VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, 
+                            CVE_ART VARCHAR(16) NOT NULL, NUM_PAR SMALLINT NOT NULL, UUID VARCHAR(50) NULL, 
+                            CONSTRAINT PK_GCPROGAMACION_SERVICIOS_PAR PRIMARY KEY CLUSTERED (CVE_PROG, CVE_ART, NUM_PAR))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("83. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCSERVICIOS") Then
+                    cmd.CommandText = "CREATE TABLE GCSERVICIOS (CVE_SER VARCHAR(16) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, 
+                        CVE_CLAS VARCHAR(10) NULL, CVE_UNI VARCHAR(10) NULL, COSTO_MO FLOAT NULL, TIEMPO_SERVICIO FLOAT NULL, DIAS FLOAT NULL, 
+                        HORAS FLOAT NULL, KM FLOAT NULL, TIPO_SERVICIO SMALLINT NULL, GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCSERVICIOS PRIMARY KEY CLUSTERED (CVE_SER) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("84. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '************************************************************************
+            '************************************************************************
+            Try
+                If Not EXISTE_TABLA("GCSERVICIOS_MANTE") Then
+                    cmd.CommandText = "CREATE TABLE GCSERVICIOS_MANTE (CVE_SER VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, " &
+                        "TIPO_UNIDAD VARCHAR(10) NULL, CVE_TIPO VARCHAR(10) NULL, CVE_UNI VARCHAR(10) NULL, GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCSERVICIOS_MANTE PRIMARY KEY CLUSTERED (CVE_SER))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("88. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCSERVICIOS_MANTE_PAR") Then
+                    cmd.CommandText = "CREATE TABLE GCSERVICIOS_MANTE_PAR (CVE_SER VARCHAR(10) NOT NULL, CVE_ART VARCHAR(16) NOT NULL, 
+                        NUM_PAR SMALLINT NOT NULL, CANT FLOAT NULL, DESCR VARCHAR(120) NULL, TIEMPO FLOAT NULL, TIEMPO_REAL FLOAT NULL, TIPO SMALLINT NULL, 
+                        GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCSERVICIOS_MANTE_PAR PRIMARY KEY CLUSTERED (CVE_SER, CVE_ART, NUM_PAR))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("89. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '************************************************************************
+            '************************************************************************
+            Try
+                If Not EXISTE_TABLA("GCCLASIFIC_SERVICIOS") Then
+                    cmd.CommandText = "CREATE TABLE GCCLASIFIC_SERVICIOS (CVE_CLA VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, 
+                                    CUEN_CONT VARCHAR(28) NULL, GUID VARCHAR(50) NULL, 
+                                    CONSTRAINT PK_GCCLASIFIC_SERVICIOS PRIMARY KEY CLUSTERED (CVE_CLA))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("90. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '************************************************************************
+            '************************************************************************
+            Try
+                If Not EXISTE_TABLA("GCREPORTE_FALLAS") Then
+                    SQL = "CREATE TABLE GCREPORTE_FALLAS (CVE_FALLA VARCHAR(10) NOT NULL, CVE_ORD VARCHAR(10) NULL, STATUS VARCHAR(1) NULL, 
+                        CVE_SUC VARCHAR(10) NULL, CVE_OPER INT NULL, KMS FLOAT NULL, TIPO_VIAJE SMALLINT NULL, ESTATUS VARCHAR(15) NULL, 
+                        CVE_UNI VARCHAR(10) NULL, CVE_CLAS VARCHAR(10) NULL, DESCR_FALLA VARCHAR(MAX) NULL, FALLA SMALLINT NULL, 
+                        CVE_UNI2 VARCHAR(10) NULL, CVE_CLAS2 VARCHAR(10) NULL, DESCR_FALLA2 VARCHAR(MAX) NULL, FALLA2 SMALLINT NULL, 
+                        CVE_UNI3 VARCHAR(10) NULL, CVE_CLAS3 VARCHAR(10) NULL, DESCR_FALLA3 VARCHAR(MAX) NULL, FALLA3 SMALLINT NULL, 
+                        CVE_UNI4 VARCHAR(10) NULL, CVE_CLAS4 VARCHAR(10) NULL, DESCR_FALLA4 VARCHAR(MAX) NULL, FALLA4 SMALLINT NULL, 
+                        FECHA DATE NULL, FECHAELAB DATETIME NULL, GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCREPORTE_FALLAS PRIMARY KEY CLUSTERED (CVE_FALLA) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("91. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCREPORTE_FALLAS_PAR") Then
+                    SQL = "CREATE TABLE GCREPORTE_FALLAS_PAR (CVE_FALLA VARCHAR(10) NOT NULL, CVE_ORD VARCHAR(10) NULL, CVE_UNI VARCHAR(10) NULL, 
+                        CVE_CLAS VARCHAR(10) NULL, DESCR_FALLA VARCHAR(MAX) NULL, FALLA SMALLINT NULL, NO_PARTIDA SMALLINT NOT NULL, 
+                        UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCREPORTE_FALLAS_PAR PRIMARY KEY CLUSTERED (CVE_FALLA, NO_PARTIDA))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("91. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '************************************************************************
+            '28 JUNIO
+            Try
+                If Not EXISTE_TABLA("GCMECANICOS") Then
+                    cmd.CommandText = "CREATE TABLE GCMECANICOS (CVE_MEC SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, 
+                        CUEN_CONT VARCHAR(28) NULL, GUID VARCHAR(50) NULL, MOTIVO_BAJA varchar(255) null, 
+                        CONSTRAINT PK_GCMECANICOS PRIMARY KEY CLUSTERED (CVE_MEC) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("94. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '28 JULIO VALE DE COMBUSTIBLE
+            Try
+                If Not EXISTE_TABLA("GCVALE_COMBUSTIBLE") Then
+                    cmd.CommandText = "CREATE TABLE GCVALE_COMBUSTIBLE (CVE_FOLIO INT NOT NULL, STATUS VARCHAR(1) NULL, FECHA DATE NULL, " &
+                        "FECHA_VALE DATETIME NULL, FECHA_CARGA DATE NULL, VALE_GAS VARCHAR(20) NULL, NUM_CPTO SMALLINT NULL, TIPO VARCHAR(5) NULL, " &
+                        "CVE_UNI VARCHAR(10) NULL, CVE_GAS VARCHAR(10) NULL, CVE_CAR VARCHAR(10) NULL, PRECIO FLOAT NULL, " &
+                        "IMPORTE FLOAT NULL, LITROS FLOAT NULL, LITROS_REAL FLOAT NULL, CVE_OBS INT NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCVALE_COMBUSTIBLE PRIMARY KEY CLUSTERED (CVE_FOLIO) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("95. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '28 JULIO CARTA PORTE
+            Try
+                If Not EXISTE_TABLA("GCCARTA_PORTE") Then
+                    cmd.CommandText = "CREATE TABLE GCCARTA_PORTE (CVE_FOLIO VARCHAR(20) NOT NULL, CVE_VIAJE VARCHAR(20) NULL, CLIENTE VARCHAR(10) NULL, 
+                        FECHA_DOC DATE NULL, STATUS VARCHAR(1) NULL, CVE_COBRO VARCHAR(10) NULL, TIPO_UNI INT NULL, TIPO_VIAJE INT NULL, CVE_OPER INT NULL, 
+                        CLAVE_O VARCHAR(10) NULL, CLAVE_D VARCHAR(10) NULL, CVE_TRACTOR VARCHAR(40) NULL, CVE_TANQUE1 VARCHAR(40) NULL, 
+                        CVE_TANQUE2 VARCHAR(40) NULL, CVE_DOLLY VARCHAR(40) NULL, RECOGER_EN VARCHAR(255) NULL, ENTREGAR_EN VARCHAR(255) NULL, 
+                        CVE_PLAZA1 INT NULL, CVE_PLAZA2 INT NULL, FECHA_CARGA DATETIME NULL, FECHA_DESCARGA DATETIME NULL, REM_CARGA1 VARCHAR(60) NULL, 
+                        PESO_BRUTO1 FLOAT NULL, TARA1 FLOAT NULL, REM_CARGA2 VARCHAR(60) NULL, PESO_BRUTO2 FLOAT NULL, TARA2 FLOAT NULL, 
+                        REM_CARGA3 VARCHAR(60) NULL, PESO_BRUTO3 FLOAT NULL, TARA3 FLOAT NULL, REM_CARGA4 VARCHAR(60) NULL, PESO_BRUTO4 FLOAT NULL, 
+                        TARA4 FLOAT NULL, CVE_TIPO_PAGO VARCHAR(10) NULL, CVE_ART VARCHAR(16) NULL, FLETE FLOAT NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL,
+                        RETENCION FLOAT NULL, NETO FLOAT NULL, ST_CARTA_PORTE SMALLINT NULL, CVE_CAP INT NULL, CONCILIADO BIT NULL DEFAULT (0), 
+                        FECHAELAB DATETIME NULL, ORDEN_DE VARCHAR(255) NULL, EMBARQUE VARCHAR(255) NULL, CARGA_ANTERIOR VARCHAR(255) NULL, 
+                        SELECCIONE INT NULL, CVE_DOCP VARCHAR(20) NULL, CVE_DOCR VARCHAR(20) NULL, REM_CARGA SMALLINT NULL, CVE_VAL_DECLA INT NULL,
+                        VALOR_DECLARADO FLOAT NULL, CVE_MAT VARCHAR(16) NULL, CANT FLOAT NULL, UUID VARCHAR(50) NULL, SERIE VARCHAR(10) NULL, 
+                        FOLIO INT NULL, TIMBRADA VARCHAR(1) NULL, PEDIMENTO VARCHAR(100) NULL, OBSER_CFDI VARCHAR(255) NULL, CVE_TAB_VIAJE VARCHAR(20) NULL, 
+                        CVE_CON VARCHAR(20) NULL, CVE_ESQIMPU SMALLINT NULL, KM_RECORRIDOS FLOAT NULL, FECHA_TIMBRE DATETIME NULL, CVE_OBSP INT NULL,
+                        CVE_OBS_BAJA INT NULL, FECHA_CARGA_TIMBRE DATETIME NUlL, FECHA_REAL_CARGA DATETIME NULL, FECHA_REAL_DESCARGA DATETIME NULL, 
+                        CVE_MTC INT NULL, CVE_TIPO_OPE SMALLINT NULL, CP_VIRTUAL SMALLINT NULL, 
+                        CONSTRAINT PK_GCCARTA_PORTE PRIMARY KEY CLUSTERED (CVE_FOLIO) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("100. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '30 JULIO TIPO DE COBRO
+            Try
+                If Not EXISTE_TABLA("GCTIPO_COBRO") Then
+                    cmd.CommandText = "CREATE TABLE GCTIPO_COBRO (CVE_COBRO VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCTIPO_COBRO PRIMARY KEY CLUSTERED (CVE_COBRO) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("101. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '30 JULIO NUM VIAJE
+            Try
+                If Not EXISTE_TABLA("GCNUM_VIAJE") Then
+                    cmd.CommandText = "CREATE TABLE GCNUM_VIAJE (CVE_VIAJE VARCHAR(20) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCNUM_VIAJE PRIMARY KEY CLUSTERED (CVE_VIAJE) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("104. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '30 JULIO STATUS
+            Try
+                If Not EXISTE_TABLA("GCSTATUS") Then
+                    cmd.CommandText = "CREATE TABLE GCSTATUS (CVE_ST VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCSTATUS PRIMARY KEY CLUSTERED (CVE_ST) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("105. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '6 AGOSTO GASOLINERAS
+            Try
+                If Not EXISTE_TABLA("GCGASOLINERAS") Then
+                    cmd.CommandText = "CREATE TABLE GCGASOLINERAS (CVE_GAS VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, CVE_PROV VARCHAR(10) NULL, 
+                        DESCR VARCHAR(100) NULL, PRECIO FLOAT NULL, KM FLOAT NULL, NORMA VARCHAR(10) NULL, CORREO VARCHAR(255) NULL, 
+                        CUEN_CONT VARCHAR(28) NULL, GUID VARCHAR(50) NULL, CONSTRAINT PK_GCGASOLINERAS PRIMARY KEY CLUSTERED (CVE_GAS) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("107. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '6 AGOSTO CONTRATOS
+            Try
+                If Not EXISTE_TABLA("GCCONTRATO") Then
+                    cmd.CommandText = "CREATE TABLE GCCONTRATO (CVE_CON VARCHAR(10) NOT NULL, CVE_REM VARCHAR(10) NULL, CLIENTE VARCHAR(10) NULL,
+                        CONTRATO_CLIENTE VARCHAR(90) NULL, CVE_RUTA INT NULL, CVE_sDEST VARCHAR(10) NULL, CVE_PLAZA INT NULL, STATUS VARCHAR(1) NULL, 
+                        CVE_ORIGEN INT NULL, CVE_DESTINO INT NULL, CVE_ESTORI VARCHAR(10) NULL, CVE_ESTDES VARCHAR(10) NULL, 
+                        RUTA_SEN_VAC VARCHAR(255) NULL, RUTA_SE_CAR VARCHAR(255) NULL, RUTA_FULL_VAC VARCHAR(255) NULL, RUTAL_FULL_CAR VARCHAR(255) NULL, 
+                        NOTA VARCHAR(255) NULL, GAS_VIAJE_SEN FLOAT NULL, GAS_VIAJE_FUL FLOAT NULL, LTR_DIESEL_SEN FLOAT NULL, LTR_DIESEL_FULL FLOAT NULL, 
+                        KM_SEN FLOAT NULL, KM_FULL FLOAT NULL, REDIMIENTO FLOAT NULL, OBSER VARCHAR(255) NULL, 
+                        NO_VALES SMALLINT NULL, TIPO_VIAJE VARCHAR(40) NULL, LITROS FLOAT NULL, NO_CONTRATO VARCHAR(20) NULL, CLAVE_O VARCHAR(10) NULL, 
+                        CLAVE_D VARCHAR(10) NULL, REMITENTE VARCHAR(120) NULL, DESTINATARIO VARCHAR(120) NULL, RECOGER_EN VARCHAR(120) NULL, 
+                        ENTREGAR_EN VARCHAR(120) NULL, CVE_PROV VARCHAR(10) NULL, CVE_MAT VARCHAR(16) NULL, VALOR_DECLA INT NULL, CVE_ART VARCHAR(16) NULL, 
+                        CVE_PROD VARCHAR(16) NULL, CVE_CPTO SMALLINT NULL, TRASLADO BIT NULL, RETIENE BIT NULL, IMPORTE FLOAT NULL, LEYENDA VARCHAR(120) NULL, 
+                        IMPR_TALON BIT NULL, CVE_OBS INT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, CUEN_CONT VARCHAR(28) NULL, 
+                        FLETE FLOAT NULL, REM_CARGA1 VARCHAR(60) NULL, PESO_BRUTO1 FLOAT NULL, TARA1 FLOAT NULL, 
+                        REM_CARGA2 VARCHAR(60) NULL, PESO_BRUTO2 FLOAT NULL, TARA2 FLOAT NULL, REM_CARGA3 VARCHAR(60) NULL, PESO_BRUTO3 FLOAT NULL, 
+                        TARA3 FLOAT NULL, REM_CARGA4 VARCHAR(60) NULL, PESO_BRUTO4 FLOAT NULL, TARA4 FLOAT NULL, REM_CARGA SMALLINT NULL, 
+                        CVE_VAL_DECLA INT NULL, VALOR_DECLARADO FLOAT NULL, CVE_ART_FAC VARCHAR(16) NULL, IMPORTE_FAC FLOAT NULL,
+                        CVE_GAS INT NULL, IMPORTE_GAS FLOAT NULL, CVE_GAV VARCHAR(10) NULL, CVE_TAB_VIAJE VARCHAR(20) NULL, 
+                        KMS FLOAT NULL, P4_SENC_LTS FLOAT NULL, FULL_P4_LTS FLOAT NULL, CVE_MTC INT NULL,
+                        CONSTRAINT PK_GCCONTRATO  PRIMARY KEY CLUSTERED (CVE_CON) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("108. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '6 AGOSTO CONTRATO-CLIENTES
+            Try
+                If Not EXISTE_TABLA("GCCONTRATO_CLIENTES") Then
+                    SQL = "CREATE TABLE GCCONTRATO_CLIENTES (CVE_CON VARCHAR(10) NOT NULL, CLAVE_O VARCHAR(10) NULL, CLAVE_D VARCHAR(10) NULL, 
+                        REMITENTE VARCHAR(120) NULL, DESTINATARIO VARCHAR(120) NULL, RECOGER_EN VARCHAR(120) NULL, ENTREGAR_EN VARCHAR(120) NULL, 
+                        CVE_PROV VARCHAR(10) NULL, CVE_MAT VARCHAR(16) NULL, VALOR_DECLA FLOAT NULL, CVE_ART VARCHAR(16) NULL, 
+                        LEYENDA VARCHAR(120) NULL, IMPR_TALON BIT NULL, GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCCONTRATO_CLIENTES PRIMARY KEY CLUSTERED (CVE_CON))"
+
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("109. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '6 AGOSTO CONTRATO-CLIENTES
+            Try
+                If Not EXISTE_TABLA("GCCONTRATO_CONC") Then
+                    SQL = "CREATE TABLE GCCONTRATO_CONC (CVE_CON VARCHAR(10) NOT NULL, CVE_ART VARCHAR(16) NULL, CLIENTE VARCHAR(10) NULL, CVE_CPTO SMALLINT NULL, 
+                        TRASLADO BIT NULL, RETIENE BIT NULL, IMPORTE FLOAT NULL, GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCCONTRATO_CONC PRIMARY KEY CLUSTERED (CVE_CON))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("110. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '7 AGOSTO CASETAS
+            Try
+                If Not EXISTE_TABLA("GCCASETAS") Then
+                    cmd.CommandText = "CREATE TABLE GCCASETAS (CVE_CAS INT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(90) NULL, CVE_PLAZA INT NULL,
+                        TIPO_PAGO VARCHAR(1) NULL, IMPORTE1 FLOAT NULL, IMPORTE FLOAT NULL, IMPORTE2 FLOAT NULL, IMPORTE3 FLOAT NULL, IMPORTE4 FLOAT NULL,
+                        IMPORTE5 FLOAT NULL, IMPORTE6 FLOAT NULL, IMPORTE7 FLOAT NULL, IMPORTE8 FLOAT NULL, 
+                        GUID VARCHAR(50) NULL, CONSTRAINT PK_GCCASETAS PRIMARY KEY CLUSTERED (CVE_CAS) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("111. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCCASETAS_X_RUTA") Then
+                    cmd.CommandText = "CREATE TABLE GCCASETAS_X_RUTA (CVE_CXR INT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(90) NULL, 
+                        CVE_PLAZA INT NULL, CVE_PLAZA2 INT NULL, IMPORTE_CASETAS FLOAT NULL, CLAVE_OP VARCHAR(10) NULL, IAVE VARCHAR(20) NULL,
+                        UUID VARCHAR(50) NULL, CONSTRAINT PK_GCCASETAS_X_RUTA PRIMARY KEY CLUSTERED (CVE_CXR) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("111. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCCASETAS_X_RUTA_PAR") Then
+                    cmd.CommandText = "CREATE TABLE GCCASETAS_X_RUTA_PAR (CVE_CXR INT NOT NULL, CVE_CAS INT NOT NULL, 
+                        EJE2 BIT NULL, IMPORTE2 FLOAT NULL, EJE3 BIT NULL, IMPORTE3 FLOAT NULL, EJE4 BIT NULL, IMPORTE4 FLOAT NULL, 
+                        EJE5 BIT NULL, IMPORTE5 FLOAT NULL, EJE6 BIT NULL, IMPORTE6 FLOAT NULL, EJE7 BIT NULL, IMPORTE7 FLOAT NULL, 
+                        EJE8 BIT NULL, IMPORTE8 FLOAT NULL, EJE9 BIT NULL, IMPORTE9 FLOAT NULL, 
+                        UUID VARCHAR(50) NULL, CONSTRAINT PK_GCCASETAS_X_RUTA_PAR PRIMARY KEY CLUSTERED (CVE_CXR, CVE_CAS) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("111. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '8 AGOSTO TRAMOS OFICIALES
+            Try
+                If Not EXISTE_TABLA("GCTRAMOS_OFI") Then
+                    cmd.CommandText = "CREATE TABLE GCTRAMOS_OFI (CVE_TOF INT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, " &
+                        "RPD VARCHAR(20) NULL, RUTA VARCHAR(30) NULL, CLASE VARCHAR(30) NULL, KMS FLOAT NULL, ALERTAS VARCHAR(60) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCTRAMOS_OFI PRIMARY KEY CLUSTERED (CVE_TOF) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("112. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '8 AGOSTO DETALLE RUTAS
+            Try
+                Try
+                    'If Not EXIST_FIELD_SQL_SAE("GCDETALLE_RUTAS", "CVE_PLA1") Then
+                    'SQL = "DROP TABLE GCDETALLE_RUTAS"
+                    'cmd.CommandText = SQL
+                    'returnValue = cmd.ExecuteNonQuery().ToString
+                    'If returnValue IsNot Nothing Then
+                    'If returnValue = "1" Then
+                    'End If
+                    'Threading.Thread.Sleep(3000)
+                    '    End If
+                    'End If
+                Catch ex As Exception
+                    BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+                End Try
+
+                If Not EXISTE_TABLA("GCDETALLE_RUTAS") Then
+                    SQL = "CREATE TABLE GCDETALLE_RUTAS (CVE_DET INT NOT NULL, CVE_RUTA INT NULL, STATUS VARCHAR(1) NULL, CVE_PLA1 SMALLINT NULL, " &
+                        "CVE_PLA2 SMALLINT NULL, ORIGEN VARCHAR(120) NULL, DESTINO VARCHAR(120) NULL, COSTO_CASETAS FLOAT NULL, " &
+                        "KM_RECORRIDOS FLOAT NULL, TIEMPO_TOTAL FLOAT NULL, DESCANSOS FLOAT NULL, EJES SMALLINT NULL, PARADAS_TOTALES SMALLINT NULL, " &
+                        "GASOLINERAS SMALLINT NULL, TRAMOS SMALLINT NULL, ALERTAS VARCHAR(60) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCDETALLE_RUTAS PRIMARY KEY CLUSTERED (CVE_DET) ON [PRIMARY]) "
+
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                End If
+            Catch ex As Exception
+                BITACORADB("113. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '26 AGOS 2019 ORDEN DE TRABAJO    
+            Try
+                If Not EXISTE_TABLA("GCORDEN_TRABAJO") Then
+                    cmd.CommandText = "CREATE TABLE GCORDEN_TRABAJO (CVE_ORD VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, ESTATUS VARCHAR(80) NULL, " &
+                        "FECHA DATE NULL, CVE_SER VARCHAR(10) NULL, TIPO_SERVICIO SMALLINT NULL, CVE_UNI VARCHAR(10) NULL, CVE_TIPO VARCHAR(10) NULL, " &
+                        "CVE_PROV VARCHAR(10) NULL, FACTURA VARCHAR(20) NULL, VIDA_REP_ANO FLOAT NULL, VIDA_REP_KM FLOAT NULL, " &
+                        "LUGAR_REP VARCHAR(50) NULL, NOTA VARCHAR(100) NULL, CVE_OBS INT NULL, FECHAELAB DATETIME NULL, TIPO_EXTRA SMALLINT NULL, " &
+                        "CVE_OPER INT NULL, GUID VARCHAR(50) NULL, CONSTRAINT PK_GCORDEN_TRABAJO PRIMARY KEY CLUSTERED (CVE_ORD) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("114. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCORDEN_TRA_SER") Then
+                    cmd.CommandText = "CREATE TABLE GCORDEN_TRA_SER (CVE_ORD VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, CVE_ART VARCHAR(16) NULL, " &
+                        "CVE_PROV VARCHAR(10) NULL, CANT FLOAT NULL, CANT_ENTREGADA FLOAT NULL, COSTO FLOAT NULL, NUM_ALM SMALLINT NULL, " &
+                        "MANO_DE_OBRA FLOAT NULL, IMPORTE FLOAT NULL, TIPO_ELE VARCHAR(1) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL)"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("115. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '25-AGOS-2019
+            Try
+                If Not EXISTE_TABLA("GCORDEN_TRA_MEC") Then
+                    cmd.CommandText = "CREATE TABLE GCORDEN_TRA_MEC (CVE_ORD VARCHAR(10) NOT NULL, CVE_MEC VARCHAR(10) NULL, FECHAELAB DATETIME NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCORDEN_TRA_MEC PRIMARY KEY CLUSTERED (CVE_ORD) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("116. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '25-AGOS-2019
+            Try
+                If Not EXISTE_TABLA("GCORDEN_TRA_RFA") Then
+                    cmd.CommandText = "CREATE TABLE GCORDEN_TRA_RFA (CVE_ORD VARCHAR(10) NOT NULL, CVE_FALLA VARCHAR(10) NULL, " &
+                        "CVE_UNI VARCHAR(10) NULL, NO_PARTIDA SMALLINT NULL, FECHAELAB DATETIME NULL, GUID VARCHAR(50) NULL)"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("117. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '12 DIC 2019
+            Try
+                If Not EXISTE_TABLA("GCORDEN_TRABAJO_EXT") Then
+                    cmd.CommandText = "CREATE TABLE GCORDEN_TRABAJO_EXT (CVE_ORD VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, ESTATUS VARCHAR(80) NULL, 
+                        FECHA DATE NULL, CVE_SER VARCHAR(10) NULL, TIPO_SERVICIO SMALLINT NULL, CVE_UNI VARCHAR(10) NULL, CVE_TIPO VARCHAR(10) NULL, 
+                        CVE_PROV VARCHAR(10) NULL, FACTURA VARCHAR(20) NULL, VIDA_REP_ANO FLOAT NULL, VIDA_REP_KM FLOAT NULL, CVE_PROG VARCHAR(10) NULL, 
+                        LUGAR_REP VARCHAR(50) NULL, NOTA VARCHAR(100) NULL, CVE_OBS INT NULL, FECHAELAB DATETIME NULL, TIPO_EXTRA SMALLINT NULL, 
+                        CVE_OPER INT NULL, DOC_SIG VARCHAR(20) NULL, DOC_ANT VARCHAR(20) NULL, DOC_ANTR VARCHAR(20) NULL, RESPONSABLE VARCHAR(80) NULL, 
+                        PORC_UTIL SMALLINT NULL, A_M VARCHAR(1) NULL, ACT_COI VARCHAR(1) NULL,
+                        UUID VARCHAR(50) NULL, GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCORDEN_TRABAJO_EXT PRIMARY KEY CLUSTERED (CVE_ORD) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("114. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '12 DIC 2019
+            Try
+                If Not EXISTE_TABLA("GCORDEN_TRA_SER_EXT") Then
+                    cmd.CommandText = "CREATE TABLE GCORDEN_TRA_SER_EXT (CVE_ORD VARCHAR(10) NOT NULL, CVE_ART VARCHAR(16) NULL, TIPO SMALLINT NULL, 
+                        DESCR VARCHAR(90) NULL, STATUS VARCHAR(1) NULL, CANT FLOAT NULL, CANT_ORIGINAL FLOAT NULL, COSTO FLOAT NULL, FECHA DATE NULL, 
+                        NO_PARTE VARCHAR(60) NULL, MANO_DE_OBRA FLOAT NULL, IMPORTE FLOAT NULL, INICIO DATETIME NULL, HORA VARCHAR(20) NULL, 
+                        FINAL DATETIME NULL, HORA2 VARCHAR(20) NULL, TIEMPO_SER VARCHAR(20) NULL, TIEMPO_REAL VARCHAR(20) NULL, TIPO_PROD VARCHAR(1) NULL, 
+                        CANT_ENTREGADA FLOAT NULL, CVE_PROV VARCHAR(10) NULL, CVE_MEC SMALLINT NULL, CVE_ALM SMALLINT NULL, CONTROL VARCHAR(1) NULL, 
+                        NUM_MOV INT NULL, USUARIO_ALTA VARCHAR(20) NULL, USUARIO_EDIT VARCHAR(20) NULL, USUARIO_CANC VARCHAR(20) NULL, 
+                        FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL)"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("115. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '17 NOVIEMBRE 2020
+            Try
+                If Not EXISTE_TABLA("GCMANTENIMIENTO_EXT") Then
+                    cmd.CommandText = "CREATE TABLE GCMANTENIMIENTO_EXT (CVE_ORD VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, ESTATUS VARCHAR(80) NULL, 
+                        FECHA DATE NULL, CVE_SER VARCHAR(10) NULL, TIPO_SERVICIO SMALLINT NULL, CVE_UNI VARCHAR(10) NULL, CVE_TIPO VARCHAR(10) NULL, 
+                        CVE_PROV VARCHAR(10) NULL, FACTURA VARCHAR(20) NULL, VIDA_REP_ANO FLOAT NULL, VIDA_REP_KM FLOAT NULL, CVE_PROG VARCHAR(10) NULL, 
+                        LUGAR_REP VARCHAR(50) NULL, NOTA VARCHAR(100) NULL, CVE_OBS INT NULL, FECHAELAB DATETIME NULL, TIPO_EXTRA SMALLINT NULL, 
+                        CVE_OPER INT NULL, DOC_SIG VARCHAR(20) NULL, DOC_ANT VARCHAR(20) NULL, DOC_ANTR VARCHAR(20) NULL, 
+                        GUID VARCHAR(50) NULL, CONSTRAINT PK_GCMANTENIMIENTO_EXT PRIMARY KEY CLUSTERED (CVE_ORD) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("114. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try '17 NOVIEMBRE 2020
+                If Not EXISTE_TABLA("GCMANTENIMIENTO_EXT_PAR") Then
+                    cmd.CommandText = "CREATE TABLE GCMANTENIMIENTO_EXT_PAR (CVE_ORD VARCHAR(10) NOT NULL, CVE_ART VARCHAR(16) NULL, TIPO SMALLINT NULL,
+                        TIPO_PROD VARCHAR(1) NULL, DESCR VARCHAR(90) NULL, STATUS VARCHAR(1) NULL, CANT FLOAT NULL, CANT_ENTREGADA FLOAT NULL, COSTO FLOAT NULL,
+                        NO_PARTE VARCHAR(60) NULL, MANO_DE_OBRA FLOAT NULL, IMPORTE FLOAT NULL, INICIO DATETIME NULL, HORA VARCHAR(20) NULL, 
+                        FINAL DATETIME NULL, CVE_PROV VARCHAR(10) NULL, CVE_ALM SMALLINT NULL, HORA2 VARCHAR(20) NULL, TIEMPO_SER VARCHAR(20) NULL, 
+                        TIEMPO_REAL VARCHAR(20) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL)"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("115. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCORDEN_TRA_SER_EXT_BAK") Then
+                    cmd.CommandText = "CREATE TABLE GCORDEN_TRA_SER_EXT_BAK (CVE_ORD varchar(10) NOT NULL, CVE_ART varchar(16) NULL, TIPO smallint NULL, DESCR varchar(90) NULL, STATUS varchar(1) NULL, CANT float NULL,
+                        COSTO float NULL, NO_PARTE varchar(60) NULL, MANO_DE_OBRA float NULL, IMPORTE float NULL, INICIO datetime NULL, HORA varchar(20) NULL,
+                        FINAL datetime NULL, HORA2 varchar(20) NULL, TIEMPO_SER varchar(20) NULL, TIEMPO_REAL varchar(20) NULL, FECHAELAB datetime NULL,UUID varchar(50) NULL,
+                        CANT_ENTREGADA float NULL, CVE_PROV varchar(10) NULL, TIPO_PROD varchar(1) NULL) ON [PRIMARY]"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("115. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '12 DIC 2019
+            Try
+                If Not EXISTE_TABLA("GCORDEN_TRA_MEC_EXT") Then
+                    cmd.CommandText = "CREATE TABLE GCORDEN_TRA_MEC_EXT (CVE_ORD VARCHAR(10) NOT NULL, CVE_MEC VARCHAR(10) NULL, FECHAELAB DATETIME NULL, GUID VARCHAR(50) NULL)"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("116. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '12 DIC 2019
+            Try
+                If Not EXISTE_TABLA("GCORDEN_TRA_RFA_EXT") Then
+                    cmd.CommandText = "CREATE TABLE GCORDEN_TRA_RFA_EXT (CVE_ORD VARCHAR(10) NOT NULL, CVE_FALLA VARCHAR(10) NULL, " &
+                        "CVE_UNI VARCHAR(10) NULL, NO_PARTIDA SMALLINT NULL, FECHAELAB DATETIME NULL, GUID VARCHAR(50) NULL)"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("117. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCOPERADOR") Then
+                    SQL = "CREATE TABLE GCOPERADOR (CLAVE int Not NULL, CLAVE_MONTE varchar(10) NULL, STATUS VARCHAR(1) NULL, 
+                        ESPERMISIONARIO SMALLINT NULL, NOMBRE varchar(120) NULL, RFC varchar(20) NULL, CURP varchar(30) NULL, 
+                        FCONTRA Date NULL, CALLE varchar(120) NULL, TELEFONO varchar(90) NULL, COLONIA varchar(35) NULL, 
+                        CP varchar(10) NULL, CIUDAD  varchar(90) NULL, CVE_ESTADO SMALLINT NULL, LICENCIA varchar(50) NULL, 
+                        LIC_VENC DATE NULL, LICB SMALLINT NULL, LICC SMALLINT NULL, LICE SMALLINT NULL, PASAPARTE VARCHAR(50) NULL, 
+                        PAS_VENC DATE NULL, IMSS varchar(75) NULL, CVE_GRUSAN SMALLINT NULL, DIABETICO SMALLINT NULL, HIPERTENSO SMALLINT NULL, 
+                        ALERGIAS varchar(120) NULL, CVE_BANCO INT NULL, APP_MOVIL SMALLINT NULL, NUM_CUENTA varchar(30) NULL, CLABE varchar(30) NULL, 
+                        CUEN_CONT VARCHAR(28) NULL, CVE_ST_OPER SMALLINT NULL, CVE_TANQUE1 VARCHAR(40) NULL, CVE_TANQUE2 VARCHAR(40) NULL, 
+                        CVE_TIPO_OPER SMALLINT NULL, CVE_EDOCIVIL varchar(35) NULL, FECHANAC DATE NULL, BENEFICIARIO varchar(255) NULL,
+                        AVISAR_A  varchar(255) NULL, CVE_PUESTO varchar(10) NULL, FACTO_SM_INFONAVIT FLOAT NULL, FACTO_PORC_INFONAVIT FLOAT NULL,
+                        RET_DIARIA_INFONAVIT FLOAT NULL, RET_DIARIA_FONACOT FLOAT NULL, TRANSPORTADORA VARCHAR(80) NULL, CVE_TRACTOR VARCHAR(40) NULL,
+                        CVE_OBS INT NULL, MPRUEBA varchar(100) NULL, FECHA_ANTI DATE NULL, RESPONSABLE VARCHAR(100) NULL, COCAINA VARCHAR(1) NULL,
+                        TETRA VARCHAR(1) NULL, ANFETAMINA VARCHAR(1) NULL, MENTA VARCHAR(1) NULL, OPIACEOS VARCHAR(1) NULL, CVE_TIPO_REG SMALLINT NULL, 
+                        CVE_DEPTO varchar(10) NULL, CVE_TIPO_CON SMALLINT NULL, CVE_TIPO_JOR SMALLINT NULL, CVE_PER_PAGO SMALLINT NULL, 
+                        CVE_RIES_PUE SMALLINT NULL, CORREO varchar(100) NULL, CORREO_PER varchar(255) NULL, VL_SEN_CAR FLOAT NULL, VL_SEN_VAC FLOAT NULL,
+                        VL_FULL_CAR_CAR FLOAT NULL, VL_FULL_VAC_VAC FLOAT NULL, VL_FULL_CAR_VAC FLOAT NULL, VL_SUE_SEM FLOAT NULL, VL_SUE_DIA FLOAT NULL,
+                        VL_SUE_DIA_INT FLOAT NULL, VL_SEN_CAR_KM FLOAT NULL, VL_SEN_CAR_MI FLOAT NULL, VL_SEN_VAC_KM FLOAT NULL, VL_SEN_VAC_MI FLOAT NULL,
+                        VL_FULL_VAC_VAC_KM FLOAT NULL, VL_FULL_VAC_VAC_MI FLOAT NULL, VL_FULL_CAR_CAR_KM FLOAT NULL, VL_FULL_CAR_CAR_MI FLOAT NULL,
+                        VL_FULL_CAR_VAC_KM FLOAT NULL, VL_FULL_CAR_VAC_MI FLOAT NULL, CVE_INC SMALLINT NULL, CVE_FOTDOC SMALLINT NULL, FECHAELAB DATETIME NULL,
+                        CVE_CLASIFIC SMALLINT NULL, GUID VARCHAR(50) NULL, NOMBRE_OPER VARCHAR(50) NULL, AP_PATERNO VARCHAR(50) NULL, AP_MATERNO VARCHAR(50) NULL,
+                        COLONIA_SAT VARCHAR(10) NULL, CP_SAT VARCHAR(10) NULL, MUNICIPIO_SAT VARCHAR(10) NULL, POBLACION_SAT VARCHAR(10) NULL, 
+                        ESTADO_SAT VARCHAR(10) NULL, PAIS VARCHAR(50) NULL, PAIS_SAT VARCHAR(10) NULL, MUNICIPIO VARCHAR(50) NULL, REFRENDO_MEDICO DATE NULL,
+                        NUM_EXT VARCHAR(50) NULL, MOTIVO_BAJA VARCHAR(255) NULL, USUARIO_BAJA VARCHAR(255) NULL, 
+                        CTA_CONTA_PCIERR VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCOPERADOR PRIMARY KEY CLUSTERED (CLAVE))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("118. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCSTATUS_OPER") Then
+                    cmd.CommandText = "CREATE TABLE GCSTATUS_OPER (CVE_ST_OPER SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(40) NULL, 
+                         PRIORIDAD SMALLINT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                         CONSTRAINT PK_GCSTATUS_OPER PRIMARY KEY CLUSTERED (CVE_ST_OPER))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("119. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCVENC_DOC") Then
+                    cmd.CommandText = "CREATE TABLE GCVENC_DOC (CLAVE INT NOT NULL, CVE_VENDOC SMALLINT NULL, CVE_DOC VARCHAR(255) NULL, 
+                        NOMBRE VARCHAR(255) NULL, FECHA_VENC DATE NULL, GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCVENC_DOC PRIMARY KEY CLUSTERED (CLAVE))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("119. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCINCIDENCIAS") Then
+                    cmd.CommandText = "CREATE TABLE GCINCIDENCIAS (CLAVE INT NOT NULL, CVE_INC SMALLINT NULL, FECHA DATE NULL, CREADO_POR VARCHAR(30) NULL,  CVE_INCI SMALLINT NULL, " &
+                        "CVE_OBS INT NULL, GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCINCIDENCIAS PRIMARY KEY CLUSTERED (CLAVE))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("120. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCOPER_INCIDENCIAS") Then
+                    cmd.CommandText = "CREATE TABLE GCOPER_INCIDENCIAS (CVE_INCI VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, FECHA DATE NULL, 
+                        USUARIO VARCHAR(30) NULL, OBS VARCHAR(255) NULL, GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCOPER_INCIDENCIAS PRIMARY KEY CLUSTERED (CVE_INCI))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("122. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCFOTDOC") Then
+                    cmd.CommandText = "CREATE TABLE GCFOTDOC (CLAVE INT NOT NULL, CVE_FOTDOC SMALLINT NULL, DESCR VARCHAR(255) NULL, 
+                        DOCUMENTO VARCHAR(255) NULL, CVE_OBS INT NULL, TIPO_DOC VARCHAR(1) NULL, RUTA_ORIGINAL VARCHAR(255) NULL, 
+                        GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCFOTDOC PRIMARY KEY CLUSTERED (CLAVE))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("123. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCDEPTOS") Then
+                    cmd.CommandText = "CREATE TABLE GCDEPTOS (CVE_DEPTO VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(90) NULL, 
+                        GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCDEPTOS PRIMARY KEY CLUSTERED (CVE_DEPTO))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("124. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCPUESTOS") Then
+                    cmd.CommandText = "CREATE TABLE GCPUESTOS (CVE_PUESTO VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(90) NULL, 
+                        GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCPUESTOS PRIMARY KEY CLUSTERED (CVE_PUESTO))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("125. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCBANCOS") Then
+                    cmd.CommandText = "CREATE TABLE GCBANCOS (CVE_BANCO VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(90) NULL, " &
+                            "CALLE VARCHAR(120) NULL, TELEFONO VARCHAR(60) NULL, RFC VARCHAR(25) NULL, CIUDAD VARCHAR(60) NULL, " &
+                            "CTA_BANCARIA VARCHAR(60) NULL, CLABE VARCHAR(30) NULL, FECHA_APER DATETIME NULL, EJECUTIVO VARCHAR(120) NULL, " &
+                            "ALIAS VARCHAR(60) NULL, SUCURSAL VARCHAR(80) NULL, SALDO FLOAT NULL, CORREO1 VARCHAR(60) NULL, CORREO2 VARCHAR(60) NULL, " &
+                            "CORREO3 VARCHAR(60) NULL, GUID VARCHAR(50) NULL, CONSTRAINT PK_GCBANCOS PRIMARY KEY CLUSTERED (CVE_BANCO) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("126. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCGRUPO_SANGUINEO") Then
+                    cmd.CommandText = "CREATE TABLE GCGRUPO_SANGUINEO (CVE_GRUSAN SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(60) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCGRUPO_SANGUINEO  PRIMARY KEY CLUSTERED (CVE_GRUSAN) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("127. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCTIPO_OPERACION") Then
+                    cmd.CommandText = "CREATE TABLE GCTIPO_OPERACION (CVE_TIPO SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(60) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCTIPO_OPERACION PRIMARY KEY CLUSTERED (CVE_TIPO) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("128. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+
+            Try
+                If Not EXISTE_TABLA("GCTIPO_REGIMEN") Then
+                    cmd.CommandText = "CREATE TABLE GCTIPO_REGIMEN (CVE_TIPO SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(60) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCTIPO_REGIMEN PRIMARY KEY CLUSTERED (CVE_TIPO) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("129. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCTIPO_CONTRATO") Then
+                    cmd.CommandText = "CREATE TABLE GCTIPO_CONTRATO (CVE_TIPO SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(60) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCTIPO_CONTRATO  PRIMARY KEY CLUSTERED (CVE_TIPO) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("138. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCTIPO_JORNADA") Then
+                    cmd.CommandText = "CREATE TABLE GCTIPO_JORNADA (CVE_TIPO SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(60) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCTIPO_JORNADA PRIMARY KEY CLUSTERED (CVE_TIPO) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("139. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCPER_PAGO") Then
+                    cmd.CommandText = "CREATE TABLE GCPER_PAGO (CVE_PAGO SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(60) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCPER_PAGO PRIMARY KEY CLUSTERED (CVE_PAGO) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("140. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCRIESGO_TRABAJO") Then
+                    cmd.CommandText = "CREATE TABLE  GCRIESGO_TRABAJO (CVE_RIESGO SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(60) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCRIESGO_TRABAJO PRIMARY KEY CLUSTERED (CVE_RIESGO) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("141. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCCATINCIDENCIAS") Then
+                    cmd.CommandText = "CREATE TABLE GCCATINCIDENCIAS (CVE_INC SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(60) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCCATINCIDENCIAS PRIMARY KEY CLUSTERED (CVE_INC) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("142. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCESTADOS") Then
+                    cmd.CommandText = "CREATE TABLE GCESTADOS (CVE_ESTADO SMALLINT NOT NULL, NUM_ESTADO VARCHAR(5) NULL, STATUS VARCHAR(1) NULL, 
+                        NOMBRE VARCHAR(60) NULL, CLAVE_SAT_EST VARCHAR(20) NULL, PAIS VARCHAR(20) NULL, CLAVE_SAT_PAIS VARCHAR(20) NULL, 
+                        GUID VARCHAR(50) NULL, CONSTRAINT PK_GCESTADOS PRIMARY KEY CLUSTERED (CVE_ESTADO) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("144. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCPROPIETARIOS") Then
+                    cmd.CommandText = "CREATE TABLE GCPROPIETARIOS (CVE_PROP SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, NOMBRE VARCHAR(120) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCPROPIETARIOS PRIMARY KEY CLUSTERED (CVE_PROP) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("145. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCCONFIG") Then
+                    cmd.CommandText = "CREATE TABLE GCCONFIG (ID int IDENTITY, EMPRESA varchar(2) NULL, RIBBON SMALLINT NULL, GUID VARCHAR(50) NULL)"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("146. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCUSUARIOS") Then
+                    SQL = "CREATE TABLE GCUSUARIOS (NOMBRE VARCHAR(80) NULL, USUARIO VARCHAR(40) Not NULL, PASS VARCHAR(40) NULL, 
+                        PASS_ALTERNA VARCHAR(40) NULL, CLAVE_SAE SMALLINT NULL, NIVEL VARCHAR(30) NULL, FOTO VARCHAR(255) NULL, 
+                        GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCUSUARIOS PRIMARY KEY CLUSTERED (USUARIO) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCUSUARIOS_PARAM") Then
+                    SQL = "CREATE TABLE GCUSUARIOS_PARAM (USUARIO VARCHAR(40) NOT NULL, TIPO_DOC VARCHAR(3) NOT NULL, 
+                        DESCR VARCHAR(80) NULL, SERIE VARCHAR(12) NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCUSUARIOS_PARAM PRIMARY KEY CLUSTERED (USUARIO, TIPO_DOC) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCUSUARIOS_EMP") Then
+                    SQL = "CREATE TABLE GCUSUARIOS_EMP (USUARIO VARCHAR(40) NOT NULL, EMPRESA VARCHAR(2) NOT NULL, 
+                       UUID VARCHAR(50) NULL, 
+                      CONSTRAINT PK_GCUSUARIOS_EMP PRIMARY KEY CLUSTERED (USUARIO, EMPRESA) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCLICENCIAMIENTO_MODULOS") Then
+                    SQL = "CREATE TABLE GCLICENCIAMIENTO_MODULOS (CLAVE INT  NULL, MODULO VARCHAR(120) NOT NULL, 
+                        ACCESO BIT NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCLICENCIAMIENTO_MODULOS PRIMARY KEY CLUSTERED (MODULO) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCUNIDADES") Then
+                    SQL = "CREATE TABLE GCUNIDADES (CLAVE VARCHAR(10) NULL, CLAVEMONTE VARCHAR(40) NOT NULL, STATUS VARCHAR(1) NULL, RENTADO SMALLINT NULL,
+                        UNIDAD_PERMISI SMALLINT NULL, DESCR VARCHAR(255) NULL, CVE_TIPO_UNI SMALLINT NULL, CVE_SUC SMALLINT NULL, CVE_OPER INT NULL,
+                        CVE_MARCA VARCHAR(10) NULL, CVE_MODELO SMALLINT NULL, NUM_SERIE_UNI VARCHAR(90) NULL, COLOR VARCHAR(30) NULL, 
+                        CVE_ART VARCHAR(16) NULL, CVE_TANQUE1 VARCHAR(40) NULL, CVE_TANQUE2 VARCHAR(40) NULL, CVE_DOLLY VARCHAR(40) NULL, CVE_GRUPO SMALLINT NULL,
+                        IDENT_SAT VARCHAR(90) NULL, IDENT_CON VARCHAR(90) NULL, RENDIMIENTO VARCHAR(50) NULL, ULTIMO_KM FLOAT NULL, ULTIMO_DIS FLOAT NULL,
+                        FEC_ULT_RES DATE NULL, FEC_ULT_SER DATE NULL, FEC_PROX_RES DATE NULL, DIAS_SERV SMALLINT NULL, KM_SER FLOAT NULL, 
+                        CVE_DOC VARCHAR(30) NULL, GARANTIA  VARCHAR(20) NULL, ULT_DIST_RECR FLOAT NULL, FECHA_DOC DATE NULL, CVE_DOC_ASEG VARCHAR(30) NULL,
+                        CVE_OBSCOMP INT NULL, CHLL1 VARCHAR(10) NULL, CHLL2 VARCHAR(10) NULL, CHLL3 VARCHAR(10) NULL, CHLL4 VARCHAR(10) NULL, 
+                        CHLL5 VARCHAR(10) NULL, CHLL6 VARCHAR(10) NULL, CHLL7 VARCHAR(10) NULL, CHLL8 VARCHAR(10) NULL, CHLL9 VARCHAR(10) NULL, 
+                        CHLL10 VARCHAR(10) NULL, CHLL11 VARCHAR(10) NULL, CHLL12 VARCHAR(10) NULL, PLACAS_MEX VARCHAR(40) NULL, FPLA_VENC DATE NULL,
+                        PLACAS_EU VARCHAR(40) NULL, FPLA_VENC_EU DATE NULL, PLACAS_DEF VARCHAR(40) NULL, PERMISO_SCT VARCHAR(40) NULL, 
+                        VERIFICACION VARCHAR(40) NULL, FVENC_VER DATE NULL, CHTV SMALLINT NULL, CHAC SMALLINT NULL, CHWIFI SMALLINT NULL, 
+                        CHDISCAPA SMALLINT NULL, VEL_PROM FLOAT NULL, NEUTRALIZADORES FLOAT NULL, FRE_BRUS FLOAT NULL, CAR_ACELE FLOAT NULL, 
+                        ACC_PED_FRENO FLOAT NULL, VEL_MAX_MOTOR FLOAT NULL, PORC_ULT_CAMBIO FLOAT NULL, LARGO FLOAT NULL, ANCHO FLOAT NULL, 
+                        ALTO FLOAT NULL, CAPACIDAD FLOAT NULL, NUM_EJES SMALLINT NULL, NUM_LLANTAS SMALLINT NULL, LLANTAS_REF SMALLINT NULL, 
+                        CVE_MARCA_LLA SMALLINT NULL, CVE_MODELO_LLA SMALLINT NULL, CVE_MED SMALLINT NULL, CVE_TIPO_LLA SMALLINT NULL, 
+                        TIPO_MOTOR VARCHAR(30) NULL, NUM_SERIE_MOT VARCHAR(80) NULL, TIPO_TRANS VARCHAR(30) NULL, CVE_OBSER_MOT VARCHAR(255) NULL,
+                        CVE_TIPO_COM SMALLINT NULL, CAP_TANQUE_LT FLOAT NULL, CAP_TANQUE_MI FLOAT NULL, REN_CAR_KM FLOAT NULL, REN_CAR_MI FLOAT NULL,
+                        REN_VAC_KM FLOAT NULL, REN_VAC_MI FLOAT NULL, TARJ_COMB FLOAT NULL, TARJ_COMB2 FLOAT NULL, TARJ_COMB3 FLOAT NULL, 
+                        FCHULTLAVADA DATE NULL, EJES SMALLINT NULL, TIPO_EJE SMALLINT NULL, OBS VARCHAR(255) NULL, CUEN_CONT VARCHAR(30) NULL, 
+                        CUEN_CONT2 VARCHAR(30) NULL, CUEN_CONT_VTA VARCHAR(30) NULL,"
+                    'OTROS DATOS
+                    SQL &= "OD_TARJ_IAVE VARCHAR(50) NULL, OD_TARJ_EPASS VARCHAR(50) NULL, OD_PORC FLOAT NULL, OD_ODOMETRO_KM FLOAT NULL, 
+                          OD_ODOMETRO_GPS_KM FLOAT NULL, OD_ODOMETRO_MI FLOAT NULL, OD_ODOMETRO_GPS_MI FLOAT NULL, OD_HOROMETRO SMALLINT NULL, 
+                          OD_HOROMETRO_MIN SMALLINT NULL, CVE_PROP SMALLINT NULL, "
+                    'SEGUROS
+                    SQL &= "SE_ASEGURADORA VARCHAR(10) NULL, SE_TEL VARCHAR(50) NULL, SE_NO_SEG VARCHAR(50) NULL, SE_VENC DATE NULL, 
+                          SE_AMPLIA SMALLINT NULL, SE_LIMITADA SMALLINT NULL, SE_SIN_COBERTURA SMALLINT NULL, "
+                    'PARO DE MOTOR POR RALENTI
+                    SQL &= "PARO_X_RALENTI SMALLINT NULL, T_P_MOTOR_RELENTI SMALLINT NULL, "
+                    'FOTO / DOCUMENTOS
+                    SQL = SQL & "FD_DESCR VARCHAR(255) NULL, FD_ARCHIVO VARCHAR(255) NULL, GUID VARCHAR(50) NULL, NIVEL SMALLINT NULL, NIVEL2 SMALLINT NULL,
+                        NIVEL3 SMALLINT NULL, CVE_ST_VIA INT NULL, CVE_ST_UNI INT NULL, CVE_TAQ INT NULL, CVE_MOT INT NULL, CVE_PROD INT NULL, 
+                        USUARIO VARCHAR(30) NULL, SUBTIPOREM VARCHAR(6) NULL, ANO_MODELO VARCHAR(20) NULL, CVE_REND SMALLINT NULL, 
+                        CTA_CON_DIESEL VARCHAR(30) NULL, CTA_CON_DIESEL_SIVA VARCHAR(30) NULL, MOTIVO_BAJA VARCHAR(255) NULL, 
+                        USUARIO_BAJA VARCHAR(30) NULL, CVE_MTC INT NULL, FECHA_ST_UNI DATETIME NULL, 
+                        HLL9 SMALLINT NULL, HLL10 SMALLINT NULL, HLL11 SMALLINT NULL, HLL12 SMALLINT NULL, 
+                        CONSTRAINT PK_GCUNIDADES PRIMARY KEY CLUSTERED (CLAVEMONTE) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("148. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                SQL = "ALTER TABLE GCUNIDADES ALTER COLUMN CLAVE VARCHAR(10) NOT NULL"
+                Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                    cmd2.CommandText = SQL
+                    returnValue = cmd2.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End Using
+            Catch ex As Exception
+                BITACORADB("117. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                SQL = "ALTER TABLE GCUNIDADES ADD CONSTRAINT PK_GCUNIDADES_CLAVE PRIMARY KEY CLUSTERED (CLAVE);"
+                Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                    cmd2.CommandText = SQL
+                    returnValue = cmd2.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End Using
+            Catch ex As Exception
+                'BITACORADB("117. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCCONC_GASTOS") Then
+                    cmd.CommandText = "CREATE TABLE GCCONC_GASTOS (CVE_GAS SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(80) NULL, 
+                        CUEN_CONT VARCHAR(28) NULL, CLASIFIC VARCHAR(40) NULL, GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCCONC_GASTOS PRIMARY KEY CLUSTERED (CVE_GAS))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("149. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCINVER") Then
+                    SQL = "CREATE TABLE GCINVER (CVE_ART varchar(16) Not NULL, DESCR varchar(40) NULL, LIN_PROD varchar(5) NULL, CON_SERIE varchar(1) NULL,
+                        UNI_MED varchar(10) NULL, UNI_EMP float NULL, CTRL_ALM varchar(10) NULL, TIEM_SURT int NULL, STOCK_MIN float NULL, STOCK_MAX float NULL,
+                        TIP_COSTEO varchar(1) NULL, NUM_MON int NULL, FCH_ULTCOM datetime NULL, COMP_X_REC float NULL, FCH_ULTVTA datetime NULL, 
+                        PEND_SURT float NULL, EXIST float NULL, COSTO_PROM float NULL, ULT_COSTO float NULL, CVE_OBS int NULL, TIPO_ELE varchar(1) NULL, 
+                        UNI_ALT varchar(10) NULL, FAC_CONV float NULL, APART float NULL, CON_LOTE varchar(1) NULL, CON_PEDIMENTO varchar(1) NULL, 
+                        PESO float NULL, VOLUMEN float NULL, CVE_ESQIMPU int NULL, CVE_BITA int NULL, VTAS_ANL_C float NULL, VTAS_ANL_M float NULL, 
+                        COMP_ANL_C float NULL, COMP_ANL_M float NULL, PREFIJO varchar(8) NULL, TALLA varchar(8) NULL, COLOR varchar(8) NULL, 
+                        CUENT_CONT varchar(28) NULL, CVE_IMAGEN varchar(16) NULL, BLK_CST_EXT varchar(1) NULL, STATUS varchar(1) NULL, 
+                        MAN_IEPS varchar(1) NULL DEFAULT ('N'), APL_MAN_IMP int NULL DEFAULT (1), CUOTA_IEPS float NULL DEFAULT (0), 
+                        APL_MAN_IEPS varchar(1) NULL DEFAULT ('C'), UUID varchar(50) NULL, VERSION_SINC datetime NULL, VERSION_SINC_FECHA_IMG datetime NULL,
+                        CVE_PRODSERV varchar(9) NULL, CVE_UNIDAD varchar(4) NULL, GUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCINVER PRIMARY KEY CLUSTERED (CVE_ART) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("151. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '23 ago 2019
+            Try
+                If Not EXISTE_TABLA("GCINVE_CLIB") Then
+                    SQL = "CREATE TABLE GCINVE_CLIB (CVE_PROD varchar(16) NOT NULL, CAMPLIB1 varchar(15) NULL, CAMPLIB2 varchar(20) NULL, " &
+                        "CAMPLIB3 varchar(25) NULL, CAMPLIB4 int NULL, CAMPLIB5 float NULL, CAMPLIB6 float NULL, CAMPLIB7 varchar(255) NULL, " &
+                        "CAMPLIB8 varchar(255) NULL, CAMPLIB9 varchar(255) NULL, CAMPLIB10 varchar(255) NULL, GUID VARCHAR(50) NULL, " &
+                        "CONSTRAINT PK_GCINVE_CLIB PRIMARY KEY CLUSTERED (CVE_PROD) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("152. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '23 ago 2019
+            Try
+                If Not EXISTE_TABLA("GCPRECIOS") Then
+                    SQL = "CREATE TABLE GCPRECIOS (CVE_PRECIO int NOT NULL, DESCRIPCION varchar(25) NOT NULL, CVE_BITA int NULL,
+                          STATUS varchar(1) NULL, GUID VARCHAR(50) NULL, CONSTRAINT PK_GCPRECIOS PRIMARY KEY CLUSTERED (CVE_PRECIO) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("153. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '23 ago 2019
+            Try
+                If Not EXISTE_TABLA("GCPRECIO_X_PROD") Then
+                    SQL = "CREATE TABLE GCPRECIO_X_PROD (CVE_ART varchar(16) NOT NULL, CVE_PRECIO int NOT NULL, PRECIO float NULL, GUID VARCHAR(50) NULL,
+                        CONSTRAINT PK_GCPRECIO_X_PROD PRIMARY KEY CLUSTERED (CVE_ART, CVE_PRECIO) ON [PRIMARY])
+                        CREATE INDEX IDX_PP_CVE_ART ON GCPRECIO_X_PROD (CVE_ART) ON [PRIMARY]
+                        CREATE INDEX IDX_PP_CVE_PREC ON GCPRECIO_X_PROD (CVE_PRECIO)  ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("156. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '23 ago 2019
+            Try
+                If Not EXISTE_TABLA("GCCVES_ALTER") Then
+                    SQL = "CREATE TABLE GCCVES_ALTER (CVE_ART varchar(16) NOT NULL, CVE_ALTER varchar(16) NOT NULL, TIPO varchar(1) NULL, 
+                        VE_CLPV varchar(10) NULL, GUID VARCHAR(50) NULL,
+                        CONSTRAINT PK_GCCVES_ALTER PRIMARY KEY CLUSTERED (CVE_ART, CVE_ALTER) ON [PRIMARY])"
+
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("157. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '25 ago 2019
+            Try
+                If Not EXISTE_TABLA("GCUNI_MED") Then
+                    SQL = "CREATE TABLE GCUNI_MED (CVE_MED varchar(16) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(60) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCUNI_MED PRIMARY KEY CLUSTERED (CVE_MED) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("158. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '2 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCKITS") Then
+                    SQL = "CREATE TABLE GCKITS (CVE_ART varchar(16) NOT NULL, CVE_PROD varchar(16) NOT NULL, PORCEN float NULL,  CIUDAD float NULL, 
+                        GUID VARCHAR(50) NULL,
+                        CONSTRAINT PK_GCKITS PRIMARY KEY CLUSTERED (CVE_ART, CVE_PROD) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("159. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCMINVER" & Empresa) Then
+                    SQL = "CREATE TABLE GCMINVER" & Empresa & " (CVE_ART varchar(16) Not NULL, ALMACEN int Not NULL, NUM_MOV int Not NULL, 
+                        CVE_CPTO Int Not NULL, FECHA_DOCU datetime NULL, TIPO_DOC varchar(1) NULL, REFER varchar(20) NULL, CLAVE_CLPV varchar(10) NULL, 
+                        VEND varchar(5) NULL, CANT float NULL, CANT_COST float NULL, PRECIO float NULL, COSTO float NULL, AFEC_COI varchar(1) NULL, 
+                        CVE_OBS Int NULL, REG_SERIE int NULL, UNI_VENTA varchar(10) NULL, E_LTPD int NULL, EXIST_G float NULL, EXISTENCIA float NULL, 
+                        TIPO_PROD varchar(1) NULL, FACTOR_CON float NULL, FECHAELAB datetime NULL, CTLPOL int NULL, CVE_FOLIO varchar(9) NULL, 
+                        SIGNO Int NULL, COSTEADO varchar(1) NULL, COSTO_PROM_INI float NULL, COSTO_PROM_FIN float NULL, COSTO_PROM_GRAL float NULL, 
+                        DESDE_INVE varchar(1) NULL, MOV_ENLAZADO int NULL) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("232. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '2 DIC 2019
+            Try
+                If Not EXISTE_TABLA("GCALMACENESR" & Empresa) Then
+                    SQL = "CREATE TABLE GCALMACENESR" & Empresa & " (CVE_ALM int Not NULL, DESCR varchar(40) NULL, DIRECCION varchar(60) NULL, 
+                        ENCARGADO varchar(60) NULL, TELEFONO varchar(16) NULL, LISTA_PREC int NULL, CUEN_CONT varchar(28) NULL, CVE_MENT int NULL, 
+                        CVE_MSAL Int NULL, STATUS varchar(1) NULL, LAT float NULL, LON float NULL, UUID varchar(50) NULL, VERSION_SINC datetime NULL, 
+                        Constraint PK_ALMACENESR" & Empresa & " PRIMARY KEY CLUSTERED (CVE_ALM) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("233. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCMULTR" & Empresa) Then
+                    SQL = "CREATE TABLE GCMULTR" & Empresa & " (CVE_ART varchar(16) Not NULL, CVE_ALM int Not NULL, STATUS varchar(1) NULL, 
+                        CTRL_ALM varchar(10) NULL, EXIST float NULL, STOCK_MIN float NULL, STOCK_MAX float NULL, COMP_X_REC float NULL, 
+                        UUID varchar(50) NULL, VERSION_SINC datetime NULL,
+                        Constraint PK_GCMULTR" & Empresa & " PRIMARY KEY CLUSTERED (CVE_ART, CVE_ALM)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("159. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '1 OCT 2019
+            Try
+                If Not EXISTE_TABLA("GCIFIJO") Then
+                    SQL = "CREATE TABLE GCIFIJO (CVE_ART varchar(16) Not NULL, DESCR varchar(40) NULL, LIN_PROD varchar(5) NULL, CON_SERIE varchar(1) NULL,
+                        UNI_MED varchar(10) NULL, UNI_EMP float NULL, CTRL_ALM varchar(10) NULL, TIEM_SURT int NULL, STOCK_MIN float NULL, STOCK_MAX float NULL,
+                        TIP_COSTEO varchar(1) NULL, NUM_MON int NULL, FCH_ULTCOM datetime NULL, COMP_X_REC float NULL, FCH_ULTVTA datetime NULL, 
+                        PEND_SURT float NULL, EXIST float NULL, COSTO_PROM float NULL, ULT_COSTO float NULL, CVE_OBS int NULL, TIPO_ELE varchar(1) NULL, 
+                        UNI_ALT varchar(10) NULL, FAC_CONV float NULL, APART float NULL, CON_LOTE varchar(1) NULL, CON_PEDIMENTO varchar(1) NULL, 
+                        PESO float NULL, VOLUMEN float NULL, CVE_ESQIMPU int NULL, CVE_BITA int NULL, VTAS_ANL_C float NULL, VTAS_ANL_M float NULL, 
+                        COMP_ANL_C float NULL, COMP_ANL_M float NULL, PREFIJO varchar(8) NULL, TALLA varchar(8) NULL, COLOR varchar(8) NULL, 
+                        CUENT_CONT varchar(28) NULL, CVE_IMAGEN varchar(16) NULL, BLK_CST_EXT varchar(1) NULL, STATUS varchar(1) NULL, 
+                        MAN_IEPS varchar(1) NULL DEFAULT ('N'), APL_MAN_IMP int NULL DEFAULT (1), CUOTA_IEPS float NULL DEFAULT (0),
+                    APL_MAN_IEPS varchar(1) NULL DEFAULT ('C'), UUID varchar(50) NULL, VERSION_SINC datetime NULL, VERSION_SINC_FECHA_IMG datetime NULL,   
+                    CVE_PRODSERV varchar(9) NULL, CVE_UNIDAD varchar(4) NULL, GUID VARCHAR(50) NULL, 
+                        Constraint PK_GCIFIJO PRIMARY KEY CLUSTERED (CVE_ART) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("151. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCALMACENESF" & Empresa) Then
+                    SQL = "CREATE TABLE GCALMACENESF" & Empresa & " (CVE_ALM int Not NULL, DESCR varchar(40) NULL, DIRECCION varchar(60) NULL, 
+                        ENCARGADO varchar(60) NULL, TELEFONO varchar(16) NULL, LISTA_PREC int NULL, CUEN_CONT varchar(28) NULL, CVE_MENT int NULL, 
+                        CVE_MSAL Int NULL, STATUS varchar(1) NULL, LAT float NULL, LON float NULL, UUID varchar(50) NULL, VERSION_SINC datetime NULL, 
+                        Constraint PK_GCALMACENESF" & Empresa & " PRIMARY KEY CLUSTERED (CVE_ALM) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("233. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCMULTF" & Empresa) Then
+                    SQL = "CREATE TABLE GCMULTF" & Empresa & " (CVE_ART varchar(16) Not NULL, CVE_ALM int Not NULL, STATUS varchar(1) NULL, 
+                        CTRL_ALM varchar(10) NULL, EXIST float NULL, STOCK_MIN float NULL, STOCK_MAX float NULL, COMP_X_REC float NULL, UUID varchar(50) NULL,
+                        VERSION_SINC datetime NULL,
+                        Constraint PK_GCMULTF" & Empresa & " PRIMARY KEY CLUSTERED (CVE_ART, CVE_ALM)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("159. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '23 ago 2019
+            Try
+                If Not EXISTE_TABLA("GCIFIJO_CLIB") Then
+                    SQL = "CREATE TABLE GCIFIJO_CLIB (CVE_PROD varchar(16) Not NULL, CAMPLIB1 varchar(15) NULL, CAMPLIB2 varchar(20) NULL, " &
+                        "CAMPLIB3 varchar(25) NULL, CAMPLIB4 int NULL, CAMPLIB5 float NULL, CAMPLIB6 float NULL, CAMPLIB7 varchar(255) NULL, " &
+                        "CAMPLIB8 varchar(255) NULL, CAMPLIB9 varchar(255) NULL, CAMPLIB10 varchar(255) NULL, GUID VARCHAR(50) NULL, " &
+                        "CONSTRAINT PK_GCIFIJO_CLIB PRIMARY KEY CLUSTERED (CVE_PROD) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("152. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '10 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCGASTOS_VIAJE") Then
+                    SQL = "CREATE TABLE GCGASTOS_VIAJE (CVE_NUM varchar(10) Not NULL, STATUS VARCHAR(1) NULL, CVE_OPER INT NULL, CVE_VIAJE varchar(20) NULL, " &
+                        "CVE_UNI varchar(10) NULL, FECHA DATE NULL, FECHAELAB DATETIME NULL, CVE_PROV varchar(10) NULL, NUM_CPTO SMALLINT NULL, " &
+                        "CVE_AUT varchar(10) NULL, GEN_PAS SMALLINT, LITROS FLOAT NULL, CVE_UNI2 varchar(10) Not NULL, TOTAL_COMB FLOAT NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCGASTOS_VIAJE PRIMARY KEY CLUSTERED (CVE_NUM) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("160. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '13 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCGASTOS_PAR") Then
+                    SQL = "CREATE TABLE GCGASTOS_PAR (CVE_NUM varchar(10) Not NULL, FOLIO VARCHAR(20) NULL, CVE_ART varchar(16) Not NULL, FECHA DATE NULL, 
+                        CVE_PROV VARCHAR(10) NULL, NUM_CPTO SMALLINT NULL, IMPORTE FLOAT NULL, GUID VARCHAR(50) NULL, 
+                        Constraint PK_GCGASTOS_PAR PRIMARY KEY CLUSTERED (CVE_NUM))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("161. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '13 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCGASTOS_ANT") Then
+                    SQL = "CREATE TABLE GCGASTOS_ANT (CVE_NUM varchar(10) Not NULL, FOLIO INT NULL, FECHA DATE NULL, NUM_CPTO SMALLINT NULL, " &
+                        "IMPORTE FLOAT NULL, GUID VARCHAR(50) NULL, CONSTRAINT PK_GCGASTOS_ANT PRIMARY KEY CLUSTERED (CVE_NUM) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("162. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '13 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCANTICIPOS_VIAJE") Then
+                    SQL = "CREATE TABLE GCANTICIPOS_VIAJE (CVE_ANTVI INT Not NULL, STATUS VARCHAR(1) NULL, FECHA DATE NULL, CVE_OPER INT NULL, " &
+                        "CVE_VIAJE VARCHAR(20) NULL, IMPORTE FLOAT NULL, CVE_AUT VARCHAR(10) NULL, NUM_CPTO SMALLINT NULL, CVE_OBS INT NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCANTICIPOS_VIAJE PRIMARY KEY CLUSTERED (CVE_ANTVI) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("163. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '13 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCANTICIPOS_PAR") Then
+                    SQL = "CREATE TABLE GCANTICIPOS_PAR (CVE_ANTVI INT Not NULL, CVE_ANT INT Not NULL, NUM_PAR SMALLINT Not NULL, FECHA DATE NULL, 
+                        IMPORTE FLOAT NULL, GUID VARCHAR(50) NULL, 
+                        Constraint PK_GCANTICIPOS_PAR PRIMARY KEY CLUSTERED (CVE_ANTVI, CVE_ANT, NUM_PAR))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("164. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '13 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCANTICIPOS_CAT") Then
+                    SQL = "CREATE TABLE GCANTICIPOS_CAT (CVE_ANT INT Not NULL, DESCR VARCHAR(90) NULL, STATUS VARCHAR(1) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCANTICIPOS_CAT PRIMARY KEY CLUSTERED (CVE_ANT) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("166. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '15 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCVIAJES") Then
+                    SQL = "CREATE TABLE GCVIAJES (CLAVE INT Not NULL, CVE_VIAJE VARCHAR(20) Not NULL, DESCR VARCHAR(120) NULL, STATUS VARCHAR(1) NULL, FECHA DATETIME NULL, " &
+                        "CIUDAD VARCHAR(60) NULL, CVE_ESTADO INT NULL, GUID VARCHAR(50) NULL, CONSTRAINT PK_GCVIAJES PRIMARY KEY CLUSTERED (CLAVE) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("167. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '15 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCAUTORIZA") Then
+                    SQL = "CREATE TABLE GCAUTORIZA (CVE_AUT INT Not NULL, NOMBRE VARCHAR(120) NULL, CORREO VARCHAR(255) NULL, STATUS VARCHAR(1) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCAUTORIZA PRIMARY KEY CLUSTERED (CVE_AUT) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("168. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '19 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCDESC_OPERADOR") Then
+                    SQL = "CREATE TABLE GCDESC_OPERADOR (FOLIO INT Not NULL, FECHA1 DATE NULL, FECHA2 DATE NULL, CVE_OPER INT NULL,
+                        NUM_CPTO SMALLINT NULL, CVE_TIP INT NULL, CVE_FOR INT NULL, STATUS VARCHAR(1) NULL, IMPORTE FLOAT NULL, CVE_OBS INT NULL,
+                        CUEN_CONT VARCHAR(28) NULL, GUID VARCHAR(50) NULL, CONSTRAINT PK_GCDESC_OPERADOR PRIMARY KEY CLUSTERED (FOLIO) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("169. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '19 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCTIPO_DESC") Then
+                    SQL = "CREATE TABLE GCTIPO_DESC (CVE_TIPO INT Not NULL, DESCR VARCHAR(120) NULL, STATUS VARCHAR(1) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCTIPO_DESC PRIMARY KEY CLUSTERED (CVE_TIPO) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("170. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '19 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCFORMA_DESC") Then
+                    SQL = "CREATE TABLE GCFORMA_DESC (CVE_FOR INT Not NULL, DESCR VARCHAR(120) NULL, STATUS VARCHAR(1) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCFORMA_DESC PRIMARY KEY CLUSTERED (CVE_FOR) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("171. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '21 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCFACT") Then
+                    SQL = "CREATE TABLE GCFACT (CVE_DOC VARCHAR(20) Not NULL, STATUS VARCHAR(1) NULL, CVE_CLPV VARCHAR(10) NULL, CVE_CON VARCHAR(10) NULL, " &
+                        "CVE_VIAJE VARCHAR(20) NULL, FECHA_DOC DATE NULL, FECHAELAB DATETIME NULL, CAN_TOT FLOAT NULL, TOT_DESC FLOAT NULL, TOT_IMP1 FLOAT NULL, " &
+                        "TOT_IMP2 FLOAT NULL, TOT_IMP3 FLOAT NULL, TOT_IMP4 FLOAT NULL, IMPORTE FLOAT NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCFACT PRIMARY KEY CLUSTERED (CVE_DOC) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("173. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '21 SEP 2019
+            Try
+                If Not EXISTE_TABLA("GCPAR_FACT") Then
+                    SQL = "CREATE TABLE GCPAR_FACT (CVE_DOC VARCHAR(20) Not NULL, CVE_ART VARCHAR(16) Not NULL, NUM_PAR SMALLINT Not NULL, 
+                        CANT FLOAT NULL, CVE_CPTO SMALLINT NULL, CVE_ESQIMPU SMALLINT NULL, DESCT FLOAT NULL, DES_TOT FLOAT NULL, IMP1 FLOAT NULL, 
+                        IMP2 FLOAT NULL, IMP3 FLOAT NULL, IMP4 FLOAT NULL, TOT_PARTIDA FLOAT NULL, GUID VARCHAR(50) NULL, 
+                        Constraint PK_GCPAR_FACT PRIMARY KEY CLUSTERED (CVE_DOC, CVE_ART, NUM_PAR))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("174. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '01 OCT 2019
+            Try
+                If Not EXISTE_TABLA("GCPRODUCTOS") Then
+                    SQL = "CREATE TABLE GCPRODUCTOS (CVE_PROD INT Not NULL, DESCR VARCHAR(120) NULL, STATUS VARCHAR(1) NULL, CUEN_CONT VARCHAR(28) NULL, 
+                        MAT_PELIGROSO SMALLINT NULL, CVE_MAT_PELIGROSO VARCHAR(6) NULL, EMBALAJE VARCHAR(5) NULL, UNIDADPESO VARCHAR(5) NULL, 
+                        BIENESTRANSP VARCHAR(5) NULL, GUID VARCHAR(50) NULL, 
+                        Constraint PK_GCPRODUCTOS PRIMARY KEY CLUSTERED (CVE_PROD))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("175. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '30 JULIO INSTRUCCIONES DE VIAJE
+            Try
+                If Not EXISTE_TABLA("GCINSTRUC_VIAJE") Then
+                    cmd.CommandText = "CREATE TABLE GCINSTRUC_VIAJE (CVE_IV VARCHAR(10) Not NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCINSTRUC_VIAJE PRIMARY KEY CLUSTERED (CVE_IV) ON [PRIMARY]) "
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("186. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '01 OCT 2019
+            Try
+                If Not EXISTE_TABLA("GCFORMA_PAGO_EMPLEADOS") Then
+                    SQL = "CREATE TABLE GCFORMA_PAGO_EMPLEADOS (CVE_PAGO INT Not NULL, DESCR VARCHAR(120) NULL, STATUS VARCHAR(1) NULL, " &
+                        "GUID VARCHAR(50) NULL, CONSTRAINT PK_GCFORMA_PAGO_EMPLEADOS PRIMARY KEY CLUSTERED (CVE_PAGO) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("196. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '2 OCT 2019  ASEURADORAS      ASEURADORAS      ASEURADORAS    
+            Try
+                If Not EXISTE_TABLA("GCASEGURADORAS") Then
+                    SQL = "CREATE TABLE GCASEGURADORAS (CLAVE varchar(10) Not NULL, STATUS varchar(1) Not NULL, NOMBRE varchar(120) NULL, 
+                        RFC varchar(15) NULL, CALLE varchar(80) NULL, NUMINT varchar(15) NULL, NUMEXT varchar(15) NULL, CRUZAMIENTOS varchar(40) NULL, 
+                        CRUZAMIENTOS2 varchar(40) NULL, COLONIA varchar(50) NULL, CODIGO varchar(5) NULL, LOCALIDAD varchar(50) NULL, 
+                        MUNICIPIO varchar(50) NULL, ESTADO varchar(50) NULL, PAIS varchar(50) NULL, NACIONALIDAD varchar(40) NULL, 
+                        REFERDIR varchar(255) NULL, TELEFONO varchar(25) NULL, CLASIFIC varchar(5) NULL, FAX varchar(25) NULL, PAG_WEB varchar(60) NULL,
+                        CURP varchar(18) NULL, CVE_ZONA varchar(6) NULL, IMPRIR varchar(1) NULL, MAIL varchar(1) NULL, NIVELSEC int NULL,
+                        ENVIOSILEN varchar(1) NULL, EMAILPRED varchar(60) NULL, DIAREV varchar(2) NULL, DIAPAGO varchar(2) NULL, 
+                        CON_CREDITO varchar(1) NULL, DIASCRED int NULL, LIMCRED float NULL, SALDO float NULL, LISTA_PREC int NULL, CVE_BITA int NULL, 
+                        ULT_PAGOD varchar(20) NULL, ULT_PAGOM float NULL, ULT_PAGOF datetime NULL, DESCUENTO float NULL, ULT_VENTAD varchar(20) NULL, 
+                        ULT_COMPM float NULL, FCH_ULTCOM datetime NULL, VENTAS float NULL, CVE_VEND varchar(5) NULL,CVE_OBS int NULL, 
+                        TIPO_EMPRESA varchar(1) NULL, MATRIZ varchar(10) NULL, PROSPECTO varchar(1) NULL, CALLE_ENVIO varchar(80) NULL, 
+                        NUMINT_ENVIO varchar(15) NULL, NUMEXT_ENVIO varchar(15) NULL, CRUZAMIENTOS_ENVIO varchar(40) NULL, 
+                        CRUZAMIENTOS_ENVIO2 varchar(40) NULL, COLONIA_ENVIO varchar(50) NULL, LOCALIDAD_ENVIO varchar(50) NULL, 
+                        MUNICIPIO_ENVIO varchar(50) NULL, ESTADO_ENVIO varchar(50) NULL, PAIS_ENVIO varchar(50) NULL, CODIGO_ENVIO varchar(5) NULL, 
+                        CVE_ZONA_ENVIO varchar(6) NULL, REFERENCIA_ENVIO varchar(255) NULL, CUENTA_CONTABLE varchar(28) NULL, ADDENDAF varchar(255) NULL, 
+                        ADDENDAD varchar(255) NULL, NAMESPACE varchar(255) NULL, METODODEPAGO varchar(255) NULL, NUMCTAPAGO varchar(255) NULL, 
+                        MODELO varchar(255) NULL, DES_IMPU1 varchar(1) NULL DEFAULT ('N'), DES_IMPU2 varchar(1) NULL DEFAULT ('N'), 
+                        DES_IMPU3 varchar(1) NULL DEFAULT ('N'), DES_IMPU4 varchar(1) NULL DEFAULT ('N'), DES_PER varchar(1) NULL DEFAULT ('N'), 
+                    LAT_GENERAL float NULL, LON_GENERAL float NULL, LAT_ENVIO float NULL, LON_ENVIO float NULL, UUID varchar(50) NULL, 
+                        VERSION_SINC DateTime NULL, USO_CFDI varchar(5) NULL, CVE_PAIS_SAT varchar(5) NULL, NUMIDREGFISCAL varchar(128) NULL, 
+                        FORMADEPAGOSAT varchar(5) NULL, CUEN_CONT VARCHAR(28) NULL, POLIZARESPCIVIL varchar(50) NULL, ASEGURARESPCIVIL varchar(50) NULL, 
+                        Constraint PK_ASEGURADORAS PRIMARY KEY CLUSTERED (CLAVE) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("206. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '06 OCT 2019
+            Try
+                If Not EXISTE_TABLA("GCCENTRO_COSTOS") Then
+                    SQL = "CREATE TABLE GCCENTRO_COSTOS (CVE_COSTOS INT Not NULL, DESCR VARCHAR(120) NULL, STATUS VARCHAR(1) NULL, 
+                        GUID VARCHAR(50) NULL, 
+                        Constraint PK_GCCENTRO_COSTOS PRIMARY KEY CLUSTERED (CVE_COSTOS))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("207. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '06 OCT 2019
+            Try
+                If Not EXISTE_TABLA("GCCONC_PRESTAMOS") Then
+                    SQL = "CREATE TABLE GCCONC_PRESTAMOS (NUM_CPTO INT Not NULL, DESCR VARCHAR(120) NULL, STATUS VARCHAR(1) NULL, 
+                        CUEN_CONT VARCHAR(28) NULL, GUID VARCHAR(50) NULL	, 
+						Constraint PK_GCCONC_PRESTAMOS PRIMARY KEY CLUSTERED (NUM_CPTO))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("208. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '24 OCT 2019
+            Try
+                If Not EXISTE_TABLA("GCPUNTOS_INTERES") Then
+                    SQL = "CREATE TABLE GCPUNTOS_INTERES (ID INT Not NULL, NOMBRE VARCHAR(120) NULL, LONGITUD INT NULL, LATITUD INT NULL, 
+                        Tipo VARCHAR(30) NULL, CIUDAD VARCHAR(30) NULL, ESTADO VARCHAR(30) NULL, PAIS VARCHAR(30) NULL, CATEGORIA VARCHAR(30) NULL, 
+                        GUID VARCHAR(50) NULL)"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("214. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '25 OCT 2019
+            Try
+                If Not EXISTE_TABLA("GCVALOR_DECLARADO") Then
+                    SQL = "CREATE TABLE GCVALOR_DECLARADO (CLAVE INT Not NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, 
+                        IMPORTE FLOAT NULL, GUID VARCHAR(50) NULL, 
+                        Constraint PK_GCVALOR_DECLARADO PRIMARY KEY CLUSTERED (CLAVE))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("216. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '25 OCT 2019
+            Try
+                If Not EXISTE_TABLA("GCTARJETA_IAVE") Then
+                    SQL = "CREATE TABLE GCTARJETA_IAVE (CLAVE INT Not NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(80) NULL, 
+                        VIGENCIA Date NULL, IMPORTE FLOAT NULL, GUID VARCHAR(50) NULL, CVE_UNI VARCHAR(10) NULL, 
+						Constraint PK_GCTARJETA_IAVE PRIMARY KEY CLUSTERED (CLAVE))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("218. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '14 NOV 2019
+            Try
+                If Not EXISTE_TABLA("GCPOLIZAS") Then
+                    SQL = "CREATE TABLE GCPOLIZAS (IDPOLIZA INT Not NULL, STATUS VARCHAR(1) NULL, FOLIO INT NULL, TIPO_POL INT NULL, 
+                        CVE_ASE Int NULL, CVE_PROV VARCHAR(10) NULL,  INICIO DATE NULL, TERMINO DATE NULL, COSTO FLOAT NULL, 
+                        TIPO_COBERTURA VARCHAR(255) NULL, GUID VARCHAR(50) NULL, 
+						Constraint PK_GCPOLIZAS PRIMARY KEY CLUSTERED (IDPOLIZA))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("220. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '14 NOV 2019
+            Try
+                If Not EXISTE_TABLA("GCTIPO_POLIZA") Then
+                    SQL = "CREATE TABLE GCTIPO_POLIZA (TIPO_POL INT Not NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(80) NULL, 
+                        GUID VARCHAR(50) NULL, 
+                        Constraint PK_GCTIPO_POLIZA PRIMARY KEY CLUSTERED (TIPO_POL))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("222. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '14 NOV 2019        
+            Try
+                If Not EXISTE_TABLA("GCEQUIPO_ASEGURADO") Then
+                    SQL = "CREATE TABLE GCEQUIPO_ASEGURADO (CVE_ASE INT Not NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(80) NULL, ACTIVO VARCHAR(255) NULL, 
+                        Guid VARCHAR(50) NULL, 
+                        Constraint PK_GCEQUIPO_ASEGURADO PRIMARY KEY CLUSTERED (CVE_ASE))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("224. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '15 NOV 2019
+            Try
+                If Not EXISTE_TABLA("GCSINIESTRO") Then
+                    SQL = "CREATE TABLE GCSINIESTRO (FOLIO INT Not NULL, NUM_SIN INT NULL, STATUS VARCHAR(1) NULL, FECHA DATE NULL, IDPOLIZA INT NULL, 
+                        HORA DateTime NULL, CVE_UNI VARCHAR(10) NULL, CVE_OPER INT NULL, UBICACION VARCHAR(255) NULL, LATITUD INT NULL, LONGITUD INT NULL, 
+                        FECHA_ATENCION DateTime NULL, HORA_ATENCION DATETIME NULL, DESCR VARCHAR(MAX) NULL, GUID VARCHAR(50) NULL, 
+						Constraint PK_GCSINIESTRO PRIMARY KEY CLUSTERED (FOLIO))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("225. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+            '                                                       LIQUIDACIONES
+            '10 AGOSTO 2021
+            '███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+            'CABEZA
+            Try
+                If Not EXISTE_TABLA("GCLIQUIDACIONES") Then
+                    SQL = "CREATE TABLE GCLIQUIDACIONES (CVE_LIQ INT Not NULL, STATUS VARCHAR(1) NULL, FECHA DATE NULL, 
+                        CVE_OPER INT NULL, CVE_UNI VARCHAR(10) NULL, CVE_RES VARCHAR(10) NULL, CVE_ST_LIQ SMALLINT NULL, 
+                        CVE_OBS INT NULL, GASTOS_VIAJE FLOAT NULL, VALES_COMBUSTIBLE FLOAT NULL, PERCEP_X_VIAJE FLOAT NULL, 
+                        OTRAS_PERCEP FLOAT NULL, DEDUCCIONES FLOAT NULL, DIF_COMPROBACION FLOAT NULL, SUBTOTAL FLOAT NULL, 
+                        IMPORTE FLOAT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, CVE_DED_RES INT NULL, 
+                        CVE_MTC INT NULL, CVE_DED_DESCUENTO INT NULL, CVE_DED_CARGO_P_MUERTO INT NULL, 
+                        CONTABILIZADO VARCHAR(1) NULL,
+                        Constraint PK_GCLIQUIDACIONES PRIMARY KEY CLUSTERED (CVE_LIQ) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("226. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '1 PESTAÑA PARTIDAS LIQUIDACIONES (SUELDOS)
+            Try
+                If Not EXISTE_TABLA("GCLIQ_PARTIDAS") Then
+                    SQL = "CREATE TABLE GCLIQ_PARTIDAS (CVE_LIQ INT Not NULL, CVE_VIAJE VARCHAR(20) Not NULL, NUM_PAR SMALLINT Not NULL, 
+                        STATUS VARCHAR(1) NULL, CVE_CAP1 VARCHAR(20) NULL, CVE_CAP2 VARCHAR(20) NULL, TIPO_VIAJE SMALLINT NULL, TIPO_UNIDAD SMALLINT NULL,
+                        FECHA_VIAJE Date NULL, CVE_UNI VARCHAR(10) NULL, CLAVE_O INT, CLAVE_D INT NULL, CVE_ST_VIA INT NULL, ST_CARTA_PORTE SMALLINT NULL, 
+                        SUELDO FLOAT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, CVE_SUOP INT NULL, 
+                        Constraint PK_GCLIQ_PARTIDAS PRIMARY KEY CLUSTERED (CVE_LIQ, NUM_PAR) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '2 PESTAÑA GASTOS DE VIAJE
+            Try
+
+                If Not EXISTE_TABLA("GCLIQ_GASTOS_VIAJE") Then
+                    SQL = "CREATE TABLE GCLIQ_GASTOS_VIAJE (CVE_LIQ INT Not NULL, CVE_VIAJE VARCHAR(20) Not NULL, NUM_PAR SMALLINT Not NULL, STATUS VARCHAR(1) NULL,
+                        FOLIO VARCHAR(20) NULL, FECHA Date NULL, CVE_NUM VARCHAR(10) NULL, IMPORTE FLOAT NULL, ST_GASTOS VARCHAR(20) NULL,
+                        FECHAELAB DateTime NULL, UUID VARCHAR(50) NULL,
+                        Constraint PK_GCLIQ_GASTOS_VIAJE PRIMARY KEY CLUSTERED (CVE_LIQ, NUM_PAR) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '3. PESTAÑA VALES COMBUSTIBLE
+            Try
+                If Not EXISTE_TABLA("GCLIQ_VALES_VIAJE") Then
+                    SQL = "CREATE TABLE GCLIQ_VALES_VIAJE (CVE_LIQ INT Not NULL, CVE_VIAJE VARCHAR(20) Not NULL, NUM_PAR SMALLINT Not NULL, STATUS VARCHAR(1) NULL, 
+                        FOLIO VARCHAR(20) NULL, FECHA Date NULL, CVE_GAS VARCHAR(10) NULL, LITROS FLOAT NULL, LITROS_REALES FLOAT NULL, 
+                        P_X_LITRO FLOAT NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL, IEPS FLOAT NULL, IMPORTE FLOAT, FACTURA VARCHAR(20) NULL, 
+                        ST_VALES VARCHAR(20) NULL, CONCILIADO SMALLINT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, " &
+                        "CONSTRAINT PK_GCLIQ_VALES_VIAJE PRIMARY KEY CLUSTERED (CVE_LIQ, NUM_PAR) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '4 PESTAÑA  GASTOS COMPROBADOS
+            Try
+                If Not EXISTE_TABLA("GCLIQ_GASTOS_COMPROBADOS") Then '
+                    SQL = "CREATE TABLE GCLIQ_GASTOS_COMPROBADOS (CVE_LIQ INT Not NULL, CVE_VIAJE VARCHAR(20) Not NULL, NUM_PAR SMALLINT Not NULL, STATUS VARCHAR(1) NULL, 
+                        CVE_DOC VARCHAR(20) NULL, REFER VARCHAR(20) NULL, CVE_ART VARCHAR(16) NULL, CVE_PROV VARCHAR(10) NULL, FECHA DATE NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL, 
+                        IEPS FLOAT NULL, TOTAL FLOAT NULL, CVE_OBS INT NULL,
+                        FECHAELAB DateTime NULL, UUID VARCHAR(50) NULL, 
+						Constraint PK_GCLIQ_GASTOS_COMPROBADOS PRIMARY KEY CLUSTERED (CVE_LIQ, NUM_PAR) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("227. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '5 PESTAÑA  DEDUCCIONES  (ULTIMA)
+            Try
+                If Not EXISTE_TABLA("GCLIQ_DEDUCCIONES") Then
+                    SQL = "CREATE TABLE GCLIQ_DEDUCCIONES (CVE_LIQ INT Not NULL, CVE_FOLIO INT Not NULL, NUM_PAR SMALLINT Not NULL, STATUS VARCHAR(1) NULL, 
+                        CVE_DED Int NULL, FECHA Date NULL, IMPORTE FLOAT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, CVE_OBS INT NULL, 
+                        FOLIO_LIQ_DED Int NULL, DESCR VARCHAR(60) NULL, 
+						Constraint PK_GCLIQ_DEDUCCIONES PRIMARY KEY CLUSTERED (CVE_LIQ, NUM_PAR))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("228. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '5 PESTAÑA PENSION ALIMENTICIA
+            Try
+                If Not EXISTE_TABLA("GCLIQ_PENSION_ALI") Then '
+                    SQL = "CREATE TABLE GCLIQ_PENSION_ALI (CVE_LIQ INT Not NULL, CVE_VIAJE VARCHAR(20) Not NULL, CVE_FOLIO INT Not NULL, 
+                        NUM_PAR SMALLINT Not NULL, STATUS VARCHAR(1) NULL, REFER VARCHAR(20) NULL, CVE_ART VARCHAR(16) NULL, FECHA DATE NULL, 
+                        FACTOR FLOAT NULL, IMPORTE FLOAT NULL, CVE_OBS INT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+						Constraint PK_GCLIQ_PENSION_ALI PRIMARY KEY CLUSTERED (CVE_FOLIO, NUM_PAR) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("227. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+            '    FIN            FIN            FIN           LIQUIDACIONES      FIN             FIN             FIN  
+
+            '███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+
+            '2 DIC 2019
+            Try
+                If Not EXISTE_TABLA("GCTBLCONTROL") Then
+                    SQL = "CREATE TABLE GCTBLCONTROL (ID_TABLA int Not NULL, ULT_CVE int NULL, CONSTRAINT PK_GCTBLCONTROL PRIMARY KEY CLUSTERED (ID_TABLA) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                    CREATE_ID_TABLA()
+                End If
+            Catch ex As Exception
+                BITACORADB("234. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '8 DIC 2019
+            Try
+                If Not EXISTE_TABLA("GCPARAMCOMPRAS") Then
+                    SQL = "CREATE TABLE GCPARAMCOMPRAS (CAPTURA_PAGO_COMPRAS SMALLINT NULL, C_ALTA_PROVEEDORES SMALLINT NULL, 
+                        C_ALTA_PRODUCTOS SMALLINT NULL, OBSER_X_PARTIDA SMALLINT NULL, INDIRECTOS_X_PARTIDA SMALLINT NULL, 
+                        IMPUESTOS SMALLINT NULL, SERIE_REMISION VARCHAR(12) NULL, ALMACEN SMALLINT NULL, SERIE_COMPRA VARCHAR(12) NULL, 
+                        SERIE_COMPRA_DEV VARCHAR(12) NULL, SERIE_ORDEN_COMPRA VARCHAR(12) NULL, SERIE_RECEPCION VARCHAR(12) NULL, 
+                        SERIE_COMPRA_OT VARCHAR(12) NULL, SERIE_ORDEN_COMPRA_OT VARCHAR(12) NULL, SERIE_RECEPCION_OT VARCHAR(15) NULL, 
+                        SERIE_COMPRA_OTEXT VARCHAR(12) NULL, SERIE_ORDEN_COMPRA_OTEXT VARCHAR(12) NULL, SERIE_RECEPCION_OTEXT VARCHAR(15) NULL, 
+                        SERIE_PRE_OC VARCHAR(12) NULL, SERIE_OC_DESDE_PRE_OC VARCHAR(12) NULL, ALM_COTI SMALLINT NULL, 
+                        ALM_ROTI SMALLINT NULL, ALM_OOTI SMALLINT NULL, ALM_COTE SMALLINT NULL, ALM_ROTE SMALLINT NULL, 
+                        ALM_OOTE SMALLINT NULL, OBSER_X_DOCUMENTO BIT NULL, FTO_COMP VARCHAR(60) NULL, FTO_ODEC VARCHAR(60) NULL, 
+                        FTO_RECE VARCHAR(60) NULL, FTO_REQU VARCHAR(60) NULL, FTO_DEVO VARCHAR(60) NULL, SERIE_GASTO VARCHAR(12) NULL, 
+                        SEL_FTO SMALLINT NULL, SERIE_COMP_CONCI_VAL_DIESEL SMALLINT NULL, AFEC_TABLA_INVE SMALLINT NULL, 
+                        MODULO_COMPRAS SMALLINT NULL)"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCPARAMCOMPRAS (CAPTURA_PAGO_COMPRAS, C_ALTA_PROVEEDORES, C_ALTA_PRODUCTOS, OBSER_X_PARTIDA, INDIRECTOS_X_PARTIDA, " &
+                          "IMPUESTOS, ALMACEN) VALUES ('0','0','0','0','0','0','0')"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                End If
+            Catch ex As Exception
+                BITACORADB("234. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '8 DIC 2019
+            Try
+                If Not EXISTE_TABLA("GCPARAMVENTAS") Then  'SERIE_CARTA_PORTE
+                    SQL = "CREATE TABLE GCPARAMVENTAS (CAPTURA_PAGO_VENTAS smallint NULL, C_ALTA_CLIENTES smallint NULL, CAPTURA_PAGO_COMPRAS smallint NULL,
+                        C_ALTA_PROVEEDORES smallint NULL, C_ALTA_PRODUCTOS smallint NULL, OBSER_X_DOC smallint NULL, OBSER_X_PARTIDA smallint NULL, 
+                        INDIRECTOS_X_PARTIDA smallint NULL, IMPUESTOS smallint NULL, ALMACEN smallint NULL, BLOQUEAR_PRECIO_PV smallint NULL,
+                        SERIE_PEDIDOS varchar(10) NULL, SERIE_PROGPEDIDOS varchar(10) NULL, SERIE_REMISION varchar(12) NULL, SERIE_REMISION_EXT varchar(12) NULL,
+                        SERIE_CARTA_PORTE varchar(12) NULL, CVE_ART_CP varchar(16) NULL, EL_SERIE smallint NULL, IMP_PART_KIT smallint NULL,
+                        LINEA_EN_VENTAS varchar(5) NULL, LIN_FAC_CFDI varchar(5) NULL, SERIE_TIMBRE_TEA varchar(12) NULL, SERIE_CAP_FACTURA varchar(12) NULL,
+                        OCULTAR_CRE_ENG smallint NULL, OCULTAR_CREDITO smallint NULL, NOVALIDAR_LIM_CRED smallint NULL, HABILITAR_DESC smallint NULL,
+                        PER_VEND_ABA_MIN smallint NULL, PER_VEND_ABA_COST smallint NULL, ACTIVAR_POLITICAS smallint NULL, ACTIVAR_GAD smallint NULL,
+                        ART_CON_IMP_INCLU smallint NULL, VENDER_SIN_EXIST smallint NULL, BLOQEAR_LISTA_PREC smallint NULL, UTILIZAR_LECTOR_HUELLA smallint NULL,
+                        ALTA_CTE_POS smallint NULL, ALTA_PROD_POS smallint NULL, CLIE_MOSTR varchar(10) NULL, LISTAPRECPRED smallint NULL, 
+                        SERIE_FACTURA_GLOBAL VARCHAR(12) NULL, PERIODICIDAD SMALLINT NULL, CVE_ART_FG VARCHAR(16) NULL, SERIE_FAC_BUENO VARCHAR(12) NULL,
+                        CVE_PRODSERV VARCHAR(9) NULL, CVE_UNIDAD VARCHAR(4) NULL)"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCPARAMVENTAS (CAPTURA_PAGO_COMPRAS, C_ALTA_PROVEEDORES, C_ALTA_PRODUCTOS, OBSER_X_PARTIDA, INDIRECTOS_X_PARTIDA, " &
+                          "IMPUESTOS, ALMACEN, SERIE_PEDIDOS) VALUES ('0','0','0','0','0','0','0','STAND.')"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("234. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCPARAMVENTAS_LIN_FAC") Then
+                    SQL = "CREATE TABLE GCPARAMVENTAS_LIN_FAC (LINEA VARCHAR(5) NOT NULL, 
+						Constraint PK_GCPARAMVENTAS_LIN_FAC PRIMARY KEY CLUSTERED (LINEA))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("234. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '9 DIC 2019
+            Try
+                If Not EXISTE_TABLA("GCPARAMINVENT") Then
+                    SQL = "CREATE TABLE GCPARAMINVENT (MULTIALMACEN SMALLINT NULL, ALM_CONSIGNA SMALLINT NULL, 
+                        AFEC_TABLA_INVE SMALLINT NULL, CVE_ART_TOT VARCHAR(16) NULL, CVE_CPTO_OT SMALLINT NULL, 
+                        CVE_CPTO_OT_SAL SMALLINT NULL, CVE_CPTO_SAL_OPER SMALLINT NULL, ACTIVAR_RENOVADO SMALLINT NULL, 
+                        CVE_ART_RNBDO VARCHAR(16) NULL, CVE_ART_REPARA VARCHAR(16) NULL, CVE_ART_NUEVAS VARCHAR(16) NULL, 
+                        CVE_ALM_RNBDO SMALLINT NULL, CVE_CPTO_RENOVADO SMALLINT NULL, CVE_CPTO_RENOVADO_ENT SMALLINT NULL, 
+                        CVE_CPTO_SAL_UNIDAD SMALLINT NULL, LINEA_VALOR_DECLA VARCHAR(5) NULL, CVE_ART_TARIFA VARCHAR(16) NULL, 
+                        CVE_ART_NC VARCHAR(16) NULL, CVE_D_CAMPLIBCTE SMALLINT NULL, LIB_CLIENTE VARCHAR(30) NULL, 
+                        LINEA_TAB_RUTAS VARCHAR(5) NULL)"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCPARAMINVENT (MULTIALMACEN ) VALUES ('0')"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("234. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '9 DIC 2019
+            Try
+                If Not EXISTE_TABLA("GCANTIDOPING") Then
+                    SQL = "CREATE TABLE GCANTIDOPING (CLAVE INT NOT NULL, FOLIO INT NULL, FECHA DATE NULL, COCAINA VARCHAR(1) NULL, 
+                        TETRAHIDROCANABINOL VARCHAR(1) NULL, ANFETAMINAS VARCHAR(1) NULL, METANFETAMINAS VARCHAR(1) NULL, 
+                        OPIACEOS VARCHAR(1) NULL, METODPRUEBA VARCHAR(255) NULL, REGISTRO VARCHAR(30) NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCANTIDOPING PRIMARY KEY CLUSTERED (CLAVE) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("234. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '1 ENE 2020
+            Try
+                If Not EXISTE_TABLA("GCPLAZAS") Then
+                    SQL = "CREATE TABLE GCPLAZAS (CLAVE INT NOT NULL, STATUS VARCHAR(1) NULL, CIUDAD VARCHAR(60) NULL, MUNICIPIO VARCHAR(60) NULL, " &
+                        "CVE_ESTADO VARCHAR(20) NULL, CUEN_CONT VARCHAR(28) NULL, CLAVE_SAT_LOC VARCHAR(28) NULL, CLAVE_SAT_MUN VARCHAR(28) NULL, 
+                        UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCPLAZAS PRIMARY KEY CLUSTERED (CLAVE) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                Else
+                    Try
+                        SQL = "ALTER TABLE GCPLAZAS ADD CONSTRAINT UC_GCPLAZAS UNIQUE (CLAVE);"
+                        cmd.CommandText = SQL
+                        cmd.ExecuteNonQuery()
+                    Catch ex As Exception
+                    End Try
+                End If
+            Catch ex As Exception
+                BITACORADB("260. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '9 DIC 2019
+            Try
+                If Not EXISTE_TABLA("GCPARAMGENERALES") Then
+                    SQL = "CREATE TABLE GCPARAMGENERALES (RUTA_DOC VARCHAR(255) NULL, RUTA_IMAGEN VARCHAR(255) NULL,RUTA_FORMATOS VARCHAR(255) NULL, 
+                        RUTA_MODELO VARCHAR(255) NULL, TIPO_OTI SMALLINT NULL, TIPO_OTE SMALLINT NULL, TIPO_MEDICION_COMBUSTIBLE SMALLINT NULL, 
+                        TIPO_TAB SMALLINT NULL, TIPO_LLANTAS SMALLINT NULL, RUTA_XML VARCHAR(255) NULL, DESCUENTO SMALLINT NULL, CALIFICACION SMALLINT NULL, 
+                        VELOCIDADMAXIMA SMALLINT NULL, TIEMPOMARCHAINERCIA SMALLINT NULL, LITROSDESCONTAR SMALLINT NULL, PRECIOXLITRO SMALLINT NULL, 
+                        DESCXLITRO SMALLINT NULL, LTSAUTORIZ SMALLINT NULL, LTSUREA SMALLINT NULL, LTSUREA_REAL SMALLINT NULL, CARGOXPUNTOMUERTO SMALLINT NULL, 
+                        NO_VIAJE SMALLINT NULL, NO_LIQUI SMALLINT NULL, HORAS_GEN1 SMALLINT NULL, HORAS_GEN2 SMALLINT NULL, HORAS_USO1 SMALLINT NULL, 
+                        HORAS_GEN3 SMALLINT NULL, HORAS_GEN4 SMALLINT NULL, HORAS_USO2 SMALLINT NULL, HNUMGEN1 SMALLINT NULL, NUMGEN2 SMALLINT NULL, 
+                        LTSDESCGEN SMALLINT NULL, LTS_GEN2 SMALLINT NULL, NUM_VIAJES_FULL SMALLINT NULL, NUM_VIAJES_SENC SMALLINT NULL, RPM_MAXIMA SMALLINT NULL, 
+                        PRECIO_X_LTS FLOAT NULL, RUTA_EXCEL VARCHAR(255) NULL, EXPORTAR_COMO_CSV SMALLINT NULL, RUTA_X_USUARIO SMALLINT NULL, 
+                        CAT_RUTAS SMALLINT NULL, ASIG_VIAJES SMALLINT NULL, BAJA_VIAJE_FACTURACION SMALLINT NULL)"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCPARAMGENERALES (RUTA_DOC, RUTA_IMAGEN) VALUES (' ',' ')"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("274. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '13 ago 2022
+            Try
+                If Not EXISTE_TABLA("GCPARAM_RUTA_EXCEL_USER") Then
+                    SQL = "CREATE TABLE GCPARAM_RUTA_EXCEL_USER (USUARIO VARCHAR(30) NOT NULL, RUTA_EXCEL VARCHAR(255) NULL, 
+                        CONSTRAINT PK_GCPARAM_RUTA_EXCEL_USER PRIMARY KEY CLUSTERED (USUARIO) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("274. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '9 DIC 2019
+            Try
+                If Not EXISTE_TABLA("GCPARAMTRANSCG") Then
+                    SQL = "CREATE TABLE GCPARAMTRANSCG (FACTOR_IEPS FLOAT NULL, IEPS FLOAT NULL, MODULO_UNIDADES_COMPLETA SMALLINT NULL, 
+                        PERMITIR_UNIDAD SMALLINT NULL, SOLICITAR_ACT_MANTE SMALLINT NULL, PORC_ORDEN_TRA_EXT FLOAT NULL, PORC_O_MONTO SMALLINT NULL, 
+                        SERIE_CARTA_PORTE VARCHAR(12) NULL, SERIE_CARTA_PORTE_VIRTUAL VARCHAR(12) NULL, SERIE_VALE_COMBUS VARCHAR(12) NULL, 
+                        ULT_DOC_CARTA_PORTE INT NULL, ULT_DOC_CARTA_PORTE_VIRTUAL INT NULL, DIAS_ANTICIPACION SMALLINT NULL, 
+                        VALOR_DECLA_DESDE_SAE SMALLINT NULL, LIN_PROD VARCHAR(5) NULL, GRABAR_CERO_LIQ BIT NULL, IEPS_MAGNA FLOAT NULL, 
+                        IEPS_PREMIUN FLOAT NULL, IEPS_DIESEL FLOAT NULL, SERIE_UTILITARIOS VARCHAR(12) NULL, FOLIO_UTILITARIOS INT NULL, 
+                        SERIE_RE VARCHAR(12) NULL, FOLIO_RE INT NULL, DIAS_TRABAJADOS1 FLOAT NULL, DIAS_MES1 FLOAT NULL, 
+                        DIAS_TRABAJADOSP FLOAT NULL, DIAS_MESP FLOAT NULL, INGRESO_DIARIOP FLOAT NULL, INGRESO_ACUMULADOP FLOAT NULL, 
+                        UNIDADES_DIAP FLOAT NULL, UNIDADES_MESP FLOAT NULL, CONFIGVEHICULAR VARCHAR(10) NULL)"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCPARAMTRANSCG (FACTOR_IEPS, IEPS) VALUES ('0','0')"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                End If
+            Catch ex As Exception
+                BITACORADB("274. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '7 ENE 20
+            Try
+                If Not EXISTE_TABLA("GCNIVELCOMBUSTIBLE") Then
+                    SQL = "CREATE TABLE GCNIVELCOMBUSTIBLE (CLAVE SMALLINT NOT NULL, ID_TABLA SMALLINT NULL, STATUS VARCHAR(1) NULL, FECHA DATE NULL, 
+                        ALTURA FLOAT NULL, LITROS FLOAT NULL, ALTURA2 FLOAT NULL, LITROS2 FLOAT NULL, ALTURA3 FLOAT NULL, LITROS3 FLOAT NULL, 
+                        CH1 SMALLINT NULL, CH2 SMALLINT NULL, CH3 SMALLINT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCNIVELCOMBUSTIBLE PRIMARY KEY CLUSTERED (CLAVE) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("284. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '7 ENE 20
+            Try
+                If Not EXISTE_TABLA("GCMEDICIONCOMBUSTIBLE") Then
+                    SQL = "CREATE TABLE GCMEDICIONCOMBUSTIBLE (CLAVE SMALLINT NOT NULL, CVE_UNI VARCHAR(10) NULL, CVE_OPER INT NULL, 
+                        STATUS VARCHAR(1) NULL, FECHA DATE NULL, SUMA FLOAT NULL, CVE_NIVEL1 SMALLINT NULL, CVE_NIVEL2 SMALLINT NULL, 
+                        CVE_NIVEL3 SMALLINT NULL, TANQUE1_CM FLOAT NULL, TANQUE2_CM FLOAT NULL, TANQUE3_CM FLOAT NULL, TANQUE1_LT FLOAT NULL, 
+                        TANQUE2_LT FLOAT NULL, TANQUE3_LT FLOAT NULL, LITROS FLOAT NULL, TIPO_LITROS SMALLINT NULL, CVE_RES INT NULL,
+                        FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCMEDICIONCOMBUSTIBLE PRIMARY KEY CLUSTERED (CLAVE) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("294. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '11 ENE 20
+            Try
+                If Not EXISTE_TABLA("GCRESETEO") Then
+                    SQL = "CREATE TABLE GCRESETEO (CVE_RES INT NOT NULL, STATUS VARCHAR(1) NULL, FECHA DATE NULL, CVE_OPER INT NULL, 
+                        CVE_UNI VARCHAR(10) NULL, CVE_MOT INT NULL, MOTOR VARCHAR(120) NULL, ODOMETRO FLOAT NULL, KM_ECM FLOAT NULL, 
+                        LTS_ECM FLOAT NULL, LTS_REAL FLOAT NULL, LTS_TAB FLOAT NULL, FAC_CARGA SMALLINT NULL, HRS_TRABAJO FLOAT NULL, 
+                        HRS_PTO_RALENTI FLOAT NULL, LTS_PTO_RALENTI FLOAT NULL, PORC_TIEMPO_PTO_RALENTI FLOAT NULL, 
+                        PORC_LTS_PTO_RALENTI FLOAT NULL, REND_ECM FLOAT NULL, PORC_VAR_LTS_ECM_REAL FLOAT NULL, 
+                        PORC_VAR_LTS_TAB_REAL FLOAT NULL, REND_REAL FLOAT NULL, DIF_LTS_REAL_LTS_ECM FLOAT NULL, 
+                        DIF_LTS_REAL_LTS_TAB FLOAT NULL, LTS_SALIDA FLOAT NULL, LTS_VALES FLOAT NULL, LTS_LLEGADA FLOAT NULL, 
+                        FECHAELAB DATETIME NULL, PDF VARCHAR(255) NULL, DESCT FLOAT NULL, CALIF FLOAT NULL, VELMAX FLOAT NULL, 
+                        TIEMPO_MARCH_INERCIA FLOAT NULL, UUID VARCHAR(50) NULL, CALIF_FACTOR_CARGA FLOAT NULL, 
+                        CALIF_RALENTI FLOAT NULL, CALIF_GLOBAL FLOAT NULL, CAL_FAC_CAR_EVA FLOAT NULL, CAL_RAL_EVA FLOAT NULL, 
+                        CAL_GLO_EVA FLOAT NULL, LTS_DESCONTAR FLOAT NULL, PRECIO_X_LTS FLOAT NULL, LTS_AUTORIZADOS FLOAT NULL,
+                        LITROS_UREA FLOAT NULL, CARGO_X_PUNTO_MUERTO FLOAT NULL, FACTOR_CARGA FLOAT NULL, 
+                        PORC_USO_RALENTI FLOAT NULL, LTS_UREA_REAL FLOAT NULL, CVE_EVE INT NULL, EVE_PORC_TOLERANCIA FLOAT NULL, 
+                        EVE_PORC_RALENTI FLOAT NULL, PORC_TOLERANCIA FLOAT NULL, PORC_RALENTI FLOAT NULL, NO_VIAJE VARCHAR(20) NULL, 
+                        NO_LIQUI VARCHAR(20) NULL, BONO_RES FLOAT NULL, LTS_FORANEOS FLOAT NULL, CALIF_VEL_MAX FLOAT NULL, 
+                        NO_DE_VIAJES FLOAT NULL, NO_VIAJES_VACIO FLOAT NULL, BONO_RES_VACIO FLOAT NULL, LTS_AUTORIZADOS2 FLOAT NULL, 
+                        LTS_VALES2 FLOAT NULL, LTS_DESCONTAR2 FLOAT NULL, PRECIO_X_LTS2 FLOAT NULL, EVENTO SMALLINT NULL, 
+                        EVENTO_LTS SMALLINT NULL, PORC_TOL_EVENTO2 FLOAT NULL, DESCXLITROS2 FLOAT NULL, TABULADOR SMALLINT NULL, 
+                        RPM_MAX FLOAT NULL, CALIF_RPM FLOAT NULL, HORAS_GEN3 FLOAT NULL, HORAS_GEN4 FLOAT NULL, 
+                        HORAS_USO2 FLOAT NULL, CVE_EVA INT NULL, LTS_GENERADOR2 FLOAT NULL, NUMGEN1 VARCHAR(30) NULL, 
+                        NUMGEN2 VARCHAR(30) NULL, LTSDESCGEN FLOAT NULL, DESCXLITROS FLOAT NULL, 
+                        CONSTRAINT PK_GCRESETEO PRIMARY KEY CLUSTERED (CVE_RES) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("300. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try 'TABULADOR RESETEO 
+
+                If Not EXISTE_TABLA("GCRESETEO_TABULADOR") Then
+                    SQL = "CREATE TABLE GCRESETEO_TABULADOR (CVE_RES INT NOT NULL, CVE_OPER INT NULL, CVE_UNI VARCHAR(10) NULL, TIPO_VIAJE VARCHAR(10) NULL, NUM_PAR SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, CVE_TAB INT NULL, 
+                        CVE_ORI INT NULL, CVE_DES INT NULL, CARGADO_VACIO SMALLINT NULL, CLIENTE VARCHAR(10) NULL, KMS FLOAT NULL, RENDIMIENTO FLOAT NULL, 
+                        LITROS FLOAT NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCRESETEO_TABULADOR PRIMARY KEY CLUSTERED (CVE_RES, NUM_PAR) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("450. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'PEDIDOS
+            '07-02-20
+            Try
+                If Not EXISTE_TABLA("GCPEDIDOS") Then
+                    SQL = "CREATE TABLE GCPEDIDOS (CVE_DOC VARCHAR(20) NOT NULL, CVE_CLIE VARCHAR(10) NULL, CVE_CON VARCHAR(10) NULL, 
+                        CVE_VIAJE VARCHAR(20) NULL, STATUS VARCHAR(1) NULL, CVE_ART INT NULL, FECHA DATE NULL, CVE_ORIGEN INT NULL, 
+                        CVE_DESTINO INT NULL, FECHA_CARGA DATETIME NULL, FECHA_DESCARGA DATETIME NULL, CVE_OBS INT NULL, FECHAELAB DATETIME NULL, 
+                        NUM_TALON VARCHAR(40) NULL, NUM_TALON2 VARCHAR(40) NULL, CVE_OPER INT NULL, CVE_CAP VARCHAR(10) NULL, 
+                        CVE_TRACTOR VARCHAR(40) NULL, CVE_TANQUE1 VARCHAR(40) NULL, CVE_TANQUE2 VARCHAR(40) NULL, CVE_DOLLY VARCHAR(40) NULL, 
+                        ENTREGAR_EN VARCHAR(10) NULL, RECOGER_EN VARCHAR(10) NULL, CLAVE_O VARCHAR(10) NULL, CLAVE_D VARCHAR(10) NULL, 
+                        CVE_PLAZA1 INT NULL, CVE_PLAZA2 INT NULL, LEYENDA VARCHAR(120) NULL, VALOR_DECLA INT NULL, ORDEN_DE VARCHAR(255) NULL, 
+                        EMBARQUE VARCHAR(255) NULL, CARGA_ANTERIOR VARCHAR(255) NULL, PEDIMENTO VARCHAR(100) NULL, PED_ENLAZADO VARCHAR(20) NULL,
+                        CVE_TAB_VIAJE VARCHAR(20) NULL, UUID VARCHAR(50) NULL, CVE_MTC INT NULL,
+                        CONSTRAINT PK_GCPEDIDOS PRIMARY KEY CLUSTERED (CVE_DOC) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'PEDIDOS SIN CARTA PORTE
+            '07-02-20
+            Try
+                If Not EXISTE_TABLA("GCPEDIDOSPROG") Then
+                    SQL = "CREATE TABLE GCPEDIDOSPROG (CVE_DOC VARCHAR(20) NOT NULL, CVE_CLIE VARCHAR(10) NULL, CVE_CON VARCHAR(10) NULL, 
+                        CVE_VIAJE VARCHAR(20) NULL, STATUS VARCHAR(1) NULL, CVE_ART INT NULL, FECHA DATE NULL, CVE_ORIGEN INT NULL, 
+                        CVE_DESTINO INT NULL, FECHA_CARGA DATETIME NULL, FECHA_DESCARGA DATETIME NULL, CVE_OBS INT NULL, 
+                        NUM_TALON VARCHAR(40) NULL, NUM_TALON2 VARCHAR(40) NULL, CVE_OPER INT NULL, CVE_CAP VARCHAR(10) NULL, 
+                        CVE_TRACTOR VARCHAR(40) NULL, CVE_TANQUE1 VARCHAR(40) NULL, CVE_TANQUE2 VARCHAR(40) NULL, CVE_DOLLY VARCHAR(40) NULL, 
+                        ENTREGAR_EN VARCHAR(10) NULL, RECOGER_EN VARCHAR(10) NULL, CLAVE_O VARCHAR(10) NULL, CLAVE_D VARCHAR(10) NULL, 
+                        CVE_PLAZA1 INT NULL, CVE_PLAZA2 INT NULL, LEYENDA VARCHAR(120) NULL, VALOR_DECLA INT NULL, ORDEN_DE VARCHAR(255) NULL, 
+                        EMBARQUE VARCHAR(255) NULL, CARGA_ANTERIOR VARCHAR(255) NULL, PEDIMENTO VARCHAR(100) NULL, ENLAZADO VARCHAR(1) NULL,
+                        FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, CONSTRAINT PK_GCPEDIDOSPROG PRIMARY KEY CLUSTERED (CVE_DOC) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '------------------------                 LOGISTIVA VIAJES    ------------------------------
+            Try            'CAT STATUS VIAJE            '07-02-20
+                If Not EXISTE_TABLA("GCCAT_STATUS_VIAJE") Then
+                    SQL = "CREATE TABLE GCCAT_STATUS_VIAJE (CLAVE INT NOT NULL, DESCR VARCHAR(60) NULL, STATUS VARCHAR(1) NULL, 
+                        UUID VARCHAR(50) NULL, 
+						CONSTRAINT PK_GCCAT_STATUS_VIAJE PRIMARY KEY CLUSTERED (CLAVE))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try            'CAT STATUS UNIDADES             '07-02-20
+                If Not EXISTE_TABLA("GCCAT_STATUS_UNIDADES") Then
+                    SQL = "CREATE TABLE GCCAT_STATUS_UNIDADES (CLAVE INT NOT NULL, DESCR VARCHAR(60) NULL, ORDEN SMALLINT NULL, 
+                        STATUS VARCHAR(1) NULL, UUID VARCHAR(50) NULL, 
+        				CONSTRAINT PK_GCCAT_STATUS_UNIDADES PRIMARY KEY CLUSTERED (CLAVE))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try            'STATUS UNIDADES             '07-02-20
+                If Not EXISTE_TABLA("GCASIGNACION_VIAJE") Then
+                    SQL = "CREATE TABLE GCASIGNACION_VIAJE (CVE_VIAJE VARCHAR(20) NOT NULL, CVE_DOC VARCHAR(20) NULL, FECHA DATE NULL, 
+                        STATUS VARCHAR(1) NULL, CVE_RUTA SMALLINT NULL, STATUS_GASTOS VARCHAR(20) NULL, CVE_OBS INT NULL, RECOGER_EN VARCHAR(255) NULL, 
+                        ENTREGAR_EN VARCHAR(255) NULL, CLAVE_O VARCHAR(10) NULL, CLAVE_D VARCHAR(10) NULL, CVE_TAB VARCHAR(10) NULL, 
+                        RUTA_SEN_VAC VARCHAR(255) NULL, RUTA_SE_CAR VARCHAR(255) NULL, RUTA_FULL_VAC VARCHAR(255) NULL, RUTAL_FULL_CAR VARCHAR(255) NULL, 
+                        NOTA VARCHAR(255) NULL, CVE_ST_VALE SMALLINT NULL, CVE_TES INT NULL, CONCILIADO BIT NULL DEFAULT (0), 
+                        CVE_ST_VIA INT NULL, CVE_ST_UNI INT NULL, TIPO_UNI INT NULL, TIPO_VIAJE INT NULL, CVE_OPER INT NULL, CVE_CON VARCHAR(10) NULL, 
+                        CVE_TRACTOR VARCHAR(40) NULL, CVE_TANQUE1 VARCHAR(40) NULL, CVE_TANQUE2 VARCHAR(40) NULL, CVE_DOLLY VARCHAR(40) NULL, 
+                        CVE_PLAZA1 INT NULL, CVE_PLAZA2 INT NULL, CVE_CAP1 VARCHAR(20) NULL, CVE_CAP2 VARCHAR(20) NULL, ORDEN_DE VARCHAR(120) NULL, 
+                        EMBARQUE VARCHAR(120) NULL, CARGA_ANTERIOR VARCHAR(120) NULL, CVE_TAB_VIAJE VARCHAR(20) NULL, CVE_TRANSBORDO INT NULL, 
+                        CVE_VIAJE_TRANSBORDO VARCHAR(20) NULL, FECHA_CARGA DATETIME NULL, FECHA_DESCARGA DATETIME NULL, KM_RECORRIDOS FLOAT NULL,
+                        CVE_MTC INT NULL, FECHAELAB DATETIME NULL, ACT_COI VARCHAR(1) NULL, CLIENTE VARCHAR(10) NULL, CVE_MONED SMALLINT NULL, 
+                        REM_CARGA1 VARCHAR(60) NULL, PESO_BRUTO1 FLOAT NULL, TARA1 FLOAT NULL, REM_CARGA2 VARCHAR(60) NULL, PESO_BRUTO2 FLOAT NULL, TARA2 FLOAT NULL, 
+                        REM_CARGA3 VARCHAR(60) NULL, PESO_BRUTO3 FLOAT NULL, TARA3 FLOAT NULL, REM_CARGA4 VARCHAR(60) NULL, PESO_BRUTO4 FLOAT NULL, TARA4 FLOAT NULL, 
+                        FLETE FLOAT NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL, RETENCION FLOAT NULL, NETO FLOAT NULL, REM_CARGA SMALLINT NULL, CANT FLOAT NULL,
+                        CVE_ESQIMPU SMALLINT NULL, SELECCIONE BIT NULL, FACTURA_CFDI VARCHAR(20) NULL, CVE_COBRO SMALLINT NULL, IMPORTE_CONCEP FLOAT NULL,
+                        VOLUMEN_PESO FLOAT NULL, PRECIO_VIAJE_TONE SMALLINT NULL, SERIE VARCHAR(12) NULL, FOLIO INT NULL, UUID VARCHAR(50) NULL, 
+                        CVE_PRODSERV VARCHAR(9) NULL, CVE_UNIDAD VARCHAR(4) NULL, FACTURADO VARCHAR(1) NULL, TIMBRADO VARCHAR(1) NULL, 
+                        TIPO_FACTURACION SMALLINT NULL, FORMADEPAGOSAT VARCHAR(5) NULL, TIPO_CAMBIO_LEYENDA VARCHAR(60) NULL, TIPO_CAMBIO FLOAT NULL,
+                        CALLE_FISCAL SMALLINT NULL, CALLE1 VARCHAR(255) NULL, CALLE2 VARCHAR(255) NULL, FECHA_REAL_CARGA DATETIME NULL, 
+                        FECHA_REAL_DESCARGA DATETIME NULL, KMS_VACIO FLOAT NULL, CVE_REL VARCHAR(10) NULL, USUARIO VARCHAR(30) NULL, 
+                        COMPLEMENTO SMALLINT NULL, VIAJE_COMPLE VARCHAR(20) NULL, OBS_COMPLE VARCHAR(255) NULL,
+                        CONSTRAINT PK_GCASIGNACION_VIAJE PRIMARY KEY CLUSTERED (CVE_VIAJE) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try            'GCASIGNACION VIAJE BUENO
+                If Not EXISTE_TABLA("GCASIGNACION_BUENO") Then
+                    SQL = "CREATE TABLE GCASIGNACION_BUENO (CVE_VIAJE VARCHAR(20) NOT NULL, CVE_DOC VARCHAR(20) NULL, FECHA DATE NULL, 
+                        STATUS VARCHAR(1) NULL, CVE_RUTA SMALLINT NULL, STATUS_GASTOS VARCHAR(20) NULL, CVE_OBS INT NULL, RECOGER_EN VARCHAR(255) NULL, 
+                        ENTREGAR_EN VARCHAR(255) NULL, CLAVE_O VARCHAR(10) NULL, CLAVE_D VARCHAR(10) NULL, CVE_TAB VARCHAR(10) NULL, 
+                        RUTA_SEN_VAC VARCHAR(255) NULL, RUTA_SE_CAR VARCHAR(255) NULL, RUTA_FULL_VAC VARCHAR(255) NULL, RUTAL_FULL_CAR VARCHAR(255) NULL, 
+                        NOTA VARCHAR(255) NULL, CVE_ST_VALE SMALLINT NULL, CVE_TES INT NULL, CONCILIADO BIT NULL DEFAULT (0), 
+                        CVE_ST_VIA INT NULL, CVE_ST_UNI INT NULL, TIPO_UNI INT NULL, TIPO_VIAJE INT NULL, CVE_OPER INT NULL, CVE_CON VARCHAR(10) NULL, 
+                        CVE_TRACTOR VARCHAR(40) NULL, CVE_TANQUE1 VARCHAR(40) NULL, CVE_TANQUE2 VARCHAR(40) NULL, CVE_DOLLY VARCHAR(40) NULL, 
+                        CVE_PLAZA1 INT NULL, CVE_PLAZA2 INT NULL, CVE_CAP1 VARCHAR(20) NULL, CVE_CAP2 VARCHAR(20) NULL, ORDEN_DE VARCHAR(120) NULL, 
+                        EMBARQUE VARCHAR(120) NULL, CARGA_ANTERIOR VARCHAR(120) NULL, CVE_TAB_VIAJE VARCHAR(20) NULL, CVE_TRANSBORDO INT NULL, 
+                        CVE_VIAJE_TRANSBORDO VARCHAR(20) NULL, FECHA_CARGA DATETIME NULL, FECHA_DESCARGA DATETIME NULL, KM_RECORRIDOS FLOAT NULL,
+                        CVE_MTC INT NULL, FECHAELAB DATETIME NULL, ACT_COI VARCHAR(1) NULL, CLIENTE VARCHAR(10) NULL, CVE_MONED SMALLINT NULL, 
+                        REM_CARGA1 VARCHAR(60) NULL, PESO_BRUTO1 FLOAT NULL, TARA1 FLOAT NULL, REM_CARGA2 VARCHAR(60) NULL, PESO_BRUTO2 FLOAT NULL, TARA2 FLOAT NULL, 
+                        REM_CARGA3 VARCHAR(60) NULL, PESO_BRUTO3 FLOAT NULL, TARA3 FLOAT NULL, REM_CARGA4 VARCHAR(60) NULL, PESO_BRUTO4 FLOAT NULL, TARA4 FLOAT NULL, 
+                        FLETE FLOAT NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL, RETENCION FLOAT NULL, NETO FLOAT NULL, REM_CARGA SMALLINT NULL, CANT FLOAT NULL,
+                        CVE_ESQIMPU SMALLINT NULL, SELECCIONE BIT NULL, FACTURA_CFDI VARCHAR(20) NULL, CVE_COBRO SMALLINT NULL, IMPORTE_CONCEP FLOAT NULL,
+                        VOLUMEN_PESO FLOAT NULL, PRECIO_VIAJE_TONE SMALLINT NULL, SERIE VARCHAR(12) NULL, FOLIO INT NULL, UUID VARCHAR(50) NOT NULL, 
+                        CVE_PRODSERV VARCHAR(9) NULL, CVE_UNIDAD VARCHAR(4) NULL, FACTURADO VARCHAR(1) NULL, TIMBRADO VARCHAR(1) NULL, 
+                        TIPO_FACTURACION SMALLINT NULL, FORMADEPAGOSAT VARCHAR(5) NULL, TIPO_CAMBIO_LEYENDA VARCHAR(60) NULL, USUARIO VARCHAR(30) NULL, 
+                        CALLE_FISCAL SMALLINT NULL, CALLE1 VARCHAR(255) NULL, CALLE2 VARCHAR(255) NULL, KMS_VACIO FLOAT NULL, 
+                        CONSTRAINT PK_GCASIGNACION_BUENO PRIMARY KEY CLUSTERED (CVE_VIAJE, UUID) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '19-02-20
+            Try
+                If Not EXISTE_TABLA("GCTAB_RUTAS") Then
+                    SQL = "CREATE TABLE GCTAB_RUTAS (CVE_TAB INT NOT NULL, CVE_RUTA INT NULL, STATUS VARCHAR(1) NULL, FECHA DATE NULL, TIPO_UNI INT NULL, 
+                        ORIGEN VARCHAR(255) NULL, DESTINO VARCHAR(255) NULL, CLIENTE VARCHAR(10) NULL, KM_RECO FLOAT NULL, COSTO_CASETAS FLOAT NULL, 
+                        FLETE FLOAT NULL, SUELDO_OPER FLOAT NULL, RENDIMIENTO FLOAT NULL, P_X_LITRO FLOAT NULL, LITROS_RUTA FLOAT NULL, COSTO_DISEL FLOAT NULL,
+                        TIPO_VIAJE INT NULL, EJES SMALLINT NULL, OBSER VARCHAR(255) NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCTAB_RUTAS PRIMARY KEY CLUSTERED (CVE_TAB) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCTAB_RUTAS_F") Then
+                    SQL = "CREATE TABLE GCTAB_RUTAS_F (CVE_TAB VARCHAR(20) Not NULL, CVE_CON VARCHAR(20) NULL, STATUS VARCHAR(1) NULL, FECHA DATE NULL, 
+                        CLIE_OP VARCHAR(10) NULL, CLIE_OP_O VARCHAR(10) NULL, CLIE_OP_D VARCHAR(10) NULL, CVE_PROD INT NULL, CVE_ART VARCHAR(16) NULL, 
+                        KMS FLOAT NULL, AUTO_SENC FLOAT NULL, P4_SENC FLOAT NULL, FULL_AUTO FLOAT NULL, FULL_P4 FLOAT NULL, AUTO_SENC_LTS FLOAT NULL,
+                        P4_SENC_LTS FLOAT NULL, FULL_AUTO_LTS FLOAT NULL, FULL_P4_LTS FLOAT NULL, SUELDO_FULL FLOAT NULL, SUELDO_SENC FLOAT NULL,
+                        TAR_X_TON_FULL FLOAT NULL, TAR_X_VIA_FULL FLOAT NULL, TAR_X_TON_SENC FLOAT NULL, TAR_X_VIA_SENC FLOAT NULL, CVE_CASETA INT NULL,
+                        FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, CVE_GAS SMALLINT NULL, IMPORTE_GASTO FLOAT NULL, CVE_GASOL VARCHAR(10) NULL, 
+                        LITROS_RUTA FLOAT NULL, TAUTO_SENC_LTS FLOAT NULL, TP4_SENC_LTS FLOAT NULL, TFULL_AUTO_LTS FLOAT NULL, TFULL_P4_LTS FLOAT NULL,
+                        CVE_SUOP INT NULL, SUELDO_X_FACTOR SMALLINT NULL, CVE_TIPO_OPE SMALLINT NULL, PRECIO_X_TANQUE SMALLINT NULL, 
+                        SERIE_RE VARCHAR(10) NULL, KM_VACIOS FLOAT NULL, KM_CARGADO FLOAT NULL, SUELDO_X_PORC FLOAT NULL, PORC FLOAT NULL,
+                        SUELDO_X_CONVENIO FLOAT NULL, IMPORTE_GAS FLOAT NULL, DESCR VARCHAR(255) NULL, DESCR2 VARCHAR(255) NULL, 
+                        TAR_OPER_FULL FLOAT NULL, PORC_SUELDO_FULL FLOAT NULL, PORC_SUELDO_SENC FLOAT NULL, 
+                        CONSTRAINT PK_GCTAB_RUTAS_F PRIMARY KEY CLUSTERED (CVE_TAB) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            'GASTOS DE VIAJE TAB
+            '07-02-20
+            Try
+                If Not EXISTE_TABLA("GCASIGNACION_VIAJE_TAB_RUTAS") Then
+                    SQL = "CREATE TABLE GCASIGNACION_VIAJE_TAB_RUTAS (CVE_CON VARCHAR(10) NOT NULL, CVE_VIAJE VARCHAR(20) NULL, CVE_TAB INT NULL, 
+                        CVE_RUTA INT NULL, ST_TAB_RUTAS VARCHAR(20) NULL, FECHA DATE NULL, IDVIAJE INT NULL, TIPO_UNI INT NULL, ORIGEN VARCHAR(255) NULL, 
+                        DESTINO VARCHAR(255) NULL, CLIENTE VARCHAR(10) NULL, KM_RECO FLOAT NULL, COSTO_CASETAS FLOAT NULL, FLETE FLOAT NULL, 
+                        SUELDO_OPER FLOAT NULL, RENDIMIENTO FLOAT NULL, P_X_LITRO FLOAT NULL, LITROS_RUTA FLOAT NULL, COSTO_DISEL FLOAT NULL, 
+                        TIPO_VIAJE INT NULL, EJES SMALLINT NULL, UUID VARCHAR(50) NULL)"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'PARAMETROS TRANSPORT
+            '20-02-20
+            Try
+                If Not EXISTE_TABLA("GCPARAMTRANSPORT") Then
+                    SQL = "CREATE TABLE GCPARAMTRANSPORT (SERIE_VIAJE VARCHAR(10) NOT NULL, FOLIO_VIAJE INT NULL)"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCPARAMTRANSPORT (SERIE_VIAJE, FOLIO_VIAJE) VALUES (' ','0')"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCFOLIOS") Then
+                    SQL = "CREATE TABLE GCFOLIOS (TIP_DOC varchar(30) NOT NULL, FOLIODESDE int NOT NULL, FOLIOHASTA int NULL, AUTORIZA int NULL, " &
+                        "SERIE varchar(10) NOT NULL, AUTOANIO varchar(4) NULL, ULT_DOC int NULL, TIPO varchar(1) NULL, FECH_ULT_DOC datetime NULL,  " &
+                        "FOLIOPERSONALIZADO varchar(1) NULL, PARCIALIDAD varchar(1) NULL, STATUS varchar(1) NULL, " &
+                        "CONSTRAINT PK_GCFOLIOS PRIMARY KEY CLUSTERED (TIP_DOC, SERIE, FOLIODESDE) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCFOLIOS (TIP_DOC, FOLIODESDE, FOLIOHASTA, AUTORIZA, SERIE, AUTOANIO,ULT_DOC, TIPO, FECH_ULT_DOC, FOLIOPERSONALIZADO, " &
+                         "PARCIALIDAD, STATUS) VALUES ('"
+                    SQL = SQL & "PEDIDOS','"     ' -- TIP_DOC - varchar(1) NOT NULL
+                    SQL = SQL & "1','"      ' -- FOLIODESDE - int NOT NULL
+                    SQL = SQL & "0','"      ' -- FOLIOHASTA - int
+                    SQL = SQL & "0','"      ' -- AUTORIZA - int
+                    SQL = SQL & "PA','" ' -- SERIE - varchar(10) NOT NULL
+                    SQL = SQL & " ','"      ' -- AUTOANIO - varchar(4)
+                    SQL = SQL & "0" & "','" ' -- ULT_DOC - int
+                    SQL = SQL & "I" & "'," ' -- TIPO - varchar(1)
+                    SQL = SQL & "GETDATE(),'"  ',GETDATE() -- 'YYYY-MM-DD hh:mm:ss[.nnn]'-- FECH_ULT_DOC - datetime
+                    SQL = SQL & "N','"  ' -- FOLIOPERSONALIZADO - varchar(1)
+                    SQL = SQL & "N','"  ' -- PARCIALIDAD - varchar(1)
+                    SQL = SQL & "A')"  ' -- STATUS - varchar(1)
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCFOLIOS (TIP_DOC, FOLIODESDE, FOLIOHASTA, AUTORIZA, SERIE, AUTOANIO,ULT_DOC, TIPO, FECH_ULT_DOC, FOLIOPERSONALIZADO, " &
+                         "PARCIALIDAD, STATUS) VALUES ('"
+                    SQL = SQL & "COTIZA','"     ' -- TIP_DOC - varchar(1) NOT NULL
+                    SQL = SQL & "1','"      ' -- FOLIODESDE - int NOT NULL
+                    SQL = SQL & "0','"      ' -- FOLIOHASTA - int
+                    SQL = SQL & "0','"      ' -- AUTORIZA - int
+                    SQL = SQL & "CA','" ' -- SERIE - varchar(10) NOT NULL
+                    SQL = SQL & " ','"      ' -- AUTOANIO - varchar(4)
+                    SQL = SQL & "0" & "','" ' -- ULT_DOC - int
+                    SQL = SQL & "I" & "'," ' -- TIPO - varchar(1)
+                    SQL = SQL & "GETDATE(),'"  ',GETDATE() -- 'YYYY-MM-DD hh:mm:ss[.nnn]'-- FECH_ULT_DOC - datetime
+                    SQL = SQL & "N','"  ' -- FOLIOPERSONALIZADO - varchar(1)
+                    SQL = SQL & "N','"  ' -- PARCIALIDAD - varchar(1)
+                    SQL = SQL & "A')"  ' -- STATUS - varchar(1)
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCFOLIOS (TIP_DOC, FOLIODESDE, FOLIOHASTA, AUTORIZA, SERIE, AUTOANIO,ULT_DOC, TIPO, FECH_ULT_DOC, FOLIOPERSONALIZADO, " &
+                         "PARCIALIDAD, STATUS) VALUES ('"
+                    SQL = SQL & "CONTRATOS','"     ' -- TIP_DOC - varchar(1) NOT NULL
+                    SQL = SQL & "1','"      ' -- FOLIODESDE - int NOT NULL
+                    SQL = SQL & "0','"      ' -- FOLIOHASTA - int
+                    SQL = SQL & "0','"      ' -- AUTORIZA - int
+                    SQL = SQL & "CTA','" ' -- SERIE - varchar(10) NOT NULL
+                    SQL = SQL & " ','"      ' -- AUTOANIO - varchar(4)
+                    SQL = SQL & "0" & "','" ' -- ULT_DOC - int
+                    SQL = SQL & "I" & "'," ' -- TIPO - varchar(1)
+                    SQL = SQL & "GETDATE(),'"  ',GETDATE() -- 'YYYY-MM-DD hh:mm:ss[.nnn]'-- FECH_ULT_DOC - datetime
+                    SQL = SQL & "N','"  ' -- FOLIOPERSONALIZADO - varchar(1)
+                    SQL = SQL & "N','"  ' -- PARCIALIDAD - varchar(1)
+                    SQL = SQL & "A')"  ' -- STATUS - varchar(1)
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("315. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'GCASIGNACION_VIAJE_GASTOS
+            '23-02-20
+            Try
+                If Not EXISTE_TABLA("GCASIGNACION_VIAJE_GASTOS") Then
+                    SQL = "CREATE TABLE GCASIGNACION_VIAJE_GASTOS (CVE_VIAJE VARCHAR(20) NOT NULL, STATUS VARCHAR(1) NULL, CVE_OPER INT NULL, 
+                        CVE_GAV VARCHAR(10) NULL, FOLIO VARCHAR(20) NOT NULL, FECHA DATE NULL, ST_GASTOS VARCHAR(20) NULL, CVE_TES INT NULL, 
+                        AUTORIZADO BIT NULL, DEPOSITADO BIT NULL, FECHA_AUT DATE NULL, FECHA_DEP DATE NULL, USUARIO1 VARCHAR(80) NULL, USUARIO2 VARCHAR(20) NULL, 
+                        CVE_NUM VARCHAR(10) NULL, IMPORTE FLOAT, CVE_LIQ INT NULL, TIPO_PAGO SMALLINT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                        REF_BAN VARCHAR(80) NULL, POL_GEN VARCHAR(1) NULL, 
+                        CONSTRAINT PK_GCASIGNACION_VIAJE_GASTOS PRIMARY KEY CLUSTERED (CVE_VIAJE, FOLIO) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'GCASIGNACION_VIAJE_VALES
+            '23-02-20  
+            Try
+                If Not EXISTE_TABLA("GCASIGNACION_VIAJE_VALES") Then
+                    SQL = "CREATE TABLE GCASIGNACION_VIAJE_VALES (CVE_VIAJE VARCHAR(20) NOT NULL, FOLIO VARCHAR(20) NOT NULL, CVE_LIQ INT NULL, 
+                        STATUS VARCHAR(1) NULL, CVE_OPER INT NULL, CVE_GAV VARCHAR(10) NULL, FECHA DATE NULL, ST_VALES VARCHAR(20) NULL, 
+                        CONCILIADO SMALLINT NULL, CVE_GAS VARCHAR(10) NULL, LITROS FLOAT NULL, LITROS_REALES FLOAT NULL, P_X_LITRO FLOAT NULL, 
+                        SUBTOTAL FLOAT NULL, IVA FLOAT NULL, IEPS FLOAT NULL, IMPORTE FLOAT, FACTURA VARCHAR(20) NULL, OBS VARCHAR(255) NULL, 
+                        FECHA_CARGA DATE NULL,FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, FECHA_TRASPASO DATE NULL, CVE_RESET INT NULL,
+                        CONSTRAINT PK_GCASIGNACION_VIAJE_VALES PRIMARY KEY CLUSTERED (FOLIO) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'GCASIGNACION_VALES_UTILITARIOS
+            '23-02-20  
+            Try
+                If Not EXISTE_TABLA("GCASIGNACION_VALES_UTIL") Then
+                    SQL = "CREATE TABLE GCASIGNACION_VALES_UTIL (FOLIO VARCHAR(20) NOT NULL, CVE_LIQ INT NULL, STATUS VARCHAR(1) NULL, 
+                        CVE_TRACTOR VARCHAR(40) NULL, CVE_OPER INT NULL, CVE_GAV VARCHAR(10) NULL, FECHA DATE NULL, ST_VALES VARCHAR(20) NULL, 
+                        CONCILIADO SMALLINT NULL, CVE_GAS VARCHAR(10) NULL, LTS_INICIALES FLOAT NULL, LITROS_REALES FLOAT NULL, P_X_LITRO FLOAT NULL, 
+                        SUBTOTAL FLOAT NULL, IVA FLOAT NULL, IEPS FLOAT NULL, IMPORTE FLOAT NULL, FACTURA VARCHAR(20) NULL, FACTURA_CFDI VARCHAR(40) NULL, 
+                        OBS VARCHAR(255) NULL, FECHA_CARGA DATE NULL, FACTOR_IEPS FLOAT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                        CVE_TIPO_GAS SMALLINT NULL, POL_GEN VARCHAR(15) NULL, XML VARCHAR(255) NULL, FECHA_CFDI DATETIME NULL, KM FLOAT NULL, 
+                        CONSTRAINT PK_GCASIGNACION_VALES_UTIL PRIMARY KEY CLUSTERED (FOLIO) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                'SQL = "CREATE UNIQUE INDEX PK_GCASIGNACION_VALES_UTIL ON dbo.GCASIGNACION_VALES_UTIL (FOLIO)"
+                'cmd.CommandText = SQL
+                'cmd.ExecuteNonQuery()
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'GCTRANSCOBRANZA
+            '23-02-20
+            Try
+                If Not EXISTE_TABLA("GCTRANSCOBRANZA") Then
+                    'SQL = "CREATE TABLE GCTRANSCOBRANZA (CVE_TRANS INT NULL, FECHA DATE NULL, CVE_GAV VARCHAR(10) NULL, FOLIO VARCHAR(20) NULL, FECHA DATE NULL, " &
+                    '    "CVE_GAS VARCHAR(10) NULL, LITROS FLOAT NULL, P_X_LITRO FLOAT NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL, IEPS FLOAT NULL, " &
+                    '    "IMPORTE FLOAT, FACTURA VARCHAR(20) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL)"
+                    'cmd.CommandText = SQL
+                    'cmd.ExecuteNonQuery()
+                    'SQL = "CREATE TABLE GCDERECHOS (USUARIO varchar(30) NOT NULL, CLAVE INT NOT NULL, DERECHO bit NULL) ON [PRIMARY] " &
+                    '"CREATE UNIQUE CLUSTERED INDEX UK_GCDERECHOS ON dbo.GCDERECHOS (USUARIO, CLAVE) ON [PRIMARY] "
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'GCCLIE_OP
+            '23-02-20
+            Try
+                If Not EXISTE_TABLA("GCCLIE_OP") Then
+                    SQL = "CREATE TABLE GCCLIE_OP (CLAVE VARCHAR(10) Not NULL, STATUS VARCHAR(1) NULL, NOMBRE VARCHAR(120) NULL, CVE_PLAZA INT NULL,
+                        DOMICILIO VARCHAR(255) NULL, DOMICILIO2 VARCHAR(255) NULL, PLANTA VARCHAR(50) NULL, NOTA VARCHAR(255) NULL, RFC VARCHAR(20) NULL,
+                        CUEN_CONT VARCHAR(28) NULL, CP VARCHAR(5) NULL, COLONIA	VARCHAR(50) NULL, POBLACION VARCHAR(50) NULL, MUNICIPIO VARCHAR(50) NULL, 
+                        ESTADO VARCHAR(50) NULL, PAIS VARCHAR(50) NULL, CP_SAT VARCHAR(10) NULL, COLONIA_SAT VARCHAR(10) NULL, POBLACION_SAT VARCHAR(10) NULL, 
+                        MUNICIPIO_SAT VARCHAR(10) NULL, ESTADO_SAT VARCHAR(10) NULL, PAIS_SAT VARCHAR(10) NULL, NUMINT varchar(15) NULL, NUMEXT varchar(15) NULL, 
+                        NUMREGIDTRIB VARCHAR(60) NULL, UUID VARCHAR(50) NULL, RD VARCHAR(1) NULL, REFERENCIA VARCHAR(255) NULL, 
+                        CONSTRAINT PK_GCCLIE_OP PRIMARY KEY CLUSTERED (CLAVE) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'VIAJE TAB CONTRATOS
+            '07-02-20
+
+            Try
+                If Not EXISTE_TABLA("GCCONTRATOS_TAB_RUTAS") Then
+                    SQL = "CREATE TABLE GCCONTRATOS_TAB_RUTAS (CVE_CON VARCHAR(10) NOT NULL, CVE_VIAJE VARCHAR(20) NULL, CVE_TAB INT NULL, CVE_RUTA INT NULL,
+                        ST_TAB_RUTAS VARCHAR(20) NULL, FECHA DATE NULL, IDVIAJE INT NULL, TIPO_UNI INT NULL, ORIGEN VARCHAR(255) NULL, 
+                        DESTINO VARCHAR(255) NULL, CLIENTE VARCHAR(10) NULL, KM_RECO FLOAT NULL, COSTO_CASETAS FLOAT NULL, FLETE FLOAT NULL, 
+                        SUELDO_OPER FLOAT NULL, RENDIMIENTO FLOAT NULL, P_X_LITRO FLOAT NULL, LITROS_RUTA FLOAT NULL, COSTO_DISEL FLOAT NULL, 
+                        TIPO_VIAJE INT NULL, EJES SMALLINT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL)"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'STATUS GASTOS DE VIAJE
+            Try '05-03-20
+                If Not EXISTE_TABLA("GCSTATUS_GASTOS_VIAJE") Then
+                    SQL = "CREATE TABLE GCSTATUS_GASTOS_VIAJE (CVE_GAV INT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(80) NULL, 
+                        CLASIFIC VARCHAR(40) NULL, UUID VARCHAR(50) NULL, 
+						CONSTRAINT PK_GCSTATUS_GASTOS_VIAJE PRIMARY KEY CLUSTERED (CVE_GAV))"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("320. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'STATUS CARTA PORTE
+            Try            '05-03-20
+                If Not EXISTE_TABLA("GCSTATUS_CARTA_PORTE") Then
+                    SQL = "CREATE TABLE GCSTATUS_CARTA_PORTE (CVE_CAP INT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(80) NULL, 
+                        UUID VARCHAR(50) NULL, 
+						CONSTRAINT PK_GCSTATUS_CARTA_PORTE PRIMARY KEY CLUSTERED (CVE_CAP))"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("330. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'STATUS LIQUIDACION
+            Try            '05-03-20
+                If Not EXISTE_TABLA("GCSTATUS_LIQUIDACION") Then
+                    SQL = "CREATE TABLE GCSTATUS_LIQUIDACION (CVE_LIQ INT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(80) NULL, 
+                        UUID VARCHAR(50) NULL, 
+						CONSTRAINT PK_GCSTATUS_LIQUIDACION PRIMARY KEY CLUSTERED (CVE_LIQ))"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("340. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'STATUS VALE COMBUSTIBLE
+            Try            '05-03-20
+                If Not EXISTE_TABLA("GCSTATUS_VALE_COMBUSTIBLE") Then
+                    SQL = "CREATE TABLE GCSTATUS_VALE_COMBUSTIBLE (CVE_VAC INT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(80) NULL, 
+                        UUID VARCHAR(50) NULL, 
+						CONSTRAINT PK_GCSTATUS_VALE_COMBUSTIBLE PRIMARY KEY CLUSTERED (CVE_VAC))"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("350. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+            '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+            '10 MARZO  2020
+            'BAJA DE VIAJE
+            Try
+                If Not EXISTE_TABLA("GCBAJA_VIAJE") Then
+                    SQL = "CREATE TABLE GCBAJA_VIAJE (CVE_BAJA VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, CLIENTE VARCHAR(10) NULL, FECHA DATE NULL, 
+                        FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+						CONSTRAINT PK_GCBAJA_VIAJE PRIMARY KEY CLUSTERED (CVE_BAJA))"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("360. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'BAJA DE VIAJE   PARTIDAS 
+            Try            '05-03-20
+                If Not EXISTE_TABLA("GCBAJA_VIAJE_PAR") Then
+                    SQL = "CREATE TABLE GCBAJA_VIAJE_PAR (CVE_FOLIO VARCHAR(20) NOT NULL, CVE_VIAJE VARCHAR(20) NULL, CVE_BAJA VARCHAR(10) NULL, 
+                        STATUS VARCHAR(1) NULL, CLIENTE VARCHAR(10) NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL, RETENCION FLOAT NULL, 
+                        NETO FLOAT NULL, ST_CVE_CAP SMALLINT NULL, UUID VARCHAR(50) NULL, 
+						CONSTRAINT PK_GCBAJA_VIAJE_PAR PRIMARY KEY CLUSTERED (CVE_FOLIO))"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("370. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'CONCILIACION VALES COMBUSTIBLE
+            Try            '27-03-20
+                If Not EXISTE_TABLA("GCCONCI_VALES_COMBUS") Then
+                    SQL = "CREATE TABLE GCCONCI_VALES_COMBUS (CVE_COVC INT NOT NULL, CVE_DOC VARCHAR(20) NULL, CVE_PROV VARCHAR(10) NULL, 
+                        FECHA_DOC DATE NULL, CVE_GAS VARCHAR(10) NULL, STATUS VARCHAR(1) NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL, 
+                        NETO FLOAT NULL, FECHA DATE NULL, POL_GEN VARCHAR(1) NULL, XML VARCHAR(255) NULL, FECHAELAB DATETIME NULL, 
+                        SERIA_CFDI VARCHAR(12) NULL, FOLIO_CFDI INT NULL, UUID VARCHAR(50) NULL, REFER_PAGA_M VARCHAR(20) NULL, 
+                        ACT_COI VARCHAR(1) NULL,    
+                        CONSTRAINT PK_GCCONCI_VALES_COMBUS PRIMARY KEY CLUSTERED (CVE_COVC))"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("385. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'CONCILIACION VALES COMBUSTIBLE PARTIDAS    PARTIDAS    PARTIDAS    PARTIDAS   
+            Try            '27-03-20
+                If Not EXISTE_TABLA("GCCONCI_VALES_COMBUS_PAR") Then
+                    SQL = "CREATE TABLE GCCONCI_VALES_COMBUS_PAR (CVE_COVC INT NOT NULL, CVE_VIAJE VARCHAR(20) NOT NULL, 
+                        CVE_FOLIO VARCHAR(20) NOT NULL, STATUS VARCHAR(1) NULL, CVE_GAS VARCHAR(10) NULL, SUBTOTAL FLOAT NULL, 
+                        IVA FLOAT NULL, NETO FLOAT NULL, FECHA DATE NULL, UUID VARCHAR(50) NULL, 
+						CONSTRAINT PK_GCCONCI_VALES_COMBUS_PAR PRIMARY KEY CLUSTERED (CVE_COVC, CVE_FOLIO))"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("390. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            'ARCHIVOS REPORTES
+            Try            '05-04-20
+                If Not EXISTE_TABLA("GCFORMATOS") Then
+                    SQL = "CREATE TABLE GCFORMATOS (CVE_REP INT NOT NULL, STATUS VARCHAR(1) NULL, NOMBRE VARCHAR(80) NULL, 
+                        DESCR VARCHAR(255) NULL, ARCHIVO VARCHAR(120) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCFORMATOS PRIMARY KEY CLUSTERED (CVE_REP) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("400. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '@@@@@@@@@@
+            'CONCILIACION CARTA PORTE
+            Try            '27-03-20
+                If Not EXISTE_TABLA("GCCONCI_CARTA_PORTE") Then
+                    SQL = "CREATE TABLE GCCONCI_CARTA_PORTE (CVE_CCP INT NOT NULL, CVE_DOC VARCHAR(20) NULL, FECHA_DOC DATE NULL, " &
+                        "STATUS VARCHAR(1) NULL, CLIENTE VARCHAR(10) NULL, IMPORTE FLOAT NULL, FECHAELAB DATETIME NULL, " &
+                        "UUID VARCHAR(50) NULL)"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("415. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'CONCILIACION VALES COMBUSTIBLE PARTIDAS    PARTIDAS    PARTIDAS    PARTIDAS   
+            Try            '27-03-20
+                If Not EXISTE_TABLA("GCCONCI_CARTA_PORTE_PAR") Then
+                    SQL = "CREATE TABLE GCCONCI_CARTA_PORTE_PAR (CVE_CCP INT NOT NULL, CVE_FOLIO VARCHAR(20) NULL, UUID VARCHAR(50) NULL)"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("420. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '28 abr 2020
+            Try
+                If Not EXISTE_TABLA("GCPRECIOSAF") Then
+                    SQL = "CREATE TABLE GCPRECIOSAF (CVE_PRECIO int NOT NULL, DESCRIPCION varchar(25) NOT NULL, CVE_BITA int NULL, " &
+                          "STATUS varchar(1) NULL, GUID VARCHAR(50) NULL, CONSTRAINT PK_GCPRECIOSAF PRIMARY KEY CLUSTERED (CVE_PRECIO) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("430. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            'TESORERIA
+            Try            '27-03-20
+                If Not EXISTE_TABLA("GCTESORERIA") Then
+                    SQL = "CREATE TABLE GCTESORERIA (CVE_TES INT NOT NULL, FECHA_DOC DATE NULL, " &
+                        "STATUS VARCHAR(1) NULL, CLIENTE VARCHAR(10) NULL, IMPORTE FLOAT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, " &
+                        "CONSTRAINT PK_GCTESORERIA PRIMARY KEY CLUSTERED (CVE_TES) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("440. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'TESORERIA PARTIDAS    PARTIDAS    PARTIDAS    PARTIDAS   
+            Try            '27-03-20
+                If Not EXISTE_TABLA("GCTESORERIA_PAR") Then
+                    SQL = "CREATE TABLE GCTESORERIA_PAR (CVE_TES INT NOT NULL, CVE_VIAJE VARCHAR(20) NULL, FOLIO VARCHAR(20) NULL, UUID VARCHAR(50) NULL)"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("450. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            'TABULADOR DE COMBUSTIBLE
+            Try            '27-03-20
+                If Not EXISTE_TABLA("GCTABULADOR") Then
+                    SQL = "CREATE TABLE GCTABULADOR (CVE_TAB INT NOT NULL, FECHA_TAB DATE NULL, STATUS VARCHAR(1) NULL, CVE_OPER INT NULL, " &
+                        "CVE_UNI VARCHAR(10) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, CONSTRAINT PK_GCTABULADOR PRIMARY KEY CLUSTERED (CVE_TAB) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("440. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'TESORERIA PARTIDAS    PARTIDAS    PARTIDAS    PARTIDAS   
+            Try            '27-03-20
+                If Not EXISTE_TABLA("GCTABULADOR_PAR") Then
+                    SQL = "CREATE TABLE GCTABULADOR_PAR (CVE_TAB INT NOT NULL, NUM_PAR SMALLINT NULL, STATUS VARCHAR(1) NULL, ESTADO VARCHAR(1) NULL, 
+                        CVE_OPER INT NULL, CVE_UNI VARCHAR(10) NULL, CVE_ORI INT NULL, CVE_DES INT NULL, CARGADO_VACIO BIT NULL, TIPO_VIAJE VARCHAR(10) NULL,
+                        CLIENTE VARCHAR(10) NULL, KMS FLOAT NULL, RENDIMIENTO FLOAT NULL, LITROS FLOAT NULL, TONELADAS FLOAT NULL, OBSER VARCHAR(255) NULL, 
+                        UUID VARCHAR(50) NULL)"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("450. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'TABLA VIKINGOS
+            Try            '18-06-2022
+                If Not EXISTE_TABLA("GCTABULADOR_EXCEL") Then
+                    SQL = "CREATE TABLE GCTABULADOR_EXCEL (CVE_TAB INT NOT NULL, NUM_VIAJE INT NOT NULL, STATUS VARCHAR(1) NULL, 
+                        FOLIO_LIQ INT NULL, CVE_OPER INT NULL, CVE_UNI VARCHAR(20) NULL, NOMBRE_OPER VARCHAR(80) NULL, 
+                        TIPO_VIAJE VARCHAR(10) NULL, CLIENTE VARCHAR(10) NULL, NOMBRE_CLIE VARCHAR(80) NULL, CVE_ORI INT NULL, 
+                        ORIGEN VARCHAR(80) NULL,  CVE_DES INT NULL, DESTINO VARCHAR(80) NULL, CARGADO_VACIO BIT NULL, 
+                        KMS FLOAT NULL, RENDIMIENTO FLOAT NULL, LITROS FLOAT NULL, TONELADAS FLOAT NULL, OBSER VARCHAR(255) NULL, 
+                        CVE_RES INT NULL, UUID VARCHAR(50) NULL, FECHA_IDA DATE NULL, 
+                        CONSTRAINT PK_GCTABULADOR_EXCEL PRIMARY KEY CLUSTERED (NUM_VIAJE) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("450. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try            '18-06-2022
+
+                If Not EXISTE_TABLA("GCRESET_TAB_VIKINGOS_PAR") Then
+                    SQL = "CREATE TABLE GCRESET_TAB_VIKINGOS_PAR (CVE_TAB INT NOT NULL, NUM_VIAJE INT NOT NULL, STATUS VARCHAR(1) NULL, 
+                        FOLIO_LIQ INT NULL, CVE_OPER INT NULL, CVE_UNI VARCHAR(20) NULL, NOMBRE_OPER VARCHAR(80) NULL, 
+                        TIPO_VIAJE VARCHAR(10) NULL, CLIENTE VARCHAR(10) NULL, NOMBRE_CLIE VARCHAR(80) NULL, CVE_ORI INT NULL, 
+                        ORIGEN VARCHAR(80) NULL,  CVE_DES INT NULL, DESTINO VARCHAR(80) NULL, CARGADO_VACIO BIT NULL, 
+                        KMS FLOAT NULL, RENDIMIENTO FLOAT NULL, LITROS FLOAT NULL, TONELADAS FLOAT NULL, OBSER VARCHAR(255) NULL, 
+                        CVE_RES INT NULL, FECHA_IDA DATE NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCRESET_TAB_VIKINGOS_PAR PRIMARY KEY CLUSTERED (NUM_VIAJE) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("450. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try  '02-08-2022
+                If Not EXISTE_TABLA("GCRESET_TAB_FLORES_PAR") Then
+                    SQL = "CREATE TABLE GCRESET_TAB_FLORES_PAR (CVE_TAB INT NOT NULL, CVE_VIAJE VARCHAR(20) NOT NULL, 
+                        STATUS VARCHAR(1) NULL, CVE_RES INT NULL, KMS FLOAT NULL, RENDIMIENTO FLOAT NULL, LITROS FLOAT NULL, 
+                        FACTOR FLOAT NULL, UUID VARCHAR(50) NULL, KMS_REAL FLOAT NULL, NUM_PAR SMALLINT NOT NULL,
+                        CONSTRAINT PK_GCRESET_TAB_FLORES_PAR PRIMARY KEY CLUSTERED (CVE_TAB, NUM_PAR) ON [PRIMARY]) "
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("450. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCBITA") Then
+                    SQL = "CREATE TABLE GCBITA (CVE_BITA INT NOT NULL, CVE_DOC varchar(20) NULL, CVE_ART varchar(16) NULL, CVE_CLIE varchar(10) NULL, 
+                        CVE_CAMPANIA varchar(5) NULL, CVE_ACTIVIDAD varchar(5) NULL, FECHAHORA datetime NULL, CVE_USUARIO SMALLINT NULL, OBSERVACIONES varchar(255) NULL, STATUS varchar(1) NULL,
+                        NOM_USUARIO varchar(15) NULL, CONSTRAINT PK_GCBITA PRIMARY KEY CLUSTERED (CVE_BITA) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'TABLA NUEVA TOT
+            '27-03-20
+            Try
+                If Not EXISTE_TABLA("GCORDEN_TRA_TOT") Then
+                    cmd.CommandText = "CREATE TABLE GCORDEN_TRA_TOT (CVE_ORD VARCHAR(10) NULL, CVE_ART VARCHAR(16) NULL, TIPO SMALLINT NULL, " &
+                        "DESCR VARCHAR(90) NULL, STATUS VARCHAR(1) NULL, CANT FLOAT NULL, COSTO FLOAT NULL, NO_PARTE VARCHAR(60) NULL, NUM_ALM SMALLINT NULL, " &
+                        "MANO_DE_OBRA FLOAT NULL, IMPORTE FLOAT NULL, INICIO DATETIME NULL, HORA VARCHAR(20) NULL, FINAL DATETIME NULL, " &
+                        "HORA2 VARCHAR(20) NULL, TIEMPO_SER VARCHAR(20) NULL, TIEMPO_REAL VARCHAR(20) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL)"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("115. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCOT") Then
+                    SQL = "CREATE TABLE GCOT (CVE_ORD VARCHAR(10) NOT NULL, CVE_CLIE varchar(10) NULL, CVE_ART VARCHAR(16) NULL, " &
+                        "CANT FLOAT NULL, PRECIO FLOAT NULL) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCUSUARIOS_SERIE") Then
+                    SQL = "CREATE TABLE GCUSUARIOS_SERIE (USUARIO varchar(40) Not NULL, TIP_DOC VARCHAR(1) NOT NULL, SERIE_VENTA VARCHAR(12) NOT NULL, " &
+                        "SERIE_COMPRA VARCHAR(12) NOT NULL, SERIE_VENTA_PRED BIT NULL, " &
+                        "CONSTRAINT PK_GCUSUARIOS_SERIES PRIMARY KEY CLUSTERED (USUARIO, TIP_DOC, SERIE_VENTA, SERIE_COMPRA) ON [PRIMARY])"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCDOCTOSIG") Then
+                    SQL = "CREATE TABLE GCDOCTOSIG (CVE_DOC VARCHAR(20) Not NULL, TIPO_DOC VARCHAR(1) NOT NULL, CVE_ORD VARCHAR(10) NOT NULL, " &
+                        "IMPORTE FLOAT NULL, IMPORTE_OT FLOAT NULL) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCDERECHOS") Then
+                    SQL = "CREATE TABLE GCDERECHOS (USUARIO varchar(30) NOT NULL, CLAVE INT NOT NULL, DERECHO bit NULL) ON [PRIMARY] " &
+                    "CREATE UNIQUE CLUSTERED INDEX UK_GCDERECHOS ON dbo.GCDERECHOS (USUARIO, CLAVE) ON [PRIMARY] "
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCDERECHOS_CAT1") Then
+                    SQL = "CREATE TABLE GCDERECHOS_CAT1 (NUM_REG INT NULL, MODULO varchar(80) NULL, CLAVE INT NOT NULL) ON [PRIMARY] " &
+                    "CREATE UNIQUE CLUSTERED INDEX UK_GCDERECHOS_CAT1 ON dbo.GCDERECHOS_CAT1 (CLAVE)  ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCDERECHOS_CAT2") Then
+                    SQL = "CREATE TABLE GCDERECHOS_CAT2 (NUM_REG INT NULL, CLAVE INT NOT NULL, SUBCLAVE INT NOT NULL, MODULO varchar(80) NULL) ON [PRIMARY] " &
+                    "CREATE UNIQUE CLUSTERED INDEX UK_GCDERECHOS_CAT2 ON dbo.GCDERECHOS_CAT2 (CLAVE, SUBCLAVE) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCDERECHOS_CAT3") Then
+                    SQL = "CREATE TABLE GCDERECHOS_CAT3 (NUM_REG INT NULL, CLAVE INT NOT NULL, SUBCLAVE INT NOT NULL, MODULO varchar(80) NULL) ON [PRIMARY] " &
+                    "CREATE UNIQUE CLUSTERED INDEX UK_GCDERECHOS_CAT3 ON dbo.GCDERECHOS_CAT3 (CLAVE, SUBCLAVE) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCDERECHOS_CAT4") Then
+                    SQL = "CREATE TABLE GCDERECHOS_CAT4 (NUM_REG INT NULL, CLAVE INT NOT NULL, SUBCLAVE INT NOT NULL, MODULO varchar(80) NULL) ON [PRIMARY] " &
+                    "CREATE UNIQUE CLUSTERED INDEX UK_GCDERECHOS_CAT4 ON dbo.GCDERECHOS_CAT4 (CLAVE, SUBCLAVE) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCCOTIZADOR") Then
+                    SQL = "CREATE TABLE GCCOTIZADOR (CVE_COT varchar(10) NOT NULL, STATUS varchar(1) NULL, CLIENTE varchar(10) NULL, FECHA DATE NULL,
+                        COSTOS_FIJOS1 FLOAT NULL, DEPRE1 FLOAT NULL, COSTOS_FIJOS2 FLOAT NULL, DEPRE2 FLOAT NULL, COSTOS_FIJOS3 FLOAT NULL, DEPRE3 FLOAT NULL,
+                        UNI_ACTIVAS FLOAT NULL, NUM_CIRCUITOS FLOAT NULL, DIAS_ANALISIS FLOAT NULL, DIAS_NATURALES FLOAT NULL, PRECIO_X_LT_DIESEL FLOAT NULL,
+                        PRECIO_DIESEL_SINIVA FLOAT NULL, PORC_MANIOBRAS FLOAT NULL, TOTAL_COSTO_OP FLOAT NULL, COSTO_OP_MENSUAL FLOAT NULL, 
+                        COSTO_FIJO FLOAT NULL, DEPRECIACION FLOAT NULL, FLETE_MENSUAL FLOAT NULL, KMS_MENSUAL FLOAT NULL, UTILIDAD_MENSUAL FLOAT NULL, 
+                        ISR FLOAT NULL, UTILIDAD_NETA_MES FLOAT NULL, IMPORTE FLOAT NULL, FECHAELAB DATETIME NULL, REND_G FLOAT NULL, DIAS_DURA_CIRC FLOAT NULL,
+                        CONSTRAINT PK_GCCOTIZADOR PRIMARY KEY CLUSTERED (CVE_COT)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCCOTIZADOR_PAR") Then
+                    SQL = "CREATE TABLE GCCOTIZADOR_PAR (CVE_COT varchar(10) NOT NULL, STATUS varchar(1) NULL, CVE_ORIGEN INT NULL, CVE_DESTINO INT NULL, " &
+                        "KMS FLOAT NULL, KMS_MANIOBRAS FLOAT NULL, FLETE FLOAT NULL, SALDOS_OP FLOAT NULL, LTS_DIESEL FLOAT NULL, REND FLOAT NULL, " &
+                        "COSTO_DIESEL FLOAT NULL, CASETAS_SIN_IVA FLOAT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL) ON [PRIMARY] " &
+                        "CREATE INDEX PK_GCCOTIZADOR ON dbo.GCCOTIZADOR_PAR (CVE_COT) ON [PRIMARY] "
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+
+            Try
+                If Not EXISTE_TABLA("GCRECOGER_EN_ENTREGAR_EN") Then
+                    SQL = "CREATE TABLE GCRECOGER_EN_ENTREGAR_EN (CVE_REG varchar(10) NOT NULL, STATUS varchar(1) NULL, DESCR varchar(255) NULL, 
+                        CUEN_CONT VARCHAR(28) NULL, UUID VARCHAR(50) NULL) ON [PRIMARY] 
+                        CREATE UNIQUE CLUSTERED INDEX UK_GCRECOGER_EN_ENTREGAR_EN ON dbo.GCRECOGER_EN_ENTREGAR_EN (CVE_REG) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCTANQUES") Then
+                    SQL = "CREATE TABLE GCTANQUES (CVE_TAQ SMALLINT NOT NULL, STATUS varchar(1) NULL, DESCR varchar(120) NULL, 
+                        T1_ANCHO FLOAT NULL, T1_ALTO FLOAT NULL, T1_PROFUNDIDAD FLOAT NULL, T1_LITROS FLOAT NULL, 
+                        T2_ANCHO FLOAT NULL, T2_ALTO FLOAT NULL, T2_PROFUNDIDAD FLOAT NULL, T2_LITROS FLOAT NULL, 
+                        UUID VARCHAR(50) NULL) ON [PRIMARY] 
+                        CREATE UNIQUE CLUSTERED INDEX UK_GCTANQUES ON dbo.GCTANQUES (CVE_TAQ) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCREPORT1") Then
+                    SQL = "CREATE TABLE GCREPORT1 (NMES SMALLINT NULL, MES VARCHAR(15) NULL, C1 FLOAT NULL, C2 FLOAT NULL, C3 FLOAT NULL, C4 FLOAT NULL, 
+                        C5 FLOAT NULL, C6 FLOAT NULL, C7 FLOAT NULL, C8 FLOAT NULL, C9 FLOAT NULL, C10 FLOAT NULL) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCMOTORES") Then
+                    SQL = "CREATE TABLE GCMOTORES (CVE_MOT SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, 
+                        UUID VARCHAR(50) NULL) ON [PRIMARY] 
+                        CREATE UNIQUE CLUSTERED INDEX UK_GCMOTORES ON dbo.GCMOTORES (CVE_MOT) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCCATEVA") Then
+                    SQL = "CREATE TABLE GCCATEVA (CVE_EVA SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, CVE_MOT INT NULL, 
+                        FACTOR_CARGA FLOAT NULL, CALIF_FACTOR_CARGA FLOAT NULL, PORC_USO_RALENTI FLOAT NULL, 
+                        CALIF_RALENTI FLOAT NULL, PONDE_FC FLOAT NULL, PONDE_RALENTI FLOAT NULL, VEL_MAX FLOAT NULL, 
+                        CALIF_VEL_MAX FLOAT NULL, PON_VEL_MAX FLOAT NULL, TIPO_VIAJE SMALLINT NULL, CALIF_GLOBAL FLOAT NULL, 
+                        CALIF_GLOBAL2 FLOAT NULL, CALIF_GLOBAL3 FLOAT NULL, CALIF_GLOBAL4 FLOAT NULL, CALIF_GLOBAL5 FLOAT NULL, 
+                        CALIF_GLOBAL6 FLOAT NULL,  CALIF_GLOBAL7 FLOAT NULL, BONO FLOAT NULL, BONO2 FLOAT NULL, BONO3 FLOAT NULL, 
+                        BONO4 FLOAT NULL, BONO5 FLOAT NULL, BONO6 FLOAT NULL, BONO7 FLOAT NULL, CALCULO_POSITIVO SMALLINT NULL, 
+                        RPM_MAX FLOAT NULL, PON_RPM_MAX FLOAT NULL, CALIF_RPM_MAX FLOAT NULL, DESCR VARCHAR(120) NULL,
+                        UUID VARCHAR(50) NULL) 
+                        ON [PRIMARY]  CREATE UNIQUE CLUSTERED INDEX UK_GCCATEVA ON dbo.GCCATEVA (CVE_EVA) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCCOMPRAS") Then
+                    SQL = "CREATE TABLE GCCOMPRAS (NUM_REG INT NOT NULL, TIPO_DOC VARCHAR(3) NOT NULL, CVE_DOC VARCHAR(20) NOT NULL, 
+                        MODULO VARCHAR(40) NULL, UUID_XML VARCHAR(50) NULL, ARCHIVO_XML VARCHAR(255) NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCCOMPRAS PRIMARY KEY CLUSTERED (NUM_REG, TIPO_DOC, CVE_DOC)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCETIQUETAS") Then
+                    SQL = "CREATE TABLE GCETIQUETAS (CVE_DOC VARCHAR(20) NOT NULL, UUID_XML VARCHAR(50) NULL, ARCHIVO_XML VARCHAR(255) NULL, 
+                        UUID VARCHAR(50) NULL) ON [PRIMARY] 
+                        CREATE UNIQUE CLUSTERED INDEX UK_GCETIQUETAS ON dbo.GCETIQUETAS (CVE_DOC) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCCRITERIOS_EVA") Then
+                    SQL = "CREATE TABLE GCCRITERIOS_EVA (CVE_EVE INT NOT NULL, STATUS VARCHAR(1) NULL, TABULADOR SMALLINT NULL, 
+                        FISICO_VS_ECM SMALLINT NULL, RALENTI SMALLINT NULL, PORC_TOLERANCIA FLOAT NULL, PORC_RALENTI FLOAT NULL, 
+                        CRITERIO VARCHAR(120) NULL, UUID VARCHAR(50) NULL) ON [PRIMARY] 
+                        CREATE UNIQUE CLUSTERED INDEX UK_GCCRITERIOS_EVA ON dbo.GCCRITERIOS_EVA (CVE_EVE) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCCRITERIOS_EVA (CVE_EVE, STATUS, TABULADOR, FISICO_VS_ECM, RALENTI, PORC_TOLERANCIA, PORC_RALENTI, CRITERIO, UUID) VALUES ('1','A','1','0','0','5','3','LTS AUTORIZADOS = (LTS ECM - LTS RALENTI) POR 1.06', NEWID())"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCCRITERIOS_EVA (CVE_EVE, STATUS, TABULADOR, FISICO_VS_ECM, RALENTI, PORC_TOLERANCIA, PORC_RALENTI, CRITERIO, UUID) VALUES ('2','A','1','1','0','5','3','LTS AUTORIZADOS = (LTS ECM - LTS RALENTI) POR 1.03', NEWID())"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCCRITERIOS_EVA (CVE_EVE, STATUS, TABULADOR, FISICO_VS_ECM, RALENTI, PORC_TOLERANCIA, PORC_RALENTI, CRITERIO, UUID) VALUES ('3','A','1','1','1','5','3','LTS AUTORIZADOS = LITROS FISICOS', NEWID())"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCCRITERIOS_EVA (CVE_EVE, STATUS, TABULADOR, FISICO_VS_ECM, RALENTI, PORC_TOLERANCIA, PORC_RALENTI, CRITERIO, UUID) VALUES ('4','A','0','0','0','5','3','LTS AUTORIZADOS = LITROS TABULADOR (o la tolerancia del ecm mas el 3% se requiere autorización)', NEWID())"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCCRITERIOS_EVA (CVE_EVE, STATUS, TABULADOR, FISICO_VS_ECM, RALENTI, PORC_TOLERANCIA, PORC_RALENTI, CRITERIO, UUID) VALUES ('5','A','0','0','1','5','3','LTS AUTORIZADOS = LITROS TABULADOR', NEWID())"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCCRITERIOS_EVA (CVE_EVE, STATUS, TABULADOR, FISICO_VS_ECM, RALENTI, PORC_TOLERANCIA, PORC_RALENTI, CRITERIO, UUID) VALUES ('6','A','0','1','1','5','3','LTS AUTORIZADOS = LITROS TABULADOR', NEWID())"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCCRITERIOS_EVA (CVE_EVE, STATUS, TABULADOR, FISICO_VS_ECM, RALENTI, PORC_TOLERANCIA, PORC_RALENTI, CRITERIO, UUID) VALUES ('7','A','1','0','1','5','3','LTS AUTORIZADOS = LTS ECM POR 1.04 (Si no consumió diesel foráneo no aplica 4%)', NEWID())"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO GCCRITERIOS_EVA (CVE_EVE, STATUS, TABULADOR, FISICO_VS_ECM, RALENTI, PORC_TOLERANCIA, PORC_RALENTI, CRITERIO, UUID) VALUES ('8','A','0','1','0','5','3','LTS AUTORIZADOS = LITROS TABULADOR (se aplicara Vs ECM si la unidad esta marcando correctamente)', NEWID())"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCSMTP") Then
+                    SQL = "CREATE TABLE GCSMTP (SERVIDOR VARCHAR(60) NULL, PUERTO VARCHAR(10) NULL, USUARIO VARCHAR(50) NULL, 
+                        PASS VARCHAR(50) NULL, SSL SMALLINT NULL) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCSUELDO_OPER") Then
+                    SQL = "CREATE TABLE GCSUELDO_OPER (CVE_SUOP INT NOT NULL, CVE_TAB VARCHAR(20) NULL, STATUS VARCHAR(1) NULL, SUELDO FLOAT NULL, 
+                        CLAVE_O VARCHAR(10) NULL, CLAVE_D VARCHAR(10) NULL, PLAZA_O SMALLINT NULL, PLAZA_D SMALLINT NULL, TIPO_FULL_SENCILLO SMALLINT NULL, 
+                        TIPO_CARGADO_VACIO SMALLINT NULL, FECHAELAB DATETIME NULL, OBSER VARCHAR(255) NULL, UUID VARCHAR(50) NULL, CVE_MTC INT NULL,
+                        CONSTRAINT PK_GCSUELDO_OPER PRIMARY KEY CLUSTERED (CVE_SUOP)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCDEDUCCIONES") Then
+                    SQL = "CREATE TABLE GCDEDUCCIONES (CVE_DED INT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(80) NULL, 
+                        CVE_MTC INT NULL, CTA_CONTABLE VARCHAR(28) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCDEDUCCIONES PRIMARY KEY CLUSTERED (CVE_DED)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'NUEVAS TABLAS 8/SEP/21
+            Try
+                If Not EXISTE_TABLA("GCDEDUC_OPER") Then
+                    SQL = "CREATE TABLE GCDEDUC_OPER (CVE_DED_OPER INT NOT NULL, FOLIO INT NOT NULL, CVE_OPER INT NULL, CVE_DED INT NOT NULL, 
+                        STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, IMPORTE_PRESTAMO FLOAT NULL, IMPORTE_PAGADO FLOAT NULL, SALDO FLOAT NULL, 
+                        PAGO_EN_LIQ FLOAT NULL, SALDO_ACTUAL FLOAT NULL, FECHA DATE NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                        RESETEO VARCHAR(10) NULL, CVE_LIQ INT NULL,
+                        CONSTRAINT PK_GCDEDUC_OPER PRIMARY KEY CLUSTERED (FOLIO)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '11-11-21 MOVIMIENTOS AL INVENTARIO LLANTAS
+            Try
+                If Not EXISTE_TABLA("GCLLANTAS_MINVE") Then
+                    'TIP_LLANTA  
+                    SQL = "CREATE TABLE GCLLANTAS_MINVE (CVE_DOC VARCHAR(20) NOT NULL, CVE_ART VARCHAR(16) NULL, NUM_PAR SMALLINT NOT NULL, 
+                        TIP_DOC VARCHAR(1) NOT NULL, NUM_MOV INT NULL, FECHA DATE NULL, CVE_UNI VARCHAR(10) NULL, NUM_ECONOMICO VARCHAR(30) NOT NULL, 
+                        TIPO_LLANTA VARCHAR(30) NULL, CVE_TIPO VARCHAR(10) NULL, SIGNO SMALLINT NULL, NUM_ALM SMALLINT NULL, CVE_CPTO SMALLINT NULL, 
+                        COSTO FLOAT NULL, USUARIO VARCHAR(30) NULL, DOC_ANT VARCHAR(20) NULL, ENLAZADO VARCHAR(1) NULL, FECHAELAB DATETIME NULL, 
+                        UUID VARCHAR(50) NULL, CONSTRAINT PK_GCLLANTAS_MINVE PRIMARY KEY CLUSTERED (CVE_DOC, TIP_DOC, NUM_ECONOMICO, NUM_PAR)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            '12-11-21 LLANTAS ASIGNADAS
+            Try
+                If Not EXISTE_TABLA("GCLLANTAS_ASIG") Then
+                    SQL = "CREATE TABLE GCLLANTAS_ASIG (NUM_ECONOMICO VARCHAR(30) NULL, POSICION SMALLINT NULL, CVE_UNI VARCHAR(10) NULL, 
+                        CVE_LLANTA VARCHAR(20) NULL, TIPO_MOV SMALLINT NULL, USUARIO VARCHAR(30) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NOT NULL, 
+                        CONSTRAINT PK_GCLLANTAS_ASIG PRIMARY KEY CLUSTERED (UUID)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+
+            '█████████████████████████████████████████████████████████████████████████████████████████████████████
+
+            '       C F D I       C F D I       C F D I       C F D I       C F D I       C F D I
+
+            '█████████████████████████████████████████████████████████████████████████████████████████████████████
+            Try
+                If Not EXISTE_TABLA("CFDI_CFG") Then
+                    SQL = "CREATE TABLE CFDI_CFG (USUARIO VARCHAR(50) NULL, PASS VARCHAR(50) NULL, FOLIO INT NULL, FILE_CER VARCHAR(255) NULL, 
+                        FILE_PFX VARCHAR(255) NULL, PASS_PFX VARCHAR(30) NULL, EMISOR_RFC VARCHAR(20) NULL, EMISOR_RAZON_SOCIAL VARCHAR(255) NULL,  
+                        EMISOR_REGIMEN_FISCAL VARCHAR(30) NULL, EMISOR_LUGAR_EXPEDICION VARCHAR(255) NULL, CALLE VARCHAR(255) NULL, 
+                        CP VARCHAR(10) NULL, NUMEXT VARCHAR(20) NULL, NUMINT VARCHAR(20) NULL, LOCALIDAD VARCHAR(80) NULL, 
+                        MUNICIPIO VARCHAR(80) NULL, ESTADO VARCHAR(30) NULL, COLONIA VARCHAR(10) NULL, PAIS VARCHAR(60) NULL, 
+                        CORRE1 VARCHAR(255) NULL, CORRE2 VARCHAR(255) NULL, TIMBRADO_DEMO SMALLINT NULL, PERMSCT VARCHAR(50) NULL, 
+                        NUMPERMISOSCT VARCHAR(50) NULL, RUTA_XML_TIMBRADO VARCHAR(255) NULL, RUTA_XML_NOTIMBRADO VARCHAR(255) NULL, 
+                        RUTA_XML_TIMBRADO_CONPRECIOS VARCHAR(255) NULL, TRUTA_XML_NOTIMBRADO_CONPRECIOS VARCHAR(255) NULL, 
+                        POLIZAMEDAMBIENTE VARCHAR(50) NULL, ASEGURAMEDAMBIENTE VARCHAR(50) NULL, SERIE_CP VARCHAR(12) NULL, 
+                        FTOFACTURA VARCHAR(255) NULL, FTODEV VARCHAR(255) NULL, FTOCOMPPAGO VARCHAR(255) NULL, COLONIA_NOSAT VARCHAR(30) NULL, 
+                        LOCALIDAD_NOSAT VARCHAR(100) NULL, MUNICIPIO_NOSAT VARCHAR(100) NULL, ADDENDA_CE SMALLINT NULL) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("CFDI") Then
+                    SQL = "CREATE TABLE CFDI (FACTURA VARCHAR(20) NOT NULL, TDOC VARCHAR(2) NOT NULL, DOCUMENT VARCHAR(20) NOT NULL, 
+                        DOCUMENT2 VARCHAR(20) NULL, VERSION VARCHAR(5) NULL, SERIE VARCHAR(12) NULL, FOLIO INT NULL, 
+                        FECHA_CERT VARCHAR(30) NULL, FECHA_CANCEL VARCHAR(30) NULL, XML TEXT NULL, XML_CANC TEXT NULL, 
+                        FECHA_CANCELADA DATE NULL, OBS_CANC VARCHAR(80) NULL, FILE_XML VARCHAR(50) NULL, TIMBRADO VARCHAR(2) NULL, 
+                        USUARIO VARCHAR(30) NULL, USUARIO_CANCELA VARCHAR(20) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                        CLAVE_MOCANC VARCHAR(5) NULL, CLIENTE VARCHAR(10) NULL, SUBTOTAL FLOAT NULL, RETENCION FLOAT NULL, 
+                        IVA FLOAT NULL, IMPORTE FLOAT NULL, COM_PAGO VARCHAR(1) NULL, POLIZA VARCHAR(255) NULL, 
+                        METODODEPAGO VARCHAR(50) NULL, FORMADEPAGOSAT VARCHAR(5) NULL, USO_CFDI VARCHAR(5) NULL,
+                        MONEDA VARCHAR(5) NULL, CVE_MCANC VARCHAR(5) NULL, ESTATUS VARCHAR(1) NULL, IMP_TOT1 FLOAT NULL, 
+                        IMP_TOT2 FLOAT NULL, ACT_COI VARCHAR(1) NULL, NO_CERTIFICADO VARCHAR(30) NULL, SELLO_SAT VARCHAR(MAX) NULL, 
+                        SELLO_CFD VARCHAR(MAX) NULL, NO_CERTIFICADO_SAT VARCHAR(30) NULL, RFCPROVCERTIF VARCHAR(30) NULL,
+                        UUID_CFDI VARCHAR(50) NULL, FECHA_TIMBRADO VARCHAR(30) NULL, FECHA_CFDI DATETIME NULL, CVE_REL VARCHAR(10) NULL,
+                        CONSTRAINT PK_CFDIGC PRIMARY KEY CLUSTERED (FACTURA)) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("CFDI_REL") Then
+                    SQL = "CREATE TABLE CFDI_REL (TIPO_DOC VARCHAR(2) NOT NULL, CVE_DOC VARCHAR(20) NOT NULL, 
+                        NUM_PAR SMALLINT NOT NULL, TIPO_REL VARCHAR(2) NULL, CVE_DOC_REL VARCHAR(20) NULL, 
+                        UUID_REL VARCHAR(50) NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_CFDI_REL PRIMARY KEY CLUSTERED (TIPO_DOC, CVE_DOC, NUM_PAR)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("CFDI_COM_PAGO") Then
+                    SQL = "CREATE TABLE CFDI_COM_PAGO (DOCUMENTO VARCHAR(20) NOT NULL, TDOC VARCHAR(2) NOT NULL, DOCUMENTO_ANT VARCHAR(20) NULL, 
+                        DOCUMENTO_TIPO VARCHAR(1) NOT NULL, VERSION VARCHAR(5) NULL, SERIE VARCHAR(12) NULL, FOLIO INT NULL, FECHA_CERT VARCHAR(30) NULL, 
+                        FECHA_CANCEL VARCHAR(30) NULL, XML TEXT NULL, XML_CANC TEXT NULL, FECHA_CANCELADA DATE NULL, OBS_CANC VARCHAR(80) NULL, 
+                        FILE_XML VARCHAR(50) NULL, TIMBRADO VARCHAR(2) NULL, USUARIO VARCHAR(30) NULL, USUARIO_CANCELA VARCHAR(20) NULL, 
+                        FECHAELAB DATETIME NULL, UUID VARCHAR(36) NULL, CLAVE_MOCANC VARCHAR(5) NULL, CLIENTE VARCHAR(5) NULL, 
+                        SUBTOTAL FLOAT NULL, RETENCION FLOAT NULL, IVA FLOAT NULL, IMPORTE FLOAT NULL, 
+                        CONSTRAINT PK_CFDI_COM_PAGO PRIMARY KEY CLUSTERED (DOCUMENTO)) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("CFDI_MOCANC") Then
+                    SQL = "CREATE TABLE CFDI_MOCANC (CVE_MCANC VARCHAR(5) NOT NULL, DESCR VARCHAR(255) NULL, 
+                        CONSTRAINT PK_CFDI_MOCANC PRIMARY KEY CLUSTERED (CVE_MCANC)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO CFDI_MOCANC (CVE_MCANC, DESCR) VALUES ('01','Comprobante emitido con errores con relación)')"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO CFDI_MOCANC (CVE_MCANC, DESCR) VALUES ('02','Comprobante emitido con errores si relación)')"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO CFDI_MOCANC (CVE_MCANC, DESCR) VALUES ('03','No se llevo a cabo la operación)')"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "INSERT INTO CFDI_MOCANC (CVE_MCANC, DESCR) VALUES ('04','Operación nominativa relacionada en una factura global)')"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                'CREA_CAMPO("CFDI_CONC_LV", "MONEDA", "VARCHAR", "5", "")
+                'CREA_CAMPO("CFDI_CONC_LV", "METODODEPAGO", "VARCHAR", "50", "")
+                'CREA_CAMPO("CFDI_CONC_LV", "FORMADEPAGOSAT", "VARCHAR", "5", "")
+                'CREA_CAMPO("CFDI_CONC_LV", "USO_CFDI", "VARCHAR", "5", "")
+                'CREA_CAMPO("CFDI_CONC_LV", "CVE_TRACTOR", "VARCHAR", "10", "")
+                'CREA_CAMPO("CFDI_CONC_LV", "BIENESTRANSP", "VARCHAR", "10", "")
+                'CREA_CAMPO("CFDI_CONC_LV", "CLAVE_O", "VARCHAR", "10", "")
+                'CREA_CAMPO("CFDI_CONC_LV", "CLAVE_D", "VARCHAR", "10", "")
+                'CREA_CAMPO("CFDI_CONC_LV", "CVE_OPER", "VARCHAR", "10", "")
+
+                If Not EXISTE_TABLA("CFDI_CONC_LV") Then
+                    SQL = "CREATE TABLE CFDI_CONC_LV (CVE_DOC VARCHAR(20) NOT NULL, CARTA_PORTE1 VARCHAR(20) NULL, CARTA_PORTE2 VARCHAR(20) NULL, 
+                        SERIE VARCHAR(12) NULL, FOLIO INT NULL, FECHA DATE NULL, XML TEXT NULL, STATUS VARCHAR(1) NULL, FILE_XML VARCHAR(50) NULL, 
+                        TIMBRADO VARCHAR(2) NULL, USUARIO VARCHAR(30) NULL, CLIENTE VARCHAR(10) NULL, NOMBRE VARCHAR(120) NULL, RFC VARCHAR(20) NULL, 
+                        USO_CFDI VARCHAR(10) NULL, TRANS_INTER VARCHAR(2) NULL, KM_RECORRI FLOAT NULL, UNIDAD_PESO VARCHAR(10) NULL, FECHA_CARGA DATETIME NULL,
+                        FECHA_DESCARGA DATETIME NULL, PERMISO_SCT VARCHAR(20) NULL, ANO_MODELO VARCHAR(20) NULL, PLACA_VM VARCHAR(30) NULL, 
+                        NUM_PER_SCT VARCHAR(30) NULL, CONFIG_VEHI VARCHAR(30) NULL, POLIZA_MED_AMB VARCHAR(80) NULL, ASEG_MED_AMB VARCHAR(80) NULL, 
+                        POL_RESP_CIVIL VARCHAR(80) NULL, ASEG_RESP_CIVIL VARCHAR(80) NULL, TANQUE1 VARCHAR(10) NULL, T1_PLACA VARCHAR(20) NULL, 
+                        T1_SUB_TIPO_REM VARCHAR(10) NULL, TANQUE2 VARCHAR(10) NULL, T2_PLACA VARCHAR(20) NULL, T2_SUB_TIPO_REM VARCHAR(10) NULL, 
+                        O_NOMBRE VARCHAR(120) NULL, O_RFC VARCHAR(20) NULL, O_CALLE VARCHAR(100) NULL, O_MUNICIPIO VARCHAR(50) NULL, O_NUM_INT VARCHAR(10) NULL,
+                        O_NUM_EXT VARCHAR(10) NULL, O_COL VARCHAR(30) NULL, O_CP VARCHAR(10) NULL, O_LOC VARCHAR(50) NULL, O_MUN VARCHAR(50) NULL,
+                        O_EST VARCHAR(5) NULL, O_PAIS VARCHAR(5) NULL, D_NOMBRE VARCHAR(120) NULL, D_RFC VARCHAR(20) NULL, D_CALLE VARCHAR(100) NULL,
+                        D_MUNICIPIO VARCHAR(50) NULL, D_NUM_INT VARCHAR(10) NULL, D_NUM_EXT VARCHAR(10) NULL, D_COL VARCHAR(30) NULL, D_CP VARCHAR(10) NULL,
+                        D_LOC VARCHAR(40) NULL, D_MUN VARCHAR(40) NULL, D_EST VARCHAR(5) NULL, D_PAIS VARCHAR(5) NULL, OP_NOMBRE VARCHAR(120) NULL,
+                        OP_RFC VARCHAR(20) NULL, OP_LIC VARCHAR(50) NULL, OP_MUNICIPIO VARCHAR(50) NULL, OP_CALLE VARCHAR(100) NULL, OP_NUM_INT VARCHAR(10) NULL,
+                        OP_NUM_EXT VARCHAR(10) NULL, OP_COL VARCHAR(30) NULL, OP_CP VARCHAR(10) NULL, OP_LOC VARCHAR(40) NULL, OP_MUN VARCHAR(40) NULL,
+                        OP_EST VARCHAR(5) NULL, OP_PAIS VARCHAR(5) NULL, FECHAELAB DATETIME NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL, RET FLOAT NULL, 
+                        IMPORTE FLOAT NULL, METODODEPAGO VARCHAR(50) NULL, FORMADEPAGOSAT VARCHAR(5) NULL, 
+                        MONEDA VARCHAR(5) NULL, CVE_TRACTOR VARCHAR(40) NULL, BIENESTRANSP VARCHAR(10) NULL, CLAVE_O VARCHAR(10) NULL, 
+                        CLAVE_D VARCHAR(10) NULL, CVE_OPER VARCHAR(10) NULL, TOTALLETRA VARCHAR(255) NULL,
+                        CONSTRAINT PK_CFDI_CONC_LV PRIMARY KEY CLUSTERED (CVE_DOC)) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("CFDI_CONC_LV_PAR") Then
+                    SQL = "CREATE TABLE CFDI_CONC_LV_PAR (CVE_DOC VARCHAR(20) NOT NULL, NUM_PAR SMALLINT NOT NULL, CVE_ART VARCHAR(16) NOT NULL, 
+                        DESCR VARCHAR(60) NULL, CANT FLOAT NULL, PRECIO FLOAT NULL, PESO_ENKG FLOAT NULL, CVE_PRODSERV VARCHAR(10) NULL, 
+                        CVE_UNIDAD VARCHAR(10) NULL, BIENES_TRANSP VARCHAR(20) NULL, MAT_PELIGROSO VARCHAR(3) NULL, CVE_MAT_PEL VARCHAR(20) NULL, 
+                        EMBALAJE VARCHAR(20) NULL, DESCR_EMBALAJE VARCHAR(120) NULL, 
+                        CONSTRAINT PK_CFDI_CONC_LV_PAR PRIMARY KEY CLUSTERED (CVE_DOC, NUM_PAR, CVE_ART)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCBENEFICIARIO") Then
+                    SQL = "CREATE TABLE GCBENEFICIARIO (NUM_REG int NOT NULL, STATUS varchar(1) NULL, NOMBRE varchar(60) NULL, 
+                        RFC varchar(15) NULL, CTA_CONTAB varchar(40) NULL, TIPO varchar(20) NULL, INF_GENERAL varchar(250) NULL, 
+                        REFERENCIA varchar(20) NULL, BANCO varchar(30) NULL, SUCURSAL varchar(30) NULL, CUENTA varchar(30) NULL, 
+                        CLABE varchar(30) NULL, ESBANCOEXT int NULL, BANCODESC varchar(20) NULL, CVE_BANCO varchar(30) NULL, 
+                        RFCBANCO varchar(15) NULL, 
+                        CONSTRAINT PK_GCBENEFICIARIO PRIMARY KEY CLUSTERED ([NUM_REG] ASC) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, 
+                        IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 80) ON [PRIMARY]) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("CLIE_ADIC") Then
+                    SQL = "CREATE TABLE CLIE_ADIC (CLIENTE VARCHAR(10) NOT NULL, 
+                        CONSTRAINT PK_CLIE_ADIC PRIMARY KEY CLUSTERED (CLIENTE)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try                    'CLIENTES    CLIENTES    CLIENTES    CLIENTES    CLIENTES    
+                SQL = "IF NOT EXISTS (SELECT * FROM sysobjects where name='CLIE_ADIC_C' and xtype='U')
+                       CREATE TABLE CLIE_ADIC_C (ORDEN SMALLINT NOT NULL, NOMBRE VARCHAR(30) NOT NULL, LEYENDA VARCHAR(50) NULL, TIPO VARCHAR(20) NULL, 
+                       LONGITUD VARCHAR(5) NULL, PRIMARY KEY (ORDEN), CONSTRAINT PK_CLIE_ADIC_C UNIQUE (NOMBRE)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd = New SqlCommand(SQL, cnSAE)
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("126. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                SQL = "IF NOT EXISTS (SELECT * FROM sysobjects where name='GCGASTOS_RENOVADO' and xtype='U')
+                    CREATE TABLE GCGASTOS_RENOVADO (CVE_GASTO SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, CVE_ART VARCHAR(16) NOT NULL, 
+                    CVE_UNI VARCHAR(10) NOT NULL, NUM_ALM SMALLINT NOT NULL, FECHA DATE NULL, COSTO FLOAT NULL, CVE_OBS_DOC INT NULL, CVE_OBS_PAR INT NULL, 
+                    FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, ACT_COI VARCHAR(1) NULL, 
+                    CONSTRAINT PK_GCGASTOS_RENOVADO PRIMARY KEY CLUSTERED (CVE_GASTO, CVE_ART, CVE_UNI)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd = New SqlCommand(SQL, cnSAE)
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Or returnValue = "-1" Then
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("126. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                SQL = "IF NOT EXISTS (SELECT * FROM sysobjects where name='GCTARIFAS' and xtype='U')
+                    CREATE TABLE GCTARIFAS (CVE_RUTA VARCHAR(20) NOT NULL, CVE_ART VARCHAR(16) NOT NULL, CVE_PRECIO SMALLINT NOT NULL, 
+                    STATUS VARCHAR(1) NULL, PRECIO FLOAT NULL, 
+                    CONSTRAINT PK_GCTARIFAS PRIMARY KEY CLUSTERED (CVE_RUTA, CVE_ART, CVE_PRECIO)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd = New SqlCommand(SQL, cnSAE)
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("126. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                SQL = "IF NOT EXISTS (SELECT * FROM sysobjects where name='GCRUTAS_FRAJA' and xtype='U')
+                    CREATE TABLE GCRUTAS_FRAJA (ORIGEN VARCHAR(80) NOT NULL, DESTINO VARCHAR(80) NOT NULL, KM FLOAT NULL, 
+                    CONSTRAINT PK_GCRUTAS_FRAJA PRIMARY KEY CLUSTERED (ORIGEN , DESTINO)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd = New SqlCommand(SQL, cnSAE)
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("126. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                SQL = "IF NOT EXISTS (SELECT * FROM sysobjects where name='GCPOLIZA' and xtype='U')
+                    CREATE TABLE GCPOLIZA (CVE_POLIZA INT NOT NULL, TIPO_FECHA SMALLINT NULL, TIPO_POLIZA VARCHAR(60) NULL, 
+                    NOMBRE VARCHAR(50) NULL, FECHA_CARGA DATETIME NULL, FECHA_TIMBRE DATETIME NULL, R_F1 DATE NULL, 
+                    R_F2 DATE NULL, RUTA VARCHAR(255) NULL, 
+                    CONSTRAINT PK_GCPOLIZA PRIMARY KEY CLUSTERED (CVE_POLIZA)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd = New SqlCommand(SQL, cnSAE)
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("126. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                SQL = "IF NOT EXISTS (SELECT * FROM sysobjects where name='INVE_CP' and xtype='U')
+                    CREATE TABLE INVE_CP (CVE_ART VARCHAR(16) NOT NULL, MAT_PELIGROSO SMALLINT NULL, CVE_MAT_PELIGROSO VARCHAR(6) NULL, 
+                    EMBALAJE VARCHAR(6) NULL, UNIDADPESO VARCHAR(6) NULL, BIENESTRANSP VARCHAR(12) NULL, 
+                    CONSTRAINT PK_INVE_CP PRIMARY KEY CLUSTERED (CVE_ART)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd = New SqlCommand(SQL, cnSAE)
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("126. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'TABLA COMPLEMENTO DE PAGO 
+            Try
+                SQL = "IF NOT EXISTS (SELECT * FROM sysobjects where name='CFDI_COMPAGO' and xtype='U')
+                    CREATE TABLE CFDI_COMPAGO (CVE_DOC VARCHAR(20) NOT NULL, TIPO_COMPROBANTE VARCHAR(1) NOT NULL, 
+                    CLIENTE VARCHAR(10) NULL, ESTATUS VARCHAR(1) NULL, IMPORTE FLOAT NULL, REFERENCIA VARCHAR(20) NULL, 
+                    FECHA DATE NULL, CVE_OBS INT NULL, RFC VARCHAR(15) NULL, ESTATUS_CFDI VARCHAR(1) NULL, 
+                    SERIE VARCHAR(12) NULL, FOLIO INT NULL, XML TEXT NULL, XML_CANC TEXT NULL, FECHA_CANCEL DATE NULL, 
+                    OBS_CANC VARCHAR(255) NULL, TIMBRADO VARCHAR(2) NULL, FECHA_TIMBRADO VARCHAR(30) NULL, 
+                    USUARIO VARCHAR(30) NULL, USUARIO_CANCEL VARCHAR(20) NULL, CVE_BITA INT NULL, UUID VARCHAR(50) NULL, 
+                    FECHAELAB DATETIME NULL, VERSION VARCHAR(5) NULL, SELLO_SAT VARCHAR(MAX) NULL, SELLO_CFD VARCHAR(MAX) NULL, 
+                    NO_CERTIFICADO VARCHAR(30) NULL, NO_CERTIFICADO_SAT VARCHAR(30) NULL, UUID_SAT VARCHAR(50) NULL, 
+                    RFCPROVCERTIF VARCHAR(30) NULL, CVE_DOC_REL VARCHAR(20) NULL, UUID_REL VARCHAR(50) NULL,
+                    CONSTRAINT PK_CFDI PRIMARY KEY CLUSTERED (CVE_DOC, TIPO_COMPROBANTE)) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd = New SqlCommand(SQL, cnSAE)
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("126. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                SQL = "IF NOT EXISTS (SELECT * FROM sysobjects where name='CFDI_COMPAGO_PAR' and xtype='U')
+                    CREATE TABLE CFDI_COMPAGO_PAR (
+                    CVE_DOC VARCHAR(20) NOT NULL, TIPO_COMPROBANTE VARCHAR(1) NOT NULL, NUM_PAR SMALLINT NOT NULL, 
+                    REFER VARCHAR(20) NOT NULL, ESTATUS VARCHAR(1) NULL, FORMAPAGOSAT VARCHAR(5) NULL, NUM_CPTO SMALLINT NULL, 
+                    FACTURA VARCHAR(20) NULL, FECHA DATE NULL, IMPORTE FLOAT NULL, CVE_OBS INT NULL, CVE_MONED VARCHAR(4) NULL, 
+                    TCAMBIO FLOAT NULL, CTA_ORD VARCHAR(25) NULL, RFC_ORD VARCHAR(15) NULL, BANCO_ORD VARCHAR(80) NULL, 
+                    CTA_BEN VARCHAR(25) NULL, RFC_BEN VARCHAR(15) NULL, NUM_OPERACION VARCHAR(20) NULL, NO_PARTIDA SMALLINT NULL, 
+                    UUID_G VARCHAR(50) NULL, FECHAELAB DATETIME NULL, IMPORTEP FLOAT NULL, TASAOCUOTAP FLOAT NULL, 
+                    TIPOFACTORP VARCHAR(6) NULL, IMPUESTOP VARCHAR(33) NULL, BASEP FLOAT NULL, TOTALTRASLADOSBASEIVAEXENTO FLOAT NULL, 
+                    TOTALTRASLADOSBASEIVA0 FLOAT NULL, TOTALTRASLADOSBASEIVA8 FLOAT NULL, TOTALTRASLADOSBASEIVA16 FLOAT NULL, 
+                    TOTALTRASLADOSIMPUESTOIVA0 FLOAT NULL, TOTALTRASLADOSIMPUESTOIVA8 FLOAT NULL, 
+                    TOTALTRASLADOSIMPUESTOIVA16 FLOAT NULL, TOTALRETENCIONESIEPS FLOAT NULL, TOTALRETENCIONESISR FLOAT NULL, 
+                    TOTALRETENCIONESIVA FLOAT NULL, FECHA_PAGO DATETIME NULL,
+                    CONSTRAINT PK_CFDI_COMPAGO_PAR PRIMARY KEY CLUSTERED (CVE_DOC, REFER, TIPO_COMPROBANTE, NUM_PAR)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd = New SqlCommand(SQL, cnSAE)
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("126. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                'SELECT CVE_DOC, REFER, TIPO_COMPROBANTE, NUM_PAR, CVE_DOC_DR, UUID_DR, FOLIO, 
+                'IMPORTE_PAGADO, SALDO_ANT, SALDO/_INSOLUTO, IMPUESTO_DR, CVE_MONED, SERIE, EQUIVALENCIA_DR, TIPO_CAMBIO_DR
+                SQL = "IF NOT EXISTS (SELECT * FROM sysobjects where name='CFDI_COMPAGO_PAR_DR' and xtype='U')
+                    CREATE TABLE CFDI_COMPAGO_PAR_DR (
+                    CVE_DOC VARCHAR(20) NOT NULL, NUM_PAR SMALLINT NOT NULL, REFER VARCHAR(20) NOT NULL, DOCTO VARCHAR(20) NOT NULL, FECHA DATE NULL, 
+                    IMPSALDOANT FLOAT NULL, IMPPAGADO FLOAT NULL, IMPSALDOINSOLUTO FLOAT NULL, NUMPARCIALIDAD SMALLINT NOT NULL, MONEDADR VARCHAR(6) NULL, 
+                    EQUIVALENCIADR SMALLINT NULL, FOLIO INT NULL, SERIE VARCHAR(10) NULL, OBJETOIMP_DR VARCHAR(5) NULL, 
+                    IDDOCUMENTO VARCHAR(50) NULL, FORMADEPAGOSAT VARCHAR(10) NULL, TCAMBIO FLOAT NULL, 
+                    OBJETOIMPDR VARCHAR(2) NULL, TIMPORTEDR FLOAT NULL, TTASAOCUOTADR FLOAT NULL, TTIPOFACTORDR VARCHAR(6)  NULL, 
+                    TIMPUESTODR VARCHAR(3) NULL, TBASEDR FLOAT NULL, RIMPORTEDR FLOAT NULL, RTASAOCUOTADR FLOAT NULL, 
+                    RTIPOFACTORDR VARCHAR(6) NULL, RIMPUESTODR VARCHAR(3) NULL, RBASEDR FLOAT, GUID_G VARCHAR(50) NULL, 
+                    CONSTRAINT PK_CFDI_COMPAGO_PAR_DR PRIMARY KEY CLUSTERED (CVE_DOC, NUM_PAR)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd = New SqlCommand(SQL, cnSAE)
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("126. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                'SELECT CVE_DOC, REFER, TIPO_COMPROBANTE, NUM_PAR, CVE_DOC_DR, UUID_DR, FOLIO, 
+                'IMPORTE_PAGADO, SALDO_ANT, SALDO/_INSOLUTO, IMPUESTO_DR, CVE_MONED, SERIE, EQUIVALENCIA_DR, TIPO_CAMBIO_DR
+                SQL = "IF NOT EXISTS (SELECT * FROM sysobjects where name='GCCFDI_COMPAGO_PAR_DR' and xtype='U')
+                    CREATE TABLE GCCFDI_COMPAGO_PAR_DR (
+                    CVE_DOC VARCHAR(20) NOT NULL, FECHA DATE NULL, IMPSALDOANT FLOAT NULL, IMPPAGADO FLOAT NULL, 
+                    IMPSALDOINSOLUTO FLOAT NULL, NUMPARCIALIDAD SMALLINT NOT NULL, MONEDADR VARCHAR(6) NULL, 
+                    EQUIVALENCIADR SMALLINT NULL, FOLIO INT NULL, SERIE VARCHAR(10) NULL, OBJETOIMP_DR VARCHAR(5) NULL, 
+                    IDDOCUMENTO VARCHAR(50) NULL, FORMADEPAGOSAT VARCHAR(10) NULL, TCAMBIO FLOAT NULL, UUID_DR VARCHAR(50) NULL, 
+                    GUID_G VARCHAR(50) NULL, 
+                    CONSTRAINT PK_GCCFDI_COMPAGO_PAR_DR PRIMARY KEY CLUSTERED (CVE_DOC, NUMPARCIALIDAD )) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd = New SqlCommand(SQL, cnSAE)
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            Catch ex As Exception
+                BITACORADB("126. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCSEG_VALPED") Then
+                    SQL = "CREATE TABLE GCSEG_VALPED (CVE_DOCP VARCHAR(20) NOT NULL, STATUS VARCHAR(1) NULL, FOLIO VARCHAR(20) NOT NULL, 
+                        FECHA_PED DATE NULL, UUID VARCHAR(50) NULL, 
+                        Constraint PK_GCSEG_VALPED PRIMARY KEY CLUSTERED (CVE_DOCP, FOLIO))"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("175. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                'CONSULTA BANCARIA
+                If Not EXISTE_TABLA("GCCONSULTA_BANCARIA") Then
+                    SQL = "CREATE TABLE GCCONSULTA_BANCARIA (TIPO_MOV VARCHAR(50) NULL, FECHA DATE NULL, IMPORTE FLOAT NULL, 
+                        CONCEPTO VARCHAR(150) NULL)"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("175. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCGASTOS") Then
+                    SQL = "CREATE TABLE GCGASTOS (TIP_DOC varchar(1) NULL, CVE_DOC varchar(20) NOT NULL, CVE_CLPV varchar(10) NOT NULL, 
+                        STATUS varchar(1) NOT NULL, SU_REFER varchar(20) NULL, FECHA_DOC datetime NOT NULL, FECHA_REC datetime NULL, 
+                        FECHA_PAG datetime NULL, FECHA_CANCELA datetime NULL, CAN_TOT float NULL, IMP_TOT1 float NULL, IMP_TOT2 float NULL, 
+                        IMP_TOT3 float NULL, IMP_TOT4 float NULL, DES_TOT float NULL, DES_FIN float NULL, TOT_IND float NULL, 
+                        OBS_COND varchar(25) NULL, CVE_OBS int NULL, NUM_ALMA int NULL, ACT_CXP varchar(1) NULL, ACT_COI varchar(1) NULL, 
+                        ENLAZADO varchar(1) NULL, TIP_DOC_E varchar(1) NULL, NUM_MONED int NULL, TIPCAMB float NULL, NUM_PAGOS int NULL, 
+                        FECHAELAB datetime NULL, SERIE varchar(10) NULL, FOLIO int NULL, CTLPOL int NULL, ESCFD varchar(1) NULL,
+                        CONTADO varchar(1) NULL, BLOQ varchar(1) NULL, DES_FIN_PORC float NULL, DES_TOT_PORC float NULL, IMPORTE float NULL, 
+                        TIP_DOC_ANT varchar(1) NULL, DOC_ANT varchar(20) NULL, TIP_DOC_SIG varchar(1) NULL, DOC_SIG varchar(20) NULL, 
+                        FORMAENVIO varchar(1) NULL, METODODEPAGO varchar(255) NULL, CVE_DEPTO varchar(10) NULL,
+                        CONSTRAINT PK_GCGASTOS PRIMARY KEY CLUSTERED (CVE_DOC)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "CREATE UNIQUE INDEX IDX_GCGASTOS_FECHA01 ON dbo.GCGASTOS (FECHA_DOC, CVE_DOC) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "CREATE UNIQUE INDEX IDX_GCGASTOS_PROV01 ON dbo.GCGASTOS (CVE_CLPV, CVE_DOC) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "CREATE INDEX IDX_METODODEPAGO_GCGASTOS01 ON dbo.GCGASTOS (METODODEPAGO) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("175. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCGASTOS_PART") Then
+                    SQL = "CREATE TABLE GCGASTOS_PART (CVE_DOC varchar(20) NOT NULL, NUM_PAR int NOT NULL, CVE_ART varchar(16) NULL, CANT float NULL, 
+                        PXR float NULL, PREC float NULL, COST float NULL, IMPU1 float NULL, IMPU2 float NULL, IMPU3 float NULL, IMPU4 float NULL, 
+                        IMP1APLA smallint NULL, IMP2APLA smallint NULL, IMP3APLA smallint NULL, IMP4APLA smallint NULL, TOTIMP1 float NULL, 
+                        TOTIMP2 float NULL, TOTIMP3 float NULL, TOTIMP4 float NULL, DESCU float NULL, ACT_INV varchar(1) NULL, TIP_CAM float NULL, 
+                        UNI_VENTA varchar(10) NULL, TIPO_ELEM varchar(1) NULL, TIPO_PROD varchar(1) NULL, CVE_OBS int NULL, REG_SERIE int NULL, 
+                        E_LTPD int NULL, FACTCONV float NULL, COST_DEV float NULL, NUM_ALM int NULL, MINDIRECTO float NULL, NUM_MOV int NULL, 
+                        TOT_PARTIDA float NULL, MAN_IEPS varchar(1) NULL, APL_MAN_IMP int NULL, CUOTA_IEPS float NULL, APL_MAN_IEPS varchar(1) NULL, 
+                        MTO_PORC float NULL, MTO_CUOTA float NULL, CVE_ESQ int NULL, DESCR_ART varchar(40) NULL, 
+                        CONSTRAINT PK_GCGASTOS_PART PRIMARY KEY CLUSTERED (CVE_DOC, NUM_PAR)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "CREATE INDEX IDX_GCGASTOS_PART ON dbo.GCGASTOS_PART (CVE_DOC) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+
+            Catch ex As Exception
+                BITACORADB("175. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCMOTIVO_CANC") Then
+                    cmd.CommandText = "CREATE TABLE GCMOTIVO_CANC (CVE_MTC INT NOT NULL, MODULO VARCHAR(50) NULL, USUARIO VARCHAR(30) NULL,
+                        DESCR VARCHAR(MAX) NULL, FECHAELAB DATETIME NULL,
+                        CONSTRAINT PK_GCMOTIVO_CANC PRIMARY KEY CLUSTERED (CVE_MTC))"
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                CREA_TABLAS_BANCOS("1")
+
+                If Not EXISTE_TABLA("BCONCEP") Then
+                    SQL = "CREATE TABLE BCONCEP (CVE_CONCEP varchar(6) NOT NULL, STATUS varchar(1) NULL, 
+                        TIPO varchar(5) NULL DEFAULT ('CARGO'), CONCEP varchar(30) NULL, CONCEPSAE int NULL DEFAULT (0), 
+                        CTA_CONTAB varchar(40) NULL, ESTADO int NULL DEFAULT (1), IVA float NULL DEFAULT (0), 
+                        CLASIFICACION varchar(3) NULL, PLANTILLA varchar(50) NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_BCONCEP PRIMARY KEY CLUSTERED (CVE_CONCEP)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("BBENEF") Then
+                    SQL = "CREATE TABLE BBENEF (CLAVE VARCHAR(10) NOT NULL, STATUS varchar(1) NULL, NOMBRE varchar(60) NULL, 
+                        RFC varchar(15) NULL, CTA_CONTAB varchar(40) NULL, TIPO varchar(20) NULL DEFAULT ('BENEFICIARIO'), 
+                        INF_GENERAL varchar(250) NULL, REFERENCIA varchar(20) NULL, BANCO varchar(30) NULL, 
+                        SUCURSAL varchar(30) NULL, CUENTA varchar(30) NULL, CLABE varchar(30) NULL, CVE_BANCO varchar(30) NULL, 
+                        ESBANCOEXT int NULL DEFAULT (0), BANCODESC varchar(20) NULL, RFCBANCO varchar(15) NULL,
+                        UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_BBENEF PRIMARY KEY CLUSTERED (CLAVE)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'SOLICTUD DE PAGO
+            Try
+                If Not EXISTE_TABLA("SOL_PAGO") Then
+                    SQL = "CREATE TABLE SOL_PAGO (CLAVE INT NOT NULL, CVE_PROV VARCHAR(10) NOT NULL, STATUS varchar(1) NULL, 
+                        FECHA_P DATE NULL, FORMAPAGO SMALLINT NULL, IMPORTE FLOAT NULL, CONCEPTO VARCHAR(60) NULL, 
+                        SOLICITA varchar(80) NULL, REV_AUT varchar(80) NULL, TRANSFIERE varchar(80) NULL, 
+                        FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_SOL_PAGO PRIMARY KEY CLUSTERED (CLAVE)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+
+            'TABLA SELECCIONDE CAMPOS A MOSTARR EN LA MALLA
+            Try
+                If Not EXISTE_TABLA("GCCAMPO_X_MALLA") Then
+                    SQL = "CREATE TABLE GCCAMPO_X_MALLA (MODULO VARCHAR(50) NOT NULL, PROCESO VARCHAR(40) NULL, 
+                        CAMPO VARCHAR(40) NOT NULL, LEYENDA VARCHAR(80) NULL, LEYENDA_N VARCHAR(80) NULL, 
+                        ORDEN_O SMALLINT NULL, ORDEN_N SMALLINT NULL, TIPO_CAMPO VARCHAR(10) NULL, 
+                        ALINEADO VARCHAR(10) NULL, VISIBLE BIT NULL, 
+                        CONSTRAINT PK_GCCAMPO_X_MALLA PRIMARY KEY CLUSTERED (MODULO, CAMPO)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCCOMPRA_SUGERIDA") Then
+                    SQL = "CREATE TABLE GCCOMPRA_SUGERIDA (CVE_ART VARCHAR(16) NOT NULL, NUM_REG INT NOT NULL, CERRAR_CS BIT NULL, 
+                        COMPRA_SUGERIDA FLOAT NULL, FECHA1 DATE NULL, FECHA2 DATE NULL, OBS VARCHAR(255) NULL) ON [PRIMARY]
+                        CREATE UNIQUE CLUSTERED INDEX UK_GCCOMPRA_SUGERIDA ON dbo.GCCOMPRA_SUGERIDA (CVE_ART, NUM_REG) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("COMPO_PRE") Then
+                    SQL = "CREATE TABLE COMPO_PRE (TIP_DOC varchar(1) NULL, CVE_DOC varchar(20) NOT NULL, CVE_CLPV varchar(10) NOT NULL, 
+                    STATUS varchar(1) NOT NULL, SU_REFER varchar(20) NULL, FECHA_DOC datetime NOT NULL, FECHA_REC datetime NULL, 
+                    FECHA_PAG datetime NULL, FECHA_CANCELA datetime NULL, CAN_TOT float NULL, IMP_TOT1 float NULL, IMP_TOT2 float NULL, 
+                    IMP_TOT3 float NULL, IMP_TOT4 float NULL, DES_TOT float NULL, DES_FIN float NULL, TOT_IND float NULL, 
+                    OBS_COND varchar(25) NULL, CVE_OBS int NULL, NUM_ALMA int NULL, ACT_CXP varchar(1) NULL, ACT_COI varchar(1) NULL, 
+                    ENLAZADO varchar(1) NULL, TIP_DOC_E varchar(1) NULL, NUM_MONED int NULL, TIPCAMB float NULL, NUM_PAGOS int NULL, 
+                    FECHAELAB datetime NULL, SERIE varchar(10) NULL, FOLIO int NULL, CTLPOL int NULL, ESCFD varchar(1) NULL, 
+                    CONTADO varchar(1) NULL, BLOQ varchar(1) NULL, DES_FIN_PORC float NULL, DES_TOT_PORC float NULL, 
+                    IMPORTE float NULL, TIP_DOC_ANT varchar(1) NULL, DOC_ANT varchar(20) NULL, TIP_DOC_SIG varchar(1) NULL,
+                    DOC_SIG varchar(20) NULL, FORMAENVIO varchar(1) NULL, METODODEPAGO varchar(255) NULL,
+                    CONSTRAINT PK_COMPO_PRE PRIMARY KEY CLUSTERED (CVE_DOC)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "CREATE UNIQUE INDEX IDX_COMPO_PRE_FECHA ON dbo.COMPO_PRE (FECHA_DOC, CVE_DOC) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "CREATE UNIQUE INDEX IDX_COMPO_PRE_PROV ON dbo.COMPO_PRE (CVE_CLPV, CVE_DOC)  ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "CREATE INDEX IDX_METODODEPAGO_PRE ON dbo.COMPO_PRE (METODODEPAGO)  ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                End If
+            Catch ex As Exception
+                BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("COMPO_PRE_PAR") Then
+                    SQL = "CREATE TABLE COMPO_PRE_PAR (CVE_DOC varchar(20) NOT NULL, NUM_PAR int NOT NULL, CVE_ART varchar(16) NULL, 
+                    CANT float NULL, PXR float NULL, PREC float NULL, COST float NULL, FECHA DATE NULL, FECHAELAB DATETIME NULL,
+                    IMPU1 float NULL, IMPU2 float NULL, IMPU3 float NULL, IMPU4 float NULL, IMP1APLA smallint NULL, 
+                    IMP2APLA smallint NULL, IMP3APLA smallint NULL, IMP4APLA smallint NULL, TOTIMP1 float NULL, 
+                    TOTIMP2 float NULL, TOTIMP3 float NULL, TOTIMP4 float NULL, DESCU float NULL, ACT_INV varchar(1) NULL, 
+                    TIP_CAM float NULL, UNI_VENTA varchar(10) NULL, TIPO_ELEM varchar(1) NULL, TIPO_PROD varchar(1) NULL, 
+                    CVE_OBS int NULL, E_LTPD int NULL, REG_SERIE int NULL, FACTCONV float NULL, COST_DEV float NULL, 
+                    NUM_ALM int NULL, MINDIRECTO float NULL, NUM_MOV int NULL, TOT_PARTIDA float NULL, MAN_IEPS varchar(1) NULL, 
+                    APL_MAN_IMP int NULL, CUOTA_IEPS float NULL, APL_MAN_IEPS varchar(1) NULL, MTO_PORC float NULL, 
+                    MTO_CUOTA float NULL, CVE_ESQ int NULL, DESCR_ART varchar(40) NULL, CVE_DOC_COM VARCHAR(20) NULL, 
+                    FECHA_ULT_OC DATE NULL, FECHA_ULT_COMPRA DATE NULL, VENTA_RANGO_FECH FLOAT NULL, DIF FLOAT NULL, 
+                    EXIST FLOAT NULL, CANT_ULT_COMP FLOAT NULL, CANT_ENT_DIF_OC_Y_COMP FLOAT NULL, CANT_SUG_OC FLOAT NULL, 
+                    CONSTRAINT PK_COMPO_PRE_PAR PRIMARY KEY CLUSTERED (CVE_DOC, NUM_PAR)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+
+                    SQL = "CREATE INDEX IDX_COMPO_PRE_PAR ON dbo.COMPO_PRE_PAR (CVE_DOC) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            'HORAS GENERADOR
+            Try
+                If Not EXISTE_TABLA("GCHORAS_GEN") Then
+                    SQL = "CREATE TABLE GCHORAS_GEN (CVE_GEN VARCHAR(30) NOT NULL, STATUS varchar(1) NULL, 
+                        DESCR varchar(120) NULL, UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCHORAS_GEN PRIMARY KEY CLUSTERED (CVE_GEN)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            'CATALOGO GASTOS 31 OCT 2022
+            Try
+                If Not EXISTE_TABLA("GCCATGASTOS") Then
+                    SQL = "CREATE TABLE GCCATGASTOS (CVE_ART VARCHAR(16) NOT NULL, STATUS varchar(1) NULL, 
+                        DESCR varchar(120) NULL, LINEA VARCHAR(5) NULL, CVE_ESQIMPU SMALLINT NULL, FECHA_ULTG DATETIME NULL,
+                        ULT_DOCG VARCHAR(20) NULL, COSTO FLOAT NULL, UUID VARCHAR(50) NULL, CUENTA_CONT VARCHAR(25) NULL, 
+                        CONSTRAINT PK_GCCATGASTOS PRIMARY KEY CLUSTERED (CVE_ART)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            Try
+                If Not EXISTE_TABLA("GCTIPACTIV") Then
+                    SQL = "CREATE TABLE GCTIPACTIV (CLAVE smallint NOT NULL, STATUS varchar(1) NULL, DESCRIP varchar(120) NULL, DEDNORMAL float NULL, 
+                        DEDIMED float NULL, MAXDED float NULL, METODODEP varchar(1) NULL, DEPPROY float NULL, CTAAACTV varchar(21) NULL, 
+                        CTADEPRE varchar(21) NULL, CTAGASTOS varchar(21) NULL, CTAPERGAN varchar(21) NULL, QUEMONEDA smallint NULL, 
+                        CONSTRAINT PK_GCTIPACTIV PRIMARY KEY CLUSTERED (CLAVE)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+            Try
+                If Not EXISTE_TABLA("GCACTIVOS") Then
+                    SQL = "CREATE TABLE GCACTIVOS (CLAVE varchar(16) NOT NULL, STATUS varchar(1) NULL, TIPO smallint NULL, DESCRIP varchar(120) NOT NULL, 
+                        LOCALIZ varchar(80) NULL,  MONTORIG float NULL, MONTORIGEX float NULL, FECHAADQ datetime NULL, MAXDED float NULL, VALMER float NULL, 
+                        DEPACU float NULL, VIDAUT float NULL, METDEP varchar(1) NULL, TASDEP float NULL, TASDEPFIS float NULL, FECHAELIM datetime NULL, 
+                        NUMDEPTO smallint NULL, FECHAULTRE datetime NULL, NUMSERIE varchar(24) NULL, BANDEDINM varchar(1) NULL, FECINIDEP datetime NULL, 
+                        FECINIDEPF datetime NULL, DEPACUFISC float NULL, OBSERVACIO varchar(250) NULL, TIPOCAMBIO float NULL, POLIZASEG varchar(20) NULL, 
+                        COMPASEGU varchar(40) NULL, AGENTESEG varchar(40) NULL, TELSINIES varchar(15) NULL, TIPOCOBER varchar(20) NULL, MONTOASEG float NULL, 
+                        PRIMATOTA float NULL, DEDUCIBLE float NULL, FECVIGENC datetime NULL, FECPROXMA datetime NULL, FECULTMAN datetime NULL, 
+                        PERIODOMA smallint NULL, COSTOMANT float NULL, RESPACTFIJO varchar(80) NULL,
+                        CONSTRAINT PK_GCACTIVOS PRIMARY KEY CLUSTERED (CLAVE)) ON [PRIMARY]"
+                    cmd.CommandText = SQL
+                    cmd.ExecuteNonQuery()
+                End If
+            Catch ex As Exception
+                BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCPARAMCLIENTES") Then
+                SQL = "CREATE TABLE GCPARAMCLIENTES (CLIENTE_SECUENCIAL SMALLINT NULL, SERIE_CLIENTE VARCHAR(12) NULL) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = "INSERT INTO GCPARAMCLIENTES (CLIENTE_SECUENCIAL, SERIE_CLIENTE) VALUES (1,'')"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
+    Sub CREA_TABLAS_2022()
+        Dim cmd As New SqlCommand With {.Connection = cnSAE}
+
+        Try
+            If Not EXISTE_TABLA("GCPROMOCIONES") Then
+                SQL = "CREATE TABLE dbo.GCPROMOCIONES (TIPO smallint NULL, CVE_ART varchar(16) NOT NULL, RANGO11 smallint NULL, RANGO12 smallint NULL,
+                    RANGO21 smallint NULL, RANGO22 smallint NULL, RANGO31 smallint NULL, RANGO32 smallint NULL, RANGO41 smallint NULL, 
+                    RANGO42 smallint NULL, RANGO51 smallint NULL, RANGO52 smallint NULL, PORC1 float NULL, PORC2 float NULL, PORC3 float NULL, 
+                    PORC4 float NULL, PORC5 float NULL, LP1 smallint NULL, LP2 smallint NULL, LP3 smallint NULL, LP4 smallint NULL, LP5 smallint NULL,
+                    CONSTRAINT PK_GCPROMOCIONES PRIMARY KEY CLUSTERED (CVE_ART)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        'SOLICTUD DE PAGO PATIDAS
+        Try
+            If Not EXISTE_TABLA("SOL_PAGO_PAR") Then
+                SQL = "CREATE TABLE SOL_PAGO_PAR (CLAVE INT NOT NULL, CVE_PROV VARCHAR(10) NOT NULL, 
+                        CVE_DOC VARCHAR(20) NULL, IMPORTE FLOAT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = "CREATE INDEX IDX_SOL_PAGO_PAR ON SOL_PAGO_PAR (CLAVE, CVE_DOC, CVE_PROV) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        'SERIES CFDI
+        Try
+            If Not EXISTE_TABLA("CFDI_SERIES") Then
+                SQL = "CREATE TABLE CFDI_SERIES (TIPO_DOC VARCHAR(3) NOT NULL, SERIE_CP_TRASLADO VARCHAR(12) NULL, 
+                    CVE_CLIE VARCHAR(10) NULL) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Try
+            If Not EXISTE_TABLA("CFDI_UBICACIONES") Then
+                SQL = "CREATE TABLE CFDI_UBICACIONES (CVE_UBI VARCHAR(10) NOT NULL, CVE_ALM INT NOT NULL, RFC VARCHAR(15) NULL, 
+                    NOMBRE VARCHAR(80) NULL, NUM_IDENTIFIER VARCHAR(40) NULL, RESIDENCIA VARCHAR(40) NULL, PAIS VARCHAR(3) NULL, 
+                    CP VARCHAR(5) NULL, ESTADO VARCHAR(3) NULL, MUNICIPIO VARCHAR(6) NULL, LOCALIDAD VARCHAR(6) NULL, 
+                    COLONIA VARCHAR(6) NULL, CALLE VARCHAR(120) NULL, NUMINT VARCHAR(20) NULL, NUMEXT VARCHAR(20) NULL, 
+                    REFERENCIA VARCHAR(255) NULL, KMS_RECORRIDOS FLOAT NULL, 
+                    CONSTRAINT PK_CFDI_UBICACIONES PRIMARY KEY CLUSTERED (CVE_ALM)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        'CFDI TEA
+        Try
+            If Not EXISTE_TABLA("CFDI_CPT") Then
+                SQL = "CREATE TABLE CFDI_CPT (TIP_DOC varchar(1) NULL, CVE_DOC varchar(20) NOT NULL, CVE_CLPV varchar(10) NOT NULL, 
+                    STATUS varchar(1) NULL, DAT_MOSTR int NULL, CVE_VEND varchar(5) NULL, CVE_PEDI varchar(20) NULL, FECHA_DOC datetime NOT NULL, 
+                    FECHA_ENT datetime NULL, FECHA_VEN datetime NULL, FECHA_CANCELA datetime NULL, CAN_TOT float NULL, IMP_TOT1 float NULL, 
+                    IMP_TOT2 float NULL, IMP_TOT3 float NULL, IMP_TOT4 float NULL, DES_TOT float NULL, DES_FIN float NULL, COM_TOT float NULL,
+                    CONDICION varchar(25) NULL, CVE_OBS int NULL, NUM_ALMA int NULL, ACT_CXC varchar(1) NULL, ACT_COI varchar(1) NULL, 
+                    ENLAZADO varchar(1) NULL, TIP_DOC_E varchar(1) NULL, NUM_MONED int NULL, TIPCAMB float NULL, NUM_PAGOS int NULL, 
+                    FECHAELAB datetime NULL, PRIMERPAGO float NULL, RFC varchar(15) NULL, CTLPOL int NULL, ESCFD varchar(1) NULL, 
+                    AUTORIZA int NULL, SERIE varchar(10) NULL, FOLIO int NULL, AUTOANIO varchar(4) NULL, DAT_ENVIO int NULL, 
+                    CONTADO varchar(1) NULL, CVE_BITA int NULL, BLOQ varchar(1) NULL, FORMAENVIO varchar(1) NULL, DES_FIN_PORC float NULL, 
+                    DES_TOT_PORC float NULL, IMPORTE float NULL, COM_TOT_PORC float NULL, METODODEPAGO varchar(255) NULL, 
+                    NUMCTAPAGO varchar(255) NULL, TIP_DOC_ANT varchar(1) NULL, DOC_ANT varchar(20) NULL, TIP_DOC_SIG varchar(1) NULL, 
+                    DOC_SIG varchar(20) NULL, UUID varchar(50) NULL, VERSION_SINC datetime NULL, FORMADEPAGOSAT varchar(5) NULL,
+                    USO_CFDI varchar(5) NULL, NUM_ALM_DES int NULL, TIP_TRASLADO varchar(1) NULL, FECHA_CARGA DATETIME NULL, 
+                    FECHA_DESCARGA DATETIME NULL, KMS_RECORRIDOS FLOAT NULL, CVE_UNI VARCHAR(10) NULL, CVE_OPER INT NULL, 
+                    TRANSPINTERNAC VARCHAR(2) NULL, CONFIGVEHICULAR VARCHAR(10) NULL, PESOBRUTOTOTAL FLOAT NULL, 
+                    CONSTRAINT PK_CFDI_CPT PRIMARY KEY CLUSTERED (CVE_DOC)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = "CREATE INDEX IDX_CPT_CVEPEDI_STATUS ON CFDI_CPT (CVE_PEDI, STATUS) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = "CREATE UNIQUE INDEX IDX_CPT_FECHA ON CFDI_CPT (FECHA_DOC, CVE_DOC) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = "CREATE UNIQUE INDEX IDX_CPT_FACTF_CLIE ON CFDI_CPT (CVE_CLPV, CVE_DOC) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = "CREATE INDEX IDX_CPT_METODODEPAGO ON CFDI_CPT (METODODEPAGO) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("CFDI_CPT_PAR") Then
+                SQL = "CREATE TABLE CFDI_CPT_PAR (CVE_DOC varchar(20) NOT NULL, NUM_PAR int NOT NULL, CVE_ART varchar(16) NULL, CANT float NULL, 
+                    PXS float NULL, PREC float NULL, COST float NULL, IMPU1 float NULL, IMPU2 float NULL, IMPU3 float NULL, IMPU4 float NULL, 
+                    IMP1APLA smallint NULL, IMP2APLA smallint NULL, IMP3APLA smallint NULL, IMP4APLA smallint NULL, TOTIMP1 float NULL, 
+                    TOTIMP2 float NULL, TOTIMP3 float NULL, TOTIMP4 float NULL, DESC1 float NULL, DESC2 float NULL, DESC3 float NULL, 
+                    COMI float NULL, APAR float NULL, ACT_INV varchar(1) NULL, NUM_ALM int NULL, POLIT_APLI varchar(1) NULL, TIP_CAM float NULL,
+                    UNI_VENTA varchar(10) NULL, TIPO_PROD varchar(1) NULL, CVE_OBS int NULL, REG_SERIE int NULL, E_LTPD int NULL,
+                    TIPO_ELEM varchar(1) NULL, NUM_MOV int NULL, TOT_PARTIDA float NULL, IMPRIMIR varchar(1) NULL, MAN_IEPS varchar(1) NULL,
+                    APL_MAN_IMP int NULL, CUOTA_IEPS float NULL, APL_MAN_IEPS varchar(1) NULL, MTO_PORC float NULL, MTO_CUOTA float NULL,
+                    CVE_ESQ int NULL, DESCR_ART varchar(40) NULL, UUID varchar(50) NULL, VERSION_SINC datetime NULL, ID_RELACION varchar(30) NULL,
+                    PREC_NETO float NULL, CVE_PRODSERV varchar(9) NULL,CVE_UNIDAD varchar(4) NULL, 
+                    CONSTRAINT PK_CFDI_CPT_PAR PRIMARY KEY CLUSTERED (CVE_DOC, NUM_PAR)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = "CREATE INDEX IDX_CFDI_CPT_PAR_DOC ON CFDI_CPT_PAR (CVE_DOC) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        'SERIES CFDI
+        Try
+            If Not EXISTE_TABLA("tblcolonias") Then
+                SQL = "CREATE TABLE tblcolonias (colonia varchar(5) NULL, codigopostal varchar(5) NULL, 
+                    nombresentamiento varchar(60) NULL) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        'STATUS UNIDADES
+        Try
+            If Not EXISTE_TABLA("GCSTATUS_UNIDADES") Then
+                SQL = "CREATE TABLE GCSTATUS_UNIDADES (CVE_UNI VARCHAR(10) NOT NULL, KIT INT NULL, STATUS VARCHAR(1) NULL, 
+                    CVE_OPER INT NULL, CVE_OPER_POSTURA INT NULL, CVE_OPER_ST SMALLINT NULL, CVE_OPER_POSTURA_ST SMALLINT NULL, 
+                    CVE_ST_UNI INT NULL, FECHA_ST_UNI DATE NULL, CVE_PROD INT NULL, FECHAELAB DATETIME NULL, 
+                    UUID VARCHAR(50) NULL) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = "CREATE NONCLUSTERED INDEX PK_GCSTATUS_UNIDADES ON GCSTATUS_UNIDADES  (CVE_UNI) "
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("68. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCUSUARIOS_PARAM") Then
+                SQL = "CREATE TABLE GCUSUARIOS_PARAM (USUARIO VARCHAR(40) NOT NULL, TIPO_DOC VARCHAR(3) NOT NULL, 
+                     DESCR VARCHAR(80) NULL, SERIE VARCHAR(12) NULL, UUID VARCHAR(50) NULL, 
+                     CONSTRAINT PK_GCUSUARIOS_PARAM PRIMARY KEY CLUSTERED (USUARIO, TIPO_DOC) ON [PRIMARY])"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCUSUARIOS_EMP") Then
+                SQL = "CREATE TABLE GCUSUARIOS_EMP (USUARIO VARCHAR(40) NOT NULL, EMPRESA VARCHAR(2) NOT NULL, 
+                        UUID VARCHAR(50) NULL, 
+                        CONSTRAINT PK_GCUSUARIOS_EMP PRIMARY KEY CLUSTERED (USUARIO, EMPRESA) ON [PRIMARY])"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCPARAMVENTAS_CPTO") Then
+                SQL = "CREATE TABLE GCPARAMVENTAS_CPTO (NUM_CPTO SMALLINT NOT NULL, DESCR VARCHAR(17) NULL, 
+                     CONSTRAINT PK_GCPARAMVENTAS_CPTO PRIMARY KEY CLUSTERED (NUM_CPTO) ON [PRIMARY])"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Try
+            If Not EXISTE_TABLA("Employees") Then
+                SQL = "CREATE TABLE Employees (id SMALLINT NOT NULL, name VARCHAR(50) NULL, gender VARCHAR(50) NULL, 
+                        CONSTRAINT PK_Employees PRIMARY KEY CLUSTERED (id) ON [PRIMARY])"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCLLANTAS_RANGOS_DESGASTE") Then
+                SQL = "CREATE TABLE GCLLANTAS_RANGOS_DESGASTE (CVE_DES INT NOT NULL, STATUS VARCHAR(1) NULL, DE FLOAT NULL, 
+                    HASTA FLOAT NULL, COLOR VARCHAR(50) NULL, UUID VARCHAR(50) NULL, 
+                    CONSTRAINT PK_GCLLANTAS_RANGOS_DESGASTE PRIMARY KEY CLUSTERED (CVE_DES) ON [PRIMARY])"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCINSPEC_LLANTAS") Then
+                SQL = "CREATE TABLE GCINSPEC_LLANTAS (CVE_INS INT NOT NULL, UNIDAD VARCHAR(12) NOT NULL, NUM_ECONOMICO VARCHAR(20) NOT NULL, 
+                    FECHA DATE NULL, STATUS VARCHAR(1) NULL, MARCA VARCHAR(100) NULL, MODELO VARCHAR(100) NULL, TIPO_LLANTA VARCHAR(50) NULL, 
+                    TIPO_NUEVA_RENO VARCHAR(15) NULL, FECHA_MON DATE NULL, COSTO_LLANTA_MN FLOAT NULL, KMS_MONTAR FLOAT NULL, 
+                    PROFUNDIDAD_ACTUAL FLOAT NULL, PROFUNDIDAD_ACTUAL2 float NULL, PROFUNDIDAD_ACTUAL3 float NULL, PROFUNDIDAD_ACTUAL4 float NULL, 
+                    PRESION_ACTUAL float NULL, KMS_DESMONTAR FLOAT NULL, KMS_RECORRIDOS FLOAT NULL, PROFUNDIDA_ORIGINAL FLOAT NULL, 
+                    POSICION SMALLINT NULL, DESGASTE FLOAT NULL, OBS VARCHAR(255) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                    GCINSPEC_LLANTAS VARCHAR(1) NULL, KMS_ACTUAL FLOAT NULL, TIPO_RIN VARCHAR(20) NULL,
+                    CONSTRAINT PK_GCINSPEC_LLANTAS PRIMARY KEY CLUSTERED (CVE_INS, NUM_ECONOMICO) ON [PRIMARY])"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+                'CREA_CAMPO("GCINSPEC_LLANTAS", "TIPO_RIN", "VARCHAR", "20", "")
+            End If
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCINSPEC_LLANTAS_B") Then
+                SQL = "CREATE TABLE GCINSPEC_LLANTAS_B (ID INT IDENTITY, INSPECCIONES INT NULL, FECHA DATE NULL, CVE_TIPO_UNI SMALLINT NULL,
+                    T1 INT NULL, T2 INT NULL, T3 INT NULL,
+                    CONSTRAINT PK_GCINSPEC_LLANTAS_B PRIMARY KEY CLUSTERED (ID) ON [PRIMARY])"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("SOFLUJO") Then
+                SQL = "CREATE TABLE SOFLUJO (CLAVE SMALLINT NOT NULL, TIPO_MOV VARCHAR(1) NOT NULL, CAJA SMALLINT NOT NULL, USUARIO VARCHAR(20) NULL, 
+                    FECHA DATE NULL DEFAULT (CONVERT(VARCHAR, GETDATE(), 112)), FECHAELAB DATETIME NULL DEFAULT (GETDATE()), IMPORTE FLOAT NULL,
+                    OBSER VARCHAR(255) NULL, CLAVE_SAE VARCHAR(10) NULL, NUM_CORTE SMALLINT NULL,
+                    CONSTRAINT PK_SOFLUJO PRIMARY KEY CLUSTERED (CLAVE, TIPO_MOV)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("SOENTRADADINERO") Then
+                SQL = "CREATE TABLE SOENTRADADINERO (CLAVE SMALLINT NOT NULL, DESCR VARCHAR(60) NULL, TIPO VARCHAR(1) NULL,
+                    CONSTRAINT PK_SOENTRADADINERO PRIMARY KEY (CLAVE) ON [PRIMARY])"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCCORTEX") Then
+                SQL = "CREATE TABLE GCCORTEX (ID INT NOT NULL, CVE_DOC VARCHAR(20) NOT NULL, CORTEX VARCHAR(1) NULL, TIPO VARCHAR(1) NULL, 
+                    NUM_CORTE SMALLINT NULL, FECHA DATE NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50), 
+                    CONSTRAINT PK_GCCORTEX PRIMARY KEY (ID, CVE_DOC) ON [PRIMARY])"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCARQUEO") Then
+                SQL = "CREATE TABLE GCARQUEO (ID INT NOT NULL, USUARIO VARCHAR(30) NOT NULL, FECHA DATE NULL, 
+                    CLAVE VARCHAR(10) NULL, TIPO VARCHAR(3) NULL, VALOR FLOAT NULL, CANT FLOAT NULL, IMPORTE FLOAT NULL, 
+                    FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL,
+                    CONSTRAINT PK_GCARQUEO PRIMARY KEY (ID, USUARIO) ON [PRIMARY])"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCESTACIONES") Then
+                SQL = "CREATE TABLE GCESTACIONES (ESTACION VARCHAR(20) NOT NULL, CAJA SMALLINT NOT NULL DEFAULT (1), MACADDRESS VARCHAR(40) NULL, 
+                    NOMBRE_PC VARCHAR(50) NULL, MOTHERBOARDID VARCHAR(60) NULL, MONEDA VARCHAR(5) NULL, ALMACEN SMALLINT NOT NULL DEFAULT (0), 
+                    TIPO_VENTA VARCHAR(1) NULL, LECTORHUELLA SMALLINT NULL DEFAULT (0), MODELOLECTORHUELLA VARCHAR(100) NULL, 
+                    IMP_FACT VARCHAR(50) NULL, IMP_NOTA VARCHAR(50) NULL, IMP_REM VARCHAR(50) NULL, IMP_PED VARCHAR(50) NULL, IMP_COT VARCHAR(50) NULL, 
+                    CVE_VEND VARCHAR(5) NOT NULL DEFAULT (0), MUSICA SMALLINT NOT NULL DEFAULT (0), CAJON SMALLINT NOT NULL DEFAULT (0), 
+                    CAMBIAR_DOC VARCHAR(1) NULL, PROMOCIONES SMALLINT NOT NULL DEFAULT (0), FLUJO SMALLINT NOT NULL DEFAULT (0), 
+                    COBRO_ENCAJA SMALLINT NOT NULL DEFAULT (0), MONEDERO SMALLINT NOT NULL DEFAULT (0), VENDER_SIN_EXIST  SMALLINT NOT NULL DEFAULT (0), 
+                    DECIMALES SMALLINT NOT NULL DEFAULT (0), SCAJON VARCHAR(250) NULL, PCAJON VARCHAR(4) NULL, COMM_PORT VARCHAR(5) NULL, 
+                    DIGITO_COMM VARCHAR(3) NULL, VELOCIDAD INT NOT NULL DEFAULT (0), BASCULA SMALLINT NOT NULL DEFAULT (0), PROCBASCULA VARCHAR(20) NULL, 
+                    PBASCULA VARCHAR(4) NULL, PRECIOS SMALLINT NOT NULL DEFAULT (0), IMAGEN SMALLINT NOT NULL DEFAULT (0), 
+                    PERMITE_DESC SMALLINT NOT NULL DEFAULT (0), CLIENTE VARCHAR(10) NOT NULL DEFAULT (''), AGREGAR_PROD SMALLINT NOT NULL DEFAULT (0), 
+                    LISTA_PREC SMALLINT NOT NULL  DEFAULT (0), PAGOS_PARCIALES SMALLINT NOT NULL DEFAULT (0), COLUMNA_DESCUENTO SMALLINT NOT NULL DEFAULT (0), 
+                    VERIFICADOR SMALLINT NOT NULL DEFAULT (0), SOLECCIONAR_SERIES SMALLINT NOT NULL DEFAULT (0), SOLICITAR_LOTES SMALLINT NOT NULL DEFAULT (0), 
+                    FECHAELAB DATETIME NULL, TERMINALCOBRO SMALLINT NOT NULL DEFAULT (0), IDSTORE_TERMINAL VARCHAR(100) NULL, 
+                    NUMERO_TERMINAL INT NOT NULL DEFAULT (0), TIPO_TERMINAL VARCHAR(100) NULL, TIEMPO_AIRE SMALLINT NOT NULL DEFAULT (0), 
+                    SERIE_TIEMPOAIRE VARCHAR(15) NULL, USUARIO_TIEMPOAIRE VARCHAR(20) NULL, PASSWORD_TIEMPOAIRE VARCHAR(20) NULL, 
+                    CAJERO_TIEMPOAIRE VARCHAR(12) NULL, MENSAJE_TERMINAL VARCHAR(100) NULL, MENSAJE_TIEMPOAIRE VARCHAR(100) NULL,
+                    FACTEINPOS SMALLINT NULL, TOCKENS INT NULL, OCULTAR_CRE_ENG SMALLINT NOT NULL DEFAULT (0), OCULTAR_CREDITO SMALLINT NOT NULL DEFAULT (0), 
+                    NOVALIDAR_LIM_CRED SMALLINT NOT NULL DEFAULT (0), PER_VEND_ABA_COST SMALLINT NOT NULL DEFAULT (0), PER_VEND_ABA_MIN SMALLINT NOT NULL DEFAULT (0), 
+                    ART_CON_IMP_INCLU SMALLINT NOT NULL DEFAULT (0), REIMPRIMIR_TICKET SMALLINT NOT NULL DEFAULT (0), AGREGAR_CLIENTE SMALLINT NOT NULL DEFAULT (0), 
+                    CONSTRAINT PK_GCESTACIONES PRIMARY KEY CLUSTERED (ESTACION)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try            'GCLLANTAS_DESGASTE
+            If Not EXISTE_TABLA("GCLLANTAS_DESGASTE") Then
+                SQL = "CREATE TABLE GCLLANTAS_DESGASTE (CVE_LLANTA VARCHAR(10) NOT NULL, STATUS varchar(1) NULL, PROFUNDIDAD FLOAT NULL,
+                        FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL) ON [PRIMARY]
+                        CREATE UNIQUE CLUSTERED INDEX UK_GCLLANTAS_DESGASTE ON dbo.GCLLANTAS_DESGASTE (CVE_LLANTA, UUID) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("480. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Try
+            If Not EXISTE_TABLA("GCMERCANCIAS_CFG") Then
+                SQL = "CREATE TABLE GCMERCANCIAS_CFG (CLIENTE VARCHAR(10) NOT NULL, COLA VARCHAR(3) NULL, 
+                    COLB VARCHAR(3) NULL, COLC VARCHAR(3) NULL, COLD VARCHAR(3) NULL, COLE VARCHAR(3) NULL, COLF VARCHAR(3) NULL, 
+                    COLG VARCHAR(3) NULL, COLH VARCHAR(3) NULL, COLI VARCHAR(3) NULL, COLJ VARCHAR(3) NULL, COLK VARCHAR(3) NULL, 
+                    COLL VARCHAR(3) NULL, COLM VARCHAR(3) NULL, COLN VARCHAR(3) NULL, 
+                    CONSTRAINT PK_GCMERCANCIAS_CFG PRIMARY KEY CLUSTERED (CLIENTE)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Try
+            If Not EXISTE_TABLA("GCMERCANCIAS") Then
+                SQL = "CREATE TABLE GCMERCANCIAS (CVE_VIAJE VARCHAR(20) NOT NULL, CVE_DOC VARCHAR(20) NULL, CLIENTE VARCHAR(10) NULL, 
+                    NUM_PAR SMALLINT NOT NULL, CANT FLOAT NULL, ID_UNIDAD VARCHAR(255) NULL, DESC_UNIDAD VARCHAR(255) NULL, 
+                    ID_MERCANCIA VARCHAR(255) NULL, DESCR_MERCANCIA VARCHAR(255) NULL, MAT_PELIGROSO VARCHAR(2) NULL, 
+                    CVE_MAT_PELIGROSO VARCHAR(6) NULL, ID_EMBALAJE VARCHAR(255) NULL, DESC_EMBALAJE VARCHAR(255) NULL, PESO FLOAT NULL, 
+                    VALOR_MERCANCIA FLOAT NULL, MONEDA VARCHAR(255) NULL, ID_FRACC_ARANCELARIA VARCHAR(255) NULL, UUID_COM_EXT VARCHAR(255) NULL, 
+                    FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                    CONSTRAINT PK_GCMERCANCIAS PRIMARY KEY CLUSTERED (CVE_VIAJE, NUM_PAR)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Try
+            If Not EXISTE_TABLA("GCMERCANCIAS2") Then
+                SQL = "CREATE TABLE GCMERCANCIAS2 (CVE_VIAJE VARCHAR(20) NOT NULL, CVE_DOC VARCHAR(20) NULL, CLIENTE VARCHAR(10) NULL, 
+                    NUM_PAR SMALLINT NOT NULL, CANT FLOAT NULL, ID_UNIDAD VARCHAR(255) NULL, DESC_UNIDAD VARCHAR(255) NULL, 
+                    ID_MERCANCIA VARCHAR(255) NULL, DESCR_MERCANCIA VARCHAR(255) NULL, MAT_PELIGROSO VARCHAR(2) NULL, 
+                    CVE_MAT_PELIGROSO VARCHAR(6) NULL, ID_EMBALAJE VARCHAR(255) NULL, DESC_EMBALAJE VARCHAR(255) NULL, PESO FLOAT NULL, 
+                    VALOR_MERCANCIA FLOAT NULL, MONEDA VARCHAR(255) NULL, ID_FRACC_ARANCELARIA VARCHAR(255) NULL, UUID_COM_EXT VARCHAR(255) NULL, 
+                    CONSTRAINT PK_GCMERCANCIAS2 PRIMARY KEY CLUSTERED (CVE_VIAJE, NUM_PAR)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Try
+            If Not EXISTE_TABLA("GCPARAMCLIENTES") Then
+                SQL = "CREATE TABLE GCPARAMCLIENTES (CLIENTE_SECUENCIAL SMALLINT NULL, SERIE_CLIENTE VARCHAR(12) NULL) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = "INSERT INTO GCPARAMCLIENTES (CLIENTE_SECUENCIAL, SERIE_CLIENTE) VALUES (1,'')"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCASIGCONCEP_COBRO") Then
+                SQL = "CREATE TABLE GCASIGCONCEP_COBRO (CVE_COBRO SMALLINT NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(120) NULL, 
+                    CAUSA_IVA SMALLINT NULL, IVA FLOAT NULL, CAUSA_RET SMALLINT NULL, RET FLOAT NULL, CUENTA VARCHAR(30) NULL, 
+                    CENTRO_BENEF VARCHAR(10) NULL, DESCR_UME_FAC VARCHAR(10) NULL, CVE_PRODSERV VARCHAR(9) NULL, 
+                    CVE_UNIDAD VARCHAR(4) NULL, OBS VARCHAR(255) NULL, OBS2 VARCHAR(255) NULL, UUID VARCHAR(50) NULL, 
+                    ORDEN SMALLINT NULL,  
+	                CONSTRAINT PK_GCASIGCONCEP_COBRO PRIMARY KEY CLUSTERED (CVE_COBRO)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCASIG_CAMPOS_ADIC") Then
+                SQL = "CREATE TABLE GCASIG_CAMPOS_ADIC (ID INT IDENTITY(1,1) PRIMARY KEY, CVE_VIAJE VARCHAR(20) NULL, 
+                    CAMPO_ADIC VARCHAR(MAX) NULL) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCASIG_CONCEP_PAR") Then
+                SQL = "CREATE TABLE GCASIG_CONCEP_PAR (CVE_VIAJE VARCHAR(20) NOT NULL, CVE_COBRO SMALLINT NOT NULL, NUM_PAR SMALLINT NOT NULL,  
+                    STATUS VARCHAR(1) NULL, CAUSA_IVA SMALLINT NULL, IVA_PORC FLOAT NULL, CAUSA_RET SMALLINT NULL, RET_PORC FLOAT NULL, MONTO DECIMAL NULL,
+                    CVE_PRODSERV VARCHAR(9) NULL, CVE_UNIDAD VARCHAR(4) NULL, UUID VARCHAR(50) NULL, 
+	                CONSTRAINT PK_GCASIG_CONCEP_PAR PRIMARY KEY CLUSTERED (CVE_VIAJE, CVE_COBRO, NUM_PAR)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCPROVRENOVADO") Then
+                SQL = "CREATE TABLE GCPROVRENOVADO (CVE_PRE VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(90) NULL,
+	                CONSTRAINT PK_GCPROVRENOVADO PRIMARY KEY CLUSTERED (CVE_PRE)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try            'GCASIGNACION VIAJE BUENO
+            If Not EXISTE_TABLA("GCASIGNACION_BUENO") Then
+                SQL = "CREATE TABLE GCASIGNACION_BUENO (CVE_VIAJE VARCHAR(20) NOT NULL, CVE_VIAJE1 VARCHAR(20) NULL, CVE_VIAJE2 VARCHAR(20) NULL, 
+                    CVE_VIAJE3 VARCHAR(20) NULL, CVE_VIAJE4 VARCHAR(20) NULL, CVE_VIAJE5 VARCHAR(20) NULL, CVE_DOC VARCHAR(20) NULL, FECHA DATE NULL, 
+                    STATUS VARCHAR(1) NULL, CVE_RUTA SMALLINT NULL, STATUS_GASTOS VARCHAR(20) NULL, CVE_OBS INT NULL, RECOGER_EN VARCHAR(255) NULL, 
+                    ENTREGAR_EN VARCHAR(255) NULL, CLAVE_O VARCHAR(10) NULL, CLAVE_D VARCHAR(10) NULL, CVE_TAB VARCHAR(10) NULL, 
+                    NOTA VARCHAR(255) NULL, CVE_ST_VALE SMALLINT NULL, CVE_TES INT NULL, CONCILIADO BIT NULL DEFAULT (0), 
+                    CVE_ST_VIA INT NULL, CVE_ST_UNI INT NULL, TIPO_UNI INT NULL, TIPO_VIAJE INT NULL, CVE_OPER INT NULL, CVE_CON VARCHAR(10) NULL, 
+                    CVE_TRACTOR VARCHAR(40) NULL, CVE_TANQUE1 VARCHAR(40) NULL, CVE_TANQUE2 VARCHAR(40) NULL, CVE_DOLLY VARCHAR(40) NULL, 
+                    CVE_PLAZA1 INT NULL, CVE_PLAZA2 INT NULL, ORDEN_DE VARCHAR(120) NULL, 
+                    EMBARQUE VARCHAR(120) NULL, CARGA_ANTERIOR VARCHAR(120) NULL, CVE_TAB_VIAJE VARCHAR(20) NULL, CVE_TRANSBORDO INT NULL, 
+                    CVE_VIAJE_TRANSBORDO VARCHAR(20) NULL, FECHA_CARGA DATETIME NULL, FECHA_DESCARGA DATETIME NULL, KM_RECORRIDOS FLOAT NULL,
+                    CVE_MTC INT NULL, FECHAELAB DATETIME NULL, CLIENTE VARCHAR(10) NULL, CVE_MONED SMALLINT NULL, 
+                    FLETE FLOAT NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL, RETENCION FLOAT NULL, NETO FLOAT NULL, REM_CARGA SMALLINT NULL, CANT FLOAT NULL,
+                    CVE_ESQIMPU SMALLINT NULL, FACTURA_CFDI VARCHAR(20) NULL, CVE_COBRO SMALLINT NULL, IMPORTE_CONCEP FLOAT NULL,
+                    VOLUMEN_PESO FLOAT NULL, PRECIO_VIAJE_TONE SMALLINT NULL, SERIE VARCHAR(12) NULL, FOLIO INT NULL, UUID VARCHAR(50) NULL, 
+                    CVE_PRODSERV VARCHAR(9) NULL, CVE_UNIDAD VARCHAR(4) NULL, FECHA_VV DATE NULL, SERIE_VV VARCHAR(12) NULL, FOLIO_VV INT NULL, 
+                    DIAS_CRED_VV SMALLINT NULL, CVE_PLAZA_VV VARCHAR(10) NULL, FECHA_INI_VIAJE_VV DATE NULL, FECHA_PROG_DEST_VV DATE NULL,
+                    USUARIO VARCHAR(30) NULL, 
+                    CONSTRAINT PK_GCASIGNACION_BUENO PRIMARY KEY CLUSTERED (CVE_VIAJE) ON [PRIMARY]) "
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("310. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCPILADESECHO") Then
+                SQL = "CREATE TABLE GCPILADESECHO (CVE_PILA VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(90) NULL,
+	                CONSTRAINT PK_GCPILADESECHO PRIMARY KEY CLUSTERED (CVE_PILA)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCASIGNACION_VIAJE_ABONOS") Then
+                SQL = "CREATE TABLE GCASIGNACION_VIAJE_ABONOS (CVE_VIAJE VARCHAR(20) NOT NULL, NUM_PAR SMALLINT NOT NULL, FECHA DATE NULL,
+                    CVE_DOC VARCHAR(20) NULL, STATUS VARCHAR(1) NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL, RET FLOAT NULL, NETO FLOAT NULL,
+                    FECHAELAB DATETIME NULL, USUARIO VARCHAR(30) NULL, 
+	                CONSTRAINT PK_GCASIGNACION_VIAJE_ABONOS PRIMARY KEY CLUSTERED (CVE_VIAJE, NUM_PAR)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCCARGA") Then
+                SQL = "CREATE TABLE GCCARGA (CVE_VIAJE VARCHAR(20) NOT NULL, NUM_PAR SMALLINT NOT NULL, 
+                    CVE_DOC VARCHAR(20) NULL, STATUS VARCHAR(1) NULL, CANT FLOAT NULL, EMBALAJE VARCHAR(10) NULL, 
+                    CARGA VARCHAR(255) NULL, CONTIENE VARCHAR(255) NULL, PESO FLOAT NULL, VOLUMEN FLOAT NULL, 
+                    PESO_ESTIMADO FLOAT NULL, PEDIMENTO VARCHAR(20) NULL, 
+	                CONSTRAINT PK_GCCARGA PRIMARY KEY CLUSTERED (CVE_VIAJE, NUM_PAR)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Try
+            If Not EXISTE_TABLA("tblClaveProdServCP") Then
+                SQL = "CREATE TABLE [dbo].tblClaveProdServCP ([id] INT NOT NULL IDENTITY, [clave] VARCHAR(10) NOT NULL, [descripcion] VARCHAR(255) NULL,
+                      [descripcion2] VARCHAR(255) NULL, [matpeligroso] VARCHAR(5) NULL, PRIMARY KEY ([id]))"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                Try
+                    Dim Objread As New StreamReader(Application.StartupPath & "\sql\ClaveProdServCP.sql")
+                    Dim cmd2 As New SqlCommand With {.CommandType = CommandType.Text, .Connection = cnSAE, .CommandText = Objread.ReadToEnd()}
+                    cmd.CommandTimeout = 300
+
+                    cmd2.ExecuteNonQuery()
+
+                Catch ex As Exception
+                    BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+                End Try
+
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Try
+            If Not EXISTE_TABLA("GCREL_FACTURAS") Then
+                SQL = "CREATE TABLE GCREL_FACTURAS (CVE_REL VARCHAR(10) NOT NULL, CLIENTE VARCHAR(20) NULL, 
+                    STATUS VARCHAR(1) NULL, FECHA DATE NULL, GUIA VARCHAR(80) NULL, FECHA_ENVIO DATE NULL, 
+                    FECHA_RECEP DATETIME NULL, FECHA_MODIF DATETIME NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL, 
+                    RET FLOAT NULL, TOTAL FLOAT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+                    USUARIO VARCHAR(30) NULL, 
+	                CONSTRAINT PK_GCREL_FACTURAS PRIMARY KEY CLUSTERED (CVE_REL)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+
+            If Not EXISTE_TABLA("GCREL_FACTURAS_PAR") Then
+                SQL = "CREATE TABLE GCREL_FACTURAS_PAR (CVE_REL VARCHAR(10) NOT NULL, NUM_PAR SMALLINT NOT NULL, 
+                    CVE_DOC VARCHAR(20) NOT NULL, FECHA_DOC DATE NULL, SUBTOTAL FLOAT NULL, IVA FLOAT NULL, 
+                    RET FLOAT NULL, TOTAL FLOAT NULL, MONEDA VARCHAR(3) NULL, FECHAELAB DATETIME NULL, 
+                    UUID VARCHAR(50) NULL, 
+	                CONSTRAINT PK_GCREL_FACTURAS_PAR PRIMARY KEY CLUSTERED (CVE_REL, NUM_PAR)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Try
+            If Not EXISTE_TABLA("GCADDENDAS") Then
+                SQL = "CREATE TABLE GCADDENDAS (CVE_ADD VARCHAR(10) NOT NULL, DESCR VARCHAR(255) NULL, 
+                    STATUS VARCHAR(1) NULL, FECHA DATE NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+	                CONSTRAINT PK_GCADDENDAS PRIMARY KEY CLUSTERED (CVE_ADD)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCADDENDAS_CFDI") Then
+                SQL = "CREATE TABLE GCADDENDAS_CFDI (CVE_ADD VARCHAR(10) NOT NULL, MOTIVO_TRAS VARCHAR(2) NULL, 
+                    STATUS VARCHAR(1) NULL, TIPO_OPERACION VARCHAR(2) NULL, CVE_PEDIMENTO VARCHAR(2) NULL, 
+                    NUN_EXPORTADOR VARCHAR(2) NULL, INCOTERM VARCHAR(5) NULL, FRACC_ARANCELARIA VARCHAR(12) NULL,  
+                    CAT_ADUANA VARCHAR(2) NULL, UNIDAD_ADUANA VARCHAR(2) NULL, PAIS VARCHAR(5) NULL, OBS VARCHAR(800) NULL,
+                    FECHA DATE NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+	                CONSTRAINT PK_GCADDENDAS_CFDI PRIMARY KEY CLUSTERED (CVE_ADD)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCEMBALAJE") Then
+                SQL = "CREATE TABLE GCEMBALAJE (CLAVE VARCHAR(10) NOT NULL, DESCR VARCHAR(255) NULL, 
+                    STATUS VARCHAR(1) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+	                CONSTRAINT PK_GCEMBALAJE PRIMARY KEY CLUSTERED (CLAVE)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCCARGAS") Then
+                SQL = "CREATE TABLE GCCARGAS (CLAVE VARCHAR(10) NOT NULL, DESCR VARCHAR(255) NULL, 
+                    STATUS VARCHAR(1) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
+	                CONSTRAINT PK_GCCARGAS PRIMARY KEY CLUSTERED (CLAVE)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+    End Sub
+    Sub CREA_TABLAS_PROMOCIONES()
+        Dim cmd As New SqlCommand With {.Connection = cnSAE}
+        Try
+            If Not EXISTE_TABLA("GCPROMOCIONES") Then
+                SQL = "CREATE TABLE dbo.GCPROMOCIONES (TIPO SMALLINT NULL, CVE_ART varchar(16) NOT NULL, RANGO11 SMALLINT NULL, RANGO12 SMALLINT NULL,
+                    RANGO21 SMALLINT NULL, RANGO22 SMALLINT NULL, RANGO31 SMALLINT NULL, RANGO32 SMALLINT NULL, RANGO41 SMALLINT NULL, 
+                    RANGO42 SMALLINT NULL, RANGO51 SMALLINT NULL, RANGO52 SMALLINT NULL, PORC1 float NULL, PORC2 float NULL, PORC3 float NULL, 
+                    PORC4 float NULL, PORC5 float NULL, LP1 SMALLINT NULL, LP2 SMALLINT NULL, LP3 SMALLINT NULL, LP4 SMALLINT NULL, LP5 SMALLINT NULL,
+                    CONSTRAINT PK_GCPROMOCIONES PRIMARY KEY CLUSTERED (CVE_ART)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+
+    End Sub
+    Public Sub CREA_TABLAS_BANCOS(FCTA_BCN As String)
+        Try
+            Dim CTA_BAN As Integer, CTA_BANCO As String = ""
+
+            If IsNumeric(FCTA_BCN) Then
+
+                CTA_BAN = CInt(FCTA_BCN.Trim)
+                CTA_BANCO = Format(CTA_BAN, "00")
+
+                If Not EXISTE_TABLA("BMOV" & CTA_BANCO) Then
+                    SQL = "CREATE TABLE BMOV" & CTA_BANCO & " (NUM_REG int NOT NULL, CVE_CONCEP varchar(6) NOT NULL, 
+                        CON_PART int NULL DEFAULT (0), NUM_CHEQUE int NULL DEFAULT (0), REF1 varchar(20) NULL, 
+                        REF2 varchar(20) NULL, STATUS varchar(1) NOT NULL, FECHA datetime NOT NULL, F_COBRO datetime NOT NULL, 
+                        BAND_PRN varchar(1) NULL DEFAULT ('N'), BAND_CONT varchar(1) NULL DEFAULT ('N'), 
+                        ACT_SAE varchar(1) NULL DEFAULT ('N'), NUM_POL varchar(5) NULL, TIP_POL varchar(2) NULL, 
+                        SAE_COI int NULL DEFAULT (0), MONTO_TOT float NOT NULL, MONTO_IVA_TOT float NULL DEFAULT (0), 
+                        MONTO_EXT float NULL DEFAULT (0), MONEDA int NULL DEFAULT (1), T_CAMBIO float NULL DEFAULT (1), 
+                        HORA int NULL DEFAULT (0), CLPV varchar(10) NULL, CTA_TRANSF int NULL DEFAULT (0), 
+                        FECHA_LIQ datetime NULL, FECHA_POL datetime NULL, CVE_INST int NULL DEFAULT (0), MONDIFSAE varchar(1) NULL, 
+                        TCAMBIOSAE float NULL DEFAULT (1), RFC varchar(20) NULL, CONC_SAE int NULL DEFAULT (0), 
+                        SOLICIT varchar(50) NULL, TRANS_COI int NULL DEFAULT (0), INTSAENOI int NULL DEFAULT (0), 
+                        X_OBSER varchar(255) NULL, FACTOR int NOT NULL, FORMAPAGO int NOT NULL, ANOMBREDE varchar(120) NULL, 
+                        ASOCIADO varchar(1) NOT NULL, CTA_CONTAB_ASOC varchar(40) NULL, REVISADO int NULL DEFAULT (0), 
+                        PRIORIDAD varchar(6) NULL DEFAULT ('NORMAL'), DOC_ASOC int NULL, RESALTAR int NULL, ANTICIPO int NULL, 
+                        IDTRANSF int NULL, SUCURSAL varchar(30) NULL, CUENTA varchar(30) NULL, CLABE varchar(30) NULL, MULTI_CLPV int NULL, 
+                        CVE_BANCO_ASOC varchar(6) NULL, NUM_CONC_AUTO int NULL, COI_DEPTO int NULL, COI_CCOSTOS int NULL, 
+                        COI_PROYECTO int NULL, CUENTABAN_CLPV varchar(30) NULL, NOMBANCO varchar(230) NULL, RFCBANCOORD varchar(15) NULL, 
+                        FORMAPAGOSAT varchar(5) NULL, NUMOPERACION varchar(30) NULL, ID_CFDI varchar(50) NULL, ESTADO_CFDI varchar(1) NULL, 
+                        ARCHIVO_CFDI text NULL, UUIDCFDI varchar(36) NULL, 
+                        CONSTRAINT PK_BMOV" & CTA_BANCO & " PRIMARY KEY CLUSTERED (NUM_REG)) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]"
+                    Using cmd As SqlCommand = cnSAE.CreateCommand
+                        cmd.CommandText = SQL
+                        returnValue = cmd.ExecuteNonQuery().ToString
+                        If returnValue IsNot Nothing Then
+                            If returnValue = "1" Then
+                            End If
+                        End If
+                    End Using
+                End If
+            End If
+        Catch ex As Exception
+            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+    Public Function EXIST_FIELD_SQL_SAE(fTABLA As String, fCAMPO As String) As Boolean
+        Try
+            Dim cmd As New SqlCommand
+            Dim dr As SqlDataReader
+            Dim ExisteCampo As Boolean
+
+            ExisteCampo = False
+            cmd.Connection = cnSAE
+
+            SQL = "SELECT * From INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" & fTABLA & "' AND COLUMN_NAME = '" & fCAMPO & "' "
+
+            cmd.CommandText = SQL
+            dr = cmd.ExecuteReader
+
+            If dr.Read Then
+                ExisteCampo = True
+            End If
+            dr.Close()
+            Return ExisteCampo
+        Catch ex As Exception
+            MsgBox("1215. " & ex.Message & vbNewLine & ex.StackTrace)
+            BITACORADB("1215. " & ex.Message & vbNewLine & ex.StackTrace)
+            Return False
+        End Try
+    End Function
+    Private Function EXISTE_TABLA(fTABLA As String) As Boolean
+        Dim Exist_Table As Boolean = False
+        Try
+            SQL = "SELECT * From INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" & fTABLA & "'"
+            Dim cmd As New SqlCommand
+            Dim reader As SqlDataReader
+
+            cmd.Connection = cnSAE
+            cmd.CommandText = SQL
+            reader = cmd.ExecuteReader
+            If reader.Read Then
+                Exist_Table = True
+            End If
+            reader.Close()
+        Catch ex As Exception
+            Exist_Table = False
+            BITACORADB("36. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & SQL)
+        End Try
+        Return Exist_Table
+
+    End Function
+    Private Function EXISTE_TABLA_SAROCE(fTABLA As String) As Boolean
+        Dim Exist_Table As Boolean = False
+        Try
+            SQL = "SELECT * From INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" & fTABLA & "'"
+            Dim cmd As New SqlCommand
+            Dim reader As SqlDataReader
+
+            cmd.Connection = cnSAROCE
+            cmd.CommandText = SQL
+            reader = cmd.ExecuteReader
+            If reader.Read Then
+                Exist_Table = True
+            End If
+            reader.Close()
+        Catch ex As Exception
+            Exist_Table = False
+            BITACORADB("36. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & SQL)
+        End Try
+        Return Exist_Table
+
+    End Function
+    Public Function CREA_SAROCE(fSERVIDOR As String, fBASE As String, fUSUARIO As String, fPASS As String) As Boolean
+
+        Dim cmd As New SqlCommand
+        Dim returnValue As String
+        Dim OpenOk As Boolean
+
+        Try
+
+            If OpenSAE(fSERVIDOR, "master", fUSUARIO, fPASS) Then
+                cmd.Connection = cnSQL
+                cmd.CommandText = "IF NOT EXISTS (SELECT 1 FROM sys.databases WHERE NAME = N'" & fBASE & "') CREATE DATABASE [" & fBASE & "]"
+
+                returnValue = cmd.ExecuteNonQuery()
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Or returnValue = "-1" Then
+                        Threading.Thread.Sleep(15000)
+                        Dim cmd2 As New SqlCommand
+                        If OpenSAROCE(fSERVIDOR, fBASE, fUSUARIO, fPASS) Then
+                            SQL = "IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'EMPRESAS' and xtype ='U') " &
+                                "CREATE TABLE EMPRESAS (ID INT IDENTITY, EMPRESA VARCHAR(2) NULL, NOMBRE VARCHAR(60) NULL, BASE VARCHAR(40) NULL, " &
+                                "SERVIDOR VARCHAR(90) NULL, PUERTO VARCHAR(6) NULL, USUARIO VARCHAR(30) NULL, PASS VARCHAR(30) NULL, PROVIDER VARCHAR(30) NULL, " &
+                                "TIPO SMALLINT NULL, DATOS VARCHAR(120) NULL, CEDIS BIT NULL, MULTIALMACEN SMALLINT NULL, REMOTA VARCHAR(80) NULL, " &
+                                "REMOTAOK SMALLINT NULL, VISIBLE BIT NULL, GUID VARCHAR(50) NULL, CONSTRAINT PK_EMPRESAS PRIMARY KEY (ID) ON [PRIMARY])"
+                            cmd2.Connection = cnSAROCE
+
+                            cmd2.CommandText = SQL
+                            cmd2.ExecuteNonQuery()
+
+                            SQL = "INSERT INTO EMPRESAS (EMPRESA, NOMBRE, BASE, SERVIDOR, PUERTO, " &
+                                  "USUARIO, PASS, PROVIDER, TIPO, DATOS, CEDIS, REMOTA, REMOTAOK, MULTIALMACEN) " &
+                                  "VALUES('01','EMPRESA 01','SAE61','" & Servidor_SAROCE & "','1433','" &
+                                  Usuario_SAROCE & "','" & Pass_SAROCE & "','SQL SERVER 2012','1',' ','0',' ','0','1')"
+                            cmd2.CommandText = SQL
+                            cmd2.ExecuteNonQuery()
+
+                            SQL = "CREATE TABLE CONC (ID INT IDENTITY, EMPRESA VARCHAR(2) NULL, EMPRESAD VARCHAR(2) NULL, " &
+                                  "CONSAL SMALLINT NULL, CONENT SMALLINT NULL, ID_EMPRESA INT NULL, GUID VARCHAR(50) NULL)"
+                            cmd2.CommandText = SQL
+                            cmd2.ExecuteNonQuery()
+
+                            SQL = "CREATE TABLE CONFIG (ID INT IDENTITY, EMPRESA VARCHAR(255) NULL, 
+                                  ID_EMPRESA INT NULL, CREA_TABLAS VARCHAR(12) NULL, GUID VARCHAR(50) NULL, MENSAJE VARCHAR(MAX) NULL,
+                                  UTILIZAR_LECTOR_HUELLA SMALLINT NULL, RUTA_HUELLAS VARCHAR(255) NULL, RUTA_FOTOS VARCHAR(255) NULL)"
+                            cmd2.CommandText = SQL
+                            cmd2.ExecuteNonQuery()
+
+                            SQL = "INSERT CONFIG (EMPRESA, UTILIZAR_LECTOR_HUELLA, RUTA_HUELLAS, RUTA_FOTOS) VALUES ('01', 0, ' ', ' ')"
+
+                            cmd2.CommandText = SQL
+                            cmd2.ExecuteNonQuery()
+
+                            SQL = "CREATE TABLE TEA (ID INT IDENTITY, BASE VARCHAR(40) NULL, SERVIDOR VARCHAR(40) NULL, " &
+                                  "USUARIO VARCHAR(30) NULL, PASS VARCHAR(30) NULL, PROVIDER VARCHAR(40) NULL, GUID VARCHAR(50) NULL)"
+                            cmd2.CommandText = SQL
+                            cmd2.ExecuteNonQuery()
+
+                            SQL = "CREATE TABLE USUARIOS (ID INT IDENTITY, EMPRESA VARCHAR(2) NULL, CORREO VARCHAR(80) NULL," &
+                                  "USUARIO VARCHAR(30) NULL, SUCURSAL VARCHAR(30) NULL, CLAVE VARCHAR(30) NULL, SUPERVISOR SMALLINT NULL," &
+                                  "SECRETARIAL SMALLINT NULL, NOMBRE VARCHAR(80) NULL, NIVEL INT NULL, ACTIVO BIT NULL, GUID VARCHAR(50) NULL) ON [PRIMARY]"
+                            cmd2.CommandText = SQL
+                            cmd2.ExecuteNonQuery()
+
+                            cmd2.CommandText = "SET IDENTITY_INSERT USUARIOS ON"
+                            cmd2.ExecuteNonQuery()
+
+                            SQL = "INSERT USUARIOS(ID, EMPRESA, USUARIO, CLAVE, NOMBRE, NIVEL, ACTIVO, SUCURSAL, SUPERVISOR, SECRETARIAL) " &
+                                  "VALUES (1, '01', N'admin', N'', N'adminitrador', 0, NULL, '01',0,0)"
+                            cmd2.CommandText = SQL
+                            cmd2.ExecuteNonQuery()
+                            OpenOk = True
+                        Else
+                            OpenOk = False
+                            MsgBox("1. No se logro conectar a la base " & fSERVIDOR & ", " & fBASE & ", " & fUSUARIO & ", " & fPASS)
+                        End If
+                        Return OpenOk
+                    Else
+                        MsgBox("2. No se logro crear la base " & fBASE)
+                        Return False
+                    End If
+                Else
+                    MsgBox("3. No se logro crear la base " & fBASE)
+                    Return False
+                End If
+
+                Try
+                    cnSQL.Close()
+
+                Catch ex As Exception
+                    BITACORADB("1231. " & ex.Message & vbNewLine & ex.StackTrace)
+                End Try
+            Else
+                MsgBox("1232. No se logro abrir la base " & fBASE)
+                Return False
+            End If
+
+        Catch ex As Exception
+            MsgBox("1250. " & ex.Message & vbNewLine & ex.StackTrace)
+            BITACORADB("1250. " & ex.Message & vbNewLine & ex.StackTrace)
+            Return False
+        End Try
+    End Function
+
+    Public Function CREA_BASE_GPS(fSERVIDOR As String, fUSUARIO As String, fPASS As String) As Boolean
+        Dim cmd As New SqlCommand
+        Dim returnValue As String
+
+        Try
+            If OpenSAE(fSERVIDOR, "master", fUSUARIO, fPASS) Then
+
+                cmd.Connection = cnSQL
+                cmd.CommandText = "IF NOT EXISTS (SELECT 1 FROM sys.databases WHERE NAME = N'GCGPS') CREATE DATABASE [GCGPS]"
+
+                returnValue = cmd.ExecuteNonQuery()
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Or returnValue = "-1" Then
+                        Threading.Thread.Sleep(15000)
+                        CREATE_TABLAS_GPS(fSERVIDOR, fUSUARIO, fPASS)
+                        Return True
+                    Else
+                        MsgBox("2. No se logro crear la base GPS")
+                        Return False
+                    End If
+                Else
+                    MsgBox("3. No se logro crear la base GPS")
+                    Return False
+                End If
+            Else
+                MsgBox("4. No se logro conectar al servidor")
+                Return False
+            End If
+
+        Catch ex As Exception
+            MsgBox("1251. " & ex.Message & vbNewLine & ex.StackTrace)
+            BITACORADB("1251. " & ex.Message & vbNewLine & ex.StackTrace)
+            Return False
+        End Try
+    End Function
+
+    Public Function GET_DATATYPE(fTABLA As String, fCAMPO As String) As String
+        Try
+            Dim cmd As New SqlCommand
+            Dim dr As SqlDataReader
+            Dim TIPO_CAMPO As String
+
+            SQL = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" & fTABLA & "' AND COLUMN_NAME = '" & fCAMPO & "'"
+
+            TIPO_CAMPO = ""
+            cmd.Connection = cnSAE
+            cmd.CommandText = SQL
+            dr = cmd.ExecuteReader
+            If dr.Read Then
+                TIPO_CAMPO = dr("DATA_TYPE").ToString.ToUpper
+            End If
+            dr.Close()
+
+            Return TIPO_CAMPO
+        Catch Ex As Exception
+            BITACORADB("1320. " & Ex.Message & vbNewLine & Ex.StackTrace)
+            MsgBox("1320. " & Ex.Message & vbNewLine & Ex.StackTrace)
+            Return ""
+        End Try
+
+    End Function
+
+    Sub CREATE_ID_TABLA()
+        Dim cmd As New SqlCommand
+        Try
+            cmd.Connection = cnSAE
+
+            For k = 0 To 80
+                SQL = "IF NOT EXISTS (SELECT ID_TABLA FROM GCTBLCONTROL WHERE ID_TABLA = " & k & ") INSERT INTO GCTBLCONTROL (ID_TABLA, ULT_CVE) VALUES(" & k & ", 0)"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            Next
+        Catch ex As Exception
+            'BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+    Sub INSERT_DERECHOS_CAT1()
+
+        SQL = "DELETE FROM GCDERECHOS_CAT1"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "DELETE FROM GCDERECHOS_CAT2"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "DELETE FROM GCDERECHOS_CAT3"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "DELETE FROM GCDERECHOS_CAT4"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(1, 'CATALOGOS', 10000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(2, 'LOGISTICA', 20000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(3, 'TESORERIA', 30000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(4, 'FACTURACION', 40000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(5, 'LIQUIDACION ', 50000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(6, 'VENTAS', 60000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(7, 'COMPRAS', 70000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(8, 'CONTROL DE COMBUSTIBLE', 80000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(9, 'MANTENIMIENTO', 90000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(10, 'INVENTARIO', 100000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(11, 'CONTABILIDAD', 110000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(12, 'RECURSOS HUMANOS', 120000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(13, 'LOCALIZACION', 130000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(14, 'REPORTES', 140000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(15, 'CONFIGURACION', 150000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT1(NUM_REG, MODULO, CLAVE) VALUES(16, 'UTILERIAS', 160000)"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+    '================================================================================================================================
+    '================================================================================================================================
+    '================================================================================================================================
+    Sub INSERT_DERECHOS_CAT2()
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(1, 10000, 10100, 'CLIENTES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(2, 10000, 10500, 'PROVEEDORES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(3, 10000, 11000, 'ASEGURADORAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(3, 10000, 11100, 'TARJETAS IAVE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(4, 10000, 11500, 'CONTRATOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(5, 10000, 12000, 'PRODUCTOS A CARGAR PARA TANQUES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(6, 10000, 12500, 'TRAFICO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(7, 10000, 13000, 'EMPLEADOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(8, 10000, 13500, 'CENTRO DE COSTOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(9, 10000, 14000, 'CATALOGOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 15000, 'ACTIVOS')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 15015, 'TIPO DE ACTIVOS')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 15030, 'PRODUCTOS Y SERVICIOS')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 15060, 'LISTA DE PRECIOS')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 15090, 'PRECIOS')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 15120, 'IMPUESTOS')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 15150, 'CONCEPTOS MOVIMIENTOS AL INVENTARIO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 15180, 'ALMACENES')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 15210, 'MULTIALMACEN')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 15240, 'LINEAS')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 15270, 'UNIDADES DE MEDIDA')"
+        EXECUTE_QUERY_NET(SQL)
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 16200, 'TESORERIA')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 16200, 16225, 'GASTOS')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 16200, 16250, 'CUENTAS BANCARIAS')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 16200, 16275, 'BENEFICIARIOS BANCARIOS')"
+        EXECUTE_QUERY_NET(SQL)
+        ' EMPIEZA ELENKOS
+
+
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 14520, 'RUTAS')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10000, 14530, 'MOTIVO CANCELACIONES')"
+        EXECUTE_QUERY_NET(SQL)
+
+        SQL = "DELETE FROM  GCDERECHOS_CAT3 WHERE CLAVE = 14520"
+        EXECUTE_QUERY_NET(SQL)
+
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14520, 'CLAVE CONTRATO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14530, 'CLIENTE')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14540, 'CLIENTE NOMBRE')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14550, 'PLANTA ORIGEN')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14560, 'NOMBRE PLANTA ORIGEN')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14570, 'CIUDAD ORIGEN')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14580, 'DIRECCION ORIGEN')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14590, 'PLANTA DESTINO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14600, 'NOMBRE PLANTA DESTINO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14610, 'CIUDAD DESTINO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14620, 'DIRECCION DESTINO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14630, 'PRODUCTO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14635, 'ARTICULO INVENTARIO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14640, 'CASETAS X RUTA')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14650, 'KM')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14660, 'AUTONOMO SENCILLO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14670, 'P4 SENCILLO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14680, 'FULL AUTONOMO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14690, 'FULL P4')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14700, 'SUELDO FULL')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14710, 'SUELDO SENCILLO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14720, 'TARIFA X TONELADA FULL')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14730, 'TARIFA X VIAJE FULL')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14740, 'TARIFA X TONELADA SENCILLO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14750, 'TARIFA X VIAJE SENCILLO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14760, 'GASTOS DE VIAJE')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14770, 'IMPORTE')"
+        EXECUTE_QUERY_NET(SQL)
+
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14775, 'GASOLINERA')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14780, 'VIAJE TARIFA A OPERADOR FULL')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14785, 'PORC. SOBRE SUELDO FULL')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14790, 'PORC. SOBRE SUELDO SENCILLO')"
+        EXECUTE_QUERY_NET(SQL)
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 14520, 14795, 'LITROS RUTA')"
+        EXECUTE_QUERY_NET(SQL)
+
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████
+
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(11, 20000, 20100, 'CAT. ESTATUS UNIDADES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(12, 20000, 20500, 'CAT. ESTATUS VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(13, 20000, 20550, 'CAT. ESTATUS OPERADOR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(14, 20000, 20600, 'PERSONAL AUTORIZA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(15, 20000, 20700, 'CAT. CASETAS POR RUTA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(16, 20000, 21000, 'ESTATUS UNIDADES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(16, 20000, 21300, 'ESTATUS OPERADORES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(17, 20000, 21500, 'TABULADOR DE VIAJES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(18, 20000, 22000, 'ASIGNACION DE VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(19, 20000, 22500, 'CARTA PORTE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 20000, 23500, 'BAJA DE VIAJES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        'CONCILIACION VALES DE COMBUSTIBLE                  CONCILIACION VALES DE COMBUSTIBLE           CONCILIACION VALES DE COMBUSTIBLE
+
+
+        SQL = "DELETE FROM  GCDERECHOS_CAT3 WHERE CLAVE = 23600"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "DELETE FROM  GCDERECHOS_CAT4 WHERE CLAVE >= 23600 AND CLAVE < 23900"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 20000, 23600, 'CONCILIACION VALES DE COMBUSTIBLE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 20000, 23620, 'CFDI Licores veracruz')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        '********************
+        'BAJA DE VIAJE
+
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 23500, 23510, 'Remisionar')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 23500, 23520, 'Timbrar carta porte')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 23500, 23530, 'Timbrar carta porte con precios')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 23500, 23535, 'Permitir reactivar carta porte')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 23500, 23540, 'Concentrado CFDI')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 23540, 235100, 'Imprimir')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 23540, 235110, 'Extraer XML')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 23540, 235120, 'cancelar CFDI')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+
+
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 23600, 23610, 'VALES CAPTURADOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 23610, 2361020, 'EDIT')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 23610, 2361040, 'CAMBIO STATUS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 23600, 23640, 'CONSULTA VALES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 23640, 2364020, 'CAMBIO ESTATUS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '================================================================
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 23600, 23740, 'CONCILIACIONES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 23740, 2374020, 'NUEVO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 23740, 2374040, 'EDIT')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 23740, 2374060, 'IMPRIMIR CONCILIACION IEPS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+
+        'VEHICULOS UTILITARIOS
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 23600, 23820, 'CONCILIACIONES VEHICULOS UTILITARIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 23820, 2382020, 'NUEVO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 23820, 2382040, 'EDIT')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        'FIN VEHICULOS UTILITARIOS
+
+
+
+
+
+
+
+
+        ' ====================    EMPIEZA COMERCIAL    ==================================
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 20000, 24000, 'COMERCIAL')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 40000, 40100, 'CONCILIACION CARTA PORTE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 40000, 40500, 'CUENTAS X COBRAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(22, 40000, 41000, 'LISTA DE PRECIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(23, 40000, 41500, 'PRECIOS DE FLETE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(24, 40000, 42000, 'ACTUALIZACION PRECIOS BASE A DIESEL')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 50000, 50020, 'LIQUIDACION ')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 50000, 50040, 'SUELDO DE OPERADORES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(25, 60000, 60100, 'COTIZACION')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(26, 60000, 60500, 'REMISIONES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(26, 60000, 60800, 'REMISION CARTA PORTE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓               FACTURAS
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(26, 60000, 61010, 'FACTURACION')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 61010 AND SUBCLAVE = 61100) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(47, 61010, 61100, 'NUEVA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 61010 AND SUBCLAVE = 61150) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(48, 61010, 61150, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 61010 AND SUBCLAVE = 61200) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(49, 61010, 61200, 'ESTATUS CFDI')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 61010 AND SUBCLAVE = 61250) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(50, 61010, 61250, 'TIMBRAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 61010 AND SUBCLAVE = 61300) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(51, 61010, 61300, 'IMPRIMIR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 61010 AND SUBCLAVE = 61350) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(52, 61010, 61350, 'ENVIAR CORREO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 61010 AND SUBCLAVE = 61400) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(52, 61010, 61400, 'EXPORTAR EXCEL')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 61010 AND SUBCLAVE = 61450) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(52, 61010, 61450, 'CANCELAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 61010 AND SUBCLAVE = 61500) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(52, 61010, 61500, 'ENLAZAR DOCUMENTO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        ' FIN FAFTURAS          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(27, 70000, 70100, 'COMPRAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(28, 70000, 70500, 'RECEPCION')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(29, 70000, 71000, 'ORDE DE COMPRA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(30, 70000, 71500, 'REQUISICION')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(30, 70000, 71800, 'REPORTES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(31, 80000, 80100, 'NIVEL DE COMBUISTIBLE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(32, 80000, 80500, 'MEDICION DE COMBUSTIBLE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        'RESETEO
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(33, 80000, 81000, 'RESETEO DE UNIDADES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81000, 81005, 'NUEVO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81000, 81010, 'EDIT')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81000, 81015, 'CANCELAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81000, 81020, 'CONSULTARS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81000, 81040, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81000, 81060, 'FINALIZAR RESETO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81000, 81080, 'PERMITIR MODIFICAR LITROS A DESCONTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81000, 81090, 'PERMITIR REACTIVAR RESETEO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        'FIN RESETEO
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 80000, 81500, 'TABULADOR DE COMBUSTIBLE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 80000, 82000, 'CATALO DE TANQUES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 80000, 82500, 'INDICADORES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 80000, 83000, 'CATALO DE EVALUACIONES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 80000, 83020, 'CRITERIOS DE EVALUACION')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 80000, 83040, 'ASIGNACION DIESEL')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        'FIN COMBUSTBLE
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(35, 90000, 90100, 'MODULO LLANTAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(36, 90000, 90500, 'ACTIVIDADES MANTENIMIENTO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(37, 90000, 91000, 'SERVICIOS DE MANTENIMIENTO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(38, 90000, 91500, 'CLASIFICACION DE SERVICIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(39, 90000, 92000, 'REPORTE DE FALLAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(40, 90000, 92500, 'PROGRAMACION DE SERVICIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(41, 90000, 93000, 'ORDENES DE TRABAJO INTERNAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(42, 90000, 93500, 'ORDENES DE TRABAJO EXTERNAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(43, 100000, 100100, 'PRODUCTOS Y SERVICIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(44, 100000, 100500, 'ENTREGA DE PRODUCTOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(45, 100000, 101000, 'MOVS. AL INVENTARIO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(46, 100000, 101500, 'CONCEPTOS DE MOVS. A INVENTARIO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(47, 100000, 102000, 'ALMACENES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(48, 100000, 102500, 'MULTIALMACEN')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(49, 100000, 103000, 'LINEAS DE PRODUCTOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(50, 100000, 103500, 'UNIDADES DE MEDIDA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(51, 110000, 110100, 'POLIZAS DE TRAFICO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(52, 110000, 110500, 'POLIZAS DE MANTENIMIENTO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(53, 110000, 111000, 'POLIZAS DE INVENTARIO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(54, 110000, 111500, 'POLIZAS DE VENTAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(55, 110000, 112000, 'POLIZAS DE COMPRAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(56, 120000, 120100, 'EMPLEADOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(57, 120000, 120500, 'PERMISOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(58, 120000, 121000, 'PRESTAMOS PERSONALES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(59, 120000, 121500, 'PRESTAMOS DE INFONAVIT')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(60, 130000, 130100, 'ESTADOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(61, 130000, 130500, 'LOCALIDADES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(62, 130000, 131000, 'WEBSERVICES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(63, 130000, 131500, 'PUNTOS DE INTERES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(64, 150000, 150100, 'EMPRESAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(65, 150000, 150500, 'DERECHOS DE USUARIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(66, 150000, 151000, 'USUARIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(67, 150000, 151500, 'PARAMETROS DEL SISTEMA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(68, 150000, 152000, 'BITACORA USUARIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(69, 150000, 152500, 'CONEXION GRUPOCE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(70, 150000, 153000, 'DISEÑADOR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+    '================================================================================================================================
+    '================================================================================================================================
+    '================================================================================================================================
+    Sub INSERT_DERECHOS_CAT3()
+
+
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(1, 10100, 10101, 'CLIENTES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(2, 10100, 10130, 'ALTA CLIENTES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(3, 10100, 10160, 'MODIFICAR CLIENTES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(4, 10100, 10190, 'BAJA CLIENTES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(5, 10100, 10220, 'CONCEPTOS DE CUENTAS X COBRAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(6, 10100, 10250, 'CONTRATOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(7, 10100, 10280, 'ALTAS CXC')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(8, 10100, 10310, 'ESTADO DE CUENTA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(9, 10500, 10501, 'PROVEEDORES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(10, 10500, 10530, 'ALTA PROVEEDORES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(11, 10500, 10560, 'MODIFICAR PROVEEDORES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(12, 10500, 10590, 'BAJA PROVEEDORES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(13, 10500, 10620, 'CONCEPTOS DE CUENTAS X PAGAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(14, 10500, 10650, 'CONTRATOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(15, 10500, 10680, 'ALTAS CXC')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(16, 10500, 10710, 'ESTADO DE CUENTA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 11500, 11501, 'NUEVO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 11500, 11510, 'EDIT')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 11500, 11520, 'ELIMINAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 11500, 11530, 'GRABAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 11500, 11540, 'ACCESO PESTAÑA BAJA DE VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 11500, 11580, 'VALOR DECLARADO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(17, 12500, 12501, 'CONCEPTO DE GASTOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(18, 12500, 12520, 'RUTAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(19, 12500, 12540, 'UNIDADES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(20, 12500, 12560, 'MARCAS UNIDADES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(21, 12500, 12580, 'TIPO DE UNIDADES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(22, 12500, 12600, 'MODELO DE UNIDADES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(23, 12500, 12620, 'GRUPO DE UNIDADES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(24, 12500, 12640, 'INSTRUCCIONES DE VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(25, 12500, 12660, 'COMBUSTIBLE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(26, 12500, 12680, 'GASOLINERAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(27, 12500, 12700, 'TRAMOS OFICIALES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(28, 12500, 12720, 'VALOR DECLARADO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(29, 12500, 12740, 'PLAZAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(30, 12500, 12760, 'CLIENTES OPERATIVOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(31, 12500, 12780, 'ESTATUS GASTOS DE VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(32, 12500, 12800, 'ESTATUS CARTA PORTE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(33, 12500, 12820, 'ESTATUS LIQUIDACION')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 12500, 12840, 'ESTATUS VALE COMBUSTIBLE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 12500 AND SUBCLAVE = 12860) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 12500, 12860, 'ROCOGER EN ENTREGAR EN')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 12500 AND SUBCLAVE = 12880) INSERT INTO GCDERECHOS_CAT3 
+                (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 12500, 12880, 'MOTORES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 12500 AND SUBCLAVE = 12885) INSERT INTO GCDERECHOS_CAT3 
+                (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 12500, 12885, 'Casetas')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 12500 AND SUBCLAVE = 12890) INSERT INTO GCDERECHOS_CAT3 
+                (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 12500, 12890, 'Actualización de precios')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '================================================================================================================
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 13000 AND SUBCLAVE = 13001) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(35, 13000, 13001, 'OPERADORES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 13000 AND SUBCLAVE = 13020) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(36, 13000, 13020, 'DESCUENTO OPERADOR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 13000 AND SUBCLAVE = 13040) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(37, 13000, 13040, 'TIPO DESCUENTO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 13000 AND SUBCLAVE = 13060) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(38, 13000, 13060, 'FORMA DESCUENTO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 13000 AND SUBCLAVE = 13080) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(39, 13000, 13080, 'TIPO JORNADA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 13000 AND SUBCLAVE = 13100) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(40, 13000, 13100, 'PERIODICIDAD DE PA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 13000 AND SUBCLAVE = 13120) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(41, 13000, 13120, 'RIES TRABAJO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 13000 AND SUBCLAVE = 13140) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(42, 13000, 13140, 'INCIDENCIAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 13000 AND SUBCLAVE = 13160) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(43, 13000, 13160, 'FORMA DE PA EMPLEADOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 13000 AND SUBCLAVE = 13180) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(44, 13000, 13180, 'MECANICOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22010) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22010, 'NUEVO VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22020) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22020, 'EDIT VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22030) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22030, 'CANCELAR VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22040) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22040, 'GRABAR VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22050) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22050, 'DATOS GENERALES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22070) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22070, 'OBSERVACIONES VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22080) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22080, 'GASTOS DE VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22090) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22090, 'DATOS DE LA BITACORA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22100) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22100, 'IMPRIMIR BITACORA DE VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        '-- -----------           CARTA PORTE        -----------           CARTA PORTE
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22110) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22110, 'IMPRIMIR CARTA PORTE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22510) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22500, 22510, 'NUEVA CARTA PORTE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22520) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22500, 22520, 'EDIT CARTA PORTE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22530) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, 
+            SUBCLAVE, MODULO) VALUES(34, 22500, 22530, 'CANCELAR CARTA PORTE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22534) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, 
+            SUBCLAVE, MODULO) VALUES(34, 22500, 22534, 'TIMBRAR CARTA PORTE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22536) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22500, 22536, 'REPORTE DIF. DE PESO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+
+
+
+
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22540) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22500, 22540, 'GRABAR CARTA PORTE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22550) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22500, 22550, 'GENERAL')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22570) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22500, 22570, 'INSTRUCCIONES DE VIAJE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22580) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22500, 22580, 'CERRAR CARTA PORTE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22590) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22500, 22590, 'IMPRIMIR CARTA PORTE')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24001) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(46, 24000, 24001, 'COTIZADOR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24030) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(45, 24000, 24030, 'PEDIDOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24040) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24040, 'NUEVO PEDIDO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24045) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24045, 'EDIT PEDIDO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24050) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24050, 'GRABAR PEDIDO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24052) INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24052, 'CANCELAR PEDIDO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24055) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24055, 'DATOS GENERALES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24060) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24060, 'DATOS DE LA BITACORA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24065) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24065, 'OBSERVACIONES PEDIDO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24070) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24070, 'INSTRUCCIONES CONTRATO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24075) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24075, 'IMPRIMIR PEDIDO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 60100 AND SUBCLAVE = 60101) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(47, 60100, 60101, 'NUEVA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 60100 AND SUBCLAVE = 60130) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(48, 60100, 60130, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 60100 AND SUBCLAVE = 60160) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(49, 60100, 60160, 'EXPORTAR EXCEL')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 60100 AND SUBCLAVE = 60190) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(50, 60100, 60190, 'CANCELAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 60100 AND SUBCLAVE = 60220) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(51, 60100, 60220, 'IMPRIMIR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 60100 AND SUBCLAVE = 60250) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(52, 60100, 60250, 'ENLAZAR DOCUMENTO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 60500 AND SUBCLAVE = 50590) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(56, 60500, 50590, 'CANCELAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 60500 AND SUBCLAVE = 60501) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(53, 60500, 60501, 'NUEVA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 60500 AND SUBCLAVE = 60530) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(54, 60500, 60530, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 60500 AND SUBCLAVE = 60560) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(55, 60500, 60560, 'EXPORTAR EXCEL')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(57, 60500, 60620, 'IMPRIMIR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(58, 60500, 60650, 'ENLAZAR DOCUMENTO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(59, 70100, 70101, 'NUEVA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(60, 70100, 70130, 'CONSULTA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(61, 70100, 70160, 'CANCELAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(62, 70100, 70190, 'IMPRIMIR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(63, 70500, 70501, 'NUEVA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(64, 70500, 70530, 'CONSULTA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(65, 70500, 70560, 'CANCELAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(66, 70500, 70590, 'IMPRIMIR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(67, 71000, 71001, 'NUEVA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(68, 71000, 71030, 'CONSULTA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(69, 71000, 71060, 'CANCELAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(70, 71000, 71090, 'IMPRIMIR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(71, 71500, 71501, 'NUEVA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(72, 71500, 71530, 'CONSULTA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(73, 71500, 71560, 'CANCELAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        'NUEVOS DERECHOS DEVOLUCION DE COMPRAS 
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(27, 70000, 71700, 'DEVOLUCION DE COMPRAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(59, 71700, 71710, 'NUEVA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(60, 71700, 71720, 'CONSULTA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(61, 71700, 71730, 'CANCELAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(62, 71700, 71740, 'IMPRIMIR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '=======================================================
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(74, 71500, 71590, 'IMPRIMIR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81510, 'NUEVO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        'SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81520, 'EDIT')"
+        'Try
+        'Using cmd As SqlCommand = cnSAE.CreateCommand
+        'cmd.CommandText = SQL
+        'returnValue = cmd.ExecuteNonQuery().ToString
+        'End Using
+        'Catch ex As Exception
+        'BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        'End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81530, 'ELIMINAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81540, 'GRABAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        'SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81550, 'IMPRIMIR')"
+        'Try
+        'Using cmd As SqlCommand = cnSAE.CreateCommand
+        'cmd.CommandText = SQL
+        'returnValue = cmd.ExecuteNonQuery().ToString
+        'End Using
+        'Catch ex As Exception
+        'BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        'End Try
+        'SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81560, 'FINALIZAR RESETEO')"
+        'Try
+        'Using cmd As SqlCommand = cnSAE.CreateCommand
+        'cmd.CommandText = SQL
+        'returnValue = cmd.ExecuteNonQuery().ToString
+        'End Using
+        'Catch ex As Exception
+        'BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        'End Try
+        's 'QL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81570, 'TABULADOR RESETEO')"
+        'Try
+        'Using cmd As SqlCommand = cnSAE.CreateCommand
+        'cmd.CommandText = SQL
+        'returnValue = cmd.ExecuteNonQuery().ToString
+        'End Using
+        'Catch ex As Exception
+        'BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        'End Try
+        'SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81580, 'TABULADOR EVALUACION')"
+        'T'ry
+        'Using cmd As SqlCommand = cnSAE.CreateCommand
+        'cmd.CommandText = SQL
+        'returnValue = cmd.ExecuteNonQuery().ToString
+        'End Using
+        ''Catch ex As Exception
+        'BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        'End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90500, 'ACTIVIDADES DE MANTENIMIENTO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90520, 'SERVICIOS DE MANTENIMIENTO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90540, 'CLASIFICACION DE SERVICIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90560, 'REPORTE DE FALLAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90580, 'PROGRAMACION DE SERVICIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90600, 'ORDENES DE TRABAJO INTERNAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90620, 'ORDENES DE TRABAJO EXTERNAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(79, 90100, 90101, 'LLANTAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(80, 90100, 90130, 'MARCAS LLANTAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(81, 90100, 90160, 'TIPO LLANTAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(82, 90100, 90190, 'ESTATUS LLANTAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(83, 90100, 90220, 'MODELOS LLANTAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(84, 90100, 90250, 'MEDIDA LLANTAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        SQL = "INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(43, 90000, 94000, 'REPORTES MANTENIMIENTO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+        '                                                             ORDEN DE TRABAJO INTERNA
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+        SQL = "DELETE FROM GCDERECHOS_CAT3 WHERE CLAVE = 93000"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        '93010
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(86, 93000, 93010, 'NUEVO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93020
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(87, 93000, 93020, 'EDIT')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93030
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(88, 93000, 93030, 'GENERAR MOVS. AL INVENTARIO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93040
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(89, 93000, 93040, 'CONSULTA OT')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93050
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(90, 93000, 93050, 'OT NO REMISIONADAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93200
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(91, 93000, 93200, 'GRABAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93210
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(85, 93000, 93210, 'ENLAZAR COTIZACION')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93220
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(92, 93000, 93220, 'FINALIZAR ORDEN DE TRABAJO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93230
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(93, 93000, 93230, 'REMISIONAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93240
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(94, 93000, 93240, 'CANCELAR ORDER DE TRABAJO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93250
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(95, 93000, 93250, 'REIMPRESION')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93260
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(96, 93000, 93260, 'CANCELAR PART. NO ENTREGADAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93270
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(97, 93000, 93270, 'PESTAÑA PRODUCTOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93280
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(98, 93000, 93280, 'PESTAÑA SERVICIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93290
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(99, 93000, 93290, 'PESTAÑA DOCUMENTOS DIGITALES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93300
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(100, 93000, 93300, 'PESTAÑA OBSERVACIONES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93310
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(110, 93000, 93310, 'ALTA PARTIDAS PRODUCTOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93320
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(120, 93000, 93320, 'ELIMINRA PARTIDA PRODUCTOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93325
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(120, 93000, 93325, 'GENERAR MOVIMIENTOS AL INVENTARIO POR PARTIDA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        '93330
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(130, 93000, 93330, 'ALTA PARTIDA SERVICIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93340
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(140, 93000, 93340, 'ELIMINAR PARTIDA SERVICIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '93350
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(140, 93000, 93350, 'Mostrar costo')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+
+
+
+
+
+        '**********************************************************************************************************************************************
+        'ORDEN DE TRABAJO EXTERNA          ORDEN DE TRABAJO EXTERNA          ORDEN DE TRABAJO EXTERNA          ORDEN DE TRABAJO EXTERNA
+        'ORDEN DE TRABAJO EXTERNA          ORDEN DE TRABAJO EXTERNA          ORDEN DE TRABAJO EXTERNA          ORDEN DE TRABAJO EXTERNA
+        'ORDEN DE TRABAJO EXTERNA          ORDEN DE TRABAJO EXTERNA          ORDEN DE TRABAJO EXTERNA          ORDEN DE TRABAJO EXTERNA
+
+        '**********************************************************************************************************************************************
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+        '                                                             ORDEN DE TRABAJO EXTERNA
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+        '**********************************************************************************************************************************************
+        SQL = "DELETE FROM GCDERECHOS_CAT3 WHERE CLAVE = 93500"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(86, 93500, 93510, 'NUEVO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(87, 93500, 93520, 'EDIT')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(91, 93500, 93700, 'GRABAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(85, 93500, 93710, 'ENLAZAR COTIZACION')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(92, 93500, 93720, 'FINALIZAR ORDEN DE TRABAJO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(93, 93500, 93730, 'REMISIONAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(94, 93500, 93740, 'CANCELAR ORDER DE TRABAJO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(95, 93500, 93750, 'REIMPRESION')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(98, 93500, 93780, 'PESTAÑA SERVICIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(99, 93500, 93790, 'PESTAÑA DOCUMENTOS DIGITALES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(100, 93500, 93800, 'PESTAÑA OBSERVACIONES')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(130, 93500, 93830, 'ALTA PARTIDA SERVICIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(140, 93500, 93840, 'ELIMINAR PARTIDA SERVICIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+        '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
+
+
+
+
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(111, 100100, 100101, 'ALTAS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(112, 100100, 100130, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(113, 100100, 100160, 'ELIMINAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(114, 100100, 100190, 'CAMBIO ESTATUS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(115, 100100, 100220, 'CAMBIO DE PRECIOS')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+    '================================================================================================================================
+    '================================================================================================================================
+    '================================================================================================================================
+    Sub INSERT_DERECHOS_CAT4()
+
+
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22050, 222050, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22050, 222060, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22070, 222070, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22070, 222080, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22080, 222090, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22080, 222100, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22090, 222110, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22090, 222120, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22550, 222550, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22550, 222560, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22570, 222570, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22570, 222580, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24055, 244060, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24055, 244070, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24060, 244080, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24060, 244090, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24065, 244100, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24065, 244110, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24070, 244120, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24070, 244130, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81570, 800570, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81570, 800575, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81580, 800580, 'CONSULTAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81580, 800585, 'MODIFICAR')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+
+        End Try
+    End Sub
+
+    Sub INSERT_DERECHOS()
+        'FIN TESORERIA              FIN TESORERIA              FIN TESORERIA              FIN TESORERIA              FIN TESORERIA
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT2 WHERE CLAVE = 30000 AND SUBCLAVE = 30500)
+                INSERT INTO GCDERECHOS_CAT2 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 30000, 30500, 'Autorización de gastos')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT2 WHERE CLAVE = 30000 AND SUBCLAVE = 32500) INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 30000, 32500, 'Deducciones por operador')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        'FIN TESORERIA              FIN TESORERIA              FIN TESORERIA              FIN TESORERIA              FIN TESORERIA
+
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT2 WHERE CLAVE = 80000 AND SUBCLAVE = 82000) INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 80000, 82000, 'CATALOGO DE TANQUES')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT2 WHERE CLAVE = 80000 AND SUBCLAVE = 82500) INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 80000, 82500, 'INDICADORES')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT2 WHERE CLAVE = 80000 AND SUBCLAVE = 83000) INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 80000, 83000, 'CATALOGO DE EVALUACIONES')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT2 WHERE CLAVE = 50000 AND SUBCLAVE = 50020) INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 50000, 50020, 'LIQUIDACION ')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT2 WHERE CLAVE = 50000 AND SUBCLAVE = 50040) INSERT INTO GCDERECHOS_CAT2(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 50000, 50040, 'SALDO DE OPERADORES')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '***************************************************************************************************
+        '                       GCDERECHOS_CAT3
+        '***************************************************************************************************
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 11500 AND SUBCLAVE = 11501) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 11500, 11501, 'NUEVO')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 11500 AND SUBCLAVE = 11510) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 11500, 11510, 'EDIT')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 11500 AND SUBCLAVE = 11520) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 11500, 11520, 'ELIMINAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 11500 AND SUBCLAVE = 11530) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 11500, 11530, 'GRABAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 11500 AND SUBCLAVE = 11540) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 11500, 11540, 'ACCESO PESTAÑA BAJA DE VIAJE')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 11500 AND SUBCLAVE = 11580) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 11500, 11580, 'VALOR DECLARADO')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("147. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 12500 AND SUBCLAVE = 12860) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 12500, 12860, 'ROCOGER EN ENTREGAR EN')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 12500 AND SUBCLAVE = 12880) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 12500, 12880, 'MOTORES')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 30500 AND SUBCLAVE = 30520) INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 30500, 30520, 'Autorización')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 30500 AND SUBCLAVE = 30530) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 30500, 30530, 'Depositados')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 30500 AND SUBCLAVE = 30540) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 30500, 30540, 'Gastos autorizados')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 30500 AND SUBCLAVE = 30560) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 30500, 30560, 'Cancelar')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 90000 AND SUBCLAVE = 90500) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90500, 'ACTIVIDADES DE MANTENIMIENTO')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 90000 AND SUBCLAVE = 90520) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90520, 'SERVICIOS DE MANTENIMIENTO')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 90000 AND SUBCLAVE = 90540) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90540, 'CLASIFICACION DE SERVICIOS')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 90000 AND SUBCLAVE = 90560) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90560, 'REPORTE DE FALLAS')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 90000 AND SUBCLAVE = 90580) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90580, 'PROGRAMACION DE SERVICIOS')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 90000 AND SUBCLAVE = 90600) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90600, 'ORDENES DE TRABAJO INTERNAS')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 90000 AND SUBCLAVE = 90620) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 90000, 90620, 'ORDENES DE TRABAJO EXTERNAS')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22010) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22010, 'NUEVO VIAJE')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22020) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22020, 'EDIT VIAJE')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22030) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22030, 'CANCELAR VIAJE')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22040) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22040, 'GRABAR VIAJE')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22050) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22050, 'DATOS GENERALES')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 22050 AND SUBCLAVE = 222050) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22050, 222050, 'CONSULTAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 22050 AND SUBCLAVE = 222060) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22050, 222060, 'MODIFICAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 22070 AND SUBCLAVE = 222070) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22070, 222070, 'CONSULTAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 22070 AND SUBCLAVE = 222080) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22070, 222080, 'MODIFICAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22080) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22080, 'GASTOS DE VIAJE')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 22080 AND SUBCLAVE = 222090) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22080, 222090, 'CONSULTAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 22080 AND SUBCLAVE = 222100) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22080, 222100, 'MODIFICAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22090) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22090, 'DATOS DE LA BITACORA')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 22090 AND SUBCLAVE = 222110) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22090, 222110, 'CONSULTAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 22090 AND SUBCLAVE = 222120) INSERT INTO GCDERECHOS_CAT4 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22090, 222120, 'MODIFICAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22100) INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22100, 'IMPRIMIR BITACORA DE VIAJE')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22000 AND SUBCLAVE = 22110) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22000, 22110, 'IMPRIMIR CARTA PORTE')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22550) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22500, 22550, 'GENERAL')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 22550 AND SUBCLAVE = 222550) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22550, 222550, 'CONSULTAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 22550 AND SUBCLAVE = 222560) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22550, 222560, 'MODIFICAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22570) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22500, 22570, 'INSTRUCCIONES DE VIAJE')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 22570 AND SUBCLAVE = 222570) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22570, 222570, 'CONSULTAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 22570 AND SUBCLAVE = 222580) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22570, 222580, 'MODIFICAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22580) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22500, 22580, 'CERRAR CARTA PORTE')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 22500 AND SUBCLAVE = 22590) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 22500, 22590, 'IMPRIMIR CARTA PORTE')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '-- FIN CARTA PORTE                FIN CARTA PORTE            FIN CARTA PORTE
+
+        '---PEDIDOS           PEDIDOS           PEDIDOS           PEDIDOS           PEDIDOS           
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24040) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24040, 'NUEVO PEDIDO')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24045) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24045, 'EDIT PEDIDO')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24055) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24055, 'DATOS GENERALES')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 24055 AND SUBCLAVE = 244060) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24055, 244060, 'CONSULTAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 24055 AND SUBCLAVE = 244070) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24055, 244070, 'MODIFICAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24060) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24060, 'DATOS DE LA BITACORA')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 24060 AND SUBCLAVE = 244080) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24060, 244080, 'CONSULTAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 24060 AND SUBCLAVE = 244090) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24060, 244090, 'MODIFICAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24065) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24065, 'OBSERVACIONES PEDIDO')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 24065 AND SUBCLAVE = 244100) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24065, 244100, 'CONSULTAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 24065 AND SUBCLAVE = 244110) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24065, 244110, 'MODIFICAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24070) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24070, 'INSTRUCCIONES CONTRATO')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 24070 AND SUBCLAVE = 244120) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24070, 244120, 'CONSULTAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 24070 AND SUBCLAVE = 244130) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24070, 244130, 'MODIFICAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 24000 AND SUBCLAVE = 24075) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 24000, 24075, 'IMPRIMIR PEDIDO')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        '---FIN PEDIDOS       FIN PEDIDOS       FIN PEDIDOS       FIN PEDIDOS       FIN PEDIDOS       
+
+        '--CONTROL COMBUSTIBLE
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 81500 AND SUBCLAVE = 81510) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81510, 'NUEVO')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            'SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 81500 AND SUBCLAVE = 81520) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81520, 'EDIT')"
+            'Using cmd As SqlCommand = cnSAE.CreateCommand
+            'cmd.CommandText = SQL
+            'returnValue = cmd.ExecuteNonQuery().ToString
+            'End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 81500 AND SUBCLAVE = 81530) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81530, 'ELIMINAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 81500 AND SUBCLAVE = 81540) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81540, 'GRABAR') "
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            'SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 81500 AND SUBCLAVE = 81550) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81550, 'IMPRIMIR') "
+            'Using cmd As SqlCommand = cnSAE.CreateCommand
+            'cmd.CommandText = SQL
+            'returnValue = cmd.ExecuteNonQuery().ToString
+            'End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            'SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 81500 AND SUBCLAVE = 81560) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81560, 'FINALIZAR RESETEO')"
+            'Using cmd As SqlCommand = cnSAE.CreateCommand
+            'cmd.CommandText = SQL
+            'returnValue = cmd.ExecuteNonQuery().ToString
+            'End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            'SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 81500 AND SUBCLAVE = 81570) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81570, 'TABULADOR RESETEO')"
+            'Using cmd As SqlCommand = cnSAE.CreateCommand
+            'cmd.CommandText = SQL
+            'returnValue = cmd.ExecuteNonQuery().ToString
+            'End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 81570 AND SUBCLAVE = 800570) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81570, 800570, 'CONSULTAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 81570 AND SUBCLAVE = 800575) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81570, 800575, 'MODIFICAR')"
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            'SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT3 WHERE CLAVE = 81500 AND SUBCLAVE = 81580) INSERT INTO GCDERECHOS_CAT3(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81500, 81580, 'TABULADOR EVALUACION')"
+            'Using cmd As SqlCommand = cnSAE.CreateCommand
+            'cmd.CommandText = SQL
+            'returnValue = cmd.ExecuteNonQuery().ToString
+            'End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            'SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 81580 AND SUBCLAVE = 800580) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81580, 800580, 'CONSULTAR')"
+            'Using cmd As SqlCommand = cnSAE.CreateCommand
+            'cmd.CommandText = SQL
+            'returnValue = cmd.ExecuteNonQuery().ToString
+            'End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            'SQL = "IF NOT EXISTS (SELECT CLAVE, SUBCLAVE FROM GCDERECHOS_CAT4 WHERE CLAVE = 81580 AND SUBCLAVE = 800585) INSERT INTO GCDERECHOS_CAT4(NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(34, 81580, 800585, 'MODIFICAR')"
+            'Using cmd As SqlCommand = cnSAE.CreateCommand
+            'cmd.CommandText = SQL
+            'returnValue = cmd.ExecuteNonQuery().ToString
+            'End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
+    Sub CREA_TABLAS_CARTA_PORTE()
+        Dim j As Integer = 0, z As Long
+        Try            'MsgBox("A continuación se crearan las tablas de carta porte")
+            Try
+                Dim Objread As New StreamReader(Application.StartupPath & "\sql\01 Creacion de base de datos SQL.sql")
+                Dim cmd As New SqlCommand With {.CommandType = CommandType.Text, .Connection = cnSAE, .CommandText = Objread.ReadToEnd()}
+                cmd.CommandTimeout = 360
+                z = cmd.ExecuteNonQuery()
+            Catch ex As Exception
+                BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+                j += 1
+            End Try
+            Try
+                Dim Objread As New StreamReader(Application.StartupPath & "\sql\02 Inserts_catalogos_comprobante.sql")
+                Dim cmd As New SqlCommand With {.CommandType = CommandType.Text, .Connection = cnSAE, .CommandText = Objread.ReadToEnd()}
+                cmd.CommandTimeout = 360
+                z = cmd.ExecuteNonQuery()
+            Catch ex As Exception
+                BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+                j += 1
+            End Try
+            Try
+                Dim Objread As New StreamReader(Application.StartupPath & "\sql\03 Inserts_catalogos_carta_porte_20.sql")
+                Dim cmd As New SqlCommand With {.CommandType = CommandType.Text, .Connection = cnSAE, .CommandText = Objread.ReadToEnd()}
+                cmd.CommandTimeout = 360
+                z = cmd.ExecuteNonQuery()
+            Catch ex As Exception
+                BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+                j += 1
+            End Try
+            Try
+                Dim Objread As New StreamReader(Application.StartupPath & "\sql\04 Inserts_catalogos_hidrocarburos.sql")
+                Dim cmd As New SqlCommand With {.CommandType = CommandType.Text, .Connection = cnSAE, .CommandText = Objread.ReadToEnd()}
+                cmd.CommandTimeout = 360
+                z = cmd.ExecuteNonQuery()
+            Catch ex As Exception
+                BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+                j += 1
+            End Try
+            Try
+                Dim Objread As New StreamReader(Application.StartupPath & "\sql\tblcodigopostal.sql")
+                Dim cmd As New SqlCommand With {.CommandType = CommandType.Text, .Connection = cnSAE, .CommandText = Objread.ReadToEnd()}
+                cmd.CommandTimeout = 360
+                z = cmd.ExecuteNonQuery()
+            Catch ex As Exception
+                BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+                j += 1
+            End Try
+            Try
+                Dim Objread As New StreamReader(Application.StartupPath & "\sql\tblcolonias.sql")
+                Dim cmd As New SqlCommand With {.CommandType = CommandType.Text, .Connection = cnSAE, .CommandText = Objread.ReadToEnd()}
+                cmd.CommandTimeout = 800
+
+                z = cmd.ExecuteNonQuery()
+            Catch ex As Exception
+                BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+                j += 1
+            End Try
+            Try
+                Dim Objread As New StreamReader(Application.StartupPath & "\sql\tblcfraccionarancelaria.sql")
+                Dim cmd As New SqlCommand With {.CommandType = CommandType.Text, .Connection = cnSAE, .CommandText = Objread.ReadToEnd()}
+                cmd.CommandTimeout = 800
+
+                z = cmd.ExecuteNonQuery()
+            Catch ex As Exception
+                'BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+
+            If j > 0 Then
+                MsgBox("Se detectaron problemas al agregar catálogos SAT")
+            End If
+            'MsgBox("Proceso terminado")
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Public Sub TABLAS_DERECHOS()
+        INSERT_DERECHOS_CAT1()
+        INSERT_DERECHOS_CAT2()
+        INSERT_DERECHOS_CAT3()
+        INSERT_DERECHOS_CAT4()
+        INSERT_DERECHOS()
+    End Sub
+
+    Public Function RemoveIllegalFileNameChars(input As String, Optional replacement As String = "") As String
+        Dim regexSearch = New String(Path.GetInvalidFileNameChars()) & New String(Path.GetInvalidPathChars())
+        Dim r = New Regex(String.Format("[{0}]", Regex.Escape(regexSearch)))
+        Return r.Replace(input, replacement)
+    End Function
+
+End Module

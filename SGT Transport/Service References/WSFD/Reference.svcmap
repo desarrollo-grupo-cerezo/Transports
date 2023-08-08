@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3d6bd129-ec43-4d03-9a38-b2c3f8746170" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://app.foliosdigitalespac.com/WSTimbrado33Test/WSCFDI33.svc?WSDL" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="WSCFDI33.wsdl" MetadataType="Wsdl" ID="9289feba-6ae2-439f-aef5-0b9cc0e9cc55" SourceId="1" SourceUrl="https://app.foliosdigitalespac.com/WSTimbrado33Test/WSCFDI33.svc?WSDL" />
+    <MetadataFile FileName="WSCFDI33.xsd" MetadataType="Schema" ID="02b19ff8-cb0b-4ebc-84fe-c5ed6901cf47" SourceId="1" SourceUrl="http://app.foliosdigitalespac.com/WSTimbrado33Test/WSCFDI33.svc?xsd=xsd0" />
+    <MetadataFile FileName="WSCFDI331.xsd" MetadataType="Schema" ID="79b18a75-ff2c-4ebc-b7ba-78da935af997" SourceId="1" SourceUrl="http://app.foliosdigitalespac.com/WSTimbrado33Test/WSCFDI33.svc?xsd=xsd2" />
+    <MetadataFile FileName="WSCFDI332.xsd" MetadataType="Schema" ID="6abd66ef-e532-4b98-8c91-e77ff97a224f" SourceId="1" SourceUrl="http://app.foliosdigitalespac.com/WSTimbrado33Test/WSCFDI33.svc?xsd=xsd1" />
+    <MetadataFile FileName="WSCFDI333.xsd" MetadataType="Schema" ID="ef4b1fcc-0a3e-422a-a62f-297dcdf15747" SourceId="1" SourceUrl="http://app.foliosdigitalespac.com/WSTimbrado33Test/WSCFDI33.svc?xsd=xsd3" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

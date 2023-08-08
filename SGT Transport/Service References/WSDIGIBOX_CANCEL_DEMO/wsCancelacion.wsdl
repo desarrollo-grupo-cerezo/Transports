@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://digibox.com/" xmlns:s1="http://cancelacfd.sat.gob.mx" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s2="http://www.w3.org/2000/09/xmldsig#" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://digibox.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://digibox.com/">
+      <s:import namespace="http://cancelacfd.sat.gob.mx" />
+      <s:element name="CancelarCSDV2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CSDCer" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CSDKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RFCEmisor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UUIDs" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="folioSustitucion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="motivo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tokenAutenticacion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CancelarCSDV2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CancelarCSDV2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelarPEMV2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PEMCer" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PEMKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RFCEmisor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UUIDs" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="tokenAutenticacion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="folioSustitucion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="motivo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelarPEMV2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CancelarPEMV2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelarV2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cancelacion" type="s1:Cancelacion" />
+            <s:element minOccurs="0" maxOccurs="1" name="tokenAutenticacion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelarV2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CancelarV2Result" type="s1:Acuse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcesarRespuestaConsultaRelacionado">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CSDCer" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CSDKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rfcReceptor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UUID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tokenAutenticacion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcesarRespuestaConsultaRelacionadoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ProcesarRespuestaConsultaRelacionadoResult" type="s1:ConsultaRelacionados" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcesarRespuestaConsultaRelacionadoEmisor">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CSDCer" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CSDKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rfcEmisor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UUID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tokenAutenticacion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcesarRespuestaConsultaRelacionadoEmisorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ProcesarRespuestaConsultaRelacionadoEmisorResult" type="s1:ConsultaRelacionados" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://cancelacfd.sat.gob.mx">
+      <s:import namespace="http://www.w3.org/2000/09/xmldsig#" />
+      <s:complexType name="Cancelacion">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Folios">
+            <s:complexType>
+              <s:sequence>
+                <s:element minOccurs="0" maxOccurs="1" name="Folio">
+                  <s:complexType>
+                    <s:attribute name="UUID" type="s:string" />
+                    <s:attribute name="Motivo" type="s:string" />
+                    <s:attribute name="FolioSustitucion" type="s:string" />
+                  </s:complexType>
+                </s:element>
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+          <s:element minOccurs="0" maxOccurs="1" ref="s2:Signature" />
+        </s:sequence>
+        <s:attribute name="Fecha" type="s:dateTime" use="required" />
+        <s:attribute name="RfcEmisor" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Acuse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Folios">
+            <s:complexType>
+              <s:sequence>
+                <s:element minOccurs="0" maxOccurs="1" name="UUID" type="s:string" />
+                <s:element minOccurs="0" maxOccurs="1" name="EstatusUUID" type="s:string" />
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+          <s:element minOccurs="0" maxOccurs="1" ref="s2:Signature" />
+        </s:sequence>
+        <s:attribute name="RfcEmisor" type="s:string" />
+        <s:attribute name="Fecha" type="s:dateTime" use="required" />
+        <s:attribute name="CodEstatus" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ConsultaRelacionados">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UuidConsultado" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Resultado" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UuidsRelacionadosPadres" type="s1:ArrayOfUuidPadre" />
+          <s:element minOccurs="0" maxOccurs="1" name="UuidsRelacionadosHijos" type="s1:ArrayOfUuidRelacionado" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfUuidPadre">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="UuidPadre" nillable="true" type="s1:UuidPadre" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UuidPadre">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Uuid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RfcEmisor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RfcReceptor" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfUuidRelacionado">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="UuidRelacionado" nillable="true" type="s1:UuidRelacionado" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UuidRelacionado">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Uuid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RfcEmisor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RfcReceptor" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.w3.org/2000/09/xmldsig#">
+      <s:element name="Signature" type="s2:SignatureType" />
+      <s:complexType name="SignatureType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SignedInfo" type="s2:SignedInfoType" />
+          <s:element minOccurs="0" maxOccurs="1" name="SignatureValue" type="s:base64Binary" />
+          <s:element minOccurs="0" maxOccurs="1" name="KeyInfo" type="s2:KeyInfoType" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Object" type="s2:ObjectType" />
+        </s:sequence>
+        <s:attribute name="Id" type="s:ID" />
+      </s:complexType>
+      <s:complexType name="SignedInfoType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CanonicalizationMethod" type="s2:CanonicalizationMethodType" />
+          <s:element minOccurs="0" maxOccurs="1" name="SignatureMethod" type="s2:SignatureMethodType" />
+          <s:element minOccurs="0" maxOccurs="1" name="Reference" type="s2:ReferenceType" />
+        </s:sequence>
+        <s:attribute name="Id" type="s:ID" />
+      </s:complexType>
+      <s:complexType name="CanonicalizationMethodType" mixed="true">
+        <s:sequence>
+          <s:any minOccurs="0" maxOccurs="unbounded" />
+        </s:sequence>
+        <s:attribute name="Algorithm" type="s:anyURI" />
+      </s:complexType>
+      <s:complexType name="SignatureMethodType" mixed="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="HMACOutputLength" type="s:integer" />
+          <s:any minOccurs="0" maxOccurs="unbounded" />
+        </s:sequence>
+        <s:attribute name="Algorithm" type="s:anyURI" />
+      </s:complexType>
+      <s:complexType name="ReferenceType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Transforms" type="s2:ArrayOfTransformType" />
+          <s:element minOccurs="0" maxOccurs="1" name="DigestMethod" type="s2:DigestMethodType" />
+          <s:element minOccurs="0" maxOccurs="1" name="DigestValue" type="s:base64Binary" />
+        </s:sequence>
+        <s:attribute name="Type" type="s:anyURI" />
+        <s:attribute name="URI" type="s:anyURI" />
+        <s:attribute name="Id" type="s:ID" />
+      </s:complexType>
+      <s:complexType name="ArrayOfTransformType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Transform" type="s2:TransformType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransformType" mixed="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="XPath" type="s:string" />
+        </s:sequence>
+        <s:attribute name="Algorithm" type="s:anyURI" />
+      </s:complexType>
+      <s:complexType name="DigestMethodType" mixed="true">
+        <s:sequence>
+          <s:any minOccurs="0" maxOccurs="unbounded" />
+        </s:sequence>
+        <s:attribute name="Algorithm" type="s:anyURI" />
+      </s:complexType>
+      <s:complexType name="KeyInfoType" mixed="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="X509Data" type="s2:X509DataType" />
+          <s:element minOccurs="0" maxOccurs="1" name="KeyName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KeyValue" type="s2:KeyValueType" />
+        </s:sequence>
+        <s:attribute name="Id" type="s:ID" />
+      </s:complexType>
+      <s:complexType name="X509DataType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="X509IssuerSerial" type="s2:X509IssuerSerialType" />
+          <s:element minOccurs="0" maxOccurs="1" name="X509Certificate" type="s:base64Binary" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="X509IssuerSerialType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="X509IssuerName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="X509SerialNumber" type="s:integer" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="KeyValueType" mixed="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RSAKeyValue" type="s2:RSAKeyValueType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RSAKeyValueType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Modulus" type="s:base64Binary" />
+          <s:element minOccurs="0" maxOccurs="1" name="Exponent" type="s:base64Binary" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ObjectType" mixed="true">
+        <s:sequence>
+          <s:any minOccurs="0" maxOccurs="unbounded" />
+        </s:sequence>
+        <s:attribute name="Encoding" type="s:anyURI" />
+        <s:attribute name="MimeType" type="s:string" />
+        <s:attribute name="Id" type="s:ID" />
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CancelarCSDV2SoapIn">
+    <wsdl:part name="parameters" element="tns:CancelarCSDV2" />
+  </wsdl:message>
+  <wsdl:message name="CancelarCSDV2SoapOut">
+    <wsdl:part name="parameters" element="tns:CancelarCSDV2Response" />
+  </wsdl:message>
+  <wsdl:message name="CancelarPEMV2SoapIn">
+    <wsdl:part name="parameters" element="tns:CancelarPEMV2" />
+  </wsdl:message>
+  <wsdl:message name="CancelarPEMV2SoapOut">
+    <wsdl:part name="parameters" element="tns:CancelarPEMV2Response" />
+  </wsdl:message>
+  <wsdl:message name="CancelarV2SoapIn">
+    <wsdl:part name="parameters" element="tns:CancelarV2" />
+  </wsdl:message>
+  <wsdl:message name="CancelarV2SoapOut">
+    <wsdl:part name="parameters" element="tns:CancelarV2Response" />
+  </wsdl:message>
+  <wsdl:message name="ProcesarRespuestaConsultaRelacionadoSoapIn">
+    <wsdl:part name="parameters" element="tns:ProcesarRespuestaConsultaRelacionado" />
+  </wsdl:message>
+  <wsdl:message name="ProcesarRespuestaConsultaRelacionadoSoapOut">
+    <wsdl:part name="parameters" element="tns:ProcesarRespuestaConsultaRelacionadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ProcesarRespuestaConsultaRelacionadoEmisorSoapIn">
+    <wsdl:part name="parameters" element="tns:ProcesarRespuestaConsultaRelacionadoEmisor" />
+  </wsdl:message>
+  <wsdl:message name="ProcesarRespuestaConsultaRelacionadoEmisorSoapOut">
+    <wsdl:part name="parameters" element="tns:ProcesarRespuestaConsultaRelacionadoEmisorResponse" />
+  </wsdl:message>
+  <wsdl:portType name="wsCancelacionSoap">
+    <wsdl:operation name="CancelarCSDV2">
+      <wsdl:input message="tns:CancelarCSDV2SoapIn" />
+      <wsdl:output message="tns:CancelarCSDV2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelarPEMV2">
+      <wsdl:input message="tns:CancelarPEMV2SoapIn" />
+      <wsdl:output message="tns:CancelarPEMV2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelarV2">
+      <wsdl:input message="tns:CancelarV2SoapIn" />
+      <wsdl:output message="tns:CancelarV2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcesarRespuestaConsultaRelacionado">
+      <wsdl:input message="tns:ProcesarRespuestaConsultaRelacionadoSoapIn" />
+      <wsdl:output message="tns:ProcesarRespuestaConsultaRelacionadoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcesarRespuestaConsultaRelacionadoEmisor">
+      <wsdl:input message="tns:ProcesarRespuestaConsultaRelacionadoEmisorSoapIn" />
+      <wsdl:output message="tns:ProcesarRespuestaConsultaRelacionadoEmisorSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="wsCancelacionSoap" type="tns:wsCancelacionSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CancelarCSDV2">
+      <soap:operation soapAction="http://digibox.com/CancelarCSDV2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelarPEMV2">
+      <soap:operation soapAction="http://digibox.com/CancelarPEMV2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelarV2">
+      <soap:operation soapAction="http://digibox.com/CancelarV2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcesarRespuestaConsultaRelacionado">
+      <soap:operation soapAction="http://digibox.com/ProcesarRespuestaConsultaRelacionado" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcesarRespuestaConsultaRelacionadoEmisor">
+      <soap:operation soapAction="http://digibox.com/ProcesarRespuestaConsultaRelacionadoEmisor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsCancelacionSoap12" type="tns:wsCancelacionSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CancelarCSDV2">
+      <soap12:operation soapAction="http://digibox.com/CancelarCSDV2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelarPEMV2">
+      <soap12:operation soapAction="http://digibox.com/CancelarPEMV2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelarV2">
+      <soap12:operation soapAction="http://digibox.com/CancelarV2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcesarRespuestaConsultaRelacionado">
+      <soap12:operation soapAction="http://digibox.com/ProcesarRespuestaConsultaRelacionado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcesarRespuestaConsultaRelacionadoEmisor">
+      <soap12:operation soapAction="http://digibox.com/ProcesarRespuestaConsultaRelacionadoEmisor" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="wsCancelacion">
+    <wsdl:port name="wsCancelacionSoap" binding="tns:wsCancelacionSoap">
+      <soap:address location="http://digibox2t.cloudapp.net/Cancelacion/wsCancelacion.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsCancelacionSoap12" binding="tns:wsCancelacionSoap12">
+      <soap12:address location="http://digibox2t.cloudapp.net/Cancelacion/wsCancelacion.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

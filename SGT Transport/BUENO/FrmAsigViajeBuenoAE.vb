@@ -1587,17 +1587,18 @@ Public Class FrmAsigViajeBuenoAE
 
                 If dr.ReadNullAsEmptyInteger("CALLE_FISCAL") = 1 Then
                     Try
-                        Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                        ChCalleFiscal.CheckState = Windows.Forms.CheckState.Checked
+                        Using cmd3 As SqlCommand = cnSAE.CreateCommand
                             SQL = "SELECT NOMBRE, RFC, CALLE, CRUZAMIENTOS, CRUZAMIENTOS2 
                                 FROM CLIE" & Empresa & "
                                 WHERE CLAVE  = '" & TCLIENTE.Text & "'"
-                            cmd.CommandText = SQL
-                            Using dr2 As SqlDataReader = cmd.ExecuteReader
-                                If dr.Read Then
-                                    LtNombre1.Text = dr("NOMBRE")
-                                    LtRFC.Text = dr("RFC")
-                                    LtCalle1.Text = dr("CALLE")
-                                    LtCalle2.Text = dr("CRUZAMIENTOS") & " " & ("CRUZAMIENTOS2")
+                            cmd3.CommandText = SQL
+                            Using dr3 As SqlDataReader = cmd3.ExecuteReader
+                                If dr3.Read Then
+                                    LtNombre1.Text = dr3("NOMBRE")
+                                    LtRFC.Text = dr3("RFC")
+                                    LtCalle1.Text = dr3("CALLE")
+                                    LtCalle2.Text = dr3("CRUZAMIENTOS") & " " & dr3("CRUZAMIENTOS2")
                                     LtAliasO.Text = ""
                                     LtPlanta.Text = ""
                                     LtNota.Text = ""
@@ -3689,33 +3690,33 @@ Public Class FrmAsigViajeBuenoAE
                     Else
                         EMBALAJE = ""
                     End If
-                    If Not IsDBNull(FgCarga(k, 4)) AndAlso Not IsNothing(FgCarga(k, 4)) Then
-                        CARGA = FgCarga(k, 4)
+                    If Not IsDBNull(FgCarga(k, 3)) AndAlso Not IsNothing(FgCarga(k, 3)) Then
+                        CARGA = FgCarga(k, 3)
                     Else
                         CARGA = ""
                     End If
-                    If Not IsDBNull(FgCarga(k, 6)) AndAlso Not IsNothing(FgCarga(k, 6)) Then
-                        CONTIENE = FgCarga(k, 6)
+                    If Not IsDBNull(FgCarga(k, 4)) AndAlso Not IsNothing(FgCarga(k, 4)) Then
+                        CONTIENE = FgCarga(k, 4)
                     Else
                         CONTIENE = ""
                     End If
-                    If Not IsDBNull(FgCarga(k, 7)) AndAlso Not IsNothing(FgCarga(k, 7)) Then
-                        PESO = FgCarga(k, 7)
+                    If Not IsDBNull(FgCarga(k, 5)) AndAlso Not IsNothing(FgCarga(k, 5)) Then
+                        PESO = FgCarga(k, 5)
                     Else
                         PESO = ""
                     End If
-                    If Not IsDBNull(FgCarga(k, 8)) AndAlso Not IsNothing(FgCarga(k, 8)) Then
-                        VOLUMEN = FgCarga(k, 8)
+                    If Not IsDBNull(FgCarga(k, 6)) AndAlso Not IsNothing(FgCarga(k, 6)) Then
+                        VOLUMEN = FgCarga(k, 6)
                     Else
-                        VOLUMEN = ""
+                        VOLUMEN = 0
                     End If
-                    If Not IsDBNull(FgCarga(k, 9)) AndAlso Not IsNothing(FgCarga(k, 9)) Then
-                        PESO_ESTIMADO = FgCarga(k, 9)
+                    If Not IsDBNull(FgCarga(k, 7)) AndAlso Not IsNothing(FgCarga(k, 7)) Then
+                        PESO_ESTIMADO = FgCarga(k, 7)
                     Else
                         PESO_ESTIMADO = ""
                     End If
-                    If Not IsDBNull(FgCarga(k, 10)) AndAlso Not IsNothing(FgCarga(k, 10)) Then
-                        PEDIMENTO = FgCarga(k, 10)
+                    If Not IsDBNull(FgCarga(k, 8)) AndAlso Not IsNothing(FgCarga(k, 8)) Then
+                        PEDIMENTO = FgCarga(k, 8)
                     Else
                         PEDIMENTO = ""
                     End If
@@ -7087,10 +7088,17 @@ Public Class FrmAsigViajeBuenoAE
     Private Sub BtnAgregar_Click(sender As Object, e As EventArgs) Handles BtnAgregar.Click
 
         Try
-            '                            CANT          EMBALAJE        CARGA       QUE EL REMITENTE DICE QUE CONTIENE
-            FgCarga.AddItem("" & vbTab & "1" & vbTab & "Viaje" & vbTab & "" & vbTab & "" & vbTab &
+            If FgCarga.Rows.Count <= 1 Then
+                '                            CANT          EMBALAJE        CARGA       QUE EL REMITENTE DICE QUE CONTIENE
+                FgCarga.AddItem("" & vbTab & "1" & vbTab & "Viaje" & vbTab & "" & vbTab & "" & vbTab &
                            "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
-            '              PESO        VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR
+                '              PESO        VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR
+            Else
+                '                            CANT          EMBALAJE        CARGA       QUE EL REMITENTE DICE QUE CONTIENE
+                FgCarga.AddItem("" & vbTab & "0" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab &
+                           "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
+                '              PESO        VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR
+            End If
             FgCarga.Focus()
             FgCarga.Row = FgCarga.Rows.Count - 1
             FgCarga.Col = 1
@@ -12625,12 +12633,16 @@ Public Class FrmAsigViajeBuenoAE
                 Select Case e.KeyCode'                           Boton                                  
                     Case Keys.Insert '                1            2            3            4             5             6             7             8
                         IsMatPeligroso = False
-                        '                            CANT         CLAVE        EMBALAJE     CLAVE        CARGA     QUE EL REMITENTE DICE QUE CONTIENE
-                        FgCarga.AddItem("" & vbTab & "0" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab &
-                                        "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
-                        '              PESO          VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR
-                        FgCarga.Row = FgCarga.Rows.Count - 1
-                        FgCarga.Col = 1
+                        ''                            CANT         CLAVE        EMBALAJE     CLAVE        CARGA     QUE EL REMITENTE DICE QUE CONTIENE
+                        'FgCarga.AddItem("" & vbTab & "0" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab &
+                        '                "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
+                        ''              PESO          VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR
+                        'FgCarga.Row = FgCarga.Rows.Count - 1
+                        'FgCarga.Col = 1
+
+                        BtnAgregar_Click(Nothing, Nothing)
+
+
                     Case Keys.Delete
                         If FgCarga.Row > 0 Then
                             FgCarga.RemoveItem(FgCarga.Row)

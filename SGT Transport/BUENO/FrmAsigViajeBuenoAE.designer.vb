@@ -6845,7 +6845,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.C1ToolBar1.Movable = False
         Me.C1ToolBar1.Name = "C1ToolBar1"
-        Me.C1ToolBar1.Size = New System.Drawing.Size(1566, 43)
+        Me.C1ToolBar1.Size = New System.Drawing.Size(1386, 43)
         Me.C1ToolBar1.Text = "C1ToolBar1"
         Me.C1ToolBar1.VisualStyle = C1.Win.C1Command.VisualStyle.Office2010Blue
         Me.C1ToolBar1.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
@@ -6977,7 +6977,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1566, 792)
+        Me.ClientSize = New System.Drawing.Size(1386, 788)
         Me.Controls.Add(Me.BtnSelViaje)
         Me.Controls.Add(Me.Label45)
         Me.Controls.Add(Me.TFOLIO_VIAJE)

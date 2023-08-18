@@ -121,7 +121,7 @@
     <value>17, 17</value>
   </metadata>
   <data name="Fg.ColumnInfo" xml:space="preserve">
-    <value>5,1,0,0,0,95,Columns:1{Caption:"col1";AllowDragging:False;AllowEditing:False;}	2{Caption:"col2";AllowDragging:False;AllowEditing:False;}	3{Caption:"col3";AllowDragging:False;AllowEditing:False;Style:"DataType:System.Int16;TextAlign:GeneralCenter;";}	</value>
+    <value>5,1,0,0,0,95,Columns:1{Caption:"col1";AllowDragging:False;AllowEditing:False;Style:"TextAlign:GeneralCenter;";StyleFixed:"TextAlign:GeneralCenter;";}	2{Caption:"col2";AllowDragging:False;AllowEditing:False;}	3{Caption:"col3";AllowDragging:False;AllowEditing:False;Style:"DataType:System.Int16;TextAlign:GeneralCenter;";}	</value>
   </data>
   <data name="Fg.StyleInfo" xml:space="preserve">
     <value>Normal{}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:234, 236, 245;ForeColor:ControlText;SearchBackColor:Orange;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	FrozenAlternate{}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	Footer{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	FirstCustomStyle{}	</value>

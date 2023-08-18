@@ -77,6 +77,7 @@ Partial Class FrmPolizaVentasFlete
         Me.BarGenPoliza.Name = "BarGenPoliza"
         Me.BarGenPoliza.ShortcutText = ""
         Me.BarGenPoliza.Text = "Generar poliza"
+        Me.BarGenPoliza.Visible = False
         '
         'BarExcel
         '
@@ -182,22 +183,23 @@ Partial Class FrmPolizaVentasFlete
         'RadFechaCarga
         '
         Me.RadFechaCarga.AutoSize = True
-        Me.RadFechaCarga.Checked = True
         Me.RadFechaCarga.Location = New System.Drawing.Point(22, 6)
         Me.RadFechaCarga.Name = "RadFechaCarga"
         Me.RadFechaCarga.Size = New System.Drawing.Size(93, 19)
         Me.RadFechaCarga.TabIndex = 341
-        Me.RadFechaCarga.TabStop = True
         Me.RadFechaCarga.Text = "Fecha carga"
         Me.RadFechaCarga.UseVisualStyleBackColor = True
+        Me.RadFechaCarga.Visible = False
         '
         'RadFechaTimbre
         '
         Me.RadFechaTimbre.AutoSize = True
-        Me.RadFechaTimbre.Location = New System.Drawing.Point(22, 48)
+        Me.RadFechaTimbre.Checked = True
+        Me.RadFechaTimbre.Location = New System.Drawing.Point(22, 30)
         Me.RadFechaTimbre.Name = "RadFechaTimbre"
         Me.RadFechaTimbre.Size = New System.Drawing.Size(111, 19)
         Me.RadFechaTimbre.TabIndex = 340
+        Me.RadFechaTimbre.TabStop = True
         Me.RadFechaTimbre.Text = "Fecha timbrado"
         Me.RadFechaTimbre.UseVisualStyleBackColor = True
         '

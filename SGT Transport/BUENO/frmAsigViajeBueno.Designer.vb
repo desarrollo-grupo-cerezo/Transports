@@ -42,10 +42,10 @@ Partial Class FrmAsigViajeBueno
         Me.SplitM5 = New C1.Win.C1SplitContainer.C1SplitContainer()
         Me.SplitMP1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.C1ToolBar2 = New C1.Win.C1Command.C1ToolBar()
-        Me.LkEditCob = New C1.Win.C1Command.C1CommandLink()
-        Me.BarEditCob = New C1.Win.C1Command.C1Command()
         Me.LkNuevoCob = New C1.Win.C1Command.C1CommandLink()
         Me.BarNuevoCob = New C1.Win.C1Command.C1Command()
+        Me.LkEditCob = New C1.Win.C1Command.C1CommandLink()
+        Me.BarEditCob = New C1.Win.C1Command.C1Command()
         Me.LkEliminar5 = New C1.Win.C1Command.C1CommandLink()
         Me.BarEliminar5 = New C1.Win.C1Command.C1Command()
         Me.LkImprimir5 = New C1.Win.C1Command.C1CommandLink()
@@ -420,18 +420,6 @@ Partial Class FrmAsigViajeBueno
         Me.C1ToolBar2.VisualStyle = C1.Win.C1Command.VisualStyle.Custom
         Me.C1ToolBar2.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
         '
-        'LkEditCob
-        '
-        Me.LkEditCob.Command = Me.BarEditCob
-        Me.LkEditCob.SortOrder = 1
-        '
-        'BarEditCob
-        '
-        Me.BarEditCob.Image = Global.SGT_Transport.My.Resources.Resources.edit1
-        Me.BarEditCob.Name = "BarEditCob"
-        Me.BarEditCob.ShortcutText = ""
-        Me.BarEditCob.Text = "Edit"
-        '
         'LkNuevoCob
         '
         Me.LkNuevoCob.Command = Me.BarNuevoCob
@@ -444,6 +432,18 @@ Partial Class FrmAsigViajeBueno
         Me.BarNuevoCob.Name = "BarNuevoCob"
         Me.BarNuevoCob.ShortcutText = ""
         Me.BarNuevoCob.Text = "Nuevo"
+        '
+        'LkEditCob
+        '
+        Me.LkEditCob.Command = Me.BarEditCob
+        Me.LkEditCob.SortOrder = 1
+        '
+        'BarEditCob
+        '
+        Me.BarEditCob.Image = Global.SGT_Transport.My.Resources.Resources.edit1
+        Me.BarEditCob.Name = "BarEditCob"
+        Me.BarEditCob.ShortcutText = ""
+        Me.BarEditCob.Text = "Edit"
         '
         'LkEliminar5
         '

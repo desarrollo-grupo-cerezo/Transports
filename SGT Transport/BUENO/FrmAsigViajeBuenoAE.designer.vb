@@ -3162,6 +3162,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.FgCarga.ColumnInfo = resources.GetString("FgCarga.ColumnInfo")
         Me.FgCarga.Font = New System.Drawing.Font("Tahoma", 9.0!)
         Me.FgCarga.KeyActionEnter = C1.Win.C1FlexGrid.KeyActionEnum.None
+        Me.FgCarga.KeyActionTab = C1.Win.C1FlexGrid.KeyActionEnum.MoveAcross
         Me.FgCarga.Location = New System.Drawing.Point(3, 5)
         Me.FgCarga.Name = "FgCarga"
         Me.FgCarga.PreserveEditMode = True

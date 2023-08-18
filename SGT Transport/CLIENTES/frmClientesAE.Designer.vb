@@ -1059,6 +1059,10 @@ Partial Class frmClientesAE
         Me.GroupBox8.Controls.Add(Me.TCALLE)
         Me.GroupBox8.Controls.Add(Me.Label6)
         Me.GroupBox8.Controls.Add(Me.Label2)
+<<<<<<< HEAD
+=======
+        Me.GroupBox8.Controls.Add(Me.Label13)
+>>>>>>> Ultimos Cambios
         Me.GroupBox8.Controls.Add(Me.Label29)
         Me.GroupBox8.Controls.Add(Me.TRFC)
         Me.GroupBox8.Controls.Add(Me.Label12)
@@ -1121,7 +1125,11 @@ Partial Class frmClientesAE
         Me.BtnCP.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnCP.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnCP.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
+<<<<<<< HEAD
         Me.BtnCP.Location = New System.Drawing.Point(590, 214)
+=======
+        Me.BtnCP.Location = New System.Drawing.Point(590, 211)
+>>>>>>> Ultimos Cambios
         Me.BtnCP.Name = "BtnCP"
         Me.BtnCP.Size = New System.Drawing.Size(22, 22)
         Me.BtnCP.TabIndex = 290
@@ -1133,7 +1141,11 @@ Partial Class frmClientesAE
         Me.BtnEstado.FlatAppearance.BorderSize = 0
         Me.BtnEstado.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnEstado.Image = CType(resources.GetObject("BtnEstado.Image"), System.Drawing.Image)
+<<<<<<< HEAD
         Me.BtnEstado.Location = New System.Drawing.Point(590, 294)
+=======
+        Me.BtnEstado.Location = New System.Drawing.Point(590, 292)
+>>>>>>> Ultimos Cambios
         Me.BtnEstado.Name = "BtnEstado"
         Me.BtnEstado.Size = New System.Drawing.Size(22, 22)
         Me.BtnEstado.TabIndex = 662
@@ -1144,7 +1156,11 @@ Partial Class frmClientesAE
         Me.BtnLocalidad.FlatAppearance.BorderSize = 0
         Me.BtnLocalidad.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnLocalidad.Image = CType(resources.GetObject("BtnLocalidad.Image"), System.Drawing.Image)
+<<<<<<< HEAD
         Me.BtnLocalidad.Location = New System.Drawing.Point(590, 268)
+=======
+        Me.BtnLocalidad.Location = New System.Drawing.Point(590, 266)
+>>>>>>> Ultimos Cambios
         Me.BtnLocalidad.Name = "BtnLocalidad"
         Me.BtnLocalidad.Size = New System.Drawing.Size(22, 22)
         Me.BtnLocalidad.TabIndex = 661
@@ -1155,7 +1171,11 @@ Partial Class frmClientesAE
         Me.BtnMunicipio.FlatAppearance.BorderSize = 0
         Me.BtnMunicipio.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnMunicipio.Image = CType(resources.GetObject("BtnMunicipio.Image"), System.Drawing.Image)
+<<<<<<< HEAD
         Me.BtnMunicipio.Location = New System.Drawing.Point(590, 241)
+=======
+        Me.BtnMunicipio.Location = New System.Drawing.Point(590, 237)
+>>>>>>> Ultimos Cambios
         Me.BtnMunicipio.Name = "BtnMunicipio"
         Me.BtnMunicipio.Size = New System.Drawing.Size(22, 22)
         Me.BtnMunicipio.TabIndex = 660
@@ -1166,7 +1186,11 @@ Partial Class frmClientesAE
         Me.BtnColonia.FlatAppearance.BorderSize = 0
         Me.BtnColonia.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnColonia.Image = CType(resources.GetObject("BtnColonia.Image"), System.Drawing.Image)
+<<<<<<< HEAD
         Me.BtnColonia.Location = New System.Drawing.Point(590, 348)
+=======
+        Me.BtnColonia.Location = New System.Drawing.Point(590, 346)
+>>>>>>> Ultimos Cambios
         Me.BtnColonia.Name = "BtnColonia"
         Me.BtnColonia.Size = New System.Drawing.Size(22, 22)
         Me.BtnColonia.TabIndex = 659
@@ -1225,7 +1249,11 @@ Partial Class frmClientesAE
         Me.Label79.BackColor = System.Drawing.Color.Transparent
         Me.Label79.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label79.ForeColor = System.Drawing.Color.Black
+<<<<<<< HEAD
         Me.Label79.Location = New System.Drawing.Point(432, 323)
+=======
+        Me.Label79.Location = New System.Drawing.Point(432, 322)
+>>>>>>> Ultimos Cambios
         Me.Label79.Name = "Label79"
         Me.Label79.Size = New System.Drawing.Size(74, 17)
         Me.Label79.TabIndex = 656
@@ -1237,7 +1265,11 @@ Partial Class frmClientesAE
         Me.BtnPais.FlatAppearance.BorderSize = 0
         Me.BtnPais.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnPais.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
+<<<<<<< HEAD
         Me.BtnPais.Location = New System.Drawing.Point(590, 321)
+=======
+        Me.BtnPais.Location = New System.Drawing.Point(590, 319)
+>>>>>>> Ultimos Cambios
         Me.BtnPais.Name = "BtnPais"
         Me.BtnPais.Size = New System.Drawing.Size(22, 22)
         Me.BtnPais.TabIndex = 258
@@ -1260,7 +1292,11 @@ Partial Class frmClientesAE
         Me.TPAIS_SAT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TPAIS_SAT.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TPAIS_SAT.ForeColor = System.Drawing.Color.Black
+<<<<<<< HEAD
         Me.TPAIS_SAT.Location = New System.Drawing.Point(508, 320)
+=======
+        Me.TPAIS_SAT.Location = New System.Drawing.Point(508, 319)
+>>>>>>> Ultimos Cambios
         Me.TPAIS_SAT.MaxLength = 10
         Me.TPAIS_SAT.Name = "TPAIS_SAT"
         Me.TPAIS_SAT.ReadOnly = True
@@ -1302,7 +1338,11 @@ Partial Class frmClientesAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TCVE_ESQIMPU.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TCVE_ESQIMPU.ImagePadding = New System.Windows.Forms.Padding(0)
+<<<<<<< HEAD
         Me.TCVE_ESQIMPU.Location = New System.Drawing.Point(369, 139)
+=======
+        Me.TCVE_ESQIMPU.Location = New System.Drawing.Point(369, 174)
+>>>>>>> Ultimos Cambios
         Me.TCVE_ESQIMPU.Name = "TCVE_ESQIMPU"
         Me.TCVE_ESQIMPU.Size = New System.Drawing.Size(27, 21)
         Me.TCVE_ESQIMPU.TabIndex = 305
@@ -1315,7 +1355,11 @@ Partial Class frmClientesAE
         '
         Me.BtnEsquema.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnEsquema.Image = CType(resources.GetObject("BtnEsquema.Image"), System.Drawing.Image)
+<<<<<<< HEAD
         Me.BtnEsquema.Location = New System.Drawing.Point(399, 138)
+=======
+        Me.BtnEsquema.Location = New System.Drawing.Point(399, 173)
+>>>>>>> Ultimos Cambios
         Me.BtnEsquema.Name = "BtnEsquema"
         Me.BtnEsquema.Size = New System.Drawing.Size(22, 22)
         Me.BtnEsquema.TabIndex = 293
@@ -1328,7 +1372,11 @@ Partial Class frmClientesAE
         Me.Label81.BackColor = System.Drawing.Color.Transparent
         Me.Label81.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label81.ForeColor = System.Drawing.Color.Black
+<<<<<<< HEAD
         Me.Label81.Location = New System.Drawing.Point(432, 297)
+=======
+        Me.Label81.Location = New System.Drawing.Point(432, 295)
+>>>>>>> Ultimos Cambios
         Me.Label81.Name = "Label81"
         Me.Label81.Size = New System.Drawing.Size(74, 17)
         Me.Label81.TabIndex = 654
@@ -1337,8 +1385,12 @@ Partial Class frmClientesAE
         'LtEsquema
         '
         Me.LtEsquema.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+<<<<<<< HEAD
         Me.LtEsquema.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LtEsquema.Location = New System.Drawing.Point(426, 139)
+=======
+        Me.LtEsquema.Location = New System.Drawing.Point(426, 174)
+>>>>>>> Ultimos Cambios
         Me.LtEsquema.Name = "LtEsquema"
         Me.LtEsquema.Size = New System.Drawing.Size(297, 23)
         Me.LtEsquema.TabIndex = 292
@@ -1350,7 +1402,11 @@ Partial Class frmClientesAE
         Me.TESTADO_SAT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TESTADO_SAT.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TESTADO_SAT.ForeColor = System.Drawing.Color.Black
+<<<<<<< HEAD
         Me.TESTADO_SAT.Location = New System.Drawing.Point(508, 294)
+=======
+        Me.TESTADO_SAT.Location = New System.Drawing.Point(508, 292)
+>>>>>>> Ultimos Cambios
         Me.TESTADO_SAT.MaxLength = 10
         Me.TESTADO_SAT.Name = "TESTADO_SAT"
         Me.TESTADO_SAT.ReadOnly = True
@@ -1361,7 +1417,11 @@ Partial Class frmClientesAE
         '
         Me.Label75.AutoSize = True
         Me.Label75.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.Label75.Location = New System.Drawing.Point(300, 141)
+=======
+        Me.Label75.Location = New System.Drawing.Point(300, 175)
+>>>>>>> Ultimos Cambios
         Me.Label75.Name = "Label75"
         Me.Label75.Size = New System.Drawing.Size(67, 17)
         Me.Label75.TabIndex = 291
@@ -1393,7 +1453,7 @@ Partial Class frmClientesAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TFLETE.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TFLETE.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.TFLETE.Location = New System.Drawing.Point(123, 139)
+        Me.TFLETE.Location = New System.Drawing.Point(123, 170)
         Me.TFLETE.Name = "TFLETE"
         Me.TFLETE.Size = New System.Drawing.Size(124, 21)
         Me.TFLETE.TabIndex = 5
@@ -1408,7 +1468,7 @@ Partial Class frmClientesAE
         Me.Label73.BackColor = System.Drawing.Color.Transparent
         Me.Label73.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label73.ForeColor = System.Drawing.Color.Black
-        Me.Label73.Location = New System.Drawing.Point(82, 141)
+        Me.Label73.Location = New System.Drawing.Point(82, 172)
         Me.Label73.Name = "Label73"
         Me.Label73.Size = New System.Drawing.Size(37, 16)
         Me.Label73.TabIndex = 302
@@ -1462,7 +1522,11 @@ Partial Class frmClientesAE
         Me.Label85.BackColor = System.Drawing.Color.Transparent
         Me.Label85.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label85.ForeColor = System.Drawing.Color.Black
+<<<<<<< HEAD
         Me.Label85.Location = New System.Drawing.Point(432, 271)
+=======
+        Me.Label85.Location = New System.Drawing.Point(432, 268)
+>>>>>>> Ultimos Cambios
         Me.Label85.Name = "Label85"
         Me.Label85.Size = New System.Drawing.Size(74, 17)
         Me.Label85.TabIndex = 650
@@ -1474,7 +1538,11 @@ Partial Class frmClientesAE
         Me.Label83.BackColor = System.Drawing.Color.Transparent
         Me.Label83.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label83.ForeColor = System.Drawing.Color.Black
+<<<<<<< HEAD
         Me.Label83.Location = New System.Drawing.Point(432, 245)
+=======
+        Me.Label83.Location = New System.Drawing.Point(432, 242)
+>>>>>>> Ultimos Cambios
         Me.Label83.Name = "Label83"
         Me.Label83.Size = New System.Drawing.Size(74, 17)
         Me.Label83.TabIndex = 652
@@ -1487,7 +1555,11 @@ Partial Class frmClientesAE
         Me.TLOCALIDAD_SAT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TLOCALIDAD_SAT.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TLOCALIDAD_SAT.ForeColor = System.Drawing.Color.Black
+<<<<<<< HEAD
         Me.TLOCALIDAD_SAT.Location = New System.Drawing.Point(508, 268)
+=======
+        Me.TLOCALIDAD_SAT.Location = New System.Drawing.Point(508, 265)
+>>>>>>> Ultimos Cambios
         Me.TLOCALIDAD_SAT.MaxLength = 10
         Me.TLOCALIDAD_SAT.Name = "TLOCALIDAD_SAT"
         Me.TLOCALIDAD_SAT.Size = New System.Drawing.Size(81, 23)
@@ -1512,7 +1584,11 @@ Partial Class frmClientesAE
         Me.TMUNICIPIO_SAT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TMUNICIPIO_SAT.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TMUNICIPIO_SAT.ForeColor = System.Drawing.Color.Black
+<<<<<<< HEAD
         Me.TMUNICIPIO_SAT.Location = New System.Drawing.Point(508, 242)
+=======
+        Me.TMUNICIPIO_SAT.Location = New System.Drawing.Point(508, 238)
+>>>>>>> Ultimos Cambios
         Me.TMUNICIPIO_SAT.MaxLength = 10
         Me.TMUNICIPIO_SAT.Name = "TMUNICIPIO_SAT"
         Me.TMUNICIPIO_SAT.Size = New System.Drawing.Size(81, 23)
@@ -1539,6 +1615,17 @@ Partial Class frmClientesAE
         Me.TCRUZAMIENTOS2.Name = "TCRUZAMIENTOS2"
         Me.TCRUZAMIENTOS2.Size = New System.Drawing.Size(601, 22)
         Me.TCRUZAMIENTOS2.TabIndex = 7
+        '
+        'TCRUZAMIENTOS2
+        '
+        Me.TCRUZAMIENTOS2.AcceptsReturn = True
+        Me.TCRUZAMIENTOS2.AcceptsTab = True
+        Me.TCRUZAMIENTOS2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCRUZAMIENTOS2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCRUZAMIENTOS2.Location = New System.Drawing.Point(429, 139)
+        Me.TCRUZAMIENTOS2.Name = "TCRUZAMIENTOS2"
+        Me.TCRUZAMIENTOS2.Size = New System.Drawing.Size(296, 22)
+        Me.TCRUZAMIENTOS2.TabIndex = 13
         '
         'Label4
         '
@@ -1581,11 +1668,25 @@ Partial Class frmClientesAE
         Me.Label2.TabIndex = 228
         Me.Label2.Text = "Y Calle"
         '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(388, 142)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(38, 16)
+        Me.Label2.TabIndex = 228
+        Me.Label2.Text = "Calle"
+        '
         'Label13
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.Label13.Location = New System.Drawing.Point(341, 35)
+=======
+        Me.Label13.Location = New System.Drawing.Point(358, 381)
+>>>>>>> Ultimos Cambios
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(49, 16)
         Me.Label13.TabIndex = 256
@@ -1595,7 +1696,11 @@ Partial Class frmClientesAE
         '
         Me.Label29.AutoSize = True
         Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.Label29.Location = New System.Drawing.Point(52, 271)
+=======
+        Me.Label29.Location = New System.Drawing.Point(52, 268)
+>>>>>>> Ultimos Cambios
         Me.Label29.Name = "Label29"
         Me.Label29.Size = New System.Drawing.Size(67, 16)
         Me.Label29.TabIndex = 233
@@ -1606,7 +1711,11 @@ Partial Class frmClientesAE
         Me.TFax.AcceptsReturn = True
         Me.TFax.AcceptsTab = True
         Me.TFax.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.TFax.Location = New System.Drawing.Point(396, 32)
+=======
+        Me.TFax.Location = New System.Drawing.Point(413, 374)
+>>>>>>> Ultimos Cambios
         Me.TFax.Name = "TFax"
         Me.TFax.Size = New System.Drawing.Size(188, 22)
         Me.TFax.TabIndex = 1
@@ -1638,9 +1747,15 @@ Partial Class frmClientesAE
         Me.TCRUZAMIENTOS.AcceptsTab = True
         Me.TCRUZAMIENTOS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCRUZAMIENTOS.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.TCRUZAMIENTOS.Location = New System.Drawing.Point(123, 164)
         Me.TCRUZAMIENTOS.Name = "TCRUZAMIENTOS"
         Me.TCRUZAMIENTOS.Size = New System.Drawing.Size(600, 22)
+=======
+        Me.TCRUZAMIENTOS.Location = New System.Drawing.Point(123, 139)
+        Me.TCRUZAMIENTOS.Name = "TCRUZAMIENTOS"
+        Me.TCRUZAMIENTOS.Size = New System.Drawing.Size(241, 22)
+>>>>>>> Ultimos Cambios
         Me.TCRUZAMIENTOS.TabIndex = 12
         '
         'Label87
@@ -1649,7 +1764,11 @@ Partial Class frmClientesAE
         Me.Label87.BackColor = System.Drawing.Color.Transparent
         Me.Label87.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label87.ForeColor = System.Drawing.Color.Black
+<<<<<<< HEAD
         Me.Label87.Location = New System.Drawing.Point(432, 350)
+=======
+        Me.Label87.Location = New System.Drawing.Point(432, 349)
+>>>>>>> Ultimos Cambios
         Me.Label87.Name = "Label87"
         Me.Label87.Size = New System.Drawing.Size(74, 17)
         Me.Label87.TabIndex = 648
@@ -1659,7 +1778,11 @@ Partial Class frmClientesAE
         '
         Me.Label30.AutoSize = True
         Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.Label30.Location = New System.Drawing.Point(475, 219)
+=======
+        Me.Label30.Location = New System.Drawing.Point(475, 214)
+>>>>>>> Ultimos Cambios
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(31, 16)
         Me.Label30.TabIndex = 234
@@ -1688,13 +1811,27 @@ Partial Class frmClientesAE
         Me.Label7.TabIndex = 242
         Me.Label7.Text = "Dirección 2"
         '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(43, 141)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(74, 16)
+        Me.Label7.TabIndex = 242
+        Me.Label7.Text = "Dirección 2"
+        '
         'TMunicipio
         '
         Me.TMunicipio.AcceptsReturn = True
         Me.TMunicipio.AcceptsTab = True
         Me.TMunicipio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TMunicipio.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.TMunicipio.Location = New System.Drawing.Point(123, 242)
+=======
+        Me.TMunicipio.Location = New System.Drawing.Point(123, 238)
+>>>>>>> Ultimos Cambios
         Me.TMunicipio.Name = "TMunicipio"
         Me.TMunicipio.Size = New System.Drawing.Size(296, 22)
         Me.TMunicipio.TabIndex = 11
@@ -1715,7 +1852,11 @@ Partial Class frmClientesAE
         Me.TNumInt.AcceptsTab = True
         Me.TNumInt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TNumInt.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.TNumInt.Location = New System.Drawing.Point(238, 216)
+=======
+        Me.TNumInt.Location = New System.Drawing.Point(238, 211)
+>>>>>>> Ultimos Cambios
         Me.TNumInt.Name = "TNumInt"
         Me.TNumInt.Size = New System.Drawing.Size(69, 22)
         Me.TNumInt.TabIndex = 9
@@ -1736,7 +1877,11 @@ Partial Class frmClientesAE
         Me.TNumExt.AcceptsTab = True
         Me.TNumExt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TNumExt.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.TNumExt.Location = New System.Drawing.Point(123, 216)
+=======
+        Me.TNumExt.Location = New System.Drawing.Point(123, 211)
+>>>>>>> Ultimos Cambios
         Me.TNumExt.Name = "TNumExt"
         Me.TNumExt.Size = New System.Drawing.Size(48, 22)
         Me.TNumExt.TabIndex = 8
@@ -1745,7 +1890,11 @@ Partial Class frmClientesAE
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.Label3.Location = New System.Drawing.Point(57, 218)
+=======
+        Me.Label3.Location = New System.Drawing.Point(57, 214)
+>>>>>>> Ultimos Cambios
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(62, 16)
         Me.Label3.TabIndex = 229
@@ -1757,7 +1906,11 @@ Partial Class frmClientesAE
         Me.TPais.AcceptsTab = True
         Me.TPais.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TPais.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.TPais.Location = New System.Drawing.Point(123, 320)
+=======
+        Me.TPais.Location = New System.Drawing.Point(123, 319)
+>>>>>>> Ultimos Cambios
         Me.TPais.Name = "TPais"
         Me.TPais.Size = New System.Drawing.Size(296, 22)
         Me.TPais.TabIndex = 15
@@ -1766,7 +1919,11 @@ Partial Class frmClientesAE
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.Label8.Location = New System.Drawing.Point(66, 349)
+=======
+        Me.Label8.Location = New System.Drawing.Point(66, 348)
+>>>>>>> Ultimos Cambios
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(53, 16)
         Me.Label8.TabIndex = 244
@@ -1776,7 +1933,11 @@ Partial Class frmClientesAE
         '
         Me.Label18.AutoSize = True
         Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.Label18.Location = New System.Drawing.Point(178, 219)
+=======
+        Me.Label18.Location = New System.Drawing.Point(178, 214)
+>>>>>>> Ultimos Cambios
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(57, 16)
         Me.Label18.TabIndex = 235
@@ -1788,7 +1949,11 @@ Partial Class frmClientesAE
         Me.TTELEFONO.AcceptsTab = True
         Me.TTELEFONO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TTELEFONO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.TTELEFONO.Location = New System.Drawing.Point(143, 32)
+=======
+        Me.TTELEFONO.Location = New System.Drawing.Point(123, 373)
+>>>>>>> Ultimos Cambios
         Me.TTELEFONO.Name = "TTELEFONO"
         Me.TTELEFONO.Size = New System.Drawing.Size(188, 22)
         Me.TTELEFONO.TabIndex = 0
@@ -1799,7 +1964,11 @@ Partial Class frmClientesAE
         Me.TCODIGO.AcceptsTab = True
         Me.TCODIGO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCODIGO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.TCODIGO.Location = New System.Drawing.Point(508, 216)
+=======
+        Me.TCODIGO.Location = New System.Drawing.Point(508, 211)
+>>>>>>> Ultimos Cambios
         Me.TCODIGO.Name = "TCODIGO"
         Me.TCODIGO.Size = New System.Drawing.Size(81, 22)
         Me.TCODIGO.TabIndex = 10
@@ -1811,7 +1980,11 @@ Partial Class frmClientesAE
         Me.TLOCALIDAD.AcceptsTab = True
         Me.TLOCALIDAD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TLOCALIDAD.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.TLOCALIDAD.Location = New System.Drawing.Point(123, 268)
+=======
+        Me.TLOCALIDAD.Location = New System.Drawing.Point(123, 265)
+>>>>>>> Ultimos Cambios
         Me.TLOCALIDAD.Name = "TLOCALIDAD"
         Me.TLOCALIDAD.Size = New System.Drawing.Size(296, 22)
         Me.TLOCALIDAD.TabIndex = 15
@@ -1820,7 +1993,11 @@ Partial Class frmClientesAE
         '
         Me.Label16.AutoSize = True
         Me.Label16.Font = New System.Drawing.Font("MS Reference Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.Label16.Location = New System.Drawing.Point(86, 323)
+=======
+        Me.Label16.Location = New System.Drawing.Point(86, 321)
+>>>>>>> Ultimos Cambios
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(33, 16)
         Me.Label16.TabIndex = 240
@@ -1830,7 +2007,11 @@ Partial Class frmClientesAE
         '
         Me.Label44.AutoSize = True
         Me.Label44.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.Label44.Location = New System.Drawing.Point(69, 297)
+=======
+        Me.Label44.Location = New System.Drawing.Point(69, 294)
+>>>>>>> Ultimos Cambios
         Me.Label44.Name = "Label44"
         Me.Label44.Size = New System.Drawing.Size(50, 16)
         Me.Label44.TabIndex = 237
@@ -1853,7 +2034,11 @@ Partial Class frmClientesAE
         Me.TEstado.AcceptsTab = True
         Me.TEstado.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TEstado.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.TEstado.Location = New System.Drawing.Point(123, 294)
+=======
+        Me.TEstado.Location = New System.Drawing.Point(123, 292)
+>>>>>>> Ultimos Cambios
         Me.TEstado.Name = "TEstado"
         Me.TEstado.Size = New System.Drawing.Size(296, 22)
         Me.TEstado.TabIndex = 13
@@ -1862,7 +2047,11 @@ Partial Class frmClientesAE
         '
         Me.Label34.AutoSize = True
         Me.Label34.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.Label34.Location = New System.Drawing.Point(55, 245)
+=======
+        Me.Label34.Location = New System.Drawing.Point(55, 240)
+>>>>>>> Ultimos Cambios
         Me.Label34.Name = "Label34"
         Me.Label34.Size = New System.Drawing.Size(64, 16)
         Me.Label34.TabIndex = 239
@@ -1872,7 +2061,11 @@ Partial Class frmClientesAE
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+<<<<<<< HEAD
         Me.Label21.Location = New System.Drawing.Point(76, 35)
+=======
+        Me.Label21.Location = New System.Drawing.Point(58, 376)
+>>>>>>> Ultimos Cambios
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(61, 16)
         Me.Label21.TabIndex = 238
@@ -3707,7 +3900,7 @@ Partial Class frmClientesAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1463, 1091)
+        Me.ClientSize = New System.Drawing.Size(1463, 642)
         Me.Controls.Add(Me.SplitM1)
         Me.Controls.Add(Me.Label36)
         Me.Controls.Add(Me.BarraMenu)

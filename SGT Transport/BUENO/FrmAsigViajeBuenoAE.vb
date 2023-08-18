@@ -6,8 +6,6 @@ Imports System.Data.SqlClient
 Imports System.Xml
 Imports C1.Win.C1Input
 Imports C1.Win.C1Command
-Imports Microsoft.VisualC.StlClr.Generic
-
 Public Class FrmAsigViajeBuenoAE
 
     Private PasaXLS As Boolean = True
@@ -798,6 +796,9 @@ Public Class FrmAsigViajeBuenoAE
                 SplitM4.Enabled = False
                 TFOLIO_VIAJE.Enabled = False
                 BtnSelViaje.Enabled = False
+                ChCalleFiscal.Enabled = False
+                BarEditarRemitente.Enabled = False
+                BarEditDestinatario.Enabled = False
 
                 DESHABILITAR()
             Case "TIMBRADO"
@@ -811,13 +812,17 @@ Public Class FrmAsigViajeBuenoAE
                     SplitM4.Enabled = False
                     TFOLIO_VIAJE.Enabled = False
                     BtnSelViaje.Enabled = False
+                    ChCalleFiscal.Enabled = False
+
+                    BarEditarRemitente.Enabled = False
+                    BarEditDestinatario.Enabled = False
 
                     DESHABILITAR()
                 Else
                     TFOLIO.Value = 0
                     CboSerieFactura.SelectedIndex = -1
                 End If
-            Case "LIQUIDADA"
+            Case "LIQUIDADO"
                 BarGrabar.Enabled = False
                 BarEditarRemitente.Enabled = False
                 BarEditDestinatario.Enabled = False
@@ -826,6 +831,11 @@ Public Class FrmAsigViajeBuenoAE
                 SplitM4.Enabled = False
                 TFOLIO_VIAJE.Enabled = False
                 BtnSelViaje.Enabled = False
+                ChCalleFiscal.Enabled = False
+                BarEditarRemitente.Enabled = False
+                BarEditDestinatario.Enabled = False
+
+                DESHABILITAR()
 
                 BoxGastos.Enabled = False
         End Select
@@ -835,9 +845,16 @@ Public Class FrmAsigViajeBuenoAE
 
         If LtTimbrado.Text = "FACTURADO" Or LtTimbrado.Text = "TIMBRADO" Then
             Mofifica_Remitente_destinatario = False
+            ChCalleFiscal.Enabled = False
+            BarEditarRemitente.Enabled = False
+            BarEditDestinatario.Enabled = False
         End If
-        If LtStatus.Text = "Cancelado" Or LtStatus.Text = "LIQUIDADA" Then
+        If LtStatus.Text = "Cancelado" Or LtStatus.Text = "LIQUIDADO" Then
             Mofifica_Remitente_destinatario = False
+            ChCalleFiscal.Enabled = False
+            BarEditarRemitente.Enabled = False
+            BarEditDestinatario.Enabled = False
+
         End If
 
         FgG.EndUpdate()
@@ -1174,7 +1191,7 @@ Public Class FrmAsigViajeBuenoAE
                             Using dr As SqlDataReader = cmd.ExecuteReader
                                 If dr.Read Then
                                     BoxGastos.Enabled = False
-                                    LtStatus.Text = "LIQUIDADA"
+                                    LtStatus.Text = "LIQUIDADO"
                                     BarGrabar.Enabled = False
                                 Else
                                     BoxGastos.Enabled = True
@@ -1325,6 +1342,12 @@ Public Class FrmAsigViajeBuenoAE
 
             SplitM4P1.Enabled = False
             SplitM4P2.Enabled = False
+
+            Box4.Enabled = False
+
+            TFOLIO_VIAJE.Enabled = False
+            BtnSelViaje.Enabled = False
+
         Catch ex As Exception
             Bitacora("15. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("15. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -1543,6 +1566,9 @@ Public Class FrmAsigViajeBuenoAE
                         LtTimbrado.Text = "FACTURADO"
                         LtTimbrado.BorderStyle = BorderStyle.FixedSingle
                         LtStatus.Text = "Facturado"
+                        ChCalleFiscal.Enabled = False
+                        BarEditarRemitente.Enabled = False
+                        BarEditDestinatario.Enabled = False
                     End If
 
                     If dr("TIMBRA") = "S" Or dr("TIMBRA") = "S" Then
@@ -1550,6 +1576,9 @@ Public Class FrmAsigViajeBuenoAE
                         LtTimbrado.Text = "TIMBRADO"
                         LtTimbrado.BorderStyle = BorderStyle.FixedSingle
                         LtStatus.Text = "Timbrado"
+                        ChCalleFiscal.Enabled = False
+                        BarEditarRemitente.Enabled = False
+                        BarEditDestinatario.Enabled = False
                     End If
 
                     If dr("STATUS") = "C" Then
@@ -1697,12 +1726,21 @@ Public Class FrmAsigViajeBuenoAE
                     RadCargado.Checked = False
                     RadVacio.Checked = True
                 End If
+<<<<<<< HEAD
 
                 Try
 
                     TCVE_PRODSERV.Value = dr.ReadNullAsEmptyString("CVE_PRODSERV")
                     TCVE_UNIDAD.Value = dr.ReadNullAsEmptyString("CVE_UNIDAD")
 
+=======
+
+                Try
+
+                    TCVE_PRODSERV.Value = dr.ReadNullAsEmptyString("CVE_PRODSERV")
+                    TCVE_UNIDAD.Value = dr.ReadNullAsEmptyString("CVE_UNIDAD")
+
+>>>>>>> Ultimos Cambios
                     If TCVE_PRODSERV.Value.ToString.Trim.Length = 0 Then TCVE_PRODSERV.Value = CVE_PRODSERV
                     If TCVE_UNIDAD.Value.ToString.Trim.Length = 0 Then TCVE_UNIDAD.Value = CVE_UNIDAD
 
@@ -3710,7 +3748,7 @@ Public Class FrmAsigViajeBuenoAE
                     If Not IsDBNull(FgCarga(k, 5)) AndAlso Not IsNothing(FgCarga(k, 5)) Then
                         PESO = FgCarga(k, 5)
                     Else
-                        PESO = ""
+                        PESO = 0
                     End If
                     If Not IsDBNull(FgCarga(k, 6)) AndAlso Not IsNothing(FgCarga(k, 6)) Then
                         VOLUMEN = FgCarga(k, 6)
@@ -3720,9 +3758,13 @@ Public Class FrmAsigViajeBuenoAE
                     If Not IsDBNull(FgCarga(k, 7)) AndAlso Not IsNothing(FgCarga(k, 7)) Then
                         PESO_ESTIMADO = FgCarga(k, 7)
                     Else
-                        PESO_ESTIMADO = ""
+                        PESO_ESTIMADO = 0
                     End If
+<<<<<<< HEAD
                     If Not IsDBNull(FgCarga(k, 8)) AndAlso Not IsNothing(FgCarga(k, 8)) Then
+=======
+                    If FgCarga(k, 8) IsNot Nothing Then
+>>>>>>> Ultimos Cambios
                         PEDIMENTO = FgCarga(k, 8)
                     Else
                         PEDIMENTO = ""
@@ -3730,10 +3772,10 @@ Public Class FrmAsigViajeBuenoAE
 
 
                     SQL = "SET ansi_warnings OFF
-                    INSERT INTO GCCARGA (CVE_VIAJE, NUM_PAR, CVE_DOC, CANT, EMBALAJE, CARGA, CONTIENE, 
-                    PESO, VOLUMEN, PESO_ESTIMADO, PEDIMENTO) VALUES ('" & FCVE_VIAJE & "','" & NUM_PAR & "','" &
-                    FCVE_DOC & "','" & CANT & "','" & EMBALAJE & "','" & CARGA & "','" & CONTIENE & "','" & PESO & "','" &
-                    VOLUMEN & "','" & PESO_ESTIMADO & "','" & PEDIMENTO & "')"
+                        INSERT INTO GCCARGA (CVE_VIAJE, NUM_PAR, CVE_DOC, CANT, EMBALAJE, CARGA, CONTIENE, 
+                        PESO, VOLUMEN, PESO_ESTIMADO, PEDIMENTO) VALUES ('" & FCVE_VIAJE & "','" & NUM_PAR & "','" &
+                        FCVE_DOC & "','" & CANT & "','" & EMBALAJE & "','" & CARGA & "','" & CONTIENE & "','" & PESO & "','" &
+                        VOLUMEN & "','" & PESO_ESTIMADO & "','" & PEDIMENTO & "')"
                     Using cmd As SqlCommand = cnSAE.CreateCommand
                         cmd.CommandText = SQL
                         returnValue = cmd.ExecuteNonQuery().ToString
@@ -3746,6 +3788,7 @@ Public Class FrmAsigViajeBuenoAE
 
                 Catch ex As Exception
                     Bitacora("440. " & ex.Message & vbNewLine & "ex.StackTrace:" & ex.StackTrace)
+                    MsgBox("440. " & ex.Message & vbNewLine & "ex.StackTrace:" & ex.StackTrace)
                 End Try
             Next
         Catch ex As Exception
@@ -9630,8 +9673,13 @@ Public Class FrmAsigViajeBuenoAE
                     TFOLIO_VIAJE.Enabled = False
                     BtnSelViaje.Enabled = False
                 Case 1
-                    TFOLIO_VIAJE.Enabled = True
-                    BtnSelViaje.Enabled = True
+                    If LtTimbrado.Text = "FACTURADO" Or LtTimbrado.Text = "TIMBRADO" Or LtStatus.Text = "Cancelado" Or LtStatus.Text = "LIQUIDADO" Then
+                        TFOLIO_VIAJE.Enabled = False
+                        BtnSelViaje.Enabled = False
+                    Else
+                        TFOLIO_VIAJE.Enabled = True
+                        BtnSelViaje.Enabled = True
+                    End If
                 Case 5 'IMPORTES
                     DESPLEGA_IMPORTE_RUTA()
 
@@ -9667,7 +9715,7 @@ Public Class FrmAsigViajeBuenoAE
                     Else
                         Dim Efecto As Boolean
 
-                        If LtTimbrado.Text = "TIMBRADO" Or LtTimbrado.Text = "FACTURADO" Or LtStatus.Text = "Cancelado" Or LtStatus.Text = "LIQUIDADA" Then
+                        If LtTimbrado.Text = "TIMBRADO" Or LtTimbrado.Text = "FACTURADO" Or LtStatus.Text = "Cancelado" Or LtStatus.Text = "LIQUIDADO" Then
                             Efecto = False
                         Else
                             Efecto = True
@@ -11969,18 +12017,15 @@ Public Class FrmAsigViajeBuenoAE
             End If
 
             Using cmd As SqlCommand = cnSAE.CreateCommand
-                SQL = "SELECT C.CANT, G1.CLAVE AS CLAVECARGA, G1.DESCR AS DESCR_CARGA, C.EMBALAJE, E.CLAVE AS CLAVE_EMBA, C.CONTIENE,
-                    C.PESO, C.VOLUMEN, C.PESO_ESTIMADO, C.PEDIMENTO, E.DESCR AS DESCR_EMBALAJE, C.PEDIMENTO
+                SQL = "SELECT C.CANT, C.EMBALAJE, C.CARGA, CONTIENE, C.PESO, C.VOLUMEN, C.PESO_ESTIMADO, C.PEDIMENTO
                     FROM GCCARGA C
-                    LEFT JOIN GCCARGAS G1 ON G1.CLAVE = C.CARGA
-                    LEFT JOIN GCEMBALAJE E ON E.CLAVE = C.EMBALAJE
                     WHERE CVE_VIAJE = '" & FVIAJE & "'"
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
-                        FgCarga.AddItem("" & vbTab & dr("CANT") & vbTab & dr("EMBALAJE") & vbTab & dr("DESCR_EMBALAJE") & vbTab &
-                                   dr("CLAVECARGA") & vbTab & dr("DESCR_CARGA") & vbTab & dr("CONTIENE") & vbTab &
-                                   dr("PESO") & vbTab & dr("VOLUMEN") & vbTab & dr("PESO_ESTIMADO") & vbTab & dr("PEDIMENTO"))
+                        FgCarga.AddItem("" & vbTab & dr("CANT") & vbTab & dr("EMBALAJE") & vbTab & dr("CARGA") & vbTab &
+                                        dr("CONTIENE") & vbTab & dr("PESO") & vbTab & dr("VOLUMEN") & vbTab &
+                                        dr("PESO_ESTIMADO") & vbTab & dr("PEDIMENTO"))
                     End While
                 End Using
             End Using
@@ -12229,9 +12274,12 @@ Public Class FrmAsigViajeBuenoAE
                         DESHABILITAR()
                         TFOLIO_VIAJE.Enabled = False
                         BtnSelViaje.Enabled = False
+                        ChCalleFiscal.Enabled = False
+                        BarEditarRemitente.Enabled = False
+                        BarEditDestinatario.Enabled = False
                     End If
 
-                    If LtStatus.Text = "LIQUIDADA" Then
+                    If LtStatus.Text = "LIQUIDADO" Then
                         BoxGastos.Enabled = False
                     Else
                         BoxGastos.Enabled = True
@@ -12628,9 +12676,6 @@ Public Class FrmAsigViajeBuenoAE
     End Sub
     Private Sub FgCarga_EnterCell(sender As Object, e As EventArgs) Handles FgCarga.EnterCell
 
-        If FgCarga.Col = 3 Then
-        End If
-
     End Sub
 
     Private Sub FgCarga_KeyDown(sender As Object, e As KeyEventArgs) Handles FgCarga.KeyDown
@@ -12660,41 +12705,44 @@ Public Class FrmAsigViajeBuenoAE
                             FgCarga.RemoveItem(FgCarga.Row)
                         End If
                     Case Keys.Enter
-                        Select Case FgCarga.Col
-                            Case 1
-                                SendKeys.Send("{LEFT}")
-                            Case 2
-                                SendKeys.Send("{RIGHT}")
-                            Case 4
-                                SendKeys.Send("{RIGHT}")
-                            Case 5
-                                SendKeys.Send("{LEFT}")
-                            Case 6
-                                SendKeys.Send("{LEFT}")
-                            Case 7
-                                SendKeys.Send("{LEFT}")
-                            Case 8
-                                SendKeys.Send("{RIGHT}")
+                        If FgCarga.Row > 0 Then
+                            Select Case FgCarga.Col
+                                Case 1
+                                    SendKeys.Send("{LEFT}")
+                                Case 2
+                                    SendKeys.Send("{RIGHT}")
+                                Case 4
+                                    SendKeys.Send("{RIGHT}")
+                                Case 5
+                                    SendKeys.Send("{LEFT}")
+                                Case 6
+                                    SendKeys.Send("{LEFT}")
+                                Case 7
+                                    SendKeys.Send("{LEFT}")
+                                Case 8
+                                    SendKeys.Send("{RIGHT}")
 
-                        End Select
-
-
-                    Case Keys.F2
-                        If FgCarga.Col = 4 Then
-                            Try
-                                Var2 = "MONEDA"
-                                Var4 = ""
-                                Var5 = ""
-                                FrmSelItem22.ShowDialog()
-                                If Var4.Trim.Length > 0 Then
-                                    FgCarga(FgCarga.Row, 2) = Var4
-                                    'FgCarga.Col = 3
-                                End If
-                            Catch ex As Exception
-                                Bitacora("1280. " & ex.Message & vbNewLine & ex.StackTrace)
-                                MsgBox("1280. " & ex.Message & vbNewLine & ex.StackTrace)
-                            End Try
+                            End Select
                         End If
+                    Case Keys.F2
+                        If FgCarga.Row > 0 Then
+                            If FgCarga.Col = 4 Then
+                                Try
+                                    Var2 = "MONEDA"
+                                    Var4 = ""
+                                    Var5 = ""
+                                    FrmSelItem22.ShowDialog()
+                                    If Var4.Trim.Length > 0 Then
+                                        FgCarga(FgCarga.Row, 2) = Var4
+                                        'FgCarga.Col = 3
+                                    End If
+                                Catch ex As Exception
+                                    Bitacora("1280. " & ex.Message & vbNewLine & ex.StackTrace)
+                                    MsgBox("1280. " & ex.Message & vbNewLine & ex.StackTrace)
+                                End Try
+                            End If
+                        End If
+
                     Case Keys.Left
 
                         'r_ = FgCarga.Row
@@ -12737,48 +12785,51 @@ Public Class FrmAsigViajeBuenoAE
             Return
         End If
         Try
-            If ENTRAM Then
-                ENTRAM = False
-                If FgCarga.Col = 2 Then
-                    Try
-                        Var2 = "Embalaje"
-                        Var4 = ""
-                        Var5 = ""
-                        FrmSelItem2.ShowDialog()
-                        If Var4.Trim.Length > 0 Then
-                            FgCarga(FgCarga.Row, 2) = Var4
-                            FgCarga(FgCarga.Row, 3) = Var5
-                            FgCarga.Col = 4
-                            'SendKeys.Send(" ")
-                        End If
-                    Catch ex As Exception
-                        Bitacora("1280. " & ex.Message & vbNewLine & ex.StackTrace)
-                        MsgBox("1280. " & ex.Message & vbNewLine & ex.StackTrace)
-                    End Try
+            If FgCarga.Row > 0 Then
+                If ENTRAM Then
+                    ENTRAM = False
+                    If FgCarga.Col = 2 Then
+                        Try
+                            Var2 = "Embalaje"
+                            Var4 = ""
+                            Var5 = ""
+                            FrmSelItem2.ShowDialog()
+                            If Var4.Trim.Length > 0 Then
+                                FgCarga(FgCarga.Row, 2) = Var4
+                                FgCarga(FgCarga.Row, 3) = Var5
+                                FgCarga.Col = 4
+                                'SendKeys.Send(" ")
+                            End If
+                        Catch ex As Exception
+                            Bitacora("1280. " & ex.Message & vbNewLine & ex.StackTrace)
+                            MsgBox("1280. " & ex.Message & vbNewLine & ex.StackTrace)
+                        End Try
+                        ENTRAM = True
+                        Return
+                    End If
+                    If FgCarga.Col = 4 Then 'CARGAS
+                        Try
+                            Var2 = "Cargas"
+                            Var4 = ""
+                            Var5 = ""
+                            FrmSelItem2.ShowDialog()
+                            If Var4.Trim.Length > 0 Then
+                                FgCarga(FgCarga.Row, 4) = Var4
+                                FgCarga(FgCarga.Row, 5) = Var5
+                                FgCarga.Col = 6
+                                'SendKeys.Send(" ")
+                            End If
+                        Catch ex As Exception
+                            Bitacora("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+                            MsgBox("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+                        End Try
+                        ENTRAM = True
+                        Return
+                    End If
                     ENTRAM = True
-                    Return
                 End If
-                If FgCarga.Col = 4 Then 'CARAGAS
-                    Try
-                        Var2 = "Cargas"
-                        Var4 = ""
-                        Var5 = ""
-                        FrmSelItem2.ShowDialog()
-                        If Var4.Trim.Length > 0 Then
-                            FgCarga(FgCarga.Row, 4) = Var4
-                            FgCarga(FgCarga.Row, 5) = Var5
-                            FgCarga.Col = 6
-                            'SendKeys.Send(" ")
-                        End If
-                    Catch ex As Exception
-                        Bitacora("1320. " & ex.Message & vbNewLine & ex.StackTrace)
-                        MsgBox("1320. " & ex.Message & vbNewLine & ex.StackTrace)
-                    End Try
-                    ENTRAM = True
-                    Return
-                End If
-                ENTRAM = True
             End If
+
         Catch ex As Exception
             ENTRAM = True
             Bitacora(ex.Message & ex.StackTrace)
@@ -12932,50 +12983,52 @@ Public Class FrmAsigViajeBuenoAE
             Return
         End If
         Try
-
-            If ENTRAM Then
-                If e.KeyCode = Keys.Tab Then
-                    ENTRAM = False
-                    Select Case FgCarga.Col
-                        Case 1
-                            FgCarga.Col = 2
-                        Case 2
+            If FgCarga.Row > 0 Then
+                If ENTRAM Then
+                    If e.KeyCode = Keys.Tab Then
+                        ENTRAM = False
+                        Select Case FgCarga.Col
+                            Case 1
+                                FgCarga.Col = 2
+                            Case 2
                             'FgCarga.Col = 4
-                        Case 4
+                            Case 4
 
-                        Case 6
-                            Fg.Col = 8
-                        Case 7
-                            FgCarga.Col = 8
-                        Case 8
-                            FgCarga.Col = 9
-                        Case 9
-                            FgCarga.Col = 10
-                        Case 8
-                            If IsMatPeligroso Then
+                            Case 6
+                                Fg.Col = 8
+                            Case 7
+                                FgCarga.Col = 8
+                            Case 8
                                 FgCarga.Col = 9
-                            Else
-                                FgCarga.Col = 14
-                            End If
-                        Case 9
-                            FgCarga.Col = 11
-                        Case 11
-                            FgCarga.Col = 14
-                        Case 16
-                            FgCarga.Col = 18
-                        Case 18
-                            FgCarga.Col = 19
-                        Case 19
-                            If FgCarga.Row = FgCarga.Rows.Count - 1 Then
-                                ADD_ROW_FG()
-                            Else
-                                FgCarga.Row = FgCarga.Rows.Count - 1
+                            Case 9
                                 FgCarga.Col = 1
-                            End If
-                    End Select
+                            Case 8
+                                If IsMatPeligroso Then
+                                    FgCarga.Col = 9
+                                Else
+                                    FgCarga.Col = 14
+                                End If
+                            Case 9
+                                FgCarga.Col = 11
+                            Case 11
+                                FgCarga.Col = 14
+                            Case 16
+                                FgCarga.Col = 18
+                            Case 18
+                                FgCarga.Col = 19
+                            Case 19
+                                If FgCarga.Row = FgCarga.Rows.Count - 1 Then
+                                    ADD_ROW_FG()
+                                Else
+                                    FgCarga.Row = FgCarga.Rows.Count - 1
+                                    FgCarga.Col = 1
+                                End If
+                        End Select
+                    End If
+                    ENTRAM = True
                 End If
-                ENTRAM = True
             End If
+
         Catch ex As Exception
             Bitacora(ex.Message & ex.StackTrace)
             MsgBox(ex.Message & vbNewLine & ex.StackTrace)

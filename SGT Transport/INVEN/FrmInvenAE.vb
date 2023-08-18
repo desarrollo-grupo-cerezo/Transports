@@ -12,6 +12,8 @@ Public Class FrmInvenAE
     Private ENTRA_FLEXI As Boolean
     Private ARTICULO As String
     Private ENTRA_A As Boolean = True
+    Private TIPO_PRODUC As String
+
     Private AllowedKeys As String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,._-/#@"
 
     Public Sub New()
@@ -320,13 +322,18 @@ Public Class FrmInvenAE
                         Select Case dr("TIPO_ELE").ToString
                             Case "P"
                                 RadProducto.Checked = True
+                                TIPO_PRODUC = "P"
                             Case "S"
                                 RadServicio.Checked = True
+                                TIPO_PRODUC = "S"
                             Case "K"
                                 RadKit.Checked = True
+                                TIPO_PRODUC = "K"
                             Case "G"
                                 RadGrupoProd.Checked = True
+                                TIPO_PRODUC = "G"
                         End Select
+
                         TUNI_ALT.Text = dr("UNI_ALT").ToString
 
                         Try
@@ -1397,11 +1404,26 @@ Public Class FrmInvenAE
         End If
     End Sub
     Private Sub RadProducto_CheckedChanged(sender As Object, e As EventArgs) Handles RadProducto.CheckedChanged
+
+        If Not ART_NEW And TIPO_PRODUC = "S" Then
+            MsgBox("No es posible cambiar un articulo de servicio a producto")
+            RadProducto.Focus()
+            Return
+        End If
+
         If RadProducto.Checked Then
             BtnKit.Visible = False
         End If
     End Sub
     Private Sub RadServicio_CheckedChanged(sender As Object, e As EventArgs) Handles RadServicio.CheckedChanged
+
+        If Not ART_NEW And TIPO_PRODUC = "P" Then
+            MsgBox("No es posible cambiar un articulo de producto a servicio")
+            RadServicio.Focus()
+            Return
+        End If
+
+
         If RadServicio.Checked Then
             BtnKit.Visible = False
         End If

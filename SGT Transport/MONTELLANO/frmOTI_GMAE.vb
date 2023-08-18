@@ -1158,7 +1158,7 @@ Public Class frmOTI_GMAE
 
                 If ERROR_PAR Then
                     ERROR_PAR = False
-                    MsgBox("Se detecto un problema al grabar las partidas por favor intentelo nuevamente")
+                    MsgBox("Se detecto un problema al grabar las partidas por favor inténtelo nuevamente")
                 Else
                     If DOC_ENLAZADO = "S" Then
                         GRABA_DOCTOSIG()
@@ -1172,7 +1172,7 @@ Public Class frmOTI_GMAE
                                 End If
                             End Using
                             GRABA_BITA(tCVE_PROV.Text, tCVE_ORD.Text, SUM_IMPORTE, "T", IIf(DOC_NEW, "Nueva orden de trabajo " &
-                                       " Enlazado desde la cotizacion " & LtDocAnt.Text, "Se modifico orden de trabajo"))
+                                       " Enlazado desde la cotización " & LtDocAnt.Text, "Se modifico orden de trabajo"))
                         Catch ex As Exception
                             MsgBox("125. " & ex.Message & vbNewLine & ex.StackTrace)
                             Bitacora("125. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -1183,7 +1183,7 @@ Public Class frmOTI_GMAE
                     If fMENSAJES = "S" Then
                         MsgBox("El registro se grabo satisfactoriamente")
                         ImprimirOrden(tCVE_ORD.Text)
-                        Me.Close()
+                        'Me.Close()
                     End If
                 End If
             Else
@@ -1628,7 +1628,7 @@ Public Class frmOTI_GMAE
                         Else
                             SUBTOTAL = COSTO
                         End If
-                        SUMA = SUMA + (SUBTOTAL * FgS(k, 5))
+                        SUMA += (SUBTOTAL * FgS(k, 5))
                         FgS(k, 7) = (SUBTOTAL * FgS(k, 5))
                     End If
                 Next
@@ -2049,15 +2049,15 @@ Public Class frmOTI_GMAE
     End Sub
 
     Private Sub OTBarEliminraPart_Click(sender As Object, e As ClickEventArgs) Handles OTBarEliminraPart.Click
-        Dim z As Integer = 0
+        Dim z As Integer = 0, UUID As String
         Try
 
-            If MsgBox("Es proceso eliminara fisicamente las partidas seleccinadas, Realmente desea continuar?") Then
+            If MsgBox("Es proceso eliminara físicamente las partidas seleccionadas, Realmente desea continuar?") Then
                 For k = Fg.Rows.Count - 1 To 1 Step -1
                     If Fg(k, 1) Then
                         z += 1
                         If Fg(k, 18) = "Mov. realizado" Or Fg(k, 9) > 0 Then
-                            MsgBox("La partida tiene movimientos al inventario realizados no es posible eliminarla, puede utilizar el boton cancelar partida")
+                            MsgBox("La partida tiene movimientos al inventario realizados no es posible eliminarla, puede utilizar el botón cancelar partida")
                         Else
                             If Fg(k, 2) = "OT" Then
                                 MsgBox("La partida es OT no se puede eliminar")
@@ -2065,9 +2065,12 @@ Public Class frmOTI_GMAE
                                 If Fg(k, 18) = "Cancelada" Then
                                     MsgBox("La partida se encuentra cancelada no se puede eliminar")
                                 Else
-                                    If Fg(k, 25).ToString.Length > 0 Then
-                                        SQL = "DELETE FROM GCORDEN_TRA_SER_EXT WHERE CVE_ORD = '" & tCVE_ORD.Text & "' 
-                                            AND UUID = '" & Fg(k, 25) & "'"
+
+                                    If Fg(k, 25) IsNot Nothing AndAlso Fg(k, 25).ToString.Trim.Length > 0 Then
+
+                                        UUID = Fg(k, 25)
+
+                                        SQL = "DELETE FROM GCORDEN_TRA_SER_EXT WHERE CVE_ORD = '" & tCVE_ORD.Text & "' AND UUID = '" & UUID & "'"
                                         Using cmd As SqlCommand = cnSAE.CreateCommand
                                             cmd.CommandText = SQL
                                             returnValue = cmd.ExecuteNonQuery().ToString
@@ -2075,7 +2078,7 @@ Public Class frmOTI_GMAE
                                                 If returnValue = "1" Then
                                                     Fg.RemoveItem(k)
 
-                                                    GRABA_BITA(tCVE_ORD.Text, tCVE_ORD.Text, 0, "O", "Se elimino la partida uuid=" & Fg(k, 25))
+                                                    GRABA_BITA(tCVE_ORD.Text, tCVE_ORD.Text, 0, "O", "Se elimino la partida uuid=" & UUID)
                                                 End If
                                             End If
                                         End Using
@@ -2126,9 +2129,7 @@ Public Class frmOTI_GMAE
                                     End If
                                 End If
 
-
-                                GENERA_MINVE_OT_PARTIDA(CVE_DOC, Fg(k, 2), Fg(k, 9), Fg(k, 25), k, Date.Today, Fg(k, 20), 1, COSTO)
-
+                                'GENERA_MINVE_OT_PARTIDA(CVE_DOC, Fg(k, 2), Fg(k, 9), Fg(k, 25), k, Date.Today, Fg(k, 20), 1, COSTO)
 
                                 Fg.Rows(k).Style = NewStyle1
 
@@ -2276,7 +2277,7 @@ Public Class frmOTI_GMAE
                 Return
             End If
             If NMec = 0 Then
-                MsgBox("Psor favor capture al mecánico")
+                MsgBox("Por favor capture al mecánico")
                 Return
             End If
         Catch ex As Exception
@@ -2315,7 +2316,7 @@ Public Class frmOTI_GMAE
                                 End If
                             End If
                             '                               articulo  cant. a ent     UUID      fecha minve
-                            GENERA_MINVE_OT_PARTIDA(CVE_DOC, Fg(k, 2), Fg(k, 10), Fg(k, 25), k, Fg(k, 11), Fg(k, 20), -1, COSTO)
+                            'GENERA_MINVE_OT_PARTIDA(CVE_DOC, Fg(k, 2), Fg(k, 10), Fg(k, 25), k, Fg(k, 11), Fg(k, 20), -1, COSTO)
                         End If
                         Fg(k, 1) = False
                     End If
@@ -2719,26 +2720,26 @@ Public Class frmOTI_GMAE
                                     'End If
                                 Else
                                     Fg(Fg.Row, 10) = 0
-                                    Fg(Fg.Row, 11) = ""
+                                    Fg(Fg.Row, 11) = " "
                                     Fg(Fg.Row, 1) = True
                                 End If
                             Else
                                 Fg(Fg.Row, 10) = 0
-                                Fg(Fg.Row, 11) = ""
-                                Fg(Fg.Row, 1) = False
-                                MsgBox("Por favor primero grabe la orden")
+                                Fg(Fg.Row, 11) = " "
+                                'Fg(Fg.Row, 1) = False
+                                'MsgBox("Por favor primero grabe la orden")
                             End If
                         Else
                             Fg(Fg.Row, 10) = 0
                             Fg(Fg.Row, 11) = ""
-                            Fg(Fg.Row, 1) = False
-                            MsgBox("Por favor primero grabe la orden")
+                            'Fg(Fg.Row, 1) = False
+                            'MsgBox("Por favor primero grabe la orden")
                         End If
                     Else
                         Fg(Fg.Row, 10) = 0
                         Fg(Fg.Row, 11) = ""
-                        Fg(Fg.Row, 1) = False
-                        MsgBox("Por favor primero grabe la orden")
+                        'Fg(Fg.Row, 1) = False
+                        'MsgBox("Por favor primero grabe la orden")
                     End If
                 End If
             End If

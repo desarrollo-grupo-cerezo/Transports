@@ -127,7 +127,7 @@
     <value>18,1,0,0,0,95,Columns:1{Caption:"Clave viaje";AllowDragging:False;AllowEditing:False;}	2{Caption:"Estatus";AllowDragging:False;AllowEditing:False;}	3{Caption:"Tractor";AllowDragging:False;AllowEditing:False;Style:"DataType:System.String;TextAlign:LeftCenter;";}	4{Caption:"Fecha viaje";Style:"Format:""d"";DataType:System.DateTime;TextAlign:LeftCenter;";}	5{Caption:"Tipo unidad";}	6{Caption:"Tipo viaje";}	7{Caption:"Contrato";}	8{Caption:"Cliente";}	9{Caption:"Estatus viaje";}	10{Caption:"Operador";}	11{Caption:"Origen";}	12{Caption:"Destino";}	13{Caption:"Pedido";}	14{Caption:"Carta porte 1";}	15{Caption:"Carta porte 2";}	16{Caption:"Clave transbordo";}	17{Width:120;Caption:"Viaje transbordo";}	</value>
   </data>
   <metadata name="MnuConsultarViaje.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>388, 17</value>
+    <value>386, 17</value>
   </metadata>
   <data name="Fg.StyleInfo" xml:space="preserve">
     <value>Normal{}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:234, 236, 245;ForeColor:ControlText;SearchBackColor:Orange;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	FrozenAlternate{}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	Footer{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	FirstCustomStyle{}	</value>
@@ -151,7 +151,7 @@
     <value>Normal{}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:183, 219, 255;ForeColor:ControlText;SearchBackColor:Orange;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	FrozenAlternate{}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	Footer{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	FirstCustomStyle{}	</value>
   </data>
   <metadata name="MenuHolder.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>268, 17</value>
+    <value>265, 17</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>81</value>

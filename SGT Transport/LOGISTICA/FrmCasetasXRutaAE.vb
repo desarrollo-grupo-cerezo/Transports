@@ -133,11 +133,15 @@ Public Class FrmCasetasXRutaAE
                     LtPlaza2.Text = dr.ReadNullAsEmptyString("CIUDAD2")
                     LtPlaza2.Tag = tCVE_PLAZA2.Text
 
-                    LtImporte.Text = Format(dr("IMPORTE"), "###,###,##0.00")
+                    LtImporte.Text = Format(dr.ReadNullAsEmptyDecimal("IMPORTE"), "###,###,##0.00")
 
                     tCLAVE_O.Text = dr.ReadNullAsEmptyString("CLAVE_OP")
                     LtNombre1.Text = dr.ReadNullAsEmptyString("NOMBRE")
+<<<<<<< HEAD
                     TIAVE.Text = dr.ReadNullAsEmptyString("IAVE")
+=======
+                    TIAVE.Text = dr("IAVE")
+>>>>>>> Ultimos Cambios
                 Else
                     tCVE_PLAZA.Text = ""
                 End If

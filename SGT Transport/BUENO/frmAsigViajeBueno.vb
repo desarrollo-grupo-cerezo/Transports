@@ -2116,4 +2116,7 @@ Public Class FrmAsigViajeBueno
         PrinterMRT("ReportRelCobranza")
     End Sub
 
+    Private Sub BarRelacionFacturas_Click(sender As Object, e As ClickEventArgs) Handles BarRelacionFacturas.Click
+
+    End Sub
 End Class

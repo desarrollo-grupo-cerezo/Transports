@@ -1,11 +1,14 @@
-﻿Imports Spire.Xls
-Imports System.IO
+﻿Imports System.IO
 Imports System.ComponentModel
 Imports C1.Win.C1FlexGrid
 Imports System.Data.SqlClient
 Imports System.Xml
 Imports C1.Win.C1Input
 Imports C1.Win.C1Command
+Imports Microsoft.Office.Interop
+Imports System.Runtime.InteropServices
+Imports C1.C1Excel
+
 Public Class FrmAsigViajeBuenoAE
 
     Private PasaXLS As Boolean = True
@@ -57,6 +60,8 @@ Public Class FrmAsigViajeBuenoAE
     Private FACTURA_UNO_O_MULT As String
     Private CADENAC As String = ""
     Private WithEvents MenuCV As New ContextMenuStrip
+    Private cmdselcet As OleDb.OleDbCommand
+    Private dtExcelSchema As Data.DataTable
     Private Declare Sub mouse_event Lib "user32" (ByVal dwFlags As Integer, ByVal dx As Integer, ByVal dy As Integer, ByVal cButtons As Integer, ByVal dwExtraInfo As Integer)
 
     Public Sub New()
@@ -307,7 +312,9 @@ Public Class FrmAsigViajeBuenoAE
         SplitM2.BorderWidth = 0
 
         FgA.Dock = DockStyle.Fill
+
         Fg.Dock = DockStyle.Fill
+
         FgViajes.Cols(0).Width = 2
 
         SplitM1.Dock = DockStyle.Fill
@@ -626,8 +633,9 @@ Public Class FrmAsigViajeBuenoAE
 
 
         Try
-            Dim dt As DataTable
-            dt = New DataTable()
+            Dim dt As System.Data.DataTable
+            dt = New System.Data.DataTable()
+
             dt.Columns.Add("Clave", GetType(System.String))
             dt.Columns.Add("Descripcion", GetType(System.String))
 
@@ -741,6 +749,7 @@ Public Class FrmAsigViajeBuenoAE
                 TCVE_PRODSERV.Value = CVE_PRODSERV
                 TCVE_UNIDAD.Value = CVE_UNIDAD
 
+                RadCargado.Checked = True
             Catch ex As Exception
                 MsgBox("2. " & ex.Message & vbNewLine & ex.StackTrace)
                 Bitacora("2. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -796,9 +805,7 @@ Public Class FrmAsigViajeBuenoAE
                 SplitM4.Enabled = False
                 TFOLIO_VIAJE.Enabled = False
                 BtnSelViaje.Enabled = False
-                ChCalleFiscal.Enabled = False
-                BarEditarRemitente.Enabled = False
-                BarEditDestinatario.Enabled = False
+                Box4.Enabled = False
 
                 DESHABILITAR()
             Case "TIMBRADO"
@@ -812,10 +819,7 @@ Public Class FrmAsigViajeBuenoAE
                     SplitM4.Enabled = False
                     TFOLIO_VIAJE.Enabled = False
                     BtnSelViaje.Enabled = False
-                    ChCalleFiscal.Enabled = False
-
-                    BarEditarRemitente.Enabled = False
-                    BarEditDestinatario.Enabled = False
+                    Box4.Enabled = False
 
                     DESHABILITAR()
                 Else
@@ -831,13 +835,10 @@ Public Class FrmAsigViajeBuenoAE
                 SplitM4.Enabled = False
                 TFOLIO_VIAJE.Enabled = False
                 BtnSelViaje.Enabled = False
-                ChCalleFiscal.Enabled = False
-                BarEditarRemitente.Enabled = False
-                BarEditDestinatario.Enabled = False
+                BoxGastos.Enabled = False
+                Box4.Enabled = False
 
                 DESHABILITAR()
-
-                BoxGastos.Enabled = False
         End Select
 
 
@@ -845,16 +846,9 @@ Public Class FrmAsigViajeBuenoAE
 
         If LtTimbrado.Text = "FACTURADO" Or LtTimbrado.Text = "TIMBRADO" Then
             Mofifica_Remitente_destinatario = False
-            ChCalleFiscal.Enabled = False
-            BarEditarRemitente.Enabled = False
-            BarEditDestinatario.Enabled = False
         End If
         If LtStatus.Text = "Cancelado" Or LtStatus.Text = "LIQUIDADO" Then
             Mofifica_Remitente_destinatario = False
-            ChCalleFiscal.Enabled = False
-            BarEditarRemitente.Enabled = False
-            BarEditDestinatario.Enabled = False
-
         End If
 
         FgG.EndUpdate()
@@ -1342,12 +1336,6 @@ Public Class FrmAsigViajeBuenoAE
 
             SplitM4P1.Enabled = False
             SplitM4P2.Enabled = False
-
-            Box4.Enabled = False
-
-            TFOLIO_VIAJE.Enabled = False
-            BtnSelViaje.Enabled = False
-
         Catch ex As Exception
             Bitacora("15. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("15. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -1566,9 +1554,6 @@ Public Class FrmAsigViajeBuenoAE
                         LtTimbrado.Text = "FACTURADO"
                         LtTimbrado.BorderStyle = BorderStyle.FixedSingle
                         LtStatus.Text = "Facturado"
-                        ChCalleFiscal.Enabled = False
-                        BarEditarRemitente.Enabled = False
-                        BarEditDestinatario.Enabled = False
                     End If
 
                     If dr("TIMBRA") = "S" Or dr("TIMBRA") = "S" Then
@@ -1576,9 +1561,6 @@ Public Class FrmAsigViajeBuenoAE
                         LtTimbrado.Text = "TIMBRADO"
                         LtTimbrado.BorderStyle = BorderStyle.FixedSingle
                         LtStatus.Text = "Timbrado"
-                        ChCalleFiscal.Enabled = False
-                        BarEditarRemitente.Enabled = False
-                        BarEditDestinatario.Enabled = False
                     End If
 
                     If dr("STATUS") = "C" Then
@@ -1618,32 +1600,38 @@ Public Class FrmAsigViajeBuenoAE
 
                     ChCalleFiscal.Checked = True
                     Try
-                        ChCalleFiscal.CheckState = Windows.Forms.CheckState.Checked
+
+                        ChCalleFiscal.CheckState = CheckState.Checked
+
                         Using cmd3 As SqlCommand = cnSAE.CreateCommand
-                            SQL = "SELECT NOMBRE, RFC, CALLE, CRUZAMIENTOS, CRUZAMIENTOS2 
+                            Using cmd2 As SqlCommand = cnSAE.CreateCommand
+
+                                SQL = "SELECT NOMBRE, RFC, CALLE, CRUZAMIENTOS, CRUZAMIENTOS2 
                                 FROM CLIE" & Empresa & "
                                 WHERE CLAVE  = '" & TCLIENTE.Text & "'"
-                            cmd3.CommandText = SQL
-                            Using dr3 As SqlDataReader = cmd3.ExecuteReader
-                                If dr3.Read Then
-                                    LtNombre1.Text = dr3("NOMBRE")
-                                    LtRFC.Text = dr3("RFC")
-                                    LtCalle1.Text = dr3("CALLE")
-                                    LtCalle2.Text = dr3("CRUZAMIENTOS") & " " & dr3("CRUZAMIENTOS2")
-                                    LtAliasO.Text = ""
-                                    LtPlanta.Text = ""
-                                    LtNota.Text = ""
-                                Else
-                                    LtNombre1.Text = ""
-                                    LtAliasO.Text = ""
-                                    LtCalle1.Text = ""
-                                    LtCalle2.Text = ""
-                                    LtPlanta.Text = ""
-                                    LtNota.Text = ""
-                                    LtRFC.Text = ""
-                                End If
+                                cmd3.CommandText = SQL
+                                Using dr3 As SqlDataReader = cmd3.ExecuteReader
+                                    If dr3.Read Then
+                                        LtNombre1.Text = dr3("NOMBRE")
+                                        LtRFC.Text = dr3("RFC")
+                                        LtCalle1.Text = dr3("CALLE")
+                                        LtCalle2.Text = dr3("CRUZAMIENTOS") & " " & dr3("CRUZAMIENTOS2")
+                                        LtAliasO.Text = ""
+                                        LtPlanta.Text = ""
+                                        LtNota.Text = ""
+                                    Else
+                                        LtNombre1.Text = ""
+                                        LtAliasO.Text = ""
+                                        LtCalle1.Text = ""
+                                        LtCalle2.Text = ""
+                                        LtPlanta.Text = ""
+                                        LtNota.Text = ""
+                                        LtRFC.Text = ""
+                                    End If
+                                End Using
                             End Using
                         End Using
+
                         TCLAVE_O.Text = ""
                         TCLAVE_O.Enabled = False
                         BtnCLAVE_REM.Enabled = False
@@ -1726,21 +1714,12 @@ Public Class FrmAsigViajeBuenoAE
                     RadCargado.Checked = False
                     RadVacio.Checked = True
                 End If
-<<<<<<< HEAD
 
                 Try
 
                     TCVE_PRODSERV.Value = dr.ReadNullAsEmptyString("CVE_PRODSERV")
                     TCVE_UNIDAD.Value = dr.ReadNullAsEmptyString("CVE_UNIDAD")
 
-=======
-
-                Try
-
-                    TCVE_PRODSERV.Value = dr.ReadNullAsEmptyString("CVE_PRODSERV")
-                    TCVE_UNIDAD.Value = dr.ReadNullAsEmptyString("CVE_UNIDAD")
-
->>>>>>> Ultimos Cambios
                     If TCVE_PRODSERV.Value.ToString.Trim.Length = 0 Then TCVE_PRODSERV.Value = CVE_PRODSERV
                     If TCVE_UNIDAD.Value.ToString.Trim.Length = 0 Then TCVE_UNIDAD.Value = CVE_UNIDAD
 
@@ -3748,7 +3727,7 @@ Public Class FrmAsigViajeBuenoAE
                     If Not IsDBNull(FgCarga(k, 5)) AndAlso Not IsNothing(FgCarga(k, 5)) Then
                         PESO = FgCarga(k, 5)
                     Else
-                        PESO = 0
+                        PESO = ""
                     End If
                     If Not IsDBNull(FgCarga(k, 6)) AndAlso Not IsNothing(FgCarga(k, 6)) Then
                         VOLUMEN = FgCarga(k, 6)
@@ -3758,13 +3737,9 @@ Public Class FrmAsigViajeBuenoAE
                     If Not IsDBNull(FgCarga(k, 7)) AndAlso Not IsNothing(FgCarga(k, 7)) Then
                         PESO_ESTIMADO = FgCarga(k, 7)
                     Else
-                        PESO_ESTIMADO = 0
+                        PESO_ESTIMADO = ""
                     End If
-<<<<<<< HEAD
                     If Not IsDBNull(FgCarga(k, 8)) AndAlso Not IsNothing(FgCarga(k, 8)) Then
-=======
-                    If FgCarga(k, 8) IsNot Nothing Then
->>>>>>> Ultimos Cambios
                         PEDIMENTO = FgCarga(k, 8)
                     Else
                         PEDIMENTO = ""
@@ -3772,10 +3747,10 @@ Public Class FrmAsigViajeBuenoAE
 
 
                     SQL = "SET ansi_warnings OFF
-                        INSERT INTO GCCARGA (CVE_VIAJE, NUM_PAR, CVE_DOC, CANT, EMBALAJE, CARGA, CONTIENE, 
-                        PESO, VOLUMEN, PESO_ESTIMADO, PEDIMENTO) VALUES ('" & FCVE_VIAJE & "','" & NUM_PAR & "','" &
-                        FCVE_DOC & "','" & CANT & "','" & EMBALAJE & "','" & CARGA & "','" & CONTIENE & "','" & PESO & "','" &
-                        VOLUMEN & "','" & PESO_ESTIMADO & "','" & PEDIMENTO & "')"
+                    INSERT INTO GCCARGA (CVE_VIAJE, NUM_PAR, CVE_DOC, CANT, EMBALAJE, CARGA, CONTIENE, 
+                    PESO, VOLUMEN, PESO_ESTIMADO, PEDIMENTO) VALUES ('" & FCVE_VIAJE & "','" & NUM_PAR & "','" &
+                    FCVE_DOC & "','" & CANT & "','" & EMBALAJE & "','" & CARGA & "','" & CONTIENE & "','" & PESO & "','" &
+                    VOLUMEN & "','" & PESO_ESTIMADO & "','" & PEDIMENTO & "')"
                     Using cmd As SqlCommand = cnSAE.CreateCommand
                         cmd.CommandText = SQL
                         returnValue = cmd.ExecuteNonQuery().ToString
@@ -3788,7 +3763,6 @@ Public Class FrmAsigViajeBuenoAE
 
                 Catch ex As Exception
                     Bitacora("440. " & ex.Message & vbNewLine & "ex.StackTrace:" & ex.StackTrace)
-                    MsgBox("440. " & ex.Message & vbNewLine & "ex.StackTrace:" & ex.StackTrace)
                 End Try
             Next
         Catch ex As Exception
@@ -3890,8 +3864,9 @@ Public Class FrmAsigViajeBuenoAE
         End If
 
         Try
-            If IO.File.Exists(Application.StartupPath & "\CatalogosSat\CAT_PROD_SERV.xml") Then
-                doc.Load(Application.StartupPath & "\CatalogosSat\CAT_PROD_SERV.xml")
+            If IO.File.Exists(AppDomain.CurrentDomain.BaseDirectory & "\CatalogosSat\CAT_PROD_SERV.xml") Then
+
+                doc.Load(AppDomain.CurrentDomain.BaseDirectory & "\CatalogosSat\CAT_PROD_SERV.xml")
 
                 Dim nodeList As XmlNodeList = doc.SelectNodes("/Catalogo/row[@c_ClaveProdServ='" & CVE_ART & "']")
                 If nodeList.Count > 0 Then
@@ -3900,7 +3875,7 @@ Public Class FrmAsigViajeBuenoAE
                     Next
                 End If
             Else
-                MsgBox("Catálogo " & Application.StartupPath & "\CatalogosSat\CAT_PROD_SERV.xml inexistente, verifique por favor")
+                MsgBox("Catálogo " & AppDomain.CurrentDomain.BaseDirectory & "\CatalogosSat\CAT_PROD_SERV.xml inexistente, verifique por favor")
             End If
         Catch ex As Exception
             Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -4759,13 +4734,13 @@ Public Class FrmAsigViajeBuenoAE
             MsgBox("El registro se grabo satisfactoriamente")
 
             If FACTURA_UNO_O_MULT = "SEFACTURA" Or FACTURA_UNO_O_MULT = "SEFACTURA_MULT" Then
-                Me.DialogResult = Windows.Forms.DialogResult.OK
+                Me.DialogResult = DialogResult.OK
                 Me.Close()
             Else
                 TAB1.SelectedIndex = 0
             End If
         Else
-            MsgBox("No se logro grabar la asignacion de viaje")
+            MsgBox("No se logro grabar la asignación de viaje")
         End If
     End Sub
 
@@ -6483,7 +6458,7 @@ Public Class FrmAsigViajeBuenoAE
 
                 FgG.AddItem("" & vbTab & (FOLIO_AG + Fol) & vbTab & DateTime.Now.ToString("dd/MM/yyyy") & vbTab & "" & vbTab & "" & vbTab &
                             "0" & vbTab & "" & vbTab & IIf(STATUS_VIAJE.Trim.Length > 0, STATUS_VIAJE, "EDICION") & vbTab & "N" & vbTab &
-                            " " & vbTab & " " & vbTab & " ")
+                            " " & vbTab & "TRANSFERENCIA" & vbTab & " ")
             Else
                 MsgBox("Por favor capture el gasto")
             End If
@@ -7162,7 +7137,7 @@ Public Class FrmAsigViajeBuenoAE
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
         Try
             If MsgBox("Realmente desea eliminar la partida seleccionada?", vbYesNo) = vbYes Then
-                FgCarga.Rows.Remove(FgCarga.Row)
+                FgCarga.Rows.Count = 1
             End If
         Catch ex As Exception
 
@@ -7906,11 +7881,7 @@ Public Class FrmAsigViajeBuenoAE
 
     Private Sub BtnExcel_Click(sender As Object, e As EventArgs) Handles BtnExcel.Click
         Try
-            Dim openExcelFileDialog As New OpenFileDialog With {
-                .Filter = "Excel files (*.xls or .xlsx)|*.xls;*.xlsx",
-                .FilterIndex = 1,
-                .RestoreDirectory = True
-            }
+            Dim openExcelFileDialog As New OpenFileDialog With {.Filter = "Excel files (*.xls or .xlsx)|*.xls;*.xlsx", .FilterIndex = 1, .RestoreDirectory = True}
             If openExcelFileDialog.ShowDialog() = DialogResult.OK Then
                 TExcel.Text = openExcelFileDialog.FileName
                 CARGAR_HOJAS()
@@ -7924,7 +7895,7 @@ Public Class FrmAsigViajeBuenoAE
     End Sub
     Private Sub BtnExportarExcel_Click(sender As Object, e As EventArgs) Handles BtnExportarExcel.Click
         Try
-            EXPORTAR_EXCEL_TRANSPORT(Fg, "Mercancias")
+            EXPORTAR_EXCEL_TRANSPORT(Fg, "Mercancías")
         Catch ex As Exception
             Bitacora("160. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -7954,10 +7925,12 @@ Public Class FrmAsigViajeBuenoAE
             Bitacora("160. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
+
     Private Sub BtnImportarExcel_Click(sender As Object, e As EventArgs) Handles BtnImportarExcel.Click
         Dim COLA As String = "", COLB As String = "", COLC As String = "", COLD As String = "", COLE As String = "", COLF As String = "", COLG As String = ""
         Dim COLH As String = "", COLI As String = "", COLJ As String = "", COLK As String = "", COLL As String = "", COLM As String = "", COLN As String = ""
-        Dim rw As Integer, pos As Integer, UNI_SAT As String, DESCR As String
+        Dim rw As Integer, pos As Integer, UNI_SAT As String, DESCR As String, ErrorLoadExcel As Boolean = False, CADENA As String = ""
+        Dim doc As New XmlDocument()
 
         If TExcel.Text.Trim.Length = 0 Then
             MsgBox("Por favor seleccione un archivo de excel")
@@ -7995,14 +7968,14 @@ Public Class FrmAsigViajeBuenoAE
         Catch ex As Exception
             Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+            Me.Close()
         End Try
 
-        Fg.Rows.Count = 1
-        'C1XLBook1.Clear()
-        'C1XLBook1.Load(TExcel.Text)
-
-        'Dim source As XLSheet = C1XLBook1.Sheets(CboHojas.SelectedIndex)
-
+        If ChHeader.Checked Then
+            rw = 2
+        Else
+            rw = 1
+        End If
         Fg.Redraw = False
         Fg.BeginUpdate()
 
@@ -8010,114 +7983,92 @@ Public Class FrmAsigViajeBuenoAE
         Fg.Cursor = Cursors.WaitCursor
 
         ENTRAM = False
-        '1
-        Dim workbook As New Workbook()
-        workbook.LoadFromFile(TExcel.Text)
-        Dim sheet As Worksheet = workbook.Worksheets(0)
-
-        'Dim firstRow As CellRange = sheet.Rows(0)
-        'Dim lastrow As Integer = sheet.LastRow ' Returns 65536
-        'Dim lastColumn As Integer = sheet.LastColumn ' Returns 256
-
-        If ChHeader.Checked Then
-            rw = 2
-        Else
-            rw = 1
-        End If
-
         Try
-            For row = rw To sheet.Rows.Count
 
+            Fg.Rows.Count = 1
+            C1XLBook1.Clear()
+            C1XLBook1.Load(TExcel.Text)
+
+            Dim source As XLSheet = C1XLBook1.Sheets(CboHojas.SelectedIndex)
+
+            For row = rw To source.Rows.Count - 1
                 Fg.AddItem("" & vbTab & "")
                 r_ = Fg.Rows.Count - 1
-                '1
                 If COLA.Trim.Length > 0 Then
                     pos = POS_COL(COLA)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        Fg(r_, 1) = sheet(row, pos).Value
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 1) = source(row, pos - 1).Value
                     End If
                 End If
-                '2
                 If COLB.Trim.Length > 0 Then
                     pos = POS_COL(COLB)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        Fg(r_, 2) = sheet(row, pos).Value
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 2) = source(row, pos - 1).Value
                     End If
                 End If
-                '3
                 If COLC.Trim.Length > 0 Then
                     pos = POS_COL(COLC)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        Fg(r_, 4) = sheet(row, pos).Value
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 4) = source(row, pos - 1).Value
                     End If
                 End If
-                '4
                 If COLD.Trim.Length > 0 Then
                     pos = POS_COL(COLD)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        Fg(r_, 5) = sheet(row, pos).Value
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 5) = source(row, pos - 1).Value
                     End If
                 End If
-                '5
+
                 If COLE.Trim.Length > 0 Then
                     pos = POS_COL(COLE)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        Fg(r_, 7) = sheet(row, pos).Value
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 7) = source(row, pos - 1).Value
                     End If
                 End If
-                '6     MATERIAL PELIGROSO
                 If COLF.Trim.Length > 0 Then
                     pos = POS_COL(COLF)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        If sheet(row, pos).Value.ToString.ToUpper = "SI" Or sheet(row, pos).Value.ToString.ToUpper = "Si" Or
-                            sheet(row, pos).Value.ToString.ToUpper = "SÍ" Or sheet(row, pos).Value.ToString.ToUpper = "Sí" Then
-                            Fg(r_, 8) = True
-                        End If
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 8) = IIf(source(row, pos - 1).Value.ToString.ToUpper = "SI", True, False)
                     End If
                 End If
-                '7
                 If COLN.Trim.Length > 0 Then
                     pos = POS_COL(COLN)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        Fg(r_, 9) = sheet(row, pos).Value 'CVE. MAT. PELIGROSO
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 9) = source(row, pos - 1).Value 'CVE. MAT. PELIGROSO
                     End If
                 End If
-                '8
                 If COLG.Trim.Length > 0 Then
                     pos = POS_COL(COLG)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        Fg(r_, 11) = sheet(row, pos).Value 'EMBALAJE
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 11) = source(row, pos - 1).Value 'EMBALAJE
                     End If
                 End If
-                '9
+
                 If COLH.Trim.Length > 0 Then
                     pos = POS_COL(COLH)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        Fg(r_, 13) = sheet(row, pos).Value 'DESCRIPCION EMBALAJE
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 13) = source(row, pos - 1).Value 'DESCRIPCION EMBALAJE
                     End If
                 End If
-                '10
                 If COLI.Trim.Length > 0 Then
                     pos = POS_COL(COLI)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        Fg(r_, 14) = sheet(row, pos).Value 'PESO
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 14) = source(row, pos - 1).Value 'PESO
                     End If
                 End If
-                '11
                 If COLJ.Trim.Length > 0 Then
                     pos = POS_COL(COLJ)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        Fg(r_, 15) = sheet(row, pos).Value 'VALOR MERCANCIAS
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 15) = source(row, pos - 1).Value 'VALOR MERCANCIAS
                     End If
                 End If
-                '12
                 If COLK.Trim.Length > 0 Then
                     pos = POS_COL(COLK)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        If sheet(row, pos).Value.ToString.Length = 0 Then
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        If source(row, pos - 1).Value.ToString.Length = 0 Then
                             Fg(r_, 16) = "MXN"
                         Else
-                            Fg(r_, 16) = sheet(row, pos).Value 'MONEDA
+                            Fg(r_, 16) = source(row, pos - 1).Value 'MONEDA
                         End If
                     Else
                         Fg(r_, 16) = "MXN"
@@ -8125,18 +8076,16 @@ Public Class FrmAsigViajeBuenoAE
                 Else
                     Fg(r_, 16) = "MXN"
                 End If
-                '13
                 If COLL.Trim.Length > 0 Then
                     pos = POS_COL(COLL)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        Fg(r_, 18) = sheet(row, pos).Value 'ID
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 18) = source(row, pos - 1).Value 'ID
                     End If
                 End If
-                '14
                 If COLM.Trim.Length > 0 Then
                     pos = POS_COL(COLM)
-                    If Not IsNothing(sheet(row, pos).Value) Then
-                        Fg(r_, 19) = sheet(row, pos).Value 'UUID
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 19) = source(row, pos - 1).Value 'UUID
                     End If
                 End If
                 If row = 50 Then
@@ -8145,98 +8094,254 @@ Public Class FrmAsigViajeBuenoAE
                 Lt6.Text = "Partidas " & row & "/" & Fg.Rows.Count - 1
             Next row
 
-
-            Dim doc As New XmlDocument()
-
-            Try
-                For k = 1 To Fg.Rows.Count - 1
-
-                    If IsNothing(Fg(k, 4)) Then
-
-                        DESCR = If([String].IsNullOrEmpty(Fg(k, 4)), "", Fg(k, 4))
-                        UNI_SAT = If([String].IsNullOrEmpty(Fg(k, 2)), "", Fg(k, 2))
-
-                        If UNI_SAT.Trim.Length > 0 And DESCR.Trim.Length = 0 Then
-
-                            Try
-                                Using cmd As SqlCommand = cnSAE.CreateCommand
-                                    SQL = "SELECT claveUnidad, nombre FROM tblcclaveunidad WHERE claveUnidad = '" & UNI_SAT & "'"
-                                    cmd.CommandText = SQL
-                                    Using dr As SqlDataReader = cmd.ExecuteReader
-                                        If dr.Read Then
-                                            Fg(k, 4) = dr("nombre")
-                                        End If
-                                    End Using
-                                End Using
-
-                                SQL = "SELECT clave, nombre FROM tblcclaveunidadpeso WHERE clave = '" & UNI_SAT & "'"
-                                Using cmd As SqlCommand = cnSAE.CreateCommand
-                                    cmd.CommandText = SQL
-                                    Using dr As SqlDataReader = cmd.ExecuteReader
-                                        If dr.Read Then
-                                            Fg(k, 4) = dr("nombre")
-                                        End If
-                                    End Using
-                                End Using
-
-                            Catch ex As Exception
-                                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
-                                MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
-                            End Try
-                        End If
-
-                    End If
-
-                    If IsNothing(Fg(k, 7)) Then
-
-                        DESCR = If([String].IsNullOrEmpty(Fg(k, 7)), "", Fg(k, 7))
-                        UNI_SAT = If([String].IsNullOrEmpty(Fg(k, 5)), "", Fg(k, 5))
-
-                        If UNI_SAT.Trim.Length > 0 And DESCR.Trim.Length = 0 Then
-                            If IO.File.Exists(Application.StartupPath & "\CatalogosSat\CAT_PROD_SERV.xml") Then
-                                doc.Load(Application.StartupPath & "\CatalogosSat\CAT_PROD_SERV.xml")
-
-                                Dim nodeList As XmlNodeList = doc.SelectNodes("/Catalogo/row[@c_ClaveProdServ='" & UNI_SAT & "']")
-                                If nodeList.Count > 0 Then
-                                    For Each znode In nodeList
-                                        Fg(k, 7) = VarXml(znode, "Descripcion")
-                                    Next
-                                End If
-                            End If
-                        End If
-
-                    End If
-
-                Next
-            Catch ex As Exception
-                Bitacora("200. " & ex.Message & vbNewLine & ex.StackTrace)
-            End Try
-
             Lt6.Text = "Partidas " & Fg.Rows.Count - 1
 
             IsMatPeligroso = False
             Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & False & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & 0 & vbTab & 0 & vbTab & "MXN" & vbTab & "" & vbTab & "" & vbTab & "")
             Fg.Row = Fg.Rows.Count - 1
             Fg.Col = 1
-            'SendKeys.Send(" ")
-        Catch ex As Exception
-            Bitacora("200. " & ex.Message & vbNewLine & ex.StackTrace)
-            MsgBox("200. " & ex.Message & vbNewLine & ex.StackTrace)
-        End Try
-        'CADENA = sheet.Range("A2").Value & vbTab & sheet.Range("B2").Value & vbTab & sheet.Range("D2").Value & vbTab & sheet.Range("E2").Value & vbTab
-        'CADENA += sheet.Range("G2").Value & vbTab & sheet.Range("H2").Value & vbTab & sheet.Range("K2").Value & vbTab & sheet.Range("M2").Value & vbTab
-        'CADENA += sheet.Range("N2").Value & vbTab & sheet.Range("O2").Value & vbTab & sheet.Range("P2").Value & vbTab
-        'Fg.AddItem("" & vbTab & CADENA)
-        'CADENA = sheet.Range("A3").Value & vbTab & sheet.Range("B3").Value & vbTab & sheet.Range("D3").Value & vbTab & sheet.Range("E3").Value & vbTab
-        'CADENA += sheet.Range("G3").Value & vbTab & sheet.Range("H3").Value & vbTab & sheet.Range("K3").Value & vbTab & sheet.Range("M3").Value & vbTab
-        'CADENA += sheet.Range("N3").Value & vbTab & sheet.Range("O3").Value & vbTab & sheet.Range("P3").Value & vbTab
-        'Fg.AddItem("" & vbTab & CADENA)
-        'CADENA = sheet.Range("A4").Value & vbTab & sheet.Range("B4").Value & vbTab & sheet.Range("D4").Value & vbTab & sheet.Range("E4").Value & vbTab
-        'CADENA += sheet.Range("G4").Value & vbTab & sheet.Range("H4").Value & vbTab & sheet.Range("K4").Value & vbTab & sheet.Range("M4").Value & vbTab
-        'CADENA += sheet.Range("N4").Value & vbTab & sheet.Range("O4").Value & vbTab & sheet.Range("P4").Value & vbTab
-        'Fg.AddItem("" & vbTab & CADENA)
+            SendKeys.Send(" ")
 
-        '2
+
+        Catch ex As Exception
+            ErrorLoadExcel = True
+            Bitacora("200. " & ex.Message & vbNewLine & ex.StackTrace)
+            'MsgBox("200. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        If ErrorLoadExcel Then
+            Try
+                Dim xlApp As New Excel.Application()
+                Dim xlWorkbook As Excel.Workbook = xlApp.Workbooks.Open(TExcel.Text)
+                Dim xlWorksheet As Excel._Worksheet = xlWorkbook.Sheets(1)
+                Dim xlRange As Excel.Range = xlWorksheet.UsedRange
+
+                Dim rowCount As Integer = xlRange.Rows.Count
+                Dim colCount As Integer = xlRange.Columns.Count
+
+                'iterate over the rows and columns and print to the console as it appears in the file
+                'excel is not zero based!!
+                For i As Integer = rw To rowCount
+                    'For j As Integer = 1 To colCount
+                    'new line
+                    'If j = 1 Then
+                    'Console.Write(vbCrLf)
+                    'End If
+                    'write the value to the console
+                    'If xlRange.Cells(i, j) IsNot Nothing AndAlso xlRange.Cells(i, j).Value2 IsNot Nothing Then
+                    'CADENA += xlRange.Cells(i, j).Value.ToString() & vbTab
+                    'End If
+                    'Next j
+                    'CADENA += vbCrLf
+                    Fg.AddItem("" & vbTab & "")
+                    r_ = Fg.Rows.Count - 1
+                    '1
+                    If COLA.Trim.Length > 0 Then
+                        pos = POS_COL(COLA)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 1) = xlRange.Cells(i, pos).Value.ToString()
+                        End If
+                    End If
+                    '2
+                    If COLB.Trim.Length > 0 Then
+                        pos = POS_COL(COLB)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 2) = xlRange.Cells(i, pos).Value.ToString()
+                        End If
+                    End If
+                    '3
+                    If COLC.Trim.Length > 0 Then
+                        pos = POS_COL(COLC)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 4) = xlRange.Cells(i, pos).Value.ToString()
+                        End If
+                    End If
+                    '4
+                    If COLD.Trim.Length > 0 Then
+                        pos = POS_COL(COLD)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 5) = xlRange.Cells(i, pos).Value.ToString()
+                        End If
+                    End If
+                    '5
+                    If COLE.Trim.Length > 0 Then
+                        pos = POS_COL(COLE)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 7) = xlRange.Cells(i, pos).Value.ToString()
+                        End If
+                    End If
+                    '6     MATERIAL PELIGROSO
+                    If COLF.Trim.Length > 0 Then
+                        pos = POS_COL(COLF)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 1) = xlRange.Cells(i, pos).Value.ToString()
+                            If xlRange.Cells(i, pos).Value.ToString.ToUpper = "SI" Or xlRange.Cells(i, pos).Value.ToString.ToUpper = "Si" Or
+                                xlRange.Cells(i, pos).Value.ToString.ToUpper = "SÍ" Or xlRange.Cells(i, pos).Value.ToString.ToUpper = "Sí" Then
+                                Fg(r_, 8) = True
+                            End If
+                        End If
+                    End If
+                    '7
+                    If COLN.Trim.Length > 0 Then
+                        pos = POS_COL(COLN)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 9) = xlRange.Cells(i, pos).Value.ToString()
+                        End If
+                    End If
+                    '8
+                    If COLG.Trim.Length > 0 Then
+                        pos = POS_COL(COLG)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 11) = xlRange.Cells(i, pos).Value.ToString()
+                        End If
+                    End If
+                    '9
+                    If COLH.Trim.Length > 0 Then
+                        pos = POS_COL(COLH)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 13) = xlRange.Cells(i, pos).Value.ToString()
+                        End If
+                    End If
+                    '10
+                    If COLI.Trim.Length > 0 Then
+                        pos = POS_COL(COLI)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 14) = xlRange.Cells(i, pos).Value.ToString()
+                        End If
+                    End If
+                    '11
+                    If COLJ.Trim.Length > 0 Then
+                        pos = POS_COL(COLJ)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 15) = xlRange.Cells(i, pos).Value.ToString()
+                        End If
+                    End If
+                    '12
+                    If COLK.Trim.Length > 0 Then
+                        pos = POS_COL(COLK)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            If xlRange.Cells(i, pos).Value.ToString.Length = 0 Then
+                                Fg(r_, 16) = "MXN"
+                            Else
+                                Fg(r_, 16) = xlRange.Cells(i, pos).Value 'MONEDA
+                            End If
+                        Else
+                            Fg(r_, 16) = "MXN"
+                        End If
+                    Else
+                        Fg(r_, 16) = "MXN"
+                    End If
+                    '13
+                    If COLL.Trim.Length > 0 Then
+                        pos = POS_COL(COLL)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 18) = xlRange.Cells(i, pos).Value.ToString()
+                        End If
+                    End If
+                    '14
+                    If COLM.Trim.Length > 0 Then
+                        pos = POS_COL(COLM)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 19) = xlRange.Cells(i, pos).Value.ToString()
+                        End If
+                    End If
+                    If i = 50 Then
+                        Lt6.Refresh()
+                    End If
+                    Lt6.Text = "Partidas " & i & "/" & Fg.Rows.Count - 1
+                Next i
+
+                Try
+                    For k = 1 To Fg.Rows.Count - 1
+
+                        If IsNothing(Fg(k, 4)) Then
+                            DESCR = If([String].IsNullOrEmpty(Fg(k, 4)), "", Fg(k, 4))
+                            UNI_SAT = If([String].IsNullOrEmpty(Fg(k, 2)), "", Fg(k, 2))
+
+                            If UNI_SAT.Trim.Length > 0 And DESCR.Trim.Length = 0 Then
+
+                                Try
+                                    Using cmd As SqlCommand = cnSAE.CreateCommand
+                                        SQL = "SELECT claveUnidad, nombre FROM tblcclaveunidad WHERE claveUnidad = '" & UNI_SAT & "'"
+                                        cmd.CommandText = SQL
+                                        Using dr As SqlDataReader = cmd.ExecuteReader
+                                            If dr.Read Then
+                                                Fg(k, 4) = dr("nombre")
+                                            End If
+                                        End Using
+                                    End Using
+
+                                    SQL = "SELECT clave, nombre FROM tblcclaveunidadpeso WHERE clave = '" & UNI_SAT & "'"
+                                    Using cmd As SqlCommand = cnSAE.CreateCommand
+                                        cmd.CommandText = SQL
+                                        Using dr As SqlDataReader = cmd.ExecuteReader
+                                            If dr.Read Then
+                                                Fg(k, 4) = dr("nombre")
+                                            End If
+                                        End Using
+                                    End Using
+
+                                Catch ex As Exception
+                                    Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                                    MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+                                End Try
+                            End If
+
+                        End If
+
+                        If IsNothing(Fg(k, 7)) Then
+
+                            DESCR = If([String].IsNullOrEmpty(Fg(k, 7)), "", Fg(k, 7))
+                            UNI_SAT = If([String].IsNullOrEmpty(Fg(k, 5)), "", Fg(k, 5))
+
+                            If UNI_SAT.Trim.Length > 0 And DESCR.Trim.Length = 0 Then
+                                If IO.File.Exists(Application.StartupPath & "\CatalogosSat\CAT_PROD_SERV.xml") Then
+                                    doc.Load(Application.StartupPath & "\CatalogosSat\CAT_PROD_SERV.xml")
+
+                                    Dim nodeList As XmlNodeList = doc.SelectNodes("/Catalogo/row[@c_ClaveProdServ='" & UNI_SAT & "']")
+                                    If nodeList.Count > 0 Then
+                                        For Each znode In nodeList
+                                            Fg(k, 7) = VarXml(znode, "Descripcion")
+                                        Next
+                                    End If
+                                End If
+                            End If
+
+                        End If
+
+                    Next
+                Catch ex As Exception
+                    Bitacora("200. " & ex.Message & vbNewLine & ex.StackTrace)
+                End Try
+
+
+                BACKUPTXT("XLS", CADENA)
+
+                'cleanup
+                GC.Collect()
+                GC.WaitForPendingFinalizers()
+
+                'rule of thumb for releasing com objects:
+                '  never use two dots, all COM objects must be referenced and released individually
+                '  ex: [somthing].[something].[something] is bad
+
+                'release com objects to fully kill excel process from running in the background
+                Marshal.ReleaseComObject(xlRange)
+                Marshal.ReleaseComObject(xlWorksheet)
+
+                'close and release
+                xlWorkbook.Close()
+                Marshal.ReleaseComObject(xlWorkbook)
+
+                'quit and release
+                xlApp.Quit()
+                Marshal.ReleaseComObject(xlApp)
+
+            Catch ex As Exception
+                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+            End Try
+        End If
 
         ENTRAM = True
         Me.Cursor = Cursors.Default
@@ -8250,6 +8355,61 @@ Public Class FrmAsigViajeBuenoAE
 
         MsgBox("Proceso terminado")
     End Sub
+    Private Sub releaseObject(ByVal obj As Object)
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
+            obj = Nothing
+        Catch ex As Exception
+            obj = Nothing
+        Finally
+            GC.Collect()
+        End Try
+    End Sub
+
+
+    Friend Shared Function GetExcelSheet(ByVal excelFile As String, Optional ByVal sheetName As String = "") As DataTable
+        Try
+            Dim fullPathToExcel As String = Path.GetFullPath(excelFile)
+            Dim connString As String = String.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel " & (If(excelFile.ToLower().EndsWith("x"), "12.0", "8.0")) & ";HDR=yes'", fullPathToExcel)
+
+            SQL = "SELECT * FROM [" & (If(String.IsNullOrEmpty(sheetName), GetTableName(connString, 0), sheetName)) & "]"
+
+            Return GetDataTable(connString, SQL)
+        Catch ex As Exception
+            MsgBox("1660. " & ex.Message & vbNewLine & ex.StackTrace)
+            Bitacora("1660. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Function
+
+    Private Shared Function GetDataTable(ByVal connectionString As String, ByVal sql As String) As DataTable
+        Dim dt As New System.Data.DataTable()
+
+        Using conn As New OleDb.OleDbConnection(connectionString)
+            conn.Open()
+            Using cmd As New OleDb.OleDbCommand(sql, conn)
+                Using rdr As OleDb.OleDbDataReader = cmd.ExecuteReader()
+                    dt.Load(rdr)
+                    Return dt
+                End Using
+            End Using
+        End Using
+    End Function
+    Private Shared Function GetTableName(ByVal connectionString As String, Optional ByVal row As Integer = 0) As String
+        Dim conn As New OleDb.OleDbConnection(connectionString)
+        Dim CADENA As String
+        Try
+            conn.Open()
+
+            CADENA = conn.GetSchema("Tables").Rows(row)("TABLE_NAME") & ""
+
+            Return CADENA
+        Catch
+        Finally
+            conn.Close()
+        End Try
+        Return "sheet1"
+    End Function
+
 
     Private Function POS_COL(FCOLUMNA As String) As Integer
         Dim NCOL As Integer
@@ -9354,7 +9514,8 @@ Public Class FrmAsigViajeBuenoAE
 
             If TFORMADEPAGOSAT.Text.Trim.Length > 0 Then
                 Dim doc As New XmlDocument()
-                doc.Load(Application.StartupPath & "\CatalogosSat\CAT_FORMA_PAGO.xml")
+                doc.Load(AppDomain.CurrentDomain.BaseDirectory & "\CatalogosSat\CAT_FORMA_PAGO.xml")
+
                 Dim child_nodes As XmlNodeList = doc.GetElementsByTagName("row")
                 Dim Existe As Boolean = False
 
@@ -9673,13 +9834,8 @@ Public Class FrmAsigViajeBuenoAE
                     TFOLIO_VIAJE.Enabled = False
                     BtnSelViaje.Enabled = False
                 Case 1
-                    If LtTimbrado.Text = "FACTURADO" Or LtTimbrado.Text = "TIMBRADO" Or LtStatus.Text = "Cancelado" Or LtStatus.Text = "LIQUIDADO" Then
-                        TFOLIO_VIAJE.Enabled = False
-                        BtnSelViaje.Enabled = False
-                    Else
-                        TFOLIO_VIAJE.Enabled = True
-                        BtnSelViaje.Enabled = True
-                    End If
+                    TFOLIO_VIAJE.Enabled = True
+                    BtnSelViaje.Enabled = True
                 Case 5 'IMPORTES
                     DESPLEGA_IMPORTE_RUTA()
 
@@ -11175,6 +11331,15 @@ Public Class FrmAsigViajeBuenoAE
             End If
             If ENTRAM Then
                 ENTRAM = False
+
+                If e.KeyCode = 13 Then
+                    Select Case Fg.Col
+                        Case 6
+                            Fg.Col = 7
+                            SendKeys.Send("{ENTER}")
+                    End Select
+                End If
+
                 If e.KeyCode = Keys.Left Then
 
                     If TXTN.SelectionStart = 0 Then
@@ -12015,17 +12180,17 @@ Public Class FrmAsigViajeBuenoAE
             If result = DialogResult.OK Then
                 FgCarga.Rows.Count = 1
             End If
-
+            'LEFT JOIN GCCARGAS G1 ON G1.CLAVE = C.CARGA
+            'LEFT JOIN GCEMBALAJE E ON E.CLAVE = C.EMBALAJE
             Using cmd As SqlCommand = cnSAE.CreateCommand
-                SQL = "SELECT C.CANT, C.EMBALAJE, C.CARGA, CONTIENE, C.PESO, C.VOLUMEN, C.PESO_ESTIMADO, C.PEDIMENTO
+                SQL = "SELECT C.CANT, C.EMBALAJE, C.CONTIENE, C.CARGA, C.PESO, C.VOLUMEN, C.PESO_ESTIMADO, C.PEDIMENTO
                     FROM GCCARGA C
                     WHERE CVE_VIAJE = '" & FVIAJE & "'"
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
                         FgCarga.AddItem("" & vbTab & dr("CANT") & vbTab & dr("EMBALAJE") & vbTab & dr("CARGA") & vbTab &
-                                        dr("CONTIENE") & vbTab & dr("PESO") & vbTab & dr("VOLUMEN") & vbTab &
-                                        dr("PESO_ESTIMADO") & vbTab & dr("PEDIMENTO"))
+                                   dr("CONTIENE") & vbTab & dr("PESO") & vbTab & dr("VOLUMEN") & vbTab & dr("PESO_ESTIMADO") & vbTab & dr("PEDIMENTO"))
                     End While
                 End Using
             End Using
@@ -12274,9 +12439,6 @@ Public Class FrmAsigViajeBuenoAE
                         DESHABILITAR()
                         TFOLIO_VIAJE.Enabled = False
                         BtnSelViaje.Enabled = False
-                        ChCalleFiscal.Enabled = False
-                        BarEditarRemitente.Enabled = False
-                        BarEditDestinatario.Enabled = False
                     End If
 
                     If LtStatus.Text = "LIQUIDADO" Then
@@ -12676,6 +12838,9 @@ Public Class FrmAsigViajeBuenoAE
     End Sub
     Private Sub FgCarga_EnterCell(sender As Object, e As EventArgs) Handles FgCarga.EnterCell
 
+        If FgCarga.Col = 3 Then
+        End If
+
     End Sub
 
     Private Sub FgCarga_KeyDown(sender As Object, e As KeyEventArgs) Handles FgCarga.KeyDown
@@ -12705,44 +12870,41 @@ Public Class FrmAsigViajeBuenoAE
                             FgCarga.RemoveItem(FgCarga.Row)
                         End If
                     Case Keys.Enter
-                        If FgCarga.Row > 0 Then
-                            Select Case FgCarga.Col
-                                Case 1
-                                    SendKeys.Send("{LEFT}")
-                                Case 2
-                                    SendKeys.Send("{RIGHT}")
-                                Case 4
-                                    SendKeys.Send("{RIGHT}")
-                                Case 5
-                                    SendKeys.Send("{LEFT}")
-                                Case 6
-                                    SendKeys.Send("{LEFT}")
-                                Case 7
-                                    SendKeys.Send("{LEFT}")
-                                Case 8
-                                    SendKeys.Send("{RIGHT}")
+                        Select Case FgCarga.Col
+                            Case 1
+                                SendKeys.Send("{LEFT}")
+                            Case 2
+                                SendKeys.Send("{RIGHT}")
+                            Case 4
+                                SendKeys.Send("{RIGHT}")
+                            Case 5
+                                SendKeys.Send("{LEFT}")
+                            Case 6
+                                SendKeys.Send("{LEFT}")
+                            Case 7
+                                SendKeys.Send("{LEFT}")
+                            Case 8
+                                SendKeys.Send("{RIGHT}")
 
-                            End Select
-                        End If
+                        End Select
+
+
                     Case Keys.F2
-                        If FgCarga.Row > 0 Then
-                            If FgCarga.Col = 4 Then
-                                Try
-                                    Var2 = "MONEDA"
-                                    Var4 = ""
-                                    Var5 = ""
-                                    FrmSelItem22.ShowDialog()
-                                    If Var4.Trim.Length > 0 Then
-                                        FgCarga(FgCarga.Row, 2) = Var4
-                                        'FgCarga.Col = 3
-                                    End If
-                                Catch ex As Exception
-                                    Bitacora("1280. " & ex.Message & vbNewLine & ex.StackTrace)
-                                    MsgBox("1280. " & ex.Message & vbNewLine & ex.StackTrace)
-                                End Try
-                            End If
+                        If FgCarga.Col = 4 Then
+                            Try
+                                Var2 = "MONEDA"
+                                Var4 = ""
+                                Var5 = ""
+                                FrmSelItem22.ShowDialog()
+                                If Var4.Trim.Length > 0 Then
+                                    FgCarga(FgCarga.Row, 2) = Var4
+                                    'FgCarga.Col = 3
+                                End If
+                            Catch ex As Exception
+                                Bitacora("1280. " & ex.Message & vbNewLine & ex.StackTrace)
+                                MsgBox("1280. " & ex.Message & vbNewLine & ex.StackTrace)
+                            End Try
                         End If
-
                     Case Keys.Left
 
                         'r_ = FgCarga.Row
@@ -12785,51 +12947,48 @@ Public Class FrmAsigViajeBuenoAE
             Return
         End If
         Try
-            If FgCarga.Row > 0 Then
-                If ENTRAM Then
-                    ENTRAM = False
-                    If FgCarga.Col = 2 Then
-                        Try
-                            Var2 = "Embalaje"
-                            Var4 = ""
-                            Var5 = ""
-                            FrmSelItem2.ShowDialog()
-                            If Var4.Trim.Length > 0 Then
-                                FgCarga(FgCarga.Row, 2) = Var4
-                                FgCarga(FgCarga.Row, 3) = Var5
-                                FgCarga.Col = 4
-                                'SendKeys.Send(" ")
-                            End If
-                        Catch ex As Exception
-                            Bitacora("1280. " & ex.Message & vbNewLine & ex.StackTrace)
-                            MsgBox("1280. " & ex.Message & vbNewLine & ex.StackTrace)
-                        End Try
-                        ENTRAM = True
-                        Return
-                    End If
-                    If FgCarga.Col = 4 Then 'CARGAS
-                        Try
-                            Var2 = "Cargas"
-                            Var4 = ""
-                            Var5 = ""
-                            FrmSelItem2.ShowDialog()
-                            If Var4.Trim.Length > 0 Then
-                                FgCarga(FgCarga.Row, 4) = Var4
-                                FgCarga(FgCarga.Row, 5) = Var5
-                                FgCarga.Col = 6
-                                'SendKeys.Send(" ")
-                            End If
-                        Catch ex As Exception
-                            Bitacora("1320. " & ex.Message & vbNewLine & ex.StackTrace)
-                            MsgBox("1320. " & ex.Message & vbNewLine & ex.StackTrace)
-                        End Try
-                        ENTRAM = True
-                        Return
-                    End If
+            If ENTRAM Then
+                ENTRAM = False
+                If FgCarga.Col = 2 Then
+                    Try
+                        Var2 = "Embalaje"
+                        Var4 = ""
+                        Var5 = ""
+                        FrmSelItem2.ShowDialog()
+                        If Var4.Trim.Length > 0 Then
+                            FgCarga(FgCarga.Row, 2) = Var4
+                            FgCarga(FgCarga.Row, 3) = Var5
+                            FgCarga.Col = 4
+                            'SendKeys.Send(" ")
+                        End If
+                    Catch ex As Exception
+                        Bitacora("1280. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("1280. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
                     ENTRAM = True
+                    Return
                 End If
+                If FgCarga.Col = 4 Then 'CARAGAS
+                    Try
+                        Var2 = "Cargas"
+                        Var4 = ""
+                        Var5 = ""
+                        FrmSelItem2.ShowDialog()
+                        If Var4.Trim.Length > 0 Then
+                            FgCarga(FgCarga.Row, 4) = Var4
+                            FgCarga(FgCarga.Row, 5) = Var5
+                            FgCarga.Col = 6
+                            'SendKeys.Send(" ")
+                        End If
+                    Catch ex As Exception
+                        Bitacora("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+                    ENTRAM = True
+                    Return
+                End If
+                ENTRAM = True
             End If
-
         Catch ex As Exception
             ENTRAM = True
             Bitacora(ex.Message & ex.StackTrace)
@@ -12983,52 +13142,50 @@ Public Class FrmAsigViajeBuenoAE
             Return
         End If
         Try
-            If FgCarga.Row > 0 Then
-                If ENTRAM Then
-                    If e.KeyCode = Keys.Tab Then
-                        ENTRAM = False
-                        Select Case FgCarga.Col
-                            Case 1
-                                FgCarga.Col = 2
-                            Case 2
+
+            If ENTRAM Then
+                If e.KeyCode = Keys.Tab Then
+                    ENTRAM = False
+                    Select Case FgCarga.Col
+                        Case 1
+                            FgCarga.Col = 2
+                        Case 2
                             'FgCarga.Col = 4
-                            Case 4
+                        Case 4
 
-                            Case 6
-                                Fg.Col = 8
-                            Case 7
-                                FgCarga.Col = 8
-                            Case 8
+                        Case 6
+                            Fg.Col = 8
+                        Case 7
+                            FgCarga.Col = 8
+                        Case 8
+                            FgCarga.Col = 9
+                        Case 9
+                            FgCarga.Col = 10
+                        Case 8
+                            If IsMatPeligroso Then
                                 FgCarga.Col = 9
-                            Case 9
-                                FgCarga.Col = 1
-                            Case 8
-                                If IsMatPeligroso Then
-                                    FgCarga.Col = 9
-                                Else
-                                    FgCarga.Col = 14
-                                End If
-                            Case 9
-                                FgCarga.Col = 11
-                            Case 11
+                            Else
                                 FgCarga.Col = 14
-                            Case 16
-                                FgCarga.Col = 18
-                            Case 18
-                                FgCarga.Col = 19
-                            Case 19
-                                If FgCarga.Row = FgCarga.Rows.Count - 1 Then
-                                    ADD_ROW_FG()
-                                Else
-                                    FgCarga.Row = FgCarga.Rows.Count - 1
-                                    FgCarga.Col = 1
-                                End If
-                        End Select
-                    End If
-                    ENTRAM = True
+                            End If
+                        Case 9
+                            FgCarga.Col = 11
+                        Case 11
+                            FgCarga.Col = 14
+                        Case 16
+                            FgCarga.Col = 18
+                        Case 18
+                            FgCarga.Col = 19
+                        Case 19
+                            If FgCarga.Row = FgCarga.Rows.Count - 1 Then
+                                ADD_ROW_FG()
+                            Else
+                                FgCarga.Row = FgCarga.Rows.Count - 1
+                                FgCarga.Col = 1
+                            End If
+                    End Select
                 End If
+                ENTRAM = True
             End If
-
         Catch ex As Exception
             Bitacora(ex.Message & ex.StackTrace)
             MsgBox(ex.Message & vbNewLine & ex.StackTrace)

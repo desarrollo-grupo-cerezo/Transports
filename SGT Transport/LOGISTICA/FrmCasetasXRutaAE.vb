@@ -20,6 +20,8 @@ Public Class FrmCasetasXRutaAE
             BtnCLAVE_REM.FlatAppearance.BorderSize = 0
             BtnPlaza2.FlatStyle = FlatStyle.Flat
             BtnPlaza2.FlatAppearance.BorderSize = 0
+            BtnRuta.FlatStyle = FlatStyle.Flat
+            BtnRuta.FlatAppearance.BorderSize = 0
 
 
             Me.Width = Screen.PrimaryScreen.Bounds.Width - 25
@@ -81,17 +83,24 @@ Public Class FrmCasetasXRutaAE
             MsgBox("380. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
 
+
+        txRuta.Text = ""
+        txDescripcion.Text = ""
         tCVE_PLAZA.Tag = ""
         tCVE_PLAZA2.Tag = ""
         LtPlaza.Tag = ""
         LtPlaza2.Tag = ""
+        rbTractor.Checked = True
+        rbSencillo.Checked = False
+        rbFull.Checked = False
 
         If Var1 = "Nuevo" Then
             Try
                 TCVE_CXR.Text = GET_MAX("GCCASETAS_X_RUTA", "CVE_CXR")
                 TCVE_CXR.Enabled = False
-                tCVE_PLAZA.Text = ""
-                tCVE_PLAZA.Select()
+                'tCVE_PLAZA.Text = ""
+                'tCVE_PLAZA.Select()
+                txRuta.Select()
 
             Catch ex As Exception
                 MsgBox("2. " & ex.Message & vbNewLine & "" & ex.StackTrace)
@@ -103,54 +112,63 @@ Public Class FrmCasetasXRutaAE
                 Dim dr As SqlDataReader
                 cmd.Connection = cnSAE
 
-                SQL = "SELECT C.CVE_CXR, C.STATUS, C.CVE_PLAZA, C.CVE_PLAZA2, P1.CIUDAD AS CIUDAD1, P2.CIUDAD AS CIUDAD2, 
-                    ISNULL(IMPORTE_CASETAS,0) AS IMPORTE, C.CLAVE_OP, C.IAVE, OP.NOMBRE, ISNULL(P1.STATUS,'A') AS ST_PLAZA, 
-                    ISNULL(P2.STATUS,'A') AS ST_PLAZA2
+                SQL = "SELECT C.CVE_CXR, C.STATUS, C.CVE_PLAZA, C.CVE_PLAZA2, ISNULL(C.CVE_TAB, 0) AS CVE_TAB, ISNULL(C.TIPO_UNIDAD, 0) AS TIPO_UNIDAD, ISNULL(R.DESCR, '') AS DES, ISNULL(R.DESCR2, '') AS DES2, ISNULL(C.DESCR, '') AS DESCR, 
+                    ISNULL(IMPORTE_CASETAS,0) AS IMPORTE, C.CLAVE_OP, C.IAVE, OP.NOMBRE
                     FROM GCCASETAS_X_RUTA C 
                     LEFT JOIN GCCLIE_OP OP On OP.CLAVE = C.CLAVE_OP
-                    LEFT JOIN GCPLAZAS P1 On P1.CLAVE = C.CVE_PLAZA 
-                    LEFT JOIN GCPLAZAS P2 On P2.CLAVE = C.CVE_PLAZA2
+					LEFT JOIN GCTAB_RUTAS_F R ON R.CVE_TAB = C.CVE_TAB
                     WHERE CVE_CXR = " & Var2
                 cmd.CommandText = SQL
                 dr = cmd.ExecuteReader
                 If dr.Read Then
                     TCVE_CXR.Text = dr("CVE_CXR")
 
-                    If dr.ReadNullAsEmptyInteger("CVE_PLAZA") = 0 Then
-                        tCVE_PLAZA.Text = ""
-                    Else
-                        tCVE_PLAZA.Text = dr.ReadNullAsEmptyString("CVE_PLAZA")
-                        tCVE_PLAZA.Tag = dr.ReadNullAsEmptyString("ST_PLAZA")
-                    End If
-                    If dr.ReadNullAsEmptyInteger("CVE_PLAZA2") = 0 Then
-                        tCVE_PLAZA2.Text = ""
-                    Else
-                        tCVE_PLAZA2.Text = dr.ReadNullAsEmptyString("CVE_PLAZA2")
-                        tCVE_PLAZA2.Tag = dr.ReadNullAsEmptyString("ST_PLAZA2")
-                    End If
-                    LtPlaza.Text = dr.ReadNullAsEmptyString("CIUDAD1")
-                    LtPlaza.Tag = tCVE_PLAZA.Text
-                    LtPlaza2.Text = dr.ReadNullAsEmptyString("CIUDAD2")
-                    LtPlaza2.Tag = tCVE_PLAZA2.Text
+                    'If dr.ReadNullAsEmptyInteger("CVE_PLAZA") = 0 Then
+                    '    tCVE_PLAZA.Text = ""
+                    'Else
+                    '    tCVE_PLAZA.Text = dr.ReadNullAsEmptyString("CVE_PLAZA")
+                    '    tCVE_PLAZA.Tag = dr.ReadNullAsEmptyString("ST_PLAZA")
+                    'End If
+                    'If dr.ReadNullAsEmptyInteger("CVE_PLAZA2") = 0 Then
+                    '    tCVE_PLAZA2.Text = ""
+                    'Else
+                    '    tCVE_PLAZA2.Text = dr.ReadNullAsEmptyString("CVE_PLAZA2")
+                    '    tCVE_PLAZA2.Tag = dr.ReadNullAsEmptyString("ST_PLAZA2")
+                    'End If
 
-                    LtImporte.Text = Format(dr.ReadNullAsEmptyDecimal("IMPORTE"), "###,###,##0.00")
+                    If dr.ReadNullAsEmptyString("CVE_TAB").Equals("0") Then
+                        txRuta.Text = ""
+                    Else
+                        txRuta.Text = dr.ReadNullAsEmptyString("CVE_TAB")
+                    End If
+
+                    txDescripcion.Text = dr.ReadNullAsEmptyString("DESCR")
+
+                    LtPlaza.Text = dr.ReadNullAsEmptyString("DES")
+                    LtPlaza2.Text = dr.ReadNullAsEmptyString("DES2")
+
+                    LtImporte.Text = Format(dr("IMPORTE"), "###,###,##0.00")
 
                     tCLAVE_O.Text = dr.ReadNullAsEmptyString("CLAVE_OP")
                     LtNombre1.Text = dr.ReadNullAsEmptyString("NOMBRE")
-<<<<<<< HEAD
                     TIAVE.Text = dr.ReadNullAsEmptyString("IAVE")
-=======
-                    TIAVE.Text = dr("IAVE")
->>>>>>> Ultimos Cambios
-                Else
-                    tCVE_PLAZA.Text = ""
+
+                    Select Case dr.ReadNullAsEmptyString("TIPO_UNIDAD")
+                        Case "1"
+                            rbTractor.Checked = True
+                        Case "2"
+                            rbSencillo.Checked = True
+                        Case "3"
+                            rbFull.Checked = True
+                    End Select
+
                 End If
                 dr.Close()
 
                 DESPLEGAR_PAR()
 
                 TCVE_CXR.Enabled = False
-                tCVE_PLAZA.Select()
+                txRuta.Select()
 
             Catch ex As Exception
                 MsgBox("15. " & ex.Message & vbNewLine & "" & ex.StackTrace)
@@ -284,96 +302,97 @@ Public Class FrmCasetasXRutaAE
     End Sub
 
     Private Sub btnPlaza_Click(sender As Object, e As EventArgs) Handles BtnPlaza.Click
-        Try
-            Var2 = "Plazas"
-            Var4 = "" : Var5 = "" : Var6 = ""
-            FrmSelItem2.ShowDialog()
-            If Var4.Trim.Length > 0 Then
-                tCVE_PLAZA.Text = Var4
-                LtPlaza.Text = Var5
-                Var2 = "" : Var4 = "" : Var5 = ""
-                tCVE_PLAZA2.Focus()
-            End If
-        Catch ex As Exception
-            Bitacora("380. " & ex.Message & vbNewLine & ex.StackTrace)
-            MsgBox("380. " & ex.Message & vbNewLine & ex.StackTrace)
-        End Try
+        'Try
+        '    Var2 = "Plazas"
+        '    Var4 = "" : Var5 = "" : Var6 = ""
+        '    FrmSelItem2.ShowDialog()
+        '    If Var4.Trim.Length > 0 Then
+        '        tCVE_PLAZA.Text = Var4
+        '        LtPlaza.Text = Var5
+        '        Var2 = "" : Var4 = "" : Var5 = ""
+        '        tCVE_PLAZA2.Focus()
+        '    End If
+        'Catch ex As Exception
+        '    Bitacora("380. " & ex.Message & vbNewLine & ex.StackTrace)
+        '    MsgBox("380. " & ex.Message & vbNewLine & ex.StackTrace)
+        'End Try
     End Sub
     Private Sub tCVE_PLAZA_KeyDown(sender As Object, e As KeyEventArgs) Handles tCVE_PLAZA.KeyDown
-        If e.KeyCode = Keys.F2 Then
-            btnPlaza_Click(Nothing, Nothing)
-            Return
-        End If
+        'If e.KeyCode = Keys.F2 Then
+        '    btnPlaza_Click(Nothing, Nothing)
+        '    Return
+        'End If
     End Sub
+
     Private Sub tCVE_PLAZA_Validated(sender As Object, e As EventArgs) Handles tCVE_PLAZA.Validated
-        Try
-            If tCVE_PLAZA.Text.Trim.Length > 0 Then
-                Dim DESCR As String
-                DESCR = BUSCA_CAT("Plazas", tCVE_PLAZA.Text)
-                If DESCR <> "" Then
-                    LtPlaza.Text = DESCR
-                    'tCVE_PLAZA2.Focus()
-                Else
-                    If tCVE_PLAZA.Tag <> "B" And tCVE_PLAZA.Text <> LtPlaza.Tag Then
-                        MessageBox.Show("Plaza inexistente")
-                        tCVE_PLAZA.Focus()
-                        tCVE_PLAZA.Text = ""
-                        LtPlaza.Text = ""
-                    End If
-                End If
-            Else
-                LtPlaza.Text = ""
-            End If
-        Catch ex As Exception
-            Bitacora("125. " & ex.Message & vbNewLine & ex.StackTrace)
-            MsgBox("125. " & ex.Message & vbNewLine & ex.StackTrace)
-        End Try
+        '    Try
+        '        If tCVE_PLAZA.Text.Trim.Length > 0 Then
+        '            Dim DESCR As String
+        '            DESCR = BUSCA_CAT("Plazas", tCVE_PLAZA.Text)
+        '            If DESCR <> "" Then
+        '                LtPlaza.Text = DESCR
+        '                'tCVE_PLAZA2.Focus()
+        '            Else
+        '                If tCVE_PLAZA.Tag <> "B" And tCVE_PLAZA.Text <> LtPlaza.Tag Then
+        '                    MessageBox.Show("Plaza inexistente")
+        '                    tCVE_PLAZA.Focus()
+        '                    tCVE_PLAZA.Text = ""
+        '                    LtPlaza.Text = ""
+        '                End If
+        '            End If
+        '        Else
+        '            LtPlaza.Text = ""
+        '        End If
+        '    Catch ex As Exception
+        '        Bitacora("125. " & ex.Message & vbNewLine & ex.StackTrace)
+        '        MsgBox("125. " & ex.Message & vbNewLine & ex.StackTrace)
+        '    End Try
     End Sub
     Private Sub btnPlaza2_Click(sender As Object, e As EventArgs) Handles BtnPlaza2.Click
-        Try
-            Var2 = "Plazas"
-            Var4 = "" : Var5 = "" : Var6 = ""
-            FrmSelItem2.ShowDialog()
-            If Var4.Trim.Length > 0 Then
-                tCVE_PLAZA2.Text = Var4
-                LtPlaza2.Text = Var5
-                Var2 = "" : Var4 = "" : Var5 = ""
-                tCLAVE_O.Focus()
-            End If
-        Catch ex As Exception
-            Bitacora("588. " & ex.Message & vbNewLine & ex.StackTrace)
-            MsgBox("588. " & ex.Message & vbNewLine & ex.StackTrace)
-        End Try
+        'Try
+        '    Var2 = "Plazas"
+        '    Var4 = "" : Var5 = "" : Var6 = ""
+        '    FrmSelItem2.ShowDialog()
+        '    If Var4.Trim.Length > 0 Then
+        '        tCVE_PLAZA2.Text = Var4
+        '        LtPlaza2.Text = Var5
+        '        Var2 = "" : Var4 = "" : Var5 = ""
+        '        tCLAVE_O.Focus()
+        '    End If
+        'Catch ex As Exception
+        '    Bitacora("588. " & ex.Message & vbNewLine & ex.StackTrace)
+        '    MsgBox("588. " & ex.Message & vbNewLine & ex.StackTrace)
+        'End Try
     End Sub
     Private Sub tCVE_PLAZA2_KeyDown(sender As Object, e As KeyEventArgs) Handles tCVE_PLAZA2.KeyDown
-        If e.KeyCode = Keys.F2 Then
-            btnPlaza2_Click(Nothing, Nothing)
-            Return
-        End If
+        'If e.KeyCode = Keys.F2 Then
+        '    btnPlaza2_Click(Nothing, Nothing)
+        '    Return
+        'End If
     End Sub
     Private Sub tCVE_PLAZA2_Validated(sender As Object, e As EventArgs) Handles tCVE_PLAZA2.Validated
-        Try
-            If tCVE_PLAZA2.Text.Trim.Length > 0 Then
-                Dim DESCR As String
-                DESCR = BUSCA_CAT("Plazas", tCVE_PLAZA2.Text)
-                If DESCR <> "" Then
-                    LtPlaza2.Text = DESCR
-                    'tCLAVE_O.Focus()
-                Else
-                    If tCVE_PLAZA2.Tag <> "B" And tCVE_PLAZA2.Text <> LtPlaza2.Tag Then
-                        MessageBox.Show("Plaza inexistente")
-                        tCVE_PLAZA2.Focus()
-                        tCVE_PLAZA2.Text = ""
-                        LtPlaza2.Text = ""
-                    End If
-                End If
-            Else
-                LtPlaza2.Text = ""
-            End If
-        Catch ex As Exception
-            Bitacora("125. " & ex.Message & vbNewLine & ex.StackTrace)
-            MsgBox("125. " & ex.Message & vbNewLine & ex.StackTrace)
-        End Try
+        'Try
+        '    If tCVE_PLAZA2.Text.Trim.Length > 0 Then
+        '        Dim DESCR As String
+        '        DESCR = BUSCA_CAT("Plazas", tCVE_PLAZA2.Text)
+        '        If DESCR <> "" Then
+        '            LtPlaza2.Text = DESCR
+        '            'tCLAVE_O.Focus()
+        '        Else
+        '            If tCVE_PLAZA2.Tag <> "B" And tCVE_PLAZA2.Text <> LtPlaza2.Tag Then
+        '                MessageBox.Show("Plaza inexistente")
+        '                tCVE_PLAZA2.Focus()
+        '                tCVE_PLAZA2.Text = ""
+        '                LtPlaza2.Text = ""
+        '            End If
+        '        End If
+        '    Else
+        '        LtPlaza2.Text = ""
+        '    End If
+        'Catch ex As Exception
+        '    Bitacora("125. " & ex.Message & vbNewLine & ex.StackTrace)
+        '    MsgBox("125. " & ex.Message & vbNewLine & ex.StackTrace)
+        'End Try
     End Sub
 
     Private Sub barGrabar_Click(sender As Object, e As EventArgs) Handles barGrabar.Click
@@ -391,28 +410,56 @@ Public Class FrmCasetasXRutaAE
             Bitacora("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
         End Try
 
-        '         
-        SQL = "UPDATE GCCASETAS_X_RUTA SET CVE_PLAZA = @CVE_PLAZA, CVE_PLAZA2 = @CVE_PLAZA2, IMPORTE_CASETAS = @IMPORTE_CASETAS, 
-            CLAVE_OP = @CLAVE_OP, IAVE = @IAVE
+        Dim TipoUnidad As Integer
+        If rbTractor.Checked Then
+            TipoUnidad = 1
+        ElseIf rbSencillo.Checked Then
+            TipoUnidad = 2
+        ElseIf rbFull.Checked Then
+            TipoUnidad = 3
+        End If
+
+        If txRuta.Text = "" Then
+            MsgBox("Falta asignar la ruta")
+            Return
+        End If
+
+        If txDescripcion.Text = "" Then
+            MsgBox("Falta asignar la descripción de la ruta")
+            Return
+        End If
+
+        If TipoUnidad = 0 Then
+            MsgBox("Favor de asignar el tipo de unidad Tractor/Sencillo/Full")
+            Return
+        End If
+
+        SQL = "UPDATE GCCASETAS_X_RUTA SET IMPORTE_CASETAS = @IMPORTE_CASETAS, 
+            CLAVE_OP = @CLAVE_OP, IAVE = @IAVE, CVE_TAB = @CVE_TAB, TIPO_UNIDAD = @TIPO_UNIDAD, DESCR = @DESCR
             WHERE CVE_CXR = @CVE_CXR
             IF @@ROWCOUNT = 0
-            INSERT INTO GCCASETAS_X_RUTA (CVE_CXR, STATUS, CVE_PLAZA, CVE_PLAZA2, IMPORTE_CASETAS, CLAVE_OP, IAVE, UUID) VALUES (@CVE_CXR, 'A', 
-            @CVE_PLAZA, @CVE_PLAZA2, @IMPORTE_CASETAS, @CLAVE_OP, @IAVE, NEWID())"
+            INSERT INTO GCCASETAS_X_RUTA (CVE_CXR, STATUS, IMPORTE_CASETAS, CLAVE_OP, IAVE, UUID, CVE_TAB, TIPO_UNIDAD, DESCR) VALUES (@CVE_CXR, 'A', 
+            @IMPORTE_CASETAS, @CLAVE_OP, @IAVE, NEWID(), @CVE_TAB, @TIPO_UNIDAD, @DESCR)"
         cmd.CommandText = SQL
         Try
             cmd.Parameters.Add("@CVE_CXR", SqlDbType.Int).Value = CONVERTIR_TO_INT(TCVE_CXR.Text)
-            cmd.Parameters.Add("@CVE_PLAZA", SqlDbType.Int).Value = CONVERTIR_TO_INT(tCVE_PLAZA.Text)
-            cmd.Parameters.Add("@CVE_PLAZA2", SqlDbType.Int).Value = CONVERTIR_TO_INT(tCVE_PLAZA2.Text)
+            'cmd.Parameters.Add("@CVE_PLAZA", SqlDbType.Int).Value = CONVERTIR_TO_INT(tCVE_PLAZA.Text)
+            'cmd.Parameters.Add("@CVE_PLAZA2", SqlDbType.Int).Value = CONVERTIR_TO_INT(tCVE_PLAZA2.Text)
             cmd.Parameters.Add("@IMPORTE_CASETAS", SqlDbType.Int).Value = IMPORTE
             cmd.Parameters.Add("@CLAVE_OP", SqlDbType.VarChar).Value = tCLAVE_O.Text
             cmd.Parameters.Add("@IAVE", SqlDbType.VarChar).Value = TIAVE.Text
+
+            cmd.Parameters.Add("@CVE_TAB", SqlDbType.VarChar).Value = txRuta.Text
+            cmd.Parameters.Add("@TIPO_UNIDAD", SqlDbType.TinyInt).Value = TipoUnidad
+            cmd.Parameters.Add("@DESCR", SqlDbType.VarChar).Value = txDescripcion.Text
+
             returnValue = cmd.ExecuteNonQuery().ToString
             If returnValue IsNot Nothing Then
                 If returnValue = "1" Then
 
                     GRABAR_GASOLINERAS()
                     MsgBox("El registro se grabo satisfactoriamente")
-
+                    Me.Close()
                 Else
                     MsgBox("No se logro grabar el registro")
                 End If
@@ -588,6 +635,67 @@ Public Class FrmCasetasXRutaAE
             End If
         Catch ex As Exception
             Bitacora("162. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
+    Private Sub BtnRuta_Click(sender As Object, e As EventArgs) Handles BtnRuta.Click
+        Try
+            Var2 = "RUTAS FLORES"
+            Var4 = "" : Var5 = "" : Var6 = "" : Var10 = ""
+            FrmSelItem2.ShowDialog()
+            If Var4.Trim.Length > 0 Then
+                txRuta.Text = Var4
+                txRuta.Tag = Var4
+                LtPlaza.Text = Var7
+                LtPlaza2.Text = Var8
+                Var2 = "" : Var4 = "" : Var5 = ""
+
+            End If
+        Catch ex As Exception
+            Bitacora("38. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("38. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
+    Private Sub txRuta_KeyDown(sender As Object, e As KeyEventArgs) Handles txRuta.KeyDown
+        If e.KeyCode = Keys.F2 Then
+            BtnRuta_Click(Nothing, Nothing)
+            Return
+        End If
+    End Sub
+
+    Private Sub txRuta_Validated(sender As Object, e As EventArgs) Handles txRuta.Validated
+        Try
+
+            If txRuta.Text = "" Then
+                LtPlaza.Text = ""
+                LtPlaza2.Text = ""
+                Return
+            End If
+
+            SQL = "SELECT T.*, ISNULL(T.DESCR,'') AS DES, ISNULL(T.DESCR2,'') AS DES2, ISNULL(T.DESCR,'') AS DESCR_RUTA
+                FROM GCTAB_RUTAS_F T                 
+                WHERE T.CVE_TAB = '" & txRuta.Text & "'"
+
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    If dr.Read Then
+
+                        'LtNombreRuta.Text = dr("DESCR_RUTA")
+                        LtPlaza.Text = dr("DES")
+                        LtPlaza2.Text = dr("DES2")
+                    Else
+                        txRuta.Text = ""
+                        LtPlaza.Text = ""
+                        LtPlaza2.Text = ""
+                    End If
+                End Using
+            End Using
+
+        Catch ex As Exception
+            Bitacora("38. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("38. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
 End Class

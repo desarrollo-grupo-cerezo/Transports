@@ -32,10 +32,9 @@ Public Class FrmCasetasXRuta
             Dim da As New SqlDataAdapter
             Dim dt As New DataTable
 
-            SQL = "SELECT C.CVE_CXR, C.STATUS, C.CVE_PLAZA, P1.CIUDAD AS CIUDAD1, C.CVE_PLAZA2, P2.CIUDAD AS CIUDAD2, IMPORTE_CASETAS
+            SQL = "SELECT C.CVE_CXR, C.STATUS, C.DESCR, C.CVE_TAB, R.DESCR AS ORIGEN, R.DESCR2 AS DESTINO, IMPORTE_CASETAS
                 FROM GCCASETAS_X_RUTA C 
-                LEFT JOIN GCPLAZAS P1 On P1.CLAVE = C.CVE_PLAZA 
-                LEFT JOIN GCPLAZAS P2 On P2.CLAVE = C.CVE_PLAZA2
+                LEFT JOIN GCTAB_RUTAS_F R On R.CVE_TAB = C.CVE_TAB                
                 WHERE C.STATUS = 'A' ORDER BY CVE_CXR"
 
             da = New SqlDataAdapter(SQL, cnSAE)
@@ -52,21 +51,21 @@ Public Class FrmCasetasXRuta
 
             Fg(0, 1) = "Clave"
             Dim cc1 As Column = Fg.Cols(1)
-            cc1.DataType = GetType(Int32)
+            cc1.DataType = GetType(String)
 
             Fg(0, 2) = "Estatus"
             Dim c2 As Column = Fg.Cols(2)
             c2.DataType = GetType(String)
 
-            Fg(0, 3) = "Clave"
+            Fg(0, 3) = "Descripción"
             Dim c3 As Column = Fg.Cols(3)
             c3.DataType = GetType(Int32)
 
-            Fg(0, 4) = "Origen"
+            Fg(0, 4) = "Ruta"
             Dim c4 As Column = Fg.Cols(4)
             c4.DataType = GetType(String)
 
-            Fg(0, 5) = "Clave"
+            Fg(0, 5) = "Origen"
             Dim c5 As Column = Fg.Cols(5)
             c5.DataType = GetType(Int32)
 

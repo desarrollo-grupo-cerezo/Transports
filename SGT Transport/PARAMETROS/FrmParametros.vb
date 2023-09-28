@@ -47,6 +47,6 @@
     End Sub
 
     Private Sub ToolStripButton2_Click(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
-        FrmCOI.ShowDialog()
+        CREA_TAB2(FrmCOI, "Configuración de Aspel COI")
     End Sub
 End Class

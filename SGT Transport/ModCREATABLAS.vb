@@ -1613,7 +1613,7 @@ Module ModCREATABLAS
                         End If
                     End If
                 Else
-                    BACKUPTXT("ERROR CREA_CAMPO", "error query en CREA_CAPO " & fTABLA & ", " & fCAMPO)
+                    BACKUPTXT("ERROR CREA_CAMPO", "error query en CREA_CAMPO " & fTABLA & ", " & fCAMPO)
                 End If
             Catch ex As Exception
                 BACKUPTXT("ERROR CREA_CAMPO", ex.Message & vbNewLine & ex.StackTrace)
@@ -10648,16 +10648,9 @@ Module ModCREATABLAS
             CREA_CAMPO("FOLIOSF" & Empresa, "CTA_VTA_MN", "VARCHAR", "30", "")
             CREA_CAMPO("FOLIOSF" & Empresa, "CTA_VTA_USD", "VARCHAR", "30", "")
 
-            SQL = "IF NOT EXISTS(SELECT 1 From INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME = 'CVE_TAB' AND TABLE_NAME = 'GCCASETAS_X_RUTA')
-                    BEGIN
-	                    ALTER TABLE dbo.GCCASETAS_X_RUTA ADD
-		                    CVE_TAB VARCHAR(20) NULL,
-		                    TIPO_UNIDAD TINYINT NULL;
+            CREA_CAMPO("GCCASETAS_X_RUTA", "CVE_TAB", "VARCHAR", "23", "")
+            CREA_CAMPO("GCCASETAS_X_RUTA", "TIPO_UNIDAD", "TINYINT", "", "")
 
-	                    UPDATE GCCASETAS_X_RUTA SET CVE_PLAZA = NULL, CVE_PLAZA2 = NULL, TIPO_UNIDAD = 1;
-                    END"
-            cmd.CommandText = SQL
-            cmd.ExecuteNonQuery()
 
             SQL = "IF NOT EXISTS(SELECT 1 From INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME = 'CVE_ESQIMPU' AND TABLE_NAME = 'CTAESQ" & Empresa & "')
                     BEGIN

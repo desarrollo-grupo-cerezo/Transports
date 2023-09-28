@@ -1261,7 +1261,6 @@ Module ModCREATABLAS
 
 
         CREA_CAMPO("PAR_FACTF" & Empresa, "CVE_VIAJE", "VARCHAR", "20", "")
-        CREA_CAMPO("FACTF" & Empresa, "TIPO_FACTURACION", "SMALLINT", "", "")
 
         CREA_CAMPO("CLIE" & Empresa, "CAUSA_IVA", "SMALLINT", "", "")
         CREA_CAMPO("CLIE" & Empresa, "RETIENE_IVA", "SMALLINT", "", "")
@@ -1358,11 +1357,6 @@ Module ModCREATABLAS
         CREA_CAMPO("GCMERCANCIAS2", "CVE_MAT_PELIGROSO", "VARCHAR", "6", "")
         CREA_CAMPO("CFDI", "CVE_REL", "VARCHAR", "10", "")
         CREA_CAMPO("CFDI", "CVE_VIAJE", "VARCHAR", "20", "")
-<<<<<<< HEAD
-=======
-        CREA_CAMPO("CFDI", "TIPO_FACTURACION", "SMALLINT", "", "")
-
->>>>>>> Ultimos Cambios
         CREA_CAMPO("CFDI_CFG", "REFERENCIA", "VARCHAR", "255", "")
         CREA_CAMPO("CFDI_CFG", "ADDENDA_CE", "SMALLINT", "", "")
 
@@ -1619,7 +1613,7 @@ Module ModCREATABLAS
                         End If
                     End If
                 Else
-                    BACKUPTXT("ERROR CREA_CAMPO", "error query en CREA_CAPO " & fTABLA & ", " & fCAMPO)
+                    BACKUPTXT("ERROR CREA_CAMPO", "error query en CREA_CAMPO " & fTABLA & ", " & fCAMPO)
                 End If
             Catch ex As Exception
                 BACKUPTXT("ERROR CREA_CAMPO", ex.Message & vbNewLine & ex.StackTrace)
@@ -3765,7 +3759,7 @@ Module ModCREATABLAS
                         TIPO_FACTURACION SMALLINT NULL, FORMADEPAGOSAT VARCHAR(5) NULL, TIPO_CAMBIO_LEYENDA VARCHAR(60) NULL, TIPO_CAMBIO FLOAT NULL,
                         CALLE_FISCAL SMALLINT NULL, CALLE1 VARCHAR(255) NULL, CALLE2 VARCHAR(255) NULL, FECHA_REAL_CARGA DATETIME NULL, 
                         FECHA_REAL_DESCARGA DATETIME NULL, KMS_VACIO FLOAT NULL, CVE_REL VARCHAR(10) NULL, USUARIO VARCHAR(30) NULL, 
-                        COMPLEMENTO SMALLINT NULL, VIAJE_COMPLE VARCHAR(20) NULL, OBS_COMPLE VARCHAR(255) NULL, 
+                        COMPLEMENTO SMALLINT NULL, VIAJE_COMPLE VARCHAR(20) NULL, OBS_COMPLE VARCHAR(255) NULL,
                         CONSTRAINT PK_GCASIGNACION_VIAJE PRIMARY KEY CLUSTERED (CVE_VIAJE) ON [PRIMARY]) "
                     cmd.CommandText = SQL
                     cmd.ExecuteNonQuery()
@@ -5985,7 +5979,6 @@ Module ModCREATABLAS
         Catch ex As Exception
             BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
-<<<<<<< HEAD
         'Select Case CVE_LIQ, CVE_CXR, CVE_PLAZA, CVE_PLAZA2, IMPORTE
         Try
             If Not EXISTE_TABLA("GCLIQ_CASETAS") Then
@@ -6002,20 +5995,7 @@ Module ModCREATABLAS
         End Try
 
         CREA_TBL_FN_VW()
-=======
-        Try
-            If Not EXISTE_TABLA("GCVIAJES_BUENO") Then
-                SQL = "CREATE TABLE GCVIAJES_BUENO (CVE_VIAJE VARCHAR(20) NOT NULL, CVE_DOC VARCHAR(20) NULL, 
-                    STATUS VARCHAR(1) NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
-	                CONSTRAINT PK_GCVIAJES_BUENO PRIMARY KEY CLUSTERED (CVE_VIAJE)) ON [PRIMARY]"
-                cmd.CommandText = SQL
-                cmd.ExecuteNonQuery()
-            End If
->>>>>>> Ultimos Cambios
 
-        Catch ex As Exception
-            BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
-        End Try
     End Sub
     Sub CREA_TABLAS_PROMOCIONES()
         Dim cmd As New SqlCommand With {.Connection = cnSAE}
@@ -10660,7 +10640,6 @@ Module ModCREATABLAS
         Dim cmd As New SqlCommand With {.Connection = cnSAE}
 
         Try
-<<<<<<< HEAD
             CREA_CAMPO("FACTF" & Empresa, "IDPOLIZACOI", "INT", "", "")
             CREA_CAMPO("GCASIGNACION_VIAJE", "IDPOLIZACOI", "INT", "", "")
 
@@ -10668,6 +10647,10 @@ Module ModCREATABLAS
 
             CREA_CAMPO("FOLIOSF" & Empresa, "CTA_VTA_MN", "VARCHAR", "30", "")
             CREA_CAMPO("FOLIOSF" & Empresa, "CTA_VTA_USD", "VARCHAR", "30", "")
+
+            CREA_CAMPO("GCCASETAS_X_RUTA", "CVE_TAB", "VARCHAR", "23", "")
+            CREA_CAMPO("GCCASETAS_X_RUTA", "TIPO_UNIDAD", "TINYINT", "", "")
+
 
             SQL = "IF NOT EXISTS(SELECT 1 From INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME = 'CVE_ESQIMPU' AND TABLE_NAME = 'CTAESQ" & Empresa & "')
                     BEGIN
@@ -10720,8 +10703,6 @@ Module ModCREATABLAS
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
 
-=======
->>>>>>> Ultimos Cambios
             If Not EXISTE_TABLA("CTAMES") Then
                 SQL = "CREATE TABLE dbo.CTAMES ( NUM_IMPU int NOT NULL, CUENTA varchar(10) NOT NULL, MES int NOT NULL )  ON [PRIMARY]"
                 cmd.CommandText = SQL
@@ -10732,7 +10713,6 @@ Module ModCREATABLAS
                 cmd.CommandText = SQL
                 cmd.ExecuteNonQuery()
             End If
-<<<<<<< HEAD
             If Not EXISTE_TABLA("PolizasCOI") Then
                 SQL = "CREATE TABLE dbo.PolizasCOI	(IdPoliza int NOT NULL IDENTITY (1, 1), TipoPoliza varchar(10) NOT NULL, Folio int NOT NULL, Ejercicio int NOT NULL, Periodo int NOT NULL, Fecha datetime NOT NULL, Status tinyint NOT NULL, Usuario varchar(50) NOT NULL, FechaRegistro datetime NOT NULL )  ON [PRIMARY]
                        ALTER TABLE dbo.PolizasCOI ADD CONSTRAINT PK_PolizasCOI PRIMARY KEY CLUSTERED ( IdPoliza ) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -10758,8 +10738,6 @@ Module ModCREATABLAS
 	                INSERT INTO GCParamTiposPolizasCOI(ID, Documento, TipoPoliza) VALUES(3, 'Liquidaciones', '')"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
-=======
->>>>>>> Ultimos Cambios
 
             If EXISTE_FUNCION("fn_get_cta") Then
                 SQL = "DROP FUNCTION fn_get_cta"
@@ -10770,10 +10748,7 @@ Module ModCREATABLAS
             SQL = "CREATE FUNCTION dbo.fn_get_cta 
                     (
 	                    @num_impu int,
-<<<<<<< HEAD
 	                    @cve_esq int,
-=======
->>>>>>> Ultimos Cambios
 	                    @fecha datetime
                     )
                     RETURNS varchar(50)
@@ -10782,23 +10757,15 @@ Module ModCREATABLAS
 	                    DECLARE @cta varchar(50) = ''
 
 	                    SET @cta = ISNULL((SELECT CONCAT(A.CUEN_VENT, '-', B.CUENTA, '-', C.CUENTA) 
-<<<<<<< HEAD
 			                       FROM CTAESQ" & Empresa & " A
 			                       INNER JOIN CTAYEAR B ON B.NUM_IMPU = A.NUM_IMPU
 			                       INNER JOIN CTAMES C ON C.NUM_IMPU = B.NUM_IMPU
 			                       WHERE A.CVE_ESQIMPU = @cve_esq AND A.NUM_IMPU = @num_impu AND B.[YEAR] = YEAR(@fecha) AND C.MES = MONTH(@fecha)), '')	
-=======
-			                       FROM CTAESQ" + Empresa + " A
-			                       INNER JOIN CTAYEAR B ON B.NUM_IMPU = A.NUM_IMPU
-			                       INNER JOIN CTAMES C ON C.NUM_IMPU = B.NUM_IMPU
-			                       WHERE A.NUM_IMPU = @num_impu AND B.[YEAR] = YEAR(@fecha) AND C.MES = MONTH(@fecha)), '')	
->>>>>>> Ultimos Cambios
 	                    RETURN @cta
                     END"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
 
-<<<<<<< HEAD
             If EXISTE_FUNCION("fn_get_cta_folio") Then
                 SQL = "DROP FUNCTION fn_get_cta_folio"
                 cmd.CommandText = SQL
@@ -10944,25 +10911,14 @@ Module ModCREATABLAS
                         FROM IMPU" & Empresa & " I
                         INNER JOIN (SELECT NUM_IMPU = 1 UNION ALL SELECT NUM_IMPU = 2 UNION ALL SELECT NUM_IMPU = 3 UNION ALL SELECT NUM_IMPU = 4) IM ON 1 = 1
                         ORDER BY I.CVE_ESQIMPU, IM.NUM_IMPU
-=======
-            SQL = "IF NOT EXISTS(SELECT 1 FROM CTAESQ05)
-                    BEGIN
-	                    INSERT INTO CTAESQ05(NUM_IMPU, PORCENTAJE, CUEN_VENT, CUEN_COMP) VALUES(3, -4, '1110', '')
-	                    INSERT INTO CTAESQ05(NUM_IMPU, PORCENTAJE, CUEN_VENT, CUEN_COMP) VALUES(4, 16, '2160', '')
->>>>>>> Ultimos Cambios
                     END "
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
 
             SQL = "IF NOT EXISTS(SELECT 1 FROM CTAYEAR)
                     BEGIN
-<<<<<<< HEAD
 	                    INSERT INTO CTAYEAR(NUM_IMPU, CUENTA, [YEAR]) VALUES(3, '0042', 2023)
 	                    INSERT INTO CTAYEAR(NUM_IMPU, CUENTA, [YEAR]) VALUES(4, '0002', 2023)
-=======
-	                    INSERT INTO CTAYEAR(NUM_IMPU, CUENTA, [YEAR]) VALUES(3, '0023', 2023)
-	                    INSERT INTO CTAYEAR(NUM_IMPU, CUENTA, [YEAR]) VALUES(4, '0023', 2023)
->>>>>>> Ultimos Cambios
                     END"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
@@ -10999,10 +10955,6 @@ Module ModCREATABLAS
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
 
-<<<<<<< HEAD
-=======
-
->>>>>>> Ultimos Cambios
             If EXISTE_VISTA("VT_CTB_POLIZA_FACTURAS") Then
                 SQL = "DROP VIEW [dbo].[VT_CTB_POLIZA_FACTURAS]"
                 cmd.CommandText = SQL
@@ -11010,20 +10962,12 @@ Module ModCREATABLAS
             End If
 
             SQL = "CREATE VIEW [dbo].[VT_CTB_POLIZA_FACTURAS]
-<<<<<<< HEAD
 AS
 
 
 	SELECT *	
 	FROM
 		(
-=======
-             AS
-
-	        SELECT *	
-	        FROM
-		        (
->>>>>>> Ultimos Cambios
 			SELECT						
 					FechaFactura = FAC.FECHA_DOC,
 					Factura = FAC.CVE_DOC,
@@ -11031,7 +10975,6 @@ AS
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
 					FormatoColumnasImportes = 0, -- 0 = String, 1 = Int, 2 = Decimal, 3 = Bool
-<<<<<<< HEAD
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
@@ -11039,11 +10982,6 @@ AS
 					Orden = 1,
 					TipoPoliza = (SELECT dbo.fn_get_TipoPolizaCOI(CASE WHEN FAC.SERIE = 'CP' THEN 1 ELSE 2 END)),
 					NoPolizaCuenta = CASE WHEN MAX(PC.Folio) IS NULL THEN 'S/P' ELSE CAST(MAX(PC.Folio) AS VARCHAR) END, --CAST(ROW_NUMBER() OVER (ORDER BY FAC.FECHA_DOC, FAC.CVE_DOC) AS VARCHAR),
-=======
-					Orden = 1,
-					TipoPoliza = CASE WHEN FAC.SERIE = 'CP' THEN '05' ELSE '06' END,
-					NoPolizaCuenta = CAST(ROW_NUMBER() OVER (ORDER BY FAC.FECHA_DOC, FAC.CVE_DOC) AS VARCHAR),
->>>>>>> Ultimos Cambios
 					ConceptoPolizaDepto = CONCAT(FAC.CVE_DOC, ' ', CLI.NOMBRE) + CASE WHEN FAC.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(FAC.IMPORTE, 'N2'), ' ', FAC.TIPCAMB) ELSE '' END,
 					DiaConceptoMov = '1',
 					TipoCambio = '',
@@ -11051,20 +10989,12 @@ AS
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
-<<<<<<< HEAD
 			FROM FACTF" & Empresa & " FAC WITH (nolock)		
 			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')
 			INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV		
 			LEFT JOIN PolizasCOI PC WITH (nolock) ON PC.IdPoliza = FAC.IDPOLIZACOI
 			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'	
 			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.SERIE, FAC.FOLIO, FAC.IMPORTE, CLI.NOMBRE, FAC.NUM_MONED, FAC.TIPCAMB, FAC.IDPOLIZACOI
-=======
-			FROM FACTF" + Empresa + " FAC WITH (nolock)		
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')
-			INNER JOIN CLIE" + Empresa + " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV				
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'	
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.SERIE, FAC.FOLIO, FAC.IMPORTE, CLI.NOMBRE, FAC.NUM_MONED, FAC.TIPCAMB
->>>>>>> Ultimos Cambios
 			UNION ALL
 			SELECT	DISTINCT					
 					FechaFactura = FAC.FECHA_DOC,
@@ -11073,13 +11003,10 @@ AS
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
 					FormatoColumnasImportes = 2, -- 0 = String, 1 = Int, 2 = Decimal, 3 = Bool
-<<<<<<< HEAD
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
 					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
-=======
->>>>>>> Ultimos Cambios
 					Orden = 2,
 					TipoPoliza = '',
 					NoPolizaCuenta = CLI.CUENTA_CONTABLE,
@@ -11090,19 +11017,11 @@ AS
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
-<<<<<<< HEAD
 			FROM FACTF" & Empresa & " FAC WITH (nolock)		
 			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')
 			INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV 
 			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
 			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, CLI.CUENTA_CONTABLE, FAC.FOLIO, CLI.NOMBRE, FAC.NUM_MONED, FAC.IMPORTE, FAC.TIPCAMB, FAC.IDPOLIZACOI
-=======
-			FROM FACTF" + Empresa + " FAC WITH (nolock)		
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')
-			INNER JOIN CLIE" + Empresa + " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV 
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, CLI.CUENTA_CONTABLE, FAC.FOLIO, CLI.NOMBRE, FAC.NUM_MONED, FAC.IMPORTE, FAC.TIPCAMB
->>>>>>> Ultimos Cambios
 			UNION ALL
 			SELECT						
 					FechaFactura = FAC.FECHA_DOC,
@@ -11111,13 +11030,10 @@ AS
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
 					FormatoColumnasImportes = 0, -- 0 = String, 1 = Int, 2 = Decimal, 3 = Bool
-<<<<<<< HEAD
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
 					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
-=======
->>>>>>> Ultimos Cambios
 					Orden = 3,
 					TipoPoliza = '',
 					NoPolizaCuenta = '',
@@ -11128,17 +11044,10 @@ AS
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
-<<<<<<< HEAD
 			FROM FACTF" & Empresa & " FAC WITH (nolock)		
 			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')			
 			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
 			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.IDPOLIZACOI
-=======
-			FROM FACTF" + Empresa + " FAC WITH (nolock)		
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')			
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC
->>>>>>> Ultimos Cambios
 			UNION ALL		
 			SELECT						
 					FechaFactura = FAC.FECHA_DOC,
@@ -11147,13 +11056,10 @@ AS
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
 					FormatoColumnasImportes = 0, -- 0 = String, 1 = Int, 2 = Decimal, 3 = Bool
-<<<<<<< HEAD
 					TipoCambioCFDI = CAST(FAC.TIPCAMB AS VARCHAR),
 					MonedaCFDI = C.MONEDA,
 					VersionCFDI = C.VERSION,
 					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
-=======
->>>>>>> Ultimos Cambios
 					Orden = 4,
 					TipoPoliza = '',
 					NoPolizaCuenta = '',
@@ -11164,20 +11070,12 @@ AS
 					Haber = FAC.RFC,
 					CentroCostos = FORMAT(FAC.IMPORTE, 'N2'),
 					Proyecto = UPPER(C.UUID_CFDI)
-<<<<<<< HEAD
 			FROM FACTF" & Empresa & " FAC WITH (nolock)		
-=======
-			FROM FACTF" + Empresa + " FAC WITH (nolock)		
->>>>>>> Ultimos Cambios
 			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')
 			INNER JOIN CFDI_CFG CFG WITH (nolock) ON 1 = 1
 			LEFT JOIN CFDI C WITH (nolock) ON C.FACTURA = FAC.CVE_DOC  
 			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
-<<<<<<< HEAD
 			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.SERIE, FAC.FOLIO, CFG.EMISOR_RFC, FAC.IMPORTE, CFG.EMISOR_RFC, FAC.RFC, C.UUID_CFDI, C.MONEDA, FAC.TIPCAMB, C.VERSION, FAC.IDPOLIZACOI
-=======
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.SERIE, FAC.FOLIO, CFG.EMISOR_RFC, FAC.IMPORTE, CFG.EMISOR_RFC, FAC.RFC, C.UUID_CFDI
->>>>>>> Ultimos Cambios
 			UNION ALL
 			SELECT	DISTINCT					
 					FechaFactura = FAC.FECHA_DOC,
@@ -11186,13 +11084,10 @@ AS
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
 					FormatoColumnasImportes = 0, -- 0 = String, 1 = Int, 2 = Decimal, 3 = Bool
-<<<<<<< HEAD
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
 					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
-=======
->>>>>>> Ultimos Cambios
 					Orden = 5,
 					TipoPoliza = '',
 					NoPolizaCuenta = '',
@@ -11203,17 +11098,10 @@ AS
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
-<<<<<<< HEAD
 			FROM FACTF" & Empresa & " FAC WITH (nolock)	
 			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')
 			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
 			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.IDPOLIZACOI
-=======
-			FROM FACTF" + Empresa + " FAC WITH (nolock)	
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC
->>>>>>> Ultimos Cambios
 			UNION ALL			
 			SELECT 					
 					FechaFactura = FAC.FECHA_DOC,
@@ -11222,7 +11110,6 @@ AS
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
 					FormatoColumnasImportes = 2, -- 0 = String, 1 = Int, 2 = Decimal, 3 = Bool
-<<<<<<< HEAD
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
@@ -11233,14 +11120,6 @@ AS
 										WHEN CFD.Orden = 6 THEN dbo.fn_get_cta(3, 7, FAC.FECHA_DOC) 
 										WHEN CFD.Orden = 7 THEN dbo.fn_get_cta(4, 7, FAC.FECHA_DOC) 
 										WHEN CFD.Orden = 8 THEN dbo.fn_formato_cuenta(dbo.fn_get_cta_folio(IIF(FAC.SERIE='CP', FAC.NUM_MONED, 1) , FAC.SERIE), UN.CUEN_CONT_VTA) 
-=======
-					Orden = CFD.Orden,
-					TipoPoliza = '',
-					NoPolizaCuenta = CASE 										
-										WHEN CFD.Orden = 6 THEN dbo.fn_get_cta(3, FAC.FECHA_DOC) 
-										WHEN CFD.Orden = 7 THEN dbo.fn_get_cta(4, FAC.FECHA_DOC) 
-										WHEN CFD.Orden = 8 THEN UN.CUEN_CONT_VTA 
->>>>>>> Ultimos Cambios
 										ELSE '' END,
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(FAC.FOLIO, ' V', MIN(V.CVE_VIAJE) , ' ', CLI.NOMBRE) + CASE WHEN FAC.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(FAC.IMPORTE, 'N2'), ' ', FAC.TIPCAMB) ELSE '' END,
@@ -11249,17 +11128,10 @@ AS
 					Haber = CASE WHEN SUM(CFD.Haber * FAC.TIPCAMB) = 0 THEN '' ELSE CONCAT('', CAST(SUM(CFD.Haber * FAC.TIPCAMB) AS decimal(18, 6))) END,
 					CentroCostos = '',
 					Proyecto = ''
-<<<<<<< HEAD
 			FROM FACTF" & Empresa & " FAC WITH (nolock)
 			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND NOT V.CVE_DOC IN ('', '0') AND V.TIPO_FACTURACION != 2
 			LEFT JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVE = V.CVE_TRACTOR
 			INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV		
-=======
-			FROM FACTF" + Empresa + " FAC WITH (nolock)
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND NOT V.CVE_DOC IN ('', '0') AND V.TIPO_FACTURACION != 2
-			LEFT JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVE = V.CVE_TRACTOR
-			INNER JOIN CLIE" + Empresa + " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV		
->>>>>>> Ultimos Cambios
 			INNER JOIN (
 							SELECT FACTURA, Orden = 6, Debe = ABS(RETENCION), Haber = CAST(0 AS float)
 							FROM CFDI WITH (nolock)
@@ -11273,11 +11145,7 @@ AS
 							FROM CFDI WITH (nolock) 						
 							WHERE SUBTOTAL != 0) CFD ON CFD.FACTURA = FAC.CVE_DOC
 			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S' AND V.CVE_VIAJE != '' 
-<<<<<<< HEAD
 			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, UN.CUEN_CONT_VTA, CFD.Orden, FAC.FOLIO, CLI.NOMBRE, FAC.NUM_MONED, FAC.IMPORTE, FAC.TIPCAMB, FAC.IDPOLIZACOI, FAC.SERIE
-=======
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, UN.CUEN_CONT_VTA, CFD.Orden, FAC.FOLIO, CLI.NOMBRE, FAC.NUM_MONED, FAC.IMPORTE, FAC.TIPCAMB
->>>>>>> Ultimos Cambios
 			UNION ALL
 			-- FACTURAS CON TIPO DE FACTURACIÓN 2
 			SELECT 					
@@ -11287,7 +11155,6 @@ AS
 					FechaViaje = MIN(CFD.FECHA_CARGA),
 					Viaje = CFD.CVE_VIAJE,
 					FormatoColumnasImportes = 2, -- 0 = String, 1 = Int, 2 = Decimal, 3 = Bool
-<<<<<<< HEAD
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
@@ -11298,14 +11165,6 @@ AS
 										WHEN CFD.Orden = 6 THEN dbo.fn_get_cta(3, 7, FAC.FECHA_DOC) 
 										WHEN CFD.Orden = 7 THEN dbo.fn_get_cta(4, 7, FAC.FECHA_DOC) 
 										WHEN CFD.Orden = 8 THEN dbo.fn_formato_cuenta(dbo.fn_get_cta_folio(IIF(FAC.SERIE='CP', FAC.NUM_MONED, 1) , FAC.SERIE), CFD.CUENTA) 
-=======
-					Orden = CFD.Orden,
-					TipoPoliza = '',
-					NoPolizaCuenta = CASE 										 
-										WHEN CFD.Orden = 6 THEN dbo.fn_get_cta(3, FAC.FECHA_DOC) 
-										WHEN CFD.Orden = 7 THEN dbo.fn_get_cta(4, FAC.FECHA_DOC) 
-										WHEN CFD.Orden = 8 THEN CFD.CUENTA
->>>>>>> Ultimos Cambios
 										ELSE '' END,
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(FAC.FOLIO, IIF(CFD.CVE_VIAJE = '', '', ' V' + CFD.CVE_VIAJE), ' ', CLI.NOMBRE) + CASE WHEN FAC.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(FAC.IMPORTE, 'N2'), ' ', FAC.TIPCAMB) ELSE '' END,
@@ -11314,13 +11173,8 @@ AS
 					Haber = CASE WHEN SUM(CFD.Haber * FAC.TIPCAMB) = 0 THEN '' ELSE CONCAT('', CAST(SUM(CFD.Haber * FAC.TIPCAMB) AS decimal(18, 6))) END,
 					CentroCostos = '',
 					Proyecto = ''
-<<<<<<< HEAD
 			FROM FACTF" & Empresa & " FAC WITH (nolock)		
 			INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV		
-=======
-			FROM FACTF" + Empresa + " FAC WITH (nolock)		
-			INNER JOIN CLIE" + Empresa + " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV		
->>>>>>> Ultimos Cambios
 			INNER JOIN (
 							SELECT FACTURA = CVE_DOC, FECHA_CARGA, CVE_VIAJE = '', CUENTA = '', Orden = 6, Debe = ABS(RETENCION), Haber = CAST(0 AS float), TIPO_FACTURACION 
 							FROM GCASIGNACION_VIAJE WITH (nolock)
@@ -11333,16 +11187,10 @@ AS
 							SELECT FACTURA = V.CVE_DOC, V.FECHA_CARGA, V.CVE_VIAJE, CUENTA = UN.CUEN_CONT_VTA, Orden = 8, Debe = CAST(0 AS float), Haber = SUBTOTAL, V.TIPO_FACTURACION 
 							FROM GCASIGNACION_VIAJE V WITH (nolock)
 							LEFT JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVE = CVE_TRACTOR
-<<<<<<< HEAD
 							WHERE SUBTOTAL != 0 AND CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0') AND TIPO_FACTURACION = 2
 							) CFD ON CFD.FACTURA = FAC.CVE_DOC
 			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S' 
 			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.FOLIO, CLI.NOMBRE, FAC.NUM_MONED, FAC.IMPORTE, FAC.TIPCAMB, CFD.Orden, CFD.CUENTA, CFD.CVE_VIAJE, FAC.IDPOLIZACOI, FAC.SERIE
-=======
-							WHERE SUBTOTAL != 0 AND CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0') AND TIPO_FACTURACION = 2) CFD ON CFD.FACTURA = FAC.CVE_DOC
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S' 
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.FOLIO, CLI.NOMBRE, FAC.NUM_MONED, FAC.IMPORTE, FAC.TIPCAMB, CFD.Orden, CFD.CUENTA, CFD.CVE_VIAJE
->>>>>>> Ultimos Cambios
 			UNION ALL
 			SELECT	DISTINCT					
 					FechaFactura = FAC.FECHA_DOC,
@@ -11351,13 +11199,10 @@ AS
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
 					FormatoColumnasImportes = 0, -- 0 = String, 1 = Int, 2 = Decimal, 3 = Bool
-<<<<<<< HEAD
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
 					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
-=======
->>>>>>> Ultimos Cambios
 					Orden = 9,
 					TipoPoliza = '',
 					NoPolizaCuenta = 'FIN_PARTIDAS',
@@ -11368,23 +11213,15 @@ AS
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
-<<<<<<< HEAD
 			FROM FACTF" & Empresa & " FAC WITH (nolock)		
 			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND NOT V.CVE_DOC IN ('', '0')
 			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
 			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.IDPOLIZACOI
 		
-=======
-			FROM FACTF" + Empresa + " FAC WITH (nolock)		
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_DOC = FAC.CVE_DOC AND NOT V.CVE_DOC IN ('', '0')
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC		
->>>>>>> Ultimos Cambios
 			) QRY"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
 
-<<<<<<< HEAD
             If EXISTE_VISTA("VT_CTB_POLIZA_LIQUIDACIONES") Then
                 SQL = "DROP VIEW [dbo].[VT_CTB_POLIZA_LIQUIDACIONES]"
                 cmd.CommandText = SQL
@@ -12014,8 +11851,6 @@ AS
             cmd.ExecuteNonQuery()
 
 
-=======
->>>>>>> Ultimos Cambios
         Catch ex As Exception
             BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try

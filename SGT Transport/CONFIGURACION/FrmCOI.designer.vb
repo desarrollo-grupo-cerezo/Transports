@@ -219,7 +219,6 @@ Partial Class FrmCOI
         Me.C1DockingTab1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.C1DockingTab1.Location = New System.Drawing.Point(0, 43)
         Me.C1DockingTab1.Name = "C1DockingTab1"
-        Me.C1DockingTab1.SelectedIndex = 2
         Me.C1DockingTab1.Size = New System.Drawing.Size(730, 390)
         Me.C1DockingTab1.TabIndex = 265
         Me.C1DockingTab1.TabsSpacing = 5

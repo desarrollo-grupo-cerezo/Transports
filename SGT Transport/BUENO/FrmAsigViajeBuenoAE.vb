@@ -29,6 +29,7 @@ Public Class FrmAsigViajeBuenoAE
     Public Mofifica_Remitente_destinatario As Boolean
 
     Private SeDesplega As Boolean = False
+    Private GrabarSalir As Boolean = False
 
     Private SERIE_AV As String
     Private FOLIO_AV As Long
@@ -846,9 +847,11 @@ Public Class FrmAsigViajeBuenoAE
 
         If LtTimbrado.Text = "FACTURADO" Or LtTimbrado.Text = "TIMBRADO" Then
             Mofifica_Remitente_destinatario = False
+            ChCalleFiscal.Enabled = False
         End If
         If LtStatus.Text = "Cancelado" Or LtStatus.Text = "LIQUIDADO" Then
             Mofifica_Remitente_destinatario = False
+            ChCalleFiscal.Enabled = False
         End If
 
         FgG.EndUpdate()
@@ -1561,11 +1564,13 @@ Public Class FrmAsigViajeBuenoAE
                         LtTimbrado.Text = "TIMBRADO"
                         LtTimbrado.BorderStyle = BorderStyle.FixedSingle
                         LtStatus.Text = "Timbrado"
+                        ChCalleFiscal.Enabled = False
                     End If
 
                     If dr("STATUS") = "C" Then
                         STATUS_CANCELADO = True
                         LtStatus.Text = "Cancelado"
+                        ChCalleFiscal.Enabled = False
                     End If
 
                 Catch ex As Exception
@@ -2678,7 +2683,6 @@ Public Class FrmAsigViajeBuenoAE
         End If
     End Sub
     Private Sub BarGrabar_Click(sender As Object, e As ClickEventArgs) Handles BarGrabar.Click
-
         Try
             TVOLUMEN_PESO.UpdateValueWithCurrentText()
         Catch ex As Exception
@@ -2701,7 +2705,37 @@ Public Class FrmAsigViajeBuenoAE
                 GUARDAR_VIAJE()
             End If
         End If
+
+        GrabarSalir = False
     End Sub
+    Private Sub BarGrabarYSalir_Click(sender As Object, e As ClickEventArgs) Handles BarGrabarYSalir.Click
+        Try
+            TVOLUMEN_PESO.UpdateValueWithCurrentText()
+        Catch ex As Exception
+        End Try
+        If TVOLUMEN_PESO.Value = 0 Then
+            MsgBox("Por favor capture el Volumen/Peso")
+            Return
+        End If
+
+        If FACTURA_UNO_O_MULT = "SEFACTURA_MULT" Then
+            If GUARDAR_FACTURA() Then
+                GUARDAR_VIAJE()
+            End If
+        Else
+            If FACTURA_UNO_O_MULT = "SEFACTURA" Or FACTURA_UNO_O_MULT = "SEFACTURA 3" Then
+                If GUARDAR_FACTURA() Then
+                    GUARDAR_VIAJE()
+                End If
+            Else
+                GUARDAR_VIAJE()
+            End If
+        End If
+
+        GrabarSalir = True
+
+    End Sub
+
     Sub GUARDAR_VIAJE()
         '20 FEB 20
         If Not Valida_Conexion() Then
@@ -3303,9 +3337,11 @@ Public Class FrmAsigViajeBuenoAE
                 TAB1.SelectedIndex = 0
             End If
         Else
-
-
             MsgBox("No se logro grabar la asignación de viaje")
+        End If
+
+        If GrabarSalir Then
+            Me.Close()
         End If
     End Sub
     Sub BORRA_FACTURA(CVE_DOC)
@@ -9880,7 +9916,7 @@ Public Class FrmAsigViajeBuenoAE
                         ' TABONO_NETO.Enabled = Efecto
                         'TFOLIO.Enabled = Efecto
                         'CboSerieFactura.Enabled = Efecto
-
+                        ChCalleFiscal.Enabled = Efecto
                         CboConc1.Enabled = Efecto
                         CboConc2.Enabled = Efecto
                         CboConc3.Enabled = Efecto
@@ -12439,10 +12475,12 @@ Public Class FrmAsigViajeBuenoAE
                         DESHABILITAR()
                         TFOLIO_VIAJE.Enabled = False
                         BtnSelViaje.Enabled = False
+                        ChCalleFiscal.Enabled = False
                     End If
 
                     If LtStatus.Text = "LIQUIDADO" Then
                         BoxGastos.Enabled = False
+                        ChCalleFiscal.Enabled = False
                     Else
                         BoxGastos.Enabled = True
                     End If
@@ -13235,14 +13273,6 @@ Public Class FrmAsigViajeBuenoAE
             End If
         Catch ex As Exception
         End Try
-    End Sub
-
-    Private Sub TXTC_GotFocus(sender As Object, e As EventArgs) Handles TXTC.GotFocus
-
-    End Sub
-
-    Private Sub TXTC_Enter(sender As Object, e As EventArgs) Handles TXTC.Enter
-        Debug.Print(TXTC.Text)
     End Sub
 End Class
 

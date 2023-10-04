@@ -5706,16 +5706,14 @@ Public Class FrmReseteoAE
                 Select Case TIPO_TAB
                     Case 0 'MONTELLANO  TABULADOR EDE RUTAS
                         If IsNumeric(LtLTS_VALES2.Text.Replace(",", "")) Then
+                            '          756.57                      900
                             If TLTS_AUTORIZADOS2.Value < CDec(LtLTS_VALES2.Text.Replace(",", "")) Then
                                 TLTS_DESCONTAR2.Value = TLTS_AUTORIZADOS2.Value - CDec(LtLTS_VALES2.Text.Replace(",", ""))
-                                ''TLTS_DESCONTAR2.Tag = TLTS_AUTORIZADOS2.Value - CDec(LtLTS_VALES2.Text.Replace(",", ""))
                             Else
                                 TLTS_DESCONTAR2.Value = 0
-                                ''TLTS_DESCONTAR2.Tag = 0
                             End If
                         Else
                             TLTS_DESCONTAR2.Value = 0
-                            ''TLTS_DESCONTAR2.Tag = 0
                         End If
                         If TLTS_DESCONTAR2.Value > 0 Then
                             TLTS_DESCONTAR2.Value = 0
@@ -5799,22 +5797,25 @@ Public Class FrmReseteoAE
             'EVENTO 2 OPCION 2
             'EVENTO 2 LITROS TABULADOR
             Dim LTS_VALES_2 As Decimal
+            TLTS_AUTORIZADOS2.UpdateValueWithCurrentText()
+
 
             Select Case TIPO_TAB
                 Case 0 'MONTELLANO  TABULADOR EDE RUTAS
                     If IsNumeric(LtLTS_VALES2.Text.Replace(",", "")) Then
                         LTS_VALES_2 = CDec(LtLTS_VALES2.Text.Replace(",", ""))
-                        If TLTS_AUTORIZADOS2.Value > LTS_VALES_2 Then
-                            TLTS_DESCONTAR2.Value = 0
-                            LtDescXLitros2.Text = 0
-                        Else
+                        'TLTS_AUTORIZADOS2.Value >
+                        If LTS_VALES_2 > TLTS_AUTORIZADOS2.Value Then
                             TLTS_DESCONTAR2.Value = CDec(TLTS_TAB.Text.Replace(",", "")) - Convert.ToDecimal(LtLTS_VALES2.Text.Replace(",", ""))
                             LtDescXLitros2.Text = Format(Convert.ToDecimal(TLTS_DESCONTAR2.Value) * Convert.ToDecimal(TPRECIO_X_LTS2.Text.Replace(",", "")), "###,###,##0.00")
+                        Else
+                            TLTS_DESCONTAR2.Value = 0
+                            LtDescXLitros2.Text = 0
                         End If
 
                         If TLTS_DESCONTAR2.Value > 0 Then
-                            TLTS_DESCONTAR2.Value = 0
-                            LtDescXLitros2.Text = 0
+                            'TLTS_DESCONTAR2.Value = 0
+                            'LtDescXLitros2.Text = 0
                         End If
                     End If
                     'LtDescXLitros2
@@ -5880,8 +5881,24 @@ Public Class FrmReseteoAE
             Return
         End If
         Try
-            If IsNumeric(TLTS_AUTORIZADOS2.Text) Then
-                TLTS_AUTORIZADOS2.Tag = TLTS_AUTORIZADOS2.Text
+            TAJUST_TAB.Tag = TAJUST_TAB.Value
+        Catch ex As Exception
+            Bitacora("1340. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+    Private Sub TLTS_AUTORIZADOS2_Leave(sender As Object, e As EventArgs) Handles TLTS_AUTORIZADOS2.Leave
+        Dim LTS_AUTORIZADOS2 As Decimal
+        Try
+            LTS_AUTORIZADOS2 = CDec(TLTS_AUTORIZADOS2.Text.Replace(",", ""))
+
+            If IsNumeric(TAJUST_TAB.Value) Then
+                If TAJUST_TAB.Value > 0 Then
+                    If LTS_AUTORIZADOS2 > 0 Then
+                        TLTS_AUTORIZADOS2.Value = LTS_AUTORIZADOS2 + (LTS_AUTORIZADOS2 * CDec(TAJUST_TAB.Value) / 100)
+                    Else
+                        TLTS_AUTORIZADOS2.Value = LTS_AUTORIZADOS2 + (LTS_AUTORIZADOS2 * CDec(TAJUST_TAB.Value) / 100)
+                    End If
+                End If
             End If
         Catch ex As Exception
             Bitacora("1340. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -5891,33 +5908,35 @@ Public Class FrmReseteoAE
         Try
             ENTRA = False
 
-            Dim LTS_AUTORIZADOS2 As Decimal = 0
+            Dim LTS_AUTORIZADOS2 As Decimal = 0, LTS_VALES_2 As Decimal
 
-            If TLTS_AUTORIZADOS2.Tag Is Nothing OrElse TLTS_AUTORIZADOS2.Value = 0 Then
-                ENTRA = False
-                Return
-            End If
-
-            If IsNumeric(TLTS_AUTORIZADOS2.Tag) Then
-                If CDec(TLTS_AUTORIZADOS2.Tag) > 0 Then
-                    LTS_AUTORIZADOS2 = CDec(TLTS_AUTORIZADOS2.Tag)
-                Else
-                    LTS_AUTORIZADOS2 = TLTS_AUTORIZADOS2.Value
-                End If
-            Else
-                LTS_AUTORIZADOS2 = TLTS_AUTORIZADOS2.Value
-            End If
+            LTS_AUTORIZADOS2 = TLTS_AUTORIZADOS2.Value
 
             If IsNumeric(TAJUST_TAB.Text) Then
                 If LTS_AUTORIZADOS2 > 0 Then
-                    If CDec(TAJUST_TAB.Text) > 0 Then
-                        TLTS_AUTORIZADOS2.Value = LTS_AUTORIZADOS2 + (LTS_AUTORIZADOS2 * CDec(TAJUST_TAB.Text) / 100)
+                    If CDec(TAJUST_TAB.Text) = 0 Then
+                        TLTS_AUTORIZADOS2.Value = CDec(TLTS_TAB.Text.Replace(",", ""))
                     Else
                         TLTS_AUTORIZADOS2.Value = LTS_AUTORIZADOS2 + (LTS_AUTORIZADOS2 * CDec(TAJUST_TAB.Text) / 100)
                     End If
                 End If
             Else
-                TLTS_AUTORIZADOS2.Value = LTS_AUTORIZADOS2
+                TLTS_AUTORIZADOS2.Value = CDec(TLTS_TAB.Text.Replace(",", ""))
+            End If
+
+
+            If IsNumeric(LtLTS_VALES2.Text.Replace(",", "")) Then
+                LTS_VALES_2 = CDec(LtLTS_VALES2.Text.Replace(",", ""))
+            Else
+                LTS_VALES_2 = 0
+            End If
+            'TLTS_AUTORIZADOS2.Value >
+            If LTS_VALES_2 > TLTS_AUTORIZADOS2.Value Then
+                TLTS_DESCONTAR2.Value = TLTS_AUTORIZADOS2.Value - Convert.ToDecimal(LtLTS_VALES2.Text.Replace(",", ""))
+                LtDescXLitros2.Text = Format(Convert.ToDecimal(TLTS_DESCONTAR2.Value) * Convert.ToDecimal(TPRECIO_X_LTS2.Text.Replace(",", "")), "###,###,##0.00")
+            Else
+                TLTS_DESCONTAR2.Value = 0
+                LtDescXLitros2.Text = 0
             End If
         Catch ex As Exception
             Bitacora("320. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -6578,9 +6597,5 @@ Public Class FrmReseteoAE
         TLTS_DESCONTAR2.BackColor = Color.Cyan
         TPRECIO_X_LTS2.BackColor = Color.Cyan
         MsgBox("Desc. x litros = Lts. a descontar *  Precio x litro")
-    End Sub
-
-    Private Sub TAJUST_TAB_QueryAccessibilityHelp(sender As Object, e As QueryAccessibilityHelpEventArgs) Handles TAJUST_TAB.QueryAccessibilityHelp
-
     End Sub
 End Class

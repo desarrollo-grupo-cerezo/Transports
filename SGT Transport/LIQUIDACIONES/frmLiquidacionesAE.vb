@@ -23,6 +23,55 @@ Public Class FrmLiquidacionesAE
     Private FlexiLiquidada As Boolean = False
     Private _myEditor As MyEditorLiq
     Private _myEditorPa As MyEditorPA
+
+    Private _FgColDefault = 0
+    Private _FgColSeleccione = 1
+    Private _FgColNumViaje = 2
+    Private _FgColFactura1 = 3
+    Private _FgColFactura2 = 4
+    Private _FgColCliente = 5
+    Private _FgColRutaOrigen = 6
+    Private _FgColRutaDestino = 7
+    Private _FgColTipoViaje = 8
+    Private _FgColFacturado = 9
+    Private _FgColSueldo = 10
+    Private _FgColPorcSueldo = 11
+    Private _FgColSueldoManiobra = 12
+    Private _FgColPorcSdoManiobra = 13
+    Private _FgColSelCalculo = 14
+    Private _FgColSdoPorTonedada = 15
+    Private _FgColSdoManiobraPorTonedada = 16
+    Private _FgColSueldoViaje = 17
+    Private _FgColTipoUnidad = 18
+    Private _FgColUnidad = 19
+    Private _FgColNumCPorte = 20
+    Private _FgColEstatus = 21
+    Private _FgColNumCPorte2 = 22
+    Private _FgColEstatus2 = 23
+    Private _FgColVacio = 24
+    Private _FgColClaveOrigen = 25
+    Private _FgColOrigen = 26
+    Private _FgColClaveDestino = 27
+    Private _FgColDestino = 28
+    Private _FgColCveStViaje = 29
+    Private _FgColStatusViaje = 30
+    Private _FgColPuntos = 31
+    Private _FgColCheck19 = 32
+    Private _FgColNumPar = 33
+    Private _FgColUUID = 34
+    Private _FgColNuevo = 35
+    Private _FgColVacio23 = 36
+    Private _FgColxFactor = 37
+    Private _FgColFCargaPRog = 38
+    Private _FgColFCargaReal = 39
+    Private _FgColFDescProg = 40
+    Private _FgColFDescReal = 41
+    Private _FgColDemorasCarga = 42
+    Private _FgColDemorasDescarga = 43
+    Private _FgColSueldoxFactor = 44
+
+
+
     Public Sub New()
         ' Esta llamada es exigida por el diseñador.
         InitializeComponent()
@@ -125,21 +174,33 @@ Public Class FrmLiquidacionesAE
             FgGC.Cols(18).Visible = False
         End If
 
+        Fg.Cols(_FgColUnidad).Visible = False
+        Fg.Cols(_FgColNumCPorte).Visible = False
+        Fg.Cols(_FgColEstatus).Visible = False
+        Fg.Cols(_FgColNumCPorte2).Visible = False
+        Fg.Cols(_FgColEstatus2).Visible = False
+        Fg.Cols(_FgColVacio).Visible = False
+        Fg.Cols(_FgColClaveOrigen).Visible = False
+        Fg.Cols(_FgColOrigen).Visible = False
+        Fg.Cols(_FgColClaveDestino).Visible = False
+        Fg.Cols(_FgColDestino).Visible = False
+        Fg.Cols(_FgColCveStViaje).Visible = False
+        Fg.Cols(_FgColStatusViaje).Visible = False
+        Fg.Cols(_FgColPuntos).Visible = False
+        Fg.Cols(_FgColCheck19).Visible = False
+        Fg.Cols(_FgColNumPar).Visible = False
+        Fg.Cols(_FgColUUID).Visible = False
+        Fg.Cols(_FgColNuevo).Visible = False
+        Fg.Cols(_FgColVacio23).Visible = False
+        Fg.Cols(_FgColxFactor).Visible = False
+        Fg.Cols(_FgColFCargaPRog).Visible = False
+        Fg.Cols(_FgColFCargaReal).Visible = False
+        Fg.Cols(_FgColFDescProg).Visible = False
+        Fg.Cols(_FgColFDescReal).Visible = False
+        Fg.Cols(_FgColDemorasCarga).Visible = False
+        Fg.Cols(_FgColDemorasDescarga).Visible = False
+        Fg.Cols(_FgColSueldoxFactor).Visible = False
 
-        Fg.Cols(17).Visible = True
-        Fg.Cols(18).Visible = True
-        Fg.Cols(19).Visible = False
-        Fg.Cols(13).Visible = False
-
-        Fg.Cols(14).Visible = True 'DESTINO
-
-        Fg.Cols(9).Visible = False
-        Fg.Cols(11).Visible = False
-        Fg.Cols(15).Visible = False
-        Fg.Cols(16).Visible = False
-
-        Fg.Cols(31).Visible = False 'SUELDO DE SOPORTE
-        Fg.Cols(32).Visible = False 'SUELDO X FACTOR
 
         Fg.DrawMode = DrawModeEnum.OwnerDraw
         FgG.DrawMode = DrawModeEnum.OwnerDraw
@@ -147,7 +208,7 @@ Public Class FrmLiquidacionesAE
         'y obtiene PRECIO_X_LTS 
         OBTENER_RUTA_DOC()
 
-        Fg.Cols(15).Width = 0
+        Fg.Cols(_FgColCveStViaje).Width = 0
         TCVE_LIQ.Text = ""
         F1.Value = Now
         TCVE_LIQ.Text = ""
@@ -193,9 +254,9 @@ Public Class FrmLiquidacionesAE
                 FgPA(0, k) = k & "." & FgPA(0, k)
             Next
 
-            Fg.Cols(17).Visible = True
-            Fg.Cols(18).Visible = True
-            Fg.Cols(19).Visible = False
+            'Fg.Cols(_FgColSueldoViaje).Visible = True
+            'Fg.Cols(_FgColPuntos).Visible = True
+            'Fg.Cols(_FgColCheck19).Visible = False
         End If
         Try
             If PASS_GRUPOCE.ToUpper = "BUS" Or PASS_GRUPOCE.ToUpper = "BR3FRAJA" Then
@@ -228,7 +289,8 @@ Public Class FrmLiquidacionesAE
             BarImprimirLiq.Enabled = False
             BarFinalizarLiq.Enabled = False
 
-            Fg.SetCellCheck(0, 1, C1.Win.C1FlexGrid.CheckEnum.Unchecked)
+            Fg.SetCellCheck(0, _FgColSeleccione, C1.Win.C1FlexGrid.CheckEnum.Unchecked)
+            Fg.SetCellCheck(0, _FgColSelCalculo, C1.Win.C1FlexGrid.CheckEnum.Unchecked)
             FgG.SetCellCheck(0, 1, C1.Win.C1FlexGrid.CheckEnum.Unchecked)
 
             FlexiSoloLectura = False
@@ -310,7 +372,6 @@ Public Class FrmLiquidacionesAE
                     Select Case dr("CVE_ST_LIQ")
                         Case 1
                             LtTipoCrobro.Text = "Edición"
-
                         Case 2
                             LtTipoCrobro.Text = "Aceptada"
                             TCVE_OPER.ReadOnly = True
@@ -350,7 +411,7 @@ Public Class FrmLiquidacionesAE
 
                         BtnGastosViaje.Enabled = False
                         BtnGastosViajeEliminar.Enabled = False
-
+                        FlexiSoloLectura = True
                     Else
                         If dr("STATUS") = "L" Then
                             FlexiLiquidada = True
@@ -366,13 +427,13 @@ Public Class FrmLiquidacionesAE
 
                             BtnAltaPA.Enabled = False
                             BtnEliPartPA.Enabled = False
-
+                            FlexiSoloLectura = True
                         Else
                             TOBSER.ReadOnly = False
                         End If
                     End If
                     BarDesplegar.Enabled = False
-                    FlexiSoloLectura = True
+                    'FlexiSoloLectura = True
                 End If
                 dr.Close()
 
@@ -479,13 +540,13 @@ Public Class FrmLiquidacionesAE
 
         ENTRA_VA = True
 
-        Fg.Cols(13).Visible = False
-        Fg.Cols(19).Visible = False
-        Fg.Cols(20).Visible = False
-        Fg.Cols(21).Visible = False
-        Fg.Cols(22).Visible = False
-        Fg.Cols(23).Visible = False
-        Fg.Cols(24).Visible = True
+        'Fg.Cols(_FgColClaveDestino).Visible = False
+        'Fg.Cols(_FgColCheck19).Visible = False
+        'Fg.Cols(_FgColNumPar).Visible = False
+        'Fg.Cols(_FgColUUID).Visible = False
+        'Fg.Cols(_FgColNuevo).Visible = False
+        'Fg.Cols(_FgColVacio23).Visible = False
+        'Fg.Cols(_FgColxFactor).Visible = True
     End Sub
     Sub DESPLEGAR_LIQ_CASETAS(FCVE_LIQ As Long)
         Try
@@ -526,15 +587,21 @@ Public Class FrmLiquidacionesAE
                 ISNULL((SELECT ISNULL(STC.DESCR,'') AS ST_CP FROM GCCARTA_PORTE CT LEFT JOIN GCSTATUS_CARTA_PORTE STC ON STC.CVE_CAP = CT.ST_CARTA_PORTE WHERE CVE_FOLIO = A.CVE_CAP2),'') AS ST_CP2,
                 DATEDIFF(day, CP.FECHA_CARGA, CP.FECHA_REAL_CARGA) AS DIF1, 
                 DATEDIFF(day, CP.FECHA_DESCARGA, CP.FECHA_REAL_DESCARGA) AS DIF2,
-                ISNULL(R1.SUELDO_X_FACTOR,0) AS SUELDO_C_FAC, ISNULL(SUELDO_X_CONVENIO,0) AS SUEL_CONV
+                ISNULL(R1.SUELDO_X_FACTOR,0) AS SUELDO_C_FAC, CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_FULL,0) ELSE ISNULL(R1.SUELDO_SENC,0) END AS SUEL_CONV,
+				A.CVE_DOC AS FACT1, '' AS FACT2, CLI.NOMBRE AS CLIENTE_NOMBRE, R1.DESCR AS ORIGEN, R1.DESCR2 AS DESTINO, ISNULL(FAC.CAN_TOT, 0) AS FACTURADO,
+				isnull(SEL_CALCULO, 0) AS SEL_CALCULO, isnull(PORC_SUELDO, 0) AS PORC_SUELDO, isnull(SUELDO_MANIOBRA, 0) AS SUELDO_MANIOBRA, isnull(PORC_SUELDO_MANIOBRA, 0) AS PORC_SUELDO_MANIOBRA, 
+                isnull(SDO_X_TONELADA, 0) AS SDO_X_TONELADA, isnull(SDO_MANIOBRA_X_TONELADA, 0) AS SDO_MANIOBRA_X_TONELADA
                 FROM GCLIQ_PARTIDAS GV
                 LEFT JOIN GCCARTA_PORTE CP ON CP.CVE_FOLIO = GV.CVE_CAP1
                 LEFT JOIN GCSTATUS_CARTA_PORTE ST ON ST.CVE_CAP = CP.ST_CARTA_PORTE
                 LEFT JOIN GCASIGNACION_VIAJE A ON A.CVE_VIAJE = GV.CVE_VIAJE
-                LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_CON = A.CVE_CON
+                --LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_CON = A.CVE_CON
+                LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = A.CVE_TAB_VIAJE
                 LEFT JOIN GCRECOGER_EN_ENTREGAR_EN E ON E.CVE_REG = GV.CLAVE_O
                 LEFT JOIN GCRECOGER_EN_ENTREGAR_EN R ON R.CVE_REG = GV.CLAVE_D
                 LEFT JOIN GCCAT_STATUS_VIAJE S ON S.CLAVE = GV.CVE_ST_VIA
+				LEFT JOIN CLIE05 CLI WITH (nolock) ON CLI.CLAVE = A.CLIENTE	
+				LEFT JOIN FACTF05 FAC WITH (nolock) ON FAC.CVE_DOC = A.CVE_DOC AND FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
                 WHERE CVE_LIQ = " & fCVE_LIQ & " ORDER BY GV.FECHAELAB"
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
@@ -543,12 +610,12 @@ Public Class FrmLiquidacionesAE
                         Try
                             ExistViaje = False
                             For k = 1 To Fg.Rows.Count - 1
-                                If Fg(k, 21) = dr("UUID") Then
+                                If Fg(k, _FgColUUID) = dr("UUID") Then
                                     ExistViaje = True
-                                    Fg(k, 1) = True
-                                    Fg(k, 17) = dr("SUELDO")
-                                    Fg(k, 19) = "Check"
-                                    Fg(k, 20) = dr("NUM_PAR")
+                                    Fg(k, _FgColSeleccione) = True
+                                    Fg(k, _FgColSueldoViaje) = dr("SUELDO")
+                                    Fg(k, _FgColCheck19) = "Check"
+                                    Fg(k, _FgColNumPar) = dr("NUM_PAR")
                                     SUMA += dr("SUELDO")
                                     Exit For
                                 End If
@@ -564,20 +631,69 @@ Public Class FrmLiquidacionesAE
                                     TIP_VIAJE = "Sencillo"
                                 End If
 
-                                '                                               1                     2                   3                     4                     5    
-                                s = IIf(dr("CVE_TAB").ToString.Trim.Length = 0, "", ">") & vbTab & True & vbTab & dr("CVE_VIAJE") & vbTab & CVE_CAP1 & vbTab & dr("ST_CP") & vbTab & CVE_CAP2 & vbTab
-                                '             6                    7                             8
-                                s &= dr("ST_CP2") & vbTab & TIP_VIAJE & vbTab & IIf(dr("TIPO_UNIDAD") = 1, "Cargado", "Vacio") & vbTab
-                                '                 9                       10                      11                        12
-                                s &= dr("FECHA_CARGA") & vbTab & dr("CVE_UNI") & vbTab & dr("CLAVE_O") & vbTab & dr("DESCR_ORIGEN") & vbTab
-                                '              13                         14                           15                         16
-                                s &= dr("CLAVE_D") & vbTab & dr("DESCR_DESTINO") & vbTab & dr("CVE_ST_VIA") & vbTab & dr("STATUS_VIAJE") & vbTab
-                                '              17              18            19                  20                     21           22 NUEVO S/N   23 CVE_TAB_VIAJE SUELDO
-                                s &= dr("SUELDO") & vbTab & "" & vbTab & "NO" & vbTab & dr("NUM_PAR") & vbTab & dr("UUID") & vbTab & "N" & vbTab & dr("CVE_TAB") & vbTab
-                                '     24 x factor             25                             26                             27                              28
-                                s &= "" & vbTab & dr("FECHA_CARGA") & vbTab & dr("FECHA_REAL_CARGA") & vbTab & dr("FECHA_DESCARGA") & vbTab & dr("FECHA_REAL_DESCARGA") & vbTab
-                                '           29                    30                     31                     32
-                                s &= dr("DIF1") & vbTab & dr("DIF2") & vbTab & dr("SUELDO") & vbTab & dr("SUEL_CONV")
+                                ''                                               1                     2                   3                     4                     5    
+                                's = IIf(dr("CVE_TAB").ToString.Trim.Length = 0, "", ">") & vbTab & True & vbTab & dr("CVE_VIAJE") & vbTab & CVE_CAP1 & vbTab & dr("ST_CP") & vbTab & CVE_CAP2 & vbTab
+                                ''             6                    7                             8
+                                's &= dr("ST_CP2") & vbTab & TIP_VIAJE & vbTab & IIf(dr("TIPO_UNIDAD") = 1, "Cargado", "Vacio") & vbTab
+                                ''                 9                       10                      11                        12
+                                's &= dr("FECHA_CARGA") & vbTab & dr("CVE_UNI") & vbTab & dr("CLAVE_O") & vbTab & dr("DESCR_ORIGEN") & vbTab
+                                ''              13                         14                           15                         16
+                                's &= dr("CLAVE_D") & vbTab & dr("DESCR_DESTINO") & vbTab & dr("CVE_ST_VIA") & vbTab & dr("STATUS_VIAJE") & vbTab
+                                ''              17              18            19                  20                     21           22 NUEVO S/N   23 CVE_TAB_VIAJE SUELDO
+                                's &= dr("SUELDO") & vbTab & "" & vbTab & "NO" & vbTab & dr("NUM_PAR") & vbTab & dr("UUID") & vbTab & "N" & vbTab & dr("CVE_TAB") & vbTab
+                                ''     24 x factor             25                             26                             27                              28
+                                's &= "" & vbTab & dr("FECHA_CARGA") & vbTab & dr("FECHA_REAL_CARGA") & vbTab & dr("FECHA_DESCARGA") & vbTab & dr("FECHA_REAL_DESCARGA") & vbTab
+                                ''           29                    30                     31                     32
+                                's &= dr("DIF1") & vbTab & dr("DIF2") & vbTab & dr("SUELDO") & vbTab & dr("SUEL_CONV")
+
+
+                                s = IIf(dr("CVE_TAB").ToString.Trim.Length = 0, "", ">")
+                                s &= vbTab & True
+                                s &= vbTab & dr("CVE_VIAJE")
+                                s &= vbTab & dr("FACT1")
+                                s &= vbTab & dr("FACT2")
+                                s &= vbTab & dr("CLIENTE_NOMBRE")
+                                s &= vbTab & dr("ORIGEN")
+                                s &= vbTab & dr("DESTINO")
+                                's &= vbTab & TIP_VIAJE
+                                s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_UNIDAD") = 1, "Full", "Sencillo")
+                                s &= vbTab & dr("FACTURADO")
+                                s &= vbTab & dr("SUEL_CONV")
+                                s &= vbTab & dr("PORC_SUELDO")
+                                s &= vbTab & dr("SUELDO_MANIOBRA")
+                                s &= vbTab & dr("PORC_SUELDO_MANIOBRA")
+                                s &= vbTab & dr("SEL_CALCULO")
+                                s &= vbTab & dr("SDO_X_TONELADA")
+                                s &= vbTab & dr("SDO_MANIOBRA_X_TONELADA")
+                                s &= vbTab & dr("SUELDO")
+                                s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_VIAJE") = 1, "Cargado", "Vacio")
+                                s &= vbTab & dr.ReadNullAsEmptyString("CVE_UNI")
+                                s &= vbTab & dr("CAP1")
+                                s &= vbTab & dr("ST_CP")
+                                s &= vbTab & dr("CAP2")
+                                s &= vbTab & dr("ST_CP2")
+                                s &= vbTab & dr("FECHA_CARGA")
+                                s &= vbTab & dr("CLAVE_O")
+                                s &= vbTab & dr("DESCR_ORIGEN")
+                                s &= vbTab & dr("CLAVE_D")
+                                s &= vbTab & dr("DESCR_DESTINO")
+                                s &= vbTab & dr("CVE_ST_VIA")
+                                s &= vbTab & dr("STATUS_VIAJE")
+                                s &= vbTab & ""
+                                s &= vbTab & "NO"
+                                s &= vbTab & 0
+                                s &= vbTab & dr("UUID")
+                                s &= vbTab & "N"
+                                s &= vbTab & dr("CVE_TAB")
+                                s &= vbTab & ""
+                                s &= vbTab & dr("FECHA_CARGA")
+                                s &= vbTab & dr("FECHA_REAL_CARGA")
+                                s &= vbTab & dr("FECHA_DESCARGA")
+                                s &= vbTab & dr("FECHA_REAL_DESCARGA")
+                                s &= vbTab & dr("DIF1")
+                                s &= vbTab & dr("DIF2")
+                                s &= vbTab & dr("SUEL_CONV")
+
 
                                 Fg.AddItem(s)
                                 DESPLEGAR_LIQ_GASTOS_VIAJE(dr("CVE_VIAJE"))
@@ -859,6 +975,15 @@ Public Class FrmLiquidacionesAE
             Return
         End If
 
+
+
+        If Not IsNothing(_myEditor) Then
+            If _myEditor.Visible Then
+                '_myEditor.FinishEditing()
+                TBotonMagico_GotFocus(Nothing, Nothing)
+            End If
+        End If
+
         If SHOW_MENSAJE = "" Then
             If MsgBox("Realmente desea grabar la liquidación?", vbYesNo) = vbNo Then
                 Return
@@ -877,17 +1002,17 @@ Public Class FrmLiquidacionesAE
 
         Try
             For k = 1 To Fg.Rows.Count - 1
-                If Fg(k, 1) Then
+                If Fg(k, _FgColSeleccione) Then
                     z += 1
                     Try
-                        If IsNothing(Fg(k, 17)) Then
+                        If IsNothing(Fg(k, _FgColSueldoViaje)) Then
                             x += 1
                         Else
-                            If IsNumeric(Fg(k, 17)) Then
-                                If Fg(k, 17) = 0 Then
+                            If IsNumeric(Fg(k, _FgColSueldoViaje)) Then
+                                If Fg(k, _FgColSueldoViaje) = 0 Then
                                     x += 1
                                 Else
-                                    PERCEP_VIAJE += Fg(k, 17)
+                                    PERCEP_VIAJE += Fg(k, _FgColSueldoViaje)
                                 End If
                             Else
                                 x += 1
@@ -1557,28 +1682,29 @@ Public Class FrmLiquidacionesAE
         'TAB 1     TAB 1     TAB 1     TAB 1     TAB 1     TAB 1     TAB 1     TAB 1     TAB 1     
         SQL = "UPDATE GCLIQ_PARTIDAS SET CVE_CAP1 = @CVE_CAP1, CVE_CAP2 = @CVE_CAP2, TIPO_VIAJE = @TIPO_VIAJE, TIPO_UNIDAD = @TIPO_UNIDAD, 
             FECHA_VIAJE = @FECHA_VIAJE, CVE_UNI = @CVE_UNI, CLAVE_O = @CLAVE_O, CLAVE_D = @CLAVE_D, CVE_ST_VIA = @CVE_ST_VIA, SUELDO = @SUELDO, 
-            @CVE_SUOP = CVE_SUOP
+            @CVE_SUOP = CVE_SUOP, SEL_CALCULO = @SEL_CALCULO, PORC_SUELDO = @PORC_SUELDO, SUELDO_MANIOBRA = @SUELDO_MANIOBRA, 
+            PORC_SUELDO_MANIOBRA = @PORC_SUELDO_MANIOBRA, SDO_X_TONELADA = @SDO_X_TONELADA, SDO_MANIOBRA_X_TONELADA = @SDO_MANIOBRA_X_TONELADA
             WHERE UUID = @UUID AND STATUS = 'A'
             IF @@ROWCOUNT = 0
             INSERT INTO GCLIQ_PARTIDAS (CVE_LIQ, CVE_VIAJE, NUM_PAR, STATUS, CVE_CAP1, CVE_CAP2, TIPO_VIAJE, TIPO_UNIDAD, FECHA_VIAJE, CVE_UNI, 
-            CLAVE_O, CLAVE_D, CVE_ST_VIA, SUELDO, CVE_SUOP, FECHAELAB, UUID) 
+            CLAVE_O, CLAVE_D, CVE_ST_VIA, SUELDO, CVE_SUOP, FECHAELAB, UUID, SEL_CALCULO, PORC_SUELDO, SUELDO_MANIOBRA, PORC_SUELDO_MANIOBRA, SDO_X_TONELADA, SDO_MANIOBRA_X_TONELADA) 
             VALUES (
             @CVE_LIQ, @CVE_VIAJE, ISNULL((SELECT MAX(NUM_PAR) + 1 FROM GCLIQ_PARTIDAS WHERE CVE_LIQ = @CVE_LIQ),1), 'A', @CVE_CAP1, @CVE_CAP2, 
-            @TIPO_VIAJE, @TIPO_UNIDAD, @FECHA_VIAJE, @CVE_UNI, @CLAVE_O, @CLAVE_D, @CVE_ST_VIA, @SUELDO, @CVE_SUOP, GETDATE(), @UUID)"
+            @TIPO_VIAJE, @TIPO_UNIDAD, @FECHA_VIAJE, @CVE_UNI, @CLAVE_O, @CLAVE_D, @CVE_ST_VIA, @SUELDO, @CVE_SUOP, GETDATE(), @UUID, @SEL_CALCULO, @PORC_SUELDO, @SUELDO_MANIOBRA, @PORC_SUELDO_MANIOBRA, @SDO_X_TONELADA, @SDO_MANIOBRA_X_TONELADA)"
 
         For k = 1 To Fg.Rows.Count - 1
             Try
-                If Fg(k, 1) Then
-                    If Not IsNothing(Fg(k, 2)) Then
-                        If Not String.IsNullOrEmpty(Fg(k, 2)) Then
-                            If Fg(k, 2).ToString.Trim.Length > 0 Then
+                If Fg(k, _FgColSeleccione) Then
+                    If Not IsNothing(Fg(k, _FgColNumViaje)) Then
+                        If Not String.IsNullOrEmpty(Fg(k, _FgColNumViaje)) Then
+                            If Fg(k, _FgColNumViaje).ToString.Trim.Length > 0 Then
                                 Try
                                     SUELDO = 0
-                                    If Not IsNothing(Fg(k, 17)) Then
-                                        If Not String.IsNullOrEmpty(Fg(k, 17)) Then
-                                            SUELDO = Fg(k, 17)
+                                    If Not IsNothing(Fg(k, _FgColSueldoViaje)) Then
+                                        If Not String.IsNullOrEmpty(Fg(k, _FgColSueldoViaje)) Then
+                                            SUELDO = Fg(k, _FgColSueldoViaje)
                                             Try
-                                                CVE_SUOP = Fg(k, 18)
+                                                CVE_SUOP = Fg(k, _FgColPuntos)
                                             Catch ex As Exception
                                             End Try
                                         End If
@@ -1588,10 +1714,10 @@ Public Class FrmLiquidacionesAE
                                 End Try
                                 Try
                                     NUM_PAR = 0
-                                    If Not IsNothing(Fg(k, 20)) Then
-                                        If Not String.IsNullOrEmpty(Fg(k, 20)) Then
-                                            If IsNumeric(Fg(k, 20).ToString.Trim) Then
-                                                NUM_PAR = CONVERTIR_TO_INT(CInt(Fg(k, 20).ToString.Trim))
+                                    If Not IsNothing(Fg(k, _FgColNumPar)) Then
+                                        If Not String.IsNullOrEmpty(Fg(k, _FgColNumPar)) Then
+                                            If IsNumeric(Fg(k, _FgColNumPar).ToString.Trim) Then
+                                                NUM_PAR = CONVERTIR_TO_INT(CInt(Fg(k, _FgColNumPar).ToString.Trim))
                                             End If
                                         End If
                                     End If
@@ -1600,10 +1726,10 @@ Public Class FrmLiquidacionesAE
                                 End Try
                                 Try
                                     FECHA = d1.ToShortDateString
-                                    If Not IsNothing(Fg(k, 25)) Then
-                                        If Not String.IsNullOrEmpty(Fg(k, 25)) Then
-                                            If IsDate(Fg(k, 25)) Then
-                                                FECHA = Fg(k, 25)
+                                    If Not IsNothing(Fg(k, _FgColFCargaPRog)) Then
+                                        If Not String.IsNullOrEmpty(Fg(k, _FgColFCargaPRog)) Then
+                                            If IsDate(Fg(k, _FgColFCargaPRog)) Then
+                                                FECHA = Fg(k, _FgColFCargaPRog)
                                             End If
                                         End If
                                     End If
@@ -1615,25 +1741,33 @@ Public Class FrmLiquidacionesAE
                                         cmd.CommandText = SQL
                                         cmd.Parameters.Clear()
                                         cmd.Parameters.Add("@CVE_LIQ", SqlDbType.Int).Value = FCVE_LIQ
-                                        cmd.Parameters.Add("@CVE_VIAJE", SqlDbType.VarChar).Value = Fg(k, 2)
+                                        cmd.Parameters.Add("@CVE_VIAJE", SqlDbType.VarChar).Value = Fg(k, _FgColNumViaje)
                                         cmd.Parameters.Add("@NUM_PAR", SqlDbType.SmallInt).Value = NUM_PAR
-                                        cmd.Parameters.Add("@CVE_CAP1", SqlDbType.VarChar).Value = Fg(k, 3)
-                                        cmd.Parameters.Add("@CVE_CAP2", SqlDbType.VarChar).Value = Fg(k, 5)
-                                        cmd.Parameters.Add("@TIPO_VIAJE", SqlDbType.SmallInt).Value = IIf(Fg(k, 7) = "Full", 1, 0)
-                                        cmd.Parameters.Add("@TIPO_UNIDAD", SqlDbType.SmallInt).Value = IIf(Fg(k, 8) = "Cargado", 1, 0)
+                                        cmd.Parameters.Add("@CVE_CAP1", SqlDbType.VarChar).Value = Fg(k, _FgColNumCPorte)
+                                        cmd.Parameters.Add("@CVE_CAP2", SqlDbType.VarChar).Value = Fg(k, _FgColNumCPorte2)
+                                        cmd.Parameters.Add("@TIPO_VIAJE", SqlDbType.SmallInt).Value = IIf(Fg(k, _FgColTipoViaje) = "Full", 1, 0)
+                                        cmd.Parameters.Add("@TIPO_UNIDAD", SqlDbType.SmallInt).Value = IIf(Fg(k, _FgColTipoUnidad) = "Cargado", 1, 0)
                                         cmd.Parameters.Add("@FECHA_VIAJE", SqlDbType.Date).Value = FECHA
-                                        cmd.Parameters.Add("@CVE_UNI", SqlDbType.VarChar).Value = Fg(k, 10)
-                                        cmd.Parameters.Add("@CLAVE_O", SqlDbType.VarChar).Value = Fg(k, 11)
-                                        cmd.Parameters.Add("@CLAVE_D", SqlDbType.VarChar).Value = Fg(k, 13)
+                                        cmd.Parameters.Add("@CVE_UNI", SqlDbType.VarChar).Value = Fg(k, _FgColUnidad)
+                                        cmd.Parameters.Add("@CLAVE_O", SqlDbType.VarChar).Value = Fg(k, _FgColClaveOrigen)
+                                        cmd.Parameters.Add("@CLAVE_D", SqlDbType.VarChar).Value = Fg(k, _FgColClaveDestino)
                                         cmd.Parameters.Add("@CVE_ST_VIA", SqlDbType.SmallInt).Value = 0
                                         cmd.Parameters.Add("@SUELDO", SqlDbType.Float).Value = SUELDO
                                         cmd.Parameters.Add("@CVE_SUOP", SqlDbType.Float).Value = CVE_SUOP
-                                        cmd.Parameters.Add("@UUID", SqlDbType.VarChar).Value = Fg(k, 21)
+                                        cmd.Parameters.Add("@UUID", SqlDbType.VarChar).Value = Fg(k, _FgColUUID)
+                                        cmd.Parameters.Add("@SEL_CALCULO", SqlDbType.Bit).Value = IIf(Fg(k, _FgColSelCalculo), 1, 0)
+                                        cmd.Parameters.Add("@PORC_SUELDO", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(Fg(k, _FgColPorcSueldo))
+                                        cmd.Parameters.Add("@SUELDO_MANIOBRA", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(Fg(k, _FgColSueldoManiobra))
+                                        cmd.Parameters.Add("@PORC_SUELDO_MANIOBRA", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(Fg(k, _FgColPorcSdoManiobra))
+                                        cmd.Parameters.Add("@SDO_X_TONELADA", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(Fg(k, _FgColSdoPorTonedada))
+                                        cmd.Parameters.Add("@SDO_MANIOBRA_X_TONELADA", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(Fg(k, _FgColSdoManiobraPorTonedada))
+
+
                                         returnValue = cmd.ExecuteNonQuery
                                         If returnValue IsNot Nothing Then
                                             If returnValue = "1" Then
                                                 Try
-                                                    SQLx = "UPDATE GCASIGNACION_VIAJE SET CVE_ST_VIA = 5 WHERE CVE_VIAJE = '" & Fg(k, 2) & "'"
+                                                    SQLx = "UPDATE GCASIGNACION_VIAJE SET CVE_ST_VIA = 5 WHERE CVE_VIAJE = '" & Fg(k, _FgColNumViaje) & "'"
                                                     Using cmd3 As SqlCommand = cnSAE.CreateCommand
                                                         cmd3.CommandText = SQLx
                                                         returnValue = cmd3.ExecuteNonQuery().ToString
@@ -1648,7 +1782,7 @@ Public Class FrmLiquidacionesAE
                                                 End Try
                                             End If
                                         End If
-                                        Fg(k, 18) = returnValue
+                                        Fg(k, _FgColPuntos) = returnValue
                                     Catch ex As Exception
                                         BITACORA_LIQ("170. " & ex.Message & vbNewLine & ex.StackTrace)
                                         MsgBox("170. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -1660,7 +1794,7 @@ Public Class FrmLiquidacionesAE
                 Else
                     If Valida_Conexion() Then
                         Try
-                            SQLx = "UPDATE GCASIGNACION_VIAJE SET CVE_ST_VIA = 4 WHERE CVE_VIAJE = '" & Fg(k, 2) & "'"
+                            SQLx = "UPDATE GCASIGNACION_VIAJE SET CVE_ST_VIA = 4 WHERE CVE_VIAJE = '" & Fg(k, _FgColNumViaje) & "'"
                             Using cmd3 As SqlCommand = cnSAE.CreateCommand
                                 cmd3.CommandText = SQLx
                                 returnValue = cmd3.ExecuteNonQuery().ToString
@@ -1674,7 +1808,7 @@ Public Class FrmLiquidacionesAE
                             MsgBox("180. " & ex.Message & vbNewLine & ex.StackTrace)
                         End Try
                         Try
-                            SQLx = "DELETE FROM GCLIQ_GASTOS_VIAJE WHERE CVE_LIQ = '" & FCVE_LIQ & "' AND CVE_VIAJE = '" & Fg(k, 2) & "'"
+                            SQLx = "DELETE FROM GCLIQ_GASTOS_VIAJE WHERE CVE_LIQ = '" & FCVE_LIQ & "' AND CVE_VIAJE = '" & Fg(k, _FgColNumViaje) & "'"
                             Using cmd3 As SqlCommand = cnSAE.CreateCommand
                                 cmd3.CommandText = SQLx
                                 returnValue = cmd3.ExecuteNonQuery().ToString
@@ -1688,7 +1822,7 @@ Public Class FrmLiquidacionesAE
                             MsgBox("190. " & ex.Message & vbNewLine & ex.StackTrace)
                         End Try
                         Try
-                            SQLx = "DELETE FROM GCLIQ_VALES_VIAJE WHERE CVE_LIQ = '" & FCVE_LIQ & "' AND CVE_VIAJE = '" & Fg(k, 2) & "'"
+                            SQLx = "DELETE FROM GCLIQ_VALES_VIAJE WHERE CVE_LIQ = '" & FCVE_LIQ & "' AND CVE_VIAJE = '" & Fg(k, _FgColNumViaje) & "'"
                             Using cmd3 As SqlCommand = cnSAE.CreateCommand
                                 cmd3.CommandText = SQLx
                                 returnValue = cmd3.ExecuteNonQuery().ToString
@@ -1712,13 +1846,13 @@ Public Class FrmLiquidacionesAE
         Try
             For k = 1 To Fg.Rows.Count - 1
                 Try
-                    If Not Fg(k, 1) Then
-                        If Not IsNothing(Fg(k, 20)) Then
-                            If Not String.IsNullOrEmpty(Fg(k, 20)) Then
-                                If IsNumeric(Fg(k, 20).ToString.Trim) Then
+                    If Not Fg(k, _FgColSeleccione) Then
+                        If Not IsNothing(Fg(k, _FgColNumPar)) Then
+                            If Not String.IsNullOrEmpty(Fg(k, _FgColNumPar)) Then
+                                If IsNumeric(Fg(k, _FgColNumPar).ToString.Trim) Then
 
                                     If Valida_Conexion() Then
-                                        SQL = "DELETE FROM GCLIQ_PARTIDAS WHERE UUID = '" & Fg(k, 21) & "'"
+                                        SQL = "DELETE FROM GCLIQ_PARTIDAS WHERE UUID = '" & Fg(k, _FgColUUID) & "'"
                                         Using cmd2 As SqlCommand = cnSAE.CreateCommand
                                             cmd2.CommandText = SQL
                                             returnValue = cmd2.ExecuteNonQuery().ToString
@@ -1769,7 +1903,7 @@ Public Class FrmLiquidacionesAE
                             If FgG(k, 1) Then
                                 For j = 1 To Fg.Rows.Count - 1
                                     Try
-                                        If Fg(j, 2) = CVE_VIAJE Then
+                                        If Fg(j, _FgColNumViaje) = CVE_VIAJE Then
                                             If FgG(k, 1) Then
                                                 STATUS = "L"
                                             Else
@@ -1824,8 +1958,8 @@ Public Class FrmLiquidacionesAE
                                 CVE_VIAJE = FgV(k, 1)
 
                                 For j = 1 To Fg.Rows.Count - 1
-                                    If Fg(j, 2) = CVE_VIAJE Then
-                                        If Fg(j, 1) Then
+                                    If Fg(j, _FgColNumViaje) = CVE_VIAJE Then
+                                        If Fg(j, _FgColSeleccione) Then
                                             STATUS = "L"
                                         Else
                                             STATUS = "A"
@@ -2536,7 +2670,13 @@ Public Class FrmLiquidacionesAE
                 ISNULL((SELECT ISNULL(STC.DESCR,'') FROM GCCARTA_PORTE CT LEFT JOIN GCSTATUS_CARTA_PORTE STC ON STC.CVE_CAP = CT.ST_CARTA_PORTE WHERE CVE_FOLIO = A.CVE_CAP2),'') AS ST_CP2,
                 DATEDIFF(day, CP1.FECHA_CARGA, CP1.FECHA_REAL_CARGA) AS DIF1, DATEDIFF(day, CP1.FECHA_DESCARGA, 
                 CP1.FECHA_REAL_DESCARGA) AS DIF2, ISNULL(R1.SUELDO_X_FACTOR,0) AS SUELDO_C_FAC, 
-                CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_FULL,0) ELSE ISNULL(SUELDO_SENC,0) END AS SUEL_CONV
+                CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_FULL,0) ELSE ISNULL(SUELDO_SENC,0) END AS SUEL_CONV,
+				A.CVE_DOC AS FACT1, '' AS FACT2, CLI.NOMBRE AS CLIENTE_NOMBRE, R1.DESCR AS ORIGEN, R1.DESCR2 AS DESTINO, ISNULL(FAC.CAN_TOT, 0) AS FACTURADO,
+				CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_SUELDO_FULL, 0) ELSE ISNULL(R1.PORC_SUELDO_SENC, 0) END AS PORC_SUELDO,
+				CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_MANIOBRA_FULL, 0) ELSE ISNULL(R1.SUELDO_MANIOBRA_SENC, 0) END AS SUELDO_MANIOBRA,
+				CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END AS PORC_SUELDO_MANIOBRA,
+                round(((CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_SUELDO_FULL, 0) ELSE ISNULL(R1.PORC_SUELDO_SENC, 0) END * ISNULL(FAC.CAN_TOT, 0))/100), 2) AS SDO_X_TONELADA, 
+				round(((CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END * ISNULL(FAC.CAN_TOT, 0))/100), 2) AS SDO_MANIOBRA_X_TONELADA
                 FROM GCASIGNACION_VIAJE A
                 LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = A.CVE_TAB_VIAJE
                 LEFT JOIN GCCARTA_PORTE CP1 ON CP1.CVE_FOLIO = A.CVE_CAP1
@@ -2547,6 +2687,8 @@ Public Class FrmLiquidacionesAE
                 LEFT JOIN GCASIGNACION_VIAJE_TAB_RUTAS TAB ON TAB.CVE_CON = A.CVE_CON
                 LEFT JOIN GCCAT_STATUS_VIAJE S ON S.CLAVE = A.CVE_ST_VIA
                 LEFT JOIN GCOPERADOR O ON O.CLAVE = A.CVE_OPER
+                LEFT JOIN CLIE05 CLI WITH (nolock) ON CLI.CLAVE = A.CLIENTE	
+				LEFT JOIN FACTF05 FAC WITH (nolock) ON FAC.CVE_DOC = A.CVE_DOC AND FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S' 
                 WHERE A.STATUS = 'A' AND A.CVE_OPER = '" & TCVE_OPER.Text & "' 
                 " & IIf(TCVE_TRACTOR.Text.Trim.Length > 0, " AND A.CVE_TRACTOR = '" & TCVE_TRACTOR.Text & "'", "") & " AND 
                 A.CVE_ST_VIA <> 5 
@@ -2565,30 +2707,58 @@ Public Class FrmLiquidacionesAE
                 AgregarPartida = True
 
                 SUELDO_OPER = dr("SUEL_CONV")
-                '                   0                          1                                          2 
-                s = IIf(dr("CVETAB").ToString.Trim.Length = 0, "", ">") & vbTab & False & vbTab & dr("CVE_VIAJE") & vbTab
-                '             3                    4                     5                    6 
-                s &= dr("CAP1") & vbTab & dr("ST_CP") & vbTab & dr("CAP2") & vbTab & dr("ST_CP2") & vbTab
-                '                                         7
-                s &= IIf(dr.ReadNullAsEmptyInteger("TIPO_UNI") = 1, "Full", "Sencillo") & vbTab
-                '                                         8
-                s &= IIf(dr.ReadNullAsEmptyInteger("TIPO_VIAJE") = 1, "Cargado", "Vacio") & vbTab
-                '                                   9                                             10                            11                
-                s &= dr.ReadNullAsEmptyString("FECHA") & vbTab & dr.ReadNullAsEmptyString("CVE_TRACTOR") & vbTab & dr("RECOGER_EN") & vbTab
-                '                12                      13                        14                        15
-                s &= dr("RECOGER") & vbTab & dr("ENTREGAR_EN") & vbTab & dr("ENTREGAR") & vbTab & dr("CVE_ST_VIA") & vbTab
-                '                16                      17                18          19            20               21         22 NUEVO S/N        23 CVE_TAB_VIAJE
-                s &= dr("STATUS_VIAJE") & vbTab & dr("SUEL_CONV") & vbTab & "" & vbTab & "NO" & vbTab & 0 & vbTab & dr("UUID") & vbTab & "S" & vbTab & dr("CVETAB") & vbTab
-                '       24                   25                              26                              27                             28
-                s &= "" & vbTab & dr("FECHA_CARGA") & vbTab & dr("FECHA_REAL_CARGA") & vbTab & dr("FECHA_DESCARGA") & vbTab & dr("FECHA_REAL_DESCARGA") & vbTab
-                '            29                   30                  31                        32
-                s &= dr("DIF1") & vbTab & dr("DIF2") & vbTab & SUELDO_OPER & vbTab & dr("SUEL_CONV")
+
+                s = IIf(dr("CVETAB").ToString.Trim.Length = 0, "", ">")
+                s &= vbTab & False
+                s &= vbTab & dr("CVE_VIAJE")
+                s &= vbTab & dr("FACT1")
+                s &= vbTab & dr("FACT2")
+                s &= vbTab & dr("CLIENTE_NOMBRE")
+                s &= vbTab & dr("ORIGEN")
+                s &= vbTab & dr("DESTINO")
+                s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_UNI") = 1, "Full", "Sencillo")
+                s &= vbTab & dr("FACTURADO")
+                s &= vbTab & SUELDO_OPER
+                s &= vbTab & dr("PORC_SUELDO")
+                s &= vbTab & dr("SUELDO_MANIOBRA")
+                s &= vbTab & dr("PORC_SUELDO_MANIOBRA")
+                s &= vbTab & False
+                s &= vbTab & dr("SDO_X_TONELADA")
+                s &= vbTab & dr("SDO_MANIOBRA_X_TONELADA")
+                s &= vbTab & dr("SUEL_CONV")
+                s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_VIAJE") = 1, "Cargado", "Vacio")
+                s &= vbTab & dr.ReadNullAsEmptyString("CVE_TRACTOR")
+                s &= vbTab & dr("CAP1")
+                s &= vbTab & dr("ST_CP")
+                s &= vbTab & dr("CAP2")
+                s &= vbTab & dr("ST_CP2")
+                s &= vbTab & dr.ReadNullAsEmptyString("FECHA")
+                s &= vbTab & dr("RECOGER_EN")
+                s &= vbTab & dr("RECOGER")
+                s &= vbTab & dr("ENTREGAR_EN")
+                s &= vbTab & dr("ENTREGAR")
+                s &= vbTab & dr("CVE_ST_VIA")
+                s &= vbTab & dr("STATUS_VIAJE")
+                s &= vbTab & ""
+                s &= vbTab & "NO"
+                s &= vbTab & 0
+                s &= vbTab & dr("UUID")
+                s &= vbTab & "S"
+                s &= vbTab & dr("CVETAB")
+                s &= vbTab & ""
+                s &= vbTab & dr("FECHA_CARGA")
+                s &= vbTab & dr("FECHA_REAL_CARGA")
+                s &= vbTab & dr("FECHA_DESCARGA")
+                s &= vbTab & dr("FECHA_REAL_DESCARGA")
+                s &= vbTab & dr("DIF1")
+                s &= vbTab & dr("DIF2")
+                s &= vbTab & dr("SUEL_CONV")
 
                 If Not FFiltrar_Liq Then
                     Fg.AddItem(s)
                 Else
                     For k = 1 To Fg.Rows.Count - 1
-                        If Fg(k, 2) = dr.ReadNullAsEmptyString("CVE_VIAJE") Then
+                        If Fg(k, _FgColNumViaje) = dr.ReadNullAsEmptyString("CVE_VIAJE") Then
                             AgregarPartida = False
                             Exit For
                         End If
@@ -2601,9 +2771,9 @@ Public Class FrmLiquidacionesAE
             If Not FFiltrar_Liq Then
                 Fg.AutoSizeCols()
                 If Fg.Row > 0 Then
-                    Fg.Cols(2).Width = 100
+                    Fg.Cols(_FgColNumViaje).Width = 100
                     Fg.Row = 1
-                    Fg.Col = 1
+                    Fg.Col = _FgColSeleccione
                     Fg.Select()
                 End If
                 FgG.Rows.Count = 1
@@ -2858,12 +3028,12 @@ Public Class FrmLiquidacionesAE
             If Fg.Row > 0 Then
                 '                                           20 NUEVO S/N   
                 If LtTipoCrobro.Text = "Edición" Then
-                    If Fg(Fg.Row, 1) Then
-                        If Fg.Col <> 1 And Fg.Col <> 16 And Fg.Col <> 24 Then
+                    If Fg(Fg.Row, _FgColSeleccione) Then
+                        If Fg.Col <> _FgColSeleccione And Fg.Col <> _FgColStatusViaje And Fg.Col <> _FgColxFactor And Fg.Col <> _FgColSelCalculo Then
                             e.Cancel = True
                         End If
                     Else
-                        If Fg.Col <> 1 Then
+                        If Fg.Col <> _FgColSeleccione Then
                             e.Cancel = True
                         End If
                     End If
@@ -2882,7 +3052,7 @@ Public Class FrmLiquidacionesAE
                 Return
             End If
 
-            If Fg.Col = 1 And Fg.Col = 18 And ENTRA Then
+            If Fg.Col = _FgColSeleccione And Fg.Col = _FgColSelCalculo And ENTRA Then
                 Fg.StartEditing()
             End If
         Catch ex As Exception
@@ -2890,7 +3060,7 @@ Public Class FrmLiquidacionesAE
     End Sub
     Private Sub Fg_CellButtonClick(sender As Object, e As RowColEventArgs) Handles Fg.CellButtonClick
 
-        'If Fg.Col = 18 Then
+        'If Fg.Col = 18 Then _FgColPuntos
         If Fg.Col = 188 Then
             Try
                 'Var4 = Fg(Fg.Row, 1).ToString   'CLAVE
@@ -2899,12 +3069,12 @@ Public Class FrmLiquidacionesAE
                 'Var7 = Fg(Fg.Row, 4).ToString   'DESTINO
                 'Var8 = Fg(Fg.Row, 7).ToString   'SUELDO
                 Var3 = "" : Var4 = "" : Var5 = "" : Var6 = "" : Var7 = "" : Var8 = ""
-                Var9 = Fg(Fg.Row, 7)
+                Var9 = Fg(Fg.Row, _FgColTipoViaje)
                 Var2 = "Sueldo operadores"
                 frmSelItemSueldoOper.ShowDialog()
                 If Var4.Trim.Length > 0 Then
-                    Fg(Fg.Row, 17) = Var8
-                    Fg(Fg.Row, 18) = Var4
+                    Fg(Fg.Row, _FgColSueldoViaje) = Var8
+                    Fg(Fg.Row, _FgColPuntos) = Var4
 
                     CALCULAR_IMPORTES()
                 End If
@@ -2922,23 +3092,23 @@ Public Class FrmLiquidacionesAE
     End Sub
     Private Sub Fg_ValidateEdit(sender As Object, e As ValidateEditEventArgs) Handles Fg.ValidateEdit
         Try
-            If LtTipoCrobro.Text <> "Edición" And Fg(Fg.Row, 22) = "N" Then
+            If LtTipoCrobro.Text <> "Edición" And Fg(Fg.Row, _FgColNuevo) = "N" Then
                 e.Cancel = True
             Else
                 Try
                     If Fg.Row > 0 Then
-                        If Fg.Col = 24 Then
-                            If Not IsNothing(Fg(Fg.Row, 31)) Then
-                                If IsNumeric(Fg(Fg.Row, 31)) Then
+                        If Fg.Col = _FgColxFactor Then
+                            If Not IsNothing(Fg(Fg.Row, _FgColSueldo)) Then
+                                If IsNumeric(Fg(Fg.Row, _FgColSueldo)) Then
                                     If IsNumeric(Fg.Editor.Text) Then
                                         If CDec(Fg.Editor.Text) < 0 Then
                                             e.Cancel = True
-                                            Fg(Fg.Row, 17) = Fg(Fg.Row, 31)
+                                            Fg(Fg.Row, _FgColSueldoViaje) = Fg(Fg.Row, _FgColSueldo)
                                         Else
                                             If CDec(Fg.Editor.Text) = 0 Then
-                                                Fg(Fg.Row, 17) = Fg(Fg.Row, 31)
+                                                Fg(Fg.Row, _FgColSueldoViaje) = Fg(Fg.Row, _FgColSueldo)
                                             Else
-                                                Fg(Fg.Row, 17) = Fg(Fg.Row, 31) * CDec(Fg.Editor.Text)
+                                                Fg(Fg.Row, _FgColSueldoViaje) = Fg(Fg.Row, _FgColSueldo) * CDec(Fg.Editor.Text)
                                             End If
                                         End If
                                         CALCULAR_IMPORTES()
@@ -2960,13 +3130,13 @@ Public Class FrmLiquidacionesAE
         Try
             If Fg.Row > 0 Then
                 '
-                If Fg.Col = 24 Then
+                If Fg.Col = _FgColxFactor Then
                     '                23 CVE_TAB_VIAJE SUELDO
-                    If Not IsNothing(Fg(Fg.Row, 23)) And Fg(Fg.Row, 23) <> "0" Then
-                        If Fg(Fg.Row, 23).ToString.Trim.Length = 0 Then
+                    If Not IsNothing(Fg(Fg.Row, _FgColVacio23)) And Fg(Fg.Row, _FgColVacio23) <> "0" Then
+                        If Fg(Fg.Row, _FgColVacio23).ToString.Trim.Length = 0 Then
                             Fg.FinishEditing()
                         Else
-                            If Fg(Fg.Row, 32) = 0 Then
+                            If Fg(Fg.Row, _FgColSueldoxFactor) = 0 Then
                                 Fg.FinishEditing()
                             End If
                         End If
@@ -2985,19 +3155,19 @@ Public Class FrmLiquidacionesAE
             If TCVE_OPER.Text.Trim.Length = 0 Then
                 MsgBox("Por favor capture la clave del operador")
                 e.Cancel = True
-                Fg(e.Row, 1) = False
+                Fg(e.Row, _FgColSeleccione) = False
                 Return
             End If
             If TCVE_TRACTOR.Text.Trim.Length = 0 Then
                 MsgBox("Por favor capture la clave de la unidad")
                 e.Cancel = True
-                Fg(e.Row, 1) = False
+                Fg(e.Row, _FgColSeleccione) = False
                 Return
             End If
         Catch ex As Exception
             BITACORA_LIQ("1290. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
-        If e.Row = 0 And e.Col = 1 And ENTRA Then
+        If e.Row = 0 And e.Col = _FgColSeleccione And ENTRA Then
             Try
                 Dim PROC As String = ""
                 ENTRA = False
@@ -3011,13 +3181,13 @@ Public Class FrmLiquidacionesAE
                 ChangeState(Fg.GetCellCheck(e.Row, e.Col))
 
                 For k = 1 To Fg.Rows.Count - 1
-                    If Fg(k, 1) Then
+                    If Fg(k, _FgColSeleccione) Then
                         PROC = "A"
-                        FGCHECK_DESPLEGAR_GASTOS_VIAJE(Fg(k, 2), PROC)
-                        FGCHECK_DESPLEGAR_GASTOS_VIAJE_VALES(Fg(k, 2), PROC)
-                        Fg(k, 19) = "Check"
+                        FGCHECK_DESPLEGAR_GASTOS_VIAJE(Fg(k, _FgColNumViaje), PROC)
+                        FGCHECK_DESPLEGAR_GASTOS_VIAJE_VALES(Fg(k, _FgColNumViaje), PROC)
+                        Fg(k, _FgColCheck19) = "Check"
                     Else
-                        Fg(k, 19) = ""
+                        Fg(k, _FgColCheck19) = ""
                     End If
                 Next
                 Try
@@ -3067,49 +3237,51 @@ Public Class FrmLiquidacionesAE
         End If
         If e.Row > 0 Then
             Try
-                If e.Col = 1 And ENTRA Then
+                If e.Col = _FgColSeleccione And ENTRA Then
                     Dim PROC As String = ""
                     ENTRA = False
                     SUMA = 0 : SUMA2 = 0
 
-                    If Fg(e.Row, 1) Then
+                    'ChangeState(Fg.GetCellCheck(e.Row, e.Col))
+
+                    If Fg(e.Row, _FgColSeleccione) Then
                         PROC = "A"
-                        If Fg(e.Row, 19) <> "Check" Then
+                        If Fg(e.Row, _FgColCheck19) <> "Check" Then
                             nGastos = 0 : nVales = 0
-                            FGCHECK_DESPLEGAR_GASTOS_VIAJE(Fg(e.Row, 2), PROC)
-                            FGCHECK_DESPLEGAR_GASTOS_VIAJE_VALES(Fg(e.Row, 2), PROC)
+                            FGCHECK_DESPLEGAR_GASTOS_VIAJE(Fg(e.Row, _FgColNumViaje), PROC)
+                            FGCHECK_DESPLEGAR_GASTOS_VIAJE_VALES(Fg(e.Row, _FgColNumViaje), PROC)
                             FgG.AutoSizeCols()
                             FgV.AutoSizeCols()
                         End If
-                        Fg(e.Row, 19) = "Check"
+                        Fg(e.Row, _FgColCheck19) = "Check"
                         'SUELDO
-                        If Fg(e.Row, 17) = 0 Then
-                            '     CARTA PORTE                           CARTA PORTE 2
-                            If Fg(e.Row, 3).ToString.Trim.Length = 0 And Fg(e.Row, 5).ToString.Trim.Length = 0 Then
-                                Fg(e.Row, 17) = 0
-                            Else '     ACRTA PORTE                            CARTA PORTE 2
-                                If Fg(e.Row, 3).ToString.Trim.Length > 0 And Fg(e.Row, 5).ToString.Trim.Length > 0 Then
-                                    If Fg(e.Row, 4).ToString = "CANCELADO" And Fg(e.Row, 6).ToString = "CANCELADO" Then
-                                        Fg(e.Row, 17) = 0 'SUELDO
-                                    Else
-                                        Fg(e.Row, 17) = BUSCA_SUELDO(Fg(e.Row, 7), Fg(e.Row, 23)) 'SUELDO
-                                    End If
-                                Else
-                                    If Fg(e.Row, 4).ToString = "CANCELADO" Then
-                                        Fg(e.Row, 17) = 0 'SUELDO
-                                    Else
-                                        Fg(e.Row, 17) = BUSCA_SUELDO(Fg(e.Row, 7), Fg(e.Row, 23)) 'SUELDO
-                                    End If
-                                End If
-                            End If
-                        End If
+                        'If Fg(e.Row, _FgColSueldoViaje) = 0 Then
+                        '    '     CARTA PORTE                           CARTA PORTE 2
+                        '    If Fg(e.Row, _FgColNumCPorte).ToString.Trim.Length = 0 And Fg(e.Row, _FgColNumCPorte2).ToString.Trim.Length = 0 Then
+                        '        Fg(e.Row, _FgColSueldoViaje) = 0
+                        '    Else '     ACRTA PORTE                            CARTA PORTE 2
+                        '        If Fg(e.Row, _FgColNumCPorte).ToString.Trim.Length > 0 And Fg(e.Row, _FgColNumCPorte2).ToString.Trim.Length > 0 Then
+                        '            If Fg(e.Row, _FgColEstatus).ToString = "CANCELADO" And Fg(e.Row, 6).ToString = "CANCELADO" Then
+                        '                Fg(e.Row, _FgColSueldoViaje) = 0 'SUELDO
+                        '            Else
+                        '                Fg(e.Row, _FgColSueldoViaje) = BUSCA_SUELDO(Fg(e.Row, _FgColTipoViaje), Fg(e.Row, _FgColVacio23)) 'SUELDO
+                        '            End If
+                        '        Else
+                        '            If Fg(e.Row, _FgColEstatus).ToString = "CANCELADO" Then
+                        '                Fg(e.Row, _FgColSueldoViaje) = 0 'SUELDO
+                        '            Else
+                        '                Fg(e.Row, _FgColSueldoViaje) = BUSCA_SUELDO(Fg(e.Row, _FgColTipoViaje), Fg(e.Row, _FgColVacio23)) 'SUELDO
+                        '            End If
+                        '        End If
+                        '    End If
+                        'End If
                     Else
-                        Fg(e.Row, 17) = "0"
-                        Fg(e.Row, 18) = ""
+                        'Fg(e.Row, _FgColSueldoViaje) = "0"
+                        Fg(e.Row, _FgColPuntos) = ""
                         PROC = "E"
-                        FGCHECK_DESPLEGAR_GASTOS_VIAJE(Fg(e.Row, 2), PROC)
-                        FGCHECK_DESPLEGAR_GASTOS_VIAJE_VALES(Fg(e.Row, 2), PROC)
-                        Fg(e.Row, 19) = "NO"
+                        FGCHECK_DESPLEGAR_GASTOS_VIAJE(Fg(e.Row, _FgColNumViaje), PROC)
+                        FGCHECK_DESPLEGAR_GASTOS_VIAJE_VALES(Fg(e.Row, _FgColNumViaje), PROC)
+                        Fg(e.Row, _FgColCheck19) = "NO"
                     End If
                     BarImprimirLiq.Enabled = False
 
@@ -3140,6 +3312,14 @@ Public Class FrmLiquidacionesAE
                     ENTRA = True
                 End If
                 '************
+
+                If e.Col = _FgColSelCalculo And ENTRA Then
+                    ENTRA = False
+                    Fg(e.Row, _FgColSueldoViaje) = IIf(Fg(e.Row, _FgColSelCalculo), Fg(e.Row, _FgColSdoPorTonedada), Fg(e.Row, _FgColSueldo))
+                    CALCULAR_IMPORTES()
+                    ENTRA = True
+                End If
+
             Catch ex As Exception
                 ENTRA = True
                 BITACORA_LIQ("1300. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -4131,7 +4311,7 @@ Public Class FrmLiquidacionesAE
                     Else
                         Debug.Print("3")
                         MsgBox("Por favor capture factura")
-                        Fg.Col = 1
+                        Fg.Col = _FgColSeleccione
                     End If
                 Catch ex As Exception
                     BITACORA_LIQ("1701. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -4799,6 +4979,7 @@ Public Class FrmLiquidacionesAE
         Dim PERCEP_X_VIAJE As Decimal = 0, OTRAS_PERCEP As Decimal, DEDUCCIONES As Decimal, DIF_COMPROBACION As Decimal
         Dim MONTO_RESETEO As Decimal
 
+
         If Not Valida_Conexion() Then
             Return
         End If
@@ -4914,10 +5095,10 @@ Public Class FrmLiquidacionesAE
                 Try
                     For k = 1 To Fg.Rows.Count - 1
                         If Fg.Rows(k).IsVisible Then
-                            If Not IsNothing(Fg(k, 2)) Then
-                                If Fg(k, 1) Then
-                                    If Fg(k, 2).ToString.Length > 0 Then
-                                        PERC_X_VIAJE += Fg(k, 17)
+                            If Not IsNothing(Fg(k, _FgColNumViaje)) Then
+                                If Fg(k, _FgColSeleccione) Then
+                                    If Fg(k, _FgColNumViaje).ToString.Length > 0 Then
+                                        PERC_X_VIAJE += Fg(k, _FgColSueldoViaje)
                                     End If
                                 End If
                             End If
@@ -4981,7 +5162,7 @@ Public Class FrmLiquidacionesAE
                                 If FgPA(k, 2).ToString.Length > 0 Then
                                     If IsNumeric(FgPA(k, 6)) Then
                                         FACTOR = FgPA(k, 6)
-                                        IMPORTE_PA = IMPORTE_LIQUIDAR * FACTOR
+                                        IMPORTE_PA = IMPORTE_LIQUIDAR * FACTOR / 100
                                         FgPA(k, 7) = IMPORTE_PA
                                         PENSION_ALIMENTICIA += IMPORTE_PA
                                     End If
@@ -5104,10 +5285,10 @@ Public Class FrmLiquidacionesAE
             Try
                 For k = 1 To Fg.Rows.Count - 1
                     If Fg.Rows(k).IsVisible Then
-                        If Not IsNothing(Fg(k, 2)) Then
-                            If Fg(k, 1) Then
-                                If Fg(k, 2).ToString.Length > 0 Then
-                                    PERC_X_VIAJE += Fg(k, 17)
+                        If Not IsNothing(Fg(k, _FgColNumViaje)) Then
+                            If Fg(k, _FgColSeleccione) Then
+                                If Fg(k, _FgColNumViaje).ToString.Length > 0 Then
+                                    PERC_X_VIAJE += Fg(k, _FgColSueldoViaje)
                                 End If
                             End If
                         End If
@@ -5123,10 +5304,10 @@ Public Class FrmLiquidacionesAE
 
             Try
                 For k = 1 To Fg.Rows.Count - 1
-                    If Not IsNothing(Fg(k, 17)) Then
-                        If Not IsDBNull(Fg(k, 17)) Then
-                            If IsNumeric(Fg(k, 17)) Then
-                                PERCEP_X_VIAJE += Fg(k, 17)
+                    If Not IsNothing(Fg(k, _FgColSueldoViaje)) Then
+                        If Not IsDBNull(Fg(k, _FgColSueldoViaje)) Then
+                            If IsNumeric(Fg(k, _FgColSueldoViaje)) Then
+                                PERCEP_X_VIAJE += Fg(k, _FgColSueldoViaje)
                             End If
                         End If
                     End If
@@ -5261,15 +5442,15 @@ Public Class FrmLiquidacionesAE
                     If returnValue IsNot Nothing Then
                         If returnValue = "1" Then
                             For k = 1 To Fg.Rows.Count - 1
-                                If Not IsNothing(Fg(k, 2)) Then
-                                    If Not String.IsNullOrEmpty(Fg(k, 2)) Then
-                                        If Fg(k, 2).ToString.Trim.Length > 0 Then
+                                If Not IsNothing(Fg(k, _FgColNumViaje)) Then
+                                    If Not String.IsNullOrEmpty(Fg(k, _FgColNumViaje)) Then
+                                        If Fg(k, _FgColNumViaje).ToString.Trim.Length > 0 Then
 
                                             If Not Valida_Conexion() Then
                                             End If
 
                                             Try
-                                                SQL = "UPDATE GCLIQ_PARTIDAS SET STATUS = 'C' WHERE UUID = '" & Fg(k, 21) & "'"
+                                                SQL = "UPDATE GCLIQ_PARTIDAS SET STATUS = 'C' WHERE UUID = '" & Fg(k, _FgColUUID) & "'"
                                                 Using cmd3 As SqlCommand = cnSAE.CreateCommand
                                                     cmd3.CommandText = SQL
                                                     returnValue = cmd3.ExecuteNonQuery().ToString
@@ -5285,7 +5466,7 @@ Public Class FrmLiquidacionesAE
                                                 MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
                                             End Try
                                             Try
-                                                SQL = "UPDATE GCASIGNACION_VIAJE SET CVE_ST_VIA = 6 WHERE CVE_VIAJE = '" & Fg(k, 2) & "'"
+                                                SQL = "UPDATE GCASIGNACION_VIAJE SET CVE_ST_VIA = 6 WHERE CVE_VIAJE = '" & Fg(k, _FgColNumViaje) & "'"
                                                 Using cmd3 As SqlCommand = cnSAE.CreateCommand
                                                     cmd3.CommandText = SQL
                                                     returnValue = cmd3.ExecuteNonQuery().ToString
@@ -5680,7 +5861,7 @@ Public Class FrmLiquidacionesAE
     End Sub
     Private Sub ChangeState(ByVal state As C1.Win.C1FlexGrid.CheckEnum)
         For row As Integer = Fg.Rows.Fixed To Fg.Rows.Count - 1
-            Fg.SetCellCheck(row, 1, state)
+            Fg.SetCellCheck(row, _FgColSeleccione, state)
         Next
     End Sub
 
@@ -6182,6 +6363,16 @@ Public Class MyEditorLiq
             If col = 10 Then
                 FrmLiquidacionesAE.CALCULAR_IMPORTES()
             End If
+        Catch ex As Exception
+            BITACORA_LIQ("2500. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("2500. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
+    Public Sub FinishEditing()
+        Try
+            _owner.FinishEditing()
+            FrmLiquidacionesAE.CALCULAR_IMPORTES()
         Catch ex As Exception
             BITACORA_LIQ("2500. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("2500. " & ex.Message & vbNewLine & ex.StackTrace)

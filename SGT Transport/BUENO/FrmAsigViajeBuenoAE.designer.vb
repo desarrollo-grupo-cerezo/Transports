@@ -430,6 +430,8 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TFOLIO_VIAJE = New C1.Win.C1Input.C1TextBox()
         Me.C1XLBook1 = New C1.C1Excel.C1XLBook()
         Me.BtnSelViaje = New System.Windows.Forms.Button()
+        Me.LkGrabarYSalir = New C1.Win.C1Command.C1CommandLink()
+        Me.BarGrabarYSalir = New C1.Win.C1Command.C1Command()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.Box5.SuspendLayout
         CType(Me.FRD, System.ComponentModel.ISupportInitialize).BeginInit
@@ -3493,7 +3495,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.FgCarga.ColumnInfo = resources.GetString("FgCarga.ColumnInfo")
         Me.FgCarga.Font = New System.Drawing.Font("Tahoma", 9.0!)
         Me.FgCarga.KeyActionEnter = C1.Win.C1FlexGrid.KeyActionEnum.None
-        Me.FgCarga.KeyActionTab = C1.Win.C1FlexGrid.KeyActionEnum.MoveAcross
         Me.FgCarga.Location = New System.Drawing.Point(3, 5)
         Me.FgCarga.Name = "FgCarga"
         Me.FgCarga.PreserveEditMode = True
@@ -6776,6 +6777,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.MenuHolder.Commands.Add(Me.BarEditarRemitente)
         Me.MenuHolder.Commands.Add(Me.BarEditDestinatario)
         Me.MenuHolder.Commands.Add(Me.C1CommandControl1)
+        Me.MenuHolder.Commands.Add(Me.BarGrabarYSalir)
         Me.MenuHolder.Owner = Me
         '
         'BarGrabar
@@ -6842,7 +6844,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.C1ToolBar1.ButtonLookVert = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.C1ToolBar1.ButtonWidth = 98
         Me.C1ToolBar1.CommandHolder = Nothing
-        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkGrabar, Me.LkCopiarViaje, Me.LkImprimir, Me.LkEditarRemitente, Me.LkEditDestinatario, Me.LkSalir})
+        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkGrabarYSalir, Me.LkGrabar, Me.LkCopiarViaje, Me.LkImprimir, Me.LkEditarRemitente, Me.LkEditDestinatario, Me.LkSalir})
         Me.C1ToolBar1.Dock = System.Windows.Forms.DockStyle.Top
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.C1ToolBar1.Movable = False
@@ -6856,6 +6858,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LkGrabar.Command = Me.BarGrabar
         Me.LkGrabar.Delimiter = True
+        Me.LkGrabar.SortOrder = 1
         Me.LkGrabar.Text = "Grabar"
         '
         'LkCopiarViaje
@@ -6863,7 +6866,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.LkCopiarViaje.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.LkCopiarViaje.Command = Me.BarCopiarViaje
         Me.LkCopiarViaje.Delimiter = True
-        Me.LkCopiarViaje.SortOrder = 1
+        Me.LkCopiarViaje.SortOrder = 2
         Me.LkCopiarViaje.Text = "Copiar viaje"
         '
         'LkImprimir
@@ -6871,20 +6874,20 @@ Partial Class FrmAsigViajeBuenoAE
         Me.LkImprimir.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.LkImprimir.Command = Me.BarImprimir
         Me.LkImprimir.Delimiter = True
-        Me.LkImprimir.SortOrder = 2
+        Me.LkImprimir.SortOrder = 3
         Me.LkImprimir.Text = "Imprimir"
         '
         'LkEditarRemitente
         '
         Me.LkEditarRemitente.Command = Me.BarEditarRemitente
         Me.LkEditarRemitente.Delimiter = True
-        Me.LkEditarRemitente.SortOrder = 3
+        Me.LkEditarRemitente.SortOrder = 4
         '
         'LkEditDestinatario
         '
         Me.LkEditDestinatario.Command = Me.BarEditDestinatario
         Me.LkEditDestinatario.Delimiter = True
-        Me.LkEditDestinatario.SortOrder = 4
+        Me.LkEditDestinatario.SortOrder = 5
         Me.LkEditDestinatario.Text = "Editar destinatario"
         '
         'LkSalir
@@ -6892,7 +6895,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.LkSalir.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.LkSalir.Command = Me.BarSalir
         Me.LkSalir.Delimiter = True
-        Me.LkSalir.SortOrder = 5
+        Me.LkSalir.SortOrder = 6
         Me.LkSalir.ToolTipText = "SALIR"
         '
         'SplitMG
@@ -6974,6 +6977,17 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnSelViaje.Size = New System.Drawing.Size(24, 24)
         Me.BtnSelViaje.TabIndex = 628
         Me.BtnSelViaje.UseVisualStyleBackColor = True
+        '
+        'LkGrabarYSalir
+        '
+        Me.LkGrabarYSalir.Command = Me.BarGrabarYSalir
+        '
+        'BarGrabarYSalir
+        '
+        Me.BarGrabarYSalir.Image = Global.SGT_Transport.My.Resources.Resources.disk7
+        Me.BarGrabarYSalir.Name = "BarGrabarYSalir"
+        Me.BarGrabarYSalir.ShortcutText = ""
+        Me.BarGrabarYSalir.Text = "Grabar y salir"
         '
         'FrmAsigViajeBuenoAE
         '
@@ -7621,4 +7635,6 @@ Partial Class FrmAsigViajeBuenoAE
     Friend WithEvents Lt2 As Label
     Friend WithEvents ChComplemento As C1.Win.C1Input.C1CheckBox
     Friend WithEvents C1XLBook1 As C1.C1Excel.C1XLBook
+    Friend WithEvents BarGrabarYSalir As C1.Win.C1Command.C1Command
+    Friend WithEvents LkGrabarYSalir As C1.Win.C1Command.C1CommandLink
 End Class

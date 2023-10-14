@@ -789,7 +789,8 @@ Public Class FrmAsigViajeBuenoAE
                 End Try
             End If
         End If
-        CARGAR_TARIFAS(TCVE_TAB_VIAJE.Text)
+
+        CARGAR_TARIFAS(TCVE_TAB_VIAJE.Text, True)
 
         DESPLEGAR_TIPO_VIAJE()
 
@@ -2003,7 +2004,7 @@ Public Class FrmAsigViajeBuenoAE
                 cImpu3 = PREC * vIMPU3 / 100
                 cImpu = PREC * vIMPU4 / 100
 
-                TSUB_TOTAL.Value = PREC + M1 + M2 + M3 + M4 + M5 + M6
+                TSUB_TOTAL.Value = PREC '+ M1 + M2 + M3 + M4 + M5 + M6
                 TIVA.Value = cIeps + cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6
                 TRET.Value = cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6
                 TNETO.Value = TSUB_TOTAL.Value + TIVA.Value + TRET.Value
@@ -2117,7 +2118,7 @@ Public Class FrmAsigViajeBuenoAE
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
-                        Select Case dr.ReadNullAsEmptyInteger("CVE_COBRO")
+                        Select Case dr.ReadNullAsEmptyInteger("NUM_PAR")
                             Case 1
                                 For k = 1 To CboConc1.Items.Count - 1
                                     If CboConc1.Items(k) = dr.ReadNullAsEmptyInteger("CVE_COBRO") Then
@@ -2283,7 +2284,7 @@ Public Class FrmAsigViajeBuenoAE
         ENTRAA = True
     End Sub
 
-    Sub CARGAR_TARIFAS(FCVE_TAB_VIAJE As String)
+    Sub CARGAR_TARIFAS(FCVE_TAB_VIAJE As String, Optional CargandoViaje As Boolean = False)
         Try
             If FCVE_TAB_VIAJE.Trim.Length > 0 Then
                 SQL = "SELECT T.TAR_X_TON_FULL, T.TAR_X_VIA_FULL, T.TAR_X_VIA_SENC 
@@ -2303,10 +2304,19 @@ Public Class FrmAsigViajeBuenoAE
                                     LtTipoViaje.Text = "Full"
 
                                     If RadPrecioXViaje.Checked Then
+                                        If CargandoViaje Then
+                                            TAR_X_VIA_FULL = TFLETE.Value
+                                        End If
                                         TFLETE.Value = TAR_X_VIA_FULL
                                         TFLETE.Tag = TAR_X_VIA_FULL
                                         MONTO_X_VIAJE = TFLETE.Value
                                     Else
+                                        If CargandoViaje Then
+                                            Try
+                                                TAR_X_TON_FULL = TFLETE.Value / TVOLUMEN_PESO.Value
+                                            Catch ex As Exception
+                                            End Try
+                                        End If
                                         TFLETE.Value = TAR_X_TON_FULL * TVOLUMEN_PESO.Value
                                         TFLETE.Tag = TAR_X_TON_FULL
                                         MONTO_X_TON = TFLETE.Value
@@ -2314,10 +2324,19 @@ Public Class FrmAsigViajeBuenoAE
                                 Else
                                     LtTipoViaje.Text = "Sencillo"
                                     If RadPrecioXViaje.Checked Then
+                                        If CargandoViaje Then
+                                            TAR_X_VIA_SENC = TFLETE.Value
+                                        End If
                                         TFLETE.Value = TAR_X_VIA_SENC
                                         TFLETE.Tag = TAR_X_VIA_SENC
                                         MONTO_X_VIAJE = TFLETE.Value
                                     Else
+                                        If CargandoViaje Then
+                                            Try
+                                                TAR_X_TON_FULL = TFLETE.Value / TVOLUMEN_PESO.Value
+                                            Catch ex As Exception
+                                            End Try
+                                        End If
                                         TFLETE.Value = TAR_X_TON_FULL * TVOLUMEN_PESO.Value
                                         TFLETE.Tag = TAR_X_TON_FULL
                                         MONTO_X_TON = TFLETE.Value
@@ -2358,7 +2377,7 @@ Public Class FrmAsigViajeBuenoAE
             SQL = "SELECT M.CVE_VIAJE, M.NUM_PAR, M.CANT, M.ID_UNIDAD, M.DESC_UNIDAD, M.ID_MERCANCIA, M.DESCR_MERCANCIA, 
                     M.MAT_PELIGROSO, M.CVE_MAT_PELIGROSO, M.ID_EMBALAJE, M.DESC_EMBALAJE, M.PESO, M.VALOR_MERCANCIA, M.MONEDA, 
                     M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT 
-                    FROM GCMERCANCIAS M WHERE CVE_VIAJE = '" & FCVE_VIAJE2 & "'"
+                    FROM GCMERCANCIAS M WHERE CVE_VIAJE = '" & FCVE_VIAJE2 & "' AND M.REG_ORI = 0"
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
@@ -2529,17 +2548,17 @@ Public Class FrmAsigViajeBuenoAE
         FgCarga.Rows.Count = 1
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
-                SQL = "SELECT C.CANT, C.EMBALAJE, C.CARGA, C.CONTIENE, C.PESO, C.VOLUMEN, C.PESO_ESTIMADO, C.PEDIMENTO
+                SQL = "SELECT C.CANT, C.EMBALAJE, C.CARGA, C.CONTIENE, C.PESO, C.VOLUMEN, C.PESO_ESTIMADO, C.PEDIMENTO, C.REG_ORI
                     FROM GCCARGA C
                     LEFT JOIN GCCARGAS G1 ON G1.CLAVE = C.CARGA
-                    WHERE CVE_VIAJE = '" & FCVE_VIAJE & "'"
+                    WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND REG_ORI = 0"
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
 
                         FgCarga.AddItem("" & vbTab & dr("CANT") & vbTab & dr("EMBALAJE") & vbTab & dr("CARGA") & vbTab &
                                 dr("CONTIENE") & vbTab & dr("PESO") & vbTab & dr("VOLUMEN") & vbTab &
-                                dr("PESO_ESTIMADO") & vbTab & dr("PEDIMENTO"))
+                                dr("PESO_ESTIMADO") & vbTab & dr("PEDIMENTO") & vbTab & "0" & vbTab & dr("REG_ORI"))
                     End While
                 End Using
             End Using
@@ -2733,6 +2752,7 @@ Public Class FrmAsigViajeBuenoAE
         End If
 
         GrabarSalir = True
+        Me.Close()
 
     End Sub
 
@@ -3103,7 +3123,7 @@ Public Class FrmAsigViajeBuenoAE
                                      SERIE = '" & CboSerieFG.Text & "', FOLIO = " & TFOLIOFG.Value & " WHERE CVE_VIAJE = '" & FgViajes(j, 2) & "'"
                                 ReturnExeQuery = EXECUTE_QUERY_NET(SQL)
 
-                                SQL = "UPDATE GCMERCANCIAS SET CVE_DOC = '" & CVE_DOC & "' WHERE CVE_VIAJE = '" & FgViajes(j, 2) & "'"
+                                SQL = "UPDATE GCMERCANCIAS SET CVE_DOC = '" & CVE_DOC & "' WHERE CVE_VIAJE = '" & FgViajes(j, 2) & "' AND REG_ORI = 0"
                                 ReturnExeQuery = EXECUTE_QUERY_NET(SQL)
                             End If
                         Next
@@ -3576,7 +3596,7 @@ Public Class FrmAsigViajeBuenoAE
         End If
 
         Try
-            SQL = "DELETE FROM GCMERCANCIAS WHERE CVE_VIAJE = '" & FCVE_VIAJE & "'"
+            SQL = "DELETE FROM GCMERCANCIAS WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND REG_ORI = 0"
             If EXECUTE_QUERY_NET(SQL) Then
 
             End If
@@ -3607,21 +3627,21 @@ Public Class FrmAsigViajeBuenoAE
                         Try
                             Using cmd As SqlCommand = cnSAE.CreateCommand
                                 SQL = "SET ansi_warnings OFF
-                                    IF EXISTS (SELECT CVE_VIAJE FROM GCMERCANCIAS WHERE CVE_VIAJE = @CVE_VIAJE AND NUM_PAR = @NUM_PAR)
+                                    IF EXISTS (SELECT CVE_VIAJE FROM GCMERCANCIAS WHERE CVE_VIAJE = @CVE_VIAJE AND NUM_PAR = @NUM_PAR AND REG_ORI = 0)
                                     UPDATE GCMERCANCIAS SET CANT = @CANT, ID_UNIDAD = @ID_UNIDAD, DESC_UNIDAD = @DESC_UNIDAD, 
                                     ID_MERCANCIA = @ID_MERCANCIA, DESCR_MERCANCIA = @DESCR_MERCANCIA, MAT_PELIGROSO = @MAT_PELIGROSO, 
                                     CVE_MAT_PELIGROSO = @CVE_MAT_PELIGROSO, ID_EMBALAJE = @ID_EMBALAJE, DESC_EMBALAJE = @DESC_EMBALAJE, 
                                     PESO = @PESO, VALOR_MERCANCIA = @VALOR_MERCANCIA, MONEDA = @MONEDA, ID_FRACC_ARANCELARIA = @ID_FRACC_ARANCELARIA, 
                                     UUID_COM_EXT = @UUID_COM_EXT, CVE_DOC = @CVE_DOC
                                     OUTPUT INSERTED.NUM_PAR
-                                    WHERE CVE_VIAJE = @CVE_VIAJE AND NUM_PAR = @NUM_PAR
+                                    WHERE CVE_VIAJE = @CVE_VIAJE AND NUM_PAR = @NUM_PAR AND REG_ORI = 0
                                     ELSE
                                     INSERT INTO GCMERCANCIAS (CVE_VIAJE, NUM_PAR, CVE_DOC, CANT, ID_UNIDAD, DESC_UNIDAD, ID_MERCANCIA, DESCR_MERCANCIA, 
                                     MAT_PELIGROSO, CVE_MAT_PELIGROSO, ID_EMBALAJE, DESC_EMBALAJE, PESO, VALOR_MERCANCIA, MONEDA, ID_FRACC_ARANCELARIA, 
-                                    UUID_COM_EXT) 
+                                    UUID_COM_EXT, REG_ORI) 
                                     OUTPUT Inserted.NUM_PAR VALUES (@CVE_VIAJE, ISNULL((SELECT MAX(NUM_PAR) + 1 FROM GCMERCANCIAS),1), @CVE_DOC, @CANT, @ID_UNIDAD, 
                                     @DESC_UNIDAD, @ID_MERCANCIA, @DESCR_MERCANCIA, @MAT_PELIGROSO, @CVE_MAT_PELIGROSO, @ID_EMBALAJE, @DESC_EMBALAJE, 
-                                    @PESO, @VALOR_MERCANCIA, @MONEDA, @ID_FRACC_ARANCELARIA, @UUID_COM_EXT)"
+                                    @PESO, @VALOR_MERCANCIA, @MONEDA, @ID_FRACC_ARANCELARIA, @UUID_COM_EXT, 0)"
 
                                 If Not IsNothing(Fg(k, 0)) Then
                                     If IsNumeric(Fg(k, 0)) Then
@@ -3654,7 +3674,6 @@ Public Class FrmAsigViajeBuenoAE
                                 Else
                                     Debug.Print("")
                                 End If
-
 
                                 cmd.CommandText = SQL
                                 cmd.Parameters.Clear()
@@ -3731,7 +3750,7 @@ Public Class FrmAsigViajeBuenoAE
             Dim CANT As Decimal, EMBALAJE As String, CARGA As String, CONTIENE As String
             Dim PESO As Decimal, VOLUMEN As Decimal, PESO_ESTIMADO As Decimal, PEDIMENTO As String, NUM_PAR As Integer = 1
 
-            SQL = "DELETE FROM GCCARGA WHERE CVE_VIAJE = '" & FCVE_VIAJE & "'"
+            SQL = "DELETE FROM GCCARGA WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND REG_ORI = 0"
 
             If EXECUTE_QUERY_NET(SQL) Then
                 Debug.Print(ReturnValueLong)
@@ -3784,9 +3803,9 @@ Public Class FrmAsigViajeBuenoAE
 
                     SQL = "SET ansi_warnings OFF
                     INSERT INTO GCCARGA (CVE_VIAJE, NUM_PAR, CVE_DOC, CANT, EMBALAJE, CARGA, CONTIENE, 
-                    PESO, VOLUMEN, PESO_ESTIMADO, PEDIMENTO) VALUES ('" & FCVE_VIAJE & "','" & NUM_PAR & "','" &
+                    PESO, VOLUMEN, PESO_ESTIMADO, PEDIMENTO, REG_ORI) VALUES ('" & FCVE_VIAJE & "','" & NUM_PAR & "','" &
                     FCVE_DOC & "','" & CANT & "','" & EMBALAJE & "','" & CARGA & "','" & CONTIENE & "','" & PESO & "','" &
-                    VOLUMEN & "','" & PESO_ESTIMADO & "','" & PEDIMENTO & "')"
+                    VOLUMEN & "','" & PESO_ESTIMADO & "','" & PEDIMENTO & "', 0)"
                     Using cmd As SqlCommand = cnSAE.CreateCommand
                         cmd.CommandText = SQL
                         returnValue = cmd.ExecuteNonQuery().ToString
@@ -4842,57 +4861,57 @@ Public Class FrmAsigViajeBuenoAE
 
                     Select Case k
                         Case 1
-                            If CboConc1.SelectedIndex > 0 Then
+                            If CboConc1.SelectedIndex > 0 And TMONTO1.Value > 0 Then
                                 CVE_COBRO = CInt(CboConc1.Items(CboConc1.SelectedIndex))
                             Else
                                 CVE_COBRO = 0
-                                SQL = "DELETE FROM GCASIG_CONCEP_PAR WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND CVE_COBRO = 1"
+                                SQL = "DELETE FROM GCASIG_CONCEP_PAR WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND NUM_PAR = 1"
                                 ReturnExeQuery = EXECUTE_QUERY_NET(SQL)
                             End If
                         Case 2
-                            If CboConc2.SelectedIndex > 0 Then
+                            If CboConc2.SelectedIndex > 0 And TMONTO2.Value > 0 Then
                                 CVE_COBRO = CInt(CboConc2.Items(CboConc2.SelectedIndex))
                             Else
                                 CVE_COBRO = 0
-                                SQL = "DELETE FROM GCASIG_CONCEP_PAR WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND CVE_COBRO = 2"
+                                SQL = "DELETE FROM GCASIG_CONCEP_PAR WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND NUM_PAR = 2"
                                 ReturnExeQuery = EXECUTE_QUERY_NET(SQL)
                             End If
                         Case 3
-                            If CboConc3.SelectedIndex > 0 Then
+                            If CboConc3.SelectedIndex > 0 And TMONTO3.Value > 0 Then
                                 CVE_COBRO = CInt(CboConc3.Items(CboConc3.SelectedIndex))
                             Else
                                 CVE_COBRO = 0
-                                SQL = "DELETE FROM GCASIG_CONCEP_PAR WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND CVE_COBRO = 3"
+                                SQL = "DELETE FROM GCASIG_CONCEP_PAR WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND NUM_PAR = 3"
                                 ReturnExeQuery = EXECUTE_QUERY_NET(SQL)
                             End If
                         Case 4
-                            If CboConc4.SelectedIndex > 0 Then
+                            If CboConc4.SelectedIndex > 0 And TMONTO4.Value > 0 Then
                                 CVE_COBRO = CInt(CboConc4.Items(CboConc4.SelectedIndex))
                             Else
                                 CVE_COBRO = 0
-                                SQL = "DELETE FROM GCASIG_CONCEP_PAR WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND CVE_COBRO = 4"
+                                SQL = "DELETE FROM GCASIG_CONCEP_PAR WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND NUM_PAR = 4"
                                 ReturnExeQuery = EXECUTE_QUERY_NET(SQL)
                             End If
                         Case 5
-                            If CboConc5.SelectedIndex > 0 Then
+                            If CboConc5.SelectedIndex > 0 And TMONTO5.Value > 0 Then
                                 CVE_COBRO = CInt(CboConc5.Items(CboConc5.SelectedIndex))
                             Else
                                 CVE_COBRO = 0
-                                SQL = "DELETE FROM GCASIG_CONCEP_PAR WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND CVE_COBRO = 5"
+                                SQL = "DELETE FROM GCASIG_CONCEP_PAR WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND NUM_PAR = 5"
                                 ReturnExeQuery = EXECUTE_QUERY_NET(SQL)
                             End If
                         Case 6
-                            If CboConc6.SelectedIndex > 0 Then
+                            If CboConc6.SelectedIndex > 0 And TMONTO6.Value > 0 Then
                                 CVE_COBRO = CInt(CboConc6.Items(CboConc6.SelectedIndex))
                             Else
                                 CVE_COBRO = 0
-                                SQL = "DELETE FROM GCASIG_CONCEP_PAR WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND CVE_COBRO = 6"
+                                SQL = "DELETE FROM GCASIG_CONCEP_PAR WHERE CVE_VIAJE = '" & FCVE_VIAJE & "' AND NUM_PAR = 6"
                                 ReturnExeQuery = EXECUTE_QUERY_NET(SQL)
                             End If
                     End Select
                     If CVE_COBRO > 0 Then
                         cmd.Parameters.Clear()
-                        Select Case CVE_COBRO
+                        Select Case k
                             Case 1
                                 If TMONTO1.Value > 0 Then
                                     cmd.Parameters.Add("@CVE_VIAJE", SqlDbType.VarChar).Value = FCVE_VIAJE
@@ -7152,13 +7171,13 @@ Public Class FrmAsigViajeBuenoAE
             If FgCarga.Rows.Count <= 1 Then
                 '                            CANT          EMBALAJE        CARGA       QUE EL REMITENTE DICE QUE CONTIENE
                 FgCarga.AddItem("" & vbTab & "1" & vbTab & "Viaje" & vbTab & "" & vbTab & "" & vbTab &
-                           "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
-                '              PESO        VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR
+                           "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0" & vbTab & "0")
+                '              PESO        VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR REG_ORI
             Else
                 '                            CANT          EMBALAJE        CARGA       QUE EL REMITENTE DICE QUE CONTIENE
                 FgCarga.AddItem("" & vbTab & "0" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab &
-                           "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
-                '              PESO        VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR
+                           "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0" & vbTab & "0")
+                '              PESO        VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR REG_ORI
             End If
             FgCarga.Focus()
             FgCarga.Row = FgCarga.Rows.Count - 1
@@ -8929,8 +8948,8 @@ Public Class FrmAsigViajeBuenoAE
                     TSALDO_RET.Value = TRET_O2.Value - TRET_O.Value
                     TSALDO_NETO.Value = TNETO_O2.Value - (TABONO_NETO.Value + TNETO_O.Value)
                 Else
-                    'TIMPORTE_CONCEP.Value = M1 + M2 + M3 + M4 + M5 + M6
-                    TSUB_TOTAL.Value = PREC + M1 + M2 + M3 + M4 + M5 + M6
+                    TIMPORTE_CONCEP.Value = M1 + M2 + M3 + M4 + M5 + M6
+                    TSUB_TOTAL.Value = PREC + TIMPORTE_CONCEP.Value 'M1 + M2 + M3 + M4 + M5 + M6
                     TIVA.Value = cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6
                     TRET.Value = cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6
                     TNETO.Value = TSUB_TOTAL.Value + TIVA.Value + TRET.Value
@@ -9360,7 +9379,7 @@ Public Class FrmAsigViajeBuenoAE
                 cImpu3 = PREC * vIMPU3 / 100
                 cImpu = PREC * vIMPU4 / 100
 
-                TSUB_TOTAL.Value = PREC + M1 + M2 + M3 + M4 + M5 + M6
+                TSUB_TOTAL.Value = PREC '+ M1 + M2 + M3 + M4 + M5 + M6
                 TIVA.Value = cIeps + cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6
                 TRET.Value = cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6
                 TNETO.Value = TSUB_TOTAL.Value + TIVA.Value + TRET.Value
@@ -9413,7 +9432,7 @@ Public Class FrmAsigViajeBuenoAE
                 Try
                     Fg.Rows.Count = 1
 
-                    SQL = "DELETE FROM GCMERCANCIAS WHERE CVE_VIAJE = '" & LtCVE_VIAJE.Text & "'"
+                    SQL = "DELETE FROM GCMERCANCIAS WHERE CVE_VIAJE = '" & LtCVE_VIAJE.Text & "' AND REG_ORI = 0"
                     Using cmd As SqlCommand = cnSAE.CreateCommand
                         cmd.CommandText = SQL
                         returnValue = cmd.ExecuteNonQuery().ToString
@@ -12086,7 +12105,7 @@ Public Class FrmAsigViajeBuenoAE
                             SQL = "SELECT M.CVE_VIAJE, M.NUM_PAR, M.CANT, M.ID_UNIDAD, M.DESC_UNIDAD, M.ID_MERCANCIA, M.DESCR_MERCANCIA, 
                                 M.MAT_PELIGROSO, M.CVE_MAT_PELIGROSO, M.ID_EMBALAJE, M.DESC_EMBALAJE, M.PESO, M.VALOR_MERCANCIA, M.MONEDA, 
                                 M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT 
-                                FROM GCMERCANCIAS M WHERE CVE_VIAJE = '" & FgViajes(k, 2) & "'"
+                                FROM GCMERCANCIAS M WHERE CVE_VIAJE = '" & FgViajes(k, 2) & "' AND M.REG_ORI = 0"
                             Using cmd As SqlCommand = cnSAE.CreateCommand
                                 cmd.CommandText = SQL
                                 Using dr As SqlDataReader = cmd.ExecuteReader
@@ -12135,7 +12154,7 @@ Public Class FrmAsigViajeBuenoAE
                     SQL = "SELECT M.CVE_VIAJE, M.NUM_PAR, M.CANT, M.ID_UNIDAD, M.DESC_UNIDAD, M.ID_MERCANCIA, M.DESCR_MERCANCIA, 
                         M.MAT_PELIGROSO, M.CVE_MAT_PELIGROSO, M.ID_EMBALAJE, M.DESC_EMBALAJE, M.PESO, M.VALOR_MERCANCIA, M.MONEDA, 
                         M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT 
-                        FROM GCMERCANCIAS M WHERE CVE_VIAJE = '" & FVIAJE & "'"
+                        FROM GCMERCANCIAS M WHERE CVE_VIAJE = '" & FVIAJE & "' AND M.REG_ORI = 0"
                 End If
                 Using cmd As SqlCommand = cnSAE.CreateCommand
                     cmd.CommandText = SQL
@@ -12221,12 +12240,12 @@ Public Class FrmAsigViajeBuenoAE
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 SQL = "SELECT C.CANT, C.EMBALAJE, C.CONTIENE, C.CARGA, C.PESO, C.VOLUMEN, C.PESO_ESTIMADO, C.PEDIMENTO
                     FROM GCCARGA C
-                    WHERE CVE_VIAJE = '" & FVIAJE & "'"
+                    WHERE CVE_VIAJE = '" & FVIAJE & "' AND REG_ORI=0"
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
                         FgCarga.AddItem("" & vbTab & dr("CANT") & vbTab & dr("EMBALAJE") & vbTab & dr("CARGA") & vbTab &
-                                   dr("CONTIENE") & vbTab & dr("PESO") & vbTab & dr("VOLUMEN") & vbTab & dr("PESO_ESTIMADO") & vbTab & dr("PEDIMENTO"))
+                                   dr("CONTIENE") & vbTab & dr("PESO") & vbTab & dr("VOLUMEN") & vbTab & dr("PESO_ESTIMADO") & vbTab & dr("PEDIMENTO") & vbTab & "0" & vbTab & "0")
                     End While
                 End Using
             End Using
@@ -12620,8 +12639,8 @@ Public Class FrmAsigViajeBuenoAE
                             If FgCarga.Row = FgCarga.Rows.Count - 1 Then
                                 '                            CANT         CLAVE        EMBALAJE     CLAVE        CARGA     QUE EL REMITENTE DICE QUE CONTIENE
                                 FgCarga.AddItem("" & vbTab & "0" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab &
-                                    "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
-                                '              PESO        VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR
+                                    "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0" & vbTab & "0")
+                                '              PESO        VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR REG_ORI
                                 FgCarga.Row = FgCarga.Rows.Count - 1
                                 FgCarga.Col = 1
                             Else
@@ -12699,8 +12718,8 @@ Public Class FrmAsigViajeBuenoAE
 
                                 '                            CANT         CLAVE        EMBALAJE     CLAVE        CARGA     QUE EL REMITENTE DICE QUE CONTIENE
                                 FgCarga.AddItem("" & vbTab & "0" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab &
-                                                "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
-                                '              PESO          VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR
+                                                "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0" & vbTab & "0")
+                                '              PESO          VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR REG_ORI
                                 FgCarga.Row = FgCarga.Rows.Count - 1
                                 FgCarga.Col = 1
                             Else
@@ -12766,8 +12785,8 @@ Public Class FrmAsigViajeBuenoAE
                             If FgCarga.Row = FgCarga.Rows.Count - 1 Then
                                 '                            CANT         CLAVE        EMBALAJE     CLAVE        CARGA     QUE EL REMITENTE DICE QUE CONTIENE
                                 FgCarga.AddItem("" & vbTab & "0" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab &
-                                                "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
-                                '              PESO          VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR
+                                                "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0" & vbTab & "0")
+                                '              PESO          VOLUMEN   PESO ESTIMADO  PEDIMENTO       NUM_PAR   REG_ORI
                                 FgCarga.Row = Fg.Rows.Count - 1
                                 FgCarga.Col = 1
                                 'SendKeys.Send(" ")

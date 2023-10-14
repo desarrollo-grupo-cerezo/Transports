@@ -118,12 +118,12 @@ Public Class FrmAsignacionViaje
             SQL = "SELECT TOP 5000 A.CVE_VIAJE AS 'Clave viaje', A.STATUS AS 'Estatus', 
                 (SELECT CASE WHEN COUNT(*) = 0 THEN '' ELSE CAST(COUNT(*) AS VARCHAR(3)) END FROM GCASIGNACION_VIAJE_GASTOS GV WHERE CVE_VIAJE = A.CVE_VIAJE AND ISNULL(GV.STATUS,'A') = 'A') AS 'Gastos capturados',
                 (SELECT CASE WHEN COUNT(*) = 0 THEN '' ELSE CAST(COUNT(*) AS VARCHAR(3)) END FROM GCASIGNACION_VIAJE_VALES GV WHERE GV.CVE_VIAJE = A.CVE_VIAJE AND ISNULL(GV.STATUS,'A') = 'A') AS 'Vales capturados', 
-                A.VIAJE_COMPLE AS 'Viaje complementario',U.CLAVEMONTE AS 'Tractor', A.FECHA AS 'Fecha',  (CASE A.TIPO_UNI WHEN 1 THEN 'Full' ELSE 'Sencillo' END) AS 'Tipo unidad', 
+                A.VIAJE_COMPLE AS 'Viaje complementario',U.CLAVEMONTE AS 'Tractor', A.FECHA AS 'Fecha',  (CASE A.TIPO_UNI WHEN 1 THEN 'Full' ELSE 'Sencillo' END) AS 'Tipo unidad',  iif(A.TIPO_VIAJE = 1, 'Cargado', 'Vacío') AS 'Tipo viaje',
                 A.FECHA_CARGA AS 'Fecha carga', A.FECHA_DESCARGA AS 'Fecha descarga', C.NOMBRE AS 'Cliente', 
                 CASE WHEN A.STATUS = 'C' THEN 'CANCELADO' ELSE (CAST(A.CVE_ST_VIA AS VARCHAR(6)) + '. ' + S.DESCR) END AS 'Estatus viaje', 
                 O.NOMBRE AS 'Operador', R1.NOTA 'Alias origen', R2.NOTA AS 'Alias destino', 
                 CASE WHEN A.FOLIO = 0 THEN '' ELSE A.SERIE + CAST(A.FOLIO AS VARCHAR(10)) END AS 'Factura', 
-                ISNULL(R.DESCR,'') AS 'Ruta', ISNULL(R.DESCR2,'') AS 'Ruta 2'
+                ISNULL(R.DESCR,'') AS 'Ruta', ISNULL(R.DESCR2,'') AS 'Ruta 2', A.ORDEN_DE AS 'Orden de'
                 FROM GCASIGNACION_VIAJE A 
                 LEFT JOIN CLIE" & Empresa & " C ON C.CLAVE = A.CLIENTE
                 LEFT JOIN GCTAB_RUTAS_F R ON R.CVE_TAB = A.CVE_TAB
@@ -160,12 +160,12 @@ Public Class FrmAsignacionViaje
                 Fg.Cols(9).StarWidth = "*"
                 Fg.Cols(10).StarWidth = "*"
                 Fg.Cols(11).StarWidth = "*"
-                Fg.Cols(12).StarWidth = "*"
-                Fg.Cols(13).StarWidth = "3*"
+                Fg.Cols(12).StarWidth = "3*"
+                Fg.Cols(13).StarWidth = "*"
                 Fg.Cols(14).StarWidth = "3*"
                 Fg.Cols(15).StarWidth = "*"
                 Fg.Cols(16).StarWidth = "*"
-                Fg.Cols(17).StarWidth = "3*"
+                Fg.Cols(17).StarWidth = "*"
 
                 Fg.Rows(0).StyleNew.WordWrap = True
                 Fg.Rows(0).StyleNew.TextAlign = TextAlignEnum.LeftCenter

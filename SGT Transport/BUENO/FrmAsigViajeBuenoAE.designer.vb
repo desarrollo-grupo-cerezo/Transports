@@ -416,7 +416,9 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BarEditarRemitente = New C1.Win.C1Command.C1Command()
         Me.BarEditDestinatario = New C1.Win.C1Command.C1Command()
         Me.C1CommandControl1 = New C1.Win.C1Command.C1CommandControl()
+        Me.BarGrabarYSalir = New C1.Win.C1Command.C1Command()
         Me.C1ToolBar1 = New C1.Win.C1Command.C1ToolBar()
+        Me.LkGrabarYSalir = New C1.Win.C1Command.C1CommandLink()
         Me.LkGrabar = New C1.Win.C1Command.C1CommandLink()
         Me.LkCopiarViaje = New C1.Win.C1Command.C1CommandLink()
         Me.LkImprimir = New C1.Win.C1Command.C1CommandLink()
@@ -430,206 +432,204 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TFOLIO_VIAJE = New C1.Win.C1Input.C1TextBox()
         Me.C1XLBook1 = New C1.C1Excel.C1XLBook()
         Me.BtnSelViaje = New System.Windows.Forms.Button()
-        Me.LkGrabarYSalir = New C1.Win.C1Command.C1CommandLink()
-        Me.BarGrabarYSalir = New C1.Win.C1Command.C1Command()
-        CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.Box5.SuspendLayout
-        CType(Me.FRD, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.FRC, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnOper, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.Box4.SuspendLayout
-        CType(Me.TAB1, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.TAB1.SuspendLayout
-        Me.Pag0.SuspendLayout
-        CType(Me.SplitM1, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitM1.SuspendLayout
-        Me.SplitM1P3.SuspendLayout
-        CType(Me.TFOLIOFG, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.CboSerieFG, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.FFG, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TDIAS_CRED, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.FPDFG, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.FIFG, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitM1P1.SuspendLayout
-        CType(Me.FgViajes, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TNETO2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TRETE2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TSUBT2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TIVA2, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.Pag1.SuspendLayout
-        CType(Me.ChComplemento, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TKMS_VACIO, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TTIPO_CAMBIO, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TVOLUMEN_PESO, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.FECHA, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.Box1.SuspendLayout
-        CType(Me.ChCalleFiscal, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.Box2.SuspendLayout
-        CType(Me.F2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnTanqueEdit2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnTanque2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnTanqueEdit1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnTanque1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnTractorEdit, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnDollyEdit, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnTractor, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnDolly, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnMoneda, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnCliente, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.Pag3.SuspendLayout
-        Me.BoxGastos.SuspendLayout
-        CType(Me.BarVales, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BarImprimirGasto, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnGastosAlta, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.FgG, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnGastosBaja, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.FgV, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnValesBaja, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnValesAlta, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.Pag6.SuspendLayout
-        CType(Me.SplitM3, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitM3.SuspendLayout
-        Me.SplitM3P1.SuspendLayout
-        CType(Me.ChHeader, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnCopiarMercancias, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnExportarExcel, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnImportarExcel, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnBorrarMercancias, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.CboHojas, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitM3P2.SuspendLayout
-        CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.Pag4.SuspendLayout
-        CType(Me.SplitM4, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitM4.SuspendLayout
-        Me.SplitM4P1.SuspendLayout
-        CType(Me.CboCarga, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnCopiarCargas, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnAgregar, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnEliminar, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitM4P2.SuspendLayout
-        CType(Me.FgCarga, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TXTC, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TXTNC, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.Pag7.SuspendLayout
-        CType(Me.TABONO_NETO, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.Gpo6.SuspendLayout
-        CType(Me.CboSerieFactura, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnEsquema, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnCveUnidad, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnCveProd, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_UNIDAD, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_PRODSERV, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TFOLIO, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BarMetodoPago, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnUsoCFDI, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnPagoSAT, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox1.SuspendLayout
-        CType(Me.TFLETE, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TSUB_TOTAL, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TIVA, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TRET, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TNETO, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TIMPORTE_CONCEP, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_UNIDAD1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_PRODSERV1, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GpoRem5.SuspendLayout
-        CType(Me.TNETO_ABO3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TRET_ABO3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TIVA_ABO3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TSUBT_ABO3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TSALDO_NETO, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TSALDO_RET, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TNETO_O2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TNETO_O, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TSALDO_IVA, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TRET_O, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TRET_O2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TIVA_O, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TIVA_O2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TSALDO_SUBTOTAL, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TSUBT_O, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TSUBT_O2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.CboConc1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TIVAC6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TIVAC5, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TIVAC4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TIVAC3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TFLETEA, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TIVAC2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TIVAC1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TRET6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TRET5, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TRET4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TRET3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TRET2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TRET1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ChCAUSA_RET6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ChCAUSA_IVA6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ChCAUSA_RET5, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ChCAUSA_IVA5, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ChCAUSA_RET4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ChCAUSA_IVA4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ChCAUSA_RET3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ChCAUSA_IVA3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ChCAUSA_RET2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ChCAUSA_IVA2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ChCAUSA_RET1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ChCAUSA_IVA1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_UNIDAD6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_PRODSERV6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_PRODSERV5, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_UNIDAD5, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_PRODSERV4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_PRODSERV3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_UNIDAD4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_PRODSERV2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_UNIDAD3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TMONTO6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TMONTO5, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TCVE_UNIDAD2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TMONTO4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TMONTO3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TMONTO2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TMONTO1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.CboConc6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.CboConc4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.CboConc5, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.CboConc2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.CboConc3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnCveUni6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnProdServ6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnCveUni4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnCveUni2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnCveUni1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnCveUni5, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnCveUni3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnProdServ4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnProdServ2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnProdServ1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnProdServ5, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnProdServ3, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.Pag8.SuspendLayout
-        CType(Me.SplitM2, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitM2.SuspendLayout
-        Me.SplitM2P1.SuspendLayout
-        CType(Me.BtnCopiarCamposAdic, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitM2P2.SuspendLayout
-        CType(Me.FgA, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.PagAdenda.SuspendLayout
-        CType(Me.BtnPaisAdenda, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnNumExpCon, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnTipoOper, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnUniAduana, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnMotTras, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnINCOTERM, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TXTN, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TXT, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.SplitMG, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SplitMG.SuspendLayout
-        Me.SplitMG1.SuspendLayout
-        CType(Me.TFOLIO_VIAJE, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SuspendLayout
+        CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Box5.SuspendLayout()
+        CType(Me.FRD, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.FRC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnOper, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Box4.SuspendLayout()
+        CType(Me.TAB1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TAB1.SuspendLayout()
+        Me.Pag0.SuspendLayout()
+        CType(Me.SplitM1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitM1.SuspendLayout()
+        Me.SplitM1P3.SuspendLayout()
+        CType(Me.TFOLIOFG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboSerieFG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.FFG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TDIAS_CRED, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.FPDFG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.FIFG, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitM1P1.SuspendLayout()
+        CType(Me.FgViajes, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TNETO2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TRETE2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TSUBT2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TIVA2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Pag1.SuspendLayout()
+        CType(Me.ChComplemento, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TKMS_VACIO, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TTIPO_CAMBIO, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TVOLUMEN_PESO, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.FECHA, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Box1.SuspendLayout()
+        CType(Me.ChCalleFiscal, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Box2.SuspendLayout()
+        CType(Me.F2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnTanqueEdit2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnTanque2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnTanqueEdit1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnTanque1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnTractorEdit, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnDollyEdit, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnTractor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnDolly, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnMoneda, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCliente, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Pag3.SuspendLayout()
+        Me.BoxGastos.SuspendLayout()
+        CType(Me.BarVales, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BarImprimirGasto, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnGastosAlta, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.FgG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnGastosBaja, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.FgV, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnValesBaja, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnValesAlta, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Pag6.SuspendLayout()
+        CType(Me.SplitM3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitM3.SuspendLayout()
+        Me.SplitM3P1.SuspendLayout()
+        CType(Me.ChHeader, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCopiarMercancias, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnExportarExcel, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnImportarExcel, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnBorrarMercancias, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboHojas, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitM3P2.SuspendLayout()
+        CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Pag4.SuspendLayout()
+        CType(Me.SplitM4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitM4.SuspendLayout()
+        Me.SplitM4P1.SuspendLayout()
+        CType(Me.CboCarga, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCopiarCargas, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnAgregar, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnEliminar, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitM4P2.SuspendLayout()
+        CType(Me.FgCarga, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TXTC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TXTNC, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Pag7.SuspendLayout()
+        CType(Me.TABONO_NETO, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Gpo6.SuspendLayout()
+        CType(Me.CboSerieFactura, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnEsquema, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCveUnidad, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCveProd, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_UNIDAD, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_PRODSERV, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TFOLIO, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BarMetodoPago, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnUsoCFDI, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnPagoSAT, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.TFLETE, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TSUB_TOTAL, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TIVA, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TRET, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TNETO, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TIMPORTE_CONCEP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_UNIDAD1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_PRODSERV1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GpoRem5.SuspendLayout()
+        CType(Me.TNETO_ABO3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TRET_ABO3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TIVA_ABO3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TSUBT_ABO3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TSALDO_NETO, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TSALDO_RET, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TNETO_O2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TNETO_O, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TSALDO_IVA, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TRET_O, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TRET_O2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TIVA_O, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TIVA_O2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TSALDO_SUBTOTAL, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TSUBT_O, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TSUBT_O2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboConc1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TIVAC6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TIVAC5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TIVAC4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TIVAC3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TFLETEA, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TIVAC2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TIVAC1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TRET6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TRET5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TRET4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TRET3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TRET2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TRET1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChCAUSA_RET6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChCAUSA_IVA6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChCAUSA_RET5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChCAUSA_IVA5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChCAUSA_RET4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChCAUSA_IVA4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChCAUSA_RET3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChCAUSA_IVA3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChCAUSA_RET2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChCAUSA_IVA2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChCAUSA_RET1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChCAUSA_IVA1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_UNIDAD6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_PRODSERV6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_PRODSERV5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_UNIDAD5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_PRODSERV4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_PRODSERV3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_UNIDAD4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_PRODSERV2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_UNIDAD3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TMONTO6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TMONTO5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TCVE_UNIDAD2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TMONTO4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TMONTO3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TMONTO2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TMONTO1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboConc6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboConc4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboConc5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboConc2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboConc3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCveUni6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnProdServ6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCveUni4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCveUni2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCveUni1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCveUni5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCveUni3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnProdServ4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnProdServ2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnProdServ1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnProdServ5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnProdServ3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Pag8.SuspendLayout()
+        CType(Me.SplitM2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitM2.SuspendLayout()
+        Me.SplitM2P1.SuspendLayout()
+        CType(Me.BtnCopiarCamposAdic, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitM2P2.SuspendLayout()
+        CType(Me.FgA, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.PagAdenda.SuspendLayout()
+        CType(Me.BtnPaisAdenda, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnNumExpCon, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnTipoOper, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnUniAduana, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnMotTras, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnINCOTERM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TXTN, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TXT, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SplitMG, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitMG.SuspendLayout()
+        Me.SplitMG1.SuspendLayout()
+        CType(Me.TFOLIO_VIAJE, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
         '
         'LtStatus
         '
@@ -659,7 +659,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.F1.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.F1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.F1.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F1.Location = New System.Drawing.Point(377, 11)
+        Me.F1.Location = New System.Drawing.Point(377, 18)
         Me.F1.Name = "F1"
         Me.F1.Size = New System.Drawing.Size(150, 19)
         Me.F1.TabIndex = 1
@@ -674,7 +674,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label7.BackColor = System.Drawing.Color.Transparent
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ForeColor = System.Drawing.Color.Black
-        Me.Label7.Location = New System.Drawing.Point(490, 115)
+        Me.Label7.Location = New System.Drawing.Point(490, 121)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(37, 13)
         Me.Label7.TabIndex = 377
@@ -769,7 +769,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.FRD.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.FRD.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FRD.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.FRD.Location = New System.Drawing.Point(897, 55)
+        Me.FRD.Location = New System.Drawing.Point(900, 53)
         Me.FRD.Name = "FRD"
         Me.FRD.Size = New System.Drawing.Size(150, 19)
         Me.FRD.TabIndex = 50
@@ -837,7 +837,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCARGA_ANTERIOR.Location = New System.Drawing.Point(619, 32)
         Me.TCARGA_ANTERIOR.MaxLength = 120
         Me.TCARGA_ANTERIOR.Name = "TCARGA_ANTERIOR"
-        Me.TCARGA_ANTERIOR.Size = New System.Drawing.Size(381, 21)
+        Me.TCARGA_ANTERIOR.Size = New System.Drawing.Size(431, 21)
         Me.TCARGA_ANTERIOR.TabIndex = 3
         '
         'LtLicencia
@@ -868,7 +868,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.LOper.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LOper.Location = New System.Drawing.Point(163, 9)
         Me.LOper.Name = "LOper"
-        Me.LOper.Size = New System.Drawing.Size(260, 22)
+        Me.LOper.Size = New System.Drawing.Size(329, 22)
         Me.LOper.TabIndex = 197
         Me.LOper.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -920,7 +920,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.Label49.AutoSize = True
         Me.Label49.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label49.Location = New System.Drawing.Point(768, 12)
+        Me.Label49.Location = New System.Drawing.Point(846, 11)
         Me.Label49.Name = "Label49"
         Me.Label49.Size = New System.Drawing.Size(60, 16)
         Me.Label49.TabIndex = 216
@@ -930,7 +930,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LtVigencia.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtVigencia.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtVigencia.Location = New System.Drawing.Point(833, 9)
+        Me.LtVigencia.Location = New System.Drawing.Point(913, 7)
         Me.LtVigencia.Name = "LtVigencia"
         Me.LtVigencia.Size = New System.Drawing.Size(137, 22)
         Me.LtVigencia.TabIndex = 217
@@ -940,7 +940,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LDolly.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LDolly.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LDolly.Location = New System.Drawing.Point(1021, 99)
+        Me.LDolly.Location = New System.Drawing.Point(1021, 93)
         Me.LDolly.Name = "LDolly"
         Me.LDolly.Size = New System.Drawing.Size(162, 22)
         Me.LDolly.TabIndex = 213
@@ -972,7 +972,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LTanque2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LTanque2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LTanque2.Location = New System.Drawing.Point(1021, 75)
+        Me.LTanque2.Location = New System.Drawing.Point(1021, 69)
         Me.LTanque2.Name = "LTanque2"
         Me.LTanque2.Size = New System.Drawing.Size(162, 22)
         Me.LTanque2.TabIndex = 209
@@ -1004,7 +1004,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LTractor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LTractor.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LTractor.Location = New System.Drawing.Point(1021, 27)
+        Me.LTractor.Location = New System.Drawing.Point(1021, 21)
         Me.LTractor.Name = "LTractor"
         Me.LTractor.Size = New System.Drawing.Size(162, 22)
         Me.LTractor.TabIndex = 205
@@ -1036,7 +1036,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LTanque1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LTanque1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LTanque1.Location = New System.Drawing.Point(1021, 51)
+        Me.LTanque1.Location = New System.Drawing.Point(1021, 45)
         Me.LTanque1.Name = "LTanque1"
         Me.LTanque1.Size = New System.Drawing.Size(162, 22)
         Me.LTanque1.TabIndex = 203
@@ -1915,7 +1915,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LtDescr2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtDescr2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtDescr2.Location = New System.Drawing.Point(99, 60)
+        Me.LtDescr2.Location = New System.Drawing.Point(99, 62)
         Me.LtDescr2.Name = "LtDescr2"
         Me.LtDescr2.Size = New System.Drawing.Size(397, 21)
         Me.LtDescr2.TabIndex = 520
@@ -1977,7 +1977,7 @@ Partial Class FrmAsigViajeBuenoAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TTIPO_CAMBIO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TTIPO_CAMBIO.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.TTIPO_CAMBIO.Location = New System.Drawing.Point(371, 111)
+        Me.TTIPO_CAMBIO.Location = New System.Drawing.Point(372, 118)
         Me.TTIPO_CAMBIO.Name = "TTIPO_CAMBIO"
         Me.TTIPO_CAMBIO.Size = New System.Drawing.Size(72, 19)
         Me.TTIPO_CAMBIO.TabIndex = 5
@@ -1993,7 +1993,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TTIPO_CAMBIO_LEYENDA.AcceptsTab = True
         Me.TTIPO_CAMBIO_LEYENDA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TTIPO_CAMBIO_LEYENDA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TTIPO_CAMBIO_LEYENDA.Location = New System.Drawing.Point(444, 110)
+        Me.TTIPO_CAMBIO_LEYENDA.Location = New System.Drawing.Point(450, 117)
         Me.TTIPO_CAMBIO_LEYENDA.Name = "TTIPO_CAMBIO_LEYENDA"
         Me.TTIPO_CAMBIO_LEYENDA.Size = New System.Drawing.Size(34, 21)
         Me.TTIPO_CAMBIO_LEYENDA.TabIndex = 516
@@ -2077,7 +2077,7 @@ Partial Class FrmAsigViajeBuenoAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TVOLUMEN_PESO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TVOLUMEN_PESO.Location = New System.Drawing.Point(714, 112)
+        Me.TVOLUMEN_PESO.Location = New System.Drawing.Point(714, 119)
         Me.TVOLUMEN_PESO.Name = "TVOLUMEN_PESO"
         Me.TVOLUMEN_PESO.Size = New System.Drawing.Size(110, 20)
         Me.TVOLUMEN_PESO.TabIndex = 8
@@ -2103,7 +2103,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Lt16.AutoSize = True
         Me.Lt16.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lt16.ForeColor = System.Drawing.Color.Black
-        Me.Lt16.Location = New System.Drawing.Point(634, 116)
+        Me.Lt16.Location = New System.Drawing.Point(633, 121)
         Me.Lt16.Name = "Lt16"
         Me.Lt16.Size = New System.Drawing.Size(77, 13)
         Me.Lt16.TabIndex = 506
@@ -2113,7 +2113,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LtCve_moned.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtCve_moned.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtCve_moned.Location = New System.Drawing.Point(255, 111)
+        Me.LtCve_moned.Location = New System.Drawing.Point(256, 116)
         Me.LtCve_moned.Name = "LtCve_moned"
         Me.LtCve_moned.Size = New System.Drawing.Size(35, 22)
         Me.LtCve_moned.TabIndex = 504
@@ -2123,7 +2123,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.Label52.AutoSize = True
         Me.Label52.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label52.Location = New System.Drawing.Point(294, 113)
+        Me.Label52.Location = New System.Drawing.Point(294, 118)
         Me.Label52.Name = "Label52"
         Me.Label52.Size = New System.Drawing.Size(75, 15)
         Me.Label52.TabIndex = 502
@@ -2134,7 +2134,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LtMoneda.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtMoneda.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtMoneda.Location = New System.Drawing.Point(158, 111)
+        Me.LtMoneda.Location = New System.Drawing.Point(158, 116)
         Me.LtMoneda.Name = "LtMoneda"
         Me.LtMoneda.Size = New System.Drawing.Size(95, 22)
         Me.LtMoneda.TabIndex = 428
@@ -2146,7 +2146,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCVE_MON.AcceptsTab = True
         Me.TCVE_MON.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCVE_MON.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCVE_MON.Location = New System.Drawing.Point(99, 111)
+        Me.TCVE_MON.Location = New System.Drawing.Point(101, 115)
         Me.TCVE_MON.Name = "TCVE_MON"
         Me.TCVE_MON.Size = New System.Drawing.Size(31, 22)
         Me.TCVE_MON.TabIndex = 4
@@ -2155,7 +2155,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.Label51.AutoSize = True
         Me.Label51.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label51.Location = New System.Drawing.Point(38, 114)
+        Me.Label51.Location = New System.Drawing.Point(38, 119)
         Me.Label51.Name = "Label51"
         Me.Label51.Size = New System.Drawing.Size(57, 16)
         Me.Label51.TabIndex = 426
@@ -2177,9 +2177,9 @@ Partial Class FrmAsigViajeBuenoAE
         Me.LNombreCTe.AcceptsReturn = True
         Me.LNombreCTe.AcceptsTab = True
         Me.LNombreCTe.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LNombreCTe.Location = New System.Drawing.Point(181, 82)
+        Me.LNombreCTe.Location = New System.Drawing.Point(183, 87)
         Me.LNombreCTe.Name = "LNombreCTe"
-        Me.LNombreCTe.Size = New System.Drawing.Size(315, 21)
+        Me.LNombreCTe.Size = New System.Drawing.Size(313, 21)
         Me.LNombreCTe.TabIndex = 500
         '
         'TCLIENTE
@@ -2188,9 +2188,9 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCLIENTE.AcceptsTab = True
         Me.TCLIENTE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCLIENTE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCLIENTE.Location = New System.Drawing.Point(99, 82)
+        Me.TCLIENTE.Location = New System.Drawing.Point(99, 86)
         Me.TCLIENTE.Name = "TCLIENTE"
-        Me.TCLIENTE.Size = New System.Drawing.Size(55, 22)
+        Me.TCLIENTE.Size = New System.Drawing.Size(57, 22)
         Me.TCLIENTE.TabIndex = 3
         '
         'LtTipoViaje
@@ -2199,7 +2199,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.LtTipoViaje.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LtTipoViaje.Location = New System.Drawing.Point(899, 1)
         Me.LtTipoViaje.Name = "LtTipoViaje"
-        Me.LtTipoViaje.Size = New System.Drawing.Size(97, 22)
+        Me.LtTipoViaje.Size = New System.Drawing.Size(93, 22)
         Me.LtTipoViaje.TabIndex = 446
         Me.LtTipoViaje.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2222,7 +2222,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.FECHA.Enabled = False
         Me.FECHA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FECHA.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.FECHA.Location = New System.Drawing.Point(531, 112)
+        Me.FECHA.Location = New System.Drawing.Point(533, 119)
         Me.FECHA.Name = "FECHA"
         Me.FECHA.Size = New System.Drawing.Size(98, 19)
         Me.FECHA.TabIndex = 7
@@ -2235,7 +2235,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.Label50.AutoSize = True
         Me.Label50.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label50.Location = New System.Drawing.Point(50, 85)
+        Me.Label50.Location = New System.Drawing.Point(50, 91)
         Me.Label50.Name = "Label50"
         Me.Label50.Size = New System.Drawing.Size(45, 15)
         Me.Label50.TabIndex = 499
@@ -2279,10 +2279,10 @@ Partial Class FrmAsigViajeBuenoAE
         Me.ChCalleFiscal.BorderColor = System.Drawing.Color.Transparent
         Me.ChCalleFiscal.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.ChCalleFiscal.ForeColor = System.Drawing.Color.Black
-        Me.ChCalleFiscal.Location = New System.Drawing.Point(181, 11)
+        Me.ChCalleFiscal.Location = New System.Drawing.Point(177, 17)
         Me.ChCalleFiscal.Name = "ChCalleFiscal"
         Me.ChCalleFiscal.Padding = New System.Windows.Forms.Padding(1)
-        Me.ChCalleFiscal.Size = New System.Drawing.Size(105, 25)
+        Me.ChCalleFiscal.Size = New System.Drawing.Size(105, 20)
         Me.ChCalleFiscal.TabIndex = 518
         Me.ChCalleFiscal.Text = "Datos fiscales"
         Me.ChCalleFiscal.UseVisualStyleBackColor = True
@@ -2315,7 +2315,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.Location = New System.Drawing.Point(297, 14)
+        Me.Label21.Location = New System.Drawing.Point(293, 19)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(72, 14)
         Me.Label21.TabIndex = 390
@@ -2603,7 +2603,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.F2.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.F2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.F2.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F2.Location = New System.Drawing.Point(360, 14)
+        Me.F2.Location = New System.Drawing.Point(360, 18)
         Me.F2.Name = "F2"
         Me.F2.Size = New System.Drawing.Size(150, 19)
         Me.F2.TabIndex = 1
@@ -2616,7 +2616,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(262, 17)
+        Me.Label23.Location = New System.Drawing.Point(264, 20)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(91, 14)
         Me.Label23.TabIndex = 379
@@ -2800,7 +2800,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnTanqueEdit2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnTanqueEdit2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnTanqueEdit2.Image = CType(resources.GetObject("BtnTanqueEdit2.Image"), System.Drawing.Image)
-        Me.BtnTanqueEdit2.Location = New System.Drawing.Point(1190, 74)
+        Me.BtnTanqueEdit2.Location = New System.Drawing.Point(1190, 71)
         Me.BtnTanqueEdit2.Name = "BtnTanqueEdit2"
         Me.BtnTanqueEdit2.Size = New System.Drawing.Size(24, 22)
         Me.BtnTanqueEdit2.TabIndex = 513
@@ -2827,7 +2827,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnTanqueEdit1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnTanqueEdit1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnTanqueEdit1.Image = CType(resources.GetObject("BtnTanqueEdit1.Image"), System.Drawing.Image)
-        Me.BtnTanqueEdit1.Location = New System.Drawing.Point(1190, 49)
+        Me.BtnTanqueEdit1.Location = New System.Drawing.Point(1190, 45)
         Me.BtnTanqueEdit1.Name = "BtnTanqueEdit1"
         Me.BtnTanqueEdit1.Size = New System.Drawing.Size(24, 22)
         Me.BtnTanqueEdit1.TabIndex = 512
@@ -2854,7 +2854,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnTractorEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnTractorEdit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnTractorEdit.Image = CType(resources.GetObject("BtnTractorEdit.Image"), System.Drawing.Image)
-        Me.BtnTractorEdit.Location = New System.Drawing.Point(1190, 24)
+        Me.BtnTractorEdit.Location = New System.Drawing.Point(1190, 21)
         Me.BtnTractorEdit.Name = "BtnTractorEdit"
         Me.BtnTractorEdit.Size = New System.Drawing.Size(24, 22)
         Me.BtnTractorEdit.TabIndex = 514
@@ -2868,7 +2868,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnDollyEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnDollyEdit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnDollyEdit.Image = CType(resources.GetObject("BtnDollyEdit.Image"), System.Drawing.Image)
-        Me.BtnDollyEdit.Location = New System.Drawing.Point(1190, 97)
+        Me.BtnDollyEdit.Location = New System.Drawing.Point(1190, 93)
         Me.BtnDollyEdit.Name = "BtnDollyEdit"
         Me.BtnDollyEdit.Size = New System.Drawing.Size(24, 22)
         Me.BtnDollyEdit.TabIndex = 515
@@ -2922,7 +2922,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnMoneda.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnMoneda.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnMoneda.Image = CType(resources.GetObject("BtnMoneda.Image"), System.Drawing.Image)
-        Me.BtnMoneda.Location = New System.Drawing.Point(130, 113)
+        Me.BtnMoneda.Location = New System.Drawing.Point(132, 113)
         Me.BtnMoneda.Name = "BtnMoneda"
         Me.BtnMoneda.Size = New System.Drawing.Size(24, 22)
         Me.BtnMoneda.TabIndex = 427
@@ -2935,7 +2935,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnCliente.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnCliente.Image = CType(resources.GetObject("BtnCliente.Image"), System.Drawing.Image)
-        Me.BtnCliente.Location = New System.Drawing.Point(155, 84)
+        Me.BtnCliente.Location = New System.Drawing.Point(155, 85)
         Me.BtnCliente.Name = "BtnCliente"
         Me.BtnCliente.Size = New System.Drawing.Size(24, 21)
         Me.BtnCliente.TabIndex = 498
@@ -4368,7 +4368,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCVE_UNIDAD1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCVE_UNIDAD1.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
         Me.TCVE_UNIDAD1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCVE_UNIDAD1.Location = New System.Drawing.Point(581, 111)
+        Me.TCVE_UNIDAD1.Location = New System.Drawing.Point(581, 108)
         Me.TCVE_UNIDAD1.Name = "TCVE_UNIDAD1"
         Me.TCVE_UNIDAD1.Size = New System.Drawing.Size(40, 19)
         Me.TCVE_UNIDAD1.TabIndex = 8
@@ -5728,7 +5728,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCVE_UNIDAD3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCVE_UNIDAD3.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
         Me.TCVE_UNIDAD3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCVE_UNIDAD3.Location = New System.Drawing.Point(581, 167)
+        Me.TCVE_UNIDAD3.Location = New System.Drawing.Point(581, 157)
         Me.TCVE_UNIDAD3.Name = "TCVE_UNIDAD3"
         Me.TCVE_UNIDAD3.Size = New System.Drawing.Size(40, 19)
         Me.TCVE_UNIDAD3.TabIndex = 24
@@ -5815,7 +5815,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCVE_UNIDAD2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCVE_UNIDAD2.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
         Me.TCVE_UNIDAD2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCVE_UNIDAD2.Location = New System.Drawing.Point(581, 139)
+        Me.TCVE_UNIDAD2.Location = New System.Drawing.Point(581, 134)
         Me.TCVE_UNIDAD2.Name = "TCVE_UNIDAD2"
         Me.TCVE_UNIDAD2.Size = New System.Drawing.Size(40, 19)
         Me.TCVE_UNIDAD2.TabIndex = 16
@@ -6057,7 +6057,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.CboConc2.ImagePadding = New System.Windows.Forms.Padding(0)
         Me.CboConc2.ItemsDisplayMember = ""
         Me.CboConc2.ItemsValueMember = ""
-        Me.CboConc2.Location = New System.Drawing.Point(10, 134)
+        Me.CboConc2.Location = New System.Drawing.Point(10, 133)
         Me.CboConc2.Name = "CboConc2"
         Me.CboConc2.Size = New System.Drawing.Size(171, 18)
         Me.CboConc2.Style.DropDownBackColor = System.Drawing.Color.White
@@ -6832,6 +6832,13 @@ Partial Class FrmAsigViajeBuenoAE
         Me.C1CommandControl1.Name = "C1CommandControl1"
         Me.C1CommandControl1.ShortcutText = ""
         '
+        'BarGrabarYSalir
+        '
+        Me.BarGrabarYSalir.Image = Global.SGT_Transport.My.Resources.Resources.disk7
+        Me.BarGrabarYSalir.Name = "BarGrabarYSalir"
+        Me.BarGrabarYSalir.ShortcutText = ""
+        Me.BarGrabarYSalir.Text = "Grabar y salir"
+        '
         'C1ToolBar1
         '
         Me.C1ToolBar1.AccessibleName = "Tool Bar"
@@ -6853,6 +6860,10 @@ Partial Class FrmAsigViajeBuenoAE
         Me.C1ToolBar1.Text = "C1ToolBar1"
         Me.C1ToolBar1.VisualStyle = C1.Win.C1Command.VisualStyle.Office2010Blue
         Me.C1ToolBar1.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
+        '
+        'LkGrabarYSalir
+        '
+        Me.LkGrabarYSalir.Command = Me.BarGrabarYSalir
         '
         'LkGrabar
         '
@@ -6978,17 +6989,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnSelViaje.TabIndex = 628
         Me.BtnSelViaje.UseVisualStyleBackColor = True
         '
-        'LkGrabarYSalir
-        '
-        Me.LkGrabarYSalir.Command = Me.BarGrabarYSalir
-        '
-        'BarGrabarYSalir
-        '
-        Me.BarGrabarYSalir.Image = Global.SGT_Transport.My.Resources.Resources.disk7
-        Me.BarGrabarYSalir.Name = "BarGrabarYSalir"
-        Me.BarGrabarYSalir.ShortcutText = ""
-        Me.BarGrabarYSalir.Text = "Grabar y salir"
-        '
         'FrmAsigViajeBuenoAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7009,220 +7009,220 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Name = "FrmAsigViajeBuenoAE"
         Me.VisualStyleHolder = C1.Win.C1Ribbon.VisualStyle.Custom
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
-        CType(Me.F1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.F1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Box5.ResumeLayout(False)
-        Me.Box5.PerformLayout
-        CType(Me.FRD, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.FRC, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnOper, System.ComponentModel.ISupportInitialize).EndInit
+        Me.Box5.PerformLayout()
+        CType(Me.FRD, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FRC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnOper, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Box4.ResumeLayout(False)
-        Me.Box4.PerformLayout
-        CType(Me.TAB1, System.ComponentModel.ISupportInitialize).EndInit
+        Me.Box4.PerformLayout()
+        CType(Me.TAB1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TAB1.ResumeLayout(False)
         Me.Pag0.ResumeLayout(False)
-        CType(Me.SplitM1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SplitM1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitM1.ResumeLayout(False)
         Me.SplitM1P3.ResumeLayout(False)
-        Me.SplitM1P3.PerformLayout
-        CType(Me.TFOLIOFG, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.CboSerieFG, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.FFG, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TDIAS_CRED, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.FPDFG, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.FIFG, System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitM1P3.PerformLayout()
+        CType(Me.TFOLIOFG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboSerieFG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FFG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TDIAS_CRED, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FPDFG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FIFG, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitM1P1.ResumeLayout(False)
-        Me.SplitM1P1.PerformLayout
-        CType(Me.FgViajes, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TNETO2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TRETE2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TSUBT2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TIVA2, System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitM1P1.PerformLayout()
+        CType(Me.FgViajes, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TNETO2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TRETE2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TSUBT2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TIVA2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pag1.ResumeLayout(False)
-        Me.Pag1.PerformLayout
-        CType(Me.ChComplemento, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TKMS_VACIO, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TTIPO_CAMBIO, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TVOLUMEN_PESO, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.FECHA, System.ComponentModel.ISupportInitialize).EndInit
+        Me.Pag1.PerformLayout()
+        CType(Me.ChComplemento, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TKMS_VACIO, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TTIPO_CAMBIO, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TVOLUMEN_PESO, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FECHA, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Box1.ResumeLayout(False)
-        Me.Box1.PerformLayout
-        CType(Me.ChCalleFiscal, System.ComponentModel.ISupportInitialize).EndInit
+        Me.Box1.PerformLayout()
+        CType(Me.ChCalleFiscal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Box2.ResumeLayout(False)
-        Me.Box2.PerformLayout
-        CType(Me.F2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnTanqueEdit2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnTanque2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnTanqueEdit1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnTanque1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnTractorEdit, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnDollyEdit, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnTractor, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnDolly, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnMoneda, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnCliente, System.ComponentModel.ISupportInitialize).EndInit
+        Me.Box2.PerformLayout()
+        CType(Me.F2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnTanqueEdit2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnTanque2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnTanqueEdit1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnTanque1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnTractorEdit, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnDollyEdit, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnTractor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnDolly, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnMoneda, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCliente, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pag3.ResumeLayout(False)
         Me.BoxGastos.ResumeLayout(False)
-        Me.BoxGastos.PerformLayout
-        CType(Me.BarVales, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BarImprimirGasto, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnGastosAlta, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.FgG, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnGastosBaja, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.FgV, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnValesBaja, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnValesAlta, System.ComponentModel.ISupportInitialize).EndInit
+        Me.BoxGastos.PerformLayout()
+        CType(Me.BarVales, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BarImprimirGasto, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnGastosAlta, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FgG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnGastosBaja, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FgV, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnValesBaja, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnValesAlta, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pag6.ResumeLayout(False)
-        CType(Me.SplitM3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SplitM3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitM3.ResumeLayout(False)
         Me.SplitM3P1.ResumeLayout(False)
-        Me.SplitM3P1.PerformLayout
-        CType(Me.ChHeader, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnCopiarMercancias, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnExportarExcel, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnImportarExcel, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnBorrarMercancias, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.CboHojas, System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitM3P1.PerformLayout()
+        CType(Me.ChHeader, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCopiarMercancias, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnExportarExcel, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnImportarExcel, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnBorrarMercancias, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboHojas, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitM3P2.ResumeLayout(False)
-        Me.SplitM3P2.PerformLayout
-        CType(Me.Fg, System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitM3P2.PerformLayout()
+        CType(Me.Fg, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pag4.ResumeLayout(False)
-        CType(Me.SplitM4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SplitM4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitM4.ResumeLayout(False)
         Me.SplitM4P1.ResumeLayout(False)
-        CType(Me.CboCarga, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnCopiarCargas, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnAgregar, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnEliminar, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.CboCarga, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCopiarCargas, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnAgregar, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnEliminar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitM4P2.ResumeLayout(False)
-        CType(Me.FgCarga, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TXTC, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TXTNC, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.FgCarga, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TXTC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TXTNC, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pag7.ResumeLayout(False)
-        Me.Pag7.PerformLayout
-        CType(Me.TABONO_NETO, System.ComponentModel.ISupportInitialize).EndInit
+        Me.Pag7.PerformLayout()
+        CType(Me.TABONO_NETO, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Gpo6.ResumeLayout(False)
-        Me.Gpo6.PerformLayout
-        CType(Me.CboSerieFactura, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnEsquema, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnCveUnidad, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnCveProd, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_UNIDAD, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_PRODSERV, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TFOLIO, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BarMetodoPago, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnUsoCFDI, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnPagoSAT, System.ComponentModel.ISupportInitialize).EndInit
+        Me.Gpo6.PerformLayout()
+        CType(Me.CboSerieFactura, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnEsquema, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCveUnidad, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCveProd, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_UNIDAD, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_PRODSERV, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TFOLIO, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BarMetodoPago, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnUsoCFDI, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnPagoSAT, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout
-        CType(Me.TFLETE, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TSUB_TOTAL, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TIVA, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TRET, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TNETO, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TIMPORTE_CONCEP, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_UNIDAD1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_PRODSERV1, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox1.PerformLayout()
+        CType(Me.TFLETE, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TSUB_TOTAL, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TIVA, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TRET, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TNETO, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TIMPORTE_CONCEP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_UNIDAD1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_PRODSERV1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GpoRem5.ResumeLayout(False)
-        Me.GpoRem5.PerformLayout
-        CType(Me.TNETO_ABO3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TRET_ABO3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TIVA_ABO3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TSUBT_ABO3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TSALDO_NETO, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TSALDO_RET, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TNETO_O2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TNETO_O, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TSALDO_IVA, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TRET_O, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TRET_O2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TIVA_O, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TIVA_O2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TSALDO_SUBTOTAL, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TSUBT_O, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TSUBT_O2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.CboConc1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TIVAC6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TIVAC5, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TIVAC4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TIVAC3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TFLETEA, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TIVAC2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TIVAC1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TRET6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TRET5, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TRET4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TRET3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TRET2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TRET1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ChCAUSA_RET6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ChCAUSA_IVA6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ChCAUSA_RET5, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ChCAUSA_IVA5, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ChCAUSA_RET4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ChCAUSA_IVA4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ChCAUSA_RET3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ChCAUSA_IVA3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ChCAUSA_RET2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ChCAUSA_IVA2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ChCAUSA_RET1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ChCAUSA_IVA1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_UNIDAD6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_PRODSERV6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_PRODSERV5, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_UNIDAD5, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_PRODSERV4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_PRODSERV3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_UNIDAD4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_PRODSERV2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_UNIDAD3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TMONTO6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TMONTO5, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TCVE_UNIDAD2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TMONTO4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TMONTO3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TMONTO2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TMONTO1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.CboConc6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.CboConc4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.CboConc5, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.CboConc2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.CboConc3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnCveUni6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnProdServ6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnCveUni4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnCveUni2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnCveUni1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnCveUni5, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnCveUni3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnProdServ4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnProdServ2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnProdServ1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnProdServ5, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnProdServ3, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GpoRem5.PerformLayout()
+        CType(Me.TNETO_ABO3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TRET_ABO3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TIVA_ABO3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TSUBT_ABO3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TSALDO_NETO, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TSALDO_RET, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TNETO_O2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TNETO_O, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TSALDO_IVA, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TRET_O, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TRET_O2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TIVA_O, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TIVA_O2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TSALDO_SUBTOTAL, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TSUBT_O, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TSUBT_O2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboConc1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TIVAC6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TIVAC5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TIVAC4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TIVAC3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TFLETEA, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TIVAC2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TIVAC1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TRET6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TRET5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TRET4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TRET3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TRET2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TRET1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChCAUSA_RET6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChCAUSA_IVA6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChCAUSA_RET5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChCAUSA_IVA5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChCAUSA_RET4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChCAUSA_IVA4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChCAUSA_RET3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChCAUSA_IVA3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChCAUSA_RET2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChCAUSA_IVA2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChCAUSA_RET1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChCAUSA_IVA1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_UNIDAD6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_PRODSERV6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_PRODSERV5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_UNIDAD5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_PRODSERV4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_PRODSERV3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_UNIDAD4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_PRODSERV2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_UNIDAD3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TMONTO6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TMONTO5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TCVE_UNIDAD2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TMONTO4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TMONTO3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TMONTO2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TMONTO1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboConc6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboConc4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboConc5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboConc2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboConc3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCveUni6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnProdServ6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCveUni4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCveUni2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCveUni1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCveUni5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCveUni3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnProdServ4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnProdServ2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnProdServ1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnProdServ5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnProdServ3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pag8.ResumeLayout(False)
-        CType(Me.SplitM2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SplitM2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitM2.ResumeLayout(False)
         Me.SplitM2P1.ResumeLayout(False)
-        CType(Me.BtnCopiarCamposAdic, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BtnCopiarCamposAdic, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitM2P2.ResumeLayout(False)
-        CType(Me.FgA, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.FgA, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PagAdenda.ResumeLayout(False)
-        Me.PagAdenda.PerformLayout
-        CType(Me.BtnPaisAdenda, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnNumExpCon, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnTipoOper, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnUniAduana, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnMotTras, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnINCOTERM, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TXTN, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TXT, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.SplitMG, System.ComponentModel.ISupportInitialize).EndInit
+        Me.PagAdenda.PerformLayout()
+        CType(Me.BtnPaisAdenda, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnNumExpCon, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnTipoOper, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnUniAduana, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnMotTras, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnINCOTERM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TXTN, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TXT, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SplitMG, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitMG.ResumeLayout(False)
         Me.SplitMG1.ResumeLayout(False)
-        CType(Me.TFOLIO_VIAJE, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TFOLIO_VIAJE, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents Box5 As GroupBox

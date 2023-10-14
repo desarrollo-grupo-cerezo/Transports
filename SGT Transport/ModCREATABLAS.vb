@@ -1589,7 +1589,7 @@ Module ModCREATABLAS
                         End If
                         SQL = "ALTER TABLE " & fTABLA & " ADD " & fCAMPO & " " & fTIPO & "(" & fSIZE & ") NULL " & CADENA_DEDAULT
 
-                    Case "SMALLINT", "INT", "DOUBLE", "FLOAT", "BIT"
+                    Case "SMALLINT", "INT", "DOUBLE", "FLOAT", "BIT", "TINYINT"
                         If fDefault.Trim.Length > 0 Then
                             CADENA_DEDAULT = " DEFAULT (" & fDefault & ")"
                         Else
@@ -10658,6 +10658,17 @@ Module ModCREATABLAS
             CREA_CAMPO("GCLIQ_PARTIDAS", "SDO_X_TONELADA", "FLOAT", "", "")
             CREA_CAMPO("GCLIQ_PARTIDAS", "SDO_MANIOBRA_X_TONELADA", "FLOAT", "", "")
 
+
+            CREA_CAMPO("GCCARGA", "REG_ORI", "TINYINT", "", "0")
+            SQL = "UPDATE GCCARGA SET REG_ORI = 0 WHERE REG_ORI IS NULL"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+            CREA_CAMPO("GCMERCANCIAS", "REG_ORI", "TINYINT", "", "0")
+            SQL = "UPDATE GCMERCANCIAS SET REG_ORI = 0 WHERE REG_ORI IS NULL"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
             SQL = "IF NOT EXISTS(SELECT 1 From INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME = 'CVE_ESQIMPU' AND TABLE_NAME = 'CTAESQ" & Empresa & "')
                     BEGIN
 	                    ALTER TABLE dbo.CTAESQ" & Empresa & " ADD
@@ -10668,6 +10679,21 @@ Module ModCREATABLAS
                     END"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
+
+            SQL = "IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = 'GCCARGA' AND CONSTRAINT_NAME = 'PK_GCCARGA')
+                    BEGIN
+	                    ALTER TABLE dbo.GCCARGA DROP CONSTRAINT [PK_GCCARGA] WITH ( ONLINE = OFF )
+                    END"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+            SQL = "IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = 'GCMERCANCIAS' AND CONSTRAINT_NAME = 'PK_GCMERCANCIAS')
+                    BEGIN
+	                    ALTER TABLE dbo.GCMERCANCIAS DROP CONSTRAINT [PK_GCMERCANCIAS] WITH ( ONLINE = OFF )
+                    END"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
 
             If Not EXISTE_TABLA("GCParamLiquidacionesCOI") Then
                 SQL = "CREATE TABLE dbo.GCParamLiquidacionesCOI ([ID] int NULL, [Descripcion] varchar(250) NULL, [Valor] varchar(250) NULL)  ON [PRIMARY]

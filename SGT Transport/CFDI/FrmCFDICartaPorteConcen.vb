@@ -94,7 +94,7 @@ Public Class FrmCFDICartaPorteConcen
                 (SELECT FECHA_REAL_CARGA FROM GCCARTA_PORTE WHERE CVE_FOLIO = DOCUMENT) AS 'Fecha real carga', 
                 CASE WHEN ISNULL(ESTATUS,'') = 'C' THEN '' ELSE FECHA_CERT END AS 'Fecha certificado', 
                 FECHA_CANCEL AS 'Fecha cancelación', OBS_CANC AS 'Observaciones', 
-                CASE WHEN TIMBRADO = 'S' THEN 'Timbrado' ELSE 'No timbrada' END AS 'Timbrado', USUARIO AS 'Usuario', 
+                CASE WHEN TIMBRADO = 'S' THEN 'Timbrado' ELSE 'No timbrada' END AS 'Timbrado', F.USUARIO AS 'Usuario', 
                 FECHAELAB AS 'Fecha elaboración', POLIZA AS 'Poliza'
                 FROM CFDI F
                 LEFT JOIN CLIE" & Empresa & " C ON C.CLAVE = F.CLIENTE

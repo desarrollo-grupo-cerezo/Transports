@@ -27,28 +27,28 @@ Public Class FrmLiquidacionesAE
     Private _FgColDefault = 0
     Private _FgColSeleccione = 1
     Private _FgColNumViaje = 2
-    Private _FgColFactura1 = 3
-    Private _FgColFactura2 = 4
-    Private _FgColCliente = 5
-    Private _FgColRutaOrigen = 6
-    Private _FgColRutaDestino = 7
-    Private _FgColTipoViaje = 8
-    Private _FgColFacturado = 9
-    Private _FgColSueldo = 10
-    Private _FgColPorcSueldo = 11
-    Private _FgColSueldoManiobra = 12
-    Private _FgColPorcSdoManiobra = 13
-    Private _FgColSelCalculo = 14
-    Private _FgColSdoPorTonedada = 15
-    Private _FgColSdoManiobraPorTonedada = 16
-    Private _FgColSueldoViaje = 17
-    Private _FgColTipoUnidad = 18
-    Private _FgColUnidad = 19
-    Private _FgColNumCPorte = 20
-    Private _FgColEstatus = 21
-    Private _FgColNumCPorte2 = 22
-    Private _FgColEstatus2 = 23
-    Private _FgColVacio = 24
+    Private _FgColVacio = 3
+    Private _FgColFactura1 = 4
+    Private _FgColFactura2 = 5
+    Private _FgColCliente = 6
+    Private _FgColRutaOrigen = 8
+    Private _FgColRutaDestino = 8
+    Private _FgColTipoViaje = 9
+    Private _FgColFacturado = 10
+    Private _FgColSueldo = 11
+    Private _FgColPorcSueldo = 12
+    Private _FgColSueldoManiobra = 13
+    Private _FgColPorcSdoManiobra = 14
+    Private _FgColSelCalculo = 15
+    Private _FgColSdoPorTonedada = 16
+    Private _FgColSdoManiobraPorTonedada = 17
+    Private _FgColSueldoViaje = 18
+    Private _FgColTipoUnidad = 19
+    Private _FgColUnidad = 20
+    Private _FgColNumCPorte = 21
+    Private _FgColEstatus = 22
+    Private _FgColNumCPorte2 = 23
+    Private _FgColEstatus2 = 24
     Private _FgColClaveOrigen = 25
     Private _FgColOrigen = 26
     Private _FgColClaveDestino = 27
@@ -179,7 +179,7 @@ Public Class FrmLiquidacionesAE
         Fg.Cols(_FgColEstatus).Visible = False
         Fg.Cols(_FgColNumCPorte2).Visible = False
         Fg.Cols(_FgColEstatus2).Visible = False
-        Fg.Cols(_FgColVacio).Visible = False
+        Fg.Cols(_FgColVacio).Visible = True
         Fg.Cols(_FgColClaveOrigen).Visible = False
         Fg.Cols(_FgColOrigen).Visible = False
         Fg.Cols(_FgColClaveDestino).Visible = False
@@ -590,7 +590,7 @@ Public Class FrmLiquidacionesAE
                 ISNULL(R1.SUELDO_X_FACTOR,0) AS SUELDO_C_FAC, CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_FULL,0) ELSE ISNULL(R1.SUELDO_SENC,0) END AS SUEL_CONV,
 				A.CVE_DOC AS FACT1, '' AS FACT2, CLI.NOMBRE AS CLIENTE_NOMBRE, R1.DESCR AS ORIGEN, R1.DESCR2 AS DESTINO, ISNULL(FAC.CAN_TOT, 0) AS FACTURADO,
 				isnull(SEL_CALCULO, 0) AS SEL_CALCULO, isnull(PORC_SUELDO, 0) AS PORC_SUELDO, isnull(SUELDO_MANIOBRA, 0) AS SUELDO_MANIOBRA, isnull(PORC_SUELDO_MANIOBRA, 0) AS PORC_SUELDO_MANIOBRA, 
-                isnull(SDO_X_TONELADA, 0) AS SDO_X_TONELADA, isnull(SDO_MANIOBRA_X_TONELADA, 0) AS SDO_MANIOBRA_X_TONELADA
+                isnull(SDO_X_TONELADA, 0) AS SDO_X_TONELADA, isnull(SDO_MANIOBRA_X_TONELADA, 0) AS SDO_MANIOBRA_X_TONELADA, A.FECHA
                 FROM GCLIQ_PARTIDAS GV
                 LEFT JOIN GCCARTA_PORTE CP ON CP.CVE_FOLIO = GV.CVE_CAP1
                 LEFT JOIN GCSTATUS_CARTA_PORTE ST ON ST.CVE_CAP = CP.ST_CARTA_PORTE
@@ -650,6 +650,7 @@ Public Class FrmLiquidacionesAE
                                 s = IIf(dr("CVE_TAB").ToString.Trim.Length = 0, "", ">")
                                 s &= vbTab & True
                                 s &= vbTab & dr("CVE_VIAJE")
+                                s &= vbTab & dr("FECHA")
                                 s &= vbTab & dr("FACT1")
                                 s &= vbTab & dr("FACT2")
                                 s &= vbTab & dr("CLIENTE_NOMBRE")
@@ -672,7 +673,6 @@ Public Class FrmLiquidacionesAE
                                 s &= vbTab & dr("ST_CP")
                                 s &= vbTab & dr("CAP2")
                                 s &= vbTab & dr("ST_CP2")
-                                s &= vbTab & dr("FECHA_CARGA")
                                 s &= vbTab & dr("CLAVE_O")
                                 s &= vbTab & dr("DESCR_ORIGEN")
                                 s &= vbTab & dr("CLAVE_D")
@@ -2711,6 +2711,7 @@ Public Class FrmLiquidacionesAE
                 s = IIf(dr("CVETAB").ToString.Trim.Length = 0, "", ">")
                 s &= vbTab & False
                 s &= vbTab & dr("CVE_VIAJE")
+                s &= vbTab & dr.ReadNullAsEmptyString("FECHA")
                 s &= vbTab & dr("FACT1")
                 s &= vbTab & dr("FACT2")
                 s &= vbTab & dr("CLIENTE_NOMBRE")
@@ -2725,14 +2726,13 @@ Public Class FrmLiquidacionesAE
                 s &= vbTab & False
                 s &= vbTab & dr("SDO_X_TONELADA")
                 s &= vbTab & dr("SDO_MANIOBRA_X_TONELADA")
-                s &= vbTab & dr("SUEL_CONV")
+                s &= vbTab & Convert.ToDecimal(dr("SUEL_CONV")) + Convert.ToDecimal(dr("SUELDO_MANIOBRA"))
                 s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_VIAJE") = 1, "Cargado", "Vacio")
                 s &= vbTab & dr.ReadNullAsEmptyString("CVE_TRACTOR")
                 s &= vbTab & dr("CAP1")
                 s &= vbTab & dr("ST_CP")
                 s &= vbTab & dr("CAP2")
                 s &= vbTab & dr("ST_CP2")
-                s &= vbTab & dr.ReadNullAsEmptyString("FECHA")
                 s &= vbTab & dr("RECOGER_EN")
                 s &= vbTab & dr("RECOGER")
                 s &= vbTab & dr("ENTREGAR_EN")
@@ -3315,7 +3315,12 @@ Public Class FrmLiquidacionesAE
 
                 If e.Col = _FgColSelCalculo And ENTRA Then
                     ENTRA = False
-                    Fg(e.Row, _FgColSueldoViaje) = IIf(Fg(e.Row, _FgColSelCalculo), Fg(e.Row, _FgColSdoPorTonedada), Fg(e.Row, _FgColSueldo))
+                    'Fg(e.Row, _FgColSueldoViaje) = IIf(Fg(e.Row, _FgColSelCalculo), Fg(e.Row, _FgColSdoPorTonedada), Fg(e.Row, _FgColSueldo))
+                    If Fg(e.Row, _FgColSelCalculo) Then
+                        Fg(e.Row, _FgColSueldoViaje) = Convert.ToDecimal(Fg(e.Row, _FgColSueldo)) + Convert.ToDecimal(Fg(e.Row, _FgColSdoManiobraPorTonedada))
+                    Else
+                        Fg(e.Row, _FgColSueldoViaje) = Convert.ToDecimal(Fg(e.Row, _FgColSueldo)) + Convert.ToDecimal(Fg(e.Row, _FgColSueldoManiobra))
+                    End If
                     CALCULAR_IMPORTES()
                     ENTRA = True
                 End If
@@ -5070,6 +5075,7 @@ Public Class FrmLiquidacionesAE
 
             Dim GASTOS_VIAJE As Decimal = 0, GASTOS_COMPROBADOS As Decimal = 0
             Dim PERC_X_VIAJE As Decimal = 0, OTRAS_PERC As Decimal = 0
+
             Try
                 For k = 1 To FgG.Rows.Count - 1
                     If FgG.Rows(k).IsVisible Then

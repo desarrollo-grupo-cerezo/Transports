@@ -127,7 +127,8 @@ Public Class MainRibbonForm
             StbtnServidor.Text = Servidor
             StbtnBase.Text = Base
             StUsuario.Text = USER_GRUPOCE
-            StVersion.Text = "Versión 4.0"
+            'StVersion.Text = "Versión 4.0"
+            StVersion.Text = String.Format("Versión {0}.{1}.{2}", System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major, System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor, System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build)
             StSerieLic.Text = "Serial:" & GET_ID()
             'StLic.Text = LicStatus
             If RunningAsAdmin() Then
@@ -185,7 +186,8 @@ Public Class MainRibbonForm
                 StEmpresa.Text = "Empresa: " & Empresa
                 StUsuario.Text = USER_GRUPOCE
                 'Text = RazonSocial
-                StVersion.Text = "Versión 4.0"
+                'StVersion.Text = "Versión 4.0"
+                StVersion.Text = String.Format("Versión {0}.{1}.{2}", System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major, System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor, System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build)
                 'StLic.Text = LicStatus
                 ASIGNAR_DERECHOS()
             Catch ex As Exception
@@ -4097,7 +4099,8 @@ Public Class MainRibbonForm
                 StEmpresa.Text = "Empresa: " & Empresa
                 StUsuario.Text = USER_GRUPOCE
                 'Text = RazonSocial
-                StVersion.Text = "Versión 4.0"
+                'StVersion.Text = "Versión 4.0"
+                StVersion.Text = String.Format("Versión {0}.{1}.{2}", System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major, System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor, System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build)
                 'StLic.Text = LicStatus
                 ASIGNAR_DERECHOS()
             Catch ex As Exception

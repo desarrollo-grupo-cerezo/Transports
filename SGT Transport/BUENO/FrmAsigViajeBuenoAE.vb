@@ -2346,7 +2346,10 @@ Public Class FrmAsigViajeBuenoAE
                         End If
                     End Using
                 End Using
-
+            Else
+                TAR_X_VIA_FULL = TFLETE.Value
+                TAR_X_VIA_SENC = TFLETE.Value
+                If TVOLUMEN_PESO.Value > 0 Then TAR_X_TON_FULL = TFLETE.Value / TVOLUMEN_PESO.Value
             End If
         Catch ex As Exception
             Bitacora("38. " & ex.Message & vbNewLine & ex.StackTrace)

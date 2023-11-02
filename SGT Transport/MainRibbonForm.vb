@@ -2439,7 +2439,8 @@ Public Class MainRibbonForm
         Var17 = ""
         'BACKUPTXT("XTAB_CAPTION", "FrmAsigViajeBueno")
         'CREA_TAB(FrmAsigViajeBueno, "Facturar viaje")
-
+        'Dim args As String
+        'args = Servidor & " " & Base & " " & Usuario & " " & Pass & " " & Empresa & " " & USER_GRUPOCE & " " & PASS_GRUPOCE & " " & pwPoder
         Process.Start(Application.StartupPath & "\Control de viajes.exe", Servidor & " " & Base & " " & Usuario & " " & Pass & " " & Empresa & " " & USER_GRUPOCE & " " & PASS_GRUPOCE & " " & pwPoder)
 
     End Sub

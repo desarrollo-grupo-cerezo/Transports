@@ -3642,7 +3642,7 @@ Public Class FrmAsigViajeBuenoAE
                                     INSERT INTO GCMERCANCIAS (CVE_VIAJE, NUM_PAR, CVE_DOC, CANT, ID_UNIDAD, DESC_UNIDAD, ID_MERCANCIA, DESCR_MERCANCIA, 
                                     MAT_PELIGROSO, CVE_MAT_PELIGROSO, ID_EMBALAJE, DESC_EMBALAJE, PESO, VALOR_MERCANCIA, MONEDA, ID_FRACC_ARANCELARIA, 
                                     UUID_COM_EXT, REG_ORI) 
-                                    OUTPUT Inserted.NUM_PAR VALUES (@CVE_VIAJE, ISNULL((SELECT MAX(NUM_PAR) + 1 FROM GCMERCANCIAS),1), @CVE_DOC, @CANT, @ID_UNIDAD, 
+                                    OUTPUT Inserted.NUM_PAR VALUES (@CVE_VIAJE, @NUM_PAR, @CVE_DOC, @CANT, @ID_UNIDAD, 
                                     @DESC_UNIDAD, @ID_MERCANCIA, @DESCR_MERCANCIA, @MAT_PELIGROSO, @CVE_MAT_PELIGROSO, @ID_EMBALAJE, @DESC_EMBALAJE, 
                                     @PESO, @VALOR_MERCANCIA, @MONEDA, @ID_FRACC_ARANCELARIA, @UUID_COM_EXT, 0)"
 

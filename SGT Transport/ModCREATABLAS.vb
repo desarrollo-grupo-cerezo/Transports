@@ -10705,6 +10705,12 @@ Module ModCREATABLAS
                 cmd.ExecuteNonQuery()
             End If
 
+            If Not EXISTE_TABLA("BitacoraTimbrado") Then
+                SQL = "CREATE TABLE [dbo].BitacoraTimbrado ([id] INT NOT NULL IDENTITY(1,1), [CveViaje] VARCHAR(50), [CveFactura] VARCHAR(50), [Escenario] int, [Fecha] datetime, [Estatus] VARCHAR(max), PRIMARY KEY ([id]))"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+
             If Not EXISTE_TABLA("GCLIQ_SUELDO") Then
                 SQL = "CREATE TABLE dbo.GCLIQ_SUELDO(CveLiq int, CveViaje int, Fecha datetime, CveOper int, SueldoDiarioOperador decimal(27,2), PorcentajeManiobra decimal(27,2), FactorISR decimal(27,2), FactorIMSS decimal(27,2), ImporteViaje decimal(27,2), SueldoRuta decimal(27,2), Maniobra decimal(27,2), SueldoSinManiobra decimal(27,2), DiasSueldoRuta int, DiasCalculo int, Sueldo decimal(27,2), Diferencia decimal(27,2), ISR decimal(27,2), IMSS decimal(27,2), FechaRegistro datetime)  ON [PRIMARY]"
                 cmd.CommandText = SQL

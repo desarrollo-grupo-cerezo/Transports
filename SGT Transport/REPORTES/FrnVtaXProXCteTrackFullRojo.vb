@@ -3,6 +3,8 @@ Imports C1.Win.C1Themes
 Imports System.Data.SqlClient
 Imports C1.Win.C1FlexGrid
 Imports C1.Win.C1Command
+Imports Stimulsoft.Report
+
 Public Class FrnVtaXProXCteTrackFullRojo
 
     Private SUMA_VIAJES_ESP1 As Decimal = 0
@@ -584,7 +586,7 @@ Public Class FrnVtaXProXCteTrackFullRojo
 
         End With
     End Sub
-    Sub DESPLEGAR_VIAJES_ESPECIALES(FCLIENTE As String, FMONTO1 As Decimal, FMONTO2 As Decimal, FTS As Decimal , FTF As Decimal )
+    Sub DESPLEGAR_VIAJES_ESPECIALES(FCLIENTE As String, FMONTO1 As Decimal, FMONTO2 As Decimal, FTS As Decimal, FTF As Decimal)
         Dim R1 As Decimal = 0, R2 As Decimal = 0, CC1 As Decimal = 0, C2 As Decimal = 0, C3 As Decimal = 0, C4 As Decimal = 0, r_ As Integer = 0
         Dim T1 As Decimal, T2 As Decimal, T3 As Decimal = 0, TS As Integer = 0, TF As Integer = 0, rCte_ As Integer = 0, PESO As Decimal
         Dim SUMA_TON_CLASIFIC As Decimal = 0, SUMA_IMPORTE_CLASIFIC As Decimal = 0, Sigue As Boolean = False
@@ -852,6 +854,7 @@ Public Class FrnVtaXProXCteTrackFullRojo
     End Sub
     Private Sub BarImprimir_Click(sender As Object, e As ClickEventArgs) Handles BarImprimir.Click
         Try
+            Dim Reporte As New StiReport
             Dim RUTA_FORMATOS As String = "", ARCHIVO As String
             RUTA_FORMATOS = GET_RUTA_FORMATOS()
             Dim t As DataTable = DataSet1.Tables(0)
@@ -905,22 +908,23 @@ Public Class FrnVtaXProXCteTrackFullRojo
                 t.Rows.Add(r)
             Next
 
-            StiReport1.Load(ARCHIVO)
-            StiReport1.Compile()
+            Reporte.Load(ARCHIVO)
+            Reporte.Compile()
 
-            StiReport1.RegData(DataSet1)
+            Reporte.RegData(DataSet1)
 
-            StiReport1.Compile()
-            StiReport1.Dictionary.Synchronize()
-            StiReport1.ReportName = Me.Text
-            StiReport1.Render()
+            Reporte.Compile()
+            Reporte.Dictionary.Synchronize()
+            Reporte.ReportName = Me.Text
+            Reporte.Render()
 
             If PASS_GRUPOCE.ToUpper = "BUS" Then
-                'StiReport1.Design()
+                'Reporte.Design()
             Else
-                'StiReport1.Show()
+                'Reporte.Show()
             End If
-            StiReport1.Show()
+            'Reporte.Show()
+            VisualizaReporte(Reporte)
         Catch ex As Exception
             MsgBox("70. " & ex.Message & vbNewLine & ex.StackTrace)
             Bitacora("70. " & ex.Message & vbNewLine & ex.StackTrace)

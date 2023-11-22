@@ -246,41 +246,45 @@ Public Class frmAsigGastosImprimir
                     MsgBox("No existe el reporte " & RUTA_FORMATOS & ", verifique por favor")
                     Return
                 End If
-                FrmAsignacionViaje.StiReport1.Load(RUTA_FORMATOS)
+
+                Dim Reporte As New StiReport
+
+                Reporte.Load(RUTA_FORMATOS)
 
                 Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
                     Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
 
-                FrmAsignacionViaje.StiReport1.Dictionary.Databases.Clear()
-                FrmAsignacionViaje.StiReport1.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
+                Reporte.Dictionary.Databases.Clear()
+                Reporte.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
 
-                FrmAsignacionViaje.StiReport1.Compile()
-                FrmAsignacionViaje.StiReport1.ReportName = Me.Text
+                Reporte.Compile()
+                Reporte.ReportName = Me.Text
 
-                FrmAsignacionViaje.StiReport1.Dictionary.Synchronize()
+                Reporte.Dictionary.Synchronize()
 
-                FrmAsignacionViaje.StiReport1.Item("CVE_VIAJE") = tCVE_VIAJE.Text
-                FrmAsignacionViaje.StiReport1.Item("CVE_VIAJE2") = CVE_VIAJE2
-                FrmAsignacionViaje.StiReport1.Item("FECHA1") = F1.Value
-                FrmAsignacionViaje.StiReport1.Item("FECHA2") = F2.Value
-                FrmAsignacionViaje.StiReport1.Item("CVE_ESTATUS") = CVE_STATUS
-                FrmAsignacionViaje.StiReport1.Item("CVE_ESTATUS2") = CVE_STATUS2
-                FrmAsignacionViaje.StiReport1.Item("ST_GASTOS") = ST_GASTOS
-                FrmAsignacionViaje.StiReport1.Item("ST_GASTOS2") = ST_GASTOS2
-                FrmAsignacionViaje.StiReport1.Item("CVE_OPER1") = CVE_OPER1
-                FrmAsignacionViaje.StiReport1.Item("CVE_OPER2") = CVE_OPER2
+                Reporte.Item("CVE_VIAJE") = tCVE_VIAJE.Text
+                Reporte.Item("CVE_VIAJE2") = CVE_VIAJE2
+                Reporte.Item("FECHA1") = F1.Value
+                Reporte.Item("FECHA2") = F2.Value
+                Reporte.Item("CVE_ESTATUS") = CVE_STATUS
+                Reporte.Item("CVE_ESTATUS2") = CVE_STATUS2
+                Reporte.Item("ST_GASTOS") = ST_GASTOS
+                Reporte.Item("ST_GASTOS2") = ST_GASTOS2
+                Reporte.Item("CVE_OPER1") = CVE_OPER1
+                Reporte.Item("CVE_OPER2") = CVE_OPER2
 
-                FrmAsignacionViaje.StiReport1("CVE_VIAJE_V1") = tCVE_VIAJE.Text
-                FrmAsignacionViaje.StiReport1("CVE_VIAJE_V2") = tCVE_VIAJE2.Text
-                FrmAsignacionViaje.StiReport1("F1") = F1.Value.ToString.Substring(0, 10)
-                FrmAsignacionViaje.StiReport1("F2") = F2.Value.ToString.Substring(0, 10)
-                FrmAsignacionViaje.StiReport1("CVE_ST") = CVE_ST
-                FrmAsignacionViaje.StiReport1("VAR_ST_GASTOS") = VAR_ST_GASTOS
-                FrmAsignacionViaje.StiReport1("OPERADOR") = LOper.Text
+                Reporte("CVE_VIAJE_V1") = tCVE_VIAJE.Text
+                Reporte("CVE_VIAJE_V2") = tCVE_VIAJE2.Text
+                Reporte("F1") = F1.Value.ToString.Substring(0, 10)
+                Reporte("F2") = F2.Value.ToString.Substring(0, 10)
+                Reporte("CVE_ST") = CVE_ST
+                Reporte("VAR_ST_GASTOS") = VAR_ST_GASTOS
+                Reporte("OPERADOR") = LOper.Text
 
-                FrmAsignacionViaje.StiReport1.Render()
-                FrmAsignacionViaje.StiReport1.Show()
+                Reporte.Render()
+                'Reporte.Show()
 
+                VisualizaReporte(Reporte)
 
                 Try
                     If chEnviaXCorreo.Checked Then
@@ -297,7 +301,7 @@ Public Class frmAsigGastosImprimir
                                 PDF
                             }
 
-                            FrmAsignacionViaje.StiReport1.ExportDocument(StiExportFormat.Pdf, PDF)
+                            Reporte.ExportDocument(StiExportFormat.Pdf, PDF)
                             SendEmail(tCORREO.Text, "Reporte vale de combustible", "Buen dia " & vbNewLine &
                                  "Adjunto se envia el reporte de vale de combustible" & vbNewLine & "Gracias", aCorreo)
 

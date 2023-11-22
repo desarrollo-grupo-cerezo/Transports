@@ -8934,7 +8934,7 @@ Public Class FrmAsigViajeBuenoAE
                 If ChCAUSA_RET6.Checked Then
                     RET6 = M6 * IIf(IsNumeric(TRET6.Value), Convert.ToDecimal(TRET6.Value), 0) / 100
                 End If
-
+                'PREC += TIMPORTE_CONCEP.Value
                 cIeps = PREC * vIMPU1 / 100
                 cImpu2 = PREC * vIMPU2 / 100
                 cImpu3 = PREC * vIMPU3 / 100
@@ -11918,14 +11918,14 @@ Public Class FrmAsigViajeBuenoAE
     End Sub
 
     Private Sub BarEditDestinatario_Click(sender As Object, e As ClickEventArgs) Handles BarEditDestinatario.Click
-
+        Dim frm As New FrmClientesOperativos
         Var8 = "D"
         Var1 = "Edit"
         Var2 = "" 'TCLAVE_D.Text
         Var4 = ""
         Var17 = "M"  'MUESTRA LA VENTA EN SHOWDIALOG
 
-        FrmClientesOperativos.ShowDialog()
+        frm.ShowDialog()
         If Var4.Trim.Length > 0 Then
 
             If Mofifica_Remitente_destinatario Then
@@ -11935,13 +11935,14 @@ Public Class FrmAsigViajeBuenoAE
         End If
     End Sub
     Private Sub BarEditarRemitente_Click(sender As Object, e As ClickEventArgs) Handles BarEditarRemitente.Click
+        Dim frm As New FrmClientesOperativos
 
         Var8 = "R"
         Var1 = "Edit"
         Var2 = "" 'TCLAVE_O.Text
 
         Var17 = "M"  'MUESTRA LA VENTA EN SHOWDIALOG
-        FrmClientesOperativos.ShowDialog()
+        frm.ShowDialog()
         If Var4.Trim.Length > 0 Then
 
             If Mofifica_Remitente_destinatario Then

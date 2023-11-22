@@ -9,7 +9,7 @@ Public Class FrmClientesOperativos
         InitializeComponent()
 
         Me.SuspendLayout()
-        CARGA1()
+
         Me.ResumeLayout()
         ' Agregue cualquier inicialización después de la llamada a InitializeComponent().
     End Sub
@@ -77,7 +77,7 @@ Public Class FrmClientesOperativos
             Me.Close()
             Return
         End If
-
+        CARGA1()
     End Sub
     Sub DESPLEGAR()
         Try
@@ -260,7 +260,9 @@ Public Class FrmClientesOperativos
     End Sub
 
     Private Sub FrmClientesOperativos_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
-        CloseTab("Clientes Operativos")
+        If FormMaxMin = "" Then
+            CloseTab("Clientes Operativos")
+        End If
         Me.Dispose()
     End Sub
 

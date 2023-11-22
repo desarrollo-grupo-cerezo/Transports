@@ -14,6 +14,7 @@ Imports System.IO
 Imports System.Security.Cryptography
 Imports System.Text
 Imports C1.Win.C1SuperTooltip
+Imports Stimulsoft.Report
 
 Module General
 
@@ -6375,6 +6376,15 @@ Module General
         Next
 
         Clipboard.SetDataObject(StrCopy)
+    End Sub
+
+    Public Sub VisualizaReporte(ByVal Reporte As StiReport)
+        Dim frm As New FrmImpresionReportes(Reporte)
+        frm.Show()
+    End Sub
+
+    Public Sub VisualizaReporteGrid(ByVal FGrid As C1FlexGrid, ByVal docName As String, ByVal flags As PrintGridFlags, ByVal header As String, ByVal footer As String)
+        FGrid.PrintGrid(docName, flags, header, footer)
     End Sub
 
 End Module

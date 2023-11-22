@@ -258,20 +258,23 @@ Public Class frmAsigValesImprimir
                 MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
             End Try
 
+            Dim Reporte As New StiReport
 
-            FrmAsignacionViaje.StiReport1.Load(RUTA_FORMATOS)
+            Reporte.Load(RUTA_FORMATOS)
 
             'Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
             'Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
-            ''FrmAsignacionViaje.StiReport1.Dictionary.Databases.Clear()
-            'FrmAsignacionViaje.StiReport1.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
+            ''Reporte.Dictionary.Databases.Clear()
+            'Reporte.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
 
-            FrmAsignacionViaje.StiReport1.RegData(DataSet1)
-            FrmAsignacionViaje.StiReport1.Compile()
-            FrmAsignacionViaje.StiReport1.Dictionary.Synchronize()
-            FrmAsignacionViaje.StiReport1.ReportName = Me.Text
-            FrmAsignacionViaje.StiReport1.Render()
-            FrmAsignacionViaje.StiReport1.Show()
+            Reporte.RegData(DataSet1)
+            Reporte.Compile()
+            Reporte.Dictionary.Synchronize()
+            Reporte.ReportName = Me.Text
+            Reporte.Render()
+            'Reporte.Show()
+
+            VisualizaReporte(Reporte)
 
             If chEnviaXCorreo.Checked Then
                 Try
@@ -280,7 +283,7 @@ Public Class frmAsigValesImprimir
 
                     Dim aCorreo As New ArrayList From {PDF}
 
-                    FrmAsignacionViaje.StiReport1.ExportDocument(StiExportFormat.Pdf, PDF)
+                    Reporte.ExportDocument(StiExportFormat.Pdf, PDF)
                     SendEmail(tCORREO.Text, "Reporte vale de combustible", "Buen dia " & vbNewLine &
                                  "Adjunto se envia el reporte de vale de combustible" & vbNewLine & "Gracias", aCorreo)
 
@@ -289,28 +292,28 @@ Public Class frmAsigValesImprimir
                     MsgBox("630. " & ex.Message & vbNewLine & ex.StackTrace)
                 End Try
             End If
-            'FrmAsignacionViaje.StiReport1.Item("CVE_VIAJE") = tCVE_VIAJE.Text
-            'FrmAsignacionViaje.StiReport1.Item("CVE_VIAJE2") = CVE_VIAJE2
-            ''FrmAsignacionViaje.StiReport1.Item("FECHA1") = F1.Value
-            'FrmAsignacionViaje.StiReport1.Item("FECHA2") = F2.Value
-            'FrmAsignacionViaje.StiReport1.Item("FECHA_TRANS1") = F1.Value
-            'FrmAsignacionViaje.StiReport1.Item("FECHA_TRANS2") = F2.Value
-            'FrmAsignacionViaje.StiReport1.Item("CVE_ESTATUS") = CVE_STATUS
-            'FrmAsignacionViaje.StiReport1.Item("CVE_ESTATUS2") = CVE_STATUS2
-            'FrmAsignacionViaje.StiReport1.Item("ST_GASTOS") = ST_GASTOS
-            'FrmAsignacionViaje.StiReport1.Item("ST_GASTOS2") = ST_GASTOS2
+            'Reporte.Item("CVE_VIAJE") = tCVE_VIAJE.Text
+            'Reporte.Item("CVE_VIAJE2") = CVE_VIAJE2
+            ''Reporte.Item("FECHA1") = F1.Value
+            'Reporte.Item("FECHA2") = F2.Value
+            'Reporte.Item("FECHA_TRANS1") = F1.Value
+            'Reporte.Item("FECHA_TRANS2") = F2.Value
+            'Reporte.Item("CVE_ESTATUS") = CVE_STATUS
+            'Reporte.Item("CVE_ESTATUS2") = CVE_STATUS2
+            'Reporte.Item("ST_GASTOS") = ST_GASTOS
+            'Reporte.Item("ST_GASTOS2") = ST_GASTOS2
 
-            'FrmAsignacionViaje.StiReport1.Item("CVE_GAS1") = CVE_GAS1
-            'FrmAsignacionViaje.StiReport1.Item("CVE_GAS2") = CVE_GAS2
+            'Reporte.Item("CVE_GAS1") = CVE_GAS1
+            'Reporte.Item("CVE_GAS2") = CVE_GAS2
 
-            'FrmAsignacionViaje.StiReport1("CVE_VIAJE_V1") = tCVE_VIAJE.Text
-            'FrmAsignacionViaje.StiReport1("CVE_VIAJE_V2") = tCVE_VIAJE2.Text
-            'FrmAsignacionViaje.StiReport1("F1") = F1.Value.ToString.Substring(0, 10)
-            'FrmAsignacionViaje.StiReport1("F2") = F2.Value.ToString.Substring(0, 10)
-            'FrmAsignacionViaje.StiReport1("CVE_ST") = CVE_ST
-            'FrmAsignacionViaje.StiReport1("VAR_ST_GASTOS") = VAR_ST_GASTOS
-            'FrmAsignacionViaje.StiReport1("VAR_GAS1") = tCVE_GAS.Text
-            'FrmAsignacionViaje.StiReport1("VAR_GAS2") = tCVE_GAS2.Text
+            'Reporte("CVE_VIAJE_V1") = tCVE_VIAJE.Text
+            'Reporte("CVE_VIAJE_V2") = tCVE_VIAJE2.Text
+            'Reporte("F1") = F1.Value.ToString.Substring(0, 10)
+            'Reporte("F2") = F2.Value.ToString.Substring(0, 10)
+            'Reporte("CVE_ST") = CVE_ST
+            'Reporte("VAR_ST_GASTOS") = VAR_ST_GASTOS
+            'Reporte("VAR_GAS1") = tCVE_GAS.Text
+            'Reporte("VAR_GAS2") = tCVE_GAS2.Text
             '
         Catch ex As Exception
             Bitacora("630. " & ex.Message & vbNewLine & ex.StackTrace)

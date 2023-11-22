@@ -200,6 +200,7 @@ Public Class frmReporteDeRefacciones
             '  Preview the grid.
             Fg.PrintGrid("Reporte de refacciones", PrintGridFlags.FitToPageWidth + PrintGridFlags.ShowPreviewDialog,
                 "Reporte de refacciones" & Chr(9) + Chr(9) + Format(DateTime.Now, "d"), Chr(9) + Chr(9) + "Pag. {0} de {1}")
+
         Catch ex As Exception
         End Try
     End Sub

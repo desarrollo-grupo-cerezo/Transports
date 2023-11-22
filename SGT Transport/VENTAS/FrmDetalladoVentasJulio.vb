@@ -3,6 +3,9 @@ Imports C1.Win.C1Themes
 Imports C1.Win.C1FlexGrid
 Imports System.Data.SqlClient
 Imports C1.Win.C1Command
+Imports Stimulsoft
+Imports Stimulsoft.Report
+
 Public Class FrmDetalladoVentasJulio
     Private BindingSource1 As Windows.Forms.BindingSource = New BindingSource
     Private Sub FrmDetalladoVentasJulio_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -40,9 +43,9 @@ Public Class FrmDetalladoVentasJulio
         Dim D1 As String, D2 As String
 
         D1 = "01/" & Format(N.Month, "00") & "/" & Now.Year
-        d2 = Format(DateTime.DaysInMonth(N.Year, N.Month), "00") & "/" & Format(N.Month, "00") & "/" & Now.Year
+        D2 = Format(DateTime.DaysInMonth(N.Year, N.Month), "00") & "/" & Format(N.Month, "00") & "/" & Now.Year
 
-        F1.Value = d1
+        F1.Value = D1
         F2.Value = D2
 
         DESPLEGAR()
@@ -208,6 +211,7 @@ Public Class FrmDetalladoVentasJulio
     End Sub
     Private Sub BarImprimir_Click(sender As Object, e As ClickEventArgs) Handles BarImprimir.Click
         Try
+            Dim Reporte As New StiReport
             Dim RUTA_FORMATOS As String = ""
             Dim j As Integer = 0
             If MsgBox("Realmente desea imprimir el reporte?", vbYesNo, "") = vbNo Then
@@ -222,15 +226,16 @@ Public Class FrmDetalladoVentasJulio
                 MsgBox("No existe el reporte " & RUTA_FORMATOS & ", verifique por favor")
                 Return
             End If
-            StiReport1.Load(RUTA_FORMATOS)
+            Reporte.Load(RUTA_FORMATOS)
 
-            StiReport1.RegData(DataSet1)
+            Reporte.RegData(DataSet1)
 
-            StiReport1.Compile()
-            StiReport1.Dictionary.Synchronize()
-            StiReport1.ReportName = Me.Text
-            StiReport1.Render()
-            StiReport1.Show()
+            Reporte.Compile()
+            Reporte.Dictionary.Synchronize()
+            Reporte.ReportName = Me.Text
+            Reporte.Render()
+            'Reporte.Show()
+            VisualizaReporte(Reporte)
             'StiReport1.Design()
 
         Catch ex As Exception

@@ -1,6 +1,8 @@
 ﻿Imports System.Data.SqlClient
 Imports System.IO
 Imports C1.Win.C1Themes
+Imports Stimulsoft.Report
+
 Public Class FrmReportViajesXOperador
     Public Sub New()
 
@@ -159,6 +161,7 @@ Public Class FrmReportViajesXOperador
         End Try
 
         Try
+            Dim Reporte As New StiReport
             Dim RUTA_FORMATOS As String = ""
             BarImprimir.Enabled = False
 
@@ -174,24 +177,25 @@ Public Class FrmReportViajesXOperador
                 MsgBox("No existe el reporte " & RUTA_FORMATOS & ", verifique por favor")
                 Return
             End If
-            StiReport1.Load(RUTA_FORMATOS)
+            Reporte.Load(RUTA_FORMATOS)
 
             Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
                 Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
 
 
-            StiReport1.RegData(DataSet1)
+            Reporte.RegData(DataSet1)
 
-            StiReport1.Compile()
-            StiReport1.Dictionary.Synchronize()
+            Reporte.Compile()
+            Reporte.Dictionary.Synchronize()
 
-            StiReport1.ReportName = Me.Text
-            StiReport1.Render()
+            Reporte.ReportName = Me.Text
+            Reporte.Render()
 
             If PASS_GRUPOCE = "BUS" Then
-                StiReport1.Design()
+                Reporte.Design()
             Else
-                StiReport1.Show()
+                'Reporte.Show()
+                VisualizaReporte(Reporte)
             End If
 
         Catch ex As Exception

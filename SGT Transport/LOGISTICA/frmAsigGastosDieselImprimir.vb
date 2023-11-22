@@ -1,6 +1,7 @@
 ﻿Imports C1.Win.C1Themes
 Imports System.IO
 Imports C1.Win.C1Command
+Imports Stimulsoft.Report
 
 Public Class frmAsigGastosDieselImprimir
     Private Sub frmImprimirGastosDiesel_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -35,6 +36,7 @@ Public Class frmAsigGastosDieselImprimir
     Private Sub BarImprimir_Click(sender As Object, e As ClickEventArgs) Handles BarImprimir.Click
         Try
             Dim RUTA_FORMATOS As String = ""
+            Dim Reporte As New StiReport
 
             BarImprimir.Enabled = False
 
@@ -45,25 +47,25 @@ Public Class frmAsigGastosDieselImprimir
                 Return
             End If
 
-            frmAsignacionViaje.StiReport1.Load(RUTA_FORMATOS)
+            Reporte.Load(RUTA_FORMATOS)
 
             Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
                     Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
 
-            frmAsignacionViaje.StiReport1.Dictionary.Databases.Clear()
-            frmAsignacionViaje.StiReport1.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
+            Reporte.Dictionary.Databases.Clear()
+            Reporte.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
 
-            frmAsignacionViaje.StiReport1.Compile()
-            frmAsignacionViaje.StiReport1.Dictionary.Synchronize()
+            Reporte.Compile()
+            Reporte.Dictionary.Synchronize()
             StiReport1.ReportName = Me.Text
-            FrmAsignacionViaje.StiReport1.Item("FECHA1") = F1.Value
-            frmAsignacionViaje.StiReport1.Item("FECHA2") = F2.Value
+            Reporte.Item("FECHA1") = F1.Value
+            Reporte.Item("FECHA2") = F2.Value
 
-            frmAsignacionViaje.StiReport1("F1") = F1.Value.ToString.Substring(0, 10)
-            frmAsignacionViaje.StiReport1("F2") = F2.Value.ToString.Substring(0, 10)
+            Reporte("F1") = F1.Value.ToString.Substring(0, 10)
+            Reporte("F2") = F2.Value.ToString.Substring(0, 10)
 
-            frmAsignacionViaje.StiReport1.Render()
-            frmAsignacionViaje.StiReport1.Show()
+            Reporte.Render()
+            VisualizaReporte(Reporte)
 
         Catch ex As Exception
             Bitacora("630. " & ex.Message & vbNewLine & ex.StackTrace)

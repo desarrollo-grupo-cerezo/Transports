@@ -2,6 +2,7 @@
 Imports System.Data.SqlClient
 Imports C1.Win.C1Command
 Imports C1.Win.C1FlexGrid
+Imports Stimulsoft.Report
 
 Public Class frmReportePrecioCostos
     Private BindingSource1 As BindingSource = New BindingSource
@@ -110,6 +111,8 @@ Public Class frmReportePrecioCostos
     Private Sub Imprimir()
         Dim Rreporte_MRT As String = ""
         Dim RUTA_FORMATOS As String
+        Dim Reporte As New StiReport
+
         RUTA_FORMATOS = GET_RUTA_FORMATOS()
         Try
             Rreporte_MRT = "ReportPrecioCosto.mrt"
@@ -117,7 +120,7 @@ Public Class frmReportePrecioCostos
                 MsgBox("No existe el reporte " & RUTA_FORMATOS & "\" & Rreporte_MRT & ", verifique por favor")
                 Return
             End If
-            StiReport1.Load(RUTA_FORMATOS & "\" & Rreporte_MRT)
+            Reporte.Load(RUTA_FORMATOS & "\" & Rreporte_MRT)
             Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
                     Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
 
@@ -125,14 +128,15 @@ Public Class frmReportePrecioCostos
                 'StiUserData1.a.Columns.Item(0) = Fg(k, 1)
 
             Next
-            StiReport1.Dictionary.Databases.Clear()
-            StiReport1.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
+            Reporte.Dictionary.Databases.Clear()
+            Reporte.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
 
-            StiReport1.Compile()
-            StiReport1.Dictionary.Synchronize()
-            StiReport1.ReportName = Me.Text
-            StiReport1.Render()
-            StiReport1.Show()
+            Reporte.Compile()
+            Reporte.Dictionary.Synchronize()
+            Reporte.ReportName = Me.Text
+            Reporte.Render()
+            'Reporte.Show()
+            VisualizaReporte(Reporte)
 
         Catch ex As Exception
             Bitacora("400. " & ex.Message & vbNewLine & ex.StackTrace)

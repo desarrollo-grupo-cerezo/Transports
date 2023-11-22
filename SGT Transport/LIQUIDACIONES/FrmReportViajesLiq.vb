@@ -1,6 +1,9 @@
 ﻿Imports System.Data.SqlClient
 Imports System.IO
 Imports C1.Win.C1Themes
+Imports Stimulsoft
+Imports Stimulsoft.Report
+
 Public Class FrmReportViajesLiq
     Public Sub New()
 
@@ -57,6 +60,7 @@ Public Class FrmReportViajesLiq
         Dim CVE_ART As String = "", DESCR As String = "", FEC1 As Date, FEC2 As Date, PORFECHA As String = "", KM As Decimal = 0
         Dim t As DataTable = DataSet1.Tables(0)
         Dim r As DataRow
+        Dim Reporte As New StiReport
         DataSet1.Clear()
 
         Try
@@ -269,22 +273,23 @@ Public Class FrmReportViajesLiq
                 MsgBox("No existe el reporte " & RUTA_FORMATOS & ", verifique por favor")
                 Return
             End If
-            StiReport1.Load(RUTA_FORMATOS)
+            Reporte.Load(RUTA_FORMATOS)
 
             Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
                 Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
 
-            StiReport1.RegData(DataSet1)
+            Reporte.RegData(DataSet1)
 
-            StiReport1.Compile()
-            StiReport1.Dictionary.Synchronize()
-            StiReport1.ReportName = Me.Text
-            StiReport1.Render()
+            Reporte.Compile()
+            Reporte.Dictionary.Synchronize()
+            Reporte.ReportName = Me.Text
+            Reporte.Render()
 
             If PASS_GRUPOCE = "BUS" Then
-                StiReport1.Design()
+                Reporte.Design()
             Else
-                StiReport1.Show()
+                'Reporte.Show()
+                VisualizaReporte(Reporte)
             End If
 
         Catch ex As Exception
@@ -303,7 +308,7 @@ Public Class FrmReportViajesLiq
         Try
             Var2 = "Operador"
             Var4 = "" : Var5 = ""
-            frmSelItem2.ShowDialog()
+            FrmSelItem2.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 TCVE_OPER.Text = Var4
                 L2.Text = Var5

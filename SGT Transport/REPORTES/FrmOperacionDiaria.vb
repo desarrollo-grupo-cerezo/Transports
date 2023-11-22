@@ -2,6 +2,8 @@
 Imports System.IO
 Imports C1.Win.C1Command
 Imports System.Data.SqlClient
+Imports Stimulsoft
+Imports Stimulsoft.Report
 
 Public Class FrmOperacionDiaria
 
@@ -109,7 +111,7 @@ Public Class FrmOperacionDiaria
 
             Dim D1 As Date
             Dim FFCH As Date = F1.Value
-
+            Dim Reporte As New StiReport
 
             D1 = "01/" & Format(FFCH.Month, "00") & "/" & FFCH.Year
 
@@ -120,34 +122,35 @@ Public Class FrmOperacionDiaria
                 MsgBox("No existe el reporte " & RUTA_FORMATOS & ", verifique por favor")
                 Return
             End If
-            StiReport1.Load(RUTA_FORMATOS)
+            Reporte.Load(RUTA_FORMATOS)
 
             Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
                 Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
 
-            StiReport1.Dictionary.Databases.Clear()
-            StiReport1.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
-            StiReport1.Compile()
-            StiReport1.Dictionary.Synchronize()
-            StiReport1.ReportName = Me.Text
-            StiReport1("F1") = FSQL(F1.Value) & " 00:00:00"
-            StiReport1("F2") = FSQL(F2.Value) & " 23:59:59"
+            Reporte.Dictionary.Databases.Clear()
+            Reporte.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
+            Reporte.Compile()
+            Reporte.Dictionary.Synchronize()
+            Reporte.ReportName = Me.Text
+            Reporte("F1") = FSQL(F1.Value) & " 00:00:00"
+            Reporte("F2") = FSQL(F2.Value) & " 23:59:59"
 
-            StiReport1("F3") = FSQL(D1) & " 00:00:00"
-            StiReport1("F4") = FSQL(F2.Value) & " 23:59:59"
+            Reporte("F3") = FSQL(D1) & " 00:00:00"
+            Reporte("F4") = FSQL(F2.Value) & " 23:59:59"
 
-            StiReport1("DIAS_TRABAJADOS1") = TDIAS_TRABAJADOS1.Value
-            StiReport1("DIAS_MES1") = TDIAS_MES1.Value
-            StiReport1("DIAS_TRABAJADOSP") = TDIAS_TRABAJADOSP.Value
-            StiReport1("DIAS_MESP") = TDIAS_MESP.Value
-            StiReport1("INGRESO_DIARIOP") = TINGRESO_DIARIOP.Value
-            StiReport1("INGRESO_ACUMULADOP") = TINGRESO_ACUMULADOP.Value
+            Reporte("DIAS_TRABAJADOS1") = TDIAS_TRABAJADOS1.Value
+            Reporte("DIAS_MES1") = TDIAS_MES1.Value
+            Reporte("DIAS_TRABAJADOSP") = TDIAS_TRABAJADOSP.Value
+            Reporte("DIAS_MESP") = TDIAS_MESP.Value
+            Reporte("INGRESO_DIARIOP") = TINGRESO_DIARIOP.Value
+            Reporte("INGRESO_ACUMULADOP") = TINGRESO_ACUMULADOP.Value
 
-            StiReport1("UNIDADES_DIAP") = TUNIDADES_DIAP.Value
-            StiReport1("UNIDADES_MESP") = TUNIDADES_MESP.Value
+            Reporte("UNIDADES_DIAP") = TUNIDADES_DIAP.Value
+            Reporte("UNIDADES_MESP") = TUNIDADES_MESP.Value
 
-            StiReport1.Render()
-            StiReport1.Show()
+            Reporte.Render()
+            'Reporte.Show()
+            VisualizaReporte(Reporte)
         Catch ex As Exception
             Bitacora("630. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("630. " & ex.Message & vbNewLine & ex.StackTrace)

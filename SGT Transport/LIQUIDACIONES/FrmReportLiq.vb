@@ -1,5 +1,7 @@
 ﻿Imports System.IO
 Imports C1.Win.C1Themes
+Imports Stimulsoft.Report
+
 Public Class FrmReportLiq
     Public Sub New()
 
@@ -91,6 +93,7 @@ Public Class FrmReportLiq
     Private Sub BarImprimir_Click(sender As Object, e As EventArgs) Handles BarImprimir.Click
         Try
             Dim RUTA_FORMATOS As String = ""
+            Dim Reporte As New StiReport
 
             BarImprimir.Enabled = False
 
@@ -101,62 +104,63 @@ Public Class FrmReportLiq
                 MsgBox("No existe el reporte " & RUTA_FORMATOS & ", verifique por favor")
                 Return
             End If
-            StiReport1.Load(RUTA_FORMATOS)
+            Reporte.Load(RUTA_FORMATOS)
 
             Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
                 Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
 
-            StiReport1.Dictionary.Databases.Clear()
-            StiReport1.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
+            Reporte.Dictionary.Databases.Clear()
+            Reporte.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
 
-            StiReport1.ReportName = Me.Text
-            StiReport1.Compile()
-            StiReport1.Dictionary.Synchronize()
+            Reporte.ReportName = Me.Text
+            Reporte.Compile()
+            Reporte.Dictionary.Synchronize()
 
-            StiReport1.Item("F1") = F1.Value
-            StiReport1.Item("F2") = F2.Value
-            StiReport1.Item("FC1") = FC1.Value
-            StiReport1.Item("FC2") = FC2.Value
-            StiReport1.Item("FD1") = FD1.Value
-            StiReport1.Item("FD2") = FD2.Value
+            Reporte.Item("F1") = F1.Value
+            Reporte.Item("F2") = F2.Value
+            Reporte.Item("FC1") = FC1.Value
+            Reporte.Item("FC2") = FC2.Value
+            Reporte.Item("FD1") = FD1.Value
+            Reporte.Item("FD2") = FD2.Value
 
 
             If F1.Text = "" Then
-                StiReport1("V1") = ""
+                Reporte("V1") = ""
             Else
-                StiReport1("V1") = F1.Value.ToString.Substring(0, 10)
+                Reporte("V1") = F1.Value.ToString.Substring(0, 10)
             End If
             If F2.Text = "" Then
-                StiReport1("V2") = ""
+                Reporte("V2") = ""
             Else
-                StiReport1("V2") = F2.Value.ToString.Substring(0, 10)
+                Reporte("V2") = F2.Value.ToString.Substring(0, 10)
             End If
 
             If FC1.Text = "" Then
-                StiReport1("VC1") = ""
+                Reporte("VC1") = ""
             Else
-                StiReport1("VC1") = FC1.Value.ToString.Substring(0, 10)
+                Reporte("VC1") = FC1.Value.ToString.Substring(0, 10)
             End If
             If FC2.Text = "" Then
-                StiReport1("VC2") = ""
+                Reporte("VC2") = ""
             Else
-                StiReport1("VC2") = FC2.Value.ToString.Substring(0, 10)
+                Reporte("VC2") = FC2.Value.ToString.Substring(0, 10)
             End If
 
             If FD1.Text = "" Then
-                StiReport1("VD1") = ""
+                Reporte("VD1") = ""
             Else
-                StiReport1("VD1") = FD1.Value.ToString.Substring(0, 10)
+                Reporte("VD1") = FD1.Value.ToString.Substring(0, 10)
             End If
 
             If FD2.Text = "" Then
-                StiReport1("VD2") = ""
+                Reporte("VD2") = ""
             Else
-                StiReport1("VD2") = FD2.Value.ToString.Substring(0, 10)
+                Reporte("VD2") = FD2.Value.ToString.Substring(0, 10)
             End If
 
-            StiReport1.Render()
-            StiReport1.Show()
+            Reporte.Render()
+            'Reporte.Show()
+            VisualizaReporte(Reporte)
         Catch ex As Exception
             Bitacora("630. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("630. " & ex.Message & vbNewLine & ex.StackTrace)

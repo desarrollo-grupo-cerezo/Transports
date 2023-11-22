@@ -1087,6 +1087,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="REPORTES\FrmImpresionReportesFG.Designer.vb">
+      <DependentUpon>FrmImpresionReportesFG.vb</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTES\FrmImpresionReportesFG.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="REPORTES\FrmImpresionReportes.Designer.vb">
+      <DependentUpon>FrmImpresionReportes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTES\FrmImpresionReportes.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UTILERIAS\RoundedRectangle.vb" />
     <Compile Include="VENTAS POS\FrmFacturaGlobal.Designer.vb">
       <DependentUpon>FrmFacturaGlobal.vb</DependentUpon>
@@ -4700,6 +4712,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MONTELLANO\frmMovsInvOT.resx">
       <DependentUpon>frmMovsInvOT.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="REPORTES\FrmImpresionReportesFG.resx">
+      <DependentUpon>FrmImpresionReportesFG.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="REPORTES\FrmImpresionReportes.resx">
+      <DependentUpon>FrmImpresionReportes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VENTAS POS\FrmFacturaGlobal.resx">
       <DependentUpon>FrmFacturaGlobal.vb</DependentUpon>

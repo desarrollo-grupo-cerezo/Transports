@@ -10705,6 +10705,25 @@ Module ModCREATABLAS
                 cmd.ExecuteNonQuery()
             End If
 
+            If Not EXISTE_TABLA("GCASIG_CONCEP_PAR_ABONOS") Then
+                SQL = "CREATE TABLE [dbo].[GCASIG_CONCEP_PAR_ABONOS](
+	                    [CVE_VIAJE] [varchar](20) NOT NULL,
+	                    [CVE_COBRO] [smallint] NOT NULL,
+	                    [NUM_PAR] [smallint] NOT NULL,
+	                    [CVE_DOC] [varchar](20) NOT NULL,
+	                    [CVE_PRODSERV] [varchar](15) NULL,
+	                    [CVE_UNIDAD] [varchar](15) NULL,	
+	                    [IMPORTE] [decimal](18, 0) NULL,
+	                    [IVA] [decimal](18, 0) NULL,
+	                    [RET] [decimal](18, 0) NULL,
+	                    [NETO] [decimal](18, 0) NULL,
+	                    [STATUS] [varchar](1) NULL,
+	                    [FECHAELAB] [datetime] NULL	
+                    ) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+
             If Not EXISTE_TABLA("BitacoraTimbrado") Then
                 SQL = "CREATE TABLE [dbo].BitacoraTimbrado ([id] INT NOT NULL IDENTITY(1,1), [CveViaje] VARCHAR(50), [CveFactura] VARCHAR(50), [Escenario] int, [Fecha] datetime, [Estatus] VARCHAR(max), PRIMARY KEY ([id]))"
                 cmd.CommandText = SQL
@@ -11885,6 +11904,69 @@ AS
 	                    DEALLOCATE @cCursor;
 
                     END"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+            If EXISTE_STORE_PROCEDURE("sp_ObtieneImpuestosFactura") Then
+                SQL = "DROP PROCEDURE sp_ObtieneImpuestosFactura"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+
+            SQL = "
+                CREATE PROCEDURE [dbo].[sp_ObtieneImpuestosFactura] 
+                @CveDoc VARCHAR(50),
+                @Escenario INT
+                AS
+                BEGIN
+	
+	                SET NOCOUNT ON;
+	                DECLARE @Impuestos AS TABLE (Partida int, TipoTrasRet int, Base decimal(27,6), Impuesto varchar(3), TipoFactor varchar(4), TasaOCuota decimal(27,6), Importe decimal(27,6))
+	                DECLARE @IvaBase decimal(27,6)
+	                DECLARE @IvaTasa decimal(27,6)
+	                DECLARE @IvaImporte decimal(27,6)
+	                DECLARE @RetBase decimal(27,6)
+	                DECLARE @RetTasa decimal(27,6)
+	                DECLARE @RetImporte decimal(27,6)
+	
+	                IF @Escenario = 3
+	                BEGIN
+		                SELECT @IvaBase= SUM(BASEIVA), @IvaTasa = 0.16, @IvaImporte = SUM(IVA), @RetBase = SUM(BASERET), @RetTasa=-0.04, @RetImporte = SUM(RET)
+		                FROM (
+			                SELECT CVE_VIAJE, CVE_DOC, BASEIVA = IIF(IVA!=0, SUBTOTAL, 0), BASERET = IIF(RET!=0, SUBTOTAL, 0), IVA, RET
+			                FROM (
+				                SELECT CVE_VIAJE, CVE_DOC, SUBTOTAL = ISNULL(SUM(SUBTOTAL), 0), IVA = ISNULL(SUM(IVA), 0), RET = ISNULL(SUM(RET), 0)
+				                FROM (
+						                SELECT A.CVE_VIAJE, A.CVE_DOC, SUBTOTAL =SUM(A.SUBTOTAL) - ISNULL(SUM(B.SUBTOTAL), 0), IVA = SUM(A.IVA) - ISNULL(SUM(B.IVA), 0), RET = SUM(A.RET) - ISNULL(SUM(B.RET), 0)
+						                FROM GCASIGNACION_VIAJE_ABONOS A WITH (NOLOCK)
+						                LEFT JOIN (
+									                SELECT CVE_VIAJE, CVE_DOC, SUBTOTAL =SUM(IMPORTE), IVA = SUM(IVA), RET = SUM(RET) 
+									                FROM GCASIG_CONCEP_PAR_ABONOS WITH (NOLOCK)
+									                WHERE CVE_DOC = @CveDoc 
+									                GROUP BY CVE_VIAJE, CVE_DOC) AS B ON B.CVE_DOC = A.CVE_DOC AND B.CVE_VIAJE = A.CVE_VIAJE
+						                WHERE A.CVE_DOC = @CveDoc 
+						                GROUP BY A.CVE_VIAJE, A.CVE_DOC
+						                UNION 
+						                SELECT CVE_VIAJE, CVE_DOC, SUBTOTAL =SUM(IMPORTE), IVA = SUM(IVA), RET = SUM(RET) 
+						                FROM GCASIG_CONCEP_PAR_ABONOS WITH (NOLOCK)
+						                WHERE CVE_DOC = @CveDoc AND (IVA!=0 OR RET!=0)
+						                GROUP BY CVE_VIAJE, CVE_DOC, IVA, RET) R
+				                GROUP BY CVE_VIAJE, CVE_DOC, IVA, RET) Y) GRP
+	
+		                IF @IvaBase>0
+		                BEGIN
+			                INSERT INTO @Impuestos(Partida, TipoTrasRet, Base, Impuesto, TipoFactor, TasaOCuota, Importe) 
+			                VALUES(1, 1, @IvaBase, '002', 'Tasa', @IvaTasa, @IvaImporte)
+		                END
+		                IF @RetBase>0
+		                BEGIN
+			                INSERT INTO @Impuestos(Partida, TipoTrasRet, Base, Impuesto, TipoFactor, TasaOCuota, Importe) 
+			                VALUES(1, 2, @RetBase, '002', 'Tasa', ABS(@RetTasa), ABS(@RetImporte))
+		                END                    
+	                END
+
+	                SELECT * FROM @Impuestos
+                END"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
 

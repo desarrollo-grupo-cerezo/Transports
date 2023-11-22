@@ -1,4 +1,7 @@
 ﻿Imports System.IO
+Imports Stimulsoft
+Imports Stimulsoft.Report
+
 Public Class FrmReporDieselReconocido
     Private Sub FrmReporDieselReconocido_Load(sender As Object, e As EventArgs) Handles Me.Load
 
@@ -35,6 +38,7 @@ Public Class FrmReporDieselReconocido
     Private Sub BarImprimir_Click(sender As Object, e As EventArgs) Handles BarImprimir.Click
         Try
             Dim RUTA_FORMATOS As String = ""
+            Dim Reporte As New StiReport
 
             BarImprimir.Enabled = False
 
@@ -44,22 +48,23 @@ Public Class FrmReporDieselReconocido
                 MsgBox("No existe el reporte " & RUTA_FORMATOS & ", verifique por favor")
                 Return
             End If
-            StiReport1.Load(RUTA_FORMATOS)
+            Reporte.Load(RUTA_FORMATOS)
 
             Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
                 Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
 
-            StiReport1.Dictionary.Databases.Clear()
-            StiReport1.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
+            Reporte.Dictionary.Databases.Clear()
+            Reporte.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
 
-            StiReport1.Compile()
-            StiReport1.Dictionary.Synchronize()
-            StiReport1.ReportName = Me.Text
-            StiReport1.Item("F1") = F1.Value
-            StiReport1.Item("F2") = F2.Value
+            Reporte.Compile()
+            Reporte.Dictionary.Synchronize()
+            Reporte.ReportName = Me.Text
+            Reporte.Item("F1") = F1.Value
+            Reporte.Item("F2") = F2.Value
 
-            StiReport1.Render()
-            StiReport1.Show()
+            Reporte.Render()
+            'Reporte.Show()
+            VisualizaReporte(Reporte)
         Catch ex As Exception
             Bitacora("630. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("630. " & ex.Message & vbNewLine & ex.StackTrace)

@@ -618,6 +618,11 @@ Public Class FrmTabRutasHojaAE
             Bitacora("1820. " & ex.Message & vbNewLine & "" & ex.StackTrace)
         End Try
 
+        If TKM.Value = 0 Then
+            MsgBox("Falta por capturar los Kilómetros, favor de verificar", MsgBoxStyle.Information)
+            Return
+        End If
+
         CALCULO1()
 
         Try

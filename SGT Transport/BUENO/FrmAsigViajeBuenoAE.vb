@@ -1889,7 +1889,7 @@ Public Class FrmAsigViajeBuenoAE
 
         Try
             TVOLUMEN_PESO.UpdateValueWithCurrentText()
-            TMONTO1.UpdateValueWithCurrentText()
+            'TMONTO1.UpdateValueWithCurrentText()
             TMONTO2.UpdateValueWithCurrentText()
             TMONTO3.UpdateValueWithCurrentText()
             TMONTO4.UpdateValueWithCurrentText()
@@ -4922,7 +4922,7 @@ Public Class FrmAsigViajeBuenoAE
                                     cmd.Parameters.Add("@NUM_PAR", SqlDbType.SmallInt).Value = k
                                     cmd.Parameters.Add("@CAUSA_IVA", SqlDbType.SmallInt).Value = IIf(ChCAUSA_IVA1.Checked, 1, 0)
                                     cmd.Parameters.Add("@CAUSA_RET", SqlDbType.SmallInt).Value = IIf(ChCAUSA_RET1.Checked, 1, 0)
-                                    cmd.Parameters.Add("@MONTO", SqlDbType.SmallInt).Value = TMONTO1.Value
+                                    cmd.Parameters.Add("@MONTO", SqlDbType.Decimal).Value = TMONTO1.Value
                                     cmd.Parameters.Add("@CVE_PRODSERV", SqlDbType.VarChar).Value = TCVE_PRODSERV1.Value
                                     cmd.Parameters.Add("@CVE_UNIDAD", SqlDbType.VarChar).Value = TCVE_UNIDAD1.Value
                                     cmd.Parameters.Add("@IVA_PORC", SqlDbType.VarChar).Value = TIVAC1.Value
@@ -4940,7 +4940,7 @@ Public Class FrmAsigViajeBuenoAE
                                     cmd.Parameters.Add("@NUM_PAR", SqlDbType.SmallInt).Value = k
                                     cmd.Parameters.Add("@CAUSA_IVA", SqlDbType.SmallInt).Value = IIf(ChCAUSA_IVA2.Checked, 1, 0)
                                     cmd.Parameters.Add("@CAUSA_RET", SqlDbType.SmallInt).Value = IIf(ChCAUSA_RET2.Checked, 1, 0)
-                                    cmd.Parameters.Add("@MONTO", SqlDbType.SmallInt).Value = TMONTO2.Value
+                                    cmd.Parameters.Add("@MONTO", SqlDbType.Decimal).Value = TMONTO2.Value
                                     cmd.Parameters.Add("@CVE_PRODSERV", SqlDbType.VarChar).Value = TCVE_PRODSERV2.Text
                                     cmd.Parameters.Add("@CVE_UNIDAD", SqlDbType.VarChar).Value = TCVE_UNIDAD2.Text
                                     cmd.Parameters.Add("@IVA_PORC", SqlDbType.VarChar).Value = TIVAC2.Value
@@ -4958,7 +4958,7 @@ Public Class FrmAsigViajeBuenoAE
                                     cmd.Parameters.Add("@NUM_PAR", SqlDbType.SmallInt).Value = k
                                     cmd.Parameters.Add("@CAUSA_IVA", SqlDbType.SmallInt).Value = IIf(ChCAUSA_IVA3.Checked, 1, 0)
                                     cmd.Parameters.Add("@CAUSA_RET", SqlDbType.SmallInt).Value = IIf(ChCAUSA_RET3.Checked, 1, 0)
-                                    cmd.Parameters.Add("@MONTO", SqlDbType.SmallInt).Value = TMONTO3.Value
+                                    cmd.Parameters.Add("@MONTO", SqlDbType.Decimal).Value = TMONTO3.Value
                                     cmd.Parameters.Add("@CVE_PRODSERV", SqlDbType.VarChar).Value = TCVE_PRODSERV3.Text
                                     cmd.Parameters.Add("@CVE_UNIDAD", SqlDbType.VarChar).Value = TCVE_UNIDAD3.Text
                                     cmd.Parameters.Add("@IVA_PORC", SqlDbType.VarChar).Value = TIVAC3.Value
@@ -4976,7 +4976,7 @@ Public Class FrmAsigViajeBuenoAE
                                     cmd.Parameters.Add("@NUM_PAR", SqlDbType.SmallInt).Value = k
                                     cmd.Parameters.Add("@CAUSA_IVA", SqlDbType.SmallInt).Value = IIf(ChCAUSA_IVA4.Checked, 1, 0)
                                     cmd.Parameters.Add("@CAUSA_RET", SqlDbType.SmallInt).Value = IIf(ChCAUSA_RET4.Checked, 1, 0)
-                                    cmd.Parameters.Add("@MONTO", SqlDbType.SmallInt).Value = TMONTO4.Value
+                                    cmd.Parameters.Add("@MONTO", SqlDbType.Decimal).Value = TMONTO4.Value
                                     cmd.Parameters.Add("@CVE_PRODSERV", SqlDbType.VarChar).Value = TCVE_PRODSERV4.Text
                                     cmd.Parameters.Add("@CVE_UNIDAD", SqlDbType.VarChar).Value = TCVE_UNIDAD4.Text
                                     cmd.Parameters.Add("@IVA_PORC", SqlDbType.VarChar).Value = TIVAC4.Value
@@ -4994,7 +4994,7 @@ Public Class FrmAsigViajeBuenoAE
                                     cmd.Parameters.Add("@NUM_PAR", SqlDbType.SmallInt).Value = k
                                     cmd.Parameters.Add("@CAUSA_IVA", SqlDbType.SmallInt).Value = IIf(ChCAUSA_IVA5.Checked, 1, 0)
                                     cmd.Parameters.Add("@CAUSA_RET", SqlDbType.SmallInt).Value = IIf(ChCAUSA_RET5.Checked, 1, 0)
-                                    cmd.Parameters.Add("@MONTO", SqlDbType.SmallInt).Value = TMONTO5.Value
+                                    cmd.Parameters.Add("@MONTO", SqlDbType.Decimal).Value = TMONTO5.Value
                                     cmd.Parameters.Add("@CVE_PRODSERV", SqlDbType.VarChar).Value = TCVE_PRODSERV5.Text
                                     cmd.Parameters.Add("@CVE_UNIDAD", SqlDbType.VarChar).Value = TCVE_UNIDAD5.Text
                                     cmd.Parameters.Add("@IVA_PORC", SqlDbType.VarChar).Value = TIVAC5.Value
@@ -5012,7 +5012,7 @@ Public Class FrmAsigViajeBuenoAE
                                     cmd.Parameters.Add("@NUM_PAR", SqlDbType.SmallInt).Value = k
                                     cmd.Parameters.Add("@CAUSA_IVA", SqlDbType.SmallInt).Value = IIf(ChCAUSA_IVA6.Checked, 1, 0)
                                     cmd.Parameters.Add("@CAUSA_RET", SqlDbType.SmallInt).Value = IIf(ChCAUSA_RET6.Checked, 1, 0)
-                                    cmd.Parameters.Add("@MONTO", SqlDbType.SmallInt).Value = TMONTO6.Value
+                                    cmd.Parameters.Add("@MONTO", SqlDbType.Decimal).Value = TMONTO6.Value
                                     cmd.Parameters.Add("@CVE_PRODSERV", SqlDbType.VarChar).Value = TCVE_PRODSERV6.Text
                                     cmd.Parameters.Add("@CVE_UNIDAD", SqlDbType.VarChar).Value = TCVE_UNIDAD6.Text
                                     cmd.Parameters.Add("@IVA_PORC", SqlDbType.VarChar).Value = TIVAC6.Value
@@ -5416,6 +5416,7 @@ Public Class FrmAsigViajeBuenoAE
         Dim CVE_FOLIO As String = "", UUID As String, FECH As Date, QUERY As String
         Dim FOL_VIA As Long = 0, TIPO_VIAJE As Integer = -1
         Dim cmd As New SqlCommand With {.Connection = cnSAE}
+        Dim DETEC_ERROR_VIOLATION_KEY As Boolean
 
         FgG.FinishEditing()
 
@@ -5480,7 +5481,7 @@ Public Class FrmAsigViajeBuenoAE
                             Bitacora("50. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & QUERY)
                         End Try
 
-                        For j = 1 To 5
+                        For j = 1 To 10
 
                             SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET CVE_OPER = @CVE_OPER, CVE_NUM = @CVE_NUM, IMPORTE = @IMPORTE,
                                 ST_GASTOS = @ST_GASTOS, STATUS = 'A', TIPO_PAGO = @TIPO_PAGO 
@@ -5489,6 +5490,7 @@ Public Class FrmAsigViajeBuenoAE
                                 INSERT INTO GCASIGNACION_VIAJE_GASTOS (CVE_VIAJE, STATUS, CVE_OPER, FOLIO, FECHA, CVE_NUM, IMPORTE, FECHAELAB, 
                                 ST_GASTOS, TIPO_PAGO, UUID) OUTPUT Inserted.UUID VALUES (@CVE_VIAJE,'A', @CVE_OPER, @FOLIO, @FECHA, @CVE_NUM, @IMPORTE, GETDATE(), 
                                 @ST_GASTOS, @TIPO_PAGO, NEWID())"
+
                             cmd.CommandText = SQL
                             cmd.Parameters.Clear()
                             cmd.Parameters.Add("@CVE_VIAJE", SqlDbType.VarChar).Value = fCVE_VIAJE
@@ -5510,11 +5512,36 @@ Public Class FrmAsigViajeBuenoAE
                                     FgG(k, 8) = "S"
                                 End If
                                 Exit For
+                            Catch ex As SqlException
+                                ' Log the original exception here
+                                For Each sqlError As SqlError In ex.Errors
+                                    Debug.Print(sqlError.Number & ", " & sqlError.ToString)
+                                    Select Case sqlError.Number
+                                        Case 207 ' 207 = InvalidColumn
+                                            'do your Stuff here
+                                            Exit Select
+                                        Case 547 ' 547 = (Foreign) Key violation
+                                            'do your Stuff here
+                                            DETEC_ERROR_VIOLATION_KEY = True
+                                            Exit Select
+                                        Case 2601, 2627 ' 2601 = (Primary) key violation
+                                            'do your Stuff here
+                                            DETEC_ERROR_VIOLATION_KEY = True
+                                            Exit Select
+                                        Case 3621
+                                            'The statement has been terminated.
+                                        Case Else                        'do your Stuff here
+                                            Exit Select
+                                    End Select
+                                Next
                             Catch ex As Exception
                                 Bitacora("38. " & ex.Message & vbNewLine & ex.StackTrace)
                             End Try
-                            FOL_VIA = GET_MAX_TRY("GCASIGNACION_VIAJE_GASTOS", "FOLIO")
-                            CVE_FOLIO = FOL_VIA
+
+                            If DETEC_ERROR_VIOLATION_KEY Then
+                                FOL_VIA = GET_MAX_TRY("GCASIGNACION_VIAJE_GASTOS", "FOLIO")
+                                CVE_FOLIO = FOL_VIA
+                            End If
                         Next
                     Catch ex As Exception
                         Bitacora("40. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -9259,7 +9286,7 @@ Public Class FrmAsigViajeBuenoAE
 
         Try
             TVOLUMEN_PESO.UpdateValueWithCurrentText()
-            TMONTO1.UpdateValueWithCurrentText()
+            'TMONTO1.UpdateValueWithCurrentText()
             TMONTO2.UpdateValueWithCurrentText()
             TMONTO3.UpdateValueWithCurrentText()
             TMONTO4.UpdateValueWithCurrentText()
@@ -9375,14 +9402,14 @@ Public Class FrmAsigViajeBuenoAE
 
                 TIMPORTE_CONCEP.Value = M1 + M2 + M3 + M4 + M5 + M6
 
-                PREC += TIMPORTE_CONCEP.Value
+                'PREC += TIMPORTE_CONCEP.Value
 
                 cIeps = PREC * vIMPU1 / 100
                 cImpu2 = PREC * vIMPU2 / 100
                 cImpu3 = PREC * vIMPU3 / 100
                 cImpu = PREC * vIMPU4 / 100
 
-                TSUB_TOTAL.Value = PREC '+ M1 + M2 + M3 + M4 + M5 + M6
+                TSUB_TOTAL.Value = PREC + TIMPORTE_CONCEP.Value '+ M1 + M2 + M3 + M4 + M5 + M6
                 TIVA.Value = cIeps + cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6
                 TRET.Value = cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6
                 TNETO.Value = TSUB_TOTAL.Value + TIVA.Value + TRET.Value
@@ -10390,7 +10417,11 @@ Public Class FrmAsigViajeBuenoAE
         Catch ex As Exception
         End Try
     End Sub
-    Private Sub TMONTO1_TextChanged(sender As Object, e As EventArgs) Handles TMONTO1.TextChanged
+    Private Sub TMONTO1_TextChanged(sender As Object, e As EventArgs) Handles TMONTO1.ValueChanged,
+            TIVAC1.TextChanged, TIVAC2.TextChanged, TIVAC3.TextChanged, TIVAC4.TextChanged, TIVAC5.TextChanged, TIVAC6.TextChanged,
+            TRET1.TextChanged, TRET2.TextChanged, TRET3.TextChanged, TRET4.TextChanged, TRET5.TextChanged, TRET6.TextChanged
+
+
         If Not ACEPTA_CALCULO Then
             Return
         End If
@@ -10403,7 +10434,7 @@ Public Class FrmAsigViajeBuenoAE
             CALCULAR_NUEVO_ESQUEMA()
         End If
     End Sub
-    Private Sub TMONTO2_TextChanged(sender As Object, e As EventArgs) Handles TMONTO2.TextChanged
+    Private Sub TMONTO2_TextChanged(sender As Object, e As EventArgs) Handles TMONTO2.ValueChanged
         If Not ACEPTA_CALCULO Then
             Return
         End If
@@ -10414,19 +10445,7 @@ Public Class FrmAsigViajeBuenoAE
             CALCULAR_NUEVO_ESQUEMA()
         End If
     End Sub
-    Private Sub TMONTO3_TextChanged(sender As Object, e As EventArgs) Handles TMONTO3.TextChanged
-
-        If Not ACEPTA_CALCULO Then
-            Return
-        End If
-
-        If ESCENARIO = 3 Then
-            CALCULOS_TEXTCHANGED(1, "MEX")
-        Else
-            CALCULAR_NUEVO_ESQUEMA()
-        End If
-    End Sub
-    Private Sub TMONTO4_TextChanged(sender As Object, e As EventArgs) Handles TMONTO4.TextChanged
+    Private Sub TMONTO3_TextChanged(sender As Object, e As EventArgs) Handles TMONTO3.ValueChanged
 
         If Not ACEPTA_CALCULO Then
             Return
@@ -10438,7 +10457,7 @@ Public Class FrmAsigViajeBuenoAE
             CALCULAR_NUEVO_ESQUEMA()
         End If
     End Sub
-    Private Sub TMONTO5_TextChanged(sender As Object, e As EventArgs) Handles TMONTO5.TextChanged
+    Private Sub TMONTO4_TextChanged(sender As Object, e As EventArgs) Handles TMONTO4.ValueChanged
 
         If Not ACEPTA_CALCULO Then
             Return
@@ -10450,7 +10469,7 @@ Public Class FrmAsigViajeBuenoAE
             CALCULAR_NUEVO_ESQUEMA()
         End If
     End Sub
-    Private Sub TMONTO6_TextChanged(sender As Object, e As EventArgs) Handles TMONTO6.TextChanged
+    Private Sub TMONTO5_TextChanged(sender As Object, e As EventArgs) Handles TMONTO5.ValueChanged
 
         If Not ACEPTA_CALCULO Then
             Return
@@ -10462,23 +10481,35 @@ Public Class FrmAsigViajeBuenoAE
             CALCULAR_NUEVO_ESQUEMA()
         End If
     End Sub
-    Private Sub TRET1_TextChanged(sender As Object, e As EventArgs) Handles TRET1.TextChanged
+    Private Sub TMONTO6_TextChanged(sender As Object, e As EventArgs) Handles TMONTO6.ValueChanged
+
+        If Not ACEPTA_CALCULO Then
+            Return
+        End If
+
+        If ESCENARIO = 3 Then
+            CALCULOS_TEXTCHANGED(1, "MEX")
+        Else
+            CALCULAR_NUEVO_ESQUEMA()
+        End If
     End Sub
-    Private Sub TRET2_TextChanged(sender As Object, e As EventArgs) Handles TRET2.TextChanged
-        'CALCULAR_NUEVO_ESQUEMA()
-    End Sub
-    Private Sub TRET3_TextChanged(sender As Object, e As EventArgs) Handles TRET3.TextChanged
-        'CALCULAR_NUEVO_ESQUEMA()
-    End Sub
-    Private Sub TRET4_TextChanged(sender As Object, e As EventArgs) Handles TRET4.TextChanged
-        'CALCULAR_NUEVO_ESQUEMA()
-    End Sub
-    Private Sub TRET5_TextChanged(sender As Object, e As EventArgs) Handles TRET5.TextChanged
-        'CALCULAR_NUEVO_ESQUEMA()
-    End Sub
-    Private Sub TRET6_TextChanged(sender As Object, e As EventArgs) Handles TRET6.TextChanged
-        'CALCULAR_NUEVO_ESQUEMA()
-    End Sub
+    'Private Sub TRET1_TextChanged(sender As Object, e As EventArgs) Handles TRET1.TextChanged
+    'End Sub
+    'Private Sub TRET2_TextChanged(sender As Object, e As EventArgs) Handles TRET2.TextChanged
+    '    'CALCULAR_NUEVO_ESQUEMA()
+    'End Sub
+    'Private Sub TRET3_TextChanged(sender As Object, e As EventArgs) Handles TRET3.TextChanged
+    '    'CALCULAR_NUEVO_ESQUEMA()
+    'End Sub
+    'Private Sub TRET4_TextChanged(sender As Object, e As EventArgs) Handles TRET4.TextChanged
+    '    'CALCULAR_NUEVO_ESQUEMA()
+    'End Sub
+    'Private Sub TRET5_TextChanged(sender As Object, e As EventArgs) Handles TRET5.TextChanged
+    '    'CALCULAR_NUEVO_ESQUEMA()
+    'End Sub
+    'Private Sub TRET6_TextChanged(sender As Object, e As EventArgs) Handles TRET6.TextChanged
+    '    'CALCULAR_NUEVO_ESQUEMA()
+    'End Sub
     Private Sub BtnCveProd_Click(sender As Object, e As EventArgs) Handles BtnCveProd.Click
         Prosec = "CATINV"
         Var10 = ""
@@ -10927,7 +10958,7 @@ Public Class FrmAsigViajeBuenoAE
         If VarXml = Nothing Then VarXml = ""
     End Function
 
-    Private Sub TMONTOA1_TextChanged(sender As Object, e As EventArgs)
+    Private Sub TMONTOA1_TextChanged(sender As Object, e As EventArgs) Handles TIVAC6.TextChanged
         CALCULO_ESCENARIO3(1)
     End Sub
 

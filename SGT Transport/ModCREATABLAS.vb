@@ -3938,7 +3938,7 @@ Module ModCREATABLAS
                         AUTORIZADO BIT NULL, DEPOSITADO BIT NULL, FECHA_AUT DATE NULL, FECHA_DEP DATE NULL, USUARIO1 VARCHAR(80) NULL, USUARIO2 VARCHAR(20) NULL, 
                         CVE_NUM VARCHAR(10) NULL, IMPORTE FLOAT, CVE_LIQ INT NULL, TIPO_PAGO SMALLINT NULL, FECHAELAB DATETIME NULL, UUID VARCHAR(50) NULL, 
                         REF_BAN VARCHAR(80) NULL, POL_GEN VARCHAR(1) NULL, 
-                        CONSTRAINT PK_GCASIGNACION_VIAJE_GASTOS PRIMARY KEY CLUSTERED (CVE_VIAJE, FOLIO) ON [PRIMARY])"
+                        CONSTRAINT PK_GCASIGNACION_VIAJE_GASTOS PRIMARY KEY CLUSTERED (FOLIO) ON [PRIMARY])"
                     cmd.CommandText = SQL
                     cmd.ExecuteNonQuery()
                 End If
@@ -5800,7 +5800,7 @@ Module ModCREATABLAS
         Try
             If Not EXISTE_TABLA("GCASIG_CONCEP_PAR") Then
                 SQL = "CREATE TABLE GCASIG_CONCEP_PAR (CVE_VIAJE VARCHAR(20) NOT NULL, CVE_COBRO SMALLINT NOT NULL, NUM_PAR SMALLINT NOT NULL,  
-                    STATUS VARCHAR(1) NULL, CAUSA_IVA SMALLINT NULL, IVA_PORC FLOAT NULL, CAUSA_RET SMALLINT NULL, RET_PORC FLOAT NULL, MONTO DECIMAL NULL,
+                    STATUS VARCHAR(1) NULL, CAUSA_IVA SMALLINT NULL, IVA_PORC FLOAT NULL, CAUSA_RET SMALLINT NULL, RET_PORC FLOAT NULL, MONTO DECIMAL(18, 2) NULL,
                     CVE_PRODSERV VARCHAR(9) NULL, CVE_UNIDAD VARCHAR(4) NULL, UUID VARCHAR(50) NULL, 
 	                CONSTRAINT PK_GCASIG_CONCEP_PAR PRIMARY KEY CLUSTERED (CVE_VIAJE, CVE_COBRO, NUM_PAR)) ON [PRIMARY]"
                 cmd.CommandText = SQL
@@ -10713,10 +10713,10 @@ Module ModCREATABLAS
 	                    [CVE_DOC] [varchar](20) NOT NULL,
 	                    [CVE_PRODSERV] [varchar](15) NULL,
 	                    [CVE_UNIDAD] [varchar](15) NULL,	
-	                    [IMPORTE] [decimal](18, 0) NULL,
-	                    [IVA] [decimal](18, 0) NULL,
-	                    [RET] [decimal](18, 0) NULL,
-	                    [NETO] [decimal](18, 0) NULL,
+	                    [IMPORTE] [decimal](18, 2) NULL,
+	                    [IVA] [decimal](18, 2) NULL,
+	                    [RET] [decimal](18, 2) NULL,
+	                    [NETO] [decimal](18, 2) NULL,
 	                    [STATUS] [varchar](1) NULL,
 	                    [FECHAELAB] [datetime] NULL	
                     ) ON [PRIMARY]"
@@ -11913,67 +11913,243 @@ AS
                 cmd.ExecuteNonQuery()
             End If
 
-            SQL = "
-                CREATE PROCEDURE [dbo].[sp_ObtieneImpuestosFactura] 
-                @CveDoc VARCHAR(50),
-                @Escenario INT
-                AS
-                BEGIN
+            SQL = "CREATE PROCEDURE [dbo].[sp_ObtieneImpuestosFactura] 
+@CveDoc VARCHAR(50),
+@Escenario INT,
+@CveEsqImpu INT
+AS
+BEGIN
 	
-	                SET NOCOUNT ON;
-	                DECLARE @Impuestos AS TABLE (Partida int, TipoTrasRet int, Base decimal(27,6), Impuesto varchar(3), TipoFactor varchar(4), TasaOCuota decimal(27,6), Importe decimal(27,6))
-	                DECLARE @IvaBase decimal(27,6)
-	                DECLARE @IvaTasa decimal(27,6)
-	                DECLARE @IvaImporte decimal(27,6)
-	                DECLARE @RetBase decimal(27,6)
-	                DECLARE @RetTasa decimal(27,6)
-	                DECLARE @RetImporte decimal(27,6)
-	
-	                IF @Escenario = 3
-	                BEGIN
-		                SELECT @IvaBase= SUM(BASEIVA), @IvaTasa = 0.16, @IvaImporte = SUM(IVA), @RetBase = SUM(BASERET), @RetTasa=-0.04, @RetImporte = SUM(RET)
-		                FROM (
-			                SELECT CVE_VIAJE, CVE_DOC, BASEIVA = IIF(IVA!=0, SUBTOTAL, 0), BASERET = IIF(RET!=0, SUBTOTAL, 0), IVA, RET
-			                FROM (
-				                SELECT CVE_VIAJE, CVE_DOC, SUBTOTAL = ISNULL(SUM(SUBTOTAL), 0), IVA = ISNULL(SUM(IVA), 0), RET = ISNULL(SUM(RET), 0)
-				                FROM (
-						                SELECT A.CVE_VIAJE, A.CVE_DOC, SUBTOTAL =SUM(A.SUBTOTAL) - ISNULL(SUM(B.SUBTOTAL), 0), IVA = SUM(A.IVA) - ISNULL(SUM(B.IVA), 0), RET = SUM(A.RET) - ISNULL(SUM(B.RET), 0)
-						                FROM GCASIGNACION_VIAJE_ABONOS A WITH (NOLOCK)
-						                LEFT JOIN (
-									                SELECT CVE_VIAJE, CVE_DOC, SUBTOTAL =SUM(IMPORTE), IVA = SUM(IVA), RET = SUM(RET) 
-									                FROM GCASIG_CONCEP_PAR_ABONOS WITH (NOLOCK)
-									                WHERE CVE_DOC = @CveDoc 
-									                GROUP BY CVE_VIAJE, CVE_DOC) AS B ON B.CVE_DOC = A.CVE_DOC AND B.CVE_VIAJE = A.CVE_VIAJE
-						                WHERE A.CVE_DOC = @CveDoc 
-						                GROUP BY A.CVE_VIAJE, A.CVE_DOC
-						                UNION 
-						                SELECT CVE_VIAJE, CVE_DOC, SUBTOTAL =SUM(IMPORTE), IVA = SUM(IVA), RET = SUM(RET) 
-						                FROM GCASIG_CONCEP_PAR_ABONOS WITH (NOLOCK)
-						                WHERE CVE_DOC = @CveDoc AND (IVA!=0 OR RET!=0)
-						                GROUP BY CVE_VIAJE, CVE_DOC, IVA, RET) R
-				                GROUP BY CVE_VIAJE, CVE_DOC, IVA, RET) Y) GRP
-	
-		                IF @IvaBase>0
-		                BEGIN
-			                INSERT INTO @Impuestos(Partida, TipoTrasRet, Base, Impuesto, TipoFactor, TasaOCuota, Importe) 
-			                VALUES(1, 1, @IvaBase, '002', 'Tasa', @IvaTasa, @IvaImporte)
-		                END
-		                IF @RetBase>0
-		                BEGIN
-			                INSERT INTO @Impuestos(Partida, TipoTrasRet, Base, Impuesto, TipoFactor, TasaOCuota, Importe) 
-			                VALUES(1, 2, @RetBase, '002', 'Tasa', ABS(@RetTasa), ABS(@RetImporte))
-		                END                    
-	                END
+	SET NOCOUNT ON;
+	DECLARE @Impuestos AS TABLE (Partida int, TipoTrasRet int, Base decimal(27,6), Impuesto varchar(3), TipoFactor varchar(4), TasaOCuota decimal(27,6), Importe decimal(27,6))
+	DECLARE @IvaBase decimal(27,6)
+	DECLARE @IvaTasa decimal(27,6)
+	DECLARE @IvaImporte decimal(27,6)
+	DECLARE @RetBase decimal(27,6)
+	DECLARE @RetTasa decimal(27,6)
+	DECLARE @RetImporte decimal(27,6)
 
-	                SELECT * FROM @Impuestos
-                END"
+	DECLARE @TipoTrasRet int					
+	DECLARE @Tasa decimal(27,6)
+	DECLARE @Base decimal(27,6)
+	DECLARE @Importe decimal(27,6)
+	DECLARE @Impuesto3Ret decimal(27,6)
+	DECLARE @Impuesto4Iva decimal(27,6)
+
+	SELECT @Impuesto3Ret=(IMPUESTO3/100), @Impuesto4Iva=(IMPUESTO4/100) FROM IMPU" & Empresa & " WHERE CVE_ESQIMPU = @CveEsqImpu
+	
+	IF @Escenario = 3
+	BEGIN
+		DECLARE @cCursor3 as CURSOR
+
+	    SET @cCursor3 = CURSOR FAST_FORWARD FOR
+		    SELECT TIPOTRASRET, TASA, BASE = SUM(BASE), IMPORTE = SUM(IMPORTE)
+			FROM (
+					SELECT TIPOTRASRET = 1, BASE = SUM(A.SUBTOTAL) - ISNULL(SUM(B.SUBTOTAL), 0), TASA = @Impuesto4Iva, IMPORTE = (SUM(A.SUBTOTAL) - ISNULL(SUM(B.SUBTOTAL), 0))* @Impuesto4Iva
+					FROM GCASIGNACION_VIAJE_ABONOS A WITH (NOLOCK)
+					LEFT JOIN (
+								SELECT CVE_VIAJE, CVE_DOC, SUBTOTAL =SUM(IMPORTE), IVA = SUM(IVA), RET = SUM(RET) 
+								FROM GCASIG_CONCEP_PAR_ABONOS WITH (NOLOCK)
+								WHERE CVE_DOC = @CveDoc 
+								GROUP BY CVE_VIAJE, CVE_DOC) AS B ON B.CVE_DOC = A.CVE_DOC AND B.CVE_VIAJE = A.CVE_VIAJE
+					WHERE A.CVE_DOC = @CveDoc
+					GROUP BY A.CVE_VIAJE, A.CVE_DOC
+					UNION ALL
+					SELECT TIPOTRASRET = 2, BASE = SUM(A.SUBTOTAL) - ISNULL(SUM(B.SUBTOTAL), 0), TASA = @Impuesto3Ret, IMPORTE = (SUM(A.SUBTOTAL) - ISNULL(SUM(B.SUBTOTAL), 0))* @Impuesto3Ret
+					FROM GCASIGNACION_VIAJE_ABONOS A WITH (NOLOCK)
+					LEFT JOIN (
+								SELECT CVE_VIAJE, CVE_DOC, SUBTOTAL =SUM(IMPORTE), IVA = SUM(IVA), RET = SUM(RET) 
+								FROM GCASIG_CONCEP_PAR_ABONOS WITH (NOLOCK)
+								WHERE CVE_DOC = @CveDoc 
+								GROUP BY CVE_VIAJE, CVE_DOC) AS B ON B.CVE_DOC = A.CVE_DOC AND B.CVE_VIAJE = A.CVE_VIAJE
+					WHERE A.CVE_DOC = @CveDoc 
+					GROUP BY A.CVE_VIAJE, A.CVE_DOC
+					UNION ALL
+					SELECT TIPOTRASRET = 1, BASE =SUM(A.IMPORTE), TASA= C.IVA_PORC/100, IMPORTE = SUM(A.IVA)
+					FROM GCASIG_CONCEP_PAR_ABONOS A WITH (NOLOCK)
+					INNER JOIN GCASIG_CONCEP_PAR C WITH (NOLOCK) ON C.CVE_VIAJE = A.CVE_VIAJE AND C.CVE_COBRO = A.CVE_COBRO
+					WHERE A.CVE_DOC = @CveDoc AND C.CAUSA_IVA = 1 AND C.IVA_PORC!=0
+					GROUP BY C.IVA_PORC
+					UNION ALL
+					SELECT TIPOTRASRET = 2, BASE =SUM(A.IMPORTE), TASA= C.RET_PORC/100, IMPORTE = SUM(A.RET)
+					FROM GCASIG_CONCEP_PAR_ABONOS A WITH (NOLOCK)
+					INNER JOIN GCASIG_CONCEP_PAR C WITH (NOLOCK) ON C.CVE_VIAJE = A.CVE_VIAJE AND C.CVE_COBRO = A.CVE_COBRO
+					WHERE A.CVE_DOC = @CveDoc AND C.CAUSA_RET = 1 AND C.RET_PORC!=0
+					GROUP BY C.RET_PORC
+				) BASES
+			GROUP BY TIPOTRASRET, TASA
+			ORDER BY TIPOTRASRET
+ 
+	    OPEN @cCursor3;
+	    FETCH NEXT FROM @cCursor3 INTO @TipoTrasRet, @Tasa, @Base, @Importe
+	        WHILE @@FETCH_STATUS = 0
+	    BEGIN		
+
+			INSERT INTO @Impuestos(Partida, TipoTrasRet, Base, Impuesto, TipoFactor, TasaOCuota, Importe) 
+			VALUES(1, @TipoTrasRet, @Base, '002', 'Tasa', ABS(@Tasa), ABS(@Importe))
+		                   
+		    FETCH NEXT FROM @cCursor3 INTO @TipoTrasRet, @Tasa, @Base, @Importe
+	    END
+	    CLOSE @cCursor3;
+	    DEALLOCATE @cCursor3;  		                              
+	END
+
+	IF @Escenario = 2
+	BEGIN
+		DECLARE @cCursor2 as CURSOR
+
+	    SET @cCursor2 = CURSOR FAST_FORWARD FOR
+		    SELECT TIPOTRASRET, TASA, BASE = SUM(BASE), IMPORTE = SUM(IMPORTE)
+			FROM (
+				SELECT TIPOTRASRET = 1, BASE = SUM(FLETE), TASA = @Impuesto4Iva, IMPORTE = (SUM(FLETE)* @Impuesto4Iva)
+				FROM GCASIGNACION_VIAJE V WITH (NOLOCK)
+				INNER JOIN FACTF" & Empresa & " F WITH (NOLOCK) ON F.CVE_DOC = V.CVE_DOC
+				WHERE F.CVE_DOC = @CveDoc
+				UNION ALL
+				SELECT TIPOTRASRET = 2, BASE = SUM(FLETE), TASA = @Impuesto3Ret, IMPORTE = (SUM(FLETE)* @Impuesto3Ret)
+				FROM GCASIGNACION_VIAJE V WITH (NOLOCK)
+				INNER JOIN FACTF" & Empresa & " F WITH (NOLOCK) ON F.CVE_DOC = V.CVE_DOC
+				WHERE F.CVE_DOC = @CveDoc
+				UNION ALL
+				SELECT TIPOTRASRET = 1, BASE = SUM(MONTO),  TASA= IVA_PORC/100, IMPORTE= SUM(MONTO)*IVA_PORC/100
+				FROM GCASIGNACION_VIAJE V WITH (NOLOCK)
+				INNER JOIN FACTF" & Empresa & " F WITH (NOLOCK) ON F.CVE_DOC = V.CVE_DOC
+				INNER JOIN GCASIG_CONCEP_PAR C WITH (NOLOCK) ON C.CVE_VIAJE = V.CVE_VIAJE
+				WHERE F.CVE_DOC = @CveDoc AND C.CAUSA_IVA = 1 AND C.IVA_PORC!=0
+				GROUP BY IVA_PORC
+				UNION ALL
+				SELECT TIPOTRASRET = 2, BASE = SUM(MONTO), TASA = RET_PORC/100, IMPORTE= SUM(MONTO)*RET_PORC/100
+				FROM GCASIGNACION_VIAJE V WITH (NOLOCK)
+				INNER JOIN FACTF" & Empresa & " F WITH (NOLOCK) ON F.CVE_DOC = V.CVE_DOC
+				INNER JOIN GCASIG_CONCEP_PAR C WITH (NOLOCK) ON C.CVE_VIAJE = V.CVE_VIAJE
+				WHERE F.CVE_DOC = @CveDoc AND C.CAUSA_RET = 1 AND C.RET_PORC!=0
+				GROUP BY RET_PORC) BASES
+			GROUP BY TIPOTRASRET, TASA
+			ORDER BY TIPOTRASRET
+ 
+	    OPEN @cCursor2;
+	    FETCH NEXT FROM @cCursor2 INTO @TipoTrasRet, @Tasa, @Base, @Importe
+	        WHILE @@FETCH_STATUS = 0
+	    BEGIN		
+
+			INSERT INTO @Impuestos(Partida, TipoTrasRet, Base, Impuesto, TipoFactor, TasaOCuota, Importe) 
+			VALUES(1, @TipoTrasRet, @Base, '002', 'Tasa', ABS(@Tasa), ABS(@Importe))
+		                   
+		    FETCH NEXT FROM @cCursor2 INTO @TipoTrasRet, @Tasa, @Base, @Importe
+	    END
+	    CLOSE @cCursor2;
+	    DEALLOCATE @cCursor2;                    
+	END
+
+	IF @Escenario = 1
+	BEGIN
+		DECLARE @cCursor1 as CURSOR
+
+	    SET @cCursor1 = CURSOR FAST_FORWARD FOR
+		    SELECT TIPOTRASRET, TASA, BASE = SUM(BASE), IMPORTE = SUM(IMPORTE)
+			FROM (
+				SELECT TIPOTRASRET = 1, BASE = SUM(FLETE), TASA = @Impuesto4Iva, IMPORTE = (SUM(FLETE)* 0.16)
+				FROM GCASIGNACION_VIAJE V WITH (NOLOCK)
+				INNER JOIN FACTF" & Empresa & " F WITH (NOLOCK) ON F.CVE_VIAJE = V.CVE_VIAJE
+				WHERE F.CVE_DOC = @CveDoc
+				UNION ALL
+				SELECT TIPOTRASRET = 2, BASE = SUM(FLETE), TASA = @Impuesto3Ret, IMPORTE = (SUM(FLETE)* @Impuesto3Ret)
+				FROM GCASIGNACION_VIAJE V WITH (NOLOCK)
+				INNER JOIN FACTF" & Empresa & " F WITH (NOLOCK) ON F.CVE_VIAJE = V.CVE_VIAJE
+				WHERE F.CVE_DOC = @CveDoc
+				UNION ALL
+				SELECT TIPOTRASRET = 1, BASE = SUM(MONTO),  TASA= IVA_PORC/100, IMPORTE= SUM(MONTO)*IVA_PORC/100
+				FROM GCASIGNACION_VIAJE V WITH (NOLOCK)
+				INNER JOIN FACTF" & Empresa & " F WITH (NOLOCK) ON F.CVE_VIAJE = V.CVE_VIAJE
+				INNER JOIN GCASIG_CONCEP_PAR C WITH (NOLOCK) ON C.CVE_VIAJE = V.CVE_VIAJE
+				WHERE F.CVE_DOC = @CveDoc AND C.CAUSA_IVA = 1 AND C.IVA_PORC!=0
+				GROUP BY IVA_PORC
+				UNION ALL
+				SELECT TIPOTRASRET = 2, BASE = SUM(MONTO), TASA = RET_PORC/100, IMPORTE= SUM(MONTO)*RET_PORC/100
+				FROM GCASIGNACION_VIAJE V WITH (NOLOCK)
+				INNER JOIN FACTF" & Empresa & " F WITH (NOLOCK) ON F.CVE_VIAJE = V.CVE_VIAJE
+				INNER JOIN GCASIG_CONCEP_PAR C WITH (NOLOCK) ON C.CVE_VIAJE = V.CVE_VIAJE
+				WHERE F.CVE_DOC = @CveDoc AND C.CAUSA_RET = 1 AND C.RET_PORC!=0
+				GROUP BY RET_PORC) BASES
+			GROUP BY TIPOTRASRET, TASA
+			ORDER BY TIPOTRASRET
+ 
+	    OPEN @cCursor1;
+	    FETCH NEXT FROM @cCursor1 INTO @TipoTrasRet, @Tasa, @Base, @Importe
+	        WHILE @@FETCH_STATUS = 0
+	    BEGIN		
+
+			INSERT INTO @Impuestos(Partida, TipoTrasRet, Base, Impuesto, TipoFactor, TasaOCuota, Importe) 
+			VALUES(1, @TipoTrasRet, @Base, '002', 'Tasa', ABS(@Tasa), ABS(@Importe))
+		                   
+		    FETCH NEXT FROM @cCursor1 INTO @TipoTrasRet, @Tasa, @Base, @Importe
+	    END
+	    CLOSE @cCursor1;
+	    DEALLOCATE @cCursor1;                    
+	END
+
+	SELECT * FROM @Impuestos WHERE TipoTrasRet = 1 OR ABS(Importe) !=0
+END"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
 
+            SQL = "
+DECLARE @cCursor CURSOR
+DECLARE @CveViaje VARCHAR(20)
+DECLARE @Folio VARCHAR(20)
+DECLARE @Encontrados INT
+
+SET @cCursor = CURSOR FAST_FORWARD FOR
+	SELECT CVE_VIAJE = CAST(MIN(CAST(CVE_VIAJE AS INT)) AS VARCHAR(20)), FOLIO, COUNT(*) AS ENCONTRADOS
+	FROM GCASIGNACION_VIAJE_GASTOS 	
+	GROUP BY FOLIO HAVING COUNT(*)>1
+	ORDER BY MIN(CAST(CVE_VIAJE AS INT))
+ 
+OPEN @cCursor
+FETCH NEXT FROM @cCursor INTO @CveViaje, @Folio, @Encontrados
+	WHILE @@FETCH_STATUS = 0
+BEGIN		
+	
+	UPDATE G SET FOLIO = REG.FOLIO_NEW
+	FROM GCASIGNACION_VIAJE_GASTOS G
+	INNER JOIN (
+					SELECT CVE_VIAJE, FOLIO, (ROW_NUMBER() OVER(ORDER BY CAST(CVE_VIAJE AS INT)) + (SELECT MAX(CAST(FOLIO AS INT)) FROM GCASIGNACION_VIAJE_GASTOS)) AS FOLIO_NEW
+					FROM GCASIGNACION_VIAJE_GASTOS G
+					WHERE FOLIO = @Folio AND CVE_VIAJE != @CveViaje				
+				) REG ON REG.CVE_VIAJE = G.CVE_VIAJE AND REG.FOLIO = G.FOLIO
+
+	FETCH NEXT FROM @cCursor INTO @CveViaje, @Folio, @Encontrados
+END
+CLOSE @cCursor
+DEALLOCATE @cCursor
+
+IF (SELECT  count(*) campos FROM  sys.indexes IX INNER JOIN sys.index_columns IXC  ON  IX.object_id = IXC.object_id AND  IX.index_id = IXC.index_id   
+WHERE IX.object_id = OBJECT_ID('GCASIGNACION_VIAJE_GASTOS'))>1
+BEGIN
+	ALTER TABLE [dbo].[GCASIGNACION_VIAJE_GASTOS] DROP CONSTRAINT [PK_GCASIGNACION_VIAJE_GASTOS] WITH ( ONLINE = OFF )
+	ALTER TABLE [dbo].[GCASIGNACION_VIAJE_GASTOS] ADD  CONSTRAINT [PK_GCASIGNACION_VIAJE_GASTOS] PRIMARY KEY CLUSTERED
+	([FOLIO] ASC) ON [PRIMARY]
+END"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+            SQL = "IF EXISTS(SELECT 1 FROM syscolumns WHERE id = OBJECT_ID('GCASIG_CONCEP_PAR') AND name = 'MONTO' AND xscale = 0)
+BEGIN
+	ALTER TABLE dbo.GCASIG_CONCEP_PAR ALTER COLUMN MONTO decimal(18, 2) NULL
+	ALTER TABLE dbo.GCASIG_CONCEP_PAR_ABONOS ALTER COLUMN [IMPORTE] [decimal](18, 2) NULL
+	ALTER TABLE dbo.GCASIG_CONCEP_PAR_ABONOS ALTER COLUMN [IVA] [decimal](18, 2) NULL
+	ALTER TABLE dbo.GCASIG_CONCEP_PAR_ABONOS ALTER COLUMN [RET] [decimal](18, 2) NULL
+	ALTER TABLE dbo.GCASIG_CONCEP_PAR_ABONOS ALTER COLUMN [NETO] [decimal](18, 2) NULL
+END
+"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
 
         Catch ex As Exception
             BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
+
+
 
 End Module

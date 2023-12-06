@@ -160,7 +160,7 @@ Public Class MainRibbonForm
             BarMultialmacen1.Visible = False
             BarLineasProductos2.Visible = False
             BarUniMed1.Visible = False
-
+            BarMovsInvOT.Visible = false
             Connect = ""
 
             Dim f As New FrmSelEmpresa With {.MdiParent = Me.Owner, .TopLevel = True, .TopMost = True}
@@ -391,7 +391,7 @@ Public Class MainRibbonForm
 
             'INVENTARIO
             BarServiciosDeInventario.Visible = True
-            BarMovsInvOT.Visible = True
+            'BarMovsInvOT.Visible = True
             BarMinveTOT.Visible = True
             BarConcMinve.Visible = True
             BarAlmacenes.Visible = True
@@ -965,7 +965,7 @@ Public Class MainRibbonForm
                                     BarServiciosDeInventario.Visible = True
                                 Case 100500 'ENTREGA DE PRODUCTOS
                                     TabInvMovsInv.Visible = True
-                                    BarMovsInvOT.Visible = True
+                                    'BarMovsInvOT.Visible = True
                                 Case 101000 'MOVS. AL INVENTARIO
                                     TabInvMovsInv.Visible = True
                                     BarMinveTOT.Visible = True
@@ -1179,7 +1179,7 @@ Public Class MainRibbonForm
                         BarOrdenesDeTrabajoExternas.Visible = True
                         BarOrdenDeTrabajoManto.Visible = True
                         BarServiciosDeInventario.Visible = True
-                        BarMovsInvOT.Visible = True
+                        'BarMovsInvOT.Visible = True
                         BarMinveTOT.Visible = True
                     Else
                         If USER_GRUPOCE.IndexOf("MANTE") > -1 Then
@@ -1403,7 +1403,7 @@ Public Class MainRibbonForm
                                         If pwSupervisor Then
                                             BarServiciosDeInventario.Visible = True
                                             TabInvMovsInv.Visible = True
-                                            BarMovsInvOT.Visible = True
+                                            'BarMovsInvOT.Visible = True
                                             TabInvMovsInv.Visible = True
                                             BarMinveTOT.Visible = True
                                             BarConcMinve.Visible = True

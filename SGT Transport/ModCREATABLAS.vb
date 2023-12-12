@@ -10641,6 +10641,8 @@ Module ModCREATABLAS
 
         Try
             CREA_CAMPO("FACTF" & Empresa, "IDPOLIZACOI", "INT", "", "")
+            CREA_CAMPO("FACTF" & Empresa, "CMT", "VARCHAR", "250", "")
+
             CREA_CAMPO("GCASIGNACION_VIAJE", "IDPOLIZACOI", "INT", "", "")
 
             CREA_CAMPO("GCLIQUIDACIONES", "IDPOLIZACOI", "INT", "", "")

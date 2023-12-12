@@ -478,7 +478,7 @@ Public Class FrmDocumentos
         Try
             Var11 = "nueva"
             PassData8 = "DOCUMENTOS"
-            CREA_TAB(FrmTPV, "Punto de venta")
+            CREA_TAB(FrmTPV, "Fr")
         Catch ex As Exception
             Bitacora("75. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try

@@ -101,6 +101,12 @@ Partial Class FrmTPV
         Me.LtDocSig = New System.Windows.Forms.Label()
         Me.Tab1 = New C1.Win.C1Command.C1DockingTab()
         Me.Page1 = New C1.Win.C1Command.C1DockingTabPage()
+        Me.txCMT = New System.Windows.Forms.TextBox()
+        Me.BtnOper = New C1.Win.C1Input.C1Button()
+        Me.Label31 = New System.Windows.Forms.Label()
+        Me.LOper = New System.Windows.Forms.Label()
+        Me.TCVE_OPER = New System.Windows.Forms.TextBox()
+        Me.Label29 = New System.Windows.Forms.Label()
         Me.btnEsquema = New C1.Win.C1Input.C1Button()
         Me.btnEntregarEn = New C1.Win.C1Input.C1Button()
         Me.BtnTipo = New C1.Win.C1Input.C1Button()
@@ -142,6 +148,7 @@ Partial Class FrmTPV
         CType(Me.Tab1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Tab1.SuspendLayout()
         Me.Page1.SuspendLayout()
+        CType(Me.BtnOper, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnEsquema, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnEntregarEn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnTipo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -621,7 +628,7 @@ Partial Class FrmTPV
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.Fg.KeyActionEnter = C1.Win.C1FlexGrid.KeyActionEnum.MoveAcross
         Me.Fg.KeyActionTab = C1.Win.C1FlexGrid.KeyActionEnum.MoveAcross
-        Me.Fg.Location = New System.Drawing.Point(5, 244)
+        Me.Fg.Location = New System.Drawing.Point(5, 305)
         Me.Fg.Name = "Fg"
         Me.Fg.PreserveEditMode = True
         Me.Fg.Rows.Count = 300
@@ -631,7 +638,7 @@ Partial Class FrmTPV
         Me.Fg.ShowCellLabels = True
         Me.Fg.ShowCursor = True
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg.Size = New System.Drawing.Size(982, 253)
+        Me.Fg.Size = New System.Drawing.Size(982, 192)
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 8
         '
@@ -1086,7 +1093,7 @@ Partial Class FrmTPV
         Me.Tab1.HotTrack = True
         Me.Tab1.Location = New System.Drawing.Point(5, 63)
         Me.Tab1.Name = "Tab1"
-        Me.Tab1.Size = New System.Drawing.Size(982, 179)
+        Me.Tab1.Size = New System.Drawing.Size(982, 236)
         Me.Tab1.TabIndex = 421
         Me.Tab1.TabSizeMode = C1.Win.C1Command.TabSizeModeEnum.Fit
         Me.Tab1.TabsShowFocusCues = False
@@ -1096,6 +1103,12 @@ Partial Class FrmTPV
         '
         'Page1
         '
+        Me.Page1.Controls.Add(Me.txCMT)
+        Me.Page1.Controls.Add(Me.BtnOper)
+        Me.Page1.Controls.Add(Me.Label31)
+        Me.Page1.Controls.Add(Me.LOper)
+        Me.Page1.Controls.Add(Me.TCVE_OPER)
+        Me.Page1.Controls.Add(Me.Label29)
         Me.Page1.Controls.Add(Me.tCONDICION)
         Me.Page1.Controls.Add(Me.LtCVE_DOC)
         Me.Page1.Controls.Add(Me.Label4)
@@ -1157,9 +1170,75 @@ Partial Class FrmTPV
         Me.Page1.Controls.Add(Me.LtAlm)
         Me.Page1.Location = New System.Drawing.Point(1, 24)
         Me.Page1.Name = "Page1"
-        Me.Page1.Size = New System.Drawing.Size(980, 154)
+        Me.Page1.Size = New System.Drawing.Size(980, 211)
         Me.Page1.TabIndex = 0
         Me.Page1.Text = "Datos documento"
+        '
+        'txCMT
+        '
+        Me.txCMT.AcceptsReturn = True
+        Me.txCMT.AcceptsTab = True
+        Me.txCMT.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCMT.Location = New System.Drawing.Point(527, 150)
+        Me.txCMT.MaxLength = 250
+        Me.txCMT.Multiline = True
+        Me.txCMT.Name = "txCMT"
+        Me.txCMT.Size = New System.Drawing.Size(416, 45)
+        Me.txCMT.TabIndex = 9
+        Me.txCMT.Visible = False
+        '
+        'BtnOper
+        '
+        Me.BtnOper.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnOper.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnOper.Image = CType(resources.GetObject("BtnOper.Image"), System.Drawing.Image)
+        Me.BtnOper.Location = New System.Drawing.Point(176, 150)
+        Me.BtnOper.Name = "BtnOper"
+        Me.BtnOper.Size = New System.Drawing.Size(23, 22)
+        Me.BtnOper.TabIndex = 422
+        Me.BtnOper.UseVisualStyleBackColor = True
+        Me.BtnOper.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label31.Location = New System.Drawing.Point(436, 150)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(83, 15)
+        Me.Label31.TabIndex = 627
+        Me.Label31.Text = "Info. Adicional"
+        Me.Label31.Visible = False
+        '
+        'LOper
+        '
+        Me.LOper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LOper.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LOper.Location = New System.Drawing.Point(201, 150)
+        Me.LOper.Name = "LOper"
+        Me.LOper.Size = New System.Drawing.Size(226, 22)
+        Me.LOper.TabIndex = 421
+        Me.LOper.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'TCVE_OPER
+        '
+        Me.TCVE_OPER.AcceptsReturn = True
+        Me.TCVE_OPER.AcceptsTab = True
+        Me.TCVE_OPER.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCVE_OPER.Location = New System.Drawing.Point(97, 150)
+        Me.TCVE_OPER.Name = "TCVE_OPER"
+        Me.TCVE_OPER.Size = New System.Drawing.Size(78, 20)
+        Me.TCVE_OPER.TabIndex = 8
+        '
+        'Label29
+        '
+        Me.Label29.AutoSize = True
+        Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label29.Location = New System.Drawing.Point(40, 152)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(51, 13)
+        Me.Label29.TabIndex = 420
+        Me.Label29.Text = "Operador"
         '
         'btnEsquema
         '
@@ -1251,7 +1330,7 @@ Partial Class FrmTPV
         Me.Page2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Page2.Location = New System.Drawing.Point(1, 24)
         Me.Page2.Name = "Page2"
-        Me.Page2.Size = New System.Drawing.Size(980, 154)
+        Me.Page2.Size = New System.Drawing.Size(980, 211)
         Me.Page2.TabIndex = 1
         Me.Page2.Text = "Datos CFDI"
         Me.Page2.Visible = False
@@ -1428,7 +1507,7 @@ Partial Class FrmTPV
         Me.Page3.Controls.Add(Me.Label25)
         Me.Page3.Location = New System.Drawing.Point(1, 24)
         Me.Page3.Name = "Page3"
-        Me.Page3.Size = New System.Drawing.Size(980, 154)
+        Me.Page3.Size = New System.Drawing.Size(980, 211)
         Me.Page3.TabIndex = 2
         Me.Page3.Text = "Datos relacionados"
         '
@@ -1535,6 +1614,7 @@ Partial Class FrmTPV
         Me.Tab1.ResumeLayout(False)
         Me.Page1.ResumeLayout(False)
         Me.Page1.PerformLayout()
+        CType(Me.BtnOper, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnEsquema, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnEntregarEn, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnTipo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1662,4 +1742,10 @@ Partial Class FrmTPV
     Friend WithEvents BarAltaProv As ToolStripMenuItem
     Friend WithEvents BarAltaArticulo As ToolStripMenuItem
     Friend WithEvents BarExcel As ToolStripMenuItem
+    Friend WithEvents LOper As Label
+    Friend WithEvents TCVE_OPER As TextBox
+    Friend WithEvents Label29 As Label
+    Friend WithEvents BtnOper As C1.Win.C1Input.C1Button
+    Friend WithEvents txCMT As TextBox
+    Friend WithEvents Label31 As Label
 End Class

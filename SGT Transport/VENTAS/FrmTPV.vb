@@ -249,6 +249,7 @@ Public Class FrmTPV
                 Fg.Cols(19).Visible = False
                 Fg.Cols(20).Visible = False
                 Fg.Cols(21).Visible = False
+                Fg.Cols(27).Visible = False
             End If
         Catch ex As Exception
             BITACORATPV("40. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -351,6 +352,10 @@ Public Class FrmTPV
                     BtnUnidades.Enabled = Efecto
                     BtnTipo.Enabled = Efecto
 
+                    TCVE_OPER.Enabled = Efecto
+                    BtnOper.Enabled = Efecto
+                    txCMT.Enabled = Efecto
+
                     Fg.Cols(1).Visible = False
                     Fg(0, 2) = "Cantidad"
                 Case Else
@@ -364,6 +369,13 @@ Public Class FrmTPV
             tEntregarEn.Visible = False
             btnEntregarEn.Visible = False
             LEntregarEn.Visible = False
+
+            Label29.Visible = False
+            TCVE_OPER.Visible = False
+            BtnOper.Visible = False
+            LOper.Visible = False
+            Label31.Visible = False
+            txCMT.Visible = False
 
             If TCVE_PEDI.Text <> "CARTA PORTE" Then
                 Fg.Cols(23).Width = 0
@@ -380,6 +392,18 @@ Public Class FrmTPV
                 Label17.Visible = False
                 L4.Visible = False
                 LUnidad.Visible = False
+            End If
+            If TIPO_VENTA_LOCAL = "F" Then
+                Label11.Visible = True
+                TCVE_UNI.Visible = True
+                BtnUnidades.Visible = True
+                LUnidad.Visible = True
+                Label29.Visible = True
+                TCVE_OPER.Visible = True
+                BtnOper.Visible = True
+                LOper.Visible = True
+                Label31.Visible = True
+                txCMT.Visible = True
             End If
         Catch ex As Exception
             BITACORATPV("50. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -695,14 +719,14 @@ Public Class FrmTPV
                 If EXIST_FIELD_SQL_SAE("PAR_FACT" & fTIPOC.ToUpper & "_CLIB" & Empresa, "CAMPLIB1") And
                     EXIST_FIELD_SQL_SAE("FACT" & fTIPOC.ToUpper & "_CLIB" & Empresa, "CAMPLIB1") And
                     EXIST_FIELD_SQL_SAE("FACT" & fTIPOC.ToUpper & "_CLIB" & Empresa, "CAMPLIB5") Then
-                    SQL = "SELECT P.CVE_ART, CANT, P.DESCR_ART, P.DESC1, PREC, IMPU1, IMPU2, IMPU3, IMPU4, IMP4APLICA, IMP1APLICA, COST, UNI_VENTA,
+                    SQL = "SELECT P.CVE_ART, CANT, I.DESCR AS DESCR_ART, P.DESC1, PREC, IMPU1, IMPU2, IMPU3, IMPU4, IMP4APLICA, IMP1APLICA, COST, UNI_VENTA,
                         EXIST, ISNULL(ULT_COSTO,0) AS ULTCOSTO, ISNULL(COSTO_PROM,0) AS COSTOPROM, NUM_PAR, ISNULL(PXS,0) AS P_X_S, P.CVE_DOC,
                         ISNULL(P.NUM_ALM,1) AS NUMALM, ISNULL(P.DESC1,0) AS D1, ISNULL(F.CVE_VEND,'') AS VEND, ISNULL(CONDICION,'') AS CONDI,
                         F.FECHA_DOC, F.FECHAELAB, F.CVE_CLPV, C.NOMBRE, C.RFC, C.CALLE, C.COLONIA, C.NUMINT, C.NUMEXT, C.CODIGO, C.MUNICIPIO,
                         C.ESTADO, ISNULL(I.TIPO_ELE,'') AS TIPOELE, ISNULL(CVE_PEDI,'') AS PEDI, ISNULL(INF.NOMBRE,'') AS INF_NOMBRE, 
                         ISNULL(L.CAMPLIB1, '') AS LIB1, ISNULL(L.CAMPLIB5,'') AS S_OBS_DOC, ISNULL(LP.CAMPLIB1,'') AS S_OBS_PAR, 
                         ISNULL(OD.STR_OBS,'') AS DOC_OBS, ISNULL(OP.STR_OBS,'') AS PAR_OBS, TIP_DOC_SIG, DOC_SIG, F.STATUS, 
-                        ISNULL(ENLAZADO,'') AS ENLAZADO_DOC, P.CVE_ESQ
+                        ISNULL(ENLAZADO,'') AS ENLAZADO_DOC, P.CVE_ESQ " & IIf(fTIPOC.ToUpper.Equals("F"), ", F.CVE_TRACTOR, F.CVE_OPER, F.CMT", "") & "
                         FROM PAR_FACT" & fTIPOC.ToUpper & Empresa & " P
                         LEFT JOIN FACT" & fTIPOC.ToUpper & Empresa & " F ON F.CVE_DOC = P.CVE_DOC
                         LEFT JOIN FACT" & fTIPOC.ToUpper & "_CLIB" & Empresa & " L ON L.CLAVE_DOC = P.CVE_DOC
@@ -715,13 +739,13 @@ Public Class FrmTPV
                         LEFT JOIN IMPU" & Empresa & " U On U.CVE_ESQIMPU = I.CVE_ESQIMPU
                         WHERE P.CVE_DOC = '" & fCVE_DOC & "'"
                 Else
-                    SQL = "SELECT P.CVE_ART, CANT, P.DESCR_ART, P.DESC1, PREC, IMPU1, IMPU2, IMPU3, IMPU4, IMP4APLICA, IMP1APLICA, COST, UNI_VENTA,
+                    SQL = "SELECT P.CVE_ART, CANT, I.DESCR AS DESCR_ART, P.DESC1, PREC, IMPU1, IMPU2, IMPU3, IMPU4, IMP4APLICA, IMP1APLICA, COST, UNI_VENTA,
                         EXIST, ISNULL(ULT_COSTO,0) AS ULTCOSTO, ISNULL(COSTO_PROM,0) AS COSTOPROM, NUM_PAR, ISNULL(PXS,0) AS P_X_S, P.CVE_DOC,
                         ISNULL(P.NUM_ALM,1) AS NUMALM, ISNULL(P.DESC1,0) AS D1, ISNULL(F.CVE_VEND,'') AS VEND, ISNULL(CONDICION,'') AS CONDI,
                         F.FECHA_DOC, F.FECHAELAB, F.CVE_CLPV, C.NOMBRE, C.RFC, C.CALLE, C.COLONIA, C.NUMINT, C.NUMEXT, C.CODIGO, C.MUNICIPIO,
                         C.ESTADO, ISNULL(I.TIPO_ELE,'') AS TIPOELE, ISNULL(CVE_PEDI,'') AS PEDI, ISNULL(INF.NOMBRE,'') AS INF_NOMBRE, 
                         ISNULL(OD.STR_OBS,'') AS DOC_OBS, ISNULL(OP.STR_OBS,'') AS PAR_OBS, TIP_DOC_SIG, DOC_SIG, F.STATUS,
-                        ISNULL(ENLAZADO,'') AS ENLAZADO_DOC, P.CVE_ESQ
+                        ISNULL(ENLAZADO,'') AS ENLAZADO_DOC, P.CVE_ESQ " & IIf(fTIPOC.ToUpper.Equals("F"), ", F.CVE_TRACTOR, F.CVE_OPER, F.CMT", "") & "
                         FROM PAR_FACT" & fTIPOC.ToUpper & Empresa & " P
                         LEFT JOIN FACT" & fTIPOC.ToUpper & Empresa & " F ON F.CVE_DOC = P.CVE_DOC
                         LEFT JOIN OBS_DOCF" & Empresa & " OD ON OD.CVE_OBS = F.CVE_OBS
@@ -733,15 +757,15 @@ Public Class FrmTPV
                         WHERE P.CVE_DOC = '" & fCVE_DOC & "'"
                 End If
             Else
-                SQL = "Select P.CVE_ART, CANT, P.DESCR_ART, P.DESC1, PREC, IMPU1, IMPU2, IMPU3, IMPU4, IMP4APLICA, IMP1APLICA, COST, 
+                SQL = "Select P.CVE_ART, CANT, I.DESCR AS DESCR_ART, P.DESC1, PREC, IMPU1, IMPU2, IMPU3, IMPU4, IMP4APLICA, IMP1APLICA, COST, 
                         UNI_VENTA, EXIST, ISNULL(ULT_COSTO, 0) As ULTCOSTO, ISNULL(COSTO_PROM, 0) As COSTOPROM, NUM_PAR, 
                         ISNULL(PXS, 0) As P_X_S, P.CVE_DOC, ISNULL(P.NUM_ALM, 1) As NUMALM, ISNULL(P.DESC1, 0) As D1, 
                         ISNULL(F.CVE_VEND,'') AS VEND, ISNULL(CONDICION,'') AS CONDI, F.FECHA_DOC, F.FECHAELAB, F.CVE_CLPV, C.NOMBRE, 
                         C.RFC, C.CALLE, C.COLONIA, C.NUMINT, C.NUMEXT, C.CODIGO, C.MUNICIPIO, C.ESTADO, ISNULL(I.TIPO_ELE,'') AS TIPOELE,
                         ISNULL(CVE_PEDI,'') AS PEDI, ISNULL(INF.NOMBRE,'') AS INF_NOMBRE, ISNULL(F.CVE_OBS, 0) As CVE_OBS_DOC, 
                         ISNULL(P.CVE_OBS, 0) As CVE_OBS_PAR, ISNULL(OD.STR_OBS,'') AS DOC_OBS, ISNULL(OP.STR_OBS,'') AS PAR_OBS, TIP_DOC_SIG,
-                        DOC_SIG, ISNULL(ENLAZADO,'') AS ENLAZADO_DOC, F.STATUS, P.CVE_ESQ
-                        From PAR_FACT" & fTIPOC.ToUpper & Empresa & " P
+                        DOC_SIG, ISNULL(ENLAZADO,'') AS ENLAZADO_DOC, F.STATUS, P.CVE_ESQ " & IIf(fTIPOC.ToUpper.Equals("F"), ", F.CVE_TRACTOR, F.CVE_OPER, F.CMT", "") & "
+                        FROM PAR_FACT" & fTIPOC.ToUpper & Empresa & " P
                         LEFT JOIN FACT" & fTIPOC.ToUpper & Empresa & " F ON F.CVE_DOC = P.CVE_DOC
                         LEFT JOIN OBS_DOCF" & Empresa & " OD ON OD.CVE_OBS = F.CVE_OBS
                         LEFT JOIN OBS_DOCF" & Empresa & " OP ON OP.CVE_OBS = P.CVE_OBS
@@ -851,7 +875,17 @@ Public Class FrmTPV
                             BITACORATPV("100. " & ex.Message & vbNewLine & ex.StackTrace)
                         End Try
                     End If
-                    TCVE_UNI.Text = dr("PEDI")
+
+                    If fTIPOC.ToUpper.Equals("F") Then
+                        TCVE_OPER.Text = dr.ReadNullAsEmptyString("CVE_OPER")
+                        LOper.Text = BUSCA_CAT("Operador", TCVE_OPER.Text)
+                        txCMT.Text = dr.ReadNullAsEmptyString("CMT")
+                        TCVE_UNI.Text = dr.ReadNullAsEmptyString("CVE_TRACTOR")
+                    Else
+                        TCVE_UNI.Text = dr("PEDI")
+                    End If
+
+
 
                     LUnidad.Text = BUSCA_CAT("Unidad", TCVE_UNI.Text)
 
@@ -1679,6 +1713,50 @@ Public Class FrmTPV
             Return False
         End Try
     End Function
+
+    Private Function ValidaExistencias() As Boolean
+        Dim bContinua As Boolean = False
+        Try
+            Dim cmd As New SqlCommand
+
+            Dim CveArt As String
+            Dim Cant As Double
+            Dim k As Integer
+
+            cmd.Connection = cnSAE
+
+            For k = 1 To Fg.Rows.Count - 1
+
+                Cant = Fg(k, 2)
+                CveArt = Fg(k, 4)
+
+                SQL = "SELECT CVE_ART, TIPO_ELE, EXIST FROM INVE" & Empresa & " I WHERE I.CVE_ART = '" & CveArt & "'"
+                cmd.CommandText = SQL
+                Using dr = cmd.ExecuteReader
+                    If dr.Read Then
+
+                        If dr("TIPO_ELE") = "P" Then
+                            If Convert.ToDecimal(dr("EXIST") >= Cant) Then
+                                bContinua = True
+                            Else
+                                MsgBox("La Cantidad solicitada: " & Cant & " del Artículo: " & CveArt & " excede las existencias: " & dr("EXIST"), MsgBoxStyle.Exclamation, "Inventario")
+                                bContinua = False
+                                Return bContinua
+                            End If
+                        Else
+                            bContinua = True
+                        End If
+
+                    End If
+                End Using
+            Next
+        Catch ex As Exception
+            BITACORATPV("3880. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("3880. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Return bContinua
+    End Function
     Sub GRABAR()
         Try
             BarGrabar_Click(Nothing, Nothing)
@@ -1692,6 +1770,11 @@ Public Class FrmTPV
             If Not ExistenPartidas() Then
                 MsgBox("No existen partidas por favor agreguelas")
                 Return
+            End If
+            If TIPO_VENTA_LOCAL = "V" Or TIPO_VENTA_LOCAL = "F" Then
+                If Not ValidaExistencias() Then
+                    Return
+                End If
             End If
 
             If TCLIENTE.Text.Trim.Length = 0 Then
@@ -2355,7 +2438,24 @@ Public Class FrmTPV
                 For k = 1 To 5
 
                     If DOC_NEW Then
-                        SQL = "INSERT INTO FACT" & TIPO_VENTA_LOCAL & Empresa & " (CVE_CLPV, CVE_PEDI, FECHA_DOC, FECHA_ENT, FECHA_VEN, IMP_TOT1, 
+                        If TIPO_VENTA_LOCAL = "F" Then
+                            SQL = "INSERT INTO FACT" & TIPO_VENTA_LOCAL & Empresa & " (CVE_CLPV, CVE_PEDI, FECHA_DOC, FECHA_ENT, FECHA_VEN, IMP_TOT1, 
+                            IMP_TOT2, DES_FIN, COM_TOT, ACT_COI, NUM_MONED, TIPCAMB, IMP_TOT3, IMP_TOT4, PRIMERPAGO, RFC, AUTORIZA, FOLIO, 
+                            SERIE, AUTOANIO, ESCFD, NUM_ALMA, ACT_CXC, TIP_DOC, CVE_DOC, CAN_TOT, CVE_VEND, DES_TOT, ENLAZADO, NUM_PAGOS, DAT_ENVIO, 
+                            CONTADO, DAT_MOSTR, CVE_BITA, BLOQ, FECHAELAB, CTLPOL, CVE_OBS, STATUS, TIP_DOC_E, FORMAENVIO, DES_FIN_PORC, DES_TOT_PORC,
+                            IMPORTE, COM_TOT_PORC, METODODEPAGO, NUMCTAPAGO, TIP_DOC_ANT, DOC_ANT, CONDICION, USO_CFDI, FORMADEPAGOSAT, UUID,
+                            VERSION_SINC, CVE_TRACTOR, CVE_OPER, CMT) VALUES ('" & CLIENTE & "','" & CVE_PEDI & "','" & FECHA_DOC & "','" & FECHA_ENT & "','" & FECHA_VEN & "','" &
+                            IMP_TOT1 & "','" & IMP_TOT2 & "','" & DES_FIN & "','" & COM_TOT & "','" & ACT_COI & "','" & NUM_MONED & "','" &
+                            TIPCAMB & "','" & IMP_TOT3 & "','" & IMP_TOT4 & "','" & PRIMERPAGO & "','" & RFC & "','" & AUTORIZA & "','" &
+                            FOLIO & "','" & SERIE & "','" & AUTOANIO & "','" & ESCFD & "','" & NUM_ALMA & "','" & ACT_CXC & "','" & TIP_DOC & "','" &
+                            CVE_DOC & "','" & CAN_TOT & "','" & CVE_VEND & "','" & DES_TOT & "','" & ENLAZADO & "','" & NUM_PAGOS & "','" &
+                            DAT_ENVIO & "','" & CONTADO & "','" & DAT_MOSTR & "','" & CVE_BITA & "','" & Bloq & "'," & CADENA_FECHELAB & ",'" &
+                            CTLPOL & "','" & CVE_OBS & "','" & STATUS & "','" & TIP_DOC_E & "','" & FORMAENVIO & "','" & DES_FIN_PORC & "','" &
+                            DES_TOT_PORC & "','" & IMPORTE & "','" & COM_TOT_PORC & "','" & METODODEPAGO & "','" & NUMCTAPAGO & "','" &
+                            TIP_DOC_ANT & "','" & DOC_ANT & "','" & CONDICION & "','" & USO_CFDI & "','" & FORMADEPAGOSAT & "',
+                            NEWID(), GETDATE(), '" & TCVE_UNI.Text & "', '" & TCVE_OPER.Text & "', '" & txCMT.Text & "')"
+                        Else
+                            SQL = "INSERT INTO FACT" & TIPO_VENTA_LOCAL & Empresa & " (CVE_CLPV, CVE_PEDI, FECHA_DOC, FECHA_ENT, FECHA_VEN, IMP_TOT1, 
                             IMP_TOT2, DES_FIN, COM_TOT, ACT_COI, NUM_MONED, TIPCAMB, IMP_TOT3, IMP_TOT4, PRIMERPAGO, RFC, AUTORIZA, FOLIO, 
                             SERIE, AUTOANIO, ESCFD, NUM_ALMA, ACT_CXC, TIP_DOC, CVE_DOC, CAN_TOT, CVE_VEND, DES_TOT, ENLAZADO, NUM_PAGOS, DAT_ENVIO, 
                             CONTADO, DAT_MOSTR, CVE_BITA, BLOQ, FECHAELAB, CTLPOL, CVE_OBS, STATUS, TIP_DOC_E, FORMAENVIO, DES_FIN_PORC, DES_TOT_PORC,
@@ -2370,8 +2470,27 @@ Public Class FrmTPV
                             DES_TOT_PORC & "','" & IMPORTE & "','" & COM_TOT_PORC & "','" & METODODEPAGO & "','" & NUMCTAPAGO & "','" &
                             TIP_DOC_ANT & "','" & DOC_ANT & "','" & CONDICION & "','" & USO_CFDI & "','" & FORMADEPAGOSAT & "',
                             NEWID(), GETDATE())"
+                        End If
                     Else
-                        SQL = "IF NOT EXISTS(SELECT CVE_DOC FROM FACT" & TIPO_VENTA_LOCAL & Empresa & " WHERE CVE_DOC = '" & CVE_DOC & "')
+                        If TIPO_VENTA_LOCAL = "F" Then
+                            SQL = "IF NOT EXISTS(SELECT CVE_DOC FROM FACT" & TIPO_VENTA_LOCAL & Empresa & " WHERE CVE_DOC = '" & CVE_DOC & "')
+                            INSERT INTO FACT" & TIPO_VENTA_LOCAL & Empresa & " (CVE_CLPV, CVE_PEDI, FECHA_DOC, FECHA_ENT, FECHA_VEN, IMP_TOT1, 
+                            IMP_TOT2, DES_FIN, COM_TOT, ACT_COI, NUM_MONED, TIPCAMB, IMP_TOT3, IMP_TOT4, PRIMERPAGO, RFC, AUTORIZA, FOLIO, 
+                            SERIE, AUTOANIO, ESCFD, NUM_ALMA, ACT_CXC, TIP_DOC, CVE_DOC, CAN_TOT, CVE_VEND, DES_TOT, ENLAZADO, NUM_PAGOS, DAT_ENVIO, 
+                            CONTADO, DAT_MOSTR, CVE_BITA, BLOQ, FECHAELAB, CTLPOL, CVE_OBS, STATUS, TIP_DOC_E, FORMAENVIO, DES_FIN_PORC, DES_TOT_PORC,
+                            IMPORTE, COM_TOT_PORC, METODODEPAGO, NUMCTAPAGO, TIP_DOC_ANT, DOC_ANT, CONDICION, USO_CFDI, FORMADEPAGOSAT, UUID,
+                            VERSION_SINC, CVE_TRACTOR, CVE_OPER, CMT) VALUES ('" & CLIENTE & "','" & CVE_PEDI & "','" & FECHA_DOC & "','" & FECHA_ENT & "','" & FECHA_VEN & "','" &
+                            IMP_TOT1 & "','" & IMP_TOT2 & "','" & DES_FIN & "','" & COM_TOT & "','" & ACT_COI & "','" & NUM_MONED & "','" &
+                            TIPCAMB & "','" & IMP_TOT3 & "','" & IMP_TOT4 & "','" & PRIMERPAGO & "','" & RFC & "','" & AUTORIZA & "','" &
+                            FOLIO & "','" & SERIE & "','" & AUTOANIO & "','" & ESCFD & "','" & NUM_ALMA & "','" & ACT_CXC & "','" & TIP_DOC & "','" &
+                            CVE_DOC & "','" & CAN_TOT & "','" & CVE_VEND & "','" & DES_TOT & "','" & ENLAZADO & "','" & NUM_PAGOS & "','" &
+                            DAT_ENVIO & "','" & CONTADO & "','" & DAT_MOSTR & "','" & CVE_BITA & "','" & Bloq & "'," & CADENA_FECHELAB & ",'" &
+                            CTLPOL & "','" & CVE_OBS & "','" & STATUS & "','" & TIP_DOC_E & "','" & FORMAENVIO & "','" & DES_FIN_PORC & "','" &
+                            DES_TOT_PORC & "','" & IMPORTE & "','" & COM_TOT_PORC & "','" & METODODEPAGO & "','" & NUMCTAPAGO & "','" &
+                            TIP_DOC_ANT & "','" & DOC_ANT & "','" & CONDICION & "','" & USO_CFDI & "','" & FORMADEPAGOSAT & "',
+                            NEWID(), GETDATE(), '" & TCVE_UNI.Text & "', '" & TCVE_OPER.Text & "', '" & txCMT.Text & "'))"
+                        Else
+                            SQL = "IF NOT EXISTS(SELECT CVE_DOC FROM FACT" & TIPO_VENTA_LOCAL & Empresa & " WHERE CVE_DOC = '" & CVE_DOC & "')
                             INSERT INTO FACT" & TIPO_VENTA_LOCAL & Empresa & " (CVE_CLPV, CVE_PEDI, FECHA_DOC, FECHA_ENT, FECHA_VEN, IMP_TOT1, 
                             IMP_TOT2, DES_FIN, COM_TOT, ACT_COI, NUM_MONED, TIPCAMB, IMP_TOT3, IMP_TOT4, PRIMERPAGO, RFC, AUTORIZA, FOLIO, 
                             SERIE, AUTOANIO, ESCFD, NUM_ALMA, ACT_CXC, TIP_DOC, CVE_DOC, CAN_TOT, CVE_VEND, DES_TOT, ENLAZADO, NUM_PAGOS, DAT_ENVIO, 
@@ -2387,6 +2506,8 @@ Public Class FrmTPV
                             DES_TOT_PORC & "','" & IMPORTE & "','" & COM_TOT_PORC & "','" & METODODEPAGO & "','" & NUMCTAPAGO & "','" &
                             TIP_DOC_ANT & "','" & DOC_ANT & "','" & CONDICION & "','" & USO_CFDI & "','" & FORMADEPAGOSAT & "',
                             NEWID(), GETDATE())"
+                        End If
+
                     End If
 
                     Try
@@ -4199,7 +4320,7 @@ Public Class FrmTPV
 
             SIGNO = 1
 
-            If TIPO_VENTA_LOCAL = 1 Then
+            If TIPO_VENTA_LOCAL = "F" Then
                 NUM_CPTO = 1
             Else
                 NUM_CPTO = 2
@@ -4526,6 +4647,7 @@ Public Class FrmTPV
                 Fg(Fg.Row, 10) = dr("IMPUESTO2") 'IMPU2
                 Fg(Fg.Row, 11) = dr("IMPUESTO3") 'IMPU4
                 Fg(Fg.Row, 12) = dr("IMPUESTO4") 'IVA
+                Fg(Fg.Row, 27) = dr("CVE_ESQIMPU")
                 If Fg(Fg.Row, 15) <> fCVE_ART Then
                     Select Case CboPrecio.Items(CboPrecio.SelectedIndex).ToString.Substring(0, 2)
                         Case "01"
@@ -5451,7 +5573,9 @@ Public Class FrmTPV
                 LUnidad.Text = IIf(Var6.Trim.Length = 0, Var3, Var6)
                 LUnidad.Tag = Var9
                 Var2 = "" : Var3 = "" : Var4 = "" : Var5 = "" : Var9 = ""
-                TCVE_TIPO.Focus()
+                If TIPO_VENTA_LOCAL <> "F" Then
+                    TCVE_TIPO.Focus()
+                End If
             End If
         Catch Ex As Exception
             MsgBox("2900. " & Ex.Message & vbNewLine & Ex.StackTrace)
@@ -5832,7 +5956,78 @@ Public Class FrmTPV
         End Try
     End Sub
 
+    Private Sub BtnOper_Click(sender As Object, e As EventArgs) Handles BtnOper.Click
+        Try
+            Var2 = "Operador"
+            Var4 = "" : Var5 = ""
+            FrmSelItem2.ShowDialog()
+            If Var4.Trim.Length > 0 Then
+                TCVE_OPER.Text = Var4
+                TCVE_OPER.Tag = Var4
+                LOper.Text = Var5  'NOMBRE
+                Var2 = "" : Var4 = "" : Var5 = ""
+            Else
+                TCVE_OPER.Text = ""
+                TCVE_OPER.Tag = ""
+                LOper.Text = ""
+                Var2 = "" : Var4 = "" : Var5 = ""
+            End If
+        Catch Ex As Exception
+            Bitacora("90. " & Ex.Message & vbNewLine & Ex.StackTrace)
+            MsgBox("90. " & Ex.Message & vbNewLine & Ex.StackTrace)
+        End Try
+    End Sub
 
+    Private Sub TCVE_OPER_KeyDown(sender As Object, e As KeyEventArgs) Handles TCVE_OPER.KeyDown
+        If e.KeyCode = Keys.F2 Then
+            BtnOper_Click(Nothing, Nothing)
+            Return
+        End If
+    End Sub
+
+    Private Sub TCVE_OPER_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TCVE_OPER.PreviewKeyDown
+        If e.KeyCode = 13 Or e.KeyCode = Keys.Tab Then
+            If e.KeyCode = Keys.F2 Then
+                BtnOper_Click(Nothing, Nothing)
+                Return
+            End If
+        End If
+    End Sub
+
+    Private Sub TCVE_OPER_Validated(sender As Object, e As EventArgs) Handles TCVE_OPER.Validated
+        Try
+            If TCVE_OPER.Text.Trim.Length > 0 And IsNumeric(TCVE_OPER.Text) Then
+                Dim DESCR As String, OPER As String
+
+                DESCR = BUSCA_CAT("Operador", TCVE_OPER.Text)
+                If DESCR <> "" Then
+
+                    OPER = ""
+                    If OPER = "" Then
+                        LOper.Text = DESCR
+                        Var2 = "" : Var4 = "" : Var5 = ""
+                    Else
+                        MsgBox("El operador se encuentra asignado en el viaje " & OPER)
+                        TCVE_OPER.Text = ""
+                        TCVE_OPER.Tag = ""
+                        LOper.Text = ""
+                        Var2 = "" : Var4 = "" : Var5 = ""
+                        TCVE_OPER.Select()
+                    End If
+                Else
+                    MsgBox("Operador inexistente")
+                    TCVE_OPER.Text = ""
+                    TCVE_OPER.Tag = ""
+                    TCVE_OPER.Select()
+                End If
+            Else
+                LOper.Text = ""
+            End If
+        Catch ex As Exception
+            Bitacora("82. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("82. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
 End Class
 
 '===========================================================================================================================================

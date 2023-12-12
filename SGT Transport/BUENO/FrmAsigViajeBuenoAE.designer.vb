@@ -235,6 +235,12 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TXTC = New C1.Win.C1Input.C1TextBox()
         Me.TXTNC = New C1.Win.C1Input.C1TextBox()
         Me.Pag7 = New C1.Win.C1Command.C1DockingTabPage()
+        Me.TMONTO6 = New C1.Win.C1Input.C1NumericEdit()
+        Me.TMONTO5 = New C1.Win.C1Input.C1NumericEdit()
+        Me.TMONTO4 = New C1.Win.C1Input.C1NumericEdit()
+        Me.TMONTO3 = New C1.Win.C1Input.C1NumericEdit()
+        Me.TMONTO2 = New C1.Win.C1Input.C1NumericEdit()
+        Me.TMONTO1 = New C1.Win.C1Input.C1NumericEdit()
         Me.TABONO_NETO = New C1.Win.C1Input.C1NumericEdit()
         Me.Gpo6 = New System.Windows.Forms.GroupBox()
         Me.LtDisponible = New System.Windows.Forms.Label()
@@ -344,13 +350,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCVE_UNIDAD4 = New C1.Win.C1Input.C1TextBox()
         Me.TCVE_PRODSERV2 = New C1.Win.C1Input.C1TextBox()
         Me.TCVE_UNIDAD3 = New C1.Win.C1Input.C1TextBox()
-        Me.TMONTO6 = New C1.Win.C1Input.C1NumericEdit()
-        Me.TMONTO5 = New C1.Win.C1Input.C1NumericEdit()
         Me.TCVE_UNIDAD2 = New C1.Win.C1Input.C1TextBox()
-        Me.TMONTO4 = New C1.Win.C1Input.C1NumericEdit()
-        Me.TMONTO3 = New C1.Win.C1Input.C1NumericEdit()
-        Me.TMONTO2 = New C1.Win.C1Input.C1NumericEdit()
-        Me.TMONTO1 = New C1.Win.C1Input.C1NumericEdit()
         Me.CboConc6 = New C1.Win.C1Input.C1ComboBox()
         Me.CboConc4 = New C1.Win.C1Input.C1ComboBox()
         Me.CboConc5 = New C1.Win.C1Input.C1ComboBox()
@@ -511,6 +511,12 @@ Partial Class FrmAsigViajeBuenoAE
         CType(Me.TXTC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TXTNC, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Pag7.SuspendLayout()
+        CType(Me.TMONTO6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TMONTO5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TMONTO4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TMONTO3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TMONTO2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TMONTO1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TABONO_NETO, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Gpo6.SuspendLayout()
         CType(Me.CboSerieFactura, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -584,13 +590,7 @@ Partial Class FrmAsigViajeBuenoAE
         CType(Me.TCVE_UNIDAD4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TCVE_PRODSERV2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TCVE_UNIDAD3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TMONTO6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TMONTO5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TCVE_UNIDAD2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TMONTO4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TMONTO3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TMONTO2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TMONTO1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CboConc6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CboConc4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CboConc5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -3537,6 +3537,12 @@ Partial Class FrmAsigViajeBuenoAE
         '
         'Pag7
         '
+        Me.Pag7.Controls.Add(Me.TMONTO6)
+        Me.Pag7.Controls.Add(Me.TMONTO5)
+        Me.Pag7.Controls.Add(Me.TMONTO4)
+        Me.Pag7.Controls.Add(Me.TMONTO3)
+        Me.Pag7.Controls.Add(Me.TMONTO2)
+        Me.Pag7.Controls.Add(Me.TMONTO1)
         Me.Pag7.Controls.Add(Me.TABONO_NETO)
         Me.Pag7.Controls.Add(Me.Gpo6)
         Me.Pag7.Controls.Add(Me.GroupBox1)
@@ -3585,13 +3591,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Pag7.Controls.Add(Me.TCVE_UNIDAD4)
         Me.Pag7.Controls.Add(Me.TCVE_PRODSERV2)
         Me.Pag7.Controls.Add(Me.TCVE_UNIDAD3)
-        Me.Pag7.Controls.Add(Me.TMONTO6)
-        Me.Pag7.Controls.Add(Me.TMONTO5)
         Me.Pag7.Controls.Add(Me.TCVE_UNIDAD2)
-        Me.Pag7.Controls.Add(Me.TMONTO4)
-        Me.Pag7.Controls.Add(Me.TMONTO3)
-        Me.Pag7.Controls.Add(Me.TMONTO2)
-        Me.Pag7.Controls.Add(Me.TMONTO1)
         Me.Pag7.Controls.Add(Me.CboConc6)
         Me.Pag7.Controls.Add(Me.CboConc4)
         Me.Pag7.Controls.Add(Me.CboConc5)
@@ -3614,6 +3614,222 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Pag7.Size = New System.Drawing.Size(1449, 536)
         Me.Pag7.TabIndex = 6
         Me.Pag7.Text = "Importes"
+        '
+        'TMONTO6
+        '
+        Me.TMONTO6.BorderColor = System.Drawing.Color.CornflowerBlue
+        Me.TMONTO6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        '
+        '
+        '
+        Me.TMONTO6.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.TMONTO6.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.System
+        Me.TMONTO6.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.TMONTO6.CustomFormat = "###,###,##0.00"
+        Me.TMONTO6.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.TMONTO6.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TMONTO6.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TMONTO6.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TMONTO6.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TMONTO6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TMONTO6.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.TMONTO6.Location = New System.Drawing.Point(201, 232)
+        Me.TMONTO6.Name = "TMONTO6"
+        Me.TMONTO6.Size = New System.Drawing.Size(115, 21)
+        Me.TMONTO6.TabIndex = 7
+        Me.TMONTO6.Tag = Nothing
+        Me.TMONTO6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TMONTO6.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.TMONTO6.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
+        Me.TMONTO6.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'TMONTO5
+        '
+        Me.TMONTO5.BorderColor = System.Drawing.Color.CornflowerBlue
+        Me.TMONTO5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        '
+        '
+        '
+        Me.TMONTO5.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.TMONTO5.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.System
+        Me.TMONTO5.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.TMONTO5.CustomFormat = "###,###,##0.00"
+        Me.TMONTO5.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.TMONTO5.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TMONTO5.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TMONTO5.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TMONTO5.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TMONTO5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TMONTO5.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.TMONTO5.Location = New System.Drawing.Point(201, 208)
+        Me.TMONTO5.Name = "TMONTO5"
+        Me.TMONTO5.Size = New System.Drawing.Size(115, 21)
+        Me.TMONTO5.TabIndex = 6
+        Me.TMONTO5.Tag = Nothing
+        Me.TMONTO5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TMONTO5.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.TMONTO5.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
+        Me.TMONTO5.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'TMONTO4
+        '
+        Me.TMONTO4.BorderColor = System.Drawing.Color.CornflowerBlue
+        Me.TMONTO4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        '
+        '
+        '
+        Me.TMONTO4.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.TMONTO4.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.System
+        Me.TMONTO4.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.TMONTO4.CustomFormat = "###,###,##0.00"
+        Me.TMONTO4.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.TMONTO4.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TMONTO4.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TMONTO4.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TMONTO4.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TMONTO4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TMONTO4.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.TMONTO4.Location = New System.Drawing.Point(201, 182)
+        Me.TMONTO4.Name = "TMONTO4"
+        Me.TMONTO4.Size = New System.Drawing.Size(115, 21)
+        Me.TMONTO4.TabIndex = 5
+        Me.TMONTO4.Tag = Nothing
+        Me.TMONTO4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TMONTO4.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.TMONTO4.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
+        Me.TMONTO4.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'TMONTO3
+        '
+        Me.TMONTO3.BorderColor = System.Drawing.Color.CornflowerBlue
+        Me.TMONTO3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        '
+        '
+        '
+        Me.TMONTO3.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.TMONTO3.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.System
+        Me.TMONTO3.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.TMONTO3.CustomFormat = "###,###,##0.00"
+        Me.TMONTO3.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.TMONTO3.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TMONTO3.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TMONTO3.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TMONTO3.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TMONTO3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TMONTO3.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.TMONTO3.Location = New System.Drawing.Point(201, 156)
+        Me.TMONTO3.Name = "TMONTO3"
+        Me.TMONTO3.Size = New System.Drawing.Size(115, 21)
+        Me.TMONTO3.TabIndex = 4
+        Me.TMONTO3.Tag = Nothing
+        Me.TMONTO3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TMONTO3.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.TMONTO3.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
+        Me.TMONTO3.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'TMONTO2
+        '
+        Me.TMONTO2.BorderColor = System.Drawing.Color.CornflowerBlue
+        Me.TMONTO2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        '
+        '
+        '
+        Me.TMONTO2.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.TMONTO2.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.System
+        Me.TMONTO2.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.TMONTO2.CustomFormat = "###,###,##0.00"
+        Me.TMONTO2.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.TMONTO2.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TMONTO2.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TMONTO2.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TMONTO2.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TMONTO2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TMONTO2.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.TMONTO2.Location = New System.Drawing.Point(201, 132)
+        Me.TMONTO2.Name = "TMONTO2"
+        Me.TMONTO2.Size = New System.Drawing.Size(115, 21)
+        Me.TMONTO2.TabIndex = 3
+        Me.TMONTO2.Tag = Nothing
+        Me.TMONTO2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TMONTO2.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.TMONTO2.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
+        Me.TMONTO2.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'TMONTO1
+        '
+        Me.TMONTO1.BorderColor = System.Drawing.Color.CornflowerBlue
+        Me.TMONTO1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        '
+        '
+        '
+        Me.TMONTO1.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.TMONTO1.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.System
+        Me.TMONTO1.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.TMONTO1.CustomFormat = "###,###,##0.00"
+        Me.TMONTO1.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.TMONTO1.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TMONTO1.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TMONTO1.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TMONTO1.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TMONTO1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TMONTO1.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.TMONTO1.Location = New System.Drawing.Point(201, 108)
+        Me.TMONTO1.Name = "TMONTO1"
+        Me.TMONTO1.Size = New System.Drawing.Size(115, 21)
+        Me.TMONTO1.TabIndex = 2
+        Me.TMONTO1.Tag = Nothing
+        Me.TMONTO1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TMONTO1.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.TMONTO1.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
+        Me.TMONTO1.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'TABONO_NETO
         '
@@ -5735,80 +5951,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCVE_UNIDAD3.Tag = Nothing
         Me.TCVE_UNIDAD3.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
-        'TMONTO6
-        '
-        Me.TMONTO6.BackColor = System.Drawing.Color.White
-        Me.TMONTO6.BorderColor = System.Drawing.Color.CornflowerBlue
-        Me.TMONTO6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        '
-        '
-        '
-        Me.TMONTO6.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.TMONTO6.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.System
-        Me.TMONTO6.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.TMONTO6.CustomFormat = "###,###,###,##0.00"
-        Me.TMONTO6.DisplayFormat.CustomFormat = "###,###,##0.00"
-        Me.TMONTO6.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
-        Me.TMONTO6.DisplayFormat.Inherit = CType(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TMONTO6.EditFormat.CustomFormat = "###,###,##0.00"
-        Me.TMONTO6.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
-        Me.TMONTO6.EditFormat.Inherit = CType(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TMONTO6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TMONTO6.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.TMONTO6.InterceptArrowKeys = False
-        Me.TMONTO6.Location = New System.Drawing.Point(201, 233)
-        Me.TMONTO6.Name = "TMONTO6"
-        Me.TMONTO6.Size = New System.Drawing.Size(115, 19)
-        Me.TMONTO6.TabIndex = 42
-        Me.TMONTO6.Tag = Nothing
-        Me.TMONTO6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TMONTO6.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        Me.TMONTO6.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
-        Me.TMONTO6.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'TMONTO5
-        '
-        Me.TMONTO5.BackColor = System.Drawing.Color.White
-        Me.TMONTO5.BorderColor = System.Drawing.Color.CornflowerBlue
-        Me.TMONTO5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        '
-        '
-        '
-        Me.TMONTO5.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.TMONTO5.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.System
-        Me.TMONTO5.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.TMONTO5.CustomFormat = "###,###,###,##0.00"
-        Me.TMONTO5.DisplayFormat.CustomFormat = "###,###,##0.00"
-        Me.TMONTO5.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
-        Me.TMONTO5.DisplayFormat.Inherit = CType(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TMONTO5.EditFormat.CustomFormat = "###,###,##0.00"
-        Me.TMONTO5.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
-        Me.TMONTO5.EditFormat.Inherit = CType(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TMONTO5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TMONTO5.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.TMONTO5.InterceptArrowKeys = False
-        Me.TMONTO5.Location = New System.Drawing.Point(201, 208)
-        Me.TMONTO5.Name = "TMONTO5"
-        Me.TMONTO5.Size = New System.Drawing.Size(115, 19)
-        Me.TMONTO5.TabIndex = 34
-        Me.TMONTO5.Tag = Nothing
-        Me.TMONTO5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TMONTO5.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        Me.TMONTO5.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
-        Me.TMONTO5.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
         'TCVE_UNIDAD2
         '
         Me.TCVE_UNIDAD2.BorderColor = System.Drawing.Color.LightSkyBlue
@@ -5821,154 +5963,6 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCVE_UNIDAD2.TabIndex = 16
         Me.TCVE_UNIDAD2.Tag = Nothing
         Me.TCVE_UNIDAD2.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'TMONTO4
-        '
-        Me.TMONTO4.BackColor = System.Drawing.Color.White
-        Me.TMONTO4.BorderColor = System.Drawing.Color.CornflowerBlue
-        Me.TMONTO4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        '
-        '
-        '
-        Me.TMONTO4.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.TMONTO4.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.System
-        Me.TMONTO4.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.TMONTO4.CustomFormat = "###,###,###,##0.00"
-        Me.TMONTO4.DisplayFormat.CustomFormat = "###,###,##0.00"
-        Me.TMONTO4.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
-        Me.TMONTO4.DisplayFormat.Inherit = CType(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TMONTO4.EditFormat.CustomFormat = "###,###,##0.00"
-        Me.TMONTO4.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
-        Me.TMONTO4.EditFormat.Inherit = CType(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TMONTO4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TMONTO4.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.TMONTO4.InterceptArrowKeys = False
-        Me.TMONTO4.Location = New System.Drawing.Point(201, 183)
-        Me.TMONTO4.Name = "TMONTO4"
-        Me.TMONTO4.Size = New System.Drawing.Size(115, 19)
-        Me.TMONTO4.TabIndex = 26
-        Me.TMONTO4.Tag = Nothing
-        Me.TMONTO4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TMONTO4.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        Me.TMONTO4.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
-        Me.TMONTO4.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'TMONTO3
-        '
-        Me.TMONTO3.BackColor = System.Drawing.Color.White
-        Me.TMONTO3.BorderColor = System.Drawing.Color.CornflowerBlue
-        Me.TMONTO3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        '
-        '
-        '
-        Me.TMONTO3.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.TMONTO3.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.System
-        Me.TMONTO3.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.TMONTO3.CustomFormat = "###,###,###,##0.00"
-        Me.TMONTO3.DisplayFormat.CustomFormat = "###,###,##0.00"
-        Me.TMONTO3.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
-        Me.TMONTO3.DisplayFormat.Inherit = CType(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TMONTO3.EditFormat.CustomFormat = "###,###,##0.00"
-        Me.TMONTO3.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
-        Me.TMONTO3.EditFormat.Inherit = CType(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TMONTO3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TMONTO3.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.TMONTO3.InterceptArrowKeys = False
-        Me.TMONTO3.Location = New System.Drawing.Point(201, 158)
-        Me.TMONTO3.Name = "TMONTO3"
-        Me.TMONTO3.Size = New System.Drawing.Size(115, 19)
-        Me.TMONTO3.TabIndex = 18
-        Me.TMONTO3.Tag = Nothing
-        Me.TMONTO3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TMONTO3.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        Me.TMONTO3.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
-        Me.TMONTO3.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'TMONTO2
-        '
-        Me.TMONTO2.BackColor = System.Drawing.Color.White
-        Me.TMONTO2.BorderColor = System.Drawing.Color.CornflowerBlue
-        Me.TMONTO2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        '
-        '
-        '
-        Me.TMONTO2.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.TMONTO2.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.System
-        Me.TMONTO2.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.TMONTO2.CustomFormat = "###,###,###,##0.00"
-        Me.TMONTO2.DisplayFormat.CustomFormat = "###,###,##0.00"
-        Me.TMONTO2.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
-        Me.TMONTO2.DisplayFormat.Inherit = CType(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TMONTO2.EditFormat.CustomFormat = "###,###,##0.00"
-        Me.TMONTO2.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
-        Me.TMONTO2.EditFormat.Inherit = CType(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TMONTO2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TMONTO2.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.TMONTO2.InterceptArrowKeys = False
-        Me.TMONTO2.Location = New System.Drawing.Point(201, 133)
-        Me.TMONTO2.Name = "TMONTO2"
-        Me.TMONTO2.Size = New System.Drawing.Size(115, 19)
-        Me.TMONTO2.TabIndex = 10
-        Me.TMONTO2.Tag = Nothing
-        Me.TMONTO2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TMONTO2.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        Me.TMONTO2.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
-        Me.TMONTO2.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'TMONTO1
-        '
-        Me.TMONTO1.BackColor = System.Drawing.Color.White
-        Me.TMONTO1.BorderColor = System.Drawing.Color.CornflowerBlue
-        Me.TMONTO1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        '
-        '
-        '
-        Me.TMONTO1.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.TMONTO1.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.System
-        Me.TMONTO1.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.TMONTO1.CustomFormat = "###,###,###,##0.00"
-        Me.TMONTO1.DisplayFormat.CustomFormat = "###,###,##0.00"
-        Me.TMONTO1.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
-        Me.TMONTO1.DisplayFormat.Inherit = CType(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TMONTO1.EditFormat.CustomFormat = "###,###,##0.00"
-        Me.TMONTO1.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
-        Me.TMONTO1.EditFormat.Inherit = CType(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TMONTO1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TMONTO1.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.TMONTO1.InterceptArrowKeys = False
-        Me.TMONTO1.Location = New System.Drawing.Point(201, 108)
-        Me.TMONTO1.Name = "TMONTO1"
-        Me.TMONTO1.Size = New System.Drawing.Size(115, 19)
-        Me.TMONTO1.TabIndex = 2
-        Me.TMONTO1.Tag = Nothing
-        Me.TMONTO1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TMONTO1.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        Me.TMONTO1.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
-        Me.TMONTO1.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'CboConc6
         '
@@ -7099,6 +7093,12 @@ Partial Class FrmAsigViajeBuenoAE
         CType(Me.TXTNC, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pag7.ResumeLayout(False)
         Me.Pag7.PerformLayout()
+        CType(Me.TMONTO6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TMONTO5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TMONTO4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TMONTO3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TMONTO2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TMONTO1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TABONO_NETO, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Gpo6.ResumeLayout(False)
         Me.Gpo6.PerformLayout()
@@ -7175,13 +7175,7 @@ Partial Class FrmAsigViajeBuenoAE
         CType(Me.TCVE_UNIDAD4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TCVE_PRODSERV2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TCVE_UNIDAD3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TMONTO6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TMONTO5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TCVE_UNIDAD2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TMONTO4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TMONTO3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TMONTO2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TMONTO1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CboConc6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CboConc4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CboConc5, System.ComponentModel.ISupportInitialize).EndInit()
@@ -7412,12 +7406,6 @@ Partial Class FrmAsigViajeBuenoAE
     Friend WithEvents CboConc3 As C1.Win.C1Input.C1ComboBox
     Friend WithEvents CboConc1 As C1.Win.C1Input.C1ComboBox
     Friend WithEvents CboConc6 As C1.Win.C1Input.C1ComboBox
-    Friend WithEvents TMONTO6 As C1.Win.C1Input.C1NumericEdit
-    Friend WithEvents TMONTO5 As C1.Win.C1Input.C1NumericEdit
-    Friend WithEvents TMONTO4 As C1.Win.C1Input.C1NumericEdit
-    Friend WithEvents TMONTO3 As C1.Win.C1Input.C1NumericEdit
-    Friend WithEvents TMONTO2 As C1.Win.C1Input.C1NumericEdit
-    Friend WithEvents TMONTO1 As C1.Win.C1Input.C1NumericEdit
     Friend WithEvents TCVE_PRODSERV6 As C1.Win.C1Input.C1TextBox
     Friend WithEvents TCVE_PRODSERV5 As C1.Win.C1Input.C1TextBox
     Friend WithEvents TCVE_PRODSERV4 As C1.Win.C1Input.C1TextBox
@@ -7637,4 +7625,10 @@ Partial Class FrmAsigViajeBuenoAE
     Friend WithEvents C1XLBook1 As C1.C1Excel.C1XLBook
     Friend WithEvents BarGrabarYSalir As C1.Win.C1Command.C1Command
     Friend WithEvents LkGrabarYSalir As C1.Win.C1Command.C1CommandLink
+    Friend WithEvents TMONTO6 As C1.Win.C1Input.C1NumericEdit
+    Friend WithEvents TMONTO5 As C1.Win.C1Input.C1NumericEdit
+    Friend WithEvents TMONTO4 As C1.Win.C1Input.C1NumericEdit
+    Friend WithEvents TMONTO3 As C1.Win.C1Input.C1NumericEdit
+    Friend WithEvents TMONTO2 As C1.Win.C1Input.C1NumericEdit
+    Friend WithEvents TMONTO1 As C1.Win.C1Input.C1NumericEdit
 End Class

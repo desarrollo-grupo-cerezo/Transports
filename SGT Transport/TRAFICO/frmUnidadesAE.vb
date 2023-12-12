@@ -814,8 +814,8 @@ Public Class frmUnidadesAE
             dr = cmd.ExecuteReader
             If dr.Read Then
                 Try
-                    If dr("NUM_ECO").ToString.Trim > 0 And dr("POS") > 0 Then
-                        ASIGNAR_LLANTAS(fTIPO_UNI, dr("POS"), dr("NUM_ECO"))
+                    If dr("NUM_ECO").ToString.Trim <> "" And dr("POS") > 0 Then
+                        ASIGNAR_LLANTAS(fTIPO_UNI.ToString, dr("POS"), dr("NUM_ECO"))
                     End If
                 Catch ex As Exception
                     MsgBox("24. " & ex.Message & vbNewLine & ex.StackTrace)

@@ -640,7 +640,7 @@ Partial Class FrmTPV
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
         Me.Fg.Size = New System.Drawing.Size(982, 192)
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
-        Me.Fg.TabIndex = 8
+        Me.Fg.TabIndex = 11
         '
         'LtCP
         '

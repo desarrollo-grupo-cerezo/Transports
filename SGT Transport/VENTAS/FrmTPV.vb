@@ -5702,15 +5702,19 @@ Public Class FrmTPV
     End Sub
     Private Sub CboPrecio_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboPrecio.SelectedIndexChanged
         Try
-            Dim c_ As Integer
-            If Fg.Col = 1 Then
-                c_ = 2
+            If TCVE_UNI.Visible Then
+                TCVE_UNI.Focus()
             Else
-                c_ = Fg.Col
-            End If
-            Fg.Focus()
-            If Not IsNothing(_myEditor) Then
-                _myEditor.StartEditing(Fg.Row, c_)
+                Dim c_ As Integer
+                If Fg.Col = 1 Then
+                    c_ = 2
+                Else
+                    c_ = Fg.Col
+                End If
+                Fg.Focus()
+                If Not IsNothing(_myEditor) Then
+                    _myEditor.StartEditing(Fg.Row, c_)
+                End If
             End If
         Catch ex As Exception
             BITACORATPV("2945. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -5722,21 +5726,25 @@ Public Class FrmTPV
             If CboAlmacen.Visible Then
                 CboAlmacen.Focus()
             Else
-                Try
-                    Fg.Row = 1
-                    Fg.Col = 2
-                    Dim c_ As Integer
-                    If Fg.Col = 1 Then
-                        c_ = 2
-                    Else
-                        c_ = Fg.Col
-                    End If
-                    If Not IsNothing(_myEditor) Then
-                        _myEditor.StartEditing(Fg.Row, c_, 9)
-                    End If
-                Catch ex As Exception
-                    BITACORATPV("2948. " & ex.Message & vbNewLine & ex.StackTrace)
-                End Try
+                If TCVE_UNI.Visible Then
+                    TCVE_UNI.Focus()
+                Else
+                    Try
+                        Fg.Row = 1
+                        Fg.Col = 2
+                        Dim c_ As Integer
+                        If Fg.Col = 1 Then
+                            c_ = 2
+                        Else
+                            c_ = Fg.Col
+                        End If
+                        If Not IsNothing(_myEditor) Then
+                            _myEditor.StartEditing(Fg.Row, c_, 9)
+                        End If
+                    Catch ex As Exception
+                        BITACORATPV("2948. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+                End If
             End If
         End If
     End Sub
@@ -5755,16 +5763,20 @@ Public Class FrmTPV
                 If CboAlmacen.Visible Then
                     CboAlmacen.Focus()
                 Else
-                    Fg.Row = 1
-                    Fg.Col = 2
-                    Dim c_ As Integer
-                    If Fg.Col = 1 Then
-                        c_ = 2
+                    If TCVE_UNI.Visible Then
+                        'TCVE_UNI.Focus()
                     Else
-                        c_ = Fg.Col
-                    End If
-                    If Not IsNothing(_myEditor) Then
-                        _myEditor.StartEditing(Fg.Row, c_, 99)
+                        Fg.Row = 1
+                        Fg.Col = 2
+                        Dim c_ As Integer
+                        If Fg.Col = 1 Then
+                            c_ = 2
+                        Else
+                            c_ = Fg.Col
+                        End If
+                        If Not IsNothing(_myEditor) Then
+                            _myEditor.StartEditing(Fg.Row, c_, 99)
+                        End If
                     End If
                 End If
             End If
@@ -6834,6 +6846,7 @@ Public Class MyEditorTPV
                 _owner(_row, 10) = dr("IMPUESTO2") 'IMPU2
                 _owner(_row, 11) = dr("IMPUESTO3") 'IMPU4
                 _owner(_row, 12) = dr("IMPUESTO4") 'IVA
+                _owner(_row, 27) = dr("CVE_ESQIMPU")
                 If _owner(_row, 15) <> fCVE_ART Then
                     'PRECIO = frmTPV.cboPrecio.Items(frmTPV.cboPrecio.SelectedIndex).ToString.Substring(0, 2)
                     Select Case FrmTPV.CboPrecio.Items(FrmTPV.CboPrecio.SelectedIndex).ToString.Substring(0, 2)

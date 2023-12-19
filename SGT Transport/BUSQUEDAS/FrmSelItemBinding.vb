@@ -63,9 +63,9 @@ Public Class FrmSelItemBinding
                             CADENA = ""
                         End If
                     End If
-
-
                     SQL = "SELECT colonia, codigopostal, nombreasentamiento FROM tblcolonias ORDER BY codigopostal"
+                Case "CVEREGISTROISTMO"
+                    SQL = "SELECT clave as Clave, descripcion as Descripción FROM tblRegistroISTMO ORDER BY clave"
             End Select
 
             Dim da As New SqlDataAdapter
@@ -92,6 +92,8 @@ Public Class FrmSelItemBinding
                         SQL = "SELECT codigoPostal, estado, municipio, localidad FROM tblccodigopostal ORDER BY codigoPostal"
                     Case "COLONIAS"
                         SQL = "SELECT colonia, codigopostal, nombreasentamiento FROM tblcolonias ORDER BY codigopostal"
+                    Case "CVEREGISTROISTMO"
+                        SQL = "SELECT clave, descripcion FROM tblRegistroISTMO ORDER BY clave"
                 End Select
                 da = New SqlDataAdapter(SQL, cnSAE)
                 dt = New DataTable ' crear un DataTable
@@ -142,6 +144,21 @@ Public Class FrmSelItemBinding
                     Fg.Width = Me.Width - 30
                     Me.MaximizeBox = False
                     Me.MinimizeBox = False
+                Case "CVEREGISTROISTMO"
+                    CADENA = ""
+                    Fg.Cols.Count = 3
+                    Fg(0, 1) = "Clave"
+                    Fg(0, 2) = "Descripción"
+
+                    Fg.Cols(0).Width = 30
+                    Fg.Cols(1).Width = 80
+                    Fg.Cols(2).Width = 120
+
+                    Me.Width = 480
+                    'Me.Height = 200
+                    Fg.Width = Me.Width - 30
+                    Me.MaximizeBox = False
+                    Me.MinimizeBox = False
 
             End Select
 
@@ -166,6 +183,8 @@ Public Class FrmSelItemBinding
                 Case "COLONIAS"
                     SQL = "colonia LIKE '%" & TBox.Text & "%' OR codigopostal LIKE '%" & TBox.Text & "%' OR 
                         nombreasentamiento LIKE '%" & TBox.Text & "%' "
+                Case "CVEREGISTROISTMO"
+                    SQL = "clave LIKE '%" & TBox.Text & "%' OR descripcion LIKE '%" & TBox.Text & "%' "
             End Select
             If SQL.Trim.Length > 0 Then
                 BindingSource1.RemoveFilter()
@@ -241,6 +260,11 @@ Public Class FrmSelItemBinding
                     'Fg(0, 1) = "Colonia"
                     'Fg(0, 2) = "Código postal"
                     'Fg(0, 3) = "Nombre asentamiento"
+
+                End If
+            Case "CVEREGISTROISTMO"
+                If Fg.Row > 0 Then
+                    Var4 = Fg(Fg.Row, 1) '"Clave"
 
                 End If
         End Select

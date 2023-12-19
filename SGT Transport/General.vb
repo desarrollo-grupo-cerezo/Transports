@@ -6387,5 +6387,12 @@ Module General
         FGrid.PrintGrid(docName, flags, header, footer)
     End Sub
 
+    Public Sub RestauraSearchFG(ByRef FGrid As C1FlexGrid)
+        Dim search As String
+        search = FGrid.SearchDefinition
+        FGrid.SearchDefinition = ""
+        FGrid.SearchDefinition = search
+    End Sub
+
 End Module
 

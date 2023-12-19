@@ -12759,9 +12759,9 @@ Module ModCREATABLAS
                         insert into tblcmaterialpeligroso(clave, descripcion) values('3319', 'MEZCLA DE NITROGLICERINA, DESENSIBILIZADA, SOLIDA, N.E.P. con más de 2% pero no más de 10%, en masa, de nitroglicerina')
                         insert into tblcmaterialpeligroso(clave, descripcion) values('3320', 'BOROHIDRURO SODIO Y SOLUCION DE HIDROXIDO SODIO con no más de 12% de borohidruro SODIO y no más de 40%, en masa, de hidróxido SODIO')
                         insert into tblcmaterialpeligroso(clave, descripcion) values('3321', 'MATERIALES RADIACTIVOS, BAJA ACTIVIDAD ESPECIFICA (BAE-II), no fisionables o fisionables exceptuados')
-                        insert into tblcmaterialpeligroso(clave, descripcion) values(' 3322', ' MATERIALES RADIACTIVOS, BAJA ACTIVIDAD ESPECIFICA (BAE-III), no fisionables o fisionables exceptuados')
-                        insert into tblcmaterialpeligroso(clave, descripcion) values(' 3323', ' MATERIALES RADIACTIVOS, BULTOS DE TIPO C, no fisionables o fisionables exceptuados')
-                        insert into tblcmaterialpeligroso(clave, descripcion) values(' 3324', ' MATERIALES RADIACTIVOS, BAJA ACTIVIDAD ESPECIFICA (BAE-II), FISIONABLES')
+                        insert into tblcmaterialpeligroso(clave, descripcion) values('3322', ' MATERIALES RADIACTIVOS, BAJA ACTIVIDAD ESPECIFICA (BAE-III), no fisionables o fisionables exceptuados')
+                        insert into tblcmaterialpeligroso(clave, descripcion) values('3323', ' MATERIALES RADIACTIVOS, BULTOS DE TIPO C, no fisionables o fisionables exceptuados')
+                        insert into tblcmaterialpeligroso(clave, descripcion) values('3324', ' MATERIALES RADIACTIVOS, BAJA ACTIVIDAD ESPECIFICA (BAE-II), FISIONABLES')
                         insert into tblcmaterialpeligroso(clave, descripcion) values('3325', 'MATERIALES RADIACTIVOS, BAJA ACTIVIDAD ESPECIFICA (BAE-III), FISIONABLES')
                         insert into tblcmaterialpeligroso(clave, descripcion) values('3326', 'MATERIALES RADIACTIVOS, OBJETOS CONTAMINADOS EN LA SUPERFICIE (OCS-I u OCS-II), FISIONABLES')
                         insert into tblcmaterialpeligroso(clave, descripcion) values('3327', 'MATERIALES RADIACTIVOS, BULTOS DE TIPO A, FISIONABLES, no en forma especial')
@@ -12932,6 +12932,90 @@ Module ModCREATABLAS
                 cmd.CommandText = SQL
                 cmd.ExecuteNonQuery()
             End If
+            If Not EXISTE_TABLA("tblSectorCOFEPRIS") Then
+                SQL = "CREATE TABLE [dbo].[tblSectorCOFEPRIS]([id] [int] IDENTITY(1,1) NOT NULL,	[clave] [varchar](10) NOT NULL,	[descripcion] [varchar](1000) NULL PRIMARY KEY CLUSTERED ([id] ASC)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = " INSERT INTO tblSectorCOFEPRIS(clave, descripcion) VALUES('01', 'Medicamento')
+                        INSERT INTO tblSectorCOFEPRIS(clave, descripcion) VALUES('02', 'Precursores y químicos de uso dual')
+                        INSERT INTO tblSectorCOFEPRIS(clave, descripcion) VALUES('03', 'Psicotrópicos y estupefacientes')
+                        INSERT INTO tblSectorCOFEPRIS(clave, descripcion) VALUES('04', 'Sustancias tóxicas')
+                        INSERT INTO tblSectorCOFEPRIS(clave, descripcion) VALUES('05', 'Plaguicidas y fertilizantes')"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+
+            If Not EXISTE_TABLA("tblFormaFarmaceutica") Then
+                SQL = "CREATE TABLE [dbo].[tblFormaFarmaceutica]([id] [int] IDENTITY(1,1) NOT NULL,	[clave] [varchar](10) NOT NULL,	[descripcion] [varchar](1000) NULL	PRIMARY KEY CLUSTERED (	[id] ASC)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = " INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('01', 'Tableta')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('02', 'Capsulas')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('03', 'Comprimidos')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('04', 'Grageas')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('05', 'Suspensión')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('06', 'Solución')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('07', 'Emulsión')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('08', 'Jarabe')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('09', 'Inyectable')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('10', 'Crema')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('11', 'Ungüento')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('12', 'Aerosol')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('13', 'Gas medicinal')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('14', 'Gel')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('15', 'Implante')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('16', 'Óvulo')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('17', 'Parche')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('18', 'Pasta')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('19', 'Polvo')
+                        INSERT INTO tblFormaFarmaceutica(clave, descripcion) VALUES('20', 'Supositorio')"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+
+            If Not EXISTE_TABLA("tblCondicionesEspeciales") Then
+                SQL = "CREATE TABLE [dbo].[tblCondicionesEspeciales]([id] [int] IDENTITY(1,1) NOT NULL,	[clave] [varchar](10) NOT NULL,	[descripcion] [varchar](1000) NULL	PRIMARY KEY CLUSTERED (	[id] ASC)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = " INSERT INTO tblCondicionesEspeciales(clave, descripcion) VALUES('01', 'Congelados')
+                        INSERT INTO tblCondicionesEspeciales(clave, descripcion) VALUES('02', 'Refrigerados')
+                        INSERT INTO tblCondicionesEspeciales(clave, descripcion) VALUES('03', 'Temperatura controlada')
+                        INSERT INTO tblCondicionesEspeciales(clave, descripcion) VALUES('04', 'Temperatura ambiente')"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+
+            If Not EXISTE_TABLA("tblTipoMateria") Then
+                SQL = "CREATE TABLE [dbo].[tblTipoMateria]([id] [int] IDENTITY(1,1) NOT NULL,	[clave] [varchar](10) NOT NULL, [descripcion] [varchar](1000) NULL 	PRIMARY KEY CLUSTERED (	[id] ASC)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = " INSERT INTO tblTipoMateria(clave, descripcion) VALUES('01', 'Materia prima')
+                        INSERT INTO tblTipoMateria(clave, descripcion) VALUES('02', 'Materia procesada')
+                        INSERT INTO tblTipoMateria(clave, descripcion) VALUES('03', 'Materia terminada(producto terminado)')
+                        INSERT INTO tblTipoMateria(clave, descripcion) VALUES('04', 'Materia para la industria manufacturera')
+                        INSERT INTO tblTipoMateria(clave, descripcion) VALUES('05', 'Otra')"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+
+            If Not EXISTE_TABLA("tblRegistroISTMO") Then
+                SQL = "CREATE TABLE [dbo].[tblRegistroISTMO]([id] [int] IDENTITY(1,1) NOT NULL,	[clave] [varchar](10) NOT NULL, [descripcion] [varchar](1000) NULL 	PRIMARY KEY CLUSTERED (	[id] ASC)) ON [PRIMARY]"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+
+                SQL = " INSERT INTO tblRegistroISTMO(clave, descripcion) VALUES('01', 'Coatzacoalcos I')
+                        INSERT INTO tblRegistroISTMO(clave, descripcion) VALUES('02', 'Coatzacoalcos II')
+                        INSERT INTO tblRegistroISTMO(clave, descripcion) VALUES('03', 'Texistepec')
+                        INSERT INTO tblRegistroISTMO(clave, descripcion) VALUES('04', 'San Juan Evangelista')
+                        INSERT INTO tblRegistroISTMO(clave, descripcion) VALUES('05', 'Salina Cruz')
+                        INSERT INTO tblRegistroISTMO(clave, descripcion) VALUES('06', 'San Blas Atempa')"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
         Catch ex As Exception
             BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
@@ -12974,6 +13058,33 @@ Module ModCREATABLAS
             SQL = "UPDATE GCMERCANCIAS SET REG_ORI = 0 WHERE REG_ORI IS NULL"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
+
+            CREA_CAMPO("GCMERCANCIAS", "SectorCOFEPRIS", "VARCHAR", "10", "")
+            CREA_CAMPO("GCMERCANCIAS", "NombreIngredienteActivo", "VARCHAR", "", "")
+            CREA_CAMPO("GCMERCANCIAS", "NomQuimico", "VARCHAR", "150", "")
+            CREA_CAMPO("GCMERCANCIAS", "DenominacionGenericaProd", "VARCHAR", "50", "")
+            CREA_CAMPO("GCMERCANCIAS", "DenominacionDistintivaProd", "VARCHAR", "50", "")
+            CREA_CAMPO("GCMERCANCIAS", "Fabricante", "VARCHAR", "240", "")
+            CREA_CAMPO("GCMERCANCIAS", "FechaCaducidad", "DT", "", "")
+            CREA_CAMPO("GCMERCANCIAS", "LoteMedicamento", "VARCHAR", "10", "")
+            CREA_CAMPO("GCMERCANCIAS", "FormaFarmaceutica", "VARCHAR", "10", "")
+            CREA_CAMPO("GCMERCANCIAS", "CondicionesEspTransp", "VARCHAR", "10", "")
+            CREA_CAMPO("GCMERCANCIAS", "RegistroSanitarioFolioAutorizacion", "VARCHAR", "15", "")
+            CREA_CAMPO("GCMERCANCIAS", "PermisoImportacion", "VARCHAR", "6", "")
+            CREA_CAMPO("GCMERCANCIAS", "FolioImpoVUCEM", "VARCHAR", "25", "")
+            CREA_CAMPO("GCMERCANCIAS", "NumCAS", "VARCHAR", "15", "")
+            CREA_CAMPO("GCMERCANCIAS", "RazonSocialEmpImp", "VARCHAR", "80", "")
+            CREA_CAMPO("GCMERCANCIAS", "NumRegSanPlagCOFEPRIS", "VARCHAR", "60", "")
+            CREA_CAMPO("GCMERCANCIAS", "DatosFabricante", "VARCHAR", "600", "")
+            CREA_CAMPO("GCMERCANCIAS", "DatosFormulador", "VARCHAR", "600", "")
+            CREA_CAMPO("GCMERCANCIAS", "DatosMaquilador", "VARCHAR", "600", "")
+            CREA_CAMPO("GCMERCANCIAS", "UsoAutorizado", "VARCHAR", "1000", "")
+            CREA_CAMPO("GCMERCANCIAS", "TipoMateria", "VARCHAR", "10", "")
+            CREA_CAMPO("GCMERCANCIAS", "DescripcionMateria", "VARCHAR", "50", "")
+
+            CREA_CAMPO("GCCLIE_OP", "CveRegistroISTMO", "VARCHAR", "10", "")
+
+            CREA_CAMPO("CFDI", "IdCCP", "VARCHAR", "50", "")
 
             SQL = "IF NOT EXISTS(SELECT 1 From INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME = 'CVE_ESQIMPU' AND TABLE_NAME = 'CTAESQ" & Empresa & "')
                     BEGIN

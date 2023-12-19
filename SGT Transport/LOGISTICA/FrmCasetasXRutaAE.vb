@@ -166,7 +166,7 @@ Public Class FrmCasetasXRutaAE
                 dr.Close()
 
                 DESPLEGAR_PAR()
-
+                CalculaTotales()
                 TCVE_CXR.Enabled = False
                 txRuta.Select()
 
@@ -285,6 +285,13 @@ Public Class FrmCasetasXRutaAE
                             Next
 
                         End While
+
+                        For row As Integer = Fg.Rows.Count - 1 To 1 Step -1
+                            If Fg(row, 1) = False Then
+                                Fg.RemoveItem(row)
+                            End If
+                        Next
+
                         LtImporte.Text = Format(SUMA, "###,###,##0.00")
                     End Using
                 End Using
@@ -399,6 +406,7 @@ Public Class FrmCasetasXRutaAE
         Dim IMPORTE As Decimal = 0
         Dim cmd As New SqlCommand
         cmd.Connection = cnSAE
+        CalculaTotales()
 
         Try
             If IsNumeric(LtImporte.Text.Replace(",", "")) Then
@@ -512,9 +520,13 @@ Public Class FrmCasetasXRutaAE
         End Try
     End Sub
     Private Sub Fg_CellChecked(sender As Object, e As RowColEventArgs) Handles Fg.CellChecked
+        CalculaTotales
+    End Sub
+
+    Private Sub CalculaTotales()
         Try
             Dim SUMA As Decimal = 0
-
+            Fg.FinishEditing()
             For k = 1 To Fg.Rows.Count - 1
                 If Fg(k, 1) Then
                     If Fg(k, 9) Then SUMA += Fg(k, 8) * Fg(k, 6)
@@ -632,6 +644,7 @@ Public Class FrmCasetasXRutaAE
                     End If
                     LtImporte.Text = Format(SUMA, "###,###,##0.00")
                 End If
+
             End If
         Catch ex As Exception
             Bitacora("162. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -697,5 +710,87 @@ Public Class FrmCasetasXRutaAE
             Bitacora("38. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("38. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
+    End Sub
+
+    Private Sub BtnRecargarCasetas_Click(sender As Object, e As EventArgs) Handles BtnRecargarCasetas.Click
+        Try
+            Dim s As String
+            Dim STATUS As Boolean
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT CVE_CAS, DESCR, CVE_PLAZA, CASE WHEN C.TIPO_PAGO = 'M' THEN 'Multitag' ELSE 'Efectivo' END AS TIPOPAGO, ISNULL(IMPORTE,0) AS T1,
+                    ISNULL(IMPORTE2,0) AS T2,ISNULL(IMPORTE3,0) AS T3, ISNULL(IMPORTE4,0) AS T4, ISNULL(IMPORTE5,0) AS T5, ISNULL(IMPORTE6,0) AS T6,
+                    ISNULL(IMPORTE7,0) AS T7, ISNULL(IMPORTE8,0) AS T8, CLAVE_OP, IAVE, ISNULL(CRUCE,1) AS CRUZE
+                    FROM GCCASETAS C
+                    WHERE C.STATUS = 'A'"
+
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+
+                        STATUS = True
+
+                        For k = 1 To Fg.Rows.Count - 1
+                            If Fg(k, 2) = dr("CVE_CAS") Then
+                                STATUS = False
+                                Exit For
+                            End If
+                        Next
+
+
+                        If STATUS Then
+
+                            s = "" & vbTab '1
+                            s &= dr("CVE_CAS") & vbTab '2
+                            s &= dr("DESCR") & vbTab '3
+                            s &= dr("TIPOPAGO") & vbTab '4
+                            s &= dr("CVE_PLAZA") & vbTab '5
+                            s &= dr("CRUZE") & vbTab '6
+                            s &= dr("T1") / dr("CRUZE") & vbTab '7
+                            s &= dr("T1") & vbTab '8
+                            s &= False & vbTab '9
+                            s &= dr("T2") / dr("CRUZE") & vbTab '10
+                            s &= dr("T2") & vbTab '11
+                            s &= False & vbTab '12
+                            s &= dr("T3") / dr("CRUZE") & vbTab '13
+                            s &= dr("T3") & vbTab '14
+                            s &= False & vbTab '15
+                            s &= dr("T4") / dr("CRUZE") & vbTab '16
+                            s &= dr("T4") & vbTab '17
+                            s &= False & vbTab '18
+                            s &= dr("T5") / dr("CRUZE") & vbTab '19
+                            s &= dr("T5") & vbTab '20
+                            s &= False & vbTab '21 
+                            s &= dr("T6") / dr("CRUZE") & vbTab '22
+                            s &= dr("T6") & vbTab '23
+                            s &= False & vbTab '24
+                            s &= dr("T7") / dr("CRUZE") & vbTab '25
+                            s &= dr("T7") & vbTab '26
+                            s &= False & vbTab '27
+                            s &= dr("T8") / dr("CRUZE") & vbTab '28
+                            s &= dr("T8") & vbTab '29
+                            s &= False & vbTab '30
+                            s &= dr("CLAVE_OP") & vbTab '31
+                            s &= dr("IAVE") '32
+
+                            Fg.AddItem("" & vbTab & s)
+                            ' & vbTab & dr("NOMBRE") & vbTab & dr("IAVE")
+                        End If
+                    End While
+                    'Fg.AutoSizeCols()
+                End Using
+            End Using
+            Fg.Redraw = True
+        Catch ex As Exception
+            Bitacora("380. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("380. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
+    Private Sub Fg_RowColChange(sender As Object, e As EventArgs) Handles Fg.RowColChange
+
+    End Sub
+
+    Private Sub Fg_RowValidated(sender As Object, e As RowColEventArgs) Handles Fg.RowValidated
+        CalculaTotales()
     End Sub
 End Class

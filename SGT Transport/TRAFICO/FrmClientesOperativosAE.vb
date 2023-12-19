@@ -22,7 +22,7 @@ Public Class FrmClientesOperativosAE
         TPLANTA.MaxLength = 50
         TNOTA.MaxLength = 255
         TRFC.MaxLength = 20
-
+        TxCveRegistroISTMO.MaxLength = 10
 
         TNUMREGIDTRIB.Value = ""
         TNUMREGIDTRIB.Text = ""
@@ -33,6 +33,7 @@ Public Class FrmClientesOperativosAE
         TPLANTA.Text = ""
         TNOTA.Text = ""
         TRFC.Text = ""
+        TxCveRegistroISTMO.Text = ""
         RD = Var8
         If Var1 = "Nuevo" Then
             CLIEN_OP_NEW = True
@@ -59,7 +60,7 @@ Public Class FrmClientesOperativosAE
 
             SQL = "SELECT C.CLAVE, C.NOMBRE, C.CVE_PLAZA, C.DOMICILIO, C.DOMICILIO2, C.PLANTA, C.NOTA, C.RFC, C.CUEN_CONT, CP, CP_SAT, COLONIA, 
                     C.COLONIA_SAT, C.POBLACION, C.POBLACION_SAT, C.MUNICIPIO, C.MUNICIPIO_SAT, ESTADO, ESTADO_SAT, PAIS, PAIS_SAT, NUMEXT, NUMINT,
-                    REFERENCIA, NUMREGIDTRIB
+                    REFERENCIA, NUMREGIDTRIB, CveRegistroISTMO 
                     FROM GCCLIE_OP C 
                     WHERE C.CLAVE = '" & FCLAVE & "'"
             cmd.CommandText = SQL
@@ -97,6 +98,7 @@ Public Class FrmClientesOperativosAE
                 TPAIS_SAT.Text = dr.ReadNullAsEmptyString("PAIS_SAT")
 
                 TNUMREGIDTRIB.Text = dr.ReadNullAsEmptyString("NUMREGIDTRIB")
+                TxCveRegistroISTMO.Text = dr.ReadNullAsEmptyString("CveRegistroISTMO")
 
             Else
                 TCLAVE.Text = 0
@@ -108,6 +110,7 @@ Public Class FrmClientesOperativosAE
                 TRFC.Text = ""
                 TCUEN_CONT.Text = ""
                 TNUMREGIDTRIB.Text = ""
+                TxCveRegistroISTMO.Text = ""
             End If
             dr.Close()
 
@@ -146,16 +149,16 @@ Public Class FrmClientesOperativosAE
                 PLANTA = @PLANTA, NOTA = @NOTA, RFC = @RFC, CUEN_CONT = @CUEN_CONT, CP = @CP, CP_SAT = @CP_SAT, COLONIA = @COLONIA, 
                 COLONIA_SAT = @COLONIA_SAT, POBLACION = @POBLACION, POBLACION_SAT = @POBLACION_SAT, MUNICIPIO = @MUNICIPIO, 
                 MUNICIPIO_SAT = @MUNICIPIO_SAT, ESTADO = @ESTADO, ESTADO_SAT = @ESTADO_SAT, PAIS = @PAIS, PAIS_SAT = @PAIS_SAT,
-                NUMREGIDTRIB = @NUMREGIDTRIB
+                NUMREGIDTRIB = @NUMREGIDTRIB, CveRegistroISTMO = @CveRegistroISTMO
                 WHERE CLAVE = @CLAVE 
             ELSE
                 INSERT INTO GCCLIE_OP (CLAVE, STATUS, NOMBRE, DOMICILIO, DOMICILIO2, NUMEXT, NUMINT, PLANTA, NOTA, RFC, 
                 CUEN_CONT, CP, CP_SAT, COLONIA, COLONIA_SAT, POBLACION, POBLACION_SAT, MUNICIPIO, MUNICIPIO_SAT, ESTADO, ESTADO_SAT, 
-                PAIS, PAIS_SAT, UUID, RD, NUMREGIDTRIB) 
+                PAIS, PAIS_SAT, UUID, RD, NUMREGIDTRIB, CveRegistroISTMO) 
                 VALUES(
                 @CLAVE, 'A', @NOMBRE, @DOMICILIO, @DOMICILIO2, @NUMEXT, @NUMINT, @PLANTA, @NOTA, @RFC, @CUEN_CONT, @CP, 
                 @CP_SAT, @COLONIA, @COLONIA_SAT, @POBLACION, @POBLACION_SAT, @MUNICIPIO, @MUNICIPIO_SAT, @ESTADO, @ESTADO_SAT, @PAIS, 
-                @PAIS_SAT, NEWID(), @RD, @NUMREGIDTRIB)"
+                @PAIS_SAT, NEWID(), @RD, @NUMREGIDTRIB, @CveRegistroISTMO)"
         Var4 = ""
         cmd.CommandText = SQL
         Try
@@ -183,6 +186,7 @@ Public Class FrmClientesOperativosAE
             cmd.Parameters.Add("@PAIS_SAT", SqlDbType.VarChar).Value = TPAIS_SAT.Text
             cmd.Parameters.Add("@RD", SqlDbType.VarChar).Value = RD
             cmd.Parameters.Add("@NUMREGIDTRIB", SqlDbType.VarChar).Value = TNUMREGIDTRIB.Text
+            cmd.Parameters.Add("@CveRegistroISTMO", SqlDbType.VarChar).Value = TxCveRegistroISTMO.Text
             returnValue = cmd.ExecuteNonQuery().ToString
             If returnValue IsNot Nothing Then
                 If returnValue = "1" Then
@@ -655,5 +659,36 @@ Public Class FrmClientesOperativosAE
 
     Private Sub TMUNICIPIO_SAT_KeyDown(sender As Object, e As KeyEventArgs) Handles TMUNICIPIO_SAT.KeyDown
 
+    End Sub
+
+    Private Sub TxCveRegistroISTMO_Validated(sender As Object, e As EventArgs) Handles TxCveRegistroISTMO.Validated
+        SQL = "SELECT clave, descripcion FROM tblRegistroISTMO WHERE clave = '" & TxCveRegistroISTMO.Text & "'"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    If Not dr.Read Then
+                        TxCveRegistroISTMO.Text = ""
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+    End Sub
+
+    Private Sub BtnISTMO_Click(sender As Object, e As EventArgs) Handles BtnISTMO.Click
+        Try
+            Prosec = "CVEREGISTROISTMO"
+            Var4 = ""
+            FrmSelItemBinding.ShowDialog()
+            If Var4.Trim.Length > 0 Then
+                TxCveRegistroISTMO.Text = Var4
+            End If
+        Catch ex As Exception
+            MsgBox("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
+            Bitacora("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
+        End Try
     End Sub
 End Class

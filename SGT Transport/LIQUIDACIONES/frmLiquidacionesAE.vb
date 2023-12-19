@@ -121,19 +121,19 @@ Public Class FrmLiquidacionesAE
         BtnReset.FlatAppearance.BorderSize = 0
 
 
-        FgCasetas.Cols(1).StarWidth = "2*"
-        FgCasetas.Cols(2).StarWidth = "*"
-        FgCasetas.Cols(3).StarWidth = "*"
-        FgCasetas.Cols(4).StarWidth = "4*"
-        FgCasetas.Cols(5).StarWidth = "*"
-        FgCasetas.Cols(6).StarWidth = "4*"
-        FgCasetas.Cols(7).StarWidth = "2*"
+        'FgCasetas.Cols(1).StarWidth = "2*"
+        'FgCasetas.Cols(2).StarWidth = "*"
+        FgCasetas.Cols(3).Visible = False
+        'FgCasetas.Cols(4).StarWidth = "4*"
+        FgCasetas.Cols(5).Visible = False
+        'FgCasetas.Cols(6).StarWidth = "4*"
+        'FgCasetas.Cols(7).StarWidth = "2*"
+        'FgCasetas.Cols(8).StarWidth = "2*"
 
-        SQL = "SELECT C.CVE_CXR, C.CVE_PLAZA, P1.CIUDAD AS CIUDAD1, C.CVE_PLAZA2, P2.CIUDAD AS CIUDAD2, IMPORTE_CASETAS
+        SQL = "SELECT C.CVE_CXR, C.CVE_PLAZA, C.CVE_PLAZA2, IMPORTE_CASETAS, ISNULL(R.DESCR, '') AS Origen, ISNULL(R.DESCR2, '') AS Destino, TIPO = CASE C.TIPO_UNIDAD WHEN 1 THEN 'Tractor' WHEN 2 THEN 'Sencillo' ELSE 'Full' END
             FROM GCCASETAS_X_RUTA C 
-            LEFT JOIN GCPLAZAS P1 On P1.CLAVE = C.CVE_PLAZA 
-            LEFT JOIN GCPLAZAS P2 On P2.CLAVE = C.CVE_PLAZA2
-            WHERE C.STATUS = 'A' ORDER BY CVE_CXR"
+            LEFT JOIN GCTAB_RUTAS_F R ON R.CVE_TAB = C.CVE_TAB
+            WHERE C.STATUS = 'A' ORDER BY C.CVE_CXR"
         FgCasetas.Rows.Count = 1
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
@@ -141,8 +141,8 @@ Public Class FrmLiquidacionesAE
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
                         FgCasetas.AddItem("" & vbTab & "" & vbTab & dr("CVE_CXR") & vbTab & dr("CVE_PLAZA") & vbTab &
-                                          dr("CIUDAD1") & vbTab & dr("CVE_PLAZA2") & vbTab & dr("CIUDAD2") & vbTab &
-                                          dr("IMPORTE_CASETAS"))
+                                          dr("Origen") & vbTab & dr("CVE_PLAZA2") & vbTab & dr("Destino") & vbTab &
+                                          dr("TIPO") & vbTab & dr("IMPORTE_CASETAS"))
                     End While
                 End Using
             End Using
@@ -731,6 +731,57 @@ Public Class FrmLiquidacionesAE
             MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
         End Try
     End Sub
+
+    Sub DESPLEGAR_GASTOS_VIAJES_PENDIENTES()
+        Dim STATUS As Boolean
+        Try
+            SUMA2 = 0
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT GV.CVE_VIAJE, ISNULL(GV.STATUS,'A') AS STA, GV.CVE_OPER, GV.CVE_GAV, GV.FOLIO, GV.FECHA, GV.CVE_NUM, 
+                    ISNULL(GV.IMPORTE,0) AS IMPORT, DESCR, ISNULL(GV.ST_GASTOS,'EDICION') AS ST_GAS, GV.UUID
+                    FROM GCASIGNACION_VIAJE_GASTOS GV
+                    LEFT JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = GV.CVE_VIAJE
+                    LEFT JOIN GCCONC_GASTOS C ON C.CVE_GAS = GV.CVE_NUM
+                    WHERE GV.CVE_OPER = '" & TCVE_OPER.Text & "' AND
+                    ISNULL(ST_GASTOS,'') = 'DEPOSITADO' ORDER BY GV.FECHAELAB"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+                        Try
+
+                            If dr("STA") = "L" Then
+                                STATUS = False
+                            Else
+                                STATUS = True
+                            End If
+
+                            'For k = 1 To FgG.Rows.Count - 1
+                            '    If FgG(k, 10) = dr("UUID") Then
+                            '        STATUS = False
+                            '        Exit For
+                            '    End If
+                            'Next
+
+                            If STATUS Then
+                                FgG.AddItem("" & vbTab & "" & vbTab & dr("CVE_VIAJE") & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab & dr("CVE_NUM") & vbTab &
+                                    dr("DESCR") & vbTab & dr("IMPORT") & vbTab & dr("ST_GAS") & vbTab & 0 & vbTab & dr("UUID") & vbTab & "G")
+                            End If
+
+                        Catch ex As Exception
+                            BITACORA_LIQ("850. " & ex.Message & vbNewLine & ex.StackTrace)
+                            MsgBox("850. " & ex.Message & vbNewLine & ex.StackTrace)
+                        End Try
+                    End While
+                End Using
+                FgG.AutoSizeCols()
+
+            End Using
+        Catch ex As Exception
+            BITACORA_LIQ("40. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("40. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
     Sub DESPLEGAR_LIQ_GASTOS_VIAJE(fCVE_IAJE As String)
         Dim STATUS As Boolean
         Try
@@ -746,10 +797,19 @@ Public Class FrmLiquidacionesAE
                     While dr.Read
                         Try
                             STATUS = True
-                            SUMA2 += dr("IMPORT")
+
+                            For k = 1 To FgG.Rows.Count - 1
+                                If FgG(k, 10) = dr("UUID") Then
+                                    STATUS = False
+                                    Exit For
+                                End If
+                            Next
+
+
                             If STATUS Then
                                 FgG.AddItem("1" & vbTab & STATUS & vbTab & dr("CVE_VIAJE") & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab &
                                     dr("CVE_NUM") & vbTab & dr("DESCR") & vbTab & dr("IMPORT") & vbTab & dr("ST_GAS") & vbTab & 0 & vbTab & dr("UUID"))
+                                SUMA2 += dr("IMPORT")
                                 nGastos += 1
                             End If
                         Catch ex As Exception
@@ -840,8 +900,8 @@ Public Class FrmLiquidacionesAE
                 CALCULAR_IMPORTES()
                 '                           1            2              3           4          5             6           7          8                     9
                 '                       Documento	Referencia	    Articulo      button	descripcion	     prov       button     nombre     	       	fecha
-                FgGC.AddItem("" & vbTab & GET_MAX_TRY("GCLIQ_GASTOS_COMPROBADOS", "CVE_DOC") & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & Date.Now.ToShortDateString & vbTab &
-                             "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "0" & vbTab & "0" & vbTab & 0 & vbTab & "")
+                'FgGC.AddItem("" & vbTab & GET_MAX_TRY("GCLIQ_GASTOS_COMPROBADOS", "CVE_DOC") & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & Date.Now.ToShortDateString & vbTab &
+                '             "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "0" & vbTab & "0" & vbTab & 0 & vbTab & "")
                 '            10           11           12           13           14 	      15		    16	          17           18          19
                 '           subtotal	 iva	       ieps	        total	    STR_OBS      IEPS	        IVA	          NUM_PAR     CVE_OBS      UIUID 
                 Try
@@ -1630,7 +1690,7 @@ Public Class FrmLiquidacionesAE
                         cmd.Parameters.Add("@CVE_CXR", SqlDbType.Int).Value = CONVERTIR_TO_INT(FgCasetas(k, 2))
                         cmd.Parameters.Add("@CVE_PLAZA", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(FgCasetas(k, 3))
                         cmd.Parameters.Add("@CVE_PLAZA2", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(FgCasetas(k, 5))
-                        cmd.Parameters.Add("@IMPORTE", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(FgCasetas(k, 7))
+                        cmd.Parameters.Add("@IMPORTE", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(FgCasetas(k, 8))
                         returnValue = cmd.ExecuteNonQuery().ToString
                         If returnValue IsNot Nothing Then
                             If returnValue = "1" Then
@@ -2335,6 +2395,8 @@ Public Class FrmLiquidacionesAE
                         If Not IsNothing(FgD(k, 2)) Then
                             If Not IsNothing(FgD(k, 8)) Then
                                 If IsNumeric(FgD(k, 8)) Then
+
+
                                     'OBSERVACIONES
                                     Try
                                         CVE_OBS = 0
@@ -2640,12 +2702,14 @@ Public Class FrmLiquidacionesAE
         'DESPLEGAR_LIQ_PARTIDAS(CLng(tCVE_LIQ.Text))
         'INICIA DESPLEGUE DE GASTOS DE VIAJE Y VALES DE VIAJE
         FgG.Rows.Count = 1
+        DESPLEGAR_GASTOS_VIAJES_PENDIENTES()
         DESPLEGAR_LIQ_GASTOS_VIAJE(CLng(TCVE_LIQ.Text))
         DESPLEGAR_LIQ_VALES_VIAJE(CLng(TCVE_LIQ.Text))
 
 
         DESPLEGAR_LIQ_GASTOS_COMPROBADOS(CLng(TCVE_LIQ.Text))
-        DESPLEGAR_LIQ_DEDUCCIONES(CLng(TCVE_LIQ.Text))
+        'DESPLEGAR_LIQ_DEDUCCIONES(CLng(TCVE_LIQ.Text))
+        DESPLEGAR_DEDICCIONES_PENDIENTES()
 
         ENTRA_VA = True
 
@@ -2781,6 +2845,7 @@ Public Class FrmLiquidacionesAE
                 FgGC.Rows.Count = 1
                 FgD.Rows.Count = 1
             End If
+
         Catch ex As Exception
             BITACORA_LIQ("800. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("800. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -2828,15 +2893,19 @@ Public Class FrmLiquidacionesAE
                         While dr.Read
                             Try
                                 Exist = False
-                                'For k = 1 To FgG.Rows.Count - 1
-                                'If FgG(k, 10) = dr("UUID") Then
-                                'Exist = True
-                                'Exit For
-                                'End If
-                                'Next
-                                FgG.AddItem("2" & vbTab & "" & vbTab & fCVE_VIAJE & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab & dr("CVE_NUM") & vbTab &
+                                For k = 1 To FgG.Rows.Count - 1
+                                    If FgG(k, 10) = dr("UUID") Then
+                                        FgG(k, 0) = "2"
+                                        FgG(k, 11) = ""
+                                        Exist = True
+                                        Exit For
+                                    End If
+                                Next
+                                If Not Exist Then
+                                    FgG.AddItem("2" & vbTab & "" & vbTab & fCVE_VIAJE & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab & dr("CVE_NUM") & vbTab &
                                     dr("DESCR") & vbTab & dr("IMPORT") & vbTab & dr("ST_GAS") & vbTab & 0 & vbTab & dr("UUID"))
-                                nGastos += 1
+                                    nGastos += 1
+                                End If
                             Catch ex As Exception
                                 BITACORA_LIQ("850. " & ex.Message & vbNewLine & ex.StackTrace)
                                 MsgBox("850. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -2853,8 +2922,8 @@ Public Class FrmLiquidacionesAE
             Try
                 For k = FgG.Rows.Count - 1 To 1 Step -1
                     If FgG(k, 2) = fCVE_VIAJE Then
-                        FgG(k, 2) = "KILL"
-                        FgG.Rows(k).Visible = False
+                        'FgG(k, 2) = "KILL"
+                        'FgG.Rows(k).Visible = False
                         'FgG.RemoveItem(k)
                     End If
                 Next
@@ -4026,6 +4095,75 @@ Public Class FrmLiquidacionesAE
             MsgBox("1260. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
+
+    Private Sub DESPLEGAR_DEDICCIONES_PENDIENTES()
+
+        Try
+            Dim cveOper As String = "0"
+            If IsNumeric(TCVE_OPER.Text.Trim) Then
+                cveOper = TCVE_OPER.Text.Trim
+            End If
+            FgD.Rows.Count = 1
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT CVE_OPER, DO.FOLIO, D.DESCR AS DESCR_DED, DO.DESCR, DO.IMPORTE_PRESTAMO, 
+                        ISNULL((SELECT SUM(IMPORTE) FROM GCLIQ_DEDUCCIONES D WHERE D.STATUS = 'A' AND D.CVE_DED = DO.FOLIO),0) AS ABONOS,
+                        DO.IMPORTE_PRESTAMO - ISNULL((SELECT SUM(IMPORTE) FROM GCLIQ_DEDUCCIONES D WHERE D.STATUS = 'A' AND D.CVE_DED = DO.FOLIO),0) AS SALDO_ACT,
+                        DO.FECHA 
+                        FROM GCDEDUC_OPER DO
+                        LEFT JOIN GCDEDUCCIONES D ON D.CVE_DED = DO.CVE_DED
+                        WHERE DO.STATUS = 'A' AND 
+                        CVE_OPER = " & cveOper & " AND 
+                        YEAR(FECHA) > 2021 AND 
+                        DO.IMPORTE_PRESTAMO - ISNULL((SELECT SUM(IMPORTE) FROM GCLIQ_DEDUCCIONES D WHERE D.STATUS = 'A' AND D.CVE_DED = DO.FOLIO),0) > .09
+                        ORDER BY DO.FOLIO"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+                        Try
+                            'Var4 = Fg(Fg.Row, 1) 'FOLIO
+                            'Var5 = Fg(Fg.Row, 2) 'DESCR DEDUCCION
+                            'Var6 = Fg(Fg.Row, 3) 'DESCRIPCION DEDUDC OPER
+                            'Var7 = Fg(Fg.Row, 4) 'IMPORTE PRESTAMO
+                            'Var8 = Fg(Fg.Row, 6) 'SALDO
+                            'Var9 = Fg(Fg.Row, 5) 'PAGO EN LIQ.
+                            'Var10 = Fg(Fg.Row, 6) 'SALDO ACTUAL
+
+                            'SALDO = CALCULAR_SALDO_DEDUC()
+
+
+                            'FgD(FgD.Row, 2) = Var4
+                            'FgD(FgD.Row, 3) = Var6
+                            'FgD(FgD.Row, 4) = Now
+                            'FgD(FgD.Row, 5) = Var7 'IMPORTE PRESTAMO
+                            'FgD(FgD.Row, 6) = Var9 'IMPORTE PAGADO
+                            'FgD(FgD.Row, 7) = Var8 'SALDO
+                            'FgD(FgD.Row, 9) = Var10
+
+                            '                         1             2            3             4            5 
+                            '                      FOLIO LIQ.  folio dedudc     descr        fecha      imp. prestamo
+                            FgD.AddItem("" & vbTab & " " & vbTab & dr("FOLIO") & vbTab & dr("DESCR_DED") & vbTab & Now & vbTab & dr("IMPORTE_PRESTAMO") & vbTab &
+                                        dr("ABONOS") & vbTab & dr("SALDO_ACT") & vbTab & "0" & vbTab & dr("SALDO_ACT") & vbTab & " " & vbTab & "0" & vbTab & " " & vbTab & "0")
+                            '         pagado         saldo         abonar     saldo actual     obser         num_par        uuid       cve_obs   
+                            '            6             7             8             9             10           11              12          13
+
+
+
+
+                        Catch ex As Exception
+                            BITACORA_LIQ("850. " & ex.Message & vbNewLine & ex.StackTrace)
+                            MsgBox("850. " & ex.Message & vbNewLine & ex.StackTrace)
+                        End Try
+                    End While
+                End Using
+
+
+            End Using
+        Catch ex As Exception
+            BITACORA_LIQ("40. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("40. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
     Private Sub FgD_CellButtonClick(sender As Object, e As RowColEventArgs) Handles FgD.CellButtonClick
         Try
 
@@ -6244,6 +6382,39 @@ Else " & vbNewLine & "
 
         End If
     End Sub
+
+    Private Sub FgCasetas_CellButtonClick(sender As Object, e As RowColEventArgs) Handles FgCasetas.CellButtonClick
+        Try
+            If LtTipoCrobro.Text = "Edición" Then
+                If FgCasetas.Row > 0 Then
+                    Var1 = "Edit"
+                    Var2 = FgCasetas(FgCasetas.Row, 2)
+                    FrmCasetasXRutaAE.ShowDialog()
+                    SQL = "SELECT IMPORTE_CASETAS FROM GCCASETAS_X_RUTA WHERE CVE_CXR = " & FgCasetas(FgCasetas.Row, 2)
+                    Try
+                        Using cmd As SqlCommand = cnSAE.CreateCommand
+                            cmd.CommandText = SQL
+                            Using dr As SqlDataReader = cmd.ExecuteReader
+                                If dr.Read Then
+                                    FgCasetas(FgCasetas.Row, 8) = dr("IMPORTE_CASETAS")
+                                End If
+                            End Using
+                        End Using
+                    Catch ex As Exception
+                        Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+                    End Try
+                    Var1 = ""
+                    Var2 = ""
+
+                End If
+            End If
+        Catch ex As Exception
+            BITACORA_LIQ("1540. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("1540. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
     Private Sub TBOTONMAGICO_PA_GotFocus(sender As Object, e As EventArgs) Handles TBOTONMAGICO_PA.GotFocus
         Try
             FgPA.Select()

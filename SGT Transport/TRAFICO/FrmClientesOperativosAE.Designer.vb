@@ -80,6 +80,9 @@ Partial Class FrmClientesOperativosAE
         Me.BtnGrabarCteFiscal = New C1.Win.C1Input.C1Button()
         Me.Label43 = New System.Windows.Forms.Label()
         Me.TNUMREGIDTRIB = New C1.Win.C1Input.C1TextBox()
+        Me.BtnISTMO = New C1.Win.C1Input.C1Button()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.TxCveRegistroISTMO = New System.Windows.Forms.TextBox()
         Me.RadialMenuItem1 = New C1.Win.C1Command.RadialMenuItem()
         Me.RadialMenuItem2 = New C1.Win.C1Command.RadialMenuItem()
         Me.BarMenu.SuspendLayout()
@@ -93,6 +96,7 @@ Partial Class FrmClientesOperativosAE
         CType(Me.BtnCP2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnGrabarCteFiscal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TNUMREGIDTRIB, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnISTMO, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TCLAVE
@@ -856,6 +860,45 @@ Partial Class FrmClientesOperativosAE
         Me.TNUMREGIDTRIB.Value = ""
         Me.TNUMREGIDTRIB.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
+        'BtnISTMO
+        '
+        Me.BtnISTMO.FlatAppearance.BorderSize = 0
+        Me.BtnISTMO.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnISTMO.Image = Global.SGT_Transport.My.Resources.Resources.lupa14
+        Me.BtnISTMO.Location = New System.Drawing.Point(573, 468)
+        Me.BtnISTMO.Name = "BtnISTMO"
+        Me.BtnISTMO.Size = New System.Drawing.Size(23, 24)
+        Me.BtnISTMO.TabIndex = 637
+        Me.C1ThemeController1.SetTheme(Me.BtnISTMO, "(default)")
+        Me.BtnISTMO.UseVisualStyleBackColor = True
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label12.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label12.Location = New System.Drawing.Point(352, 472)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(139, 17)
+        Me.Label12.TabIndex = 636
+        Me.Label12.Text = "Registro ISTMO SAT"
+        Me.C1ThemeController1.SetTheme(Me.Label12, "Office2010Blue")
+        '
+        'TxCveRegistroISTMO
+        '
+        Me.TxCveRegistroISTMO.AcceptsReturn = True
+        Me.TxCveRegistroISTMO.AcceptsTab = True
+        Me.TxCveRegistroISTMO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxCveRegistroISTMO.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxCveRegistroISTMO.ForeColor = System.Drawing.Color.Black
+        Me.TxCveRegistroISTMO.Location = New System.Drawing.Point(492, 469)
+        Me.TxCveRegistroISTMO.MaxLength = 10
+        Me.TxCveRegistroISTMO.Name = "TxCveRegistroISTMO"
+        Me.TxCveRegistroISTMO.Size = New System.Drawing.Size(81, 23)
+        Me.TxCveRegistroISTMO.TabIndex = 635
+        Me.C1ThemeController1.SetTheme(Me.TxCveRegistroISTMO, "Office2010Blue")
+        '
         'RadialMenuItem1
         '
         Me.RadialMenuItem1.Name = "RadialMenuItem1"
@@ -870,7 +913,10 @@ Partial Class FrmClientesOperativosAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(619, 486)
+        Me.ClientSize = New System.Drawing.Size(619, 504)
+        Me.Controls.Add(Me.BtnISTMO)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.TxCveRegistroISTMO)
         Me.Controls.Add(Me.Label43)
         Me.Controls.Add(Me.TNUMREGIDTRIB)
         Me.Controls.Add(Me.BtnGrabarCteFiscal)
@@ -947,6 +993,7 @@ Partial Class FrmClientesOperativosAE
         CType(Me.BtnCP2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnGrabarCteFiscal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TNUMREGIDTRIB, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnISTMO, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1013,4 +1060,7 @@ Partial Class FrmClientesOperativosAE
     Friend WithEvents RadialMenuItem2 As C1.Win.C1Command.RadialMenuItem
     Private WithEvents Label43 As Label
     Friend WithEvents TNUMREGIDTRIB As C1.Win.C1Input.C1TextBox
+    Friend WithEvents BtnISTMO As C1.Win.C1Input.C1Button
+    Friend WithEvents Label12 As Label
+    Friend WithEvents TxCveRegistroISTMO As TextBox
 End Class

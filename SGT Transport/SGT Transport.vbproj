@@ -1069,6 +1069,18 @@
     <Compile Include="LOGISTICA\FrmTabRutasHojaAE.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MANTENIMIENTO\frmOrdenDeTrabajoExtAE.designer.vb">
+      <DependentUpon>frmOrdenDeTrabajoExtAE.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MANTENIMIENTO\frmOrdenDeTrabajoExtAE.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MANTENIMIENTO\frmOrdenDeTrabajoExtMovsInv.designer.vb">
+      <DependentUpon>frmOrdenDeTrabajoExtMovsInv.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MANTENIMIENTO\frmOrdenDeTrabajoExtMovsInv.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MODULOS\FormMessageBox.designer.vb">
       <DependentUpon>FormMessageBox.vb</DependentUpon>
     </Compile>
@@ -4705,6 +4717,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LOGISTICA\FrmTabRutasHojaAE.resx">
       <DependentUpon>FrmTabRutasHojaAE.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MANTENIMIENTO\frmOrdenDeTrabajoExtAE.resx">
+      <DependentUpon>frmOrdenDeTrabajoExtAE.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MANTENIMIENTO\frmOrdenDeTrabajoExtMovsInv.resx">
+      <DependentUpon>frmOrdenDeTrabajoExtMovsInv.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MODULOS\FormMessageBox.resx">
       <DependentUpon>FormMessageBox.vb</DependentUpon>

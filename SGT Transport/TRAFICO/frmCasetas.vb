@@ -118,7 +118,7 @@ Public Class frmCasetas
             c13.DataType = GetType(Decimal)
             Fg.Cols(13).Format = "###,###,##0.00"
 
-            Fg(0, 14) = "Importe 8"
+            Fg(0, 14) = "Importe 9"
             Dim c14 As Column = Fg.Cols(14)
             c14.DataType = GetType(Decimal)
             Fg.Cols(14).Format = "###,###,##0.00"

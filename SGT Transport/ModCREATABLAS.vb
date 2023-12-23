@@ -1371,8 +1371,11 @@ Module ModCREATABLAS
         CREA_CAMPO("GCCASETAS", "TOTAL7", "FLOAT", "", "")
         CREA_CAMPO("GCCASETAS", "TOTAL8", "FLOAT", "", "")
         CREA_CAMPO("GCCASETAS_X_RUTA_PAR", "CRUCE", "SMALLINT", "", "")
-
         CREA_CAMPO("GCRESETEO", "AJUST_TAB", "FLOAT", "", "")
+
+        CREA_CAMPO("GCORDEN_TRABAJO_EXT", "CVE_MAN", "VARCHAR", "10", "")
+        CREA_CAMPO("GCORDEN_TRABAJO_EXT", "CVE_SER", "VARCHAR", "10", "")
+        CREA_CAMPO("GCORDEN_TRABAJO_EXT", "CVE_CLAS", "VARCHAR", "10", "")
 
         Try
             SQL = "UPDATE GCCLIE_OP SET RD = 'R' WHERE SUBSTRING(CLAVE,1,1) = 'R'"
@@ -5396,7 +5399,38 @@ Module ModCREATABLAS
 
     Sub CREA_TABLAS_2022()
         Dim cmd As New SqlCommand With {.Connection = cnSAE}
+        Try
+            If Not EXISTE_TABLA("GCCLASIFIC_SERVICIOS") Then
+                cmd.CommandText = "CREATE TABLE GCCLASIFIC_SERVICIOS (CVE_CLA VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, 
+            CUEN_CONT VARCHAR(28) NULL, GUID VARCHAR(50) NULL, 
+            CONSTRAINT PK_GCCLASIFIC_SERVICIOS PRIMARY KEY CLUSTERED (CVE_CLA))"
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("90. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
 
+        Try
+            If Not EXISTE_TABLA("GCSERVICIOS") Then
+                cmd.CommandText = "CREATE TABLE GCSERVICIOS (CVE_SER VARCHAR(16) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, 
+                CVE_CLAS VARCHAR(10) NULL, CVE_UNI VARCHAR(10) NULL, COSTO_MO FLOAT NULL, TIEMPO_SERVICIO FLOAT NULL, DIAS FLOAT NULL, 
+                HORAS FLOAT NULL, KM FLOAT NULL, TIPO_SERVICIO SMALLINT NULL, GUID VARCHAR(50) NULL, 
+                CONSTRAINT PK_GCSERVICIOS PRIMARY KEY CLUSTERED (CVE_SER) ON [PRIMARY]) "
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("84. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Try
+            If Not EXISTE_TABLA("GCSERVICIOS_MANTE") Then
+                cmd.CommandText = "CREATE TABLE GCSERVICIOS_MANTE (CVE_SER VARCHAR(10) NOT NULL, STATUS VARCHAR(1) NULL, DESCR VARCHAR(255) NULL, " &
+                "TIPO_UNIDAD VARCHAR(10) NULL, CVE_TIPO VARCHAR(10) NULL, CVE_UNI VARCHAR(10) NULL, GUID VARCHAR(50) NULL, 
+                CONSTRAINT PK_GCSERVICIOS_MANTE PRIMARY KEY CLUSTERED (CVE_SER))"
+                cmd.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+            BITACORADB("88. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
         Try
             If Not EXISTE_TABLA("GCPROMOCIONES") Then
                 SQL = "CREATE TABLE dbo.GCPROMOCIONES (TIPO smallint NULL, CVE_ART varchar(16) NOT NULL, RANGO11 smallint NULL, RANGO12 smallint NULL,
@@ -13040,6 +13074,12 @@ Module ModCREATABLAS
 
             CREA_CAMPO("GCCASETAS_X_RUTA", "CVE_TAB", "VARCHAR", "23", "")
             CREA_CAMPO("GCCASETAS_X_RUTA", "TIPO_UNIDAD", "TINYINT", "", "")
+            CREA_CAMPO("GCCASETAS_X_RUTA", "COL_IMPORTE", "TINYINT", "", "")
+
+            SQL = "UPDATE A SET COL_IMPORTE = 9, IMPORTE_CASETAS = ISNULL((SELECT SUM(IMPORTE9) FROM GCCASETAS_X_RUTA_PAR B WHERE B.EJE9=1 AND B.CVE_CXR = A.CVE_CXR), 0)
+		           FROM GCCASETAS_X_RUTA A WHERE COL_IMPORTE IS NULL"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
 
             CREA_CAMPO("GCLIQ_PARTIDAS", "SEL_CALCULO", "BIT", "", "")
             CREA_CAMPO("GCLIQ_PARTIDAS", "PORC_SUELDO", "FLOAT", "", "")
@@ -13060,7 +13100,7 @@ Module ModCREATABLAS
             cmd.ExecuteNonQuery()
 
             CREA_CAMPO("GCMERCANCIAS", "SectorCOFEPRIS", "VARCHAR", "10", "")
-            CREA_CAMPO("GCMERCANCIAS", "NombreIngredienteActivo", "VARCHAR", "", "")
+            CREA_CAMPO("GCMERCANCIAS", "NombreIngredienteActivo", "VARCHAR", "1000", "")
             CREA_CAMPO("GCMERCANCIAS", "NomQuimico", "VARCHAR", "150", "")
             CREA_CAMPO("GCMERCANCIAS", "DenominacionGenericaProd", "VARCHAR", "50", "")
             CREA_CAMPO("GCMERCANCIAS", "DenominacionDistintivaProd", "VARCHAR", "50", "")
@@ -13081,6 +13121,29 @@ Module ModCREATABLAS
             CREA_CAMPO("GCMERCANCIAS", "UsoAutorizado", "VARCHAR", "1000", "")
             CREA_CAMPO("GCMERCANCIAS", "TipoMateria", "VARCHAR", "10", "")
             CREA_CAMPO("GCMERCANCIAS", "DescripcionMateria", "VARCHAR", "50", "")
+
+            CREA_CAMPO("GCMERCANCIAS2", "SectorCOFEPRIS", "VARCHAR", "10", "")
+            CREA_CAMPO("GCMERCANCIAS2", "NombreIngredienteActivo", "VARCHAR", "1000", "")
+            CREA_CAMPO("GCMERCANCIAS2", "NomQuimico", "VARCHAR", "150", "")
+            CREA_CAMPO("GCMERCANCIAS2", "DenominacionGenericaProd", "VARCHAR", "50", "")
+            CREA_CAMPO("GCMERCANCIAS2", "DenominacionDistintivaProd", "VARCHAR", "50", "")
+            CREA_CAMPO("GCMERCANCIAS2", "Fabricante", "VARCHAR", "240", "")
+            CREA_CAMPO("GCMERCANCIAS2", "FechaCaducidad", "DT", "", "")
+            CREA_CAMPO("GCMERCANCIAS2", "LoteMedicamento", "VARCHAR", "10", "")
+            CREA_CAMPO("GCMERCANCIAS2", "FormaFarmaceutica", "VARCHAR", "10", "")
+            CREA_CAMPO("GCMERCANCIAS2", "CondicionesEspTransp", "VARCHAR", "10", "")
+            CREA_CAMPO("GCMERCANCIAS2", "RegistroSanitarioFolioAutorizacion", "VARCHAR", "15", "")
+            CREA_CAMPO("GCMERCANCIAS2", "PermisoImportacion", "VARCHAR", "6", "")
+            CREA_CAMPO("GCMERCANCIAS2", "FolioImpoVUCEM", "VARCHAR", "25", "")
+            CREA_CAMPO("GCMERCANCIAS2", "NumCAS", "VARCHAR", "15", "")
+            CREA_CAMPO("GCMERCANCIAS2", "RazonSocialEmpImp", "VARCHAR", "80", "")
+            CREA_CAMPO("GCMERCANCIAS2", "NumRegSanPlagCOFEPRIS", "VARCHAR", "60", "")
+            CREA_CAMPO("GCMERCANCIAS2", "DatosFabricante", "VARCHAR", "600", "")
+            CREA_CAMPO("GCMERCANCIAS2", "DatosFormulador", "VARCHAR", "600", "")
+            CREA_CAMPO("GCMERCANCIAS2", "DatosMaquilador", "VARCHAR", "600", "")
+            CREA_CAMPO("GCMERCANCIAS2", "UsoAutorizado", "VARCHAR", "1000", "")
+            CREA_CAMPO("GCMERCANCIAS2", "TipoMateria", "VARCHAR", "10", "")
+            CREA_CAMPO("GCMERCANCIAS2", "DescripcionMateria", "VARCHAR", "50", "")
 
             CREA_CAMPO("GCCLIE_OP", "CveRegistroISTMO", "VARCHAR", "10", "")
 

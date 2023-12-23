@@ -3,6 +3,29 @@
 Module GeneralGC
     Public Mycolor1 As Color
     Public Mycolor2 As Color
+
+    Public Function OBTENER_EXISTENCIA(FCVE_ART As String, FCVE_ALM As Integer)
+        Dim EXIST As Decimal = 0
+        Try
+            If MULTIALMACEN = 1 Then
+                SQL = "SELECT EXIST FROM MULT" & Empresa & " WHERE CVE_ART = '" & FCVE_ART & "' AND CVE_ALM = " & FCVE_ALM
+            Else
+                SQL = "SELECT EXIST FROM INVE" & Empresa & " WHERE CVE_ART = '" & FCVE_ART & "'"
+            End If
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    If dr.Read Then
+                        EXIST = dr.ReadNullAsEmptyDecimal("EXIST")
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            Bitacora("130. " & ex.Message & vbNewLine & vbNewLine & ex.StackTrace)
+        End Try
+
+        Return EXIST
+    End Function
     Public Function BUSCA_ENCAT(fTABLA As String, FCLAVE As String) As String
         If Not Valida_Conexion() Then
             Return ""

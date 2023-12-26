@@ -223,6 +223,7 @@ Public Class FrmCasetasXRutaAE
                                 z = 0
                                 If Fg(row, 2) = dr("CVE_CAS") Then
                                     Fg(row, 1) = True
+                                    Fg(row, 6) = dr.ReadNullAsEmptyInteger("CRUZE")
                                     EJE = dr("EJE2")
                                     If dr("EJE2") Then
                                         Fg(row, 9) = True
@@ -572,14 +573,14 @@ Public Class FrmCasetasXRutaAE
             Fg.FinishEditing()
             For k = 1 To Fg.Rows.Count - 1
                 If Fg(k, 1) Then
-                    If Fg(k, 9) And colImporte = 2 Then SUMA += Fg(k, 8) * Fg(k, 6)
-                    If Fg(k, 12) And colImporte = 3 Then SUMA += Fg(k, 11) * Fg(k, 6)
-                    If Fg(k, 15) And colImporte = 4 Then SUMA += Fg(k, 14) * Fg(k, 6)
-                    If Fg(k, 18) And colImporte = 5 Then SUMA += Fg(k, 17) * Fg(k, 6)
-                    If Fg(k, 21) And colImporte = 6 Then SUMA += Fg(k, 20) * Fg(k, 6)
-                    If Fg(k, 24) And colImporte = 7 Then SUMA += Fg(k, 23) * Fg(k, 6)
-                    If Fg(k, 27) And colImporte = 8 Then SUMA += Fg(k, 26) * Fg(k, 6)
-                    If Fg(k, 30) And colImporte = 9 Then SUMA += Fg(k, 29) * Fg(k, 6)
+                    If Fg(k, 9) And colImporte = 2 Then SUMA += Fg(k, 8) '* Fg(k, 6)
+                    If Fg(k, 12) And colImporte = 3 Then SUMA += Fg(k, 11) '* Fg(k, 6)
+                    If Fg(k, 15) And colImporte = 4 Then SUMA += Fg(k, 14) '* Fg(k, 6)
+                    If Fg(k, 18) And colImporte = 5 Then SUMA += Fg(k, 17) '* Fg(k, 6)
+                    If Fg(k, 21) And colImporte = 6 Then SUMA += Fg(k, 20) '* Fg(k, 6)
+                    If Fg(k, 24) And colImporte = 7 Then SUMA += Fg(k, 23) '* Fg(k, 6)
+                    If Fg(k, 27) And colImporte = 8 Then SUMA += Fg(k, 26) '* Fg(k, 6)
+                    If Fg(k, 30) And colImporte = 9 Then SUMA += Fg(k, 29) '* Fg(k, 6)
                 End If
             Next
             LtImporte.Text = Format(SUMA, "###,###,##0.00")
@@ -663,14 +664,14 @@ Public Class FrmCasetasXRutaAE
                     For k = 1 To Fg.Rows.Count - 1
                         If k <> Fg.Row Then
                             If Fg(k, 1) Then
-                                If Fg(k, 9) And colImporte = 2 Then SUMA += Fg(k, 8) * Fg(k, 6)
-                                If Fg(k, 12) And colImporte = 3 Then SUMA += Fg(k, 11) * Fg(k, 6)
-                                If Fg(k, 15) And colImporte = 4 Then SUMA += Fg(k, 14) * Fg(k, 6)
-                                If Fg(k, 18) And colImporte = 5 Then SUMA += Fg(k, 17) * Fg(k, 6)
-                                If Fg(k, 21) And colImporte = 6 Then SUMA += Fg(k, 20) * Fg(k, 6)
-                                If Fg(k, 24) And colImporte = 7 Then SUMA += Fg(k, 23) * Fg(k, 6)
-                                If Fg(k, 27) And colImporte = 8 Then SUMA += Fg(k, 26) * Fg(k, 6)
-                                If Fg(k, 30) And colImporte = 9 Then SUMA += Fg(k, 29) * Fg(k, 6)
+                                If Fg(k, 9) And colImporte = 2 Then SUMA += Fg(k, 8) '* Fg(k, 6)
+                                If Fg(k, 12) And colImporte = 3 Then SUMA += Fg(k, 11) '* Fg(k, 6)
+                                If Fg(k, 15) And colImporte = 4 Then SUMA += Fg(k, 14) '* Fg(k, 6)
+                                If Fg(k, 18) And colImporte = 5 Then SUMA += Fg(k, 17) '* Fg(k, 6)
+                                If Fg(k, 21) And colImporte = 6 Then SUMA += Fg(k, 20) '* Fg(k, 6)
+                                If Fg(k, 24) And colImporte = 7 Then SUMA += Fg(k, 23) '* Fg(k, 6)
+                                If Fg(k, 27) And colImporte = 8 Then SUMA += Fg(k, 26) '* Fg(k, 6)
+                                If Fg(k, 30) And colImporte = 9 Then SUMA += Fg(k, 29) '* Fg(k, 6)
                             End If
                         End If
                     Next
@@ -685,14 +686,14 @@ Public Class FrmCasetasXRutaAE
                         Fg(Fg.Row, 29) = Fg(Fg.Row, 28) * CDec(Fg.Editor.Text)
 
 
-                        If Fg(Fg.Row, 9) And colImporte = 2 Then SUMA += Fg(Fg.Row, 8) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 12) And colImporte = 3 Then SUMA += Fg(Fg.Row, 11) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 15) And colImporte = 4 Then SUMA += Fg(Fg.Row, 14) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 18) And colImporte = 5 Then SUMA += Fg(Fg.Row, 17) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 21) And colImporte = 6 Then SUMA += Fg(Fg.Row, 20) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 24) And colImporte = 7 Then SUMA += Fg(Fg.Row, 23) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 27) And colImporte = 8 Then SUMA += Fg(Fg.Row, 26) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 30) And colImporte = 9 Then SUMA += Fg(Fg.Row, 29) * CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 9) And colImporte = 2 Then SUMA += Fg(Fg.Row, 8) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 12) And colImporte = 3 Then SUMA += Fg(Fg.Row, 11) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 15) And colImporte = 4 Then SUMA += Fg(Fg.Row, 14) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 18) And colImporte = 5 Then SUMA += Fg(Fg.Row, 17) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 21) And colImporte = 6 Then SUMA += Fg(Fg.Row, 20) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 24) And colImporte = 7 Then SUMA += Fg(Fg.Row, 23) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 27) And colImporte = 8 Then SUMA += Fg(Fg.Row, 26) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 30) And colImporte = 9 Then SUMA += Fg(Fg.Row, 29) '* CDec(Fg.Editor.Text)
 
                     End If
                     LtImporte.Text = Format(SUMA, "###,###,##0.00")

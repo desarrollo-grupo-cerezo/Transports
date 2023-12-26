@@ -13148,6 +13148,11 @@ Module ModCREATABLAS
             CREA_CAMPO("GCCLIE_OP", "CveRegistroISTMO", "VARCHAR", "10", "")
 
             CREA_CAMPO("CFDI", "IdCCP", "VARCHAR", "50", "")
+            CREA_CAMPO("CFDI_CFG", "VerCCP", "VARCHAR", "3", "")
+
+            SQL = "UPDATE CFDI_CFG SET VerCCP = '2.0' WHERE VerCCP IS NULL"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
 
             SQL = "IF NOT EXISTS(SELECT 1 From INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME = 'CVE_ESQIMPU' AND TABLE_NAME = 'CTAESQ" & Empresa & "')
                     BEGIN

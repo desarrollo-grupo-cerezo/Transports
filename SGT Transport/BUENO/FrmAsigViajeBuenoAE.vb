@@ -3736,6 +3736,9 @@ Public Class FrmAsigViajeBuenoAE
                                     Debug.Print("")
                                 End If
 
+                                Dim Caducidad As Date
+                                Caducidad = New Date(1900, 1, 1)
+
                                 cmd.CommandText = SQL
                                 cmd.Parameters.Clear()
                                 cmd.Parameters.Add("@CVE_VIAJE", SqlDbType.VarChar).Value = FCVE_VIAJE
@@ -3762,7 +3765,7 @@ Public Class FrmAsigViajeBuenoAE
                                 cmd.Parameters.Add("@DenominacionGenericaProd", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 27)), "", Fg(k, 27))
                                 cmd.Parameters.Add("@DenominacionDistintivaProd", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 28)), "", Fg(k, 28))
                                 cmd.Parameters.Add("@Fabricante", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 29)), "", Fg(k, 29))
-                                cmd.Parameters.Add("@FechaCaducidad", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 30)), "", Fg(k, 30))
+                                cmd.Parameters.Add("@FechaCaducidad", SqlDbType.DateTime).Value = IIf(IsNothing(Fg(k, 30)), Caducidad, Fg(k, 30))
                                 cmd.Parameters.Add("@LoteMedicamento", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 31)), "", Fg(k, 31))
                                 cmd.Parameters.Add("@FormaFarmaceutica", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 32)), "", Fg(k, 32))
                                 cmd.Parameters.Add("@CondicionesEspTransp", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 35)), "", Fg(k, 35))
@@ -5215,6 +5218,7 @@ Public Class FrmAsigViajeBuenoAE
                                                 @Fabricante, @FechaCaducidad, @LoteMedicamento, @FormaFarmaceutica, @CondicionesEspTransp,
                                                 @RegistroSanitarioFolioAutorizacion, @PermisoImportacion, @FolioImpoVUCEM, @NumCAS, 
                                                 @RazonSocialEmpImp, @NumRegSanPlagCOFEPRIS, @DatosFabricante, @DatosFormulador, @DatosMaquilador, @UsoAutorizado, @TipoMateria, @DescripcionMateria)"
+
 
                                             cmd.CommandText = SQL
                                             cmd.Parameters.Clear()
@@ -11282,6 +11286,42 @@ Public Class FrmAsigViajeBuenoAE
                         Else
                             Fg(Fg.Row, 13) = DATO_REGRESADO
                         End If
+
+                    Case 22
+                        DATO_REGRESADO = BUSCA_CAT2("tblSectorCOFEPRIS", TXT.Text)
+                        If DATO_REGRESADO = "" Then
+                            Fg(Fg.Row, 24) = ""
+                            MsgBox("Registro Sector COFEPRIS inexistente")
+                        Else
+                            Fg(Fg.Row, 24) = DATO_REGRESADO
+                        End If
+
+                    Case 32
+                        DATO_REGRESADO = BUSCA_CAT2("tblFormaFarmaceutica", TXT.Text)
+                        If DATO_REGRESADO = "" Then
+                            Fg(Fg.Row, 34) = ""
+                            MsgBox("Forma Farmaceutica inexistente")
+                        Else
+                            Fg(Fg.Row, 34) = DATO_REGRESADO
+                        End If
+
+                    Case 35
+                        DATO_REGRESADO = BUSCA_CAT2("tblCondicionesEspeciales", TXT.Text)
+                        If DATO_REGRESADO = "" Then
+                            Fg(Fg.Row, 37) = ""
+                            MsgBox("Condiciones Especiales inexistente")
+                        Else
+                            Fg(Fg.Row, 37) = DATO_REGRESADO
+                        End If
+
+                    Case 48
+                        DATO_REGRESADO = BUSCA_CAT2("tblTipoMateria", TXT.Text)
+                        If DATO_REGRESADO = "" Then
+                            Fg(Fg.Row, 50) = ""
+                            MsgBox("Tipo Materia inexistente")
+                        Else
+                            Fg(Fg.Row, 50) = DATO_REGRESADO
+                        End If
                 End Select
             End If
         Catch ex As Exception
@@ -11721,7 +11761,7 @@ Public Class FrmAsigViajeBuenoAE
 
             If ENTRAM Then
                 ENTRAM = False
-                If e.Col = 4 Or e.Col = 13 Then
+                If e.Col = 4 Or e.Col = 13 Or e.Col = 24 Or e.Col = 34 Or e.Col = 37 Then
                     e.Cancel = True
                 Else
                     If IsMatPeligroso Then
@@ -12531,31 +12571,32 @@ Public Class FrmAsigViajeBuenoAE
                             s &= dr("SectorCOFEPRIS") & vbTab '22
                             s &= "" & vbTab '23
                             s &= dr("DescripcionSectorCOFEPRIS") & vbTab '24
-                            s &= dr("NomQuimico") & vbTab '25
-                            s &= dr("DenominacionGenericaProd") & vbTab '26
-                            s &= dr("DenominacionDistintivaProd") & vbTab '27
-                            s &= dr("Fabricante") & vbTab '28
-                            s &= dr("FechaCaducidad") & vbTab '29
-                            s &= dr("LoteMedicamento") & vbTab '30
-                            s &= dr("FormaFarmaceutica") & vbTab '31
-                            s &= "" & vbTab '32
-                            s &= dr("DescripcionFormaFarmaceutica") & vbTab '33
-                            s &= dr("CondicionesEspTransp") & vbTab '34
-                            s &= "" & vbTab '35
-                            s &= dr("DescripcionCondicionesEspTransp") & vbTab '36
-                            s &= dr("RegistroSanitarioFolioAutorizacion") & vbTab '37
-                            s &= dr("PermisoImportacion") & vbTab '38
-                            s &= dr("FolioImpoVUCEM") & vbTab '39
-                            s &= dr("NumCAS") & vbTab '40
-                            s &= dr("RazonSocialEmpImp") & vbTab '41
-                            s &= dr("NumRegSanPlagCOFEPRIS") & vbTab '42
-                            s &= dr("DatosFabricante") & vbTab '43
-                            s &= dr("DatosFormulador") & vbTab '44
-                            s &= dr("DatosMaquilador") & vbTab '45
-                            s &= dr("UsoAutorizado") & vbTab '46
-                            s &= dr("TipoMateria") & vbTab '47
-                            s &= "" & vbTab '48
-                            s &= dr("DescripcionMateria") '49
+                            s &= dr("NombreIngredienteActivo") & vbTab '25
+                            s &= dr("NomQuimico") & vbTab '26
+                            s &= dr("DenominacionGenericaProd") & vbTab '27
+                            s &= dr("DenominacionDistintivaProd") & vbTab '28
+                            s &= dr("Fabricante") & vbTab '29
+                            s &= dr("FechaCaducidad") & vbTab '30
+                            s &= dr("LoteMedicamento") & vbTab '31
+                            s &= dr("FormaFarmaceutica") & vbTab '32
+                            s &= "" & vbTab '33
+                            s &= dr("DescripcionFormaFarmaceutica") & vbTab '34
+                            s &= dr("CondicionesEspTransp") & vbTab '35
+                            s &= "" & vbTab '36
+                            s &= dr("DescripcionCondicionesEspTransp") & vbTab '37
+                            s &= dr("RegistroSanitarioFolioAutorizacion") & vbTab '38
+                            s &= dr("PermisoImportacion") & vbTab '39
+                            s &= dr("FolioImpoVUCEM") & vbTab '40
+                            s &= dr("NumCAS") & vbTab '41
+                            s &= dr("RazonSocialEmpImp") & vbTab '42
+                            s &= dr("NumRegSanPlagCOFEPRIS") & vbTab '43
+                            s &= dr("DatosFabricante") & vbTab '44
+                            s &= dr("DatosFormulador") & vbTab '45
+                            s &= dr("DatosMaquilador") & vbTab '46
+                            s &= dr("UsoAutorizado") & vbTab '47
+                            s &= dr("TipoMateria") & vbTab '48
+                            s &= "" & vbTab '49
+                            s &= dr("DescripcionMateria") '50
 
                             Fg.AddItem(s)
 

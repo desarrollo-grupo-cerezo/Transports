@@ -137,6 +137,15 @@ Public Class FrmReseteoAE
             Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
 
+        Try
+            ReDim aDATA(0, 0)
+            For k = 0 To aDATA.GetLength(0) - 1
+                aDATA(k, 0) = ""
+            Next
+        Catch ex As Exception
+            Bitacora("20. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
         BtnLitrosEntrada.FlatStyle = FlatStyle.Flat
         BtnLitrosEntrada.FlatAppearance.BorderSize = 0
         BtnLitrosSalida.FlatStyle = FlatStyle.Flat

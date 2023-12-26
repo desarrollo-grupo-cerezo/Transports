@@ -1,6 +1,5 @@
 ﻿Imports System.Data.SqlClient
 Imports C1.Win.C1Command
-Imports C1.Win.C1FlexGrid
 Public Class frmOTI
     Private BindingSource1 As Windows.Forms.BindingSource = New BindingSource
     Private CadenaSQL As String = ""
@@ -56,16 +55,17 @@ Public Class frmOTI
             Return
         End If
         Try
+            ',STUFF((SELECT ',' + TIEMPO_REAL FROM GCORDEN_TRA_SER_EXT S WHERE S.CVE_ORD = O.CVE_ORD AND CVE_ART = 'TOT' FOR XML PATH ('')),1,1, '') AS TOT,
+            'o.DOC_ANTR AS 'Remision'
+
             SQLOT = "SELECT " & N_TOP & " O.CVE_ORD as 'Orden', CASE WHEN O.STATUS = 'C' THEN 'Cancelada' ELSE O.ESTATUS END AS 'Estatus', O.FECHA AS 'Fecha',
                 CASE WHEN O.TIPO_SERVICIO = 0 THEN 'Preventivo' ELSE 'Correctivo' END AS 'Tipo servicio', O.CVE_UNI AS 'Unidad',
-                T.DESCR AS 'Tipo', P.NOMBRE AS 'Nombre', O.LUGAR_REP AS 'Lugar de reparación', O.NOTA AS 'Nota',
-                STUFF((SELECT ',' + TIEMPO_REAL FROM GCORDEN_TRA_SER_EXT S WHERE S.CVE_ORD = O.CVE_ORD AND CVE_ART = 'TOT' FOR XML PATH ('')),1,1, '') AS TOT,
-                O.DOC_ANTR AS 'Remision'
+                T.DESCR AS 'Tipo', P.NOMBRE AS 'Nombre', O.LUGAR_REP AS 'Lugar de reparación', O.NOTA AS 'Nota'
                 FROM GCORDEN_TRABAJO_EXT O
                 LEFT JOIN GCUNIDADES U On U.CLAVE = O.CVE_UNI
                 LEFT JOIN CLIE" & Empresa & " P On P.CLAVE = O.CVE_PROV
                 LEFT JOIN GCTIPO_UNIDAD T On T.CVE_UNI = O.CVE_TIPO " &
-                CadenaSQL & " ORDER BY CAST(O.CVE_ORD AS INT) DESC"
+                CadenaSQL & " ORDER BY TRY_PARSE(O.CVE_ORD AS INT) DESC"
 
             Dim cmd As New SqlCommand
             cmd.Connection = cnSAE
@@ -271,7 +271,7 @@ Public Class frmOTI
                     If Fg(Fg.Row, 2) = "Cancelada" Then
                         MsgBox("La orden de trabajo se encuentra cancelada")
                     End If
-                    CREA_TAB(frmOTIAE, "Orden de Trabajo")
+                    CREA_TAB(FrmOTIAE, "Orden de Trabajo")
 
                 Else
                     Var1 = "Edit"
@@ -320,5 +320,13 @@ Public Class frmOTI
         If e.KeyCode = Keys.Left Then
             tBox.Focus()
         End If
+    End Sub
+
+    Private Sub BarEdit_Click(sender As Object, e As ClickEventArgs) Handles BarEdit.Click
+
+    End Sub
+
+    Private Sub BarNuevo_Click(sender As Object, e As ClickEventArgs) Handles BarNuevo.Click
+
     End Sub
 End Class

@@ -48,6 +48,14 @@ Public Class FrmSelItemCFDI
                 Case "SAT_CLAVEPROD_SERVCP"
                     SQL = "SELECT claveProdServ AS 'Clave producto', descripcion AS 'Descripción' 
                         FROM tblcclaveprodserv ORDER BY claveProdServ"
+                Case "tblSectorCOFEPRIS"
+                    SQL = "SELECT clave, descripcion FROM tblSectorCOFEPRIS ORDER BY clave"
+                Case "tblFormaFarmaceutica"
+                    SQL = "SELECT clave, descripcion FROM tblFormaFarmaceutica ORDER BY clave"
+                Case "tblCondicionesEspeciales"
+                    SQL = "SELECT clave, descripcion FROM tblCondicionesEspeciales ORDER BY clave"
+                Case "tblTipoMateria"
+                    SQL = "SELECT clave, descripcion FROM tblTipoMateria ORDER BY clave"
             End Select
             If nTabla Then
                 If SQL.Trim.Length > 0 Then
@@ -64,7 +72,7 @@ Public Class FrmSelItemCFDI
 
                     Fg.DataSource = BindingSource1.DataSource
                     Select Case Proceso
-                        Case "tblcclaveunidadpeso", "tblctipoembalaje", "tblcmaterialpeligroso", "ConfigVehicular", "SAT_CLAVEPROD_SERVCP"
+                        Case "tblcclaveunidadpeso", "tblctipoembalaje", "tblcmaterialpeligroso", "ConfigVehicular", "SAT_CLAVEPROD_SERVCP", "tblSectorCOFEPRIS", "tblFormaFarmaceutica", "tblCondicionesEspeciales", "tblTipoMateria"
                             Fg(0, 0) = ""
                             Fg(0, 1) = "Clave"
                             Fg(0, 2) = "Descripción"

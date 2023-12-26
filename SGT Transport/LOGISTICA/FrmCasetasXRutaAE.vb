@@ -24,6 +24,13 @@ Public Class FrmCasetasXRutaAE
             BtnRuta.FlatAppearance.BorderSize = 0
 
 
+            cboEjesTotal.Items.Clear()
+            cboEjesTotal.Items.Add("3")
+            cboEjesTotal.Items.Add("5")
+            cboEjesTotal.Items.Add("9")
+
+            cboEjesTotal.SelectedIndex = 0
+
             Me.Width = Screen.PrimaryScreen.Bounds.Width - 25
             Me.Left = 15
 
@@ -113,7 +120,7 @@ Public Class FrmCasetasXRutaAE
                 cmd.Connection = cnSAE
 
                 SQL = "SELECT C.CVE_CXR, C.STATUS, C.CVE_PLAZA, C.CVE_PLAZA2, ISNULL(C.CVE_TAB, 0) AS CVE_TAB, ISNULL(C.TIPO_UNIDAD, 0) AS TIPO_UNIDAD, ISNULL(R.DESCR, '') AS DES, ISNULL(R.DESCR2, '') AS DES2, ISNULL(C.DESCR, '') AS DESCR, 
-                    ISNULL(IMPORTE_CASETAS,0) AS IMPORTE, C.CLAVE_OP, C.IAVE, OP.NOMBRE
+                    ISNULL(IMPORTE_CASETAS,0) AS IMPORTE, C.CLAVE_OP, C.IAVE, OP.NOMBRE, C.COL_IMPORTE
                     FROM GCCASETAS_X_RUTA C 
                     LEFT JOIN GCCLIE_OP OP On OP.CLAVE = C.CLAVE_OP
 					LEFT JOIN GCTAB_RUTAS_F R ON R.CVE_TAB = C.CVE_TAB
@@ -162,11 +169,22 @@ Public Class FrmCasetasXRutaAE
                             rbFull.Checked = True
                     End Select
 
+                    Select Case dr.ReadNullAsEmptyString("COL_IMPORTE")
+                        Case 3
+                            cboEjesTotal.SelectedIndex = 0
+                        Case 5
+                            cboEjesTotal.SelectedIndex = 1
+                        Case 9
+                            cboEjesTotal.SelectedIndex = 2
+                    End Select
+
+
+
                 End If
                 dr.Close()
 
                 DESPLEGAR_PAR()
-
+                CalculaTotales()
                 TCVE_CXR.Enabled = False
                 txRuta.Select()
 
@@ -190,6 +208,7 @@ Public Class FrmCasetasXRutaAE
         Try
             Dim SUMA As Decimal = 0, EJE As Integer, z As Integer
 
+
             If IsNumeric(TCVE_CXR.Text) Then
                 Using cmd As SqlCommand = cnSAE.CreateCommand
                     SQL = "SELECT CVE_CXR, CVE_CAS, ISNULL(CRUCE,0) AS CRUZE, EJE2, IMPORTE2, EJE3, IMPORTE3, EJE4, 
@@ -204,12 +223,13 @@ Public Class FrmCasetasXRutaAE
                                 z = 0
                                 If Fg(row, 2) = dr("CVE_CAS") Then
                                     Fg(row, 1) = True
+                                    Fg(row, 6) = dr.ReadNullAsEmptyInteger("CRUZE")
                                     EJE = dr("EJE2")
                                     If dr("EJE2") Then
                                         Fg(row, 9) = True
                                         SUMA += Fg(row, 8)
-                                        Fg(row, 8) = dr("IMPORTE8")
-                                        Fg(row, 7) = dr("IMPORTE8") / dr.ReadNullAsEmptyInteger("CRUZE")
+                                        Fg(row, 8) = dr("IMPORTE2")
+                                        Fg(row, 7) = dr("IMPORTE2") / dr.ReadNullAsEmptyInteger("CRUZE")
                                         Fg.SetCellStyle(row, 3, NewStyle1)
                                         Fg.SetCellStyle(row, 9, NewStyle1)
                                         z += 1
@@ -217,8 +237,8 @@ Public Class FrmCasetasXRutaAE
                                     If dr("EJE3") Then
                                         Fg(row, 12) = True
                                         SUMA += Fg(row, 11)
-                                        Fg(row, 11) = dr("IMPORTE8")
-                                        Fg(row, 10) = dr("IMPORTE8") / dr.ReadNullAsEmptyInteger("CRUZE")
+                                        Fg(row, 11) = dr("IMPORTE3")
+                                        Fg(row, 10) = dr("IMPORTE3") / dr.ReadNullAsEmptyInteger("CRUZE")
                                         Fg.SetCellStyle(row, 3, NewStyle1)
                                         Fg.SetCellStyle(row, 12, NewStyle1)
                                         z += 1
@@ -226,8 +246,8 @@ Public Class FrmCasetasXRutaAE
                                     If dr("EJE4") Then
                                         Fg(row, 15) = True
                                         SUMA += Fg(row, 14)
-                                        Fg(row, 14) = dr("IMPORTE8")
-                                        Fg(row, 13) = dr("IMPORTE8") / dr.ReadNullAsEmptyInteger("CRUZE")
+                                        Fg(row, 14) = dr("IMPORTE4")
+                                        Fg(row, 13) = dr("IMPORTE4") / dr.ReadNullAsEmptyInteger("CRUZE")
                                         Fg.SetCellStyle(row, 3, NewStyle1)
                                         Fg.SetCellStyle(row, 15, NewStyle1)
                                         z += 1
@@ -235,8 +255,8 @@ Public Class FrmCasetasXRutaAE
                                     If dr("EJE5") Then
                                         Fg(row, 18) = True
                                         SUMA += Fg(row, 17)
-                                        Fg(row, 17) = dr("IMPORTE8")
-                                        Fg(row, 16) = dr("IMPORTE8") / dr.ReadNullAsEmptyInteger("CRUZE")
+                                        Fg(row, 17) = dr("IMPORTE5")
+                                        Fg(row, 16) = dr("IMPORTE5") / dr.ReadNullAsEmptyInteger("CRUZE")
                                         Fg.SetCellStyle(row, 3, NewStyle1)
                                         Fg.SetCellStyle(row, 18, NewStyle1)
                                         z += 1
@@ -244,8 +264,8 @@ Public Class FrmCasetasXRutaAE
                                     If dr("EJE6") Then
                                         Fg(row, 21) = True
                                         SUMA += Fg(row, 20)
-                                        Fg(row, 20) = dr("IMPORTE8")
-                                        Fg(row, 19) = dr("IMPORTE8") / dr.ReadNullAsEmptyInteger("CRUZE")
+                                        Fg(row, 20) = dr("IMPORTE6")
+                                        Fg(row, 19) = dr("IMPORTE6") / dr.ReadNullAsEmptyInteger("CRUZE")
                                         Fg.SetCellStyle(row, 3, NewStyle1)
                                         Fg.SetCellStyle(row, 21, NewStyle1)
                                         z += 1
@@ -253,8 +273,8 @@ Public Class FrmCasetasXRutaAE
                                     If dr("EJE7") Then
                                         Fg(row, 24) = True
                                         SUMA += Fg(row, 23)
-                                        Fg(row, 23) = dr("IMPORTE8")
-                                        Fg(row, 22) = dr("IMPORTE8") / dr.ReadNullAsEmptyInteger("CRUZE")
+                                        Fg(row, 23) = dr("IMPORTE7")
+                                        Fg(row, 22) = dr("IMPORTE7") / dr.ReadNullAsEmptyInteger("CRUZE")
                                         Fg.SetCellStyle(row, 3, NewStyle1)
                                         Fg.SetCellStyle(row, 24, NewStyle1)
                                         z += 1
@@ -285,6 +305,13 @@ Public Class FrmCasetasXRutaAE
                             Next
 
                         End While
+
+                        For row As Integer = Fg.Rows.Count - 1 To 1 Step -1
+                            If Fg(row, 1) = False Then
+                                Fg.RemoveItem(row)
+                            End If
+                        Next
+
                         LtImporte.Text = Format(SUMA, "###,###,##0.00")
                     End Using
                 End Using
@@ -399,6 +426,7 @@ Public Class FrmCasetasXRutaAE
         Dim IMPORTE As Decimal = 0
         Dim cmd As New SqlCommand
         cmd.Connection = cnSAE
+        CalculaTotales()
 
         Try
             If IsNumeric(LtImporte.Text.Replace(",", "")) Then
@@ -435,13 +463,25 @@ Public Class FrmCasetasXRutaAE
         End If
 
         SQL = "UPDATE GCCASETAS_X_RUTA SET IMPORTE_CASETAS = @IMPORTE_CASETAS, 
-            CLAVE_OP = @CLAVE_OP, IAVE = @IAVE, CVE_TAB = @CVE_TAB, TIPO_UNIDAD = @TIPO_UNIDAD, DESCR = @DESCR
+            CLAVE_OP = @CLAVE_OP, IAVE = @IAVE, CVE_TAB = @CVE_TAB, TIPO_UNIDAD = @TIPO_UNIDAD, DESCR = @DESCR, COL_IMPORTE = @COL_IMPORTE
             WHERE CVE_CXR = @CVE_CXR
             IF @@ROWCOUNT = 0
-            INSERT INTO GCCASETAS_X_RUTA (CVE_CXR, STATUS, IMPORTE_CASETAS, CLAVE_OP, IAVE, UUID, CVE_TAB, TIPO_UNIDAD, DESCR) VALUES (@CVE_CXR, 'A', 
-            @IMPORTE_CASETAS, @CLAVE_OP, @IAVE, NEWID(), @CVE_TAB, @TIPO_UNIDAD, @DESCR)"
+            INSERT INTO GCCASETAS_X_RUTA (CVE_CXR, STATUS, IMPORTE_CASETAS, CLAVE_OP, IAVE, UUID, CVE_TAB, TIPO_UNIDAD, DESCR, COL_IMPORTE) VALUES (@CVE_CXR, 'A', 
+            @IMPORTE_CASETAS, @CLAVE_OP, @IAVE, NEWID(), @CVE_TAB, @TIPO_UNIDAD, @DESCR, @COL_IMPORTE)"
         cmd.CommandText = SQL
         Try
+            Dim colImporte As Integer
+
+            Select Case cboEjesTotal.SelectedIndex
+                Case 0
+                    colImporte = 3
+                Case 1
+                    colImporte = 5
+                Case 2
+                    colImporte = 9
+            End Select
+
+
             cmd.Parameters.Add("@CVE_CXR", SqlDbType.Int).Value = CONVERTIR_TO_INT(TCVE_CXR.Text)
             'cmd.Parameters.Add("@CVE_PLAZA", SqlDbType.Int).Value = CONVERTIR_TO_INT(tCVE_PLAZA.Text)
             'cmd.Parameters.Add("@CVE_PLAZA2", SqlDbType.Int).Value = CONVERTIR_TO_INT(tCVE_PLAZA2.Text)
@@ -452,6 +492,7 @@ Public Class FrmCasetasXRutaAE
             cmd.Parameters.Add("@CVE_TAB", SqlDbType.VarChar).Value = txRuta.Text
             cmd.Parameters.Add("@TIPO_UNIDAD", SqlDbType.TinyInt).Value = TipoUnidad
             cmd.Parameters.Add("@DESCR", SqlDbType.VarChar).Value = txDescripcion.Text
+            cmd.Parameters.Add("@COL_IMPORTE", SqlDbType.TinyInt).Value = colImporte
 
             returnValue = cmd.ExecuteNonQuery().ToString
             If returnValue IsNot Nothing Then
@@ -512,19 +553,34 @@ Public Class FrmCasetasXRutaAE
         End Try
     End Sub
     Private Sub Fg_CellChecked(sender As Object, e As RowColEventArgs) Handles Fg.CellChecked
+        CalculaTotales
+    End Sub
+
+    Private Sub CalculaTotales()
         Try
             Dim SUMA As Decimal = 0
+            Dim colImporte As Integer = 0
 
+            Select Case cboEjesTotal.SelectedIndex
+                Case 0
+                    colImporte = 3
+                Case 1
+                    colImporte = 5
+                Case 2
+                    colImporte = 9
+            End Select
+
+            Fg.FinishEditing()
             For k = 1 To Fg.Rows.Count - 1
                 If Fg(k, 1) Then
-                    If Fg(k, 9) Then SUMA += Fg(k, 8) * Fg(k, 6)
-                    If Fg(k, 12) Then SUMA += Fg(k, 11) * Fg(k, 6)
-                    If Fg(k, 15) Then SUMA += Fg(k, 14) * Fg(k, 6)
-                    If Fg(k, 18) Then SUMA += Fg(k, 17) * Fg(k, 6)
-                    If Fg(k, 21) Then SUMA += Fg(k, 20) * Fg(k, 6)
-                    If Fg(k, 24) Then SUMA += Fg(k, 23) * Fg(k, 6)
-                    If Fg(k, 27) Then SUMA += Fg(k, 26) * Fg(k, 6)
-                    If Fg(k, 30) Then SUMA += Fg(k, 29) * Fg(k, 6)
+                    If Fg(k, 9) And colImporte = 2 Then SUMA += Fg(k, 8) '* Fg(k, 6)
+                    If Fg(k, 12) And colImporte = 3 Then SUMA += Fg(k, 11) '* Fg(k, 6)
+                    If Fg(k, 15) And colImporte = 4 Then SUMA += Fg(k, 14) '* Fg(k, 6)
+                    If Fg(k, 18) And colImporte = 5 Then SUMA += Fg(k, 17) '* Fg(k, 6)
+                    If Fg(k, 21) And colImporte = 6 Then SUMA += Fg(k, 20) '* Fg(k, 6)
+                    If Fg(k, 24) And colImporte = 7 Then SUMA += Fg(k, 23) '* Fg(k, 6)
+                    If Fg(k, 27) And colImporte = 8 Then SUMA += Fg(k, 26) '* Fg(k, 6)
+                    If Fg(k, 30) And colImporte = 9 Then SUMA += Fg(k, 29) '* Fg(k, 6)
                 End If
             Next
             LtImporte.Text = Format(SUMA, "###,###,##0.00")
@@ -591,6 +647,16 @@ Public Class FrmCasetasXRutaAE
     Private Sub Fg_ValidateEdit(sender As Object, e As ValidateEditEventArgs) Handles Fg.ValidateEdit
         Try
             Dim SUMA As Decimal = 0, SUMA_EJE As Decimal = 0
+            Dim colImporte As Integer = 0
+
+            Select Case cboEjesTotal.SelectedIndex
+                Case 0
+                    colImporte = 3
+                Case 1
+                    colImporte = 5
+                Case 2
+                    colImporte = 9
+            End Select
 
             If Fg.Row > 0 Then
                 If Fg.Col = 6 Then
@@ -598,14 +664,14 @@ Public Class FrmCasetasXRutaAE
                     For k = 1 To Fg.Rows.Count - 1
                         If k <> Fg.Row Then
                             If Fg(k, 1) Then
-                                If Fg(k, 9) Then SUMA += Fg(k, 8) * Fg(k, 6)
-                                If Fg(k, 12) Then SUMA += Fg(k, 11) * Fg(k, 6)
-                                If Fg(k, 15) Then SUMA += Fg(k, 14) * Fg(k, 6)
-                                If Fg(k, 18) Then SUMA += Fg(k, 17) * Fg(k, 6)
-                                If Fg(k, 21) Then SUMA += Fg(k, 20) * Fg(k, 6)
-                                If Fg(k, 24) Then SUMA += Fg(k, 23) * Fg(k, 6)
-                                If Fg(k, 27) Then SUMA += Fg(k, 26) * Fg(k, 6)
-                                If Fg(k, 30) Then SUMA += Fg(k, 29) * Fg(k, 6)
+                                If Fg(k, 9) And colImporte = 2 Then SUMA += Fg(k, 8) '* Fg(k, 6)
+                                If Fg(k, 12) And colImporte = 3 Then SUMA += Fg(k, 11) '* Fg(k, 6)
+                                If Fg(k, 15) And colImporte = 4 Then SUMA += Fg(k, 14) '* Fg(k, 6)
+                                If Fg(k, 18) And colImporte = 5 Then SUMA += Fg(k, 17) '* Fg(k, 6)
+                                If Fg(k, 21) And colImporte = 6 Then SUMA += Fg(k, 20) '* Fg(k, 6)
+                                If Fg(k, 24) And colImporte = 7 Then SUMA += Fg(k, 23) '* Fg(k, 6)
+                                If Fg(k, 27) And colImporte = 8 Then SUMA += Fg(k, 26) '* Fg(k, 6)
+                                If Fg(k, 30) And colImporte = 9 Then SUMA += Fg(k, 29) '* Fg(k, 6)
                             End If
                         End If
                     Next
@@ -620,18 +686,19 @@ Public Class FrmCasetasXRutaAE
                         Fg(Fg.Row, 29) = Fg(Fg.Row, 28) * CDec(Fg.Editor.Text)
 
 
-                        If Fg(Fg.Row, 9) Then SUMA += Fg(Fg.Row, 8) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 12) Then SUMA += Fg(Fg.Row, 11) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 15) Then SUMA += Fg(Fg.Row, 14) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 18) Then SUMA += Fg(Fg.Row, 17) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 21) Then SUMA += Fg(Fg.Row, 20) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 24) Then SUMA += Fg(Fg.Row, 23) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 27) Then SUMA += Fg(Fg.Row, 26) * CDec(Fg.Editor.Text)
-                        If Fg(Fg.Row, 30) Then SUMA += Fg(Fg.Row, 29) * CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 9) And colImporte = 2 Then SUMA += Fg(Fg.Row, 8) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 12) And colImporte = 3 Then SUMA += Fg(Fg.Row, 11) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 15) And colImporte = 4 Then SUMA += Fg(Fg.Row, 14) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 18) And colImporte = 5 Then SUMA += Fg(Fg.Row, 17) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 21) And colImporte = 6 Then SUMA += Fg(Fg.Row, 20) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 24) And colImporte = 7 Then SUMA += Fg(Fg.Row, 23) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 27) And colImporte = 8 Then SUMA += Fg(Fg.Row, 26) '* CDec(Fg.Editor.Text)
+                        If Fg(Fg.Row, 30) And colImporte = 9 Then SUMA += Fg(Fg.Row, 29) '* CDec(Fg.Editor.Text)
 
                     End If
                     LtImporte.Text = Format(SUMA, "###,###,##0.00")
                 End If
+
             End If
         Catch ex As Exception
             Bitacora("162. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -697,5 +764,91 @@ Public Class FrmCasetasXRutaAE
             Bitacora("38. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("38. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
+    End Sub
+
+    Private Sub BtnRecargarCasetas_Click(sender As Object, e As EventArgs) Handles BtnRecargarCasetas.Click
+        Try
+            Dim s As String
+            Dim STATUS As Boolean
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT CVE_CAS, DESCR, CVE_PLAZA, CASE WHEN C.TIPO_PAGO = 'M' THEN 'Multitag' ELSE 'Efectivo' END AS TIPOPAGO, ISNULL(IMPORTE,0) AS T1,
+                    ISNULL(IMPORTE2,0) AS T2,ISNULL(IMPORTE3,0) AS T3, ISNULL(IMPORTE4,0) AS T4, ISNULL(IMPORTE5,0) AS T5, ISNULL(IMPORTE6,0) AS T6,
+                    ISNULL(IMPORTE7,0) AS T7, ISNULL(IMPORTE8,0) AS T8, CLAVE_OP, IAVE, ISNULL(CRUCE,1) AS CRUZE
+                    FROM GCCASETAS C
+                    WHERE C.STATUS = 'A'"
+
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+
+                        STATUS = True
+
+                        For k = 1 To Fg.Rows.Count - 1
+                            If Fg(k, 2) = dr("CVE_CAS") Then
+                                STATUS = False
+                                Exit For
+                            End If
+                        Next
+
+
+                        If STATUS Then
+
+                            s = "" & vbTab '1
+                            s &= dr("CVE_CAS") & vbTab '2
+                            s &= dr("DESCR") & vbTab '3
+                            s &= dr("TIPOPAGO") & vbTab '4
+                            s &= dr("CVE_PLAZA") & vbTab '5
+                            s &= dr("CRUZE") & vbTab '6
+                            s &= dr("T1") / dr("CRUZE") & vbTab '7
+                            s &= dr("T1") & vbTab '8
+                            s &= False & vbTab '9
+                            s &= dr("T2") / dr("CRUZE") & vbTab '10
+                            s &= dr("T2") & vbTab '11
+                            s &= False & vbTab '12
+                            s &= dr("T3") / dr("CRUZE") & vbTab '13
+                            s &= dr("T3") & vbTab '14
+                            s &= False & vbTab '15
+                            s &= dr("T4") / dr("CRUZE") & vbTab '16
+                            s &= dr("T4") & vbTab '17
+                            s &= False & vbTab '18
+                            s &= dr("T5") / dr("CRUZE") & vbTab '19
+                            s &= dr("T5") & vbTab '20
+                            s &= False & vbTab '21 
+                            s &= dr("T6") / dr("CRUZE") & vbTab '22
+                            s &= dr("T6") & vbTab '23
+                            s &= False & vbTab '24
+                            s &= dr("T7") / dr("CRUZE") & vbTab '25
+                            s &= dr("T7") & vbTab '26
+                            s &= False & vbTab '27
+                            s &= dr("T8") / dr("CRUZE") & vbTab '28
+                            s &= dr("T8") & vbTab '29
+                            s &= False & vbTab '30
+                            s &= dr("CLAVE_OP") & vbTab '31
+                            s &= dr("IAVE") '32
+
+                            Fg.AddItem("" & vbTab & s)
+                            ' & vbTab & dr("NOMBRE") & vbTab & dr("IAVE")
+                        End If
+                    End While
+                    'Fg.AutoSizeCols()
+                End Using
+            End Using
+            Fg.Redraw = True
+        Catch ex As Exception
+            Bitacora("380. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("380. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
+    Private Sub Fg_RowColChange(sender As Object, e As EventArgs) Handles Fg.RowColChange
+
+    End Sub
+
+    Private Sub Fg_RowValidated(sender As Object, e As RowColEventArgs) Handles Fg.RowValidated
+        CalculaTotales()
+    End Sub
+
+    Private Sub cboEjesTotal_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboEjesTotal.SelectedIndexChanged
+        CalculaTotales()
     End Sub
 End Class

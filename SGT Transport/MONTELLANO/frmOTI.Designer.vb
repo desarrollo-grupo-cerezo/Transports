@@ -99,7 +99,6 @@ Partial Class frmOTI
         Me.LkNuevo.Delimiter = True
         Me.LkNuevo.OwnerDraw = True
         Me.LkNuevo.Text = "Nuevo"
-        Me.LkNuevo.ToolTipText = ""
         '
         'BarNuevo
         '
@@ -116,7 +115,6 @@ Partial Class frmOTI
         Me.LkEdit.Delimiter = True
         Me.LkEdit.SortOrder = 1
         Me.LkEdit.Text = "Edit"
-        Me.LkEdit.ToolTipText = ""
         '
         'BarEdit
         '
@@ -222,11 +220,12 @@ Partial Class frmOTI
         Me.Fg.AllowFiltering = True
         Me.Fg.BackColor = System.Drawing.Color.White
         Me.Fg.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
-        Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
+        Me.Fg.ColumnInfo = "1,1,0,0,0,95,Columns:"
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.Fg.ForeColor = System.Drawing.Color.FromArgb(CType(CType(68, Byte), Integer), CType(CType(68, Byte), Integer), CType(CType(68, Byte), Integer))
         Me.Fg.Location = New System.Drawing.Point(12, 68)
         Me.Fg.Name = "Fg"
+        Me.Fg.Rows.Count = 1
         Me.Fg.Rows.DefaultSize = 19
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
@@ -456,13 +455,13 @@ Partial Class frmOTI
     Friend WithEvents BMesAnterior As ToolStripButton
     Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
     Friend WithEvents BTodos As ToolStripButton
-    Friend WithEvents BarNuevo As C1.Win.C1Command.C1Command
     Friend WithEvents LkCorregirMinveOT As C1.Win.C1Command.C1CommandLink
-    Friend WithEvents BarManteOT As C1.Win.C1Command.C1Command
     Private WithEvents BarRefrescar As C1.Win.C1Command.C1Command
     Private WithEvents BarEdit As C1.Win.C1Command.C1Command
     Private WithEvents BarSalir As C1.Win.C1Command.C1Command
     Private WithEvents ConsultaOT As C1.Win.C1Command.C1Command
     Private WithEvents BarExcel As C1.Win.C1Command.C1Command
     Private WithEvents BarGenMinveOT As C1.Win.C1Command.C1Command
+    Private WithEvents BarNuevo As C1.Win.C1Command.C1Command
+    Private WithEvents BarManteOT As C1.Win.C1Command.C1Command
 End Class

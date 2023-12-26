@@ -68,6 +68,30 @@ Public Class FrmSelItem2
             PARAM_VAR = Var5
 
             Select Case Proceso
+                Case "GCCLASIFIC_SERVICIOS"
+                    SQL = "SELECT CVE_CLA, DESCR FROM GCCLASIFIC_SERVICIOS WHERE STATUS = 'A'"
+                    Fg.Cols.Count = 3
+                    Fg.Cols(1).StarWidth = "*"
+                    Fg.Cols(2).StarWidth = "3*"
+                    Fg.Cols(1).TextAlign = TextAlignEnum.LeftCenter
+                Case "GCSERVICIOS"
+                    SQL = "SELECT S.CVE_SER, S.DESCR, S.COSTO_MO, 
+                        CASE S.TIPO_SERVICIO WHEN 0 THEN 'Preventivo' ELSE 'Correctivo' END AS 'Tipo de servicio' 
+                        FROM GCSERVICIOS S 
+                        ORDER BY TRY_PARSE(CVE_SER AS INT) DESC"
+                    Fg.Cols.Count = 5
+                    Fg.Cols(1).StarWidth = "*"
+                    Fg.Cols(2).StarWidth = "2*"
+                    Fg.Cols(3).StarWidth = "*"
+                    Fg.Cols(4).StarWidth = "*"
+                    Fg.Cols(1).TextAlign = TextAlignEnum.LeftCenter
+                Case "GCSERVICIOS_MANTE"
+                    SQL = "SELECT CVE_SER, DESCR 
+                        FROM GCSERVICIOS_MANTE WHERE STATUS = 'A' ORDER BY TRY_PARSE(CVE_SER AS INT)"
+                    Fg.Cols.Count = 3
+                    Fg.Cols(1).StarWidth = "*"
+                    Fg.Cols(2).StarWidth = "3*"
+                    Fg.Cols(1).TextAlign = TextAlignEnum.LeftCenter
                 Case "tblcclaveunidad"
                     SQL = "SELECT claveUnidad, nombre FROM tblcclaveunidad ORDER BY claveUnidad"
                     Fg.Cols.Count = 3
@@ -1459,7 +1483,7 @@ Public Class FrmSelItem2
                                 Fg.AddItem("" & vbTab & dr(0) & vbTab & dr(1))
                             Case "Gastos"
                                 Fg.AddItem("" & vbTab & dr(0) & vbTab & dr(1) & vbTab & dr(2) & vbTab & dr(3) & vbTab & dr(4))
-                            Case "NumGen", "GCConc", "Embalaje", "Cargas", "tblcclaveunidad"
+                            Case "NumGen", "GCConc", "Embalaje", "Cargas", "tblcclaveunidad", "GCSERVICIOS_MANTE", "GCCLASIFIC_SERVICIOS"
                                 Fg.AddItem("" & vbTab & dr(0) & vbTab & dr(1))
                             Case "GCCATEVA"
                                 Fg.AddItem("" & vbTab & dr(0) & vbTab & dr(1) & vbTab & dr(2))
@@ -1501,7 +1525,7 @@ Public Class FrmSelItem2
                             Case "InveP", "InveS"
                                 Fg.AddItem("" & vbTab & dr(0) & vbTab & dr(1) & vbTab & dr(2) & vbTab & dr(3) & vbTab & dr(4) & vbTab &
                                            dr(5) & vbTab & dr(6))
-                            Case "Operador"
+                            Case "Operador", "GCSERVICIOS"
                                 'SQL = "SELECT CLAVE, NOMBRE, LICENCIA, LIC_VENC FROM GCOPERADOR WHERE STATUS = 'A' ORDER BY CLAVE"
                                 Fg.AddItem("" & vbTab & dr(0) & vbTab & dr(1) & vbTab & dr(2) & vbTab & dr(3))
                             Case "Cliente operativo"
@@ -1814,7 +1838,7 @@ Public Class FrmSelItem2
                         Var5 = Fg(Fg.Row, 2).ToString   'NOMBRE MOTOR
                         Var6 = Fg(Fg.Row, 3).ToString   'FULL SENCILLO
                     End If
-                Case "GCConc", "Embalaje", "Cargas", "tblcclaveunidad"
+                Case "GCConc", "Embalaje", "Cargas", "tblcclaveunidad", "GCSERVICIOS_MANTE", "GCCLASIFIC_SERVICIOS"
                     '"SELECT CVE_GAS, DESCR FROM GCCONC_GASTOS WHERE STATUS = 'A' ORDER BY CVE_GAS"
                     If Fg.Row > 0 Then
                         Var4 = Fg(Fg.Row, 1).ToString   'CLAVE
@@ -1853,7 +1877,7 @@ Public Class FrmSelItem2
                     If Fg.Row > 0 Then
                         Var4 = Fg(Fg.Row, 1).ToString  'CVE_TAB
                     End If
-                Case "Contrato"
+                Case "Contrato", "GCSERVICIOS"
                     If Fg.Row > 0 Then
                         Var4 = Fg(Fg.Row, 1) 'CLAVE
                         Var5 = Fg(Fg.Row, 2) 'NOMBRE
@@ -1940,6 +1964,16 @@ Public Class FrmSelItem2
         Try
             tBox.Text = ""
             Select Case Proceso
+                Case "GCSERVICIOS"
+                    SQL = "SELECT S.CVE_SER, S.DESCR, S.COSTO_MO, 
+                        CASE S.TIPO_SERVICIO WHEN 0 THEN 'Preventivo' ELSE 'Correctivo' END AS 'Tipo de servicio' 
+                        FROM GCSERVICIOS S 
+                        ORDER BY TRY_PARSE(CVE_SER AS INT) DESC"
+                Case "GCSERVICIOS_MANTE"
+                    SQL = "SELECT CVE_SER, DESCR 
+                        FROM GCSERVICIOS_MANTE WHERE STATUS = 'A' ORDER BY TRY_PARSE(CVE_SER AS INT)"
+                Case "GCCLASIFIC_SERVICIOS"
+                    SQL = "SELECT CVE_CLA, DESCR FROM GCCLASIFIC_SERVICIOS WHERE STATUS = 'A'"
                 Case "Marca reno"
                     SQL = "SELECT CVE_MARCA, DESCR
                         FROM GCMARCAS_RENOVADO WHERE STATUS = 'A'
@@ -2305,6 +2339,21 @@ Public Class FrmSelItem2
         Dim CADENA_UNIDAD As String
         Try
             Select Case Proceso
+                Case "GCSERVICIOS"
+                    SQL = "SELECT S.CVE_SER, S.DESCR, S.COSTO_MO, 
+                        CASE S.TIPO_SERVICIO WHEN 0 THEN 'Preventivo' ELSE 'Correctivo' END AS 'Tipo de servicio' 
+                        FROM GCSERVICIOS S 
+                        WHERE S.STATUS = 'A' and UPPER(S.DESCR) LIKE '%" & tBox.Text.Trim.ToUpper & "%'
+                        ORDER BY TRY_PARSE(S.CVE_SER AS INT) DESC"
+                Case "GCSERVICIOS_MANTE"
+                    SQL = "SELECT CVE_SER, DESCR 
+                        FROM GCSERVICIOS_MANTE 
+                        WHERE STATUS = 'A' and UPPER(DESCR) LIKE '%" & tBox.Text.Trim.ToUpper & "%'
+                        ORDER BY TRY_PARSE(CVE_SER AS INT)"
+                Case "GCCLASIFIC_SERVICIOS"
+                    SQL = "SELECT CVE_CLA, DESCR 
+                        FROM GCCLASIFIC_SERVICIOS 
+                        WHERE STATUS = 'A' and UPPER(DESCR) LIKE '%" & tBox.Text.Trim.ToUpper & "%'"
                 Case "Marca reno"
                     SQL = "SELECT CVE_MARCA, DESCR
                         FROM GCMARCAS_RENOVADO 

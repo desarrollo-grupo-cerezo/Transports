@@ -2054,6 +2054,14 @@ Module General
                 SQL = "SELECT descripcion as DES FROM tblcmaterialpeligroso WHERE clave = '" & fCLAVE & "'"
             Case "tblctipoembalaje"
                 SQL = "SELECT descripcion AS DES FROM tblctipoembalaje WHERE clave = '" & fCLAVE & "'"
+            Case "tblSectorCOFEPRIS"
+                SQL = "SELECT descripcion AS DES FROM tblSectorCOFEPRIS WHERE clave = '" & fCLAVE & "'"
+            Case "tblFormaFarmaceutica"
+                SQL = "SELECT descripcion AS DES FROM tblFormaFarmaceutica WHERE clave = '" & fCLAVE & "'"
+            Case "tblCondicionesEspeciales"
+                SQL = "SELECT descripcion AS DES FROM tblCondicionesEspeciales WHERE clave = '" & fCLAVE & "'"
+            Case "tblTipoMateria"
+                SQL = "SELECT descripcion AS DES FROM tblTipoMateria WHERE clave = '" & fCLAVE & "'"
         End Select
 
 
@@ -6385,6 +6393,13 @@ Module General
 
     Public Sub VisualizaReporteGrid(ByVal FGrid As C1FlexGrid, ByVal docName As String, ByVal flags As PrintGridFlags, ByVal header As String, ByVal footer As String)
         FGrid.PrintGrid(docName, flags, header, footer)
+    End Sub
+
+    Public Sub RestauraSearchFG(ByRef FGrid As C1FlexGrid)
+        Dim search As String
+        search = FGrid.SearchDefinition
+        FGrid.SearchDefinition = ""
+        FGrid.SearchDefinition = search
     End Sub
 
 End Module

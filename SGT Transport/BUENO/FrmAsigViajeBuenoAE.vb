@@ -2379,8 +2379,16 @@ Public Class FrmAsigViajeBuenoAE
 
             SQL = "SELECT M.CVE_VIAJE, M.NUM_PAR, M.CANT, M.ID_UNIDAD, M.DESC_UNIDAD, M.ID_MERCANCIA, M.DESCR_MERCANCIA, 
                     M.MAT_PELIGROSO, M.CVE_MAT_PELIGROSO, M.ID_EMBALAJE, M.DESC_EMBALAJE, M.PESO, M.VALOR_MERCANCIA, M.MONEDA, 
-                    M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT 
-                    FROM GCMERCANCIAS M WHERE CVE_VIAJE = '" & FCVE_VIAJE2 & "' AND M.REG_ORI = 0"
+                    M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT,
+                    SectorCOFEPRIS, SC.descripcion AS DescripcionSectorCOFEPRIS, NombreIngredienteActivo, NomQuimico, DenominacionGenericaProd, DenominacionDistintivaProd, Fabricante, FechaCaducidad, 
+					LoteMedicamento, FormaFarmaceutica, FF.descripcion AS DescripcionFormaFarmaceutica, CondicionesEspTransp, CE.descripcion AS DescripcionCondicionesEspTransp, 
+					RegistroSanitarioFolioAutorizacion, PermisoImportacion, FolioImpoVUCEM, NumCAS, RazonSocialEmpImp, NumRegSanPlagCOFEPRIS, DatosFabricante, DatosFormulador, DatosMaquilador, 
+                    UsoAutorizado, TipoMateria, DescripcionMateria
+                    FROM GCMERCANCIAS M 
+                    LEFT JOIN tblSectorCOFEPRIS SC ON SC.clave = M.SectorCOFEPRIS
+					LEFT JOIN tblFormaFarmaceutica FF ON FF.clave = M.FormaFarmaceutica
+					LEFT JOIN tblCondicionesEspeciales CE ON CE.clave = M.CondicionesEspTransp
+                    WHERE CVE_VIAJE = '" & FCVE_VIAJE2 & "' AND M.REG_ORI = 0"
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
@@ -2407,7 +2415,38 @@ Public Class FrmAsigViajeBuenoAE
                         s &= dr("ID_FRACC_ARANCELARIA") & vbTab '18
                         s &= dr("UUID_COM_EXT") & vbTab '19
                         s &= "" & vbTab  '20 AQUI IVA EL VIAJE
-                        s &= dr("NUM_PAR")  '21 NUM_PAR
+                        s &= dr("NUM_PAR") & vbTab '21 NUM_PAR
+
+                        s &= dr.ReadNullAsEmptyString("SectorCOFEPRIS") & vbTab '22
+                        s &= "" & vbTab '23
+                        s &= dr.ReadNullAsEmptyString("DescripcionSectorCOFEPRIS") & vbTab '24
+                        s &= dr.ReadNullAsEmptyString("NombreIngredienteActivo") & vbTab '25
+                        s &= dr.ReadNullAsEmptyString("NomQuimico") & vbTab '26
+                        s &= dr.ReadNullAsEmptyString("DenominacionGenericaProd") & vbTab '27
+                        s &= dr.ReadNullAsEmptyString("DenominacionDistintivaProd") & vbTab '28
+                        s &= dr.ReadNullAsEmptyString("Fabricante") & vbTab '29
+                        s &= dr.ReadNullAsEmptyString("FechaCaducidad") & vbTab '30
+                        s &= dr.ReadNullAsEmptyString("LoteMedicamento") & vbTab '31
+                        s &= dr.ReadNullAsEmptyString("FormaFarmaceutica") & vbTab '32
+                        s &= "" & vbTab '33
+                        s &= dr.ReadNullAsEmptyString("DescripcionFormaFarmaceutica") & vbTab '34
+                        s &= dr.ReadNullAsEmptyString("CondicionesEspTransp") & vbTab '35
+                        s &= "" & vbTab '36
+                        s &= dr.ReadNullAsEmptyString("DescripcionCondicionesEspTransp") & vbTab '37
+                        s &= dr.ReadNullAsEmptyString("RegistroSanitarioFolioAutorizacion") & vbTab '38
+                        s &= dr.ReadNullAsEmptyString("PermisoImportacion") & vbTab '39
+                        s &= dr.ReadNullAsEmptyString("FolioImpoVUCEM") & vbTab '40
+                        s &= dr.ReadNullAsEmptyString("NumCAS") & vbTab '41
+                        s &= dr.ReadNullAsEmptyString("RazonSocialEmpImp") & vbTab '42
+                        s &= dr.ReadNullAsEmptyString("NumRegSanPlagCOFEPRIS") & vbTab '43
+                        s &= dr.ReadNullAsEmptyString("DatosFabricante") & vbTab '44
+                        s &= dr.ReadNullAsEmptyString("DatosFormulador") & vbTab '45
+                        s &= dr.ReadNullAsEmptyString("DatosMaquilador") & vbTab '46
+                        s &= dr.ReadNullAsEmptyString("UsoAutorizado") & vbTab '47
+                        s &= dr.ReadNullAsEmptyString("TipoMateria") & vbTab '48
+                        s &= "" & vbTab '49
+                        s &= dr.ReadNullAsEmptyString("DescripcionMateria") '50
+
                         Fg.AddItem(s)
 
                     Loop
@@ -2418,7 +2457,11 @@ Public Class FrmAsigViajeBuenoAE
 
             Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & False & vbTab &
                        "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & 0 & vbTab & 0 & vbTab & "MXN" & vbTab & "" & vbTab &
-                       "" & vbTab & "" & vbTab & "" & vbTab & "0")
+                       "" & vbTab & "" & vbTab & "" & vbTab & "0" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "")
             Fg.Row = Fg.Rows.Count - 1
             Fg.Col = 1
 
@@ -3635,16 +3678,31 @@ Public Class FrmAsigViajeBuenoAE
                                     ID_MERCANCIA = @ID_MERCANCIA, DESCR_MERCANCIA = @DESCR_MERCANCIA, MAT_PELIGROSO = @MAT_PELIGROSO, 
                                     CVE_MAT_PELIGROSO = @CVE_MAT_PELIGROSO, ID_EMBALAJE = @ID_EMBALAJE, DESC_EMBALAJE = @DESC_EMBALAJE, 
                                     PESO = @PESO, VALOR_MERCANCIA = @VALOR_MERCANCIA, MONEDA = @MONEDA, ID_FRACC_ARANCELARIA = @ID_FRACC_ARANCELARIA, 
-                                    UUID_COM_EXT = @UUID_COM_EXT, CVE_DOC = @CVE_DOC
+                                    UUID_COM_EXT = @UUID_COM_EXT, CVE_DOC = @CVE_DOC,
+                                    SectorCOFEPRIS = @SectorCOFEPRIS, NombreIngredienteActivo=@NombreIngredienteActivo, NomQuimico = @NomQuimico, DenominacionGenericaProd = @DenominacionGenericaProd, 
+                                    DenominacionDistintivaProd = @DenominacionDistintivaProd, Fabricante = @Fabricante, FechaCaducidad = @FechaCaducidad, LoteMedicamento = @LoteMedicamento, 
+                                    FormaFarmaceutica = @FormaFarmaceutica, CondicionesEspTransp = @CondicionesEspTransp, 
+                                    RegistroSanitarioFolioAutorizacion = @RegistroSanitarioFolioAutorizacion, 
+                                    PermisoImportacion = @PermisoImportacion, FolioImpoVUCEM = @FolioImpoVUCEM, NumCAS = @NumCAS, RazonSocialEmpImp = @RazonSocialEmpImp, NumRegSanPlagCOFEPRIS = @NumRegSanPlagCOFEPRIS, 
+                                    DatosFabricante = @DatosFabricante, DatosFormulador = @DatosFormulador, DatosMaquilador = @DatosMaquilador, UsoAutorizado = @UsoAutorizado, TipoMateria = @TipoMateria, 
+                                    DescripcionMateria = @DescripcionMateria 
                                     OUTPUT INSERTED.NUM_PAR
                                     WHERE CVE_VIAJE = @CVE_VIAJE AND NUM_PAR = @NUM_PAR AND REG_ORI = 0
                                     ELSE
                                     INSERT INTO GCMERCANCIAS (CVE_VIAJE, NUM_PAR, CVE_DOC, CANT, ID_UNIDAD, DESC_UNIDAD, ID_MERCANCIA, DESCR_MERCANCIA, 
                                     MAT_PELIGROSO, CVE_MAT_PELIGROSO, ID_EMBALAJE, DESC_EMBALAJE, PESO, VALOR_MERCANCIA, MONEDA, ID_FRACC_ARANCELARIA, 
-                                    UUID_COM_EXT, REG_ORI) 
+                                    UUID_COM_EXT, REG_ORI,
+                                    SectorCOFEPRIS, NombreIngredienteActivo, NomQuimico, DenominacionGenericaProd, DenominacionDistintivaProd,
+                                    Fabricante, FechaCaducidad, LoteMedicamento, FormaFarmaceutica, CondicionesEspTransp,
+                                    RegistroSanitarioFolioAutorizacion, PermisoImportacion, FolioImpoVUCEM, NumCAS, 
+                                    RazonSocialEmpImp, NumRegSanPlagCOFEPRIS, DatosFabricante, DatosFormulador, DatosMaquilador, UsoAutorizado, TipoMateria, DescripcionMateria) 
                                     OUTPUT Inserted.NUM_PAR VALUES (@CVE_VIAJE, @NUM_PAR, @CVE_DOC, @CANT, @ID_UNIDAD, 
                                     @DESC_UNIDAD, @ID_MERCANCIA, @DESCR_MERCANCIA, @MAT_PELIGROSO, @CVE_MAT_PELIGROSO, @ID_EMBALAJE, @DESC_EMBALAJE, 
-                                    @PESO, @VALOR_MERCANCIA, @MONEDA, @ID_FRACC_ARANCELARIA, @UUID_COM_EXT, 0)"
+                                    @PESO, @VALOR_MERCANCIA, @MONEDA, @ID_FRACC_ARANCELARIA, @UUID_COM_EXT, 0,
+                                    @SectorCOFEPRIS, @NombreIngredienteActivo, @NomQuimico, @DenominacionGenericaProd, @DenominacionDistintivaProd,
+                                    @Fabricante, @FechaCaducidad, @LoteMedicamento, @FormaFarmaceutica, @CondicionesEspTransp,
+                                    @RegistroSanitarioFolioAutorizacion, @PermisoImportacion, @FolioImpoVUCEM, @NumCAS, 
+                                    @RazonSocialEmpImp, @NumRegSanPlagCOFEPRIS, @DatosFabricante, @DatosFormulador, @DatosMaquilador, @UsoAutorizado, @TipoMateria, @DescripcionMateria)"
 
                                 If Not IsNothing(Fg(k, 0)) Then
                                     If IsNumeric(Fg(k, 0)) Then
@@ -3678,6 +3736,9 @@ Public Class FrmAsigViajeBuenoAE
                                     Debug.Print("")
                                 End If
 
+                                Dim Caducidad As Date
+                                Caducidad = New Date(1900, 1, 1)
+
                                 cmd.CommandText = SQL
                                 cmd.Parameters.Clear()
                                 cmd.Parameters.Add("@CVE_VIAJE", SqlDbType.VarChar).Value = FCVE_VIAJE
@@ -3697,6 +3758,30 @@ Public Class FrmAsigViajeBuenoAE
                                 cmd.Parameters.Add("@MONEDA", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 16)), "", Fg(k, 16))
                                 cmd.Parameters.Add("@ID_FRACC_ARANCELARIA", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 18)), "", Fg(k, 18))
                                 cmd.Parameters.Add("@UUID_COM_EXT", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 19)), "", Fg(k, 19))
+
+                                cmd.Parameters.Add("@SectorCOFEPRIS", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 22)), "", Fg(k, 22))
+                                cmd.Parameters.Add("@NombreIngredienteActivo", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 25)), "", Fg(k, 25))
+                                cmd.Parameters.Add("@NomQuimico", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 26)), "", Fg(k, 26))
+                                cmd.Parameters.Add("@DenominacionGenericaProd", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 27)), "", Fg(k, 27))
+                                cmd.Parameters.Add("@DenominacionDistintivaProd", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 28)), "", Fg(k, 28))
+                                cmd.Parameters.Add("@Fabricante", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 29)), "", Fg(k, 29))
+                                cmd.Parameters.Add("@FechaCaducidad", SqlDbType.DateTime).Value = IIf(IsNothing(Fg(k, 30)), Caducidad, Fg(k, 30))
+                                cmd.Parameters.Add("@LoteMedicamento", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 31)), "", Fg(k, 31))
+                                cmd.Parameters.Add("@FormaFarmaceutica", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 32)), "", Fg(k, 32))
+                                cmd.Parameters.Add("@CondicionesEspTransp", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 35)), "", Fg(k, 35))
+                                cmd.Parameters.Add("@RegistroSanitarioFolioAutorizacion", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 38)), "", Fg(k, 38))
+                                cmd.Parameters.Add("@PermisoImportacion", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 39)), "", Fg(k, 39))
+                                cmd.Parameters.Add("@FolioImpoVUCEM", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 40)), "", Fg(k, 40))
+                                cmd.Parameters.Add("@NumCAS", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 41)), "", Fg(k, 41))
+                                cmd.Parameters.Add("@RazonSocialEmpImp", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 42)), "", Fg(k, 42))
+                                cmd.Parameters.Add("@NumRegSanPlagCOFEPRIS", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 43)), "", Fg(k, 43))
+                                cmd.Parameters.Add("@DatosFabricante", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 44)), "", Fg(k, 44))
+                                cmd.Parameters.Add("@DatosFormulador", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 45)), "", Fg(k, 45))
+                                cmd.Parameters.Add("@DatosMaquilador", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 46)), "", Fg(k, 46))
+                                cmd.Parameters.Add("@UsoAutorizado", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 47)), "", Fg(k, 47))
+                                cmd.Parameters.Add("@TipoMateria", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 48)), "", Fg(k, 48))
+                                cmd.Parameters.Add("@DescripcionMateria", SqlDbType.VarChar).Value = IIf(IsNothing(Fg(k, 50)), "", Fg(k, 50))
+
 
                                 ReturnValueLong = cmd.ExecuteScalar()
                                 If Not IsNothing(ReturnValueLong) Then
@@ -5109,14 +5194,31 @@ Public Class FrmAsigViajeBuenoAE
                                                 ID_MERCANCIA = @ID_MERCANCIA, DESCR_MERCANCIA = @DESCR_MERCANCIA, MAT_PELIGROSO = @MAT_PELIGROSO, 
                                                 CVE_MAT_PELIGROSO = @CVE_MAT_PELIGROSO, ID_EMBALAJE = @ID_EMBALAJE, DESC_EMBALAJE = @DESC_EMBALAJE, 
                                                 PESO = @PESO, VALOR_MERCANCIA = @VALOR_MERCANCIA, MONEDA = @MONEDA, ID_FRACC_ARANCELARIA = @ID_FRACC_ARANCELARIA, 
-                                                UUID_COM_EXT = @UUID_COM_EXT, CVE_DOC = @CVE_DOC
+                                                UUID_COM_EXT = @UUID_COM_EXT, CVE_DOC = @CVE_DOC,
+                                                SectorCOFEPRIS = @SectorCOFEPRIS, NombreIngredienteActivo=@NombreIngredienteActivo, NomQuimico = @NomQuimico, DenominacionGenericaProd = @DenominacionGenericaProd, 
+                                                DenominacionDistintivaProd = @DenominacionDistintivaProd, Fabricante = @Fabricante, FechaCaducidad = @FechaCaducidad, LoteMedicamento = @LoteMedicamento, 
+                                                FormaFarmaceutica = @FormaFarmaceutica, CondicionesEspTransp = @CondicionesEspTransp, 
+                                                RegistroSanitarioFolioAutorizacion = @RegistroSanitarioFolioAutorizacion, 
+                                                PermisoImportacion = @PermisoImportacion, FolioImpoVUCEM = @FolioImpoVUCEM, NumCAS = @NumCAS, RazonSocialEmpImp = @RazonSocialEmpImp, NumRegSanPlagCOFEPRIS = @NumRegSanPlagCOFEPRIS, 
+                                                DatosFabricante = @DatosFabricante, DatosFormulador = @DatosFormulador, DatosMaquilador = @DatosMaquilador, UsoAutorizado = @UsoAutorizado, TipoMateria = @TipoMateria, 
+                                                DescripcionMateria = @DescripcionMateria 
                                                 WHERE CVE_VIAJE = @CVE_VIAJE AND NUM_PAR = @NUM_PAR
                                                 ELSE
                                                 INSERT INTO GCMERCANCIAS2 (CVE_VIAJE, NUM_PAR, CVE_DOC, CANT, ID_UNIDAD, DESC_UNIDAD, ID_MERCANCIA, DESCR_MERCANCIA, 
                                                 MAT_PELIGROSO, CVE_MAT_PELIGROSO, ID_EMBALAJE, DESC_EMBALAJE, PESO, VALOR_MERCANCIA, MONEDA, ID_FRACC_ARANCELARIA, 
-                                                UUID_COM_EXT) VALUES (@CVE_VIAJE, ISNULL((SELECT MAX(NUM_PAR) + 1 FROM GCMERCANCIAS2),1), @CVE_DOC, @CANT, @ID_UNIDAD, 
+                                                UUID_COM_EXT,
+                                                SectorCOFEPRIS, NombreIngredienteActivo, NomQuimico, DenominacionGenericaProd, DenominacionDistintivaProd,
+                                                Fabricante, FechaCaducidad, LoteMedicamento, FormaFarmaceutica, CondicionesEspTransp,
+                                                RegistroSanitarioFolioAutorizacion, PermisoImportacion, FolioImpoVUCEM, NumCAS, 
+                                                RazonSocialEmpImp, NumRegSanPlagCOFEPRIS, DatosFabricante, DatosFormulador, DatosMaquilador, UsoAutorizado, TipoMateria, DescripcionMateria) 
+                                                VALUES (@CVE_VIAJE, ISNULL((SELECT MAX(NUM_PAR) + 1 FROM GCMERCANCIAS2),1), @CVE_DOC, @CANT, @ID_UNIDAD, 
                                                 @DESC_UNIDAD, @ID_MERCANCIA, @DESCR_MERCANCIA, @MAT_PELIGROSO, @CVE_MAT_PELIGROSO, @ID_EMBALAJE, @DESC_EMBALAJE, 
-                                                @PESO, @VALOR_MERCANCIA, @MONEDA, @ID_FRACC_ARANCELARIA, @UUID_COM_EXT)"
+                                                @PESO, @VALOR_MERCANCIA, @MONEDA, @ID_FRACC_ARANCELARIA, @UUID_COM_EXT,
+                                                @SectorCOFEPRIS, @NombreIngredienteActivo, @NomQuimico, @DenominacionGenericaProd, @DenominacionDistintivaProd,
+                                                @Fabricante, @FechaCaducidad, @LoteMedicamento, @FormaFarmaceutica, @CondicionesEspTransp,
+                                                @RegistroSanitarioFolioAutorizacion, @PermisoImportacion, @FolioImpoVUCEM, @NumCAS, 
+                                                @RazonSocialEmpImp, @NumRegSanPlagCOFEPRIS, @DatosFabricante, @DatosFormulador, @DatosMaquilador, @UsoAutorizado, @TipoMateria, @DescripcionMateria)"
+
 
                                             cmd.CommandText = SQL
                                             cmd.Parameters.Clear()
@@ -5137,6 +5239,32 @@ Public Class FrmAsigViajeBuenoAE
                                             cmd.Parameters.Add("@MONEDA", SqlDbType.VarChar).Value = dr2("MONEDA")
                                             cmd.Parameters.Add("@ID_FRACC_ARANCELARIA", SqlDbType.VarChar).Value = dr2("ID_FRACC_ARANCELARIA")
                                             cmd.Parameters.Add("@UUID_COM_EXT", SqlDbType.VarChar).Value = dr2("UUID_COM_EXT")
+
+                                            cmd.Parameters.Add("@SectorCOFEPRIS", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("SectorCOFEPRIS")
+                                            cmd.Parameters.Add("@NombreIngredienteActivo", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("NombreIngredienteActivo")
+                                            cmd.Parameters.Add("@NomQuimico", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("NomQuimico")
+                                            cmd.Parameters.Add("@DenominacionGenericaProd", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("DenominacionGenericaProd")
+                                            cmd.Parameters.Add("@DenominacionDistintivaProd", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("DenominacionDistintivaProd")
+                                            cmd.Parameters.Add("@Fabricante", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("Fabricante")
+                                            cmd.Parameters.Add("@FechaCaducidad", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("FechaCaducidad")
+                                            cmd.Parameters.Add("@LoteMedicamento", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("LoteMedicamento")
+                                            cmd.Parameters.Add("@FormaFarmaceutica", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("FormaFarmaceutica")
+                                            cmd.Parameters.Add("@CondicionesEspTransp", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("CondicionesEspTransp")
+                                            cmd.Parameters.Add("@RegistroSanitarioFolioAutorizacion", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("RegistroSanitarioFolioAutorizacion")
+                                            cmd.Parameters.Add("@PermisoImportacion", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("PermisoImportacion")
+                                            cmd.Parameters.Add("@FolioImpoVUCEM", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("FolioImpoVUCEM")
+                                            cmd.Parameters.Add("@NumCAS", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("NumCAS")
+                                            cmd.Parameters.Add("@RazonSocialEmpImp", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("RazonSocialEmpImp")
+                                            cmd.Parameters.Add("@NumRegSanPlagCOFEPRIS", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("NumRegSanPlagCOFEPRIS")
+                                            cmd.Parameters.Add("@DatosFabricante", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("DatosFabricante")
+                                            cmd.Parameters.Add("@DatosFormulador", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("DatosFormulador")
+                                            cmd.Parameters.Add("@DatosMaquilador", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("DatosMaquilador")
+                                            cmd.Parameters.Add("@UsoAutorizado", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("UsoAutorizado")
+                                            cmd.Parameters.Add("@TipoMateria", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("TipoMateria")
+                                            cmd.Parameters.Add("@DescripcionMateria", SqlDbType.VarChar).Value = dr2.ReadNullAsEmptyString("DescripcionMateria")
+
+
+
                                             returnValue = cmd.ExecuteNonQuery().ToString
                                             If returnValue IsNot Nothing Then
                                                 If returnValue = "1" Then
@@ -8182,7 +8310,11 @@ Public Class FrmAsigViajeBuenoAE
             Lt6.Text = "Partidas " & Fg.Rows.Count - 1
 
             IsMatPeligroso = False
-            Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & False & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & 0 & vbTab & 0 & vbTab & "MXN" & vbTab & "" & vbTab & "" & vbTab & "")
+            Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & False & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & 0 & vbTab & 0 & vbTab & "MXN" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "")
             Fg.Row = Fg.Rows.Count - 1
             Fg.Col = 1
             SendKeys.Send(" ")
@@ -11154,6 +11286,42 @@ Public Class FrmAsigViajeBuenoAE
                         Else
                             Fg(Fg.Row, 13) = DATO_REGRESADO
                         End If
+
+                    Case 22
+                        DATO_REGRESADO = BUSCA_CAT2("tblSectorCOFEPRIS", TXT.Text)
+                        If DATO_REGRESADO = "" Then
+                            Fg(Fg.Row, 24) = ""
+                            MsgBox("Registro Sector COFEPRIS inexistente")
+                        Else
+                            Fg(Fg.Row, 24) = DATO_REGRESADO
+                        End If
+
+                    Case 32
+                        DATO_REGRESADO = BUSCA_CAT2("tblFormaFarmaceutica", TXT.Text)
+                        If DATO_REGRESADO = "" Then
+                            Fg(Fg.Row, 34) = ""
+                            MsgBox("Forma Farmaceutica inexistente")
+                        Else
+                            Fg(Fg.Row, 34) = DATO_REGRESADO
+                        End If
+
+                    Case 35
+                        DATO_REGRESADO = BUSCA_CAT2("tblCondicionesEspeciales", TXT.Text)
+                        If DATO_REGRESADO = "" Then
+                            Fg(Fg.Row, 37) = ""
+                            MsgBox("Condiciones Especiales inexistente")
+                        Else
+                            Fg(Fg.Row, 37) = DATO_REGRESADO
+                        End If
+
+                    Case 48
+                        DATO_REGRESADO = BUSCA_CAT2("tblTipoMateria", TXT.Text)
+                        If DATO_REGRESADO = "" Then
+                            Fg(Fg.Row, 50) = ""
+                            MsgBox("Tipo Materia inexistente")
+                        Else
+                            Fg(Fg.Row, 50) = DATO_REGRESADO
+                        End If
                 End Select
             End If
         Catch ex As Exception
@@ -11393,7 +11561,11 @@ Public Class FrmAsigViajeBuenoAE
     Sub ADD_ROW_FG()
         Try
             Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & False & vbTab &
-                       "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & 0 & vbTab & 0 & vbTab & "MXN" & vbTab & "" & vbTab & "" & vbTab & "")
+                       "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & 0 & vbTab & 0 & vbTab & "MXN" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "")
             Fg.Row = Fg.Rows.Count - 1
             Fg.Col = 1
         Catch ex As Exception
@@ -11456,7 +11628,11 @@ Public Class FrmAsigViajeBuenoAE
                         If Fg(Fg.Row, 1) > 0 Then
                             If Fg.Row = Fg.Rows.Count - 1 Then
                                 IsMatPeligroso = False
-                                Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & False & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & 0 & vbTab & 0 & vbTab & "MXN" & vbTab & "" & vbTab & "" & vbTab & "")
+                                Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & False & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & 0 & vbTab & 0 & vbTab & "MXN" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" &
+                                           vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                                           vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                                           vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                                           vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "")
                                 Fg.Row = Fg.Rows.Count - 1
                                 Fg.Col = 1
                                 'SendKeys.Send(" ")
@@ -11585,7 +11761,7 @@ Public Class FrmAsigViajeBuenoAE
 
             If ENTRAM Then
                 ENTRAM = False
-                If e.Col = 4 Or e.Col = 13 Then
+                If e.Col = 4 Or e.Col = 13 Or e.Col = 24 Or e.Col = 34 Or e.Col = 37 Then
                     e.Cancel = True
                 Else
                     If IsMatPeligroso Then
@@ -11736,6 +11912,81 @@ Public Class FrmAsigViajeBuenoAE
                     ENTRAM = True
                     Return
                 End If
+
+
+                If Fg.Col = 23 Then ' tblSectorCOFEPRIS
+                    Try
+                        Var2 = "tblSectorCOFEPRIS"
+                        Var4 = "" : Var5 = "" : Var10 = "" : Var11 = "" : Var12 = ""
+                        FrmSelItemCFDI.ShowDialog()
+                        If Var4.Trim.Length > 0 Then
+                            Fg(Fg.Row, 22) = Var4
+                            Fg(Fg.Row, 24) = Var5
+
+                        End If
+                    Catch ex As Exception
+                        Bitacora("1290. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("1290. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+                    ENTRAM = True
+                    Return
+                End If
+
+                If Fg.Col = 33 Then ' tblFormaFarmaceutica
+                    Try
+                        Var2 = "tblFormaFarmaceutica"
+                        Var4 = "" : Var5 = "" : Var10 = "" : Var11 = "" : Var12 = ""
+                        FrmSelItemCFDI.ShowDialog()
+                        If Var4.Trim.Length > 0 Then
+                            Fg(Fg.Row, 32) = Var4
+                            Fg(Fg.Row, 34) = Var5
+
+                        End If
+                    Catch ex As Exception
+                        Bitacora("1290. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("1290. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+                    ENTRAM = True
+                    Return
+                End If
+
+                If Fg.Col = 36 Then ' tblCondicionesEspeciales
+                    Try
+                        Var2 = "tblCondicionesEspeciales"
+                        Var4 = "" : Var5 = "" : Var10 = "" : Var11 = "" : Var12 = ""
+                        FrmSelItemCFDI.ShowDialog()
+                        If Var4.Trim.Length > 0 Then
+                            Fg(Fg.Row, 35) = Var4
+                            Fg(Fg.Row, 37) = Var5
+
+                        End If
+                    Catch ex As Exception
+                        Bitacora("1290. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("1290. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+                    ENTRAM = True
+                    Return
+                End If
+
+                If Fg.Col = 49 Then ' tblTipoMateria
+                    Try
+                        Var2 = "tblTipoMateria"
+                        Var4 = "" : Var5 = "" : Var10 = "" : Var11 = "" : Var12 = ""
+                        FrmSelItemCFDI.ShowDialog()
+                        If Var4.Trim.Length > 0 Then
+                            Fg(Fg.Row, 48) = Var4
+                            Fg(Fg.Row, 50) = Var5
+
+                        End If
+                    Catch ex As Exception
+                        Bitacora("1290. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("1290. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+                    ENTRAM = True
+                    Return
+                End If
+
+
                 ENTRAM = True
             End If
         Catch ex As Exception
@@ -11785,7 +12036,11 @@ Public Class FrmAsigViajeBuenoAE
                 Select Case e.KeyCode'                                  Boton                                  Boton                                                 Boton                     Boton                                                            Boton
                     Case Keys.Insert '          1            2            3            4            5            6            7             8              9           10           11           12           13          14          15           16           17           18           19
                         IsMatPeligroso = False
-                        Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & DBNull.Value & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "MXN" & vbTab & "" & vbTab & "" & vbTab & "")
+                        Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & DBNull.Value & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "MXN" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" &
+                                   vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                                   vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                                   vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                                   vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "")
                         Fg.Row = Fg.Rows.Count - 1
                         Fg.Col = 1
 
@@ -12099,8 +12354,16 @@ Public Class FrmAsigViajeBuenoAE
 
                     SQL = "SELECT M.CVE_VIAJE, M.NUM_PAR, M.CANT, M.ID_UNIDAD, M.DESC_UNIDAD, M.ID_MERCANCIA, M.DESCR_MERCANCIA, 
                         M.MAT_PELIGROSO, M.CVE_MAT_PELIGROSO, M.ID_EMBALAJE, M.DESC_EMBALAJE, M.PESO, M.VALOR_MERCANCIA, M.MONEDA, 
-                        M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT
-                        FROM GCMERCANCIAS M WHERE CVE_DOC = '" & FVIAJE & "'"
+                        M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT,
+                        SectorCOFEPRIS, SC.descripcion AS DescripcionSectorCOFEPRIS, NombreIngredienteActivo, NomQuimico, DenominacionGenericaProd, DenominacionDistintivaProd, Fabricante, FechaCaducidad, 
+					    LoteMedicamento, FormaFarmaceutica, FF.descripcion AS DescripcionFormaFarmaceutica, CondicionesEspTransp, CE.descripcion AS DescripcionCondicionesEspTransp, 
+					    RegistroSanitarioFolioAutorizacion, PermisoImportacion, FolioImpoVUCEM, NumCAS, RazonSocialEmpImp, NumRegSanPlagCOFEPRIS, DatosFabricante, DatosFormulador, DatosMaquilador, 
+                        UsoAutorizado, TipoMateria, DescripcionMateria
+                        FROM GCMERCANCIAS M 
+                        LEFT JOIN tblSectorCOFEPRIS SC ON SC.clave = M.SectorCOFEPRIS
+					    LEFT JOIN tblFormaFarmaceutica FF ON FF.clave = M.FormaFarmaceutica
+					    LEFT JOIN tblCondicionesEspeciales CE ON CE.clave = M.CondicionesEspTransp
+                        WHERE CVE_DOC = '" & FVIAJE & "'"
                     Using cmd As SqlCommand = cnSAE.CreateCommand
                         cmd.CommandText = SQL
                         Using dr As SqlDataReader = cmd.ExecuteReader
@@ -12127,7 +12390,38 @@ Public Class FrmAsigViajeBuenoAE
                                 s &= dr("ID_FRACC_ARANCELARIA") & vbTab '18
                                 s &= dr("UUID_COM_EXT") & vbTab  '19
                                 s &= "" & vbTab    '20 AQUI IVA EL VIAJE
-                                s &= dr("NUM_PAR")
+                                s &= dr("NUM_PAR") & vbTab  '21
+
+                                s &= dr("SectorCOFEPRIS") & vbTab '22
+                                s &= "" & vbTab '23
+                                s &= dr("DescripcionSectorCOFEPRIS") & vbTab '24
+                                s &= dr("NombreIngredienteActivo") & vbTab '25
+                                s &= dr("NomQuimico") & vbTab '26
+                                s &= dr("DenominacionGenericaProd") & vbTab '27
+                                s &= dr("DenominacionDistintivaProd") & vbTab '28
+                                s &= dr("Fabricante") & vbTab '29
+                                s &= dr("FechaCaducidad") & vbTab '30
+                                s &= dr("LoteMedicamento") & vbTab '31
+                                s &= dr("FormaFarmaceutica") & vbTab '32
+                                s &= "" & vbTab '33
+                                s &= dr("DescripcionFormaFarmaceutica") & vbTab '34
+                                s &= dr("CondicionesEspTransp") & vbTab '35
+                                s &= "" & vbTab '36
+                                s &= dr("DescripcionCondicionesEspTransp") & vbTab '37
+                                s &= dr("RegistroSanitarioFolioAutorizacion") & vbTab '38
+                                s &= dr("PermisoImportacion") & vbTab '39
+                                s &= dr("FolioImpoVUCEM") & vbTab '40
+                                s &= dr("NumCAS") & vbTab '41
+                                s &= dr("RazonSocialEmpImp") & vbTab '42
+                                s &= dr("NumRegSanPlagCOFEPRIS") & vbTab '43
+                                s &= dr("DatosFabricante") & vbTab '44
+                                s &= dr("DatosFormulador") & vbTab '45
+                                s &= dr("DatosMaquilador") & vbTab '46
+                                s &= dr("UsoAutorizado") & vbTab '47
+                                s &= dr("TipoMateria") & vbTab '48
+                                s &= "" & vbTab '49
+                                s &= dr("DescripcionMateria") '50
+
                                 Fg.AddItem(s)
                                 'Fg.Col = 20
                             Loop
@@ -12139,8 +12433,16 @@ Public Class FrmAsigViajeBuenoAE
                         If FgViajes(k, 1) Then
                             SQL = "SELECT M.CVE_VIAJE, M.NUM_PAR, M.CANT, M.ID_UNIDAD, M.DESC_UNIDAD, M.ID_MERCANCIA, M.DESCR_MERCANCIA, 
                                 M.MAT_PELIGROSO, M.CVE_MAT_PELIGROSO, M.ID_EMBALAJE, M.DESC_EMBALAJE, M.PESO, M.VALOR_MERCANCIA, M.MONEDA, 
-                                M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT 
-                                FROM GCMERCANCIAS M WHERE CVE_VIAJE = '" & FgViajes(k, 2) & "' AND M.REG_ORI = 0"
+                                M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT,
+                                SectorCOFEPRIS, SC.descripcion AS DescripcionSectorCOFEPRIS, NombreIngredienteActivo, NomQuimico, DenominacionGenericaProd, DenominacionDistintivaProd, Fabricante, FechaCaducidad, 
+					            LoteMedicamento, FormaFarmaceutica, FF.descripcion AS DescripcionFormaFarmaceutica, CondicionesEspTransp, CE.descripcion AS DescripcionCondicionesEspTransp, 
+					            RegistroSanitarioFolioAutorizacion, PermisoImportacion, FolioImpoVUCEM, NumCAS, RazonSocialEmpImp, NumRegSanPlagCOFEPRIS, DatosFabricante, DatosFormulador, DatosMaquilador, 
+                                UsoAutorizado, TipoMateria, DescripcionMateria 
+                                FROM GCMERCANCIAS M 
+                                LEFT JOIN tblSectorCOFEPRIS SC ON SC.clave = M.SectorCOFEPRIS
+					            LEFT JOIN tblFormaFarmaceutica FF ON FF.clave = M.FormaFarmaceutica
+					            LEFT JOIN tblCondicionesEspeciales CE ON CE.clave = M.CondicionesEspTransp
+                                WHERE CVE_VIAJE = '" & FgViajes(k, 2) & "' AND M.REG_ORI = 0"
                             Using cmd As SqlCommand = cnSAE.CreateCommand
                                 cmd.CommandText = SQL
                                 Using dr As SqlDataReader = cmd.ExecuteReader
@@ -12167,7 +12469,38 @@ Public Class FrmAsigViajeBuenoAE
                                         s &= dr("ID_FRACC_ARANCELARIA") & vbTab '18
                                         s &= dr("UUID_COM_EXT") & vbTab  '19
                                         s &= FgViajes(k, 2) & vbTab   '20
-                                        s &= dr("NUM_PAR")   '21
+                                        s &= dr("NUM_PAR") & vbTab  '21
+
+                                        s &= dr("SectorCOFEPRIS") & vbTab '22
+                                        s &= "" & vbTab '23
+                                        s &= dr("DescripcionSectorCOFEPRIS") & vbTab '24
+                                        s &= dr("NombreIngredienteActivo") & vbTab '25
+                                        s &= dr("NomQuimico") & vbTab '26
+                                        s &= dr("DenominacionGenericaProd") & vbTab '27
+                                        s &= dr("DenominacionDistintivaProd") & vbTab '28
+                                        s &= dr("Fabricante") & vbTab '29
+                                        s &= dr("FechaCaducidad") & vbTab '30
+                                        s &= dr("LoteMedicamento") & vbTab '31
+                                        s &= dr("FormaFarmaceutica") & vbTab '32
+                                        s &= "" & vbTab '33
+                                        s &= dr("DescripcionFormaFarmaceutica") & vbTab '34
+                                        s &= dr("CondicionesEspTransp") & vbTab '35
+                                        s &= "" & vbTab '36
+                                        s &= dr("DescripcionCondicionesEspTransp") & vbTab '37
+                                        s &= dr("RegistroSanitarioFolioAutorizacion") & vbTab '38
+                                        s &= dr("PermisoImportacion") & vbTab '39
+                                        s &= dr("FolioImpoVUCEM") & vbTab '40
+                                        s &= dr("NumCAS") & vbTab '41
+                                        s &= dr("RazonSocialEmpImp") & vbTab '42
+                                        s &= dr("NumRegSanPlagCOFEPRIS") & vbTab '43
+                                        s &= dr("DatosFabricante") & vbTab '44
+                                        s &= dr("DatosFormulador") & vbTab '45
+                                        s &= dr("DatosMaquilador") & vbTab '46
+                                        s &= dr("UsoAutorizado") & vbTab '47
+                                        s &= dr("TipoMateria") & vbTab '48
+                                        s &= "" & vbTab '49
+                                        s &= dr("DescripcionMateria") '50
+
                                         Fg.AddItem(s)
                                         Fg.Col = 20
 
@@ -12183,13 +12516,29 @@ Public Class FrmAsigViajeBuenoAE
                 If FACTURA_UNO_O_MULT = "VIAJE BUENO" Then
                     SQL = "SELECT M.CVE_VIAJE, M.NUM_PAR, M.CANT, M.ID_UNIDAD, M.DESC_UNIDAD, M.ID_MERCANCIA, M.DESCR_MERCANCIA, 
                         M.MAT_PELIGROSO, M.CVE_MAT_PELIGROSO, M.ID_EMBALAJE, M.DESC_EMBALAJE, M.PESO, M.VALOR_MERCANCIA, M.MONEDA, 
-                        M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT 
-                        FROM GCMERCANCIAS2 M WHERE CVE_DOC = '" & FVIAJE & "'"
+                        M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT,
+                        SectorCOFEPRIS, SC.descripcion AS DescripcionSectorCOFEPRIS, NomQuimico, DenominacionGenericaProd, DenominacionDistintivaProd, Fabricante, FechaCaducidad, 
+					    LoteMedicamento, FormaFarmaceutica, FF.descripcion AS DescripcionFormaFarmaceutica, CondicionesEspTransp, CE.descripcion AS DescripcionCondicionesEspTransp, 
+					    RegistroSanitarioFolioAutorizacion, PermisoImportacion, FolioImpoVUCEM, NumCAS, RazonSocialEmpImp, NumRegSanPlagCOFEPRIS, DatosFabricante, DatosFormulador, DatosMaquilador, 
+                        UsoAutorizado, TipoMateria, DescripcionMateria  
+                        FROM GCMERCANCIAS2 M 
+                        LEFT JOIN tblSectorCOFEPRIS SC ON SC.clave = M.SectorCOFEPRIS
+					    LEFT JOIN tblFormaFarmaceutica FF ON FF.clave = M.FormaFarmaceutica
+					    LEFT JOIN tblCondicionesEspeciales CE ON CE.clave = M.CondicionesEspTransp
+                        WHERE CVE_DOC = '" & FVIAJE & "'"
                 Else
                     SQL = "SELECT M.CVE_VIAJE, M.NUM_PAR, M.CANT, M.ID_UNIDAD, M.DESC_UNIDAD, M.ID_MERCANCIA, M.DESCR_MERCANCIA, 
                         M.MAT_PELIGROSO, M.CVE_MAT_PELIGROSO, M.ID_EMBALAJE, M.DESC_EMBALAJE, M.PESO, M.VALOR_MERCANCIA, M.MONEDA, 
-                        M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT 
-                        FROM GCMERCANCIAS M WHERE CVE_VIAJE = '" & FVIAJE & "' AND M.REG_ORI = 0"
+                        M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT,
+                        SectorCOFEPRIS, SC.descripcion AS DescripcionSectorCOFEPRIS, NomQuimico, DenominacionGenericaProd, DenominacionDistintivaProd, Fabricante, FechaCaducidad, 
+					    LoteMedicamento, FormaFarmaceutica, FF.descripcion AS DescripcionFormaFarmaceutica, CondicionesEspTransp, CE.descripcion AS DescripcionCondicionesEspTransp, 
+					    RegistroSanitarioFolioAutorizacion, PermisoImportacion, FolioImpoVUCEM, NumCAS, RazonSocialEmpImp, NumRegSanPlagCOFEPRIS, DatosFabricante, DatosFormulador, DatosMaquilador, 
+                        UsoAutorizado, TipoMateria, DescripcionMateria  
+                        FROM GCMERCANCIAS M 
+                        LEFT JOIN tblSectorCOFEPRIS SC ON SC.clave = M.SectorCOFEPRIS
+					    LEFT JOIN tblFormaFarmaceutica FF ON FF.clave = M.FormaFarmaceutica
+					    LEFT JOIN tblCondicionesEspeciales CE ON CE.clave = M.CondicionesEspTransp
+                        WHERE CVE_VIAJE = '" & FVIAJE & "' AND M.REG_ORI = 0"
                 End If
                 Using cmd As SqlCommand = cnSAE.CreateCommand
                     cmd.CommandText = SQL
@@ -12217,7 +12566,37 @@ Public Class FrmAsigViajeBuenoAE
                             s &= dr("ID_FRACC_ARANCELARIA") & vbTab '18
                             s &= dr("UUID_COM_EXT") '19
                             s &= "" & vbTab   '20
-                            s &= dr("NUM_PAR")   '21
+                            s &= dr("NUM_PAR") & vbTab  '21
+
+                            s &= dr("SectorCOFEPRIS") & vbTab '22
+                            s &= "" & vbTab '23
+                            s &= dr("DescripcionSectorCOFEPRIS") & vbTab '24
+                            s &= dr("NombreIngredienteActivo") & vbTab '25
+                            s &= dr("NomQuimico") & vbTab '26
+                            s &= dr("DenominacionGenericaProd") & vbTab '27
+                            s &= dr("DenominacionDistintivaProd") & vbTab '28
+                            s &= dr("Fabricante") & vbTab '29
+                            s &= dr("FechaCaducidad") & vbTab '30
+                            s &= dr("LoteMedicamento") & vbTab '31
+                            s &= dr("FormaFarmaceutica") & vbTab '32
+                            s &= "" & vbTab '33
+                            s &= dr("DescripcionFormaFarmaceutica") & vbTab '34
+                            s &= dr("CondicionesEspTransp") & vbTab '35
+                            s &= "" & vbTab '36
+                            s &= dr("DescripcionCondicionesEspTransp") & vbTab '37
+                            s &= dr("RegistroSanitarioFolioAutorizacion") & vbTab '38
+                            s &= dr("PermisoImportacion") & vbTab '39
+                            s &= dr("FolioImpoVUCEM") & vbTab '40
+                            s &= dr("NumCAS") & vbTab '41
+                            s &= dr("RazonSocialEmpImp") & vbTab '42
+                            s &= dr("NumRegSanPlagCOFEPRIS") & vbTab '43
+                            s &= dr("DatosFabricante") & vbTab '44
+                            s &= dr("DatosFormulador") & vbTab '45
+                            s &= dr("DatosMaquilador") & vbTab '46
+                            s &= dr("UsoAutorizado") & vbTab '47
+                            s &= dr("TipoMateria") & vbTab '48
+                            s &= "" & vbTab '49
+                            s &= dr("DescripcionMateria") '50
 
                             Fg.AddItem(s)
 
@@ -12237,7 +12616,11 @@ Public Class FrmAsigViajeBuenoAE
 
             Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & False & vbTab &
                        "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & 0 & vbTab & 0 & vbTab & "MXN" & vbTab & "" & vbTab &
-                       "" & vbTab & "" & vbTab & "" & vbTab & "0")
+                       "" & vbTab & "" & vbTab & "" & vbTab & "0" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" &
+                       vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "")
             Fg.Row = Fg.Rows.Count - 1
             Fg.Col = 1
 

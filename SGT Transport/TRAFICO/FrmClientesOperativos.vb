@@ -85,7 +85,6 @@ Public Class FrmClientesOperativos
             Fg.Redraw = False
             Fg.BeginUpdate()
 
-
             Dim da As New SqlDataAdapter
             Dim dt As New DataTable
 
@@ -93,7 +92,7 @@ Public Class FrmClientesOperativos
                 C.DOMICILIO AS 'Domicilio', C.DOMICILIO2 AS 'Domicilio2', C.PLANTA AS 'Planta', C.RFC AS 'R.F.C.', 
                 C.POBLACION AS 'Localidad', C.POBLACION_SAT AS 'Clave SAT localidad', C.MUNICIPIO AS 'Municipio', C.MUNICIPIO_SAT AS 'Clave SAT municipio', 
                 C.NOMBRE AS 'Estado', C.ESTADO_SAT AS 'Clave SAT estado', C.PAIS AS 'País', C.PAIS_SAT AS 'Clave SAT país', 
-                C.NOTA AS 'Nota'
+                C.NOTA AS 'Nota', CveRegistroISTMO AS 'Registro ISTMO SAT' 
                 FROM GCCLIE_OP C
                 WHERE " & CADENA & "
                 ORDER BY TRY_PARSE(C.CLAVE AS INT) DESC"
@@ -119,6 +118,7 @@ Public Class FrmClientesOperativos
                     Lt1.Text = "Registros encontrados " & Fg.Rows.Count - 1
                     Fg.AutoSizeRows()
                     Fg.Redraw = True
+                    'RestauraSearchFG(Fg)
                 Else
                     FgR2.DataSource = BindingSource1.DataSource
 

@@ -160,7 +160,7 @@ Public Class MainRibbonForm
             BarMultialmacen1.Visible = False
             BarLineasProductos2.Visible = False
             BarUniMed1.Visible = False
-            BarMovsInvOT.Visible = false
+            'BarMovsInvOT.Visible = false
             Connect = ""
 
             Dim f As New FrmSelEmpresa With {.MdiParent = Me.Owner, .TopLevel = True, .TopMost = True}
@@ -2616,7 +2616,7 @@ Public Class MainRibbonForm
                     Catch ex As Exception
                     End Try
                 'End If
-                'CREA_TAB(frmOrdenDeTrabajoExt, "Ordenes de Trabajo")
+                CREA_TAB(frmOTI, "Ordenes de Trabajo")
             Case 1
                 If FORM_IS_OPEN("frmOTI") Then
                     Try
@@ -2757,10 +2757,10 @@ Public Class MainRibbonForm
         CREA_TAB(frmTabuladorCombustibleAE, "Tabulador combustible")
     End Sub
     Private Sub BarMovsInvOT_Click(sender As Object, e As EventArgs) Handles BarMovsInvOT.Click
-        'BACKUPTXT("XTAB_CAPTION", "frmOrdenDeTrabajoExtMovsInv")
-        'Var15 = "EXTTOT"
-        'Var16 = "MIOT"
-        'CREA_TAB(frmOrdenDeTrabajoExtMovsInv, "Movs. Ordenes de Trabajo")
+        BACKUPTXT("XTAB_CAPTION", "frmOrdenDeTrabajoExtMovsInv")
+        Var15 = "EXTTOT"
+        Var16 = "MIOT"
+        CREA_TAB(frmOrdenDeTrabajoExtMovsInv, "Movs. Ordenes de Trabajo")
     End Sub
     Private Sub BarMinveTOT_Click(sender As Object, e As EventArgs) Handles BarMinveTOT.Click
         BACKUPTXT("XTAB_CAPTION", "frmMinveSae")

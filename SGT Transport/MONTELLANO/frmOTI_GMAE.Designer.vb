@@ -22,18 +22,33 @@ Partial Class frmOTI_GMAE
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmOTI_GMAE))
         Me.C1ToolBar1 = New C1.Win.C1Command.C1ToolBar()
         Me.LkGrabar = New C1.Win.C1Command.C1CommandLink()
+        Me.BarGrabar = New C1.Win.C1Command.C1Command()
         Me.LkEnlazarDoc = New C1.Win.C1Command.C1CommandLink()
+        Me.BarEnlazarDoc = New C1.Win.C1Command.C1Command()
         Me.LkEnlazarProgSer = New C1.Win.C1Command.C1CommandLink()
+        Me.BarEnlazarProgSer = New C1.Win.C1Command.C1Command()
         Me.LkGenMINVE = New C1.Win.C1Command.C1CommandLink()
+        Me.BarGenMINVE = New C1.Win.C1Command.C1Command()
         Me.LkFinOT = New C1.Win.C1Command.C1CommandLink()
+        Me.BarFinOT = New C1.Win.C1Command.C1Command()
         Me.LkRemisionar = New C1.Win.C1Command.C1CommandLink()
+        Me.BarRemisionar = New C1.Win.C1Command.C1Command()
         Me.LkEliminar = New C1.Win.C1Command.C1CommandLink()
+        Me.BarEliminar = New C1.Win.C1Command.C1Command()
         Me.LkKardex = New C1.Win.C1Command.C1CommandLink()
+        Me.BarKardex = New C1.Win.C1Command.C1Command()
         Me.LkReimpresion = New C1.Win.C1Command.C1CommandLink()
+        Me.BarReimpresion = New C1.Win.C1Command.C1Command()
         Me.LkCancPartNoEntr = New C1.Win.C1Command.C1CommandLink()
+        Me.BarCancPartNoEntr = New C1.Win.C1Command.C1Command()
         Me.LkExcel = New C1.Win.C1Command.C1CommandLink()
+        Me.BarExcel = New C1.Win.C1Command.C1Command()
         Me.LkSalir = New C1.Win.C1Command.C1CommandLink()
+        Me.BarSalir = New C1.Win.C1Command.C1Command()
         Me.MenuHolder = New C1.Win.C1Command.C1CommandHolder()
+        Me.OTBarNuevo = New C1.Win.C1Command.C1Command()
+        Me.OTBarCancelarPart = New C1.Win.C1Command.C1Command()
+        Me.OTBarEliminraPart = New C1.Win.C1Command.C1Command()
         Me.LProgServ = New System.Windows.Forms.Label()
         Me.tNOTA = New System.Windows.Forms.TextBox()
         Me.tLUGAR_REP = New System.Windows.Forms.TextBox()
@@ -66,10 +81,25 @@ Partial Class frmOTI_GMAE
         Me.tCVE_ORD = New System.Windows.Forms.TextBox()
         Me.Label27 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Lp3 = New System.Windows.Forms.Label()
+        Me.BarClas = New C1.Win.C1Input.C1Button()
+        Me.Lp2 = New System.Windows.Forms.Label()
+        Me.BarSer = New C1.Win.C1Input.C1Button()
+        Me.TCLASIFIC = New System.Windows.Forms.TextBox()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.TSERVICIO = New System.Windows.Forms.TextBox()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Lp1 = New System.Windows.Forms.Label()
+        Me.BarAct = New C1.Win.C1Input.C1Button()
+        Me.TACTIVIDAD = New System.Windows.Forms.TextBox()
+        Me.Label21 = New System.Windows.Forms.Label()
         Me.tResponsable = New System.Windows.Forms.TextBox()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.LtAlm = New System.Windows.Forms.Label()
         Me.cboAlmacen = New C1.Win.C1Input.C1ComboBox()
+        Me.btnProv = New C1.Win.C1Input.C1Button()
+        Me.btnTipo = New C1.Win.C1Input.C1Button()
+        Me.btnUnidades = New C1.Win.C1Input.C1Button()
         Me.Tab1 = New C1.Win.C1Command.C1DockingTab()
         Me.TabProductos = New C1.Win.C1Command.C1DockingTabPage()
         Me.Lt4 = New System.Windows.Forms.Label()
@@ -85,12 +115,17 @@ Partial Class frmOTI_GMAE
         Me.Lt5 = New System.Windows.Forms.Label()
         Me.L5 = New System.Windows.Forms.Label()
         Me.FgS = New C1.Win.C1FlexGrid.C1FlexGrid()
+        Me.btnAltaServicio = New C1.Win.C1Input.C1Button()
+        Me.btnEliSer = New C1.Win.C1Input.C1Button()
         Me.TabDocDigitales = New C1.Win.C1Command.C1DockingTabPage()
+        Me.btnBuscaDoc = New System.Windows.Forms.Button()
         Me.LtFotoDoc = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label78 = New System.Windows.Forms.Label()
         Me.tDescrFotDoc = New System.Windows.Forms.TextBox()
         Me.FgD = New C1.Win.C1FlexGrid.C1FlexGrid()
+        Me.btnFotDocE = New C1.Win.C1Input.C1Button()
+        Me.btnFotDocA = New C1.Win.C1Input.C1Button()
         Me.TabObser = New C1.Win.C1Command.C1DockingTabPage()
         Me.tOBSER = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -107,55 +142,37 @@ Partial Class frmOTI_GMAE
         Me.OTLkEliminraPart = New C1.Win.C1Command.C1CommandLink()
         Me.StiReport1 = New Stimulsoft.Report.StiReport()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.btnProv = New C1.Win.C1Input.C1Button()
-        Me.btnTipo = New C1.Win.C1Input.C1Button()
-        Me.btnUnidades = New C1.Win.C1Input.C1Button()
-        Me.btnAltaServicio = New C1.Win.C1Input.C1Button()
-        Me.btnEliSer = New C1.Win.C1Input.C1Button()
-        Me.btnBuscaDoc = New System.Windows.Forms.Button()
-        Me.btnFotDocE = New C1.Win.C1Input.C1Button()
-        Me.btnFotDocA = New C1.Win.C1Input.C1Button()
-        Me.OTBarNuevo = New C1.Win.C1Command.C1Command()
-        Me.OTBarCancelarPart = New C1.Win.C1Command.C1Command()
-        Me.OTBarEliminraPart = New C1.Win.C1Command.C1Command()
-        Me.BarGrabar = New C1.Win.C1Command.C1Command()
-        Me.BarEnlazarDoc = New C1.Win.C1Command.C1Command()
-        Me.BarEnlazarProgSer = New C1.Win.C1Command.C1Command()
-        Me.BarGenMINVE = New C1.Win.C1Command.C1Command()
-        Me.BarFinOT = New C1.Win.C1Command.C1Command()
-        Me.BarRemisionar = New C1.Win.C1Command.C1Command()
-        Me.BarEliminar = New C1.Win.C1Command.C1Command()
-        Me.BarKardex = New C1.Win.C1Command.C1Command()
-        Me.BarReimpresion = New C1.Win.C1Command.C1Command()
-        Me.BarCancPartNoEntr = New C1.Win.C1Command.C1Command()
-        Me.BarExcel = New C1.Win.C1Command.C1Command()
-        Me.BarSalir = New C1.Win.C1Command.C1Command()
+        Me.C1ThemeController1 = New C1.Win.C1Themes.C1ThemeController()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
+        CType(Me.BarClas, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BarSer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BarAct, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboAlmacen, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnProv, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnTipo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUnidades, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Tab1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Tab1.SuspendLayout()
         Me.TabProductos.SuspendLayout()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabServicios.SuspendLayout()
         CType(Me.FgS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAltaServicio, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnEliSer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabDocDigitales.SuspendLayout()
         CType(Me.FgD, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnFotDocE, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnFotDocA, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabObser.SuspendLayout()
         CType(Me.SplitM, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitM.SuspendLayout()
         Me.Splil1.SuspendLayout()
         Me.Split2.SuspendLayout()
         Me.Panel3.SuspendLayout()
-        CType(Me.btnProv, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnTipo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUnidades, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAltaServicio, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnEliSer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnFotDocE, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnFotDocA, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.C1ThemeController1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'C1ToolBar1
@@ -194,6 +211,15 @@ Partial Class frmOTI_GMAE
         Me.LkGrabar.OwnerDraw = True
         Me.LkGrabar.Text = "Grabar"
         '
+        'BarGrabar
+        '
+        Me.BarGrabar.Image = Global.SGT_Transport.My.Resources.Resources.salvar
+        Me.BarGrabar.Name = "BarGrabar"
+        Me.BarGrabar.ShortcutText = ""
+        Me.BarGrabar.ShowShortcut = False
+        Me.BarGrabar.ShowTextAsToolTip = False
+        Me.BarGrabar.Text = "Grabar"
+        '
         'LkEnlazarDoc
         '
         Me.LkEnlazarDoc.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
@@ -202,6 +228,13 @@ Partial Class frmOTI_GMAE
         Me.LkEnlazarDoc.SortOrder = 1
         Me.LkEnlazarDoc.Text = "Enlazar rep. de fallas"
         '
+        'BarEnlazarDoc
+        '
+        Me.BarEnlazarDoc.Image = Global.SGT_Transport.My.Resources.Resources.doc17
+        Me.BarEnlazarDoc.Name = "BarEnlazarDoc"
+        Me.BarEnlazarDoc.ShortcutText = ""
+        Me.BarEnlazarDoc.Text = "Enlazar rep. fallas"
+        '
         'LkEnlazarProgSer
         '
         Me.LkEnlazarProgSer.Command = Me.BarEnlazarProgSer
@@ -209,12 +242,27 @@ Partial Class frmOTI_GMAE
         Me.LkEnlazarProgSer.SortOrder = 2
         Me.LkEnlazarProgSer.Text = "Enlazar prog.  servicios"
         '
+        'BarEnlazarProgSer
+        '
+        Me.BarEnlazarProgSer.Image = Global.SGT_Transport.My.Resources.Resources.P13
+        Me.BarEnlazarProgSer.Name = "BarEnlazarProgSer"
+        Me.BarEnlazarProgSer.ShortcutText = ""
+        Me.BarEnlazarProgSer.Text = "Enlazar prog. servicios"
+        '
         'LkGenMINVE
         '
         Me.LkGenMINVE.Command = Me.BarGenMINVE
         Me.LkGenMINVE.Delimiter = True
         Me.LkGenMINVE.SortOrder = 3
         Me.LkGenMINVE.Text = "Generar movs. al inventario"
+        '
+        'BarGenMINVE
+        '
+        Me.BarGenMINVE.Image = Global.SGT_Transport.My.Resources.Resources.regreso1
+        Me.BarGenMINVE.Name = "BarGenMINVE"
+        Me.BarGenMINVE.ShortcutText = ""
+        Me.BarGenMINVE.Text = "Generar movs. al inventario"
+        Me.BarGenMINVE.Visible = False
         '
         'LkFinOT
         '
@@ -224,6 +272,15 @@ Partial Class frmOTI_GMAE
         Me.LkFinOT.SortOrder = 4
         Me.LkFinOT.Text = "Finalizar OT"
         '
+        'BarFinOT
+        '
+        Me.BarFinOT.Image = Global.SGT_Transport.My.Resources.Resources.docu7
+        Me.BarFinOT.Name = "BarFinOT"
+        Me.BarFinOT.ShortcutText = ""
+        Me.BarFinOT.ShowShortcut = False
+        Me.BarFinOT.ShowTextAsToolTip = False
+        Me.BarFinOT.Text = "Generar movs. al inventario"
+        '
         'LkRemisionar
         '
         Me.LkRemisionar.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
@@ -232,12 +289,27 @@ Partial Class frmOTI_GMAE
         Me.LkRemisionar.SortOrder = 5
         Me.LkRemisionar.Text = " Remisionar"
         '
+        'BarRemisionar
+        '
+        Me.BarRemisionar.Image = Global.SGT_Transport.My.Resources.Resources.letra_r
+        Me.BarRemisionar.Name = "BarRemisionar"
+        Me.BarRemisionar.ShortcutText = ""
+        Me.BarRemisionar.Text = "Remisionar"
+        Me.BarRemisionar.Visible = False
+        '
         'LkEliminar
         '
         Me.LkEliminar.Command = Me.BarEliminar
         Me.LkEliminar.Delimiter = True
         Me.LkEliminar.SortOrder = 6
         Me.LkEliminar.Text = "Cancelar OT"
+        '
+        'BarEliminar
+        '
+        Me.BarEliminar.Image = Global.SGT_Transport.My.Resources.Resources.regreso2
+        Me.BarEliminar.Name = "BarEliminar"
+        Me.BarEliminar.ShortcutText = ""
+        Me.BarEliminar.Text = "Cancelar OT"
         '
         'LkKardex
         '
@@ -246,12 +318,26 @@ Partial Class frmOTI_GMAE
         Me.LkKardex.SortOrder = 7
         Me.LkKardex.Text = "Karde x"
         '
+        'BarKardex
+        '
+        Me.BarKardex.Image = Global.SGT_Transport.My.Resources.Resources.k5
+        Me.BarKardex.Name = "BarKardex"
+        Me.BarKardex.ShortcutText = ""
+        Me.BarKardex.Text = "Kardex"
+        '
         'LkReimpresion
         '
         Me.LkReimpresion.Command = Me.BarReimpresion
         Me.LkReimpresion.Delimiter = True
         Me.LkReimpresion.SortOrder = 8
         Me.LkReimpresion.Text = " Reimpresión"
+        '
+        'BarReimpresion
+        '
+        Me.BarReimpresion.Image = Global.SGT_Transport.My.Resources.Resources.impresora6
+        Me.BarReimpresion.Name = "BarReimpresion"
+        Me.BarReimpresion.ShortcutText = ""
+        Me.BarReimpresion.Text = "Reimpresión"
         '
         'LkCancPartNoEntr
         '
@@ -260,12 +346,27 @@ Partial Class frmOTI_GMAE
         Me.LkCancPartNoEntr.SortOrder = 9
         Me.LkCancPartNoEntr.Text = "Cancelar part. no entregadas"
         '
+        'BarCancPartNoEntr
+        '
+        Me.BarCancPartNoEntr.Image = Global.SGT_Transport.My.Resources.Resources.letra_c
+        Me.BarCancPartNoEntr.Name = "BarCancPartNoEntr"
+        Me.BarCancPartNoEntr.ShortcutText = ""
+        Me.BarCancPartNoEntr.Text = "Cancelar part. no entregadas"
+        Me.BarCancPartNoEntr.Visible = False
+        '
         'LkExcel
         '
         Me.LkExcel.Command = Me.BarExcel
         Me.LkExcel.Delimiter = True
         Me.LkExcel.SortOrder = 10
         Me.LkExcel.Text = " Excel"
+        '
+        'BarExcel
+        '
+        Me.BarExcel.Image = Global.SGT_Transport.My.Resources.Resources.excel1
+        Me.BarExcel.Name = "BarExcel"
+        Me.BarExcel.ShortcutText = ""
+        Me.BarExcel.Text = "Excel "
         '
         'LkSalir
         '
@@ -274,6 +375,15 @@ Partial Class frmOTI_GMAE
         Me.LkSalir.Delimiter = True
         Me.LkSalir.SortOrder = 11
         Me.LkSalir.Text = " Salir"
+        '
+        'BarSalir
+        '
+        Me.BarSalir.Image = Global.SGT_Transport.My.Resources.Resources.puertasalida
+        Me.BarSalir.Name = "BarSalir"
+        Me.BarSalir.ShortcutText = ""
+        Me.BarSalir.ShowShortcut = False
+        Me.BarSalir.ShowTextAsToolTip = False
+        Me.BarSalir.Text = "Salir"
         '
         'MenuHolder
         '
@@ -295,6 +405,30 @@ Partial Class frmOTI_GMAE
         Me.MenuHolder.Commands.Add(Me.OTBarEliminraPart)
         Me.MenuHolder.Owner = Me
         '
+        'OTBarNuevo
+        '
+        Me.OTBarNuevo.Image = Global.SGT_Transport.My.Resources.Resources.file1
+        Me.OTBarNuevo.Name = "OTBarNuevo"
+        Me.OTBarNuevo.ShortcutText = ""
+        Me.OTBarNuevo.ShowShortcut = False
+        Me.OTBarNuevo.ShowTextAsToolTip = False
+        Me.OTBarNuevo.Text = "Nuevo"
+        '
+        'OTBarCancelarPart
+        '
+        Me.OTBarCancelarPart.Image = Global.SGT_Transport.My.Resources.Resources.cancelar
+        Me.OTBarCancelarPart.Name = "OTBarCancelarPart"
+        Me.OTBarCancelarPart.ShortcutText = ""
+        Me.OTBarCancelarPart.Text = "Edit"
+        '
+        'OTBarEliminraPart
+        '
+        Me.OTBarEliminraPart.Image = Global.SGT_Transport.My.Resources.Resources.equis2
+        Me.OTBarEliminraPart.Name = "OTBarEliminraPart"
+        Me.OTBarEliminraPart.ShortcutText = ""
+        Me.OTBarEliminraPart.Text = "Eliminar partida"
+        Me.OTBarEliminraPart.ToolTipText = "F8"
+        '
         'LProgServ
         '
         Me.LProgServ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -310,7 +444,7 @@ Partial Class frmOTI_GMAE
         Me.tNOTA.AcceptsReturn = True
         Me.tNOTA.AcceptsTab = True
         Me.tNOTA.Font = New System.Drawing.Font("Tahoma", 8.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tNOTA.Location = New System.Drawing.Point(106, 101)
+        Me.tNOTA.Location = New System.Drawing.Point(106, 102)
         Me.tNOTA.MaxLength = 100
         Me.tNOTA.Name = "tNOTA"
         Me.tNOTA.Size = New System.Drawing.Size(161, 21)
@@ -409,7 +543,7 @@ Partial Class frmOTI_GMAE
         Me.tEstatus.AcceptsTab = True
         Me.tEstatus.Enabled = False
         Me.tEstatus.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tEstatus.Location = New System.Drawing.Point(518, 26)
+        Me.tEstatus.Location = New System.Drawing.Point(562, 8)
         Me.tEstatus.Name = "tEstatus"
         Me.tEstatus.Size = New System.Drawing.Size(187, 22)
         Me.tEstatus.TabIndex = 2
@@ -419,7 +553,7 @@ Partial Class frmOTI_GMAE
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(585, 8)
+        Me.Label11.Location = New System.Drawing.Point(509, 10)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(47, 15)
         Me.Label11.TabIndex = 138
@@ -654,6 +788,18 @@ Partial Class frmOTI_GMAE
         'Panel2
         '
         Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel2.Controls.Add(Me.Lp3)
+        Me.Panel2.Controls.Add(Me.BarClas)
+        Me.Panel2.Controls.Add(Me.Lp2)
+        Me.Panel2.Controls.Add(Me.BarSer)
+        Me.Panel2.Controls.Add(Me.TCLASIFIC)
+        Me.Panel2.Controls.Add(Me.Label18)
+        Me.Panel2.Controls.Add(Me.TSERVICIO)
+        Me.Panel2.Controls.Add(Me.Label19)
+        Me.Panel2.Controls.Add(Me.Lp1)
+        Me.Panel2.Controls.Add(Me.BarAct)
+        Me.Panel2.Controls.Add(Me.TACTIVIDAD)
+        Me.Panel2.Controls.Add(Me.Label21)
         Me.Panel2.Controls.Add(Me.tResponsable)
         Me.Panel2.Controls.Add(Me.Label15)
         Me.Panel2.Controls.Add(Me.LtAlm)
@@ -684,6 +830,137 @@ Partial Class frmOTI_GMAE
         Me.Panel2.Size = New System.Drawing.Size(839, 152)
         Me.Panel2.TabIndex = 1
         '
+        'Lp3
+        '
+        Me.Lp3.BackColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(234, Byte), Integer), CType(CType(246, Byte), Integer))
+        Me.Lp3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lp3.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lp3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(68, Byte), Integer), CType(CType(68, Byte), Integer), CType(CType(68, Byte), Integer))
+        Me.Lp3.Location = New System.Drawing.Point(619, 98)
+        Me.Lp3.Name = "Lp3"
+        Me.Lp3.Size = New System.Drawing.Size(210, 22)
+        Me.Lp3.TabIndex = 163
+        Me.Lp3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.C1ThemeController1.SetTheme(Me.Lp3, "(default)")
+        '
+        'BarClas
+        '
+        Me.BarClas.AutoSize = True
+        Me.BarClas.Image = CType(resources.GetObject("BarClas.Image"), System.Drawing.Image)
+        Me.BarClas.Location = New System.Drawing.Point(594, 97)
+        Me.BarClas.Name = "BarClas"
+        Me.BarClas.Size = New System.Drawing.Size(22, 22)
+        Me.BarClas.TabIndex = 162
+        Me.C1ThemeController1.SetTheme(Me.BarClas, "(default)")
+        Me.BarClas.UseVisualStyleBackColor = True
+        Me.BarClas.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Lp2
+        '
+        Me.Lp2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lp2.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lp2.Location = New System.Drawing.Point(619, 73)
+        Me.Lp2.Name = "Lp2"
+        Me.Lp2.Size = New System.Drawing.Size(210, 22)
+        Me.Lp2.TabIndex = 166
+        Me.Lp2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'BarSer
+        '
+        Me.BarSer.AutoSize = True
+        Me.BarSer.Image = CType(resources.GetObject("BarSer.Image"), System.Drawing.Image)
+        Me.BarSer.Location = New System.Drawing.Point(594, 72)
+        Me.BarSer.Name = "BarSer"
+        Me.BarSer.Size = New System.Drawing.Size(22, 22)
+        Me.BarSer.TabIndex = 165
+        Me.BarSer.UseVisualStyleBackColor = True
+        Me.BarSer.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'TCLASIFIC
+        '
+        Me.TCLASIFIC.AcceptsReturn = True
+        Me.TCLASIFIC.AcceptsTab = True
+        Me.TCLASIFIC.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCLASIFIC.Location = New System.Drawing.Point(557, 96)
+        Me.TCLASIFIC.MaxLength = 10
+        Me.TCLASIFIC.Name = "TCLASIFIC"
+        Me.TCLASIFIC.Size = New System.Drawing.Size(36, 22)
+        Me.TCLASIFIC.TabIndex = 9
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label18.Location = New System.Drawing.Point(478, 99)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(76, 15)
+        Me.Label18.TabIndex = 160
+        Me.Label18.Text = "Clasificación"
+        '
+        'TSERVICIO
+        '
+        Me.TSERVICIO.AcceptsReturn = True
+        Me.TSERVICIO.AcceptsTab = True
+        Me.TSERVICIO.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TSERVICIO.Location = New System.Drawing.Point(557, 72)
+        Me.TSERVICIO.Name = "TSERVICIO"
+        Me.TSERVICIO.Size = New System.Drawing.Size(36, 22)
+        Me.TSERVICIO.TabIndex = 8
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Enabled = False
+        Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label19.Location = New System.Drawing.Point(504, 76)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(50, 15)
+        Me.Label19.TabIndex = 164
+        Me.Label19.Text = "Servicio"
+        '
+        'Lp1
+        '
+        Me.Lp1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lp1.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lp1.Location = New System.Drawing.Point(619, 48)
+        Me.Lp1.Name = "Lp1"
+        Me.Lp1.Size = New System.Drawing.Size(210, 22)
+        Me.Lp1.TabIndex = 161
+        Me.Lp1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'BarAct
+        '
+        Me.BarAct.AutoSize = True
+        Me.BarAct.Image = CType(resources.GetObject("BarAct.Image"), System.Drawing.Image)
+        Me.BarAct.Location = New System.Drawing.Point(594, 48)
+        Me.BarAct.Name = "BarAct"
+        Me.BarAct.Size = New System.Drawing.Size(22, 22)
+        Me.BarAct.TabIndex = 159
+        Me.BarAct.UseVisualStyleBackColor = True
+        Me.BarAct.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'TACTIVIDAD
+        '
+        Me.TACTIVIDAD.AcceptsReturn = True
+        Me.TACTIVIDAD.AcceptsTab = True
+        Me.TACTIVIDAD.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TACTIVIDAD.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TACTIVIDAD.Location = New System.Drawing.Point(557, 48)
+        Me.TACTIVIDAD.MaxLength = 10
+        Me.TACTIVIDAD.Name = "TACTIVIDAD"
+        Me.TACTIVIDAD.Size = New System.Drawing.Size(36, 22)
+        Me.TACTIVIDAD.TabIndex = 7
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label21.Location = New System.Drawing.Point(499, 51)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(55, 15)
+        Me.Label21.TabIndex = 158
+        Me.Label21.Text = "Actividad"
+        '
         'tResponsable
         '
         Me.tResponsable.AcceptsReturn = True
@@ -709,7 +986,7 @@ Partial Class frmOTI_GMAE
         '
         Me.LtAlm.AutoSize = True
         Me.LtAlm.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtAlm.Location = New System.Drawing.Point(479, 104)
+        Me.LtAlm.Location = New System.Drawing.Point(494, 128)
         Me.LtAlm.Name = "LtAlm"
         Me.LtAlm.Size = New System.Drawing.Size(60, 16)
         Me.LtAlm.TabIndex = 152
@@ -725,15 +1002,50 @@ Partial Class frmOTI_GMAE
         Me.cboAlmacen.ImagePadding = New System.Windows.Forms.Padding(0)
         Me.cboAlmacen.ItemsDisplayMember = ""
         Me.cboAlmacen.ItemsValueMember = ""
-        Me.cboAlmacen.Location = New System.Drawing.Point(479, 124)
+        Me.cboAlmacen.Location = New System.Drawing.Point(557, 125)
         Me.cboAlmacen.Name = "cboAlmacen"
         Me.cboAlmacen.Size = New System.Drawing.Size(252, 22)
         Me.cboAlmacen.Style.DropDownBackColor = System.Drawing.Color.White
         Me.cboAlmacen.Style.DropDownBorderColor = System.Drawing.Color.Gainsboro
-        Me.cboAlmacen.TabIndex = 6
+        Me.cboAlmacen.TabIndex = 10
         Me.cboAlmacen.Tag = Nothing
         Me.cboAlmacen.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.cboAlmacen.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'btnProv
+        '
+        Me.btnProv.AutoSize = True
+        Me.btnProv.Image = CType(resources.GetObject("btnProv.Image"), System.Drawing.Image)
+        Me.btnProv.Location = New System.Drawing.Point(185, 53)
+        Me.btnProv.Name = "btnProv"
+        Me.btnProv.Size = New System.Drawing.Size(26, 23)
+        Me.btnProv.TabIndex = 132
+        Me.btnProv.UseVisualStyleBackColor = True
+        Me.btnProv.Visible = False
+        Me.btnProv.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'btnTipo
+        '
+        Me.btnTipo.AutoSize = True
+        Me.btnTipo.Enabled = False
+        Me.btnTipo.Image = CType(resources.GetObject("btnTipo.Image"), System.Drawing.Image)
+        Me.btnTipo.Location = New System.Drawing.Point(185, 28)
+        Me.btnTipo.Name = "btnTipo"
+        Me.btnTipo.Size = New System.Drawing.Size(26, 23)
+        Me.btnTipo.TabIndex = 139
+        Me.btnTipo.UseVisualStyleBackColor = True
+        Me.btnTipo.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'btnUnidades
+        '
+        Me.btnUnidades.AutoSize = True
+        Me.btnUnidades.Image = CType(resources.GetObject("btnUnidades.Image"), System.Drawing.Image)
+        Me.btnUnidades.Location = New System.Drawing.Point(185, 3)
+        Me.btnUnidades.Name = "btnUnidades"
+        Me.btnUnidades.Size = New System.Drawing.Size(26, 23)
+        Me.btnUnidades.TabIndex = 130
+        Me.btnUnidades.UseVisualStyleBackColor = True
+        Me.btnUnidades.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'Tab1
         '
@@ -932,6 +1244,26 @@ Partial Class frmOTI_GMAE
         Me.FgS.Size = New System.Drawing.Size(1127, 221)
         Me.FgS.TabIndex = 3
         '
+        'btnAltaServicio
+        '
+        Me.btnAltaServicio.Image = CType(resources.GetObject("btnAltaServicio.Image"), System.Drawing.Image)
+        Me.btnAltaServicio.Location = New System.Drawing.Point(921, 4)
+        Me.btnAltaServicio.Name = "btnAltaServicio"
+        Me.btnAltaServicio.Size = New System.Drawing.Size(27, 30)
+        Me.btnAltaServicio.TabIndex = 1
+        Me.btnAltaServicio.UseVisualStyleBackColor = True
+        Me.btnAltaServicio.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'btnEliSer
+        '
+        Me.btnEliSer.Image = CType(resources.GetObject("btnEliSer.Image"), System.Drawing.Image)
+        Me.btnEliSer.Location = New System.Drawing.Point(967, 7)
+        Me.btnEliSer.Name = "btnEliSer"
+        Me.btnEliSer.Size = New System.Drawing.Size(35, 27)
+        Me.btnEliSer.TabIndex = 2
+        Me.btnEliSer.UseVisualStyleBackColor = True
+        Me.btnEliSer.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
         'TabDocDigitales
         '
         Me.TabDocDigitales.Controls.Add(Me.btnBuscaDoc)
@@ -947,6 +1279,17 @@ Partial Class frmOTI_GMAE
         Me.TabDocDigitales.Size = New System.Drawing.Size(1181, 392)
         Me.TabDocDigitales.TabIndex = 4
         Me.TabDocDigitales.Text = "Documentos digitales"
+        '
+        'btnBuscaDoc
+        '
+        Me.btnBuscaDoc.AutoSize = True
+        Me.btnBuscaDoc.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnBuscaDoc.Image = CType(resources.GetObject("btnBuscaDoc.Image"), System.Drawing.Image)
+        Me.btnBuscaDoc.Location = New System.Drawing.Point(550, 30)
+        Me.btnBuscaDoc.Name = "btnBuscaDoc"
+        Me.btnBuscaDoc.Size = New System.Drawing.Size(24, 23)
+        Me.btnBuscaDoc.TabIndex = 1
+        Me.btnBuscaDoc.UseVisualStyleBackColor = True
         '
         'LtFotoDoc
         '
@@ -1000,6 +1343,26 @@ Partial Class frmOTI_GMAE
         Me.FgD.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
         Me.FgD.Size = New System.Drawing.Size(839, 152)
         Me.FgD.TabIndex = 2
+        '
+        'btnFotDocE
+        '
+        Me.btnFotDocE.Image = CType(resources.GetObject("btnFotDocE.Image"), System.Drawing.Image)
+        Me.btnFotDocE.Location = New System.Drawing.Point(797, 31)
+        Me.btnFotDocE.Name = "btnFotDocE"
+        Me.btnFotDocE.Size = New System.Drawing.Size(48, 33)
+        Me.btnFotDocE.TabIndex = 4
+        Me.btnFotDocE.UseVisualStyleBackColor = True
+        Me.btnFotDocE.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'btnFotDocA
+        '
+        Me.btnFotDocA.Image = CType(resources.GetObject("btnFotDocA.Image"), System.Drawing.Image)
+        Me.btnFotDocA.Location = New System.Drawing.Point(743, 31)
+        Me.btnFotDocA.Name = "btnFotDocA"
+        Me.btnFotDocA.Size = New System.Drawing.Size(48, 33)
+        Me.btnFotDocA.TabIndex = 3
+        Me.btnFotDocA.UseVisualStyleBackColor = True
+        Me.btnFotDocA.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'TabObser
         '
@@ -1175,203 +1538,9 @@ Partial Class frmOTI_GMAE
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'btnProv
+        'C1ThemeController1
         '
-        Me.btnProv.Image = CType(resources.GetObject("btnProv.Image"), System.Drawing.Image)
-        Me.btnProv.Location = New System.Drawing.Point(187, 53)
-        Me.btnProv.Name = "btnProv"
-        Me.btnProv.Size = New System.Drawing.Size(26, 20)
-        Me.btnProv.TabIndex = 132
-        Me.btnProv.UseVisualStyleBackColor = True
-        Me.btnProv.Visible = False
-        Me.btnProv.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'btnTipo
-        '
-        Me.btnTipo.Enabled = False
-        Me.btnTipo.Image = CType(resources.GetObject("btnTipo.Image"), System.Drawing.Image)
-        Me.btnTipo.Location = New System.Drawing.Point(187, 28)
-        Me.btnTipo.Name = "btnTipo"
-        Me.btnTipo.Size = New System.Drawing.Size(26, 20)
-        Me.btnTipo.TabIndex = 139
-        Me.btnTipo.UseVisualStyleBackColor = True
-        Me.btnTipo.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'btnUnidades
-        '
-        Me.btnUnidades.Image = CType(resources.GetObject("btnUnidades.Image"), System.Drawing.Image)
-        Me.btnUnidades.Location = New System.Drawing.Point(187, 3)
-        Me.btnUnidades.Name = "btnUnidades"
-        Me.btnUnidades.Size = New System.Drawing.Size(26, 21)
-        Me.btnUnidades.TabIndex = 130
-        Me.btnUnidades.UseVisualStyleBackColor = True
-        Me.btnUnidades.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'btnAltaServicio
-        '
-        Me.btnAltaServicio.Image = CType(resources.GetObject("btnAltaServicio.Image"), System.Drawing.Image)
-        Me.btnAltaServicio.Location = New System.Drawing.Point(921, 4)
-        Me.btnAltaServicio.Name = "btnAltaServicio"
-        Me.btnAltaServicio.Size = New System.Drawing.Size(27, 30)
-        Me.btnAltaServicio.TabIndex = 1
-        Me.btnAltaServicio.UseVisualStyleBackColor = True
-        Me.btnAltaServicio.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'btnEliSer
-        '
-        Me.btnEliSer.Image = CType(resources.GetObject("btnEliSer.Image"), System.Drawing.Image)
-        Me.btnEliSer.Location = New System.Drawing.Point(967, 7)
-        Me.btnEliSer.Name = "btnEliSer"
-        Me.btnEliSer.Size = New System.Drawing.Size(35, 27)
-        Me.btnEliSer.TabIndex = 2
-        Me.btnEliSer.UseVisualStyleBackColor = True
-        Me.btnEliSer.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'btnBuscaDoc
-        '
-        Me.btnBuscaDoc.AutoSize = True
-        Me.btnBuscaDoc.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btnBuscaDoc.Image = CType(resources.GetObject("btnBuscaDoc.Image"), System.Drawing.Image)
-        Me.btnBuscaDoc.Location = New System.Drawing.Point(550, 30)
-        Me.btnBuscaDoc.Name = "btnBuscaDoc"
-        Me.btnBuscaDoc.Size = New System.Drawing.Size(24, 23)
-        Me.btnBuscaDoc.TabIndex = 1
-        Me.btnBuscaDoc.UseVisualStyleBackColor = True
-        '
-        'btnFotDocE
-        '
-        Me.btnFotDocE.Image = CType(resources.GetObject("btnFotDocE.Image"), System.Drawing.Image)
-        Me.btnFotDocE.Location = New System.Drawing.Point(797, 31)
-        Me.btnFotDocE.Name = "btnFotDocE"
-        Me.btnFotDocE.Size = New System.Drawing.Size(48, 33)
-        Me.btnFotDocE.TabIndex = 4
-        Me.btnFotDocE.UseVisualStyleBackColor = True
-        Me.btnFotDocE.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'btnFotDocA
-        '
-        Me.btnFotDocA.Image = CType(resources.GetObject("btnFotDocA.Image"), System.Drawing.Image)
-        Me.btnFotDocA.Location = New System.Drawing.Point(743, 31)
-        Me.btnFotDocA.Name = "btnFotDocA"
-        Me.btnFotDocA.Size = New System.Drawing.Size(48, 33)
-        Me.btnFotDocA.TabIndex = 3
-        Me.btnFotDocA.UseVisualStyleBackColor = True
-        Me.btnFotDocA.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'OTBarNuevo
-        '
-        Me.OTBarNuevo.Image = Global.SGT_Transport.My.Resources.Resources.file1
-        Me.OTBarNuevo.Name = "OTBarNuevo"
-        Me.OTBarNuevo.ShortcutText = ""
-        Me.OTBarNuevo.ShowShortcut = False
-        Me.OTBarNuevo.ShowTextAsToolTip = False
-        Me.OTBarNuevo.Text = "Nuevo"
-        '
-        'OTBarCancelarPart
-        '
-        Me.OTBarCancelarPart.Image = Global.SGT_Transport.My.Resources.Resources.cancelar
-        Me.OTBarCancelarPart.Name = "OTBarCancelarPart"
-        Me.OTBarCancelarPart.ShortcutText = ""
-        Me.OTBarCancelarPart.Text = "Edit"
-        '
-        'OTBarEliminraPart
-        '
-        Me.OTBarEliminraPart.Image = Global.SGT_Transport.My.Resources.Resources.equis2
-        Me.OTBarEliminraPart.Name = "OTBarEliminraPart"
-        Me.OTBarEliminraPart.ShortcutText = ""
-        Me.OTBarEliminraPart.Text = "Eliminar partida"
-        Me.OTBarEliminraPart.ToolTipText = "F8"
-        '
-        'BarGrabar
-        '
-        Me.BarGrabar.Image = Global.SGT_Transport.My.Resources.Resources.salvar
-        Me.BarGrabar.Name = "BarGrabar"
-        Me.BarGrabar.ShortcutText = ""
-        Me.BarGrabar.ShowShortcut = False
-        Me.BarGrabar.ShowTextAsToolTip = False
-        Me.BarGrabar.Text = "Grabar"
-        '
-        'BarEnlazarDoc
-        '
-        Me.BarEnlazarDoc.Image = Global.SGT_Transport.My.Resources.Resources.doc17
-        Me.BarEnlazarDoc.Name = "BarEnlazarDoc"
-        Me.BarEnlazarDoc.ShortcutText = ""
-        Me.BarEnlazarDoc.Text = "Enlazar rep. fallas"
-        '
-        'BarEnlazarProgSer
-        '
-        Me.BarEnlazarProgSer.Image = Global.SGT_Transport.My.Resources.Resources.P13
-        Me.BarEnlazarProgSer.Name = "BarEnlazarProgSer"
-        Me.BarEnlazarProgSer.ShortcutText = ""
-        Me.BarEnlazarProgSer.Text = "Enlazar prog. servicios"
-        '
-        'BarGenMINVE
-        '
-        Me.BarGenMINVE.Image = Global.SGT_Transport.My.Resources.Resources.regreso1
-        Me.BarGenMINVE.Name = "BarGenMINVE"
-        Me.BarGenMINVE.ShortcutText = ""
-        Me.BarGenMINVE.Text = "Generar movs. al inventario"
-        '
-        'BarFinOT
-        '
-        Me.BarFinOT.Image = Global.SGT_Transport.My.Resources.Resources.docu7
-        Me.BarFinOT.Name = "BarFinOT"
-        Me.BarFinOT.ShortcutText = ""
-        Me.BarFinOT.ShowShortcut = False
-        Me.BarFinOT.ShowTextAsToolTip = False
-        Me.BarFinOT.Text = "Generar movs. al inventario"
-        '
-        'BarRemisionar
-        '
-        Me.BarRemisionar.Image = Global.SGT_Transport.My.Resources.Resources.letra_r
-        Me.BarRemisionar.Name = "BarRemisionar"
-        Me.BarRemisionar.ShortcutText = ""
-        Me.BarRemisionar.Text = "Remisionar"
-        '
-        'BarEliminar
-        '
-        Me.BarEliminar.Image = Global.SGT_Transport.My.Resources.Resources.regreso2
-        Me.BarEliminar.Name = "BarEliminar"
-        Me.BarEliminar.ShortcutText = ""
-        Me.BarEliminar.Text = "Cancelar OT"
-        '
-        'BarKardex
-        '
-        Me.BarKardex.Image = Global.SGT_Transport.My.Resources.Resources.k5
-        Me.BarKardex.Name = "BarKardex"
-        Me.BarKardex.ShortcutText = ""
-        Me.BarKardex.Text = "Kardex"
-        '
-        'BarReimpresion
-        '
-        Me.BarReimpresion.Image = Global.SGT_Transport.My.Resources.Resources.impresora6
-        Me.BarReimpresion.Name = "BarReimpresion"
-        Me.BarReimpresion.ShortcutText = ""
-        Me.BarReimpresion.Text = "Reimpresión"
-        '
-        'BarCancPartNoEntr
-        '
-        Me.BarCancPartNoEntr.Image = Global.SGT_Transport.My.Resources.Resources.letra_c
-        Me.BarCancPartNoEntr.Name = "BarCancPartNoEntr"
-        Me.BarCancPartNoEntr.ShortcutText = ""
-        Me.BarCancPartNoEntr.Text = "Cancelar part. no entregadas"
-        Me.BarCancPartNoEntr.Visible = False
-        '
-        'BarExcel
-        '
-        Me.BarExcel.Image = Global.SGT_Transport.My.Resources.Resources.excel1
-        Me.BarExcel.Name = "BarExcel"
-        Me.BarExcel.ShortcutText = ""
-        Me.BarExcel.Text = "Excel "
-        '
-        'BarSalir
-        '
-        Me.BarSalir.Image = Global.SGT_Transport.My.Resources.Resources.puertasalida
-        Me.BarSalir.Name = "BarSalir"
-        Me.BarSalir.ShortcutText = ""
-        Me.BarSalir.ShowShortcut = False
-        Me.BarSalir.ShowTextAsToolTip = False
-        Me.BarSalir.Text = "Salir"
+        Me.C1ThemeController1.Theme = "MacBlue"
         '
         'frmOTI_GMAE
         '
@@ -1381,8 +1550,10 @@ Partial Class frmOTI_GMAE
         Me.Controls.Add(Me.SplitM)
         Me.Controls.Add(Me.C1ToolBar1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmOTI_GMAE"
         Me.Text = "Orden de trabajo interna"
+        Me.C1ThemeController1.SetTheme(Me, "MacBlue")
         Me.VisualStyleHolder = C1.Win.C1Ribbon.VisualStyle.Custom
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1391,7 +1562,13 @@ Partial Class frmOTI_GMAE
         CType(Me.F1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
+        CType(Me.BarClas, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BarSer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BarAct, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboAlmacen, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnProv, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnTipo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUnidades, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Tab1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Tab1.ResumeLayout(False)
         Me.TabProductos.ResumeLayout(False)
@@ -1400,9 +1577,13 @@ Partial Class frmOTI_GMAE
         Me.TabServicios.ResumeLayout(False)
         Me.TabServicios.PerformLayout()
         CType(Me.FgS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAltaServicio, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnEliSer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabDocDigitales.ResumeLayout(False)
         Me.TabDocDigitales.PerformLayout()
         CType(Me.FgD, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnFotDocE, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnFotDocA, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabObser.ResumeLayout(False)
         Me.TabObser.PerformLayout()
         CType(Me.SplitM, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1410,13 +1591,7 @@ Partial Class frmOTI_GMAE
         Me.Splil1.ResumeLayout(False)
         Me.Split2.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
-        CType(Me.btnProv, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnTipo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUnidades, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAltaServicio, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnEliSer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnFotDocE, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnFotDocA, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.C1ThemeController1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1522,14 +1697,27 @@ Partial Class frmOTI_GMAE
     Friend WithEvents LkGenMINVE As C1.Win.C1Command.C1CommandLink
     Friend WithEvents OTBarEliminraPart As C1.Win.C1Command.C1Command
     Friend WithEvents OTLkEliminraPart As C1.Win.C1Command.C1CommandLink
-    Friend WithEvents BarFinOT As C1.Win.C1Command.C1Command
-    Friend WithEvents BarRemisionar As C1.Win.C1Command.C1Command
-    Friend WithEvents BarEliminar As C1.Win.C1Command.C1Command
-    Friend WithEvents BarExcel As C1.Win.C1Command.C1Command
-    Friend WithEvents BarSalir As C1.Win.C1Command.C1Command
-    Friend WithEvents BarKardex As C1.Win.C1Command.C1Command
-    Friend WithEvents BarReimpresion As C1.Win.C1Command.C1Command
-    Friend WithEvents BarCancPartNoEntr As C1.Win.C1Command.C1Command
-    Friend WithEvents BarEnlazarDoc As C1.Win.C1Command.C1Command
-    Friend WithEvents BarGenMINVE As C1.Win.C1Command.C1Command
+    Private WithEvents BarExcel As C1.Win.C1Command.C1Command
+    Private WithEvents BarSalir As C1.Win.C1Command.C1Command
+    Private WithEvents BarKardex As C1.Win.C1Command.C1Command
+    Private WithEvents BarReimpresion As C1.Win.C1Command.C1Command
+    Private WithEvents BarGenMINVE As C1.Win.C1Command.C1Command
+    Private WithEvents BarFinOT As C1.Win.C1Command.C1Command
+    Private WithEvents BarEliminar As C1.Win.C1Command.C1Command
+    Private WithEvents BarCancPartNoEntr As C1.Win.C1Command.C1Command
+    Private WithEvents BarEnlazarDoc As C1.Win.C1Command.C1Command
+    Private WithEvents BarRemisionar As C1.Win.C1Command.C1Command
+    Private WithEvents C1ThemeController1 As C1.Win.C1Themes.C1ThemeController
+    Friend WithEvents Lp3 As Label
+    Friend WithEvents BarClas As C1.Win.C1Input.C1Button
+    Friend WithEvents Lp2 As Label
+    Friend WithEvents BarSer As C1.Win.C1Input.C1Button
+    Friend WithEvents TCLASIFIC As TextBox
+    Friend WithEvents Label18 As Label
+    Friend WithEvents TSERVICIO As TextBox
+    Friend WithEvents Label19 As Label
+    Friend WithEvents Lp1 As Label
+    Friend WithEvents BarAct As C1.Win.C1Input.C1Button
+    Friend WithEvents TACTIVIDAD As TextBox
+    Friend WithEvents Label21 As Label
 End Class

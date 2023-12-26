@@ -5199,22 +5199,22 @@ Public Class FrmTPV
         CVE_DOC = LtCVE_DOC.Text
 
         If CVE_DOC.Trim.Length = 0 Then
-            MsgBox("No se encontro el documento a cancelar")
+            MsgBox("No se encontró el documento a cancelar")
             Return
         End If
 
         If TCVE_PEDI.Tag = "T" Then
             Select Case TIPO_VENTA_LOCAL
                 Case "C"
-                    MsgBox("La cotizacion tiene un documento siguiente, no es posible realziar la cancelación")
+                    MsgBox("La cotización tiene un documento siguiente, no es posible realizar la cancelación")
                 Case "R"
-                    MsgBox("La remision tiene un documento siguiente, no es posible realziar la cancelación")
+                    MsgBox("La remisión tiene un documento siguiente, no es posible realizar la cancelación")
                 Case "V"
-                    MsgBox("La nota de venta tiene un documento siguiente, no es posible realziar la cancelación")
+                    MsgBox("La nota de venta tiene un documento siguiente, no es posible realizar la cancelación")
                 Case "P"
-                    MsgBox("El pedido tiene un documento siguiente, no es posible realziar la cancelación")
+                    MsgBox("El pedido tiene un documento siguiente, no es posible realizar la cancelación")
                 Case "D"
-                    MsgBox("La devolución tiene un documento siguiente, no es posible realziar la cancelación")
+                    MsgBox("La devolución tiene un documento siguiente, no es posible realizar la cancelación")
             End Select
             Return
         End If
@@ -5438,6 +5438,113 @@ Public Class FrmTPV
                 End Try
             End If
             If TIPO_VENTA_LOCAL = "F" Or TIPO_VENTA_LOCAL = "V" Then
+                'MOVSINV
+                Dim CADENA_EXIST As String, CVE_CPTO As Integer = 2, CANT_COST As Decimal, AFEC_COI As String = "", CVE_OBS As Long = 0
+                Dim REG_SERIE As Integer = 0, COSTEADO As String = "S", SIGNO = 1, TIPO_DOC As String = "V", FACTOR_CON As Integer = 1
+                Dim E_LTPD As Integer = 0, CTLPOL As Integer = 0, COSTO_PROM_INI As Decimal, COSTO_PROM_FIN As Decimal
+                Dim DESDE_INVE As String = "S", MOV_ENLAZADO As Integer = 0, CVE_VEND As String = "", CVE_FOLIO As String = ""
+                Dim EXIST_G As String
+
+                Try
+                    Dim EXI_INI As Decimal = 0
+
+                    Using cmd As SqlCommand = cnSAE.CreateCommand
+                        SQL = "SELECT P.CVE_ART, P.CANT, I.TIPO_ELE, P.PREC, P.COST, P.NUM_ALM, P.UNI_VENTA 
+                    FROM PAR_FACT" & TIPO_VENTA_LOCAL & Empresa & " P
+                    LEFT JOIN INVE" & Empresa & " I ON I.CVE_ART = P.CVE_ART
+                    WHERE CVE_DOC = '" & CVE_DOC & "'"
+                        cmd.CommandText = SQL
+                        Using dr As SqlDataReader = cmd.ExecuteReader
+                            While dr.Read
+                                If dr("TIPO_ELE") = "P" Then
+
+                                    If DOC_ANT.Trim.Length > 0 Then
+                                        Try
+                                            SQL = "UPDATE PAR_FACT" & TIP_DOC_ANT & Empresa & " SET PXS = CANT WHERE CVE_DOC = '" & DOC_ANT & "'"
+                                            Using cmd3 As SqlCommand = cnSAE.CreateCommand
+                                                cmd3.CommandText = SQL
+                                                returnValue = cmd3.ExecuteNonQuery().ToString
+                                                If returnValue IsNot Nothing Then
+                                                    If returnValue = "1" Then
+                                                    End If
+                                                End If
+                                            End Using
+                                        Catch ex As Exception
+                                            MsgBox("2825. " & ex.Message & vbNewLine & ex.StackTrace)
+                                        End Try
+                                    End If
+
+
+                                    EXI_INI = OBTENER_EXISTENCIA(dr("CVE_ART"), dr("NUM_ALM"))
+                                    SQL = "UPDATE INVE" & Empresa & " SET EXIST = ISNULL(EXIST,0) + " & dr("CANT") & " 
+                                    WHERE CVE_ART = '" & dr("CVE_ART") & "'"
+                                    returnValue2 = EXECUTE_QUERY_NET(SQL)
+
+                                    If MULTIALMACEN = 1 Then
+                                        SQL = "UPDATE MULT" & Empresa & " SET EXIST = ISNULL(EXIST,0) + " & dr("CANT") & " 
+                                        WHERE CVE_ART = '" & dr("CVE_ART") & "' AND CVE_ALM = " & dr("NUM_ALM")
+                                        returnValue2 = EXECUTE_QUERY_NET(SQL)
+                                    End If
+
+                                    CANT_COST = dr("COST") * dr("CANT")
+                                    COSTO_PROM_INI = CANT_COST
+                                    COSTO_PROM_FIN = CANT_COST
+
+                                    EXIST_G = "ISNULL((SELECT EXIST FROM INVE" & Empresa & " WHERE CVE_ART = '" & dr("CVE_ART") & "'),0)"
+
+                                    If MULTIALMACEN = 1 Then
+                                        'EXISTENCIA
+                                        CADENA_EXIST = "COALESCE((SELECT EXIST FROM MULT" & Empresa & " WHERE CVE_ART = '" & dr("CVE_ART") & "' AND CVE_ALM = " & dr("NUM_ALM") & "),0)"
+                                    Else
+                                        'EXISTENCIA
+                                        CADENA_EXIST = "COALESCE((SELECT EXIST FROM INVE" & Empresa & " WHERE CVE_ART = '" & dr("CVE_ART") & "'),0)"
+                                    End If
+
+                                    SQL = "INSERT INTO MINVE" & Empresa & " (CVE_ART, ALMACEN, NUM_MOV, CVE_CPTO, FECHA_DOCU, TIPO_DOC, REFER, CLAVE_CLPV,
+                                    VEND, CANT, CANT_COST, PRECIO, COSTO, REG_SERIE, UNI_VENTA, E_LTPD, EXIST_G, EXISTENCIA, TIPO_PROD, FACTOR_CON,
+                                    FECHAELAB, CVE_FOLIO, SIGNO, COSTEADO, COSTO_PROM_INI, COSTO_PROM_FIN, DESDE_INVE, MOV_ENLAZADO, CVE_OBS, 
+                                    COSTO_PROM_GRAL)
+                                    OUTPUT Inserted.NUM_MOV VALUES('" &
+                                        dr("CVE_ART") & "','" & dr("NUM_ALM") & "',(SELECT COALESCE(MAX(NUM_MOV),0) + 1 FROM MINVE" & Empresa & "),'" & CVE_CPTO &
+                                        "',Convert(varchar, GETDATE(), 112),'" & TIPO_VENTA_LOCAL & "','" & CVE_DOC & "','" & CLAVE_CLPV & "','" &
+                                        CVE_VEND & "','" & dr("CANT") & "','" & CANT_COST & "','" & dr("PREC") & "','" & dr("COST") & "','" & REG_SERIE & "','" &
+                                        dr("UNI_VENTA") & "','" & E_LTPD & "'," & EXIST_G & "," & CADENA_EXIST & ",'" & dr("TIPO_ELE") & "','" & FACTOR_CON &
+                                        "',GETDATE()" & ",(SELECT ULT_CVE FROM TBLCONTROL" & Empresa & " WHERE ID_TABLA = 32),'" & SIGNO & "','" &
+                                        COSTEADO & "','" & COSTO_PROM_INI & "','" & COSTO_PROM_FIN & "','" & DESDE_INVE & "','" & MOV_ENLAZADO & "','" &
+                                        CVE_OBS & "','" & CANT_COST & "')"
+
+                                    returnValue2 = EXECUTE_QUERY_NET(SQL)
+
+                                End If
+                            End While
+                        End Using
+                    End Using
+
+                    Try
+                        Using cmd As SqlCommand = cnSAE.CreateCommand
+                            SQL = "SELECT * FROM DOCTOSIGF" & Empresa & " WHERE TIP_DOC = '" & TIPO_VENTA_LOCAL & "' AND CVE_DOC = '" & CVE_DOC & "'"
+                            cmd.CommandText = SQL
+                            Using dr As SqlDataReader = cmd.ExecuteReader
+                                While dr.Read
+                                    SQL = "UPDATE FACT" & dr("TIP_DOC_E") & Empresa & " 
+                                  SET ENLAZADO = 'O', DOC_SIG = '', TIP_DOC_SIG = '', TIP_DOC_E = '' 
+                                  WHERE CVE_DOC = '" & dr("CVE_DOC_E") & "'"
+                                    ReturnExeQuery = EXECUTE_QUERY_NET(SQL)
+
+                                    SQL2 = "UPDATE PAR_FACT" & dr("TIP_DOC_E") & Empresa & " SET PXS = CANT
+                                    WHERE CVE_DOC = '" & dr("CVE_DOC_E") & "' AND NUM_PAR = " & dr("PART_E")
+                                    ReturnExeQuery = EXECUTE_QUERY_NET(SQL2)
+                                End While
+                            End Using
+                        End Using
+                    Catch ex As Exception
+                        Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+                Catch ex As Exception
+                    BITACORATPV("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                    MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+                End Try
+
                 Try
                     SQL = "DELETE FROM CUEN_M" & Empresa & " WHERE REFER = '" & CVE_DOC & "'"
                     EXECUTE_QUERY_NET(SQL)
@@ -5447,7 +5554,23 @@ Public Class FrmTPV
                 Catch ex As Exception
                     BITACORACFDI("10. ex.Message " & ex.Message & vbNewLine & "" & ex.StackTrace)
                 End Try
-            End If
+
+            End If 'If TIPO_VENTA_LOCAL = "F" Or TIPO_VENTA_LOCAL = "V" Then
+
+            CVE_BITA = GRABA_BITA(CLAVE_CLPV, CVE_DOC, IMPORTE, TIPO_VENTA_LOCAL, "Se cancelo " & CADENA_CANC)
+
+            SQL = "UPDATE FACT" & TIPO_VENTA_LOCAL & Empresa & " SET
+          STATUS = 'C', FECHA_CANCELA = CONVERT(varchar, GETDATE(), 112), ENLAZADO = 'O', TIP_DOC_ANT = '', 
+          DOC_ANT = '', CVE_BITA = " & CVE_BITA & " WHERE CVE_DOC = '" & CVE_DOC & "'"
+            Using cmd3 As SqlCommand = cnSAE.CreateCommand
+                cmd3.CommandText = SQL
+                returnValue = cmd3.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            End Using
+
 
             If TIP_DOC_ANT.Trim.Length > 0 Then
                 If Not Valida_Conexion() Then
@@ -5702,15 +5825,19 @@ Public Class FrmTPV
     End Sub
     Private Sub CboPrecio_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboPrecio.SelectedIndexChanged
         Try
-            Dim c_ As Integer
-            If Fg.Col = 1 Then
-                c_ = 2
+            If TCVE_UNI.Visible Then
+                TCVE_UNI.Focus()
             Else
-                c_ = Fg.Col
-            End If
-            Fg.Focus()
-            If Not IsNothing(_myEditor) Then
-                _myEditor.StartEditing(Fg.Row, c_)
+                Dim c_ As Integer
+                If Fg.Col = 1 Then
+                    c_ = 2
+                Else
+                    c_ = Fg.Col
+                End If
+                Fg.Focus()
+                If Not IsNothing(_myEditor) Then
+                    _myEditor.StartEditing(Fg.Row, c_)
+                End If
             End If
         Catch ex As Exception
             BITACORATPV("2945. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -5722,21 +5849,25 @@ Public Class FrmTPV
             If CboAlmacen.Visible Then
                 CboAlmacen.Focus()
             Else
-                Try
-                    Fg.Row = 1
-                    Fg.Col = 2
-                    Dim c_ As Integer
-                    If Fg.Col = 1 Then
-                        c_ = 2
-                    Else
-                        c_ = Fg.Col
-                    End If
-                    If Not IsNothing(_myEditor) Then
-                        _myEditor.StartEditing(Fg.Row, c_, 9)
-                    End If
-                Catch ex As Exception
-                    BITACORATPV("2948. " & ex.Message & vbNewLine & ex.StackTrace)
-                End Try
+                If TCVE_UNI.Visible Then
+                    TCVE_UNI.Focus()
+                Else
+                    Try
+                        Fg.Row = 1
+                        Fg.Col = 2
+                        Dim c_ As Integer
+                        If Fg.Col = 1 Then
+                            c_ = 2
+                        Else
+                            c_ = Fg.Col
+                        End If
+                        If Not IsNothing(_myEditor) Then
+                            _myEditor.StartEditing(Fg.Row, c_, 9)
+                        End If
+                    Catch ex As Exception
+                        BITACORATPV("2948. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+                End If
             End If
         End If
     End Sub
@@ -5755,16 +5886,20 @@ Public Class FrmTPV
                 If CboAlmacen.Visible Then
                     CboAlmacen.Focus()
                 Else
-                    Fg.Row = 1
-                    Fg.Col = 2
-                    Dim c_ As Integer
-                    If Fg.Col = 1 Then
-                        c_ = 2
+                    If TCVE_UNI.Visible Then
+                        'TCVE_UNI.Focus()
                     Else
-                        c_ = Fg.Col
-                    End If
-                    If Not IsNothing(_myEditor) Then
-                        _myEditor.StartEditing(Fg.Row, c_, 99)
+                        Fg.Row = 1
+                        Fg.Col = 2
+                        Dim c_ As Integer
+                        If Fg.Col = 1 Then
+                            c_ = 2
+                        Else
+                            c_ = Fg.Col
+                        End If
+                        If Not IsNothing(_myEditor) Then
+                            _myEditor.StartEditing(Fg.Row, c_, 99)
+                        End If
                     End If
                 End If
             End If
@@ -6834,6 +6969,7 @@ Public Class MyEditorTPV
                 _owner(_row, 10) = dr("IMPUESTO2") 'IMPU2
                 _owner(_row, 11) = dr("IMPUESTO3") 'IMPU4
                 _owner(_row, 12) = dr("IMPUESTO4") 'IVA
+                _owner(_row, 27) = dr("CVE_ESQIMPU")
                 If _owner(_row, 15) <> fCVE_ART Then
                     'PRECIO = frmTPV.cboPrecio.Items(frmTPV.cboPrecio.SelectedIndex).ToString.Substring(0, 2)
                     Select Case FrmTPV.CboPrecio.Items(FrmTPV.CboPrecio.SelectedIndex).ToString.Substring(0, 2)

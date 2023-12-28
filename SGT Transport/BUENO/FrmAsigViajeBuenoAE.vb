@@ -7151,11 +7151,11 @@ Public Class FrmAsigViajeBuenoAE
         Try
             If FgV.Row > 0 Then
                 If FgV.Col = 2 Or FgV.Col = 3 Or FgV.Col = 4 Or FgV.Col = 6 Or FgV.Col = 15 Or FgV.Col = 16 Then
-                    If FgV(FgV.Row, 15) = "DEPOSITADO" Or FgV(FgV.Row, 15) = "CONCILIADO" Then
+                    If FgV(FgV.Row, 15) = "DEPOSITADO" Or FgV(FgV.Row, 15) = "CONCILIADO" Or FgV(FgV.Row, 15) = "ACEPTADO" Or FgV(FgV.Row, 15) = "CAPTURADO" Then
                         e.Cancel = True
 
                         FgV.Col = 1
-                        MsgBox("La partida ya fue cerrada no se puede modificar")
+                        'MsgBox("La partida ya fue cerrada no se puede modificar")
                         Return
                     Else
                         If FgV(FgV.Row, 15) = "CAPTURADO" Then
@@ -8142,6 +8142,10 @@ Public Class FrmAsigViajeBuenoAE
     Private Sub BtnImportarExcel_Click(sender As Object, e As EventArgs) Handles BtnImportarExcel.Click
         Dim COLA As String = "", COLB As String = "", COLC As String = "", COLD As String = "", COLE As String = "", COLF As String = "", COLG As String = ""
         Dim COLH As String = "", COLI As String = "", COLJ As String = "", COLK As String = "", COLL As String = "", COLM As String = "", COLN As String = ""
+        Dim COLO As String = "", COLP As String = "", COLQ As String = "", COLR As String = "", COLS As String = "", COLT As String = "", COLU As String = "", COLV As String = ""
+        Dim COLW As String = "", COLX As String = "", COLY As String = "", COLZ As String = "", COLAA As String = "", COLAB As String = "", COLAC As String = "", COLAD As String = ""
+        Dim COLAE As String = "", COLAF As String = "", COLAG As String = "", COLAH As String = "", COLAI As String = "", COLAJ As String = ""
+
         Dim rw As Integer, pos As Integer, UNI_SAT As String, DESCR As String, ErrorLoadExcel As Boolean = False, CADENA As String = ""
         Dim doc As New XmlDocument()
 
@@ -8154,7 +8158,7 @@ Public Class FrmAsigViajeBuenoAE
         BtnImportarExcel.Enabled = False
 
         Try
-            SQL = "SELECT M.COLA, M.COLB, M.COLC, M.COLD, M.COLE, M.COLF, M.COLG, M.COLH, M.COLI, M.COLJ, M.COLK, M.COLL, M.COLM, M.COLN
+            SQL = "SELECT *
                 FROM GCMERCANCIAS_CFG M 
                 WHERE CLIENTE = '" & TCLIENTE.Text & "'"
             Using cmd As SqlCommand = cnSAE.CreateCommand
@@ -8175,6 +8179,29 @@ Public Class FrmAsigViajeBuenoAE
                         COLL = dr("COLL").ToString
                         COLM = dr("COLM").ToString
                         COLN = dr("COLN").ToString
+                        COLO = dr("COLO").ToString
+                        COLP = dr("COLP").ToString
+                        COLQ = dr("COLQ").ToString
+                        COLR = dr("COLR").ToString
+                        COLS = dr("COLS").ToString
+                        COLT = dr("COLT").ToString
+                        COLU = dr("COLU").ToString
+                        COLV = dr("COLV").ToString
+                        COLW = dr("COLW").ToString
+                        COLX = dr("COLX").ToString
+                        COLY = dr("COLY").ToString
+                        COLZ = dr("COLZ").ToString
+                        COLAA = dr("COLAA").ToString
+                        COLAB = dr("COLAB").ToString
+                        COLAC = dr("COLAC").ToString
+                        COLAD = dr("COLAD").ToString
+                        COLAE = dr("COLAE").ToString
+                        COLAF = dr("COLAF").ToString
+                        COLAG = dr("COLAG").ToString
+                        COLAH = dr("COLAH").ToString
+                        COLAI = dr("COLAI").ToString
+                        COLAJ = dr("COLAJ").ToString
+
                     End If
                 End Using
             End Using
@@ -8301,6 +8328,160 @@ Public Class FrmAsigViajeBuenoAE
                         Fg(r_, 19) = source(row, pos - 1).Value 'UUID
                     End If
                 End If
+
+                If COLO.Trim.Length > 0 Then
+                    pos = POS_COL(COLO)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 22) = source(row, pos - 1).Value 'SectorCOFEPRIS
+
+                        If Not String.IsNullOrEmpty(Fg(r_, 22)) Then
+                            Fg(r_, 24) = BUSCA_CAT2("tblSectorCOFEPRIS", Fg(r_, 22))
+                        End If
+
+                    End If
+                End If
+                If COLP.Trim.Length > 0 Then
+                    pos = POS_COL(COLP)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 25) = source(row, pos - 1).Value 'NombreIngredienteActivo
+                    End If
+                End If
+                If COLQ.Trim.Length > 0 Then
+                    pos = POS_COL(COLQ)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 26) = source(row, pos - 1).Value 'NomQuimico
+                    End If
+                End If
+                If COLR.Trim.Length > 0 Then
+                    pos = POS_COL(COLR)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 27) = source(row, pos - 1).Value 'DenominacionGenericaProd
+                    End If
+                End If
+                If COLS.Trim.Length > 0 Then
+                    pos = POS_COL(COLS)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 28) = source(row, pos - 1).Value 'DenominacionDistintivaProd
+                    End If
+                End If
+                If COLT.Trim.Length > 0 Then
+                    pos = POS_COL(COLT)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 29) = source(row, pos - 1).Value 'Fabricante
+                    End If
+                End If
+                If COLU.Trim.Length > 0 Then
+                    pos = POS_COL(COLU)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 30) = source(row, pos - 1).Value 'FechaCaducidad
+                    End If
+                End If
+                If COLV.Trim.Length > 0 Then
+                    pos = POS_COL(COLV)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 31) = source(row, pos - 1).Value 'LoteMedicamento
+                    End If
+                End If
+                If COLW.Trim.Length > 0 Then
+                    pos = POS_COL(COLW)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 32) = source(row, pos - 1).Value 'FormaFarmaceutica
+
+                        If Not String.IsNullOrEmpty(Fg(r_, 32)) Then
+                            Fg(r_, 34) = BUSCA_CAT2("tblFormaFarmaceutica", Fg(r_, 32))
+                        End If
+
+                    End If
+                End If
+                If COLX.Trim.Length > 0 Then
+                    pos = POS_COL(COLX)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 35) = source(row, pos - 1).Value 'CondicionesEspTransp
+
+                        If Not String.IsNullOrEmpty(Fg(r_, 35)) Then
+                            Fg(r_, 37) = BUSCA_CAT2("tblCondicionesEspeciales", Fg(r_, 35))
+                        End If
+                    End If
+                End If
+                If COLY.Trim.Length > 0 Then
+                    pos = POS_COL(COLY)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 38) = source(row, pos - 1).Value 'RegistroSanitarioFolioAutorizacion
+                    End If
+                End If
+                If COLZ.Trim.Length > 0 Then
+                    pos = POS_COL(COLZ)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 39) = source(row, pos - 1).Value 'PermisoImportacion
+                    End If
+                End If
+                If COLAA.Trim.Length > 0 Then
+                    pos = POS_COL(COLAA)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 40) = source(row, pos - 1).Value 'FolioImpoVUCEM
+                    End If
+                End If
+                If COLAB.Trim.Length > 0 Then
+                    pos = POS_COL(COLAB)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 41) = source(row, pos - 1).Value 'NumCAS
+                    End If
+                End If
+                If COLAC.Trim.Length > 0 Then
+                    pos = POS_COL(COLAC)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 42) = source(row, pos - 1).Value 'RazonSocialEmpImp
+                    End If
+                End If
+                If COLAD.Trim.Length > 0 Then
+                    pos = POS_COL(COLAD)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 43) = source(row, pos - 1).Value 'NumRegSanPlagCOFEPRIS
+                    End If
+                End If
+                If COLAE.Trim.Length > 0 Then
+                    pos = POS_COL(COLAE)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 44) = source(row, pos - 1).Value 'DatosFabricante
+                    End If
+                End If
+                If COLAF.Trim.Length > 0 Then
+                    pos = POS_COL(COLAF)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 45) = source(row, pos - 1).Value 'DatosFormulador
+                    End If
+                End If
+                If COLAG.Trim.Length > 0 Then
+                    pos = POS_COL(COLAG)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 46) = source(row, pos - 1).Value 'DatosMaquilador
+                    End If
+                End If
+                If COLAH.Trim.Length > 0 Then
+                    pos = POS_COL(COLAH)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 47) = source(row, pos - 1).Value 'UsoAutorizado
+                    End If
+                End If
+                If COLAI.Trim.Length > 0 Then
+                    pos = POS_COL(COLAI)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 48) = source(row, pos - 1).Value 'TipoMateria
+                    End If
+                End If
+                If COLAJ.Trim.Length > 0 Then
+                    pos = POS_COL(COLAJ)
+                    If Not IsNothing(source(row, pos - 1).Value) Then
+                        Fg(r_, 50) = source(row, pos - 1).Value 'DescripcionMateria
+
+                        If Not String.IsNullOrEmpty(Fg(r_, 48)) And String.IsNullOrEmpty(Fg(r_, 50)) Then
+                            Fg(r_, 50) = BUSCA_CAT2("tblTipoMateria", Fg(r_, 48))
+                        End If
+
+                    End If
+                End If
+
+
                 If row = 50 Then
                     Lt6.Refresh()
                 End If
@@ -8462,6 +8643,141 @@ Public Class FrmAsigViajeBuenoAE
                             Fg(r_, 19) = xlRange.Cells(i, pos).Value.ToString()
                         End If
                     End If
+
+                    If COLO.Trim.Length > 0 Then
+                        pos = POS_COL(COLO)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 22) = xlRange.Cells(i, pos).Value.ToString() 'SectorCOFEPRIS
+                        End If
+                    End If
+                    If COLP.Trim.Length > 0 Then
+                        pos = POS_COL(COLP)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 25) = xlRange.Cells(i, pos).Value.ToString() 'NombreIngredienteActivo
+                        End If
+                    End If
+                    If COLQ.Trim.Length > 0 Then
+                        pos = POS_COL(COLQ)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 26) = xlRange.Cells(i, pos).Value.ToString() 'NomQuimico
+                        End If
+                    End If
+                    If COLR.Trim.Length > 0 Then
+                        pos = POS_COL(COLR)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 27) = xlRange.Cells(i, pos).Value.ToString() 'DenominacionGenericaProd
+                        End If
+                    End If
+                    If COLS.Trim.Length > 0 Then
+                        pos = POS_COL(COLS)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 28) = xlRange.Cells(i, pos).Value.ToString() 'DenominacionDistintivaProd
+                        End If
+                    End If
+                    If COLT.Trim.Length > 0 Then
+                        pos = POS_COL(COLT)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 29) = xlRange.Cells(i, pos).Value.ToString() 'Fabricante
+                        End If
+                    End If
+                    If COLU.Trim.Length > 0 Then
+                        pos = POS_COL(COLU)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 30) = xlRange.Cells(i, pos).Value.ToString() 'FechaCaducidad
+                        End If
+                    End If
+                    If COLV.Trim.Length > 0 Then
+                        pos = POS_COL(COLV)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 31) = xlRange.Cells(i, pos).Value.ToString() 'LoteMedicamento
+                        End If
+                    End If
+                    If COLW.Trim.Length > 0 Then
+                        pos = POS_COL(COLW)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 32) = xlRange.Cells(i, pos).Value.ToString() 'FormaFarmaceutica
+                        End If
+                    End If
+                    If COLX.Trim.Length > 0 Then
+                        pos = POS_COL(COLX)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 35) = xlRange.Cells(i, pos).Value.ToString() 'CondicionesEspTransp
+                        End If
+                    End If
+                    If COLY.Trim.Length > 0 Then
+                        pos = POS_COL(COLY)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 38) = xlRange.Cells(i, pos).Value.ToString() 'RegistroSanitarioFolioAutorizacion
+                        End If
+                    End If
+                    If COLZ.Trim.Length > 0 Then
+                        pos = POS_COL(COLZ)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 39) = xlRange.Cells(i, pos).Value.ToString() 'PermisoImportacion
+                        End If
+                    End If
+                    If COLAA.Trim.Length > 0 Then
+                        pos = POS_COL(COLAA)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 40) = xlRange.Cells(i, pos).Value.ToString() 'FolioImpoVUCEM
+                        End If
+                    End If
+                    If COLAB.Trim.Length > 0 Then
+                        pos = POS_COL(COLAB)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 41) = xlRange.Cells(i, pos).Value.ToString() 'NumCAS
+                        End If
+                    End If
+                    If COLAC.Trim.Length > 0 Then
+                        pos = POS_COL(COLAC)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 42) = xlRange.Cells(i, pos).Value.ToString() 'RazonSocialEmpImp
+                        End If
+                    End If
+                    If COLAD.Trim.Length > 0 Then
+                        pos = POS_COL(COLAD)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 43) = xlRange.Cells(i, pos).Value.ToString() 'NumRegSanPlagCOFEPRIS
+                        End If
+                    End If
+                    If COLAE.Trim.Length > 0 Then
+                        pos = POS_COL(COLAE)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 44) = xlRange.Cells(i, pos).Value.ToString() 'DatosFabricante
+                        End If
+                    End If
+                    If COLAF.Trim.Length > 0 Then
+                        pos = POS_COL(COLAF)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 45) = xlRange.Cells(i, pos).Value.ToString() 'DatosFormulador
+                        End If
+                    End If
+                    If COLAG.Trim.Length > 0 Then
+                        pos = POS_COL(COLAG)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 46) = xlRange.Cells(i, pos).Value.ToString() 'DatosMaquilador
+                        End If
+                    End If
+                    If COLAH.Trim.Length > 0 Then
+                        pos = POS_COL(COLAH)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 47) = xlRange.Cells(i, pos).Value.ToString() 'UsoAutorizado
+                        End If
+                    End If
+                    If COLAI.Trim.Length > 0 Then
+                        pos = POS_COL(COLAI)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 48) = xlRange.Cells(i, pos).Value.ToString() 'TipoMateria
+                        End If
+                    End If
+                    If COLAJ.Trim.Length > 0 Then
+                        pos = POS_COL(COLAJ)
+                        If xlRange.Cells(i, pos) IsNot Nothing AndAlso xlRange.Cells(i, pos).Value2 IsNot Nothing Then
+                            Fg(r_, 50) = xlRange.Cells(i, pos).Value.ToString() 'DescripcionMateria
+                        End If
+                    End If
+
+
                     If i = 50 Then
                         Lt6.Refresh()
                     End If
@@ -8524,6 +8840,19 @@ Public Class FrmAsigViajeBuenoAE
                                 End If
                             End If
 
+                        End If
+
+                        If Not String.IsNullOrEmpty(Fg(k, 22)) Then
+                            Fg(k, 24) = BUSCA_CAT2("tblSectorCOFEPRIS", Fg(k, 22))
+                        End If
+                        If Not String.IsNullOrEmpty(Fg(k, 32)) Then
+                            Fg(k, 34) = BUSCA_CAT2("tblFormaFarmaceutica", Fg(k, 32))
+                        End If
+                        If Not String.IsNullOrEmpty(Fg(k, 35)) Then
+                            Fg(k, 37) = BUSCA_CAT2("tblCondicionesEspeciales", Fg(k, 35))
+                        End If
+                        If Not String.IsNullOrEmpty(Fg(k, 48)) And String.IsNullOrEmpty(Fg(k, 50)) Then
+                            Fg(k, 50) = BUSCA_CAT2("tblTipoMateria", Fg(k, 48))
                         End If
 
                     Next

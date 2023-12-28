@@ -227,7 +227,7 @@ Public Class frmClientesAE
     End Sub
     Sub DESPLEGAR_MERCANCIAS_CFG()
         Try
-            SQL = "SELECT M.COLA, M.COLB, M.COLC, M.COLD, M.COLE, M.COLF, M.COLG, M.COLH, M.COLI, M.COLJ, M.COLK, M.COLL, M.COLM, M.COLN
+            SQL = "SELECT *
                 FROM GCMERCANCIAS_CFG M 
                 WHERE CLIENTE = '" & TCLAVE.Text & "'"
             Using cmd As SqlCommand = cnSAE.CreateCommand
@@ -248,6 +248,28 @@ Public Class frmClientesAE
                         TCOLK.Text = dr("COLK").ToString
                         TCOLL.Text = dr("COLL").ToString
                         TCOLM.Text = dr("COLM").ToString
+                        TCOLO.Text = dr("COLO").ToString
+                        TCOLP.Text = dr("COLP").ToString
+                        TCOLQ.Text = dr("COLQ").ToString
+                        TCOLR.Text = dr("COLR").ToString
+                        TCOLS.Text = dr("COLS").ToString
+                        TCOLT.Text = dr("COLT").ToString
+                        TCOLU.Text = dr("COLU").ToString
+                        TCOLV.Text = dr("COLV").ToString
+                        TCOLW.Text = dr("COLW").ToString
+                        TCOLX.Text = dr("COLX").ToString
+                        TCOLY.Text = dr("COLY").ToString
+                        TCOLZ.Text = dr("COLZ").ToString
+                        TCOLAA.Text = dr("COLAA").ToString
+                        TCOLAB.Text = dr("COLAB").ToString
+                        TCOLAC.Text = dr("COLAC").ToString
+                        TCOLAD.Text = dr("COLAD").ToString
+                        TCOLAE.Text = dr("COLAE").ToString
+                        TCOLAF.Text = dr("COLAF").ToString
+                        TCOLAG.Text = dr("COLAG").ToString
+                        TCOLAH.Text = dr("COLAH").ToString
+                        TCOLAI.Text = dr("COLAI").ToString
+                        TCOLAJ.Text = dr("COLAJ").ToString
                     End If
                 End Using
             End Using
@@ -1145,12 +1167,20 @@ Public Class frmClientesAE
                     UPDATE GCMERCANCIAS_CFG SET 
                     COLA = @COLA, COLB = @COLB,
                     COLC = @COLC, COLD = @COLD, COLE = @COLE, COLF = @COLF, COLG = @COLG, COLH = @COLH, COLI = @COLI, 
-                    COLJ = @COLJ, COLK = @COLK, COLL = @COLL, COLM = @COLM, COLN = @COLN
+                    COLJ = @COLJ, COLK = @COLK, COLL = @COLL, COLM = @COLM, COLN = @COLN,
+                    COLO = @COLO, COLP = @COLP, COLQ = @COLQ, COLR = @COLR, COLS = @COLS, COLT = @COLT, COLU = @COLU, 
+                    COLV = @COLV, COLW = @COLW, COLX = @COLX, COLY = @COLY, COLZ = @COLZ, COLAA = @COLAA, COLAB = @COLAB, 
+                    COLAC = @COLAC, COLAD = @COLAD, COLAE = @COLAE, COLAF = @COLAF, COLAG = @COLAG, COLAH = @COLAH, 
+                    COLAI = @COLAI, COLAJ = @COLAJ
                     WHERE  CLIENTE = @CLIENTE
                 ELSE
-                    INSERT INTO GCMERCANCIAS_CFG (CLIENTE, COLA, COLB, COLC, COLD, COLE, COLF, COLG, COLH, COLI, COLJ, COLK, COLL, COLM, COLN)
+                    INSERT INTO GCMERCANCIAS_CFG (CLIENTE, COLA, COLB, COLC, COLD, COLE, COLF, COLG, COLH, COLI, COLJ, COLK, COLL, COLM, COLN,
+                    COLO, COLP, COLQ, COLR, COLS, COLT, COLU, COLV, COLW, COLX, COLY, COLZ, COLAA, COLAB, COLAC, COLAD, COLAE, COLAF, COLAG, 
+                    COLAH, COLAI, COLAJ)
                     VALUES (
-                    @CLIENTE, @COLA, @COLB, @COLC, @COLD, @COLE, @COLF, @COLG, @COLH, @COLI, @COLJ, @COLK, @COLL, @COLM, @COLN)"
+                    @CLIENTE, @COLA, @COLB, @COLC, @COLD, @COLE, @COLF, @COLG, @COLH, @COLI, @COLJ, @COLK, @COLL, @COLM, @COLN,
+                    @COLO, @COLP, @COLQ, @COLR, @COLS, @COLT, @COLU, @COLV, @COLW, @COLX, @COLY, @COLZ, @COLAA, @COLAB, @COLAC, @COLAD, @COLAE, 
+                    @COLAF, @COLAG, @COLAH, @COLAI, @COLAJ)"
 
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
@@ -1169,6 +1199,29 @@ Public Class frmClientesAE
                 cmd.Parameters.Add("@COLL", SqlDbType.VarChar).Value = TCOLL.Text
                 cmd.Parameters.Add("@COLM", SqlDbType.VarChar).Value = TCOLM.Text
                 cmd.Parameters.Add("@COLN", SqlDbType.VarChar).Value = TCOLN.Text
+                cmd.Parameters.Add("@COLO", SqlDbType.VarChar).Value = TCOLO.Text
+                cmd.Parameters.Add("@COLP", SqlDbType.VarChar).Value = TCOLP.Text
+                cmd.Parameters.Add("@COLQ", SqlDbType.VarChar).Value = TCOLQ.Text
+                cmd.Parameters.Add("@COLR", SqlDbType.VarChar).Value = TCOLR.Text
+                cmd.Parameters.Add("@COLS", SqlDbType.VarChar).Value = TCOLS.Text
+                cmd.Parameters.Add("@COLT", SqlDbType.VarChar).Value = TCOLT.Text
+                cmd.Parameters.Add("@COLU", SqlDbType.VarChar).Value = TCOLU.Text
+                cmd.Parameters.Add("@COLV", SqlDbType.VarChar).Value = TCOLV.Text
+                cmd.Parameters.Add("@COLW", SqlDbType.VarChar).Value = TCOLW.Text
+                cmd.Parameters.Add("@COLX", SqlDbType.VarChar).Value = TCOLX.Text
+                cmd.Parameters.Add("@COLY", SqlDbType.VarChar).Value = TCOLY.Text
+                cmd.Parameters.Add("@COLZ", SqlDbType.VarChar).Value = TCOLZ.Text
+                cmd.Parameters.Add("@COLAA", SqlDbType.VarChar).Value = TCOLAA.Text
+                cmd.Parameters.Add("@COLAB", SqlDbType.VarChar).Value = TCOLAB.Text
+                cmd.Parameters.Add("@COLAC", SqlDbType.VarChar).Value = TCOLAC.Text
+                cmd.Parameters.Add("@COLAD", SqlDbType.VarChar).Value = TCOLAD.Text
+                cmd.Parameters.Add("@COLAE", SqlDbType.VarChar).Value = TCOLAE.Text
+                cmd.Parameters.Add("@COLAF", SqlDbType.VarChar).Value = TCOLAF.Text
+                cmd.Parameters.Add("@COLAG", SqlDbType.VarChar).Value = TCOLAG.Text
+                cmd.Parameters.Add("@COLAH", SqlDbType.VarChar).Value = TCOLAH.Text
+                cmd.Parameters.Add("@COLAI", SqlDbType.VarChar).Value = TCOLAI.Text
+                cmd.Parameters.Add("@COLAJ", SqlDbType.VarChar).Value = TCOLAJ.Text
+
                 returnValue = cmd.ExecuteNonQuery().ToString
                 If returnValue IsNot Nothing Then
                     If returnValue = "1" Then
@@ -2451,4 +2504,5 @@ Public Class frmClientesAE
             Bitacora("120. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
+
 End Class

@@ -43,12 +43,15 @@ Partial Class frmOTI_GMAE
         Me.BarCancPartNoEntr = New C1.Win.C1Command.C1Command()
         Me.LkExcel = New C1.Win.C1Command.C1CommandLink()
         Me.BarExcel = New C1.Win.C1Command.C1Command()
+        Me.BtnEstatus = New C1.Win.C1Command.C1CommandLink()
+        Me.lnkEstatus = New C1.Win.C1Command.C1Command()
         Me.LkSalir = New C1.Win.C1Command.C1CommandLink()
         Me.BarSalir = New C1.Win.C1Command.C1Command()
         Me.MenuHolder = New C1.Win.C1Command.C1CommandHolder()
         Me.OTBarNuevo = New C1.Win.C1Command.C1Command()
         Me.OTBarCancelarPart = New C1.Win.C1Command.C1Command()
         Me.OTBarEliminraPart = New C1.Win.C1Command.C1Command()
+        Me.BtnCambiaEstatus = New C1.Win.C1Command.C1Command()
         Me.LProgServ = New System.Windows.Forms.Label()
         Me.tNOTA = New System.Windows.Forms.TextBox()
         Me.tLUGAR_REP = New System.Windows.Forms.TextBox()
@@ -189,7 +192,7 @@ Partial Class frmOTI_GMAE
         Me.C1ToolBar1.ButtonLookVert = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.C1ToolBar1.ButtonWidth = 110
         Me.C1ToolBar1.CommandHolder = Nothing
-        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkGrabar, Me.LkEnlazarDoc, Me.LkEnlazarProgSer, Me.LkGenMINVE, Me.LkFinOT, Me.LkRemisionar, Me.LkEliminar, Me.LkKardex, Me.LkReimpresion, Me.LkCancPartNoEntr, Me.LkExcel, Me.LkSalir})
+        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkGrabar, Me.LkEnlazarDoc, Me.LkEnlazarProgSer, Me.LkGenMINVE, Me.LkFinOT, Me.LkRemisionar, Me.LkEliminar, Me.LkKardex, Me.LkReimpresion, Me.LkCancPartNoEntr, Me.LkExcel, Me.BtnEstatus, Me.LkSalir})
         Me.C1ToolBar1.Dock = System.Windows.Forms.DockStyle.Top
         Me.C1ToolBar1.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
@@ -368,12 +371,25 @@ Partial Class frmOTI_GMAE
         Me.BarExcel.ShortcutText = ""
         Me.BarExcel.Text = "Excel "
         '
+        'BtnEstatus
+        '
+        Me.BtnEstatus.Command = Me.lnkEstatus
+        Me.BtnEstatus.SortOrder = 11
+        Me.BtnEstatus.Text = "Cambiar a Captura"
+        '
+        'lnkEstatus
+        '
+        Me.lnkEstatus.Image = Global.SGT_Transport.My.Resources.Resources.doc20
+        Me.lnkEstatus.Name = "lnkEstatus"
+        Me.lnkEstatus.ShortcutText = ""
+        Me.lnkEstatus.Text = "Cambiar a Capturada"
+        '
         'LkSalir
         '
         Me.LkSalir.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.LkSalir.Command = Me.BarSalir
         Me.LkSalir.Delimiter = True
-        Me.LkSalir.SortOrder = 11
+        Me.LkSalir.SortOrder = 12
         Me.LkSalir.Text = " Salir"
         '
         'BarSalir
@@ -403,6 +419,8 @@ Partial Class frmOTI_GMAE
         Me.MenuHolder.Commands.Add(Me.OTBarNuevo)
         Me.MenuHolder.Commands.Add(Me.OTBarCancelarPart)
         Me.MenuHolder.Commands.Add(Me.OTBarEliminraPart)
+        Me.MenuHolder.Commands.Add(Me.BtnCambiaEstatus)
+        Me.MenuHolder.Commands.Add(Me.lnkEstatus)
         Me.MenuHolder.Owner = Me
         '
         'OTBarNuevo
@@ -428,6 +446,12 @@ Partial Class frmOTI_GMAE
         Me.OTBarEliminraPart.ShortcutText = ""
         Me.OTBarEliminraPart.Text = "Eliminar partida"
         Me.OTBarEliminraPart.ToolTipText = "F8"
+        '
+        'BtnCambiaEstatus
+        '
+        Me.BtnCambiaEstatus.Name = "BtnCambiaEstatus"
+        Me.BtnCambiaEstatus.ShortcutText = ""
+        Me.BtnCambiaEstatus.Text = "Cambia Estatus"
         '
         'LProgServ
         '
@@ -1720,4 +1744,7 @@ Partial Class frmOTI_GMAE
     Friend WithEvents BarAct As C1.Win.C1Input.C1Button
     Friend WithEvents TACTIVIDAD As TextBox
     Friend WithEvents Label21 As Label
+    Friend WithEvents BtnCambiaEstatus As C1.Win.C1Command.C1Command
+    Friend WithEvents BtnEstatus As C1.Win.C1Command.C1CommandLink
+    Friend WithEvents lnkEstatus As C1.Win.C1Command.C1Command
 End Class

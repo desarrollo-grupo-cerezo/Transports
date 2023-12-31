@@ -9350,7 +9350,7 @@ Module ModCREATABLAS
             BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
         '93350
-        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(140, 93000, 93350, 'Mostrar costo')"
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(140, 93000, 93350, 'MOSTRAR COSTO')"
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
@@ -9359,6 +9359,17 @@ Module ModCREATABLAS
         Catch ex As Exception
             BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
+        '93360
+        SQL = "INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(150, 93000, 93360, 'CAMBIAR ESTATUS A CAPTURA')"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+            End Using
+        Catch ex As Exception
+            BITACORADB("1320. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
 
         '██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 
@@ -13091,7 +13102,11 @@ Module ModCREATABLAS
             CREA_CAMPO("CFDI_COMPAGO", "VERSION", "VARCHAR", "5", "")
             CREA_CAMPO("CFDI_COMPAGO", "FECHA_CANCEL", "VARCHAR", "30", "")
             CREA_CAMPO("CFDI_COMPAGO", "FECHA_TIMBRADO", "VARCHAR", "30", "")
-
+            CREA_CAMPO("CFDI_COMPAGO", "CVE_BITA", "INT", "", "")
+            CREA_CAMPO("CFDI_COMPAGO", "USUARIO", "VARCHAR", "30", "")
+            CREA_CAMPO("CFDI_COMPAGO", "TIPO_COMPROBANTE", "VARCHAR", "1", "")
+            CREA_CAMPO("CFDI_COMPAGO", "TIMBRADO", "VARCHAR", "2", "")
+            CREA_CAMPO("CFDI_COMPAGO", "XML", "TEXT", "", "")
 
             CREA_CAMPO("GCCARGA", "REG_ORI", "TINYINT", "", "0")
             SQL = "UPDATE GCCARGA SET REG_ORI = 0 WHERE REG_ORI IS NULL"
@@ -13100,6 +13115,10 @@ Module ModCREATABLAS
 
             CREA_CAMPO("GCMERCANCIAS", "REG_ORI", "TINYINT", "", "0")
             SQL = "UPDATE GCMERCANCIAS SET REG_ORI = 0 WHERE REG_ORI IS NULL"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+            SQL = "IF NOT EXISTS(SELECT 1 FROM GCDERECHOS_CAT3 WHERE CLAVE = 93000 AND SUBCLAVE = 93360) INSERT INTO GCDERECHOS_CAT3 (NUM_REG, CLAVE, SUBCLAVE, MODULO) VALUES(150, 93000, 93360, 'CAMBIAR ESTATUS A CAPTURA')"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
 
@@ -13176,6 +13195,7 @@ Module ModCREATABLAS
             CREA_CAMPO("GCCLIE_OP", "CveRegistroISTMO", "VARCHAR", "10", "")
 
             CREA_CAMPO("CFDI", "IdCCP", "VARCHAR", "50", "")
+            CREA_CAMPO("CFDI", "CVE_ESQIMPU", "SMALLINT", "", "")
             CREA_CAMPO("CFDI_CFG", "VerCCP", "VARCHAR", "3", "")
 
             SQL = "UPDATE CFDI_CFG SET VerCCP = '2.0' WHERE VerCCP IS NULL"

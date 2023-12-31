@@ -1747,8 +1747,8 @@ Public Class FrmAsigViajeBuenoAE
                     End If
 
                     TSUB_TOTAL.Value = dr("SUBT")
-                    TRET.Value = dr("RET")
-                    TIVA.Value = dr("IV")
+                    TRET.Value = Math.Round(dr("RET"), 2)
+                    TIVA.Value = Math.Round(dr("IV"), 2)
                     TNETO.Value = dr("NET")
 
                     If ESCENARIO = 0 Then
@@ -2005,8 +2005,8 @@ Public Class FrmAsigViajeBuenoAE
                 cImpu = PREC * vIMPU4 / 100
 
                 TSUB_TOTAL.Value = PREC '+ M1 + M2 + M3 + M4 + M5 + M6
-                TIVA.Value = cIeps + cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6
-                TRET.Value = cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6
+                TIVA.Value = Math.Round(cIeps + cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6, 2)
+                TRET.Value = Math.Round(cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6, 2)
                 TNETO.Value = TSUB_TOTAL.Value + TIVA.Value + TRET.Value
 
             End If
@@ -9430,8 +9430,8 @@ Public Class FrmAsigViajeBuenoAE
 
                 If ESCENARIO = 3 Then
                     TSUBT_O.Value = PREC + M1 + M2 + M3 + M4 + M5 + M6
-                    TIVA_O.Value = cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6
-                    TRET_O.Value = cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6
+                    TIVA_O.Value = Math.Round(cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6, 2)
+                    TRET_O.Value = Math.Round(cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6, 2)
                     TNETO_O.Value = TSUBT_O.Value + TIVA_O.Value + TRET_O.Value
 
                     TSALDO_SUBTOTAL.Value = TSUBT_O2.Value - TSUBT_O.Value
@@ -9441,8 +9441,8 @@ Public Class FrmAsigViajeBuenoAE
                 Else
                     TIMPORTE_CONCEP.Value = M1 + M2 + M3 + M4 + M5 + M6
                     TSUB_TOTAL.Value = PREC + TIMPORTE_CONCEP.Value 'M1 + M2 + M3 + M4 + M5 + M6
-                    TIVA.Value = cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6
-                    TRET.Value = cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6
+                    TIVA.Value = Math.Round(cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6, 2)
+                    TRET.Value = Math.Round(cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6, 2)
                     TNETO.Value = TSUB_TOTAL.Value + TIVA.Value + TRET.Value
 
                 End If
@@ -9871,8 +9871,8 @@ Public Class FrmAsigViajeBuenoAE
                 cImpu = PREC * vIMPU4 / 100
 
                 TSUB_TOTAL.Value = PREC + TIMPORTE_CONCEP.Value '+ M1 + M2 + M3 + M4 + M5 + M6
-                TIVA.Value = cIeps + cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6
-                TRET.Value = cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6
+                TIVA.Value = Math.Round(cIeps + cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6, 2)
+                TRET.Value = Math.Round(cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6, 2)
                 TNETO.Value = TSUB_TOTAL.Value + TIVA.Value + TRET.Value
 
                 If ESCENARIO = 3 Then
@@ -12846,7 +12846,7 @@ Public Class FrmAsigViajeBuenoAE
                     SQL = "SELECT M.CVE_VIAJE, M.NUM_PAR, M.CANT, M.ID_UNIDAD, M.DESC_UNIDAD, M.ID_MERCANCIA, M.DESCR_MERCANCIA, 
                         M.MAT_PELIGROSO, M.CVE_MAT_PELIGROSO, M.ID_EMBALAJE, M.DESC_EMBALAJE, M.PESO, M.VALOR_MERCANCIA, M.MONEDA, 
                         M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT,
-                        SectorCOFEPRIS, SC.descripcion AS DescripcionSectorCOFEPRIS, NomQuimico, DenominacionGenericaProd, DenominacionDistintivaProd, Fabricante, FechaCaducidad, 
+                        SectorCOFEPRIS, SC.descripcion AS DescripcionSectorCOFEPRIS, NombreIngredienteActivo, NomQuimico, DenominacionGenericaProd, DenominacionDistintivaProd, Fabricante, FechaCaducidad, 
 					    LoteMedicamento, FormaFarmaceutica, FF.descripcion AS DescripcionFormaFarmaceutica, CondicionesEspTransp, CE.descripcion AS DescripcionCondicionesEspTransp, 
 					    RegistroSanitarioFolioAutorizacion, PermisoImportacion, FolioImpoVUCEM, NumCAS, RazonSocialEmpImp, NumRegSanPlagCOFEPRIS, DatosFabricante, DatosFormulador, DatosMaquilador, 
                         UsoAutorizado, TipoMateria, DescripcionMateria  
@@ -12859,7 +12859,7 @@ Public Class FrmAsigViajeBuenoAE
                     SQL = "SELECT M.CVE_VIAJE, M.NUM_PAR, M.CANT, M.ID_UNIDAD, M.DESC_UNIDAD, M.ID_MERCANCIA, M.DESCR_MERCANCIA, 
                         M.MAT_PELIGROSO, M.CVE_MAT_PELIGROSO, M.ID_EMBALAJE, M.DESC_EMBALAJE, M.PESO, M.VALOR_MERCANCIA, M.MONEDA, 
                         M.ID_FRACC_ARANCELARIA, M.UUID_COM_EXT,
-                        SectorCOFEPRIS, SC.descripcion AS DescripcionSectorCOFEPRIS, NomQuimico, DenominacionGenericaProd, DenominacionDistintivaProd, Fabricante, FechaCaducidad, 
+                        SectorCOFEPRIS, SC.descripcion AS DescripcionSectorCOFEPRIS, NombreIngredienteActivo, NomQuimico, DenominacionGenericaProd, DenominacionDistintivaProd, Fabricante, FechaCaducidad, 
 					    LoteMedicamento, FormaFarmaceutica, FF.descripcion AS DescripcionFormaFarmaceutica, CondicionesEspTransp, CE.descripcion AS DescripcionCondicionesEspTransp, 
 					    RegistroSanitarioFolioAutorizacion, PermisoImportacion, FolioImpoVUCEM, NumCAS, RazonSocialEmpImp, NumRegSanPlagCOFEPRIS, DatosFabricante, DatosFormulador, DatosMaquilador, 
                         UsoAutorizado, TipoMateria, DescripcionMateria  

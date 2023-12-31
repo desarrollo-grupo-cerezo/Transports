@@ -35,7 +35,7 @@ Public Class frmOTI_GMAE
     Private MostarCosto As Boolean
 
     Private C93015 As Boolean, C93030 As Boolean, C93060 As Boolean, C93090 As Boolean, C93120 As Boolean, C93150 As Boolean
-    Private C93180 As Boolean, C93220 As Boolean, C93250 As Boolean, C93280 As Boolean, C93310 As Boolean, C93340 As Boolean, C93370 As Boolean
+    Private C93180 As Boolean, C93220 As Boolean, C93250 As Boolean, C93280 As Boolean, C93310 As Boolean, C93340 As Boolean, C93370 As Boolean, C93360 As Boolean
     Private _myEditor As MyEditorOTIGM
 
     Public Sub New()
@@ -93,6 +93,9 @@ Public Class frmOTI_GMAE
             tLUGAR_REP.MaxLength = 50
             tNOTA.MaxLength = 100
             SEGONE = True
+
+            lnkEstatus.Enabled = False
+            lnkEstatus.Visible = False
 
             Tab1.Width = Screen.PrimaryScreen.Bounds.Width - 50
 
@@ -397,6 +400,11 @@ Public Class frmOTI_GMAE
                     L4.Text = BUSCA_CAT("Tipo unidad", tCVE_TIPO.Text)
 
                     tEstatus.Text = dr("ESTATUS").ToString
+
+                    If tEstatus.Text = "AUTORIZADA" And C93360 Then
+                        lnkEstatus.Enabled = True
+                        lnkEstatus.Visible = True
+                    End If
 
                     Var6 = "0"
                     tCVE_PROV.Text = dr("CVE_PROV").ToString
@@ -874,6 +882,8 @@ Public Class frmOTI_GMAE
                                         MostarCosto = True
                                         'Lt1.Visible = True
                                         'L1.Visible = True
+                                    Case 93360 'CAMBIAR ESTATUS A CAPTURA
+                                        C93360 = True
                                 End Select
                                 z += 1
                             End While
@@ -915,6 +925,7 @@ Public Class frmOTI_GMAE
                 End Try
             Else
                 MostarCosto = True
+                C93360 = True
             End If
         Catch ex As Exception
             Bitacora("13. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -6036,6 +6047,36 @@ Public Class frmOTI_GMAE
             MsgBox("20. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
         ENTRA = True
+    End Sub
+
+    Private Sub lnkEstatus_Click(sender As Object, e As ClickEventArgs) Handles lnkEstatus.Click
+        Try
+
+            If MsgBox("¿Desea cambiar el estatus a Capturada?", MsgBoxStyle.YesNo + MsgBoxStyle.Question, "Cambio de Estatus") = MsgBoxResult.Yes Then
+                Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                    SQL = "UPDATE GCORDEN_TRABAJO_EXT SET ESTATUS = 'Captura' WHERE CVE_ORD = '" & tCVE_ORD.Text & "'"
+                    cmd2.CommandText = SQL
+                    returnValue = cmd2.ExecuteNonQuery.ToString
+                    If returnValue IsNot Nothing Then
+                        If returnValue = "1" Then
+                        End If
+                    End If
+                    GRABA_BITA(tCVE_PROV.Text, tCVE_ORD.Text, 0, "T", "Cambio de Estatus a Captura orden de trabajo ")
+                End Using
+
+                MsgBox("La orden de trabajo se cambio es estatus correctamente")
+
+                If FORM_IS_OPEN("frmOTI") Then
+                    frmOTI.DESPLEGAR()
+                End If
+                Me.Close()
+
+            End If
+
+        Catch ex As Exception
+            Bitacora("260. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("260. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
     End Sub
 
     Private Sub TResponsable_KeyDown(sender As Object, e As KeyEventArgs) Handles tResponsable.KeyDown

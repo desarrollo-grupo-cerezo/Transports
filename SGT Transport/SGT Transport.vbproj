@@ -918,6 +918,12 @@
     <Compile Include="CONTABILIDAD\FrmPolizaLiq.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CONTABILIDAD\FrmConsultaResumen.designer.vb">
+      <DependentUpon>FrmConsultaResumen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmConsultaResumen.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Ejemplo.vb" />
     <Compile Include="INVEN\FrmEsquemasMes.Designer.vb">
       <DependentUpon>FrmEsquemasMes.vb</DependentUpon>
@@ -4641,6 +4647,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CONTABILIDAD\FrmPolizaLiq.resx">
       <DependentUpon>FrmPolizaLiq.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmConsultaResumen.resx">
+      <DependentUpon>FrmConsultaResumen.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="INVEN\FrmEsquemasMes.resx">
       <DependentUpon>FrmEsquemasMes.vb</DependentUpon>

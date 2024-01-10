@@ -26,20 +26,10 @@ Partial Class FrmInvenAE
         Me.FgA = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.Gpo4 = New System.Windows.Forms.GroupBox()
-        Me.Label49 = New System.Windows.Forms.Label()
-        Me.Label48 = New System.Windows.Forms.Label()
-        Me.TCUOTA_IEPS = New C1.Win.C1Input.C1NumericEdit()
-        Me.RadPromedio2 = New System.Windows.Forms.RadioButton()
-        Me.Label9 = New System.Windows.Forms.Label()
         Me.TCVE_ESQIMPU = New System.Windows.Forms.TextBox()
-        Me.RadPEPS2 = New System.Windows.Forms.RadioButton()
-        Me.RadUEPS2 = New System.Windows.Forms.RadioButton()
-        Me.ChMAN_IEPS = New C1.Win.C1Input.C1CheckBox()
-        Me.CboAPL_MAN_IMP = New C1.Win.C1Input.C1ComboBox()
         Me.BtnEsquema = New C1.Win.C1Input.C1Button()
         Me.LtEsquema = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
-        Me.Label6 = New System.Windows.Forms.Label()
         Me.GpoPromociones = New System.Windows.Forms.GroupBox()
         Me.Label47 = New System.Windows.Forms.Label()
         Me.Label46 = New System.Windows.Forms.Label()
@@ -191,6 +181,16 @@ Partial Class FrmInvenAE
         Me.TUnidadPeso = New System.Windows.Forms.TextBox()
         Me.BtnUnidadPeso = New System.Windows.Forms.Button()
         Me.BtnBienesTransp = New System.Windows.Forms.Button()
+        Me.Label49 = New System.Windows.Forms.Label()
+        Me.Label48 = New System.Windows.Forms.Label()
+        Me.TCUOTA_IEPS = New C1.Win.C1Input.C1NumericEdit()
+        Me.RadPromedio2 = New System.Windows.Forms.RadioButton()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.RadPEPS2 = New System.Windows.Forms.RadioButton()
+        Me.RadUEPS2 = New System.Windows.Forms.RadioButton()
+        Me.ChMAN_IEPS = New C1.Win.C1Input.C1CheckBox()
+        Me.CboAPL_MAN_IMP = New C1.Win.C1Input.C1ComboBox()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.GroupBox15 = New System.Windows.Forms.GroupBox()
         Me.BtnAnterior = New C1.Win.C1Input.C1Button()
         Me.BtnInicial = New C1.Win.C1Input.C1Button()
@@ -209,6 +209,10 @@ Partial Class FrmInvenAE
         Me.SplitM = New C1.Win.C1SplitContainer.C1SplitContainer()
         Me.Split2 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.Split1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
+        Me.TCUENT_CONT_PF = New System.Windows.Forms.TextBox()
+        Me.TCUENT_CONT_PM = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label50 = New System.Windows.Forms.Label()
         CType(Me.TAB1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TAB1.SuspendLayout()
         Me.C1DockingTabPage1.SuspendLayout()
@@ -216,9 +220,6 @@ Partial Class FrmInvenAE
         CType(Me.FgA, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Gpo4.SuspendLayout()
-        CType(Me.TCUOTA_IEPS, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChMAN_IEPS, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CboAPL_MAN_IMP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnEsquema, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GpoPromociones.SuspendLayout()
         CType(Me.CBOPREC_PROMO4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -289,6 +290,9 @@ Partial Class FrmInvenAE
         CType(Me.FgL, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Gpo11.SuspendLayout()
         Me.PanelMatPeligro.SuspendLayout()
+        CType(Me.TCUOTA_IEPS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChMAN_IEPS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboAPL_MAN_IMP, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox15.SuspendLayout()
         CType(Me.BtnAnterior, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnInicial, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -392,72 +396,6 @@ Partial Class FrmInvenAE
         Me.Gpo4.TabStop = False
         Me.Gpo4.Text = "Impuestos"
         '
-        'Label49
-        '
-        Me.Label49.AutoSize = True
-        Me.Label49.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label49.Location = New System.Drawing.Point(1393, 254)
-        Me.Label49.Name = "Label49"
-        Me.Label49.Size = New System.Drawing.Size(67, 13)
-        Me.Label49.TabIndex = 603
-        Me.Label49.Text = "Tasa IEPS"
-        '
-        'Label48
-        '
-        Me.Label48.AutoSize = True
-        Me.Label48.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label48.Location = New System.Drawing.Point(1341, 180)
-        Me.Label48.Name = "Label48"
-        Me.Label48.Size = New System.Drawing.Size(200, 13)
-        Me.Label48.TabIndex = 603
-        Me.Label48.Text = "configuración adicional para IEPS"
-        '
-        'TCUOTA_IEPS
-        '
-        Me.TCUOTA_IEPS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        '
-        '
-        '
-        Me.TCUOTA_IEPS.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.TCUOTA_IEPS.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.TCUOTA_IEPS.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.TCUOTA_IEPS.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.GeneralNumber
-        Me.TCUOTA_IEPS.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
-            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
-        Me.TCUOTA_IEPS.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.TCUOTA_IEPS.Location = New System.Drawing.Point(1384, 300)
-        Me.TCUOTA_IEPS.Name = "TCUOTA_IEPS"
-        Me.TCUOTA_IEPS.Size = New System.Drawing.Size(92, 18)
-        Me.TCUOTA_IEPS.TabIndex = 44
-        Me.TCUOTA_IEPS.Tag = Nothing
-        Me.TCUOTA_IEPS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TCUOTA_IEPS.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
-        Me.TCUOTA_IEPS.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.TCUOTA_IEPS.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'RadPromedio2
-        '
-        Me.RadPromedio2.AutoSize = True
-        Me.RadPromedio2.Location = New System.Drawing.Point(1465, 277)
-        Me.RadPromedio2.Name = "RadPromedio2"
-        Me.RadPromedio2.Size = New System.Drawing.Size(69, 17)
-        Me.RadPromedio2.TabIndex = 43
-        Me.RadPromedio2.TabStop = True
-        Me.RadPromedio2.Text = "Promedio"
-        Me.RadPromedio2.UseVisualStyleBackColor = False
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(1343, 302)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(35, 13)
-        Me.Label9.TabIndex = 282
-        Me.Label9.Text = "Cuota"
-        '
         'TCVE_ESQIMPU
         '
         Me.TCVE_ESQIMPU.AcceptsReturn = True
@@ -469,64 +407,6 @@ Partial Class FrmInvenAE
         Me.TCVE_ESQIMPU.Size = New System.Drawing.Size(32, 20)
         Me.TCVE_ESQIMPU.TabIndex = 38
         Me.TCVE_ESQIMPU.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'RadPEPS2
-        '
-        Me.RadPEPS2.AutoSize = True
-        Me.RadPEPS2.Location = New System.Drawing.Point(1407, 277)
-        Me.RadPEPS2.Name = "RadPEPS2"
-        Me.RadPEPS2.Size = New System.Drawing.Size(53, 17)
-        Me.RadPEPS2.TabIndex = 42
-        Me.RadPEPS2.TabStop = True
-        Me.RadPEPS2.Text = "PEPS"
-        Me.RadPEPS2.UseVisualStyleBackColor = False
-        '
-        'RadUEPS2
-        '
-        Me.RadUEPS2.AutoSize = True
-        Me.RadUEPS2.Location = New System.Drawing.Point(1341, 277)
-        Me.RadUEPS2.Name = "RadUEPS2"
-        Me.RadUEPS2.Size = New System.Drawing.Size(54, 17)
-        Me.RadUEPS2.TabIndex = 41
-        Me.RadUEPS2.TabStop = True
-        Me.RadUEPS2.Text = "UEPS"
-        Me.RadUEPS2.UseVisualStyleBackColor = False
-        '
-        'ChMAN_IEPS
-        '
-        Me.ChMAN_IEPS.BackColor = System.Drawing.Color.Transparent
-        Me.ChMAN_IEPS.BorderColor = System.Drawing.Color.Transparent
-        Me.ChMAN_IEPS.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.ChMAN_IEPS.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ChMAN_IEPS.ForeColor = System.Drawing.Color.Black
-        Me.ChMAN_IEPS.Location = New System.Drawing.Point(1351, 200)
-        Me.ChMAN_IEPS.Name = "ChMAN_IEPS"
-        Me.ChMAN_IEPS.Padding = New System.Windows.Forms.Padding(1)
-        Me.ChMAN_IEPS.Size = New System.Drawing.Size(171, 21)
-        Me.ChMAN_IEPS.TabIndex = 39
-        Me.ChMAN_IEPS.Text = "Activar para este producto"
-        Me.ChMAN_IEPS.UseVisualStyleBackColor = True
-        Me.ChMAN_IEPS.Value = Nothing
-        Me.ChMAN_IEPS.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'CboAPL_MAN_IMP
-        '
-        Me.CboAPL_MAN_IMP.AllowSpinLoop = False
-        Me.CboAPL_MAN_IMP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.CboAPL_MAN_IMP.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CboAPL_MAN_IMP.GapHeight = 0
-        Me.CboAPL_MAN_IMP.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.CboAPL_MAN_IMP.ItemsDisplayMember = ""
-        Me.CboAPL_MAN_IMP.ItemsValueMember = ""
-        Me.CboAPL_MAN_IMP.Location = New System.Drawing.Point(1451, 225)
-        Me.CboAPL_MAN_IMP.Name = "CboAPL_MAN_IMP"
-        Me.CboAPL_MAN_IMP.Size = New System.Drawing.Size(91, 18)
-        Me.CboAPL_MAN_IMP.Style.DropDownBackColor = System.Drawing.Color.White
-        Me.CboAPL_MAN_IMP.Style.DropDownBorderColor = System.Drawing.Color.Gainsboro
-        Me.CboAPL_MAN_IMP.TabIndex = 40
-        Me.CboAPL_MAN_IMP.Tag = Nothing
-        Me.CboAPL_MAN_IMP.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.CboAPL_MAN_IMP.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'BtnEsquema
         '
@@ -555,15 +435,6 @@ Partial Class FrmInvenAE
         Me.Label21.Size = New System.Drawing.Size(51, 13)
         Me.Label21.TabIndex = 267
         Me.Label21.Text = "Esquema"
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(1342, 227)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(106, 13)
-        Me.Label6.TabIndex = 256
-        Me.Label6.Text = "Aplicar configuración"
         '
         'GpoPromociones
         '
@@ -599,7 +470,7 @@ Partial Class FrmInvenAE
         Me.GpoPromociones.Controls.Add(Me.TCANT_PROMO1)
         Me.GpoPromociones.Location = New System.Drawing.Point(486, 309)
         Me.GpoPromociones.Name = "GpoPromociones"
-        Me.GpoPromociones.Size = New System.Drawing.Size(510, 160)
+        Me.GpoPromociones.Size = New System.Drawing.Size(510, 189)
         Me.GpoPromociones.TabIndex = 45
         Me.GpoPromociones.TabStop = False
         Me.GpoPromociones.Text = "Promociones"
@@ -1548,7 +1419,7 @@ Partial Class FrmInvenAE
         Me.Gpo10.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Gpo10.Location = New System.Drawing.Point(995, 370)
         Me.Gpo10.Name = "Gpo10"
-        Me.Gpo10.Size = New System.Drawing.Size(236, 99)
+        Me.Gpo10.Size = New System.Drawing.Size(236, 128)
         Me.Gpo10.TabIndex = 41
         Me.Gpo10.TabStop = False
         Me.Gpo10.Text = "Acumulados anuales de compras"
@@ -1837,7 +1708,7 @@ Partial Class FrmInvenAE
         Me.Gpo1.Controls.Add(Me.Label27)
         Me.Gpo1.Location = New System.Drawing.Point(2, -4)
         Me.Gpo1.Name = "Gpo1"
-        Me.Gpo1.Size = New System.Drawing.Size(481, 473)
+        Me.Gpo1.Size = New System.Drawing.Size(481, 504)
         Me.Gpo1.TabIndex = 0
         Me.Gpo1.TabStop = False
         '
@@ -1887,6 +1758,10 @@ Partial Class FrmInvenAE
         '
         'Gpo15
         '
+        Me.Gpo15.Controls.Add(Me.Label50)
+        Me.Gpo15.Controls.Add(Me.Label8)
+        Me.Gpo15.Controls.Add(Me.TCUENT_CONT_PM)
+        Me.Gpo15.Controls.Add(Me.TCUENT_CONT_PF)
         Me.Gpo15.Controls.Add(Me.Label19)
         Me.Gpo15.Controls.Add(Me.BtnProv)
         Me.Gpo15.Controls.Add(Me.LtProv)
@@ -1894,7 +1769,7 @@ Partial Class FrmInvenAE
         Me.Gpo15.Controls.Add(Me.Label12)
         Me.Gpo15.Location = New System.Drawing.Point(110, 308)
         Me.Gpo15.Name = "Gpo15"
-        Me.Gpo15.Size = New System.Drawing.Size(186, 144)
+        Me.Gpo15.Size = New System.Drawing.Size(208, 194)
         Me.Gpo15.TabIndex = 27
         Me.Gpo15.TabStop = False
         Me.Gpo15.Text = "Proveedores"
@@ -1902,7 +1777,7 @@ Partial Class FrmInvenAE
         'Label19
         '
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(13, 96)
+        Me.Label19.Location = New System.Drawing.Point(6, 66)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(85, 13)
         Me.Label19.TabIndex = 278
@@ -1910,9 +1785,9 @@ Partial Class FrmInvenAE
         '
         'BtnProv
         '
-        Me.BtnProv.Location = New System.Drawing.Point(13, 63)
+        Me.BtnProv.Location = New System.Drawing.Point(127, 32)
         Me.BtnProv.Name = "BtnProv"
-        Me.BtnProv.Size = New System.Drawing.Size(88, 23)
+        Me.BtnProv.Size = New System.Drawing.Size(78, 23)
         Me.BtnProv.TabIndex = 27
         Me.BtnProv.Text = "Proveedores"
         Me.BtnProv.UseVisualStyleBackColor = True
@@ -1924,7 +1799,7 @@ Partial Class FrmInvenAE
         Me.LtProv.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.LtProv.Location = New System.Drawing.Point(6, 34)
         Me.LtProv.Name = "LtProv"
-        Me.LtProv.Size = New System.Drawing.Size(123, 19)
+        Me.LtProv.Size = New System.Drawing.Size(115, 19)
         Me.LtProv.TabIndex = 260
         '
         'TCUENT_CONT
@@ -1933,7 +1808,7 @@ Partial Class FrmInvenAE
         Me.TCUENT_CONT.AcceptsTab = True
         Me.TCUENT_CONT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCUENT_CONT.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCUENT_CONT.Location = New System.Drawing.Point(13, 113)
+        Me.TCUENT_CONT.Location = New System.Drawing.Point(6, 82)
         Me.TCUENT_CONT.Name = "TCUENT_CONT"
         Me.TCUENT_CONT.Size = New System.Drawing.Size(171, 20)
         Me.TCUENT_CONT.TabIndex = 28
@@ -1959,9 +1834,9 @@ Partial Class FrmInvenAE
         Me.Gpo16.Controls.Add(Me.TSTOCK_MIN)
         Me.Gpo16.Controls.Add(Me.Label14)
         Me.Gpo16.Controls.Add(Me.Label13)
-        Me.Gpo16.Location = New System.Drawing.Point(297, 308)
+        Me.Gpo16.Location = New System.Drawing.Point(319, 308)
         Me.Gpo16.Name = "Gpo16"
-        Me.Gpo16.Size = New System.Drawing.Size(157, 144)
+        Me.Gpo16.Size = New System.Drawing.Size(157, 194)
         Me.Gpo16.TabIndex = 28
         Me.Gpo16.TabStop = False
         Me.Gpo16.Text = "Cantidades"
@@ -1971,7 +1846,7 @@ Partial Class FrmInvenAE
         Me.BtnExistXAlm.Location = New System.Drawing.Point(15, 46)
         Me.BtnExistXAlm.Name = "BtnExistXAlm"
         Me.BtnExistXAlm.Size = New System.Drawing.Size(137, 20)
-        Me.BtnExistXAlm.TabIndex = 30
+        Me.BtnExistXAlm.TabIndex = 32
         Me.BtnExistXAlm.Text = "Existencias por almacén"
         Me.BtnExistXAlm.UseVisualStyleBackColor = True
         Me.BtnExistXAlm.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
@@ -1986,7 +1861,7 @@ Partial Class FrmInvenAE
         Me.TEXIST.Location = New System.Drawing.Point(65, 17)
         Me.TEXIST.Name = "TEXIST"
         Me.TEXIST.Size = New System.Drawing.Size(87, 22)
-        Me.TEXIST.TabIndex = 29
+        Me.TEXIST.TabIndex = 31
         Me.TEXIST.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Label17
@@ -2017,7 +1892,7 @@ Partial Class FrmInvenAE
         Me.TAPART.Location = New System.Drawing.Point(63, 118)
         Me.TAPART.Name = "TAPART"
         Me.TAPART.Size = New System.Drawing.Size(89, 18)
-        Me.TAPART.TabIndex = 33
+        Me.TAPART.TabIndex = 35
         Me.TAPART.Tag = Nothing
         Me.TAPART.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TAPART.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
@@ -2052,7 +1927,7 @@ Partial Class FrmInvenAE
         Me.TSTOCK_MAX.Location = New System.Drawing.Point(63, 94)
         Me.TSTOCK_MAX.Name = "TSTOCK_MAX"
         Me.TSTOCK_MAX.Size = New System.Drawing.Size(89, 18)
-        Me.TSTOCK_MAX.TabIndex = 32
+        Me.TSTOCK_MAX.TabIndex = 34
         Me.TSTOCK_MAX.Tag = Nothing
         Me.TSTOCK_MAX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TSTOCK_MAX.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
@@ -2087,7 +1962,7 @@ Partial Class FrmInvenAE
         Me.TSTOCK_MIN.Location = New System.Drawing.Point(63, 70)
         Me.TSTOCK_MIN.Name = "TSTOCK_MIN"
         Me.TSTOCK_MIN.Size = New System.Drawing.Size(89, 18)
-        Me.TSTOCK_MIN.TabIndex = 31
+        Me.TSTOCK_MIN.TabIndex = 33
         Me.TSTOCK_MIN.Tag = Nothing
         Me.TSTOCK_MIN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TSTOCK_MIN.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
@@ -2121,7 +1996,7 @@ Partial Class FrmInvenAE
         Me.Gpo14.Controls.Add(Me.RadUEPS)
         Me.Gpo14.Location = New System.Drawing.Point(6, 308)
         Me.Gpo14.Name = "Gpo14"
-        Me.Gpo14.Size = New System.Drawing.Size(104, 144)
+        Me.Gpo14.Size = New System.Drawing.Size(104, 194)
         Me.Gpo14.TabIndex = 22
         Me.Gpo14.TabStop = False
         Me.Gpo14.Text = "Costeo"
@@ -2985,6 +2860,139 @@ Partial Class FrmInvenAE
         Me.BtnBienesTransp.TabIndex = 340
         Me.BtnBienesTransp.UseVisualStyleBackColor = True
         '
+        'Label49
+        '
+        Me.Label49.AutoSize = True
+        Me.Label49.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label49.Location = New System.Drawing.Point(1393, 254)
+        Me.Label49.Name = "Label49"
+        Me.Label49.Size = New System.Drawing.Size(67, 13)
+        Me.Label49.TabIndex = 603
+        Me.Label49.Text = "Tasa IEPS"
+        '
+        'Label48
+        '
+        Me.Label48.AutoSize = True
+        Me.Label48.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label48.Location = New System.Drawing.Point(1341, 180)
+        Me.Label48.Name = "Label48"
+        Me.Label48.Size = New System.Drawing.Size(200, 13)
+        Me.Label48.TabIndex = 603
+        Me.Label48.Text = "configuración adicional para IEPS"
+        '
+        'TCUOTA_IEPS
+        '
+        Me.TCUOTA_IEPS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        '
+        '
+        '
+        Me.TCUOTA_IEPS.Calculator.BackColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.TCUOTA_IEPS.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.TCUOTA_IEPS.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.TCUOTA_IEPS.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.GeneralNumber
+        Me.TCUOTA_IEPS.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TCUOTA_IEPS.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.TCUOTA_IEPS.Location = New System.Drawing.Point(1384, 300)
+        Me.TCUOTA_IEPS.Name = "TCUOTA_IEPS"
+        Me.TCUOTA_IEPS.Size = New System.Drawing.Size(92, 18)
+        Me.TCUOTA_IEPS.TabIndex = 44
+        Me.TCUOTA_IEPS.Tag = Nothing
+        Me.TCUOTA_IEPS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TCUOTA_IEPS.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
+        Me.TCUOTA_IEPS.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.TCUOTA_IEPS.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'RadPromedio2
+        '
+        Me.RadPromedio2.AutoSize = True
+        Me.RadPromedio2.Location = New System.Drawing.Point(1465, 277)
+        Me.RadPromedio2.Name = "RadPromedio2"
+        Me.RadPromedio2.Size = New System.Drawing.Size(69, 17)
+        Me.RadPromedio2.TabIndex = 43
+        Me.RadPromedio2.TabStop = True
+        Me.RadPromedio2.Text = "Promedio"
+        Me.RadPromedio2.UseVisualStyleBackColor = False
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(1343, 302)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(35, 13)
+        Me.Label9.TabIndex = 282
+        Me.Label9.Text = "Cuota"
+        '
+        'RadPEPS2
+        '
+        Me.RadPEPS2.AutoSize = True
+        Me.RadPEPS2.Location = New System.Drawing.Point(1407, 277)
+        Me.RadPEPS2.Name = "RadPEPS2"
+        Me.RadPEPS2.Size = New System.Drawing.Size(53, 17)
+        Me.RadPEPS2.TabIndex = 42
+        Me.RadPEPS2.TabStop = True
+        Me.RadPEPS2.Text = "PEPS"
+        Me.RadPEPS2.UseVisualStyleBackColor = False
+        '
+        'RadUEPS2
+        '
+        Me.RadUEPS2.AutoSize = True
+        Me.RadUEPS2.Location = New System.Drawing.Point(1341, 277)
+        Me.RadUEPS2.Name = "RadUEPS2"
+        Me.RadUEPS2.Size = New System.Drawing.Size(54, 17)
+        Me.RadUEPS2.TabIndex = 41
+        Me.RadUEPS2.TabStop = True
+        Me.RadUEPS2.Text = "UEPS"
+        Me.RadUEPS2.UseVisualStyleBackColor = False
+        '
+        'ChMAN_IEPS
+        '
+        Me.ChMAN_IEPS.BackColor = System.Drawing.Color.Transparent
+        Me.ChMAN_IEPS.BorderColor = System.Drawing.Color.Transparent
+        Me.ChMAN_IEPS.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.ChMAN_IEPS.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ChMAN_IEPS.ForeColor = System.Drawing.Color.Black
+        Me.ChMAN_IEPS.Location = New System.Drawing.Point(1351, 200)
+        Me.ChMAN_IEPS.Name = "ChMAN_IEPS"
+        Me.ChMAN_IEPS.Padding = New System.Windows.Forms.Padding(1)
+        Me.ChMAN_IEPS.Size = New System.Drawing.Size(171, 21)
+        Me.ChMAN_IEPS.TabIndex = 39
+        Me.ChMAN_IEPS.Text = "Activar para este producto"
+        Me.ChMAN_IEPS.UseVisualStyleBackColor = True
+        Me.ChMAN_IEPS.Value = Nothing
+        Me.ChMAN_IEPS.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'CboAPL_MAN_IMP
+        '
+        Me.CboAPL_MAN_IMP.AllowSpinLoop = False
+        Me.CboAPL_MAN_IMP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.CboAPL_MAN_IMP.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboAPL_MAN_IMP.GapHeight = 0
+        Me.CboAPL_MAN_IMP.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.CboAPL_MAN_IMP.ItemsDisplayMember = ""
+        Me.CboAPL_MAN_IMP.ItemsValueMember = ""
+        Me.CboAPL_MAN_IMP.Location = New System.Drawing.Point(1451, 225)
+        Me.CboAPL_MAN_IMP.Name = "CboAPL_MAN_IMP"
+        Me.CboAPL_MAN_IMP.Size = New System.Drawing.Size(91, 18)
+        Me.CboAPL_MAN_IMP.Style.DropDownBackColor = System.Drawing.Color.White
+        Me.CboAPL_MAN_IMP.Style.DropDownBorderColor = System.Drawing.Color.Gainsboro
+        Me.CboAPL_MAN_IMP.TabIndex = 40
+        Me.CboAPL_MAN_IMP.Tag = Nothing
+        Me.CboAPL_MAN_IMP.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.CboAPL_MAN_IMP.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(1342, 227)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(106, 13)
+        Me.Label6.TabIndex = 256
+        Me.Label6.Text = "Aplicar configuración"
+        '
         'GroupBox15
         '
         Me.GroupBox15.BackColor = System.Drawing.Color.Transparent
@@ -3179,6 +3187,46 @@ Partial Class FrmInvenAE
         Me.Split1.SizeRatio = 93.0R
         Me.Split1.TabIndex = 0
         '
+        'TCUENT_CONT_PF
+        '
+        Me.TCUENT_CONT_PF.AcceptsReturn = True
+        Me.TCUENT_CONT_PF.AcceptsTab = True
+        Me.TCUENT_CONT_PF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCUENT_CONT_PF.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCUENT_CONT_PF.Location = New System.Drawing.Point(7, 121)
+        Me.TCUENT_CONT_PF.Name = "TCUENT_CONT_PF"
+        Me.TCUENT_CONT_PF.Size = New System.Drawing.Size(171, 20)
+        Me.TCUENT_CONT_PF.TabIndex = 29
+        '
+        'TCUENT_CONT_PM
+        '
+        Me.TCUENT_CONT_PM.AcceptsReturn = True
+        Me.TCUENT_CONT_PM.AcceptsTab = True
+        Me.TCUENT_CONT_PM.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCUENT_CONT_PM.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCUENT_CONT_PM.Location = New System.Drawing.Point(6, 160)
+        Me.TCUENT_CONT_PM.Name = "TCUENT_CONT_PM"
+        Me.TCUENT_CONT_PM.Size = New System.Drawing.Size(171, 20)
+        Me.TCUENT_CONT_PM.TabIndex = 30
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(8, 105)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(165, 13)
+        Me.Label8.TabIndex = 281
+        Me.Label8.Text = "Cuenta contable personas físicas"
+        '
+        'Label50
+        '
+        Me.Label50.AutoSize = True
+        Me.Label50.Location = New System.Drawing.Point(6, 144)
+        Me.Label50.Name = "Label50"
+        Me.Label50.Size = New System.Drawing.Size(170, 13)
+        Me.Label50.TabIndex = 282
+        Me.Label50.Text = "Cuenta contable personas morales"
+        '
         'FrmInvenAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3211,9 +3259,6 @@ Partial Class FrmInvenAE
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Gpo4.ResumeLayout(False)
         Me.Gpo4.PerformLayout()
-        CType(Me.TCUOTA_IEPS, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChMAN_IEPS, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CboAPL_MAN_IMP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnEsquema, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GpoPromociones.ResumeLayout(False)
         Me.GpoPromociones.PerformLayout()
@@ -3297,6 +3342,9 @@ Partial Class FrmInvenAE
         Me.Gpo11.PerformLayout()
         Me.PanelMatPeligro.ResumeLayout(False)
         Me.PanelMatPeligro.PerformLayout()
+        CType(Me.TCUOTA_IEPS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChMAN_IEPS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboAPL_MAN_IMP, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox15.ResumeLayout(False)
         Me.GroupBox15.PerformLayout()
         CType(Me.BtnAnterior, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3501,4 +3549,8 @@ Partial Class FrmInvenAE
     Friend WithEvents Label48 As Label
     Friend WithEvents Split2 As C1.Win.C1SplitContainer.C1SplitterPanel
     Friend WithEvents GpoFgA As GroupBox
+    Friend WithEvents TCUENT_CONT_PM As TextBox
+    Friend WithEvents TCUENT_CONT_PF As TextBox
+    Friend WithEvents Label50 As Label
+    Friend WithEvents Label8 As Label
 End Class

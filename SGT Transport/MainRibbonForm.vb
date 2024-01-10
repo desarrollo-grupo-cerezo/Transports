@@ -4244,4 +4244,14 @@ Public Class MainRibbonForm
         Catch ex As Exception
         End Try
     End Sub
+
+    Private Sub BarContResumen_Click(sender As Object, e As EventArgs) Handles BarContResFacturas.Click, BarContResLiq.Click, BarContResLiqConceptos.Click, BarContResFacturasAbono.Click
+        Dim Consulta As String
+        Consulta = ObtenerNombrePestanaConsulta(sender.Name)
+        Dim frm As New FrmConsultaResumen()
+        frm.NombreConsulta = Consulta
+        frm.NombreFrm = sender.Name
+
+        CREA_TAB(frm, Consulta)
+    End Sub
 End Class

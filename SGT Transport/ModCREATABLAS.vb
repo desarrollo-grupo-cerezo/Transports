@@ -13198,6 +13198,12 @@ Module ModCREATABLAS
             CREA_CAMPO("CFDI", "CVE_ESQIMPU", "SMALLINT", "", "")
             CREA_CAMPO("CFDI_CFG", "VerCCP", "VARCHAR", "3", "")
 
+            CREA_CAMPO("CLIE" & Empresa, "CUENTA_CONTABLE_FISCAL", "VARCHAR", "28", "")
+            CREA_CAMPO("INVE" & Empresa, "CUENTA_CONT_PF", "VARCHAR", "28", "")
+            CREA_CAMPO("INVE" & Empresa, "CUENTA_CONT_PM", "VARCHAR", "28", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "CUENTA_CONTABLE_FINANCIERA", "VARCHAR", "28", "")
+            CREA_CAMPO("CUENTA_BENEF" & Empresa, "CUENTA_CONTABLE_FISCAL", "VARCHAR", "28", "")
+
             SQL = "UPDATE CFDI_CFG SET VerCCP = '2.0' WHERE VerCCP IS NULL"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
@@ -13303,6 +13309,9 @@ Module ModCREATABLAS
                 cmd.CommandText = SQL
                 cmd.ExecuteNonQuery()
             End If
+
+            CREA_CAMPO("CTAYEAR", "CUENTA_ACREDITABLE", "VARCHAR", "10", "")
+
             If Not EXISTE_TABLA("PolizasCOI") Then
                 SQL = "CREATE TABLE dbo.PolizasCOI	(IdPoliza int NOT NULL IDENTITY (1, 1), TipoPoliza varchar(10) NOT NULL, Folio int NOT NULL, Ejercicio int NOT NULL, Periodo int NOT NULL, Fecha datetime NOT NULL, Status tinyint NOT NULL, Usuario varchar(50) NOT NULL, FechaRegistro datetime NOT NULL )  ON [PRIMARY]
                        ALTER TABLE dbo.PolizasCOI ADD CONSTRAINT PK_PolizasCOI PRIMARY KEY CLUSTERED ( IdPoliza ) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]

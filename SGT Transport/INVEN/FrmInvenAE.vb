@@ -220,7 +220,8 @@ Public Class FrmInvenAE
                 I.TIP_COSTEO, I.NUM_MON, I.COMP_X_REC, I.FCH_ULTCOM, I.FCH_ULTVTA, I.PEND_SURT, I.EXIST, I.COSTO_PROM, I.ULT_COSTO, I.CVE_OBS,
                 I.TIPO_ELE, I.UNI_ALT, I.FAC_CONV, I.APART, I.CON_LOTE, I.CON_PEDIMENTO, I.PESO, I.VOLUMEN, I.VTAS_ANL_C, I.VTAS_ANL_M,
                 I.COMP_ANL_C, I.COMP_ANL_M, I.CUENT_CONT, I.CVE_IMAGEN, I.STATUS, I.MAN_IEPS, I.APL_MAN_IMP, I.CUOTA_IEPS, I.APL_MAN_IEPS,
-                I.CVE_PRODSERV, I.CVE_UNIDAD, ISNULL(OB.STR_OBS,'') AS OBS_STR, ISNULL(P.CVE_ESQIMPU,1) AS CVE_ESQ, ISNULL(DESCRIPESQ,'') AS DES_ESQ
+                I.CVE_PRODSERV, I.CVE_UNIDAD, ISNULL(OB.STR_OBS,'') AS OBS_STR, ISNULL(P.CVE_ESQIMPU,1) AS CVE_ESQ, ISNULL(DESCRIPESQ,'') AS DES_ESQ,
+                I.CUENTA_CONT_PF, I.CUENTA_CONT_PM
                 FROM INVE" & Empresa & " I
                 LEFT JOIN IMPU" & Empresa & " P ON P.CVE_ESQIMPU = I.CVE_ESQIMPU
                 LEFT JOIN OINVE" & Empresa & " OB ON OB.CVE_OBS = I.CVE_OBS
@@ -379,6 +380,10 @@ Public Class FrmInvenAE
                         End Try
 
                         TCUENT_CONT.Text = dr.ReadNullAsEmptyString("CUENT_CONT").ToString
+                        TCUENT_CONT_PF.Text = dr.ReadNullAsEmptyString("CUENTA_CONT_PF").ToString
+                        TCUENT_CONT_PM.Text = dr.ReadNullAsEmptyString("CUENTA_CONT_PM").ToString
+
+
                         Pic.Tag = dr.ReadNullAsEmptyString("CVE_IMAGEN").ToString
 
                         If Pic.Tag.ToString.Trim.Length > 0 Then
@@ -537,6 +542,8 @@ Public Class FrmInvenAE
         TCTRL_ALM.MaxLength = 10
         TUNI_ALT.MaxLength = 10
         TCUENT_CONT.MaxLength = 28
+        TCUENT_CONT_PF.MaxLength = 28
+        TCUENT_CONT_PM.MaxLength = 28
         TCVE_PRODSERV.MaxLength = 9
         TCVE_UNIDAD.MaxLength = 4
 
@@ -746,6 +753,8 @@ Public Class FrmInvenAE
             TCOMP_ANL_C.Value = 0
             TCOMP_ANL_M.Value = 0
             TCUENT_CONT.Text = ""
+            TCUENT_CONT_PF.Text = ""
+            TCUENT_CONT_PM.Text = ""
             Pic.Image = PicFoto.Image
             Pic.Tag = ""
             FgA.Rows.Count = 1
@@ -897,16 +906,17 @@ Public Class FrmInvenAE
             APART = @APART, CON_LOTE = @CON_LOTE, CON_PEDIMENTO = @CON_PEDIMENTO, PESO = @PESO, VOLUMEN = @VOLUMEN, CVE_ESQIMPU = @CVE_ESQIMPU,
             VTAS_ANL_C = @VTAS_ANL_C, VTAS_ANL_M = @VTAS_ANL_M, COMP_ANL_C = @COMP_ANL_C, COMP_ANL_M = @COMP_ANL_M, CUENT_CONT = @CUENT_CONT,
             CVE_IMAGEN = @CVE_IMAGEN, MAN_IEPS = @MAN_IEPS, APL_MAN_IMP = @APL_MAN_IMP, CUOTA_IEPS = @CUOTA_IEPS, APL_MAN_IEPS = @APL_MAN_IEPS,
-            CVE_PRODSERV = @CVE_PRODSERV, CVE_UNIDAD = @CVE_UNIDAD
+            CVE_PRODSERV = @CVE_PRODSERV, CVE_UNIDAD = @CVE_UNIDAD, CUENTA_CONT_PF=@CUENTA_CONT_PF, CUENTA_CONT_PM=@CUENTA_CONT_PM
             WHERE CVE_ART = @CVE_ART
             IF @@ROWCOUNT = 0
             INSERT INTO INVE" & Empresa & " (CVE_ART, STATUS, DESCR, LIN_PROD, CON_SERIE, UNI_MED, UNI_EMP, CTRL_ALM, TIEM_SURT, STOCK_MIN, STOCK_MAX,
             TIP_COSTEO, NUM_MON, FCH_ULTCOM, FCH_ULTVTA, PEND_SURT, EXIST, COSTO_PROM, ULT_COSTO, CVE_OBS, TIPO_ELE, UNI_ALT, FAC_CONV, APART, CON_LOTE,
             CON_PEDIMENTO, PESO, VOLUMEN, CVE_ESQIMPU, VTAS_ANL_C, VTAS_ANL_M, COMP_ANL_C, COMP_ANL_M, CUENT_CONT, CVE_IMAGEN, MAN_IEPS, APL_MAN_IMP,
-            CUOTA_IEPS, APL_MAN_IEPS, CVE_PRODSERV, CVE_UNIDAD, UUID) VALUES(@CVE_ART, 'A', @DESCR, @LIN_PROD, @CON_SERIE, @UNI_MED, @UNI_EMP, @CTRL_ALM,
+            CUOTA_IEPS, APL_MAN_IEPS, CVE_PRODSERV, CVE_UNIDAD, UUID, CUENTA_CONT_PF, CUENTA_CONT_PM) VALUES(@CVE_ART, 'A', @DESCR, @LIN_PROD, @CON_SERIE, @UNI_MED, @UNI_EMP, @CTRL_ALM,
             @TIEM_SURT, @STOCK_MIN, @STOCK_MAX, @TIP_COSTEO, @NUM_MON, @FCH_ULTCOM, @FCH_ULTVTA, @PEND_SURT, 0, @COSTO_PROM, @ULT_COSTO, @CVE_OBS,
             @TIPO_ELE, @UNI_ALT, @FAC_CONV, @APART, @CON_LOTE, @CON_PEDIMENTO, @PESO, @VOLUMEN, @CVE_ESQIMPU, @VTAS_ANL_C, @VTAS_ANL_M, @COMP_ANL_C,
-            @COMP_ANL_M, @CUENT_CONT, @CVE_IMAGEN, @MAN_IEPS, @APL_MAN_IMP, @CUOTA_IEPS, @APL_MAN_IEPS, @CVE_PRODSERV, @CVE_UNIDAD, NEWID())"
+            @COMP_ANL_M, @CUENT_CONT, @CVE_IMAGEN, @MAN_IEPS, @APL_MAN_IMP, @CUOTA_IEPS, @APL_MAN_IEPS, @CVE_PRODSERV, @CVE_UNIDAD, NEWID(),
+            @CUENTA_CONT_PF, @CUENTA_CONT_PM)"
         cmd.CommandText = SQL
         Try
             cmd.Parameters.Add("@CVE_ART", SqlDbType.VarChar).Value = RemoveCharacter(TCVE_ART.Text)
@@ -948,6 +958,9 @@ Public Class FrmInvenAE
             cmd.Parameters.Add("@APL_MAN_IEPS", SqlDbType.VarChar).Value = APL_MAN_IEPS
             cmd.Parameters.Add("@CVE_PRODSERV", SqlDbType.VarChar).Value = TCVE_PRODSERV.Text
             cmd.Parameters.Add("@CVE_UNIDAD", SqlDbType.VarChar).Value = TCVE_UNIDAD.Text
+            cmd.Parameters.Add("@CUENTA_CONT_PF", SqlDbType.VarChar).Value = TCUENT_CONT_PF.Text
+            cmd.Parameters.Add("@CUENTA_CONT_PM", SqlDbType.VarChar).Value = TCUENT_CONT_PM.Text
+
             returnValue = cmd.ExecuteNonQuery().ToString
             If returnValue IsNot Nothing Then
                 If returnValue = "1" Then
@@ -1299,7 +1312,7 @@ Public Class FrmInvenAE
             Bitacora("101. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
-    Private Sub TCUENT_CONT_KeyDown(sender As Object, e As KeyEventArgs) Handles TCUENT_CONT.KeyDown
+    Private Sub TCUENT_CONT_PM_KeyDown(sender As Object, e As KeyEventArgs) Handles TCUENT_CONT_PM.KeyDown
         If e.KeyCode = Keys.Enter Then
             Gpo16.Select()
         End If

@@ -124,7 +124,7 @@
   <data name="BarSalir.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAACd1JREFUWEeVlglUVdcVhu+97z0eg2CiSLKsQ6rWGFTQGAUFBVSKDCpGHBIMgzUM
+        wgAADsIBFShKgAAACd1JREFUWEeVlglUVdcVhu+97z0eg2CiSLKsQ6rWGFTQGAUFBVSKDCpGHBIMgzUM
         GrSgIjIIDiAiDghiQOM8IUSjJqKJUxQxTjV1tq3W6hJja9LEZarI8Pc/510Ep6Q9b+11ebx777f3v4dz
         FOWtaEhzncRr1C+aSmvmOlFeLf+LhuocA7VrDJRusVC708R7egr7CFqvybB2T4D6zhSofXh1mypN6Te9
         0SScPyriJU9e/GKz6hYDzTkK5m4E87uAC7AFPhFaE7jydhys+sRDoxndLWCVVwn1mAHFK0V3gF4rztEw
@@ -169,13 +169,13 @@
         aFN4Bm3TT9Y2X1Jxxym/ct9/ARu1NRDBr6iTAAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="C1ThemeController1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>137, 17</value>
+  </metadata>
   <data name="Fg.ColumnInfo" xml:space="preserve">
     <value>5,1,0,0,0,95,Columns:1{Caption:"col1";AllowDragging:False;AllowEditing:False;}	2{Caption:"col2";AllowDragging:False;AllowEditing:False;}	3{Caption:"col3";AllowDragging:False;AllowEditing:False;Style:"DataType:System.Int16;TextAlign:GeneralCenter;";}	</value>
   </data>
   <data name="Fg.StyleInfo" xml:space="preserve">
     <value>Normal{BackColor:White;ForeColor:Black;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	Alternate{BackColor:233, 243, 253;ForeColor:Black;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	Fixed{BackColor:Control;ForeColor:ControlText;SearchBackColor:Yellow;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:LeftTop;}	Highlight{BackColor:Highlight;ForeColor:HighlightText;SearchBackColor:Orange;BackgroundImageLayout:LeftTop;}	Focus{BackColor:Highlight;ForeColor:HighlightText;SearchBackColor:Orange;BackgroundImageLayout:LeftTop;}	Editor{BackColor:White;ForeColor:Black;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	Search{BackColor:Highlight;ForeColor:HighlightText;SearchBackColor:Orange;BackgroundImageLayout:LeftTop;}	Frozen{BackColor:Beige;ForeColor:Black;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	FrozenAlternate{BackColor:Beige;ForeColor:Black;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	NewRow{BackColor:White;ForeColor:GrayText;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	EmptyArea{BackColor:AppWorkspace;ForeColor:Black;SearchBackColor:Yellow;Border:Flat,1,ControlDarkDark,Both;BackgroundImageLayout:LeftTop;}	SelectedColumnHeader{BackColor:White;ForeColor:Black;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	SelectedRowHeader{BackColor:White;ForeColor:Black;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	GrandTotal{BackColor:Black;ForeColor:White;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	FilterEditor{BackColor:White;ForeColor:Black;SearchBackColor:Yellow;BackgroundImageLayout:LeftTop;}	Footer{Font:Microsoft Sans Serif, 8.25pt, style=Bold;BackColor:233, 241, 250;ForeColor:Black;SearchBackColor:Yellow;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:LeftTop;}	FirstCustomStyle{}	</value>
   </data>
-  <metadata name="C1ThemeController1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>137, 17</value>
-  </metadata>
 </root>

@@ -26,10 +26,12 @@ Partial Class FrmPolizaLiq
         Me.BarExcel = New C1.Win.C1Command.C1Command()
         Me.BarCarpeta = New C1.Win.C1Command.C1Command()
         Me.BarSalir = New C1.Win.C1Command.C1Command()
+        Me.BarCopy = New C1.Win.C1Command.C1Command()
         Me.C1ToolBar1 = New C1.Win.C1Command.C1ToolBar()
         Me.LkDesplegar = New C1.Win.C1Command.C1CommandLink()
         Me.LkGenPoliza = New C1.Win.C1Command.C1CommandLink()
         Me.LkExcel = New C1.Win.C1Command.C1CommandLink()
+        Me.C1CommandLink1 = New C1.Win.C1Command.C1CommandLink()
         Me.LkCarpeta = New C1.Win.C1Command.C1CommandLink()
         Me.LkSalir = New C1.Win.C1Command.C1CommandLink()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -48,8 +50,6 @@ Partial Class FrmPolizaLiq
         Me.Label3 = New System.Windows.Forms.Label()
         Me.C1FlexGridSearchPanel1 = New C1.Win.C1FlexGrid.C1FlexGridSearchPanel()
         Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
-        Me.BarCopy = New C1.Win.C1Command.C1Command()
-        Me.C1CommandLink1 = New C1.Win.C1Command.C1CommandLink()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -109,6 +109,13 @@ Partial Class FrmPolizaLiq
         Me.BarSalir.ShowTextAsToolTip = False
         Me.BarSalir.Text = "Salir"
         '
+        'BarCopy
+        '
+        Me.BarCopy.Image = Global.SGT_Transport.My.Resources.Resources.images3
+        Me.BarCopy.Name = "BarCopy"
+        Me.BarCopy.ShortcutText = ""
+        Me.BarCopy.Text = "Copiar"
+        '
         'C1ToolBar1
         '
         Me.C1ToolBar1.AccessibleName = "Tool Bar"
@@ -149,6 +156,12 @@ Partial Class FrmPolizaLiq
         Me.LkExcel.Delimiter = True
         Me.LkExcel.SortOrder = 2
         Me.LkExcel.Text = "Excel"
+        '
+        'C1CommandLink1
+        '
+        Me.C1CommandLink1.Command = Me.BarCopy
+        Me.C1CommandLink1.Delimiter = True
+        Me.C1CommandLink1.SortOrder = 3
         '
         'LkCarpeta
         '
@@ -353,6 +366,7 @@ Partial Class FrmPolizaLiq
         Me.Fg.AllowEditing = False
         Me.Fg.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None
         Me.Fg.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
+        Me.C1FlexGridSearchPanel1.SetC1FlexGridSearchPanel(Me.Fg, Me.C1FlexGridSearchPanel1)
         Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.Fg.Location = New System.Drawing.Point(7, 135)
@@ -363,19 +377,6 @@ Partial Class FrmPolizaLiq
         Me.Fg.Size = New System.Drawing.Size(923, 301)
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 341
-        '
-        'BarCopy
-        '
-        Me.BarCopy.Image = Global.SGT_Transport.My.Resources.Resources.images3
-        Me.BarCopy.Name = "BarCopy"
-        Me.BarCopy.ShortcutText = ""
-        Me.BarCopy.Text = "Copiar"
-        '
-        'C1CommandLink1
-        '
-        Me.C1CommandLink1.Command = Me.BarCopy
-        Me.C1CommandLink1.Delimiter = True
-        Me.C1CommandLink1.SortOrder = 3
         '
         'FrmPolizaLiq
         '

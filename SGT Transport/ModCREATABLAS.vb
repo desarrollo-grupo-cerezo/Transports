@@ -14687,9 +14687,164 @@ END
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
 
+            CreaVistasResumen()
+
         Catch ex As Exception
             BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
+    End Sub
+
+    Private Sub CreaVistasResumen()
+        Dim cmd As New SqlCommand With {.Connection = cnSAE}
+
+        If EXISTE_VISTA("VT_LiqDetalleImportes") Then
+            SQL = "DROP VIEW [dbo].[VT_LiqDetalleImportes]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+        SQL = "CREATE VIEW [dbo].[VT_LiqDetalleImportes]
+AS
+	SELECT CVE_LIQ, CVE_VIAJE, ORDEN = 1, ORIGEN = 'Percepciones',  CONCEPTO = 'SUELDO', SUBTOTAL = IIF(SEL_CALCULO = 1, SDO_X_TONELADA, SUELDO), IVA = 0.00, IMPORTE = IIF(SEL_CALCULO = 1, SDO_X_TONELADA, SUELDO) FROM GCLIQ_PARTIDAS
+	UNION ALL
+	SELECT GV.CVE_LIQ, GV.CVE_VIAJE, ORDEN = 2, ORIGEN = 'Gastos de Viaje',  CONCEPTO = DESCR, SUBTOTAL = ISNULL(IMPORTE,0) *-1, IVA = 0.00, IMPORTE = ISNULL(IMPORTE,0) *-1  
+	FROM GCASIGNACION_VIAJE_GASTOS GV WITH (nolock)
+	LEFT JOIN GCCONC_GASTOS C WITH (nolock) ON C.CVE_GAS = GV.CVE_NUM
+	WHERE ISNULL(ST_GASTOS,'') = 'DEPOSITADO'
+	UNION ALL
+	SELECT GV.CVE_LIQ, GV.CVE_VIAJE, ORDEN = 3, ORIGEN = 'Gastos Comprobados',  CONCEPTO =I.DESCR, GV.SUBTOTAL, GV.IVA, GV.TOTAL
+	FROM GCLIQ_GASTOS_COMPROBADOS GV WITH (nolock)
+	LEFT JOIN INVE" & Empresa & " I WITH (nolock) ON I.CVE_ART = GV.CVE_ART
+	UNION ALL
+	SELECT GV.CVE_LIQ, CVE_VIAJE = '', ORDEN = 5, ORIGEN = 'Deducciones',  CONCEPTO = ISNULL(GV.DESCR,''), SUBTOTAL = ISNULL(GV.IMPORTE, 0) * -1, IVA = 0.00, IMPORTE = ISNULL(GV.IMPORTE, 0) * -1
+	FROM GCLIQ_DEDUCCIONES GV WITH (nolock)
+	LEFT JOIN GCDEDUC_OPER DD WITH (nolock) ON DD.FOLIO = GV.CVE_DED
+	LEFT JOIN GCDEDUCCIONES D WITH (nolock) ON D.CVE_DED = DD.CVE_DED
+	UNION ALL
+	SELECT GV.CVE_LIQ, GV.CVE_VIAJE, ORDEN = 4, ORIGEN = 'Pensión Alimenticia',  CONCEPTO = I.DESCR, SUBTOTAL = GV.IMPORTE * -1, IVA = 0.00, IMPORTE = GV.IMPORTE * -1
+	FROM GCLIQ_PENSION_ALI GV WITH (nolock)
+	LEFT JOIN INVE" & Empresa & " I WITH (nolock) ON I.CVE_ART = GV.CVE_ART"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
+        If EXISTE_VISTA("VT_RPT_ResumenFacturas") Then
+            SQL = "DROP VIEW [dbo].[VT_RPT_ResumenFacturas]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+        SQL = "CREATE VIEW [dbo].[VT_RPT_ResumenFacturas]
+AS
+	-- Reporte 1. Reporte de resumen de facturas											
+	SELECT 
+		Fecha					= FAC.FECHA_DOC,
+		Factura					= FAC.CVE_DOC,
+		UUID					= FAC.UUID,
+		[Clave Cliente]			= trim(CLI.CLAVE),
+		[Nombre de Cliente]		= CLI.NOMBRE,
+		Estatus					= CASE FAC.STATUS WHEN 'E' THEN 'EMITIDA' WHEN 'O' THEN 'EMITIDA' WHEN 'C' THEN 'CANCELADA' END,
+		Subtotal				= round(FAC.CAN_TOT, 2),
+		[Porcentaje Descuento]	= round(FAC.DES_FIN_PORC, 2),
+		[Importe Descuento]		= round(FAC.DES_TOT_PORC, 2),
+		IVA						= round(FAC.IMP_TOT4, 2),
+		[Retención de ISR]		= round(0.00, 2),
+		[Retención de IVA]		= round(FAC.IMP_TOT3, 2),
+		Importe					= round(FAC.IMPORTE, 2),
+		Timbrada				= CASE isnull(FAC.TIMBRADO, 'N') WHEN 'S' THEN 'SI' ELSE 'NO' END,
+		ctrl_Serie				= replace(FAC.SERIE, '-', '')
+	FROM FACTF" & Empresa & " FAC WITH (nolock)		
+	INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
+        If EXISTE_VISTA("VT_RPT_ResumenLiquidacion") Then
+            SQL = "DROP VIEW [dbo].[VT_RPT_ResumenLiquidacion]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+        SQL = "CREATE VIEW [dbo].[VT_RPT_ResumenLiquidacion]
+AS
+	-- Reporte 2. Resumen de Liquidación.						
+	SELECT						
+		Fecha					= LIQ.FECHA,
+		Liquidación				= LIQ.CVE_LIQ,					
+		Viaje					= V.CVE_VIAJE,
+		[Clave Cliente]			= CLI.CLAVE,
+		[Nombre de Cliente]		= CLI.NOMBRE,
+		Estatus					= isnull(S.DESCR,'EDICION'),
+		Unidad					= V.CVE_TRACTOR,
+		Operador				= OP.NOMBRE,
+		[Total de Liquidación]	= LIQ.IMPORTE	
+	FROM GCLIQUIDACIONES LIQ WITH (nolock)		
+	INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER
+	INNER JOIN GCLIQ_PARTIDAS LP WITH (nolock) ON LP.CVE_LIQ = LIQ.CVE_LIQ
+	INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_VIAJE = LP.CVE_VIAJE		
+	INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = V.CLIENTE
+	LEFT JOIN GCSTATUS_LIQUIDACION S ON S.CVE_LIQ = LIQ.CVE_ST_LIQ	"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
+        If EXISTE_VISTA("VT_RPT_ResumenLiquidacionConceptos") Then
+            SQL = "DROP VIEW [dbo].[VT_RPT_ResumenLiquidacionConceptos]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+        SQL = "CREATE VIEW [dbo].[VT_RPT_ResumenLiquidacionConceptos]
+AS
+	-- Reporte 4. Conceptos Liquidación												
+	SELECT						
+		Fecha					= LIQ.FECHA,
+		Liquidación				= LIQ.CVE_LIQ,					
+		Viaje					= ISNULL(V.CVE_VIAJE, ''),
+		[Clave Cliente]			= ISNULL(CLI.CLAVE, ''),
+		[Nombre de Cliente]		= ISNULL(CLI.NOMBRE, ''),
+		Estatus					= isnull(S.DESCR,'EDICION'),
+		Unidad					= ISNULL(V.CVE_TRACTOR, ''),
+		Operador				= OP.NOMBRE,
+		[Concepto de abono o descuento] = DT.CONCEPTO,
+		Subtotal				= DT.SUBTOTAL,	
+		[Porcentaje Descuento]	= 0.00,	
+		[Importe Descuento]		= 0.00,	
+		[IVA	Retención de ISR]	=	0.00,	
+		[Retención de IVA]		= DT.IVA,	
+		Importe					= DT.IMPORTE,
+		ctrl_Orden					= DT.ORDEN
+	FROM GCLIQUIDACIONES LIQ WITH (nolock)		
+	INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER
+	INNER JOIN VT_LiqDetalleImportes DT ON DT.CVE_LIQ = LIQ.CVE_LIQ
+	--INNER JOIN GCLIQ_PARTIDAS LP WITH (nolock) ON LP.CVE_LIQ = LIQ.CVE_LIQ
+	LEFT JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_VIAJE = DT.CVE_VIAJE		
+	LEFT JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = V.CLIENTE
+	LEFT JOIN GCSTATUS_LIQUIDACION S ON S.CVE_LIQ = LIQ.CVE_ST_LIQ"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
+        If EXISTE_VISTA("VT_RPT_ResumenFacturasAbonos") Then
+            SQL = "DROP VIEW [dbo].[VT_RPT_ResumenFacturasAbonos]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+        SQL = "CREATE VIEW [dbo].[VT_RPT_ResumenFacturasAbonos]
+AS
+	-- Reporte 5. Reporte de abonos									
+	SELECT 
+		Fecha				= M.FECHA_APLI,
+		Factura				= FAC.CVE_DOC, -- F.FACTURA,
+		Timbrada				= CASE isnull(FAC.TIMBRADO, 'N') WHEN 'S' THEN 'SI' ELSE 'NO' END,
+		[Complemento de pago] = iif(isnull(M.UUID, '') = '', 'NO', 'SI'),	
+		[Folio Abono]		= M.DOCTO,	
+		[Clave Cliente]		= trim(M.CVE_CLIE),
+		[Nombre de Cliente]	= CLI.NOMBRE,		
+		[Subtotal de abono]	= round(round(FAC.CAN_TOT, 2) * (M.IMPORTE/round(FAC.IMPORTE, 2)), 2),
+		[IVA]				= round(round(FAC.IMP_TOT4, 2)  * (M.IMPORTE/round(FAC.IMPORTE, 2)), 2),	
+		[Retención de ISR]	= round(round(FAC.IMP_TOT2, 2)  * (M.IMPORTE/round(FAC.IMPORTE, 2)), 2),		
+		[Retención de IVA]	= round(round(abs(FAC.IMP_TOT3), 2)  * (M.IMPORTE/round(FAC.IMPORTE, 2)), 2),
+		[Total de abono sobre la factura] = M.IMPORTE,
+		ctrl_Serie			= replace(FAC.SERIE, '-', '')
+	FROM CUEN_DET" & Empresa & " M WITH (nolock)
+	INNER JOIN FACTF" & Empresa & " FAC WITH (nolock) ON FAC.CVE_DOC = M.REFER	
+	INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = M.CVE_CLIE"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
     End Sub
 
 

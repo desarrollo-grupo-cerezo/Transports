@@ -32,6 +32,14 @@ Partial Class FrmConsultaResumen
         Me.LkExcel = New C1.Win.C1Command.C1CommandLink()
         Me.LkSalir = New C1.Win.C1Command.C1CommandLink()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.lbCliente = New System.Windows.Forms.Label()
+        Me.BtnCliente = New System.Windows.Forms.Button()
+        Me.txCliente = New System.Windows.Forms.TextBox()
+        Me.txClienteNombre = New System.Windows.Forms.Label()
+        Me.lbEstatus = New System.Windows.Forms.Label()
+        Me.CboEstatus = New C1.Win.C1Input.C1ComboBox()
+        Me.lbSerie = New System.Windows.Forms.Label()
+        Me.CboSeries = New C1.Win.C1Input.C1ComboBox()
         Me.LtNUm = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.F1 = New C1.Win.Calendar.C1DateEdit()
@@ -40,21 +48,16 @@ Partial Class FrmConsultaResumen
         Me.Label3 = New System.Windows.Forms.Label()
         Me.C1FlexGridSearchPanel1 = New C1.Win.C1FlexGrid.C1FlexGridSearchPanel()
         Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
-        Me.lbSerie = New System.Windows.Forms.Label()
-        Me.CboSeries = New C1.Win.C1Input.C1ComboBox()
-        Me.lbEstatus = New System.Windows.Forms.Label()
-        Me.CboEstatus = New C1.Win.C1Input.C1ComboBox()
-        Me.lbCliente = New System.Windows.Forms.Label()
-        Me.BtnCliente = New System.Windows.Forms.Button()
-        Me.txCliente = New System.Windows.Forms.TextBox()
-        Me.txClienteNombre = New System.Windows.Forms.Label()
+        Me.lbTimbrada = New System.Windows.Forms.Label()
+        Me.cboTimbrada = New C1.Win.C1Input.C1ComboBox()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.CboEstatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboSeries, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.F2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CboSeries, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CboEstatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboTimbrada, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuHolder
@@ -163,6 +166,8 @@ Partial Class FrmConsultaResumen
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.lbTimbrada)
+        Me.Panel1.Controls.Add(Me.cboTimbrada)
         Me.Panel1.Controls.Add(Me.lbCliente)
         Me.Panel1.Controls.Add(Me.BtnCliente)
         Me.Panel1.Controls.Add(Me.txCliente)
@@ -183,11 +188,118 @@ Partial Class FrmConsultaResumen
         Me.Panel1.Size = New System.Drawing.Size(923, 85)
         Me.Panel1.TabIndex = 338
         '
+        'lbCliente
+        '
+        Me.lbCliente.AutoSize = True
+        Me.lbCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbCliente.Location = New System.Drawing.Point(343, 6)
+        Me.lbCliente.Name = "lbCliente"
+        Me.lbCliente.Size = New System.Drawing.Size(45, 15)
+        Me.lbCliente.TabIndex = 351
+        Me.lbCliente.Text = "Cliente"
+        '
+        'BtnCliente
+        '
+        Me.BtnCliente.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.BtnCliente.BackColor = System.Drawing.Color.Transparent
+        Me.BtnCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnCliente.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.BtnCliente.Image = CType(resources.GetObject("BtnCliente.Image"), System.Drawing.Image)
+        Me.BtnCliente.Location = New System.Drawing.Point(422, 28)
+        Me.BtnCliente.Name = "BtnCliente"
+        Me.BtnCliente.Size = New System.Drawing.Size(24, 23)
+        Me.BtnCliente.TabIndex = 3
+        Me.BtnCliente.UseVisualStyleBackColor = True
+        '
+        'txCliente
+        '
+        Me.txCliente.AcceptsReturn = True
+        Me.txCliente.AcceptsTab = True
+        Me.txCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCliente.ForeColor = System.Drawing.Color.Black
+        Me.txCliente.Location = New System.Drawing.Point(346, 29)
+        Me.txCliente.Name = "txCliente"
+        Me.txCliente.Size = New System.Drawing.Size(70, 21)
+        Me.txCliente.TabIndex = 2
+        '
+        'txClienteNombre
+        '
+        Me.txClienteNombre.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.txClienteNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txClienteNombre.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txClienteNombre.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.txClienteNombre.Location = New System.Drawing.Point(452, 30)
+        Me.txClienteNombre.Name = "txClienteNombre"
+        Me.txClienteNombre.Size = New System.Drawing.Size(319, 20)
+        Me.txClienteNombre.TabIndex = 350
+        '
+        'lbEstatus
+        '
+        Me.lbEstatus.AutoSize = True
+        Me.lbEstatus.BackColor = System.Drawing.Color.Transparent
+        Me.lbEstatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbEstatus.ForeColor = System.Drawing.Color.Black
+        Me.lbEstatus.Location = New System.Drawing.Point(343, 56)
+        Me.lbEstatus.Name = "lbEstatus"
+        Me.lbEstatus.Size = New System.Drawing.Size(47, 15)
+        Me.lbEstatus.TabIndex = 343
+        Me.lbEstatus.Text = "Estatus"
+        '
+        'CboEstatus
+        '
+        Me.CboEstatus.AllowSpinLoop = False
+        Me.CboEstatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.CboEstatus.Cursor = System.Windows.Forms.Cursors.Arrow
+        Me.CboEstatus.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
+        Me.CboEstatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboEstatus.GapHeight = 0
+        Me.CboEstatus.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.CboEstatus.ItemsDisplayMember = ""
+        Me.CboEstatus.ItemsValueMember = ""
+        Me.CboEstatus.Location = New System.Drawing.Point(422, 54)
+        Me.CboEstatus.Name = "CboEstatus"
+        Me.CboEstatus.Size = New System.Drawing.Size(100, 19)
+        Me.CboEstatus.TabIndex = 5
+        Me.CboEstatus.Tag = Nothing
+        Me.CboEstatus.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.CboEstatus.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'lbSerie
+        '
+        Me.lbSerie.AutoSize = True
+        Me.lbSerie.BackColor = System.Drawing.Color.Transparent
+        Me.lbSerie.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbSerie.ForeColor = System.Drawing.Color.Black
+        Me.lbSerie.Location = New System.Drawing.Point(7, 56)
+        Me.lbSerie.Name = "lbSerie"
+        Me.lbSerie.Size = New System.Drawing.Size(36, 15)
+        Me.lbSerie.TabIndex = 341
+        Me.lbSerie.Text = "Serie"
+        '
+        'CboSeries
+        '
+        Me.CboSeries.AllowSpinLoop = False
+        Me.CboSeries.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.CboSeries.Cursor = System.Windows.Forms.Cursors.Arrow
+        Me.CboSeries.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
+        Me.CboSeries.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboSeries.GapHeight = 0
+        Me.CboSeries.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.CboSeries.ItemsDisplayMember = ""
+        Me.CboSeries.ItemsValueMember = ""
+        Me.CboSeries.Location = New System.Drawing.Point(55, 56)
+        Me.CboSeries.Name = "CboSeries"
+        Me.CboSeries.Size = New System.Drawing.Size(100, 19)
+        Me.CboSeries.TabIndex = 4
+        Me.CboSeries.Tag = Nothing
+        Me.CboSeries.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.CboSeries.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
         'LtNUm
         '
         Me.LtNUm.AutoSize = True
         Me.LtNUm.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtNUm.Location = New System.Drawing.Point(357, 58)
+        Me.LtNUm.Location = New System.Drawing.Point(582, 56)
         Me.LtNUm.Name = "LtNUm"
         Me.LtNUm.Size = New System.Drawing.Size(63, 15)
         Me.LtNUm.TabIndex = 339
@@ -213,7 +325,7 @@ Partial Class FrmConsultaResumen
         Me.F1.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.F1.Font = New System.Drawing.Font("Tahoma", 9.0!)
         Me.F1.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F1.Location = New System.Drawing.Point(59, 30)
+        Me.F1.Location = New System.Drawing.Point(55, 30)
         Me.F1.Name = "F1"
         Me.F1.Size = New System.Drawing.Size(100, 20)
         Me.F1.TabIndex = 0
@@ -232,7 +344,7 @@ Partial Class FrmConsultaResumen
         Me.F2.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.F2.Font = New System.Drawing.Font("Tahoma", 9.0!)
         Me.F2.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F2.Location = New System.Drawing.Point(220, 29)
+        Me.F2.Location = New System.Drawing.Point(230, 28)
         Me.F2.Name = "F2"
         Me.F2.Size = New System.Drawing.Size(100, 20)
         Me.F2.TabIndex = 1
@@ -245,7 +357,7 @@ Partial Class FrmConsultaResumen
         '
         Me.label2.AutoSize = True
         Me.label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.label2.Location = New System.Drawing.Point(12, 31)
+        Me.label2.Location = New System.Drawing.Point(7, 31)
         Me.label2.Name = "label2"
         Me.label2.Size = New System.Drawing.Size(26, 15)
         Me.label2.TabIndex = 305
@@ -255,7 +367,7 @@ Partial Class FrmConsultaResumen
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(169, 31)
+        Me.Label3.Location = New System.Drawing.Point(180, 31)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(17, 15)
         Me.Label3.TabIndex = 307
@@ -289,112 +401,36 @@ Partial Class FrmConsultaResumen
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 341
         '
-        'lbSerie
+        'lbTimbrada
         '
-        Me.lbSerie.AutoSize = True
-        Me.lbSerie.BackColor = System.Drawing.Color.Transparent
-        Me.lbSerie.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbSerie.ForeColor = System.Drawing.Color.Black
-        Me.lbSerie.Location = New System.Drawing.Point(12, 56)
-        Me.lbSerie.Name = "lbSerie"
-        Me.lbSerie.Size = New System.Drawing.Size(36, 15)
-        Me.lbSerie.TabIndex = 341
-        Me.lbSerie.Text = "Serie"
+        Me.lbTimbrada.AutoSize = True
+        Me.lbTimbrada.BackColor = System.Drawing.Color.Transparent
+        Me.lbTimbrada.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbTimbrada.ForeColor = System.Drawing.Color.Black
+        Me.lbTimbrada.Location = New System.Drawing.Point(164, 56)
+        Me.lbTimbrada.Name = "lbTimbrada"
+        Me.lbTimbrada.Size = New System.Drawing.Size(60, 15)
+        Me.lbTimbrada.TabIndex = 353
+        Me.lbTimbrada.Text = "Timbrada"
         '
-        'CboSeries
+        'cboTimbrada
         '
-        Me.CboSeries.AllowSpinLoop = False
-        Me.CboSeries.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.CboSeries.Cursor = System.Windows.Forms.Cursors.Arrow
-        Me.CboSeries.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
-        Me.CboSeries.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CboSeries.GapHeight = 0
-        Me.CboSeries.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.CboSeries.ItemsDisplayMember = ""
-        Me.CboSeries.ItemsValueMember = ""
-        Me.CboSeries.Location = New System.Drawing.Point(59, 56)
-        Me.CboSeries.Name = "CboSeries"
-        Me.CboSeries.Size = New System.Drawing.Size(100, 19)
-        Me.CboSeries.TabIndex = 4
-        Me.CboSeries.Tag = Nothing
-        Me.CboSeries.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.CboSeries.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'lbEstatus
-        '
-        Me.lbEstatus.AutoSize = True
-        Me.lbEstatus.BackColor = System.Drawing.Color.Transparent
-        Me.lbEstatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbEstatus.ForeColor = System.Drawing.Color.Black
-        Me.lbEstatus.Location = New System.Drawing.Point(167, 56)
-        Me.lbEstatus.Name = "lbEstatus"
-        Me.lbEstatus.Size = New System.Drawing.Size(47, 15)
-        Me.lbEstatus.TabIndex = 343
-        Me.lbEstatus.Text = "Estatus"
-        '
-        'CboEstatus
-        '
-        Me.CboEstatus.AllowSpinLoop = False
-        Me.CboEstatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.CboEstatus.Cursor = System.Windows.Forms.Cursors.Arrow
-        Me.CboEstatus.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
-        Me.CboEstatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CboEstatus.GapHeight = 0
-        Me.CboEstatus.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.CboEstatus.ItemsDisplayMember = ""
-        Me.CboEstatus.ItemsValueMember = ""
-        Me.CboEstatus.Location = New System.Drawing.Point(220, 54)
-        Me.CboEstatus.Name = "CboEstatus"
-        Me.CboEstatus.Size = New System.Drawing.Size(100, 19)
-        Me.CboEstatus.TabIndex = 5
-        Me.CboEstatus.Tag = Nothing
-        Me.CboEstatus.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.CboEstatus.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'lbCliente
-        '
-        Me.lbCliente.AutoSize = True
-        Me.lbCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbCliente.Location = New System.Drawing.Point(357, 6)
-        Me.lbCliente.Name = "lbCliente"
-        Me.lbCliente.Size = New System.Drawing.Size(45, 15)
-        Me.lbCliente.TabIndex = 351
-        Me.lbCliente.Text = "Cliente"
-        '
-        'BtnCliente
-        '
-        Me.BtnCliente.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.BtnCliente.BackColor = System.Drawing.Color.Transparent
-        Me.BtnCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCliente.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.BtnCliente.Image = CType(resources.GetObject("BtnCliente.Image"), System.Drawing.Image)
-        Me.BtnCliente.Location = New System.Drawing.Point(436, 27)
-        Me.BtnCliente.Name = "BtnCliente"
-        Me.BtnCliente.Size = New System.Drawing.Size(24, 23)
-        Me.BtnCliente.TabIndex = 3
-        Me.BtnCliente.UseVisualStyleBackColor = True
-        '
-        'txCliente
-        '
-        Me.txCliente.AcceptsReturn = True
-        Me.txCliente.AcceptsTab = True
-        Me.txCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txCliente.ForeColor = System.Drawing.Color.Black
-        Me.txCliente.Location = New System.Drawing.Point(360, 27)
-        Me.txCliente.Name = "txCliente"
-        Me.txCliente.Size = New System.Drawing.Size(70, 21)
-        Me.txCliente.TabIndex = 2
-        '
-        'txClienteNombre
-        '
-        Me.txClienteNombre.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.txClienteNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txClienteNombre.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txClienteNombre.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.txClienteNombre.Location = New System.Drawing.Point(466, 27)
-        Me.txClienteNombre.Name = "txClienteNombre"
-        Me.txClienteNombre.Size = New System.Drawing.Size(319, 20)
-        Me.txClienteNombre.TabIndex = 350
+        Me.cboTimbrada.AllowSpinLoop = False
+        Me.cboTimbrada.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.cboTimbrada.Cursor = System.Windows.Forms.Cursors.Arrow
+        Me.cboTimbrada.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
+        Me.cboTimbrada.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboTimbrada.GapHeight = 0
+        Me.cboTimbrada.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.cboTimbrada.ItemsDisplayMember = ""
+        Me.cboTimbrada.ItemsValueMember = ""
+        Me.cboTimbrada.Location = New System.Drawing.Point(230, 56)
+        Me.cboTimbrada.Name = "cboTimbrada"
+        Me.cboTimbrada.Size = New System.Drawing.Size(100, 19)
+        Me.cboTimbrada.TabIndex = 352
+        Me.cboTimbrada.Tag = Nothing
+        Me.cboTimbrada.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.cboTimbrada.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'FrmConsultaResumen
         '
@@ -413,11 +449,12 @@ Partial Class FrmConsultaResumen
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.CboEstatus, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboSeries, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.F2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CboSeries, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CboEstatus, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboTimbrada, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -450,4 +487,6 @@ Partial Class FrmConsultaResumen
     Friend WithEvents BtnCliente As Button
     Friend WithEvents txCliente As TextBox
     Friend WithEvents txClienteNombre As Label
+    Friend WithEvents lbTimbrada As Label
+    Friend WithEvents cboTimbrada As C1.Win.C1Input.C1ComboBox
 End Class

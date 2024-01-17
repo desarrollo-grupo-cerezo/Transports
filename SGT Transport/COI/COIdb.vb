@@ -574,6 +574,9 @@ Public Class COIdb
                     If documento.TipoDocumento = EnmTipoDocumento.Liquidacion Then
                         sql = String.Format("UPDATE GCLIQUIDACIONES SET IDPOLIZACOI = {0} WHERE CVE_LIQ = {1}", IdPoliza, documento.ClaveDocumento)
                     End If
+                    If documento.TipoDocumento = EnmTipoDocumento.IngresosCxC Then
+                        sql = String.Format("UPDATE CUEN_DET{0} SET IDPOLIZACOI = {1} WHERE DOCTO = '{2}' AND FECHA_APLI = '{3:yyyyMMdd}'", Empresa, IdPoliza, documento.ClaveDocumento, documento.FechaDocumento)
+                    End If
                     cmd.CommandText = sql
                     returnValue = cmd.ExecuteNonQuery().ToString()
 

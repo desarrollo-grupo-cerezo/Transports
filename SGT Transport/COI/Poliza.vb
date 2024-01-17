@@ -5,6 +5,7 @@ Public Enum EnmTipoDocumento
     FacturaVentas = 1
     Viaje = 2
     Liquidacion = 3
+    IngresosCxC = 4
 End Enum
 
 Public Enum EnmTipoDocumentoPoliza
@@ -12,6 +13,7 @@ Public Enum EnmTipoDocumentoPoliza
     VentasFletes = 1
     VentaOtros = 2
     Liquidacion = 3
+    IngresosCxC = 4
 End Enum
 Public Class Poliza
     Public TipoPoliza As String
@@ -116,6 +118,7 @@ End Class
 Public Class Documento
     Public TipoDocumento As EnmTipoDocumento
     Public ClaveDocumento As String
+    Public FechaDocumento As DateTime
 
     Public Sub New()
     End Sub
@@ -123,6 +126,11 @@ Public Class Documento
     Public Sub New(Tipo As EnmTipoDocumento, Clave As String)
         TipoDocumento = Tipo
         ClaveDocumento = Clave
+    End Sub
+    Public Sub New(Tipo As EnmTipoDocumento, Clave As String, Fecha As DateTime)
+        TipoDocumento = Tipo
+        ClaveDocumento = Clave
+        FechaDocumento = Fecha
     End Sub
 End Class
 

@@ -13204,6 +13204,9 @@ Module ModCREATABLAS
             CREA_CAMPO("CUENTA_BENEF" & Empresa, "CUENTA_CONTABLE_FINANCIERA", "VARCHAR", "28", "")
             CREA_CAMPO("CUENTA_BENEF" & Empresa, "CUENTA_CONTABLE_FISCAL", "VARCHAR", "28", "")
 
+            CREA_CAMPO("CUEN_DET" & Empresa, "CVE_CTA", "VARCHAR", "10", "")
+            CREA_CAMPO("CUEN_DET" & Empresa, "IDPOLIZACOI", "INT", "", "")
+
             SQL = "UPDATE CFDI_CFG SET VerCCP = '2.0' WHERE VerCCP IS NULL"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
@@ -13579,7 +13582,7 @@ AS
 					VersionCFDI = '',
 					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
 					Orden = 1,
-					TipoPoliza = (SELECT dbo.fn_get_TipoPolizaCOI(CASE WHEN FAC.SERIE = 'CP' THEN 1 ELSE 2 END)),
+					TipoPoliza = (SELECT dbo.fn_get_TipoPolizaCOI(CASE WHEN FAC.SERIE LIKE 'CP%' THEN 1 ELSE 2 END)),
 					NoPolizaCuenta = CASE WHEN MAX(PC.Folio) IS NULL THEN 'S/P' ELSE CAST(MAX(PC.Folio) AS VARCHAR) END, --CAST(ROW_NUMBER() OVER (ORDER BY FAC.FECHA_DOC, FAC.CVE_DOC) AS VARCHAR),
 					ConceptoPolizaDepto = CONCAT(FAC.CVE_DOC, ' ', CLI.NOMBRE) + CASE WHEN FAC.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(FAC.IMPORTE, 'N2'), ' ', FAC.TIPCAMB) ELSE '' END,
 					DiaConceptoMov = '1',
@@ -13718,7 +13721,7 @@ AS
 					NoPolizaCuenta = CASE 										
 										WHEN CFD.Orden = 6 THEN dbo.fn_get_cta(3, 7, FAC.FECHA_DOC) 
 										WHEN CFD.Orden = 7 THEN dbo.fn_get_cta(4, 7, FAC.FECHA_DOC) 
-										WHEN CFD.Orden = 8 THEN dbo.fn_formato_cuenta(dbo.fn_get_cta_folio(IIF(FAC.SERIE='CP', FAC.NUM_MONED, 1) , FAC.SERIE), UN.CUEN_CONT_VTA) 
+										WHEN CFD.Orden = 8 THEN dbo.fn_formato_cuenta(dbo.fn_get_cta_folio(IIF(FAC.SERIE LIKE 'CP%', FAC.NUM_MONED, 1) , FAC.SERIE), UN.CUEN_CONT_VTA) 
 										ELSE '' END,
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(FAC.FOLIO, ' V', MIN(V.CVE_VIAJE) , ' ', CLI.NOMBRE) + CASE WHEN FAC.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(FAC.IMPORTE, 'N2'), ' ', FAC.TIPCAMB) ELSE '' END,
@@ -13763,7 +13766,7 @@ AS
 					NoPolizaCuenta = CASE 										 
 										WHEN CFD.Orden = 6 THEN dbo.fn_get_cta(3, 7, FAC.FECHA_DOC) 
 										WHEN CFD.Orden = 7 THEN dbo.fn_get_cta(4, 7, FAC.FECHA_DOC) 
-										WHEN CFD.Orden = 8 THEN dbo.fn_formato_cuenta(dbo.fn_get_cta_folio(IIF(FAC.SERIE='CP', FAC.NUM_MONED, 1) , FAC.SERIE), CFD.CUENTA) 
+										WHEN CFD.Orden = 8 THEN dbo.fn_formato_cuenta(dbo.fn_get_cta_folio(IIF(FAC.SERIE LIKE 'CP%', FAC.NUM_MONED, 1) , FAC.SERIE), CFD.CUENTA) 
 										ELSE '' END,
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(FAC.FOLIO, IIF(CFD.CVE_VIAJE = '', '', ' V' + CFD.CVE_VIAJE), ' ', CLI.NOMBRE) + CASE WHEN FAC.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(FAC.IMPORTE, 'N2'), ' ', FAC.TIPCAMB) ELSE '' END,

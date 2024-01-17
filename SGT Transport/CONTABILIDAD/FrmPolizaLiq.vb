@@ -339,7 +339,7 @@ Public Class FrmPolizaLiq
 
                             Fg.AddItem("" & vbTab & dr("FechaDocumento") & vbTab & dr("Documento") & vbTab & dr("TipoDocumento") & vbTab & dr("FechaViaje") & vbTab &
                                        dr("Viaje") & vbTab & dr("IdPoliza") & vbTab & dr("Orden") & vbTab & dr("TipoPoliza") & vbTab & dr("NoPolizaCuenta") & vbTab &
-                                       dr("ConceptoPolizaDepto") & vbTab & dr("DiaConceptoMov") & vbTab & dr("TipoCambio") & vbTab & dr("Debe") & vbTab & dr("Haber") & vbTab &
+                                       dr("ConceptoPolizaDepto") & vbTab & dr("DiaConceptoMov") & vbTab & dr("TipoCambio") & vbTab & IIf(dr("Orden") = "15", Math.Round(dr("TotalDebe"), 2), dr("Debe")) & vbTab & IIf(dr("Orden") = "15", Math.Round(dr("TotalHaber"), 2), dr("Haber")) & vbTab &
                                        dr("CentroCostos") & vbTab & dr("Proyecto"))
 
                             If Convert.ToInt32(dr("Orden")) > 1 And Convert.ToInt32(dr("Orden")) < 15 Then
@@ -393,7 +393,7 @@ Public Class FrmPolizaLiq
         Try
             Fg.AllowFiltering = True
             Fg.FilterDefinition = "<ColumnFilters><ColumnFilter ColumnIndex='6' ColumnName='Orden' DataType='System.String'><ConditionFilter AndConditions='True'><Condition Operator='DoesNotContain' Parameter='99' /></ConditionFilter></ColumnFilter></ColumnFilters>"
-            EXPORTAR_EXCEL_TRANSPORT(Fg, "Poliza Liquidación", True)
+            EXPORTAR_EXCEL_TRANSPORT(Fg, TPOLIZA.Text, True)
             Fg.FilterDefinition = ""
             Fg.AllowFiltering = False
         Catch ex As Exception

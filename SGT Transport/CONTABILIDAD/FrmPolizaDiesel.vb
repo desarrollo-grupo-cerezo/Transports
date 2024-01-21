@@ -4,15 +4,14 @@ Imports System.Xml
 Imports C1.Win.C1Command
 Imports C1.Win.C1FlexGrid
 Imports System.Data.SqlClient
-Imports C1.Win
 
-Public Class FrmPolizaVentasFlete
+Public Class FrmPolizaDiesel
 
     Private RUTA_MODELO As String = ""
     Private lstPolizas As List(Of Poliza) = New List(Of Poliza)
     Private lstCuentas As List(Of CuentaContable) = New List(Of CuentaContable)
     Dim Debe As Decimal, Haber As Decimal
-    Private Sub FrmPolizaVentasFlete_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub FrmPolizaDiesel_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If Not Valida_Conexion() Then
             Me.Close()
             Return
@@ -63,20 +62,20 @@ Public Class FrmPolizaVentasFlete
 
             Fg.Cols.Count = 17
             Fg.Rows.Count = 1
-            Fg(0, 1) = "Fecha Factura"
+            Fg(0, 1) = "Fecha Documento"
             Dim c1 As Column = Fg.Cols(1)
             c1.DataType = GetType(String)
-            c1.Name = "FechaFactura"
+            c1.Name = "FechaDocumento"
 
-            Fg(0, 2) = "Factura"
+            Fg(0, 2) = "Documento"
             Dim c2 As Column = Fg.Cols(2)
             c2.DataType = GetType(String)
-            c2.Name = "Factura"
+            c2.Name = "Documento"
 
-            Fg(0, 3) = "Tipo Facturacion"
+            Fg(0, 3) = "Tipo Documento"
             Dim c3 As Column = Fg.Cols(3)
             c3.DataType = GetType(String)
-            c3.Name = "TipoFacturacion"
+            c3.Name = "TipoDocumento"
 
             Fg(0, 4) = "Fecha Viaje"
             Dim c4 As Column = Fg.Cols(4)
@@ -168,7 +167,7 @@ Public Class FrmPolizaVentasFlete
             Fg.Cols(7).Visible = False
 
 
-            TPOLIZA.Text = "Poliza ventas flete " & DateTime.Now.ToString("MMMM")
+            TPOLIZA.Text = "Poliza Egresos Diesel " & DateTime.Now.ToString("MMMM")
 
         Catch ex As Exception
             MsgBox("13. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -194,9 +193,9 @@ Public Class FrmPolizaVentasFlete
             MsgBox("30. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
-    Private Sub FrmPolizaVentasFlete_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+    Private Sub FrmPolizaDiesel_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         Me.Dispose()
-        CloseTab("Póliza ventas flete")
+        CloseTab("Póliza Egresos Diesel")
     End Sub
 
     Private Sub BarCarpeta_Click(sender As Object, e As ClickEventArgs) Handles BarCarpeta.Click
@@ -240,21 +239,19 @@ Public Class FrmPolizaVentasFlete
         Fg.Rows.Count = 1
         Fg.Redraw = False
 
-        Filtro = String.Format("{0} BETWEEN '{1:yyyyMMdd}' AND '{2:yyyyMMdd}' {3}",
-                               IIf(RadFechaCarga.Checked, "FechaViaje", "FechaFactura"), F1.Value, F2.Value,
-                               IIf(chkSinPoliza.CheckState = CheckState.Checked, "AND IdPoliza = 0", ""))
+        Filtro = String.Format("{0} BETWEEN '{1:yyyyMMdd}' AND '{2:yyyyMMdd}' {3} ", "FechaDocumento", F1.Value, F2.Value, IIf(chkSinPoliza.CheckState = CheckState.Checked, "AND IdPoliza = 0", ""))
 
         Try
-            SQL = String.Format("SELECT a.*, b.EstaCuadrada, b.TotalDebe, b.TotalHaber, Diferencia = b.TotalDebe - b.TotalHaber  
-                                FROM VT_CTB_POLIZA_FACTURAS a
-                                INNER JOIN (SELECT Factura, IIF(SUM(cast(iif(Debe = '', '0.00', Debe) AS decimal(27, 6)))-SUM(cast(iif(Haber = '', '0.00', Haber) AS decimal(27, 6))) = 0, 1, 0) AS EstaCuadrada, 
-					                               TotalDebe	= SUM(cast(iif(Debe = '', '0.00', Debe) AS decimal(27, 6))),
-					                               TotalHaber	= SUM(cast(iif(Haber = '', '0.00', Haber) AS decimal(27, 6)))
-			                                FROM VT_CTB_POLIZA_FACTURAS
-			                                WHERE Orden IN (2, 6, 7, 8) AND {0} 
-                                GROUP BY Factura) b ON b.Factura = a.Factura
-                                WHERE {0}
-                                ORDER BY a.FechaFactura, a.Factura, a.Orden", Filtro)
+            SQL = String.Format("SELECT a.*, b.EstaCuadrada, b.TotalDebe, b.TotalHaber, Diferencia = b.TotalDebe - b.TotalHaber 
+                                FROM VT_CTB_POLIZA_DIESEL a
+                                INNER JOIN (SELECT	Documento, IIF(SUM(cast(iif(Debe = '', '0.00', Debe) AS decimal(27, 6)))-SUM(cast(iif(Haber = '', '0.00', Haber) AS decimal(27, 6))) = 0, 1, 0) AS EstaCuadrada, 
+					                                TotalDebe	= SUM(cast(iif(Debe = '', '0.00', Debe) AS decimal(27, 6))),
+					                                TotalHaber	= SUM(cast(iif(Haber = '', '0.00', Haber) AS decimal(27, 6)))
+			                                FROM VT_CTB_POLIZA_DIESEL
+			                                WHERE Orden BETWEEN 2 AND 4  AND {0}
+                                GROUP BY Documento) b ON b.Documento = a.Documento
+                                WHERE a.{0}
+                                ORDER BY a.FechaDocumento, a.Documento, a.Orden, a.DocAgr, a.SubOrden, a.Viaje", Filtro)
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
@@ -278,133 +275,134 @@ Public Class FrmPolizaVentasFlete
 
                         Try
 #Region "Listado de Pólizas"
-                            ' Solo se prepara el listado con pólizas pendientes por generar
-                            If dr("IdPoliza").ToString().Equals("0") Then
 
-                                Select Case dr("Orden").ToString()
-                                    Case "1"
-                                        poliza = New Poliza()
-                                        numPartida = 0
-                                        With poliza
-                                            .TipoPoliza = dr("TipoPoliza").ToString()
-                                            .NumPoliza = ""
-                                            .Periodo = Convert.ToDateTime(dr("FechaFactura")).Month()
-                                            .Ejercicio = Convert.ToDateTime(dr("FechaFactura")).Year()
-                                            .FechaPoliza = Convert.ToDateTime(dr("FechaFactura"))
-                                            .ConceptoPoliza = dr("ConceptoPolizaDepto").ToString()
-                                            '.NumPartida
-                                            .LogAudita = "N"
-                                            .Contabiliza = "S"
-                                            .NumParCua = 0
-                                            .TieneDocumentos = 0
-                                            .PROCCONTAB = 0
-                                            .Origen = "SGT"
-                                            '.UUID
-                                            .EsPolizaPrivada = 0
-                                            '.UUIDOP
-                                            .TipoDocumentoPoliza = EnmTipoDocumentoPoliza.VentasFletes
-                                            .Documentos.Add(New Documento(EnmTipoDocumento.FacturaVentas, dr("Factura").ToString()))
-                                        End With
-                                    Case "2"
-                                        numPartida = numPartida + 1
-                                        auxiliar = New Auxiliar()
-                                        With auxiliar
-                                            .TipoPoliza = poliza.TipoPoliza
-                                            .NumPoliza = poliza.NumPoliza
-                                            .NumPartida = numPartida
-                                            .Periodo = poliza.Periodo
-                                            .Ejercicio = poliza.Ejercicio
-                                            .NumCuenta = dr("NoPolizaCuenta").ToString()
-                                            .FechaPoliza = poliza.FechaPoliza
-                                            .ConceptoPoliza = dr("DiaConceptoMov").ToString()
-                                            .DebeHaber = "D"
-                                            .MontoMovimiento = Convert.ToDouble(dr("Debe"))
-                                            .NumDepartamento = 0
-                                            .TipoCambio = Convert.ToDouble(dr("TipoCambio"))
-                                            .ContraPartida = 0
-                                            .Orden = numPartida
-                                            .CCostos = 0
-                                            .CGupos = 0
-                                            .IDINFADIPAR = -1
+                            '' Solo se prepara el listado con pólizas pendientes por generar
+                            'If dr("IdPoliza").ToString().Equals("0") Then
 
-                                        End With
-                                        RegistraCuenta(poliza.Ejercicio, dr("NoPolizaCuenta").ToString())
-                                    'Continua en el 4
-                                    'poliza.Auxiliares.Add(auxiliar)
-                                    Case "4"
-                                        With auxiliar.UUID
-                                            .NumReg = -1
-                                            .UUID = dr("Proyecto").ToString()
-                                            .Monto = Convert.ToDouble(dr("CentroCostos").ToString().Replace(",", ""))
-                                            .Serie = dr("DiaConceptoMov").ToString()
-                                            .Folio = dr("TipoCambio").ToString()
-                                            .RfcEmisor = dr("Debe").ToString()
-                                            .RfcReceptor = dr("Haber").ToString()
-                                            .Orden = 1
-                                            .Fecha = Convert.ToDateTime(dr("FechaFactura"))
-                                            .TipoComprobante = 1
-                                            .TipoCambio = Convert.ToDouble(dr("TipoCambioCFDI"))
-                                            .VersionCFDI = dr("VersionCFDI").ToString()
-                                            .Moneda = dr("MonedaCFDI").ToString()
-                                        End With
-                                        poliza.Auxiliares.Add(auxiliar)
-                                        poliza.UUID = dr("Proyecto").ToString()
-                                    Case "6", "7", "8"
-                                        numPartida = numPartida + 1
-                                        auxiliar = New Auxiliar()
-                                        With auxiliar
-                                            .TipoPoliza = poliza.TipoPoliza
-                                            .NumPoliza = poliza.NumPoliza
-                                            .NumPartida = numPartida
-                                            .Periodo = poliza.Periodo
-                                            .Ejercicio = poliza.Ejercicio
-                                            .NumCuenta = dr("NoPolizaCuenta").ToString()
-                                            .FechaPoliza = poliza.FechaPoliza
-                                            .ConceptoPoliza = dr("DiaConceptoMov").ToString()
-                                            .DebeHaber = IIf(dr("Orden").ToString().Equals("6"), "D", "H")
-                                            .MontoMovimiento = Convert.ToDouble(IIf(dr("Orden").ToString().Equals("6"), dr("Debe"), dr("Haber")))
-                                            .NumDepartamento = 0
-                                            .TipoCambio = Convert.ToDouble(dr("TipoCambio"))
-                                            .ContraPartida = 0
-                                            .Orden = numPartida
-                                            .CCostos = 0
-                                            .CGupos = 0
-                                            .IDINFADIPAR = -1
-                                            .UUID.NumReg = -1
-                                        End With
-                                        RegistraCuenta(poliza.Ejercicio, dr("NoPolizaCuenta").ToString())
-                                        poliza.Auxiliares.Add(auxiliar)
+                            '    Select Case dr("Orden").ToString()
+                            '        Case "1"
+                            '            poliza = New Poliza()
+                            '            numPartida = 0
+                            '            With poliza
+                            '                .TipoPoliza = dr("TipoPoliza").ToString()
+                            '                .NumPoliza = ""
+                            '                .Periodo = Convert.ToDateTime(dr("FechaDocumento")).Month()
+                            '                .Ejercicio = Convert.ToDateTime(dr("FechaDocumento")).Year()
+                            '                .FechaPoliza = Convert.ToDateTime(dr("FechaDocumento"))
+                            '                .ConceptoPoliza = dr("ConceptoPolizaDepto").ToString()
+                            '                '.NumPartida
+                            '                .LogAudita = "N"
+                            '                .Contabiliza = "S"
+                            '                .NumParCua = 0
+                            '                .TieneDocumentos = 0
+                            '                .PROCCONTAB = 0
+                            '                .Origen = "SGT"
+                            '                '.UUID
+                            '                .EsPolizaPrivada = 0
+                            '                '.UUIDOP
+                            '                .TipoDocumentoPoliza = EnmTipoDocumentoPoliza.IngresosCxC
+                            '                .Documentos.Add(New Documento(EnmTipoDocumento.IngresosCxC, dr("Documento").ToString(), Convert.ToDateTime(dr("FechaDocumento"))))
+                            '            End With
+                            '        Case "2", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"
+                            '            numPartida = numPartida + 1
+                            '            auxiliar = New Auxiliar()
+                            '            With auxiliar
+                            '                .TipoPoliza = poliza.TipoPoliza
+                            '                .NumPoliza = poliza.NumPoliza
+                            '                .NumPartida = numPartida
+                            '                .Periodo = poliza.Periodo
+                            '                .Ejercicio = poliza.Ejercicio
+                            '                .NumCuenta = dr("NoPolizaCuenta").ToString()
+                            '                .FechaPoliza = poliza.FechaPoliza
+                            '                .ConceptoPoliza = dr("DiaConceptoMov").ToString()
+                            '                .DebeHaber = IIf(IsNumeric(dr("Debe")), "D", "H")
+                            '                .MontoMovimiento = Convert.ToDouble(IIf(IsNumeric(dr("Debe")), dr("Debe"), dr("Haber")))
+                            '                .NumDepartamento = 0
+                            '                .TipoCambio = Convert.ToDouble(dr("TipoCambio"))
+                            '                .ContraPartida = 0
+                            '                .Orden = numPartida
+                            '                .CCostos = 0
+                            '                .CGupos = 0
+                            '                .IDINFADIPAR = -1
+                            '                .UUID.NumReg = -1
+                            '            End With
+                            '            RegistraCuenta(poliza.Ejercicio, dr("NoPolizaCuenta").ToString())
+                            '            poliza.Auxiliares.Add(auxiliar)
+                            '        Case "3"
+                            '            Select Case dr("SubOrden").ToString()
+                            '                Case "0"
+                            '                    numPartida = numPartida + 1
+                            '                    auxiliar = New Auxiliar()
+                            '                    With auxiliar
+                            '                        .TipoPoliza = poliza.TipoPoliza
+                            '                        .NumPoliza = poliza.NumPoliza
+                            '                        .NumPartida = numPartida
+                            '                        .Periodo = poliza.Periodo
+                            '                        .Ejercicio = poliza.Ejercicio
+                            '                        .NumCuenta = dr("NoPolizaCuenta").ToString()
+                            '                        .FechaPoliza = poliza.FechaPoliza
+                            '                        .ConceptoPoliza = dr("DiaConceptoMov").ToString()
+                            '                        .DebeHaber = IIf(IsNumeric(dr("Debe")), "D", "H")
+                            '                        .MontoMovimiento = Convert.ToDouble(IIf(IsNumeric(dr("Debe")), dr("Debe"), dr("Haber")))
+                            '                        .NumDepartamento = 0
+                            '                        .TipoCambio = Convert.ToDouble(dr("TipoCambio"))
+                            '                        .ContraPartida = 0
+                            '                        .Orden = numPartida
+                            '                        .CCostos = 0
+                            '                        .CGupos = 0
+                            '                        .IDINFADIPAR = -1
+                            '                        .UUID.NumReg = -1
+                            '                    End With
+                            '                    RegistraCuenta(poliza.Ejercicio, dr("NoPolizaCuenta").ToString())
 
-                                        ' Se considera el Orden 8 ya que es el registro que contiene los viajes relacionados
-                                        If dr("Orden").ToString().Equals("8") Then
-                                            poliza.Documentos.Add(New Documento(EnmTipoDocumento.Viaje, dr("Viaje").ToString()))
-                                        End If
+                            '                Case "2"
+                            '                    With auxiliar.UUID
+                            '                        .NumReg = -1
+                            '                        .UUID = dr("Proyecto").ToString()
+                            '                        .Monto = Convert.ToDouble(dr("CentroCostos").ToString().Replace(",", ""))
+                            '                        .Serie = dr("DiaConceptoMov").ToString()
+                            '                        .Folio = dr("TipoCambio").ToString()
+                            '                        .RfcEmisor = dr("Debe").ToString()
+                            '                        .RfcReceptor = dr("Haber").ToString()
+                            '                        .Orden = 1
+                            '                        .Fecha = Convert.ToDateTime(dr("FechaDocumento"))
+                            '                        .TipoComprobante = 1
+                            '                        .TipoCambio = Convert.ToDouble(dr("TipoCambioCFDI"))
+                            '                        .VersionCFDI = dr("VersionCFDI").ToString()
+                            '                        .Moneda = dr("MonedaCFDI").ToString()
+                            '                    End With
+                            '                    poliza.Auxiliares.Add(auxiliar)
+                            '                    'poliza.UUID = dr("Proyecto").ToString()
+                            '            End Select
 
-                                    Case "9"
-                                        poliza.NumPartida = numPartida
-                                        lstPolizas.Add(poliza)
 
-                                End Select
-                            End If
+                            '        Case "14"
+                            '            poliza.NumPartida = numPartida
+                            '            lstPolizas.Add(poliza)
+
+                            '    End Select
+                            'End If
+
 #End Region
 
-                            Fg.AddItem("" & vbTab & dr("FechaFactura") & vbTab & dr("Factura") & vbTab & dr("TipoFacturacion") & vbTab & dr("FechaViaje") & vbTab &
+                            Fg.AddItem("" & vbTab & dr("FechaDocumento") & vbTab & dr("Documento") & vbTab & dr("TipoDocumento") & vbTab & dr("FechaViaje") & vbTab &
                                        dr("Viaje") & vbTab & dr("IdPoliza") & vbTab & dr("Orden") & vbTab & dr("TipoPoliza") & vbTab & dr("NoPolizaCuenta") & vbTab &
-                                       dr("ConceptoPolizaDepto") & vbTab & dr("DiaConceptoMov") & vbTab & dr("TipoCambio") & vbTab & IIf(dr("Orden") = "9", Math.Round(dr("TotalDebe"), 2), dr("Debe")) & vbTab & IIf(dr("Orden") = "9", Math.Round(dr("TotalHaber"), 2), dr("Haber")) & vbTab &
+                                       dr("ConceptoPolizaDepto") & vbTab & dr("DiaConceptoMov") & vbTab & dr("TipoCambio") & vbTab & IIf(dr("Orden") = "5", Math.Round(dr("TotalDebe"), 2), dr("Debe")) & vbTab & IIf(dr("Orden") = "5", Math.Round(dr("TotalHaber"), 2), dr("Haber")) & vbTab &
                                        dr("CentroCostos") & vbTab & dr("Proyecto"))
 
-                            If dr("Orden").ToString().Equals("2") Or dr("Orden").ToString().Equals("6") Then
-                                Debe += Convert.ToDecimal(dr("Debe").ToString().Replace(",", ""))
+                            If Convert.ToInt32(dr("Orden")) > 1 And Convert.ToInt32(dr("Orden")) < 5 Then
+                                If IsNumeric(dr("Debe").ToString().Replace(",", "")) Then
+                                    Debe += Convert.ToDecimal(dr("Debe").ToString().Replace(",", ""))
+                                End If
+                                If IsNumeric(dr("Haber").ToString().Replace(",", "")) Then
+                                    Haber += Convert.ToDecimal(dr("Haber").ToString().Replace(",", ""))
+                                End If
                                 If dr("EstaCuadrada").ToString().Equals("0") Then
                                     Fg.SetCellStyle(Fg.Rows.Count - 1, 13, NewStyle4)
-                                End If
-                            End If
-                            If dr("Orden").ToString().Equals("7") Or dr("Orden").ToString().Equals("8") Then
-                                Haber += Convert.ToDecimal(dr("Haber").ToString().Replace(",", ""))
-                                If dr("EstaCuadrada").ToString().Equals("0") Then
                                     Fg.SetCellStyle(Fg.Rows.Count - 1, 14, NewStyle4)
                                 End If
                             End If
+
                             If dr("Orden").ToString().Equals("1") And Not dr("IdPoliza").ToString().Equals("0") Then
                                 Fg.SetCellStyle(Fg.Rows.Count - 1, 9, NewStyle3)
                             End If
@@ -443,29 +441,9 @@ Public Class FrmPolizaVentasFlete
         Try
             Fg.AllowFiltering = True
             Fg.FilterDefinition = "<ColumnFilters><ColumnFilter ColumnIndex='6' ColumnName='Orden' DataType='System.String'><ConditionFilter AndConditions='True'><Condition Operator='DoesNotContain' Parameter='99' /></ConditionFilter></ColumnFilter></ColumnFilters>"
-            EXPORTAR_EXCEL_TRANSPORT(Fg, "Poliza ventas flete", True)
-
+            EXPORTAR_EXCEL_TRANSPORT(Fg, TPOLIZA.Text, True)
             Fg.FilterDefinition = ""
             Fg.AllowFiltering = False
-
-        Catch ex As Exception
-            MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace)
-            Bitacora("12. " & ex.Message & vbNewLine & ex.StackTrace)
-        End Try
-    End Sub
-
-    Private Sub BarCopy_Click(sender As Object, e As ClickEventArgs) Handles BarCopy.Click
-        Try
-            If Fg.Rows.Count < 2 Then Return
-
-            Dim rng As New CellRange()
-            rng.r1 = 1
-            rng.r2 = Fg.Rows.Count - 2
-            rng.c1 = 8
-            rng.c2 = 16
-
-            Copia_Portapapeles_Grid(Fg, rng)
-
         Catch ex As Exception
             MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace)
             Bitacora("12. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -482,6 +460,7 @@ Public Class FrmPolizaVentasFlete
 
     Private Sub BarGenPoliza_Click(sender As Object, e As ClickEventArgs) Handles BarGenPoliza.Click
         Try
+            Return
 
             If lstPolizas.Count = 0 Then
                 MsgBox("No hay pólizas pendientes de generar")
@@ -548,24 +527,43 @@ Public Class FrmPolizaVentasFlete
         Dim fecha As DateTime
         Dim cuenta As String
         Dim NewStyle1 As CellStyle
+        Dim orden As Integer
 
         NewStyle1 = Fg.Styles.Add("NewStyle1")
         NewStyle1.BackColor = Color.Red
         NewStyle1.ForeColor = Color.White
 
         For k = 1 To Fg.Rows.Count - 1
+            If IsNumeric(Fg(k, 7)) Then
+                orden = Convert.ToInt32(Fg(k, 7))
+                If orden > 1 And orden < 15 Then ' Orden
+                    fecha = Convert.ToDateTime(Fg(k, 1)) ' Fecha Factura
+                    cuenta = Fg(k, 9) ' Núm. Póliza / No. Cuenta
+                    If Not CuentaOk(fecha.Year, cuenta) Then
+                        Fg.SetCellStyle(k, 9, NewStyle1)
+                    End If
 
-            If Fg(k, 7).Equals("2") Or Fg(k, 7).Equals("6") Or Fg(k, 7).Equals("7") Or Fg(k, 7).Equals("8") Then ' Orden
-
-                fecha = Convert.ToDateTime(Fg(k, 1)) ' Fecha Factura
-                cuenta = Fg(k, 9) ' Núm. Póliza / No. Cuenta
-                If Not CuentaOk(fecha.Year, cuenta) Then
-                    Fg.SetCellStyle(k, 9, NewStyle1)
                 End If
-
             End If
 
         Next
     End Sub
 
+    Private Sub BarCopy_Click(sender As Object, e As ClickEventArgs) Handles BarCopy.Click
+        Try
+            If Fg.Rows.Count < 2 Then Return
+
+            Dim rng As New CellRange()
+            rng.r1 = 1
+            rng.r2 = Fg.Rows.Count - 2
+            rng.c1 = 8
+            rng.c2 = 16
+
+            Copia_Portapapeles_Grid(Fg, rng)
+
+        Catch ex As Exception
+            MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace)
+            Bitacora("12. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
 End Class

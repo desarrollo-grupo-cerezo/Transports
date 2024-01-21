@@ -35,6 +35,12 @@ Public Class frmAltaCxCAE
             tNO_FACTURA.Enabled = False
             tIMPMON_EXT.Enabled = False
 
+            If Not CargaCuentasBancarias() Then
+                MsgBox("No existen cuentas bancarias registradas, favor de verificar")
+                Me.Close()
+                Return
+            End If
+
             Me.KeyPreview = True
 
             tCVE_CLIE.Select()
@@ -81,12 +87,17 @@ Public Class frmAltaCxCAE
         Dim CON_REFER As String
         Dim SIGNO_CADENA As String
         Dim IMPORTE As Decimal
+        Dim CVE_CTA As String
 
         Dim cmd As New SqlCommand
         cmd.Connection = cnSAE
 
         If tREFER.Text.Trim.Length = 0 Then
             MsgBox("El campo referencia no debe quedar vacio, verifique por favor")
+            Return
+        End If
+        If TDOCTO.Text.Trim.Length = 0 Then
+            MsgBox("El campo no. documento no debe quedar vacio, verifique por favor")
             Return
         End If
         If tNUM_CPTO.Text.Trim.Length = 0 Then
@@ -101,6 +112,13 @@ Public Class frmAltaCxCAE
             MsgBox("El importe no debe ser cero")
             Return
         End If
+        If CboCuentabancaria.SelectedIndex = -1 Then
+            MsgBox("Por favor selecciones una cuenta bancaria")
+            Return
+        End If
+
+        CVE_CTA = Split(CboCuentabancaria.Text, "|")(0).Trim
+
         CVE_BITA = 0 : TIPO_MOV = "" : SIGNO = 1 : CVE_AUT = 0 : USUARIO2 = 0 : NO_PARTIDA = 1 : ID_MOV = 1 : CVE_FOLIO = "" : CVE_OBS = 0 : NO_FACTURA = ""
         TIPO_MOV = "A"
         SIGNO = -1
@@ -142,13 +160,14 @@ Public Class frmAltaCxCAE
             IMPORTE = tIMPORTE.Value
         End If
 
+
         If CON_REFER = "S" Then
             Try
                 SQL = "INSERT INTO CUEN_DET" & Empresa & " (CVE_CLIE, REFER, NUM_CPTO, NUM_CARGO, ID_MOV, CVE_FOLIO, CVE_OBS, NO_FACTURA, DOCTO, IMPORTE,
-                    FECHA_APLI, FECHA_VENC, NUM_MONED, TCAMBIO, IMPMON_EXT, TIPO_MOV, SIGNO, USUARIO, NO_PARTIDA, FECHAELAB, UUID, VERSION_SINC) 
+                    FECHA_APLI, FECHA_VENC, NUM_MONED, TCAMBIO, IMPMON_EXT, TIPO_MOV, SIGNO, USUARIO, NO_PARTIDA, FECHAELAB, UUID, VERSION_SINC, CVE_CTA) 
                     VALUES (@CVE_CLIE, @REFER, @NUM_CPTO, @NUM_CARGO, @ID_MOV, @CVE_FOLIO, @CVE_OBS, @NO_FACTURA, @DOCTO, @IMPORTE, @FECHA_APLI, @FECHA_VENC,
                     @NUM_MONED, @TCAMBIO, @IMPMON_EXT, @TIPO_MOV, @SIGNO, @USUARIO, 
-                    ISNULL((SELECT ISNULL(MAX(NO_PARTIDA),0) + 1 FROM CUEN_DET" & Empresa & " WHERE REFER = @REFER AND CVE_CLIE = @CVE_CLIE),0), GETDATE(), NEWID(), GETDATE())"
+                    ISNULL((SELECT ISNULL(MAX(NO_PARTIDA),0) + 1 FROM CUEN_DET" & Empresa & " WHERE REFER = @REFER AND CVE_CLIE = @CVE_CLIE),0), GETDATE(), NEWID(), GETDATE(), @CVE_CTA)"
 
                 cmd.Connection = cnSAE
                 cmd.CommandText = SQL
@@ -170,6 +189,7 @@ Public Class frmAltaCxCAE
                 cmd.Parameters.Add("@TIPO_MOV", SqlDbType.VarChar).Value = TIPO_MOV
                 cmd.Parameters.Add("@SIGNO", SqlDbType.Int).Value = SIGNO
                 cmd.Parameters.Add("@USUARIO", SqlDbType.SmallInt).Value = USUARIO2
+                cmd.Parameters.Add("@CVE_CTA", SqlDbType.VarChar).Value = CVE_CTA
                 returnValue = cmd.ExecuteNonQuery().ToString
                 If returnValue IsNot Nothing Then
                     If returnValue = "1" Then
@@ -559,4 +579,37 @@ Public Class frmAltaCxCAE
             Bitacora("100. " & Ex.Message & vbNewLine & Ex.StackTrace)
         End Try
     End Sub
+
+    Private Function CargaCuentasBancarias() As Boolean
+        Try
+            Dim dt As DataTable
+            Dim exist As Boolean = False
+
+            CboCuentabancaria.Items.Clear()
+
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT TRY_PARSE(ISNULL(CLAVE,'0') AS INT) AS CVE, CUENTA_BANCARIA, ISNULL(NOMBRE_BANCO,'') AS NOMBRE
+                    FROM CUENTA_BENEF" & Empresa & " 
+                    WHERE ISNULL(STATUS,'A') = 'A' 
+                    ORDER BY TRY_PARSE(CLAVE AS INT)"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+                        CboCuentabancaria.Items.Add(String.Format("{0} | {1} | {2}", dr("CVE"), dr("CUENTA_BANCARIA"), dr("NOMBRE")))
+                        exist = True
+                    End While
+                End Using
+            End Using
+
+            If CboCuentabancaria.Items.Count = 1 Then
+                CboCuentabancaria.SelectedIndex = 0
+            End If
+
+            Return exist
+        Catch ex As Exception
+            Bitacora("40. ex.Message: " & ex.Message & vbNewLine & "" & ex.StackTrace)
+            MsgBox("40. ex.Message: " & ex.Message & vbNewLine & "" & ex.StackTrace)
+            Return False
+        End Try
+    End Function
 End Class

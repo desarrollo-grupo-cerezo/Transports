@@ -912,10 +912,28 @@
     <Compile Include="CONTABILIDAD\FrmPolizaGastos.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaDiesel.designer.vb">
+      <DependentUpon>FrmPolizaDiesel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaDiesel.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaIngresosCxC.designer.vb">
+      <DependentUpon>FrmPolizaIngresosCxC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaIngresosCxC.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CONTABILIDAD\FrmPolizaLiq.designer.vb">
       <DependentUpon>FrmPolizaLiq.vb</DependentUpon>
     </Compile>
     <Compile Include="CONTABILIDAD\FrmPolizaLiq.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmConsultaResumen.designer.vb">
+      <DependentUpon>FrmConsultaResumen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmConsultaResumen.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Ejemplo.vb" />
@@ -4639,8 +4657,17 @@
     <EmbeddedResource Include="CONTABILIDAD\FrmPolizaGastos.resx">
       <DependentUpon>FrmPolizaGastos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaDiesel.resx">
+      <DependentUpon>FrmPolizaDiesel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaIngresosCxC.resx">
+      <DependentUpon>FrmPolizaIngresosCxC.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CONTABILIDAD\FrmPolizaLiq.resx">
       <DependentUpon>FrmPolizaLiq.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmConsultaResumen.resx">
+      <DependentUpon>FrmConsultaResumen.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="INVEN\FrmEsquemasMes.resx">
       <DependentUpon>FrmEsquemasMes.vb</DependentUpon>

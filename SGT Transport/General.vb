@@ -1330,7 +1330,7 @@ Module General
     Public Sub CREA_TAB(fFrm As Form, fTab As String)
         If Not ExisteTab(fTab) Then
             Try
-                Dim instForm As Form = Application.OpenForms.OfType(Of Form)().Where(Function(frm) frm.Name = fFrm.Name).SingleOrDefault()
+                Dim instForm As Form = Application.OpenForms.OfType(Of Form)().Where(Function(frm) frm.Name = fFrm.Name).FirstOrDefault()
                 If instForm Is Nothing Then
                 Else
                     'instForm.Dispose()
@@ -6401,6 +6401,23 @@ Module General
         FGrid.SearchDefinition = ""
         FGrid.SearchDefinition = search
     End Sub
+
+    Public Function ObtenerNombrePestanaConsulta(ByVal NombreMenu As String) As String
+        Dim nombre As String = ""
+
+        Select Case (NombreMenu)
+            Case "BarContResFacturas"
+                nombre = "Resumen Facturas"
+            Case "BarContResLiq"
+                nombre = "Resumen Liquidaciones"
+            Case "BarContResLiqConceptos"
+                nombre = "Resumen Liquidaciones Conceptos"
+            Case "BarContResFacturasAbono"
+                nombre = "Resumen Facturas Abonos"
+        End Select
+
+        Return nombre
+    End Function
 
 End Module
 

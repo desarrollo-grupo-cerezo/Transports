@@ -73,7 +73,11 @@ Partial Class frmClientesAE
         Me.Label23 = New System.Windows.Forms.Label()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.TNUMCTAPAGO = New System.Windows.Forms.TextBox()
+        Me.Label13 = New System.Windows.Forms.Label()
         Me.TFORMADEPAGOSAT = New System.Windows.Forms.TextBox()
+        Me.TFax = New System.Windows.Forms.TextBox()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.TTELEFONO = New System.Windows.Forms.TextBox()
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
         Me.TALIAS = New System.Windows.Forms.TextBox()
         Me.Label31 = New System.Windows.Forms.Label()
@@ -113,9 +117,7 @@ Partial Class frmClientesAE
         Me.TCALLE = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label13 = New System.Windows.Forms.Label()
         Me.Label29 = New System.Windows.Forms.Label()
-        Me.TFax = New System.Windows.Forms.TextBox()
         Me.TRFC = New System.Windows.Forms.TextBox()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.TCRUZAMIENTOS = New System.Windows.Forms.TextBox()
@@ -132,7 +134,6 @@ Partial Class frmClientesAE
         Me.TPais = New System.Windows.Forms.TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
-        Me.TTELEFONO = New System.Windows.Forms.TextBox()
         Me.TCODIGO = New System.Windows.Forms.TextBox()
         Me.TLOCALIDAD = New System.Windows.Forms.TextBox()
         Me.Label16 = New System.Windows.Forms.Label()
@@ -140,7 +141,6 @@ Partial Class frmClientesAE
         Me.TCOLONIA = New System.Windows.Forms.TextBox()
         Me.TEstado = New System.Windows.Forms.TextBox()
         Me.Label34 = New System.Windows.Forms.Label()
-        Me.Label21 = New System.Windows.Forms.Label()
         Me.PAG2 = New C1.Win.C1Command.C1DockingTabPage()
         Me.GroupBox9 = New System.Windows.Forms.GroupBox()
         Me.GpoDatosEnvio = New System.Windows.Forms.GroupBox()
@@ -202,6 +202,52 @@ Partial Class frmClientesAE
         Me.FgL = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.PAG3 = New C1.Win.C1Command.C1DockingTabPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label101 = New System.Windows.Forms.Label()
+        Me.Label100 = New System.Windows.Forms.Label()
+        Me.Label99 = New System.Windows.Forms.Label()
+        Me.TCOLAI = New System.Windows.Forms.TextBox()
+        Me.TCOLAC = New System.Windows.Forms.TextBox()
+        Me.TCOLAG = New System.Windows.Forms.TextBox()
+        Me.TCOLAH = New System.Windows.Forms.TextBox()
+        Me.TCOLAF = New System.Windows.Forms.TextBox()
+        Me.TCOLAJ = New System.Windows.Forms.TextBox()
+        Me.Label106 = New System.Windows.Forms.Label()
+        Me.Label107 = New System.Windows.Forms.Label()
+        Me.TCOLAE = New System.Windows.Forms.TextBox()
+        Me.Label108 = New System.Windows.Forms.Label()
+        Me.Label109 = New System.Windows.Forms.Label()
+        Me.Label110 = New System.Windows.Forms.Label()
+        Me.TCOLAD = New System.Windows.Forms.TextBox()
+        Me.Label111 = New System.Windows.Forms.Label()
+        Me.Label112 = New System.Windows.Forms.Label()
+        Me.Label82 = New System.Windows.Forms.Label()
+        Me.TCOLU = New System.Windows.Forms.TextBox()
+        Me.Label84 = New System.Windows.Forms.Label()
+        Me.TCOLAB = New System.Windows.Forms.TextBox()
+        Me.Label86 = New System.Windows.Forms.Label()
+        Me.TCOLO = New System.Windows.Forms.TextBox()
+        Me.TCOLS = New System.Windows.Forms.TextBox()
+        Me.Label88 = New System.Windows.Forms.Label()
+        Me.TCOLT = New System.Windows.Forms.TextBox()
+        Me.Label89 = New System.Windows.Forms.Label()
+        Me.TCOLAA = New System.Windows.Forms.TextBox()
+        Me.Label90 = New System.Windows.Forms.Label()
+        Me.TCOLR = New System.Windows.Forms.TextBox()
+        Me.Label91 = New System.Windows.Forms.Label()
+        Me.TCOLV = New System.Windows.Forms.TextBox()
+        Me.Label92 = New System.Windows.Forms.Label()
+        Me.TCOLZ = New System.Windows.Forms.TextBox()
+        Me.Label93 = New System.Windows.Forms.Label()
+        Me.TCOLQ = New System.Windows.Forms.TextBox()
+        Me.Label94 = New System.Windows.Forms.Label()
+        Me.TCOLW = New System.Windows.Forms.TextBox()
+        Me.Label95 = New System.Windows.Forms.Label()
+        Me.TCOLY = New System.Windows.Forms.TextBox()
+        Me.Label96 = New System.Windows.Forms.Label()
+        Me.TCOLP = New System.Windows.Forms.TextBox()
+        Me.Label97 = New System.Windows.Forms.Label()
+        Me.TCOLX = New System.Windows.Forms.TextBox()
+        Me.Label98 = New System.Windows.Forms.Label()
         Me.Label72 = New System.Windows.Forms.Label()
         Me.TCOLN = New System.Windows.Forms.TextBox()
         Me.Label69 = New System.Windows.Forms.Label()
@@ -287,6 +333,8 @@ Partial Class frmClientesAE
         Me.btnFinal = New C1.Win.C1Input.C1Button()
         Me.Split2 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.C1XLBook1 = New C1.C1Excel.C1XLBook()
+        Me.TCUENTA_CONTABLE_FISCAL = New System.Windows.Forms.TextBox()
+        Me.Label102 = New System.Windows.Forms.Label()
         Me.BarraMenu.SuspendLayout()
         CType(Me.TAB1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TAB1.SuspendLayout()
@@ -506,6 +554,8 @@ Partial Class frmClientesAE
         '
         'GroupBox7
         '
+        Me.GroupBox7.Controls.Add(Me.TCUENTA_CONTABLE_FISCAL)
+        Me.GroupBox7.Controls.Add(Me.Label102)
         Me.GroupBox7.Controls.Add(Me.Label78)
         Me.GroupBox7.Controls.Add(Me.BtnApli)
         Me.GroupBox7.Controls.Add(Me.Label80)
@@ -558,7 +608,7 @@ Partial Class frmClientesAE
         'Label78
         '
         Me.Label78.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label78.Location = New System.Drawing.Point(217, 270)
+        Me.Label78.Location = New System.Drawing.Point(217, 293)
         Me.Label78.Name = "Label78"
         Me.Label78.Size = New System.Drawing.Size(209, 21)
         Me.Label78.TabIndex = 293
@@ -569,7 +619,7 @@ Partial Class frmClientesAE
         Me.BtnApli.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnApli.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnApli.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BtnApli.Location = New System.Drawing.Point(188, 269)
+        Me.BtnApli.Location = New System.Drawing.Point(188, 292)
         Me.BtnApli.Name = "BtnApli"
         Me.BtnApli.Size = New System.Drawing.Size(22, 22)
         Me.BtnApli.TabIndex = 292
@@ -580,7 +630,7 @@ Partial Class frmClientesAE
         '
         Me.Label80.AutoSize = True
         Me.Label80.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label80.Location = New System.Drawing.Point(69, 274)
+        Me.Label80.Location = New System.Drawing.Point(69, 297)
         Me.Label80.Name = "Label80"
         Me.Label80.Size = New System.Drawing.Size(70, 16)
         Me.Label80.TabIndex = 291
@@ -592,10 +642,10 @@ Partial Class frmClientesAE
         Me.TAPLICACION.AcceptsTab = True
         Me.TAPLICACION.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TAPLICACION.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TAPLICACION.Location = New System.Drawing.Point(143, 270)
+        Me.TAPLICACION.Location = New System.Drawing.Point(143, 293)
         Me.TAPLICACION.Name = "TAPLICACION"
         Me.TAPLICACION.Size = New System.Drawing.Size(43, 21)
-        Me.TAPLICACION.TabIndex = 15
+        Me.TAPLICACION.TabIndex = 16
         Me.TAPLICACION.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'BtnMetodoPago
@@ -614,7 +664,7 @@ Partial Class frmClientesAE
         'Label70
         '
         Me.Label70.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label70.Location = New System.Drawing.Point(217, 243)
+        Me.Label70.Location = New System.Drawing.Point(217, 266)
         Me.Label70.Name = "Label70"
         Me.Label70.Size = New System.Drawing.Size(209, 21)
         Me.Label70.TabIndex = 286
@@ -622,7 +672,7 @@ Partial Class frmClientesAE
         'LtUsoCFDI
         '
         Me.LtUsoCFDI.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LtUsoCFDI.Location = New System.Drawing.Point(217, 217)
+        Me.LtUsoCFDI.Location = New System.Drawing.Point(217, 240)
         Me.LtUsoCFDI.Name = "LtUsoCFDI"
         Me.LtUsoCFDI.Size = New System.Drawing.Size(209, 21)
         Me.LtUsoCFDI.TabIndex = 285
@@ -662,7 +712,7 @@ Partial Class frmClientesAE
         '
         Me.Label48.AutoSize = True
         Me.Label48.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label48.Location = New System.Drawing.Point(52, 220)
+        Me.Label48.Location = New System.Drawing.Point(52, 243)
         Me.Label48.Name = "Label48"
         Me.Label48.Size = New System.Drawing.Size(87, 16)
         Me.Label48.TabIndex = 277
@@ -804,11 +854,11 @@ Partial Class frmClientesAE
         Me.TUSO_CFDI.AcceptsTab = True
         Me.TUSO_CFDI.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TUSO_CFDI.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TUSO_CFDI.Location = New System.Drawing.Point(143, 217)
+        Me.TUSO_CFDI.Location = New System.Drawing.Point(143, 240)
         Me.TUSO_CFDI.MaxLength = 5
         Me.TUSO_CFDI.Name = "TUSO_CFDI"
         Me.TUSO_CFDI.Size = New System.Drawing.Size(43, 21)
-        Me.TUSO_CFDI.TabIndex = 13
+        Me.TUSO_CFDI.TabIndex = 14
         '
         'Label32
         '
@@ -895,7 +945,7 @@ Partial Class frmClientesAE
         Me.BtnUsoCFDI.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnUsoCFDI.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnUsoCFDI.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BtnUsoCFDI.Location = New System.Drawing.Point(188, 216)
+        Me.BtnUsoCFDI.Location = New System.Drawing.Point(188, 239)
         Me.BtnUsoCFDI.Name = "BtnUsoCFDI"
         Me.BtnUsoCFDI.Size = New System.Drawing.Size(22, 22)
         Me.BtnUsoCFDI.TabIndex = 278
@@ -937,7 +987,7 @@ Partial Class frmClientesAE
         Me.BtnPagoSAT.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnPagoSAT.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnPagoSAT.Image = Global.SGT_Transport.My.Resources.Resources.lupa15
-        Me.BtnPagoSAT.Location = New System.Drawing.Point(188, 242)
+        Me.BtnPagoSAT.Location = New System.Drawing.Point(188, 265)
         Me.BtnPagoSAT.Name = "BtnPagoSAT"
         Me.BtnPagoSAT.Size = New System.Drawing.Size(22, 22)
         Me.BtnPagoSAT.TabIndex = 281
@@ -948,7 +998,7 @@ Partial Class frmClientesAE
         '
         Me.Label51.AutoSize = True
         Me.Label51.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label51.Location = New System.Drawing.Point(9, 248)
+        Me.Label51.Location = New System.Drawing.Point(9, 271)
         Me.Label51.Name = "Label51"
         Me.Label51.Size = New System.Drawing.Size(130, 16)
         Me.Label51.TabIndex = 280
@@ -1006,18 +1056,59 @@ Partial Class frmClientesAE
         Me.TNUMCTAPAGO.Size = New System.Drawing.Size(283, 21)
         Me.TNUMCTAPAGO.TabIndex = 7
         '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(341, 35)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(49, 16)
+        Me.Label13.TabIndex = 256
+        Me.Label13.Text = "Celular"
+        '
         'TFORMADEPAGOSAT
         '
         Me.TFORMADEPAGOSAT.AcceptsReturn = True
         Me.TFORMADEPAGOSAT.AcceptsTab = True
         Me.TFORMADEPAGOSAT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TFORMADEPAGOSAT.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TFORMADEPAGOSAT.Location = New System.Drawing.Point(143, 243)
+        Me.TFORMADEPAGOSAT.Location = New System.Drawing.Point(143, 266)
         Me.TFORMADEPAGOSAT.MaxLength = 10
         Me.TFORMADEPAGOSAT.Name = "TFORMADEPAGOSAT"
         Me.TFORMADEPAGOSAT.Size = New System.Drawing.Size(43, 21)
-        Me.TFORMADEPAGOSAT.TabIndex = 14
+        Me.TFORMADEPAGOSAT.TabIndex = 15
         Me.TFORMADEPAGOSAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TFax
+        '
+        Me.TFax.AcceptsReturn = True
+        Me.TFax.AcceptsTab = True
+        Me.TFax.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TFax.Location = New System.Drawing.Point(396, 32)
+        Me.TFax.Name = "TFax"
+        Me.TFax.Size = New System.Drawing.Size(188, 22)
+        Me.TFax.TabIndex = 1
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label21.Location = New System.Drawing.Point(76, 35)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(61, 16)
+        Me.Label21.TabIndex = 238
+        Me.Label21.Text = "Teléfono"
+        '
+        'TTELEFONO
+        '
+        Me.TTELEFONO.AcceptsReturn = True
+        Me.TTELEFONO.AcceptsTab = True
+        Me.TTELEFONO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TTELEFONO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TTELEFONO.Location = New System.Drawing.Point(143, 32)
+        Me.TTELEFONO.Name = "TTELEFONO"
+        Me.TTELEFONO.Size = New System.Drawing.Size(188, 22)
+        Me.TTELEFONO.TabIndex = 0
         '
         'GroupBox8
         '
@@ -1581,16 +1672,6 @@ Partial Class frmClientesAE
         Me.Label2.TabIndex = 228
         Me.Label2.Text = "Y Calle"
         '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(341, 35)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(49, 16)
-        Me.Label13.TabIndex = 256
-        Me.Label13.Text = "Celular"
-        '
         'Label29
         '
         Me.Label29.AutoSize = True
@@ -1600,16 +1681,6 @@ Partial Class frmClientesAE
         Me.Label29.Size = New System.Drawing.Size(67, 16)
         Me.Label29.TabIndex = 233
         Me.Label29.Text = "Localidad"
-        '
-        'TFax
-        '
-        Me.TFax.AcceptsReturn = True
-        Me.TFax.AcceptsTab = True
-        Me.TFax.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TFax.Location = New System.Drawing.Point(396, 32)
-        Me.TFax.Name = "TFax"
-        Me.TFax.Size = New System.Drawing.Size(188, 22)
-        Me.TFax.TabIndex = 1
         '
         'TRFC
         '
@@ -1782,17 +1853,6 @@ Partial Class frmClientesAE
         Me.Label18.TabIndex = 235
         Me.Label18.Text = "Núm. Int."
         '
-        'TTELEFONO
-        '
-        Me.TTELEFONO.AcceptsReturn = True
-        Me.TTELEFONO.AcceptsTab = True
-        Me.TTELEFONO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TTELEFONO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TTELEFONO.Location = New System.Drawing.Point(143, 32)
-        Me.TTELEFONO.Name = "TTELEFONO"
-        Me.TTELEFONO.Size = New System.Drawing.Size(188, 22)
-        Me.TTELEFONO.TabIndex = 0
-        '
         'TCODIGO
         '
         Me.TCODIGO.AcceptsReturn = True
@@ -1867,16 +1927,6 @@ Partial Class frmClientesAE
         Me.Label34.Size = New System.Drawing.Size(64, 16)
         Me.Label34.TabIndex = 239
         Me.Label34.Text = "Municipio"
-        '
-        'Label21
-        '
-        Me.Label21.AutoSize = True
-        Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.Location = New System.Drawing.Point(76, 35)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(61, 16)
-        Me.Label21.TabIndex = 238
-        Me.Label21.Text = "Teléfono"
         '
         'PAG2
         '
@@ -2591,6 +2641,52 @@ Partial Class frmClientesAE
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Label101)
+        Me.GroupBox1.Controls.Add(Me.Label100)
+        Me.GroupBox1.Controls.Add(Me.Label99)
+        Me.GroupBox1.Controls.Add(Me.TCOLAI)
+        Me.GroupBox1.Controls.Add(Me.TCOLAC)
+        Me.GroupBox1.Controls.Add(Me.TCOLAG)
+        Me.GroupBox1.Controls.Add(Me.TCOLAH)
+        Me.GroupBox1.Controls.Add(Me.TCOLAF)
+        Me.GroupBox1.Controls.Add(Me.TCOLAJ)
+        Me.GroupBox1.Controls.Add(Me.Label106)
+        Me.GroupBox1.Controls.Add(Me.Label107)
+        Me.GroupBox1.Controls.Add(Me.TCOLAE)
+        Me.GroupBox1.Controls.Add(Me.Label108)
+        Me.GroupBox1.Controls.Add(Me.Label109)
+        Me.GroupBox1.Controls.Add(Me.Label110)
+        Me.GroupBox1.Controls.Add(Me.TCOLAD)
+        Me.GroupBox1.Controls.Add(Me.Label111)
+        Me.GroupBox1.Controls.Add(Me.Label112)
+        Me.GroupBox1.Controls.Add(Me.Label82)
+        Me.GroupBox1.Controls.Add(Me.TCOLU)
+        Me.GroupBox1.Controls.Add(Me.Label84)
+        Me.GroupBox1.Controls.Add(Me.TCOLAB)
+        Me.GroupBox1.Controls.Add(Me.Label86)
+        Me.GroupBox1.Controls.Add(Me.TCOLO)
+        Me.GroupBox1.Controls.Add(Me.TCOLS)
+        Me.GroupBox1.Controls.Add(Me.Label88)
+        Me.GroupBox1.Controls.Add(Me.TCOLT)
+        Me.GroupBox1.Controls.Add(Me.Label89)
+        Me.GroupBox1.Controls.Add(Me.TCOLAA)
+        Me.GroupBox1.Controls.Add(Me.Label90)
+        Me.GroupBox1.Controls.Add(Me.TCOLR)
+        Me.GroupBox1.Controls.Add(Me.Label91)
+        Me.GroupBox1.Controls.Add(Me.TCOLV)
+        Me.GroupBox1.Controls.Add(Me.Label92)
+        Me.GroupBox1.Controls.Add(Me.TCOLZ)
+        Me.GroupBox1.Controls.Add(Me.Label93)
+        Me.GroupBox1.Controls.Add(Me.TCOLQ)
+        Me.GroupBox1.Controls.Add(Me.Label94)
+        Me.GroupBox1.Controls.Add(Me.TCOLW)
+        Me.GroupBox1.Controls.Add(Me.Label95)
+        Me.GroupBox1.Controls.Add(Me.TCOLY)
+        Me.GroupBox1.Controls.Add(Me.Label96)
+        Me.GroupBox1.Controls.Add(Me.TCOLP)
+        Me.GroupBox1.Controls.Add(Me.Label97)
+        Me.GroupBox1.Controls.Add(Me.TCOLX)
+        Me.GroupBox1.Controls.Add(Me.Label98)
         Me.GroupBox1.Controls.Add(Me.Label72)
         Me.GroupBox1.Controls.Add(Me.TCOLN)
         Me.GroupBox1.Controls.Add(Me.Label69)
@@ -2622,10 +2718,580 @@ Partial Class frmClientesAE
         Me.GroupBox1.Controls.Add(Me.Lt1)
         Me.GroupBox1.Location = New System.Drawing.Point(6, 14)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(261, 403)
+        Me.GroupBox1.Size = New System.Drawing.Size(765, 403)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Importar"
+        '
+        'Label101
+        '
+        Me.Label101.AutoSize = True
+        Me.Label101.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label101.Location = New System.Drawing.Point(638, 13)
+        Me.Label101.Name = "Label101"
+        Me.Label101.Size = New System.Drawing.Size(89, 15)
+        Me.Label101.TabIndex = 693
+        Me.Label101.Text = "Columna excel"
+        '
+        'Label100
+        '
+        Me.Label100.AutoSize = True
+        Me.Label100.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label100.Location = New System.Drawing.Point(395, 13)
+        Me.Label100.Name = "Label100"
+        Me.Label100.Size = New System.Drawing.Size(89, 15)
+        Me.Label100.TabIndex = 692
+        Me.Label100.Text = "Columna excel"
+        '
+        'Label99
+        '
+        Me.Label99.AutoSize = True
+        Me.Label99.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label99.Location = New System.Drawing.Point(566, 164)
+        Me.Label99.Name = "Label99"
+        Me.Label99.Size = New System.Drawing.Size(76, 15)
+        Me.Label99.TabIndex = 691
+        Me.Label99.Text = "Tipo Materia"
+        '
+        'TCOLAI
+        '
+        Me.TCOLAI.AcceptsReturn = True
+        Me.TCOLAI.AcceptsTab = True
+        Me.TCOLAI.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLAI.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLAI.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLAI.ForeColor = System.Drawing.Color.Black
+        Me.TCOLAI.Location = New System.Drawing.Point(647, 162)
+        Me.TCOLAI.MaxLength = 2
+        Me.TCOLAI.Name = "TCOLAI"
+        Me.TCOLAI.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLAI.TabIndex = 678
+        Me.TCOLAI.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TCOLAC
+        '
+        Me.TCOLAC.AcceptsReturn = True
+        Me.TCOLAC.AcceptsTab = True
+        Me.TCOLAC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLAC.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLAC.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLAC.ForeColor = System.Drawing.Color.Black
+        Me.TCOLAC.Location = New System.Drawing.Point(647, 30)
+        Me.TCOLAC.MaxLength = 2
+        Me.TCOLAC.Name = "TCOLAC"
+        Me.TCOLAC.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLAC.TabIndex = 666
+        Me.TCOLAC.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TCOLAG
+        '
+        Me.TCOLAG.AcceptsReturn = True
+        Me.TCOLAG.AcceptsTab = True
+        Me.TCOLAG.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLAG.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLAG.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLAG.ForeColor = System.Drawing.Color.Black
+        Me.TCOLAG.Location = New System.Drawing.Point(647, 118)
+        Me.TCOLAG.MaxLength = 2
+        Me.TCOLAG.Name = "TCOLAG"
+        Me.TCOLAG.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLAG.TabIndex = 673
+        Me.TCOLAG.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TCOLAH
+        '
+        Me.TCOLAH.AcceptsReturn = True
+        Me.TCOLAH.AcceptsTab = True
+        Me.TCOLAH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLAH.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLAH.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLAH.ForeColor = System.Drawing.Color.Black
+        Me.TCOLAH.Location = New System.Drawing.Point(647, 140)
+        Me.TCOLAH.MaxLength = 2
+        Me.TCOLAH.Name = "TCOLAH"
+        Me.TCOLAH.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLAH.TabIndex = 675
+        Me.TCOLAH.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TCOLAF
+        '
+        Me.TCOLAF.AcceptsReturn = True
+        Me.TCOLAF.AcceptsTab = True
+        Me.TCOLAF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLAF.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLAF.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLAF.ForeColor = System.Drawing.Color.Black
+        Me.TCOLAF.Location = New System.Drawing.Point(647, 96)
+        Me.TCOLAF.MaxLength = 2
+        Me.TCOLAF.Name = "TCOLAF"
+        Me.TCOLAF.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLAF.TabIndex = 672
+        Me.TCOLAF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TCOLAJ
+        '
+        Me.TCOLAJ.AcceptsReturn = True
+        Me.TCOLAJ.AcceptsTab = True
+        Me.TCOLAJ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLAJ.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLAJ.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLAJ.ForeColor = System.Drawing.Color.Black
+        Me.TCOLAJ.Location = New System.Drawing.Point(647, 185)
+        Me.TCOLAJ.MaxLength = 2
+        Me.TCOLAJ.Name = "TCOLAJ"
+        Me.TCOLAJ.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLAJ.TabIndex = 679
+        Me.TCOLAJ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label106
+        '
+        Me.Label106.AutoSize = True
+        Me.Label106.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label106.Location = New System.Drawing.Point(525, 187)
+        Me.Label106.Name = "Label106"
+        Me.Label106.Size = New System.Drawing.Size(117, 15)
+        Me.Label106.TabIndex = 676
+        Me.Label106.Text = "Descripción Materia"
+        '
+        'Label107
+        '
+        Me.Label107.AutoSize = True
+        Me.Label107.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label107.Location = New System.Drawing.Point(552, 142)
+        Me.Label107.Name = "Label107"
+        Me.Label107.Size = New System.Drawing.Size(90, 15)
+        Me.Label107.TabIndex = 674
+        Me.Label107.Text = "Uso Autorizado"
+        '
+        'TCOLAE
+        '
+        Me.TCOLAE.AcceptsReturn = True
+        Me.TCOLAE.AcceptsTab = True
+        Me.TCOLAE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLAE.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLAE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLAE.ForeColor = System.Drawing.Color.Black
+        Me.TCOLAE.Location = New System.Drawing.Point(647, 74)
+        Me.TCOLAE.MaxLength = 2
+        Me.TCOLAE.Name = "TCOLAE"
+        Me.TCOLAE.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLAE.TabIndex = 670
+        Me.TCOLAE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label108
+        '
+        Me.Label108.AutoSize = True
+        Me.Label108.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label108.Location = New System.Drawing.Point(537, 120)
+        Me.Label108.Name = "Label108"
+        Me.Label108.Size = New System.Drawing.Size(105, 15)
+        Me.Label108.TabIndex = 671
+        Me.Label108.Text = "Datos Maquilador"
+        '
+        'Label109
+        '
+        Me.Label109.AutoSize = True
+        Me.Label109.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label109.Location = New System.Drawing.Point(536, 98)
+        Me.Label109.Name = "Label109"
+        Me.Label109.Size = New System.Drawing.Size(106, 15)
+        Me.Label109.TabIndex = 669
+        Me.Label109.Text = "Datos Formulador"
+        '
+        'Label110
+        '
+        Me.Label110.AutoSize = True
+        Me.Label110.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label110.Location = New System.Drawing.Point(542, 76)
+        Me.Label110.Name = "Label110"
+        Me.Label110.Size = New System.Drawing.Size(100, 15)
+        Me.Label110.TabIndex = 668
+        Me.Label110.Text = "Datos Fabricante"
+        '
+        'TCOLAD
+        '
+        Me.TCOLAD.AcceptsReturn = True
+        Me.TCOLAD.AcceptsTab = True
+        Me.TCOLAD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLAD.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLAD.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLAD.ForeColor = System.Drawing.Color.Black
+        Me.TCOLAD.Location = New System.Drawing.Point(647, 52)
+        Me.TCOLAD.MaxLength = 2
+        Me.TCOLAD.Name = "TCOLAD"
+        Me.TCOLAD.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLAD.TabIndex = 667
+        Me.TCOLAD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label111
+        '
+        Me.Label111.AutoSize = True
+        Me.Label111.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label111.Location = New System.Drawing.Point(487, 54)
+        Me.Label111.Name = "Label111"
+        Me.Label111.Size = New System.Drawing.Size(155, 15)
+        Me.Label111.TabIndex = 665
+        Me.Label111.Text = "Reg. San. Plag. COFEPRIS"
+        '
+        'Label112
+        '
+        Me.Label112.AutoSize = True
+        Me.Label112.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label112.Location = New System.Drawing.Point(503, 32)
+        Me.Label112.Name = "Label112"
+        Me.Label112.Size = New System.Drawing.Size(139, 15)
+        Me.Label112.TabIndex = 664
+        Me.Label112.Text = "Razón Social Emp. Imp."
+        '
+        'Label82
+        '
+        Me.Label82.AutoSize = True
+        Me.Label82.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label82.Location = New System.Drawing.Point(297, 164)
+        Me.Label82.Name = "Label82"
+        Me.Label82.Size = New System.Drawing.Size(103, 15)
+        Me.Label82.TabIndex = 663
+        Me.Label82.Text = "Fecha Caducidad"
+        '
+        'TCOLU
+        '
+        Me.TCOLU.AcceptsReturn = True
+        Me.TCOLU.AcceptsTab = True
+        Me.TCOLU.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLU.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLU.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLU.ForeColor = System.Drawing.Color.Black
+        Me.TCOLU.Location = New System.Drawing.Point(405, 162)
+        Me.TCOLU.MaxLength = 2
+        Me.TCOLU.Name = "TCOLU"
+        Me.TCOLU.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLU.TabIndex = 650
+        Me.TCOLU.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label84
+        '
+        Me.Label84.AutoSize = True
+        Me.Label84.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label84.Location = New System.Drawing.Point(339, 319)
+        Me.Label84.Name = "Label84"
+        Me.Label84.Size = New System.Drawing.Size(61, 15)
+        Me.Label84.TabIndex = 660
+        Me.Label84.Text = "Num. Cas"
+        '
+        'TCOLAB
+        '
+        Me.TCOLAB.AcceptsReturn = True
+        Me.TCOLAB.AcceptsTab = True
+        Me.TCOLAB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLAB.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLAB.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLAB.ForeColor = System.Drawing.Color.Black
+        Me.TCOLAB.Location = New System.Drawing.Point(405, 317)
+        Me.TCOLAB.MaxLength = 2
+        Me.TCOLAB.Name = "TCOLAB"
+        Me.TCOLAB.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLAB.TabIndex = 662
+        Me.TCOLAB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label86
+        '
+        Me.Label86.AutoSize = True
+        Me.Label86.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label86.Location = New System.Drawing.Point(292, 297)
+        Me.Label86.Name = "Label86"
+        Me.Label86.Size = New System.Drawing.Size(111, 15)
+        Me.Label86.TabIndex = 657
+        Me.Label86.Text = "Folio Impo VUCEM"
+        '
+        'TCOLO
+        '
+        Me.TCOLO.AcceptsReturn = True
+        Me.TCOLO.AcceptsTab = True
+        Me.TCOLO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLO.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLO.ForeColor = System.Drawing.Color.Black
+        Me.TCOLO.Location = New System.Drawing.Point(405, 30)
+        Me.TCOLO.MaxLength = 2
+        Me.TCOLO.Name = "TCOLO"
+        Me.TCOLO.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLO.TabIndex = 638
+        Me.TCOLO.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TCOLS
+        '
+        Me.TCOLS.AcceptsReturn = True
+        Me.TCOLS.AcceptsTab = True
+        Me.TCOLS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLS.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLS.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLS.ForeColor = System.Drawing.Color.Black
+        Me.TCOLS.Location = New System.Drawing.Point(405, 118)
+        Me.TCOLS.MaxLength = 2
+        Me.TCOLS.Name = "TCOLS"
+        Me.TCOLS.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLS.TabIndex = 645
+        Me.TCOLS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label88
+        '
+        Me.Label88.AutoSize = True
+        Me.Label88.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label88.Location = New System.Drawing.Point(282, 274)
+        Me.Label88.Name = "Label88"
+        Me.Label88.Size = New System.Drawing.Size(121, 15)
+        Me.Label88.TabIndex = 655
+        Me.Label88.Text = "Permiso Importación"
+        '
+        'TCOLT
+        '
+        Me.TCOLT.AcceptsReturn = True
+        Me.TCOLT.AcceptsTab = True
+        Me.TCOLT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLT.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLT.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLT.ForeColor = System.Drawing.Color.Black
+        Me.TCOLT.Location = New System.Drawing.Point(405, 140)
+        Me.TCOLT.MaxLength = 2
+        Me.TCOLT.Name = "TCOLT"
+        Me.TCOLT.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLT.TabIndex = 647
+        Me.TCOLT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label89
+        '
+        Me.Label89.AutoSize = True
+        Me.Label89.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label89.Location = New System.Drawing.Point(265, 253)
+        Me.Label89.Name = "Label89"
+        Me.Label89.Size = New System.Drawing.Size(135, 15)
+        Me.Label89.TabIndex = 653
+        Me.Label89.Text = "Reg. Sanitario Folio Aut"
+        '
+        'TCOLAA
+        '
+        Me.TCOLAA.AcceptsReturn = True
+        Me.TCOLAA.AcceptsTab = True
+        Me.TCOLAA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLAA.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLAA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLAA.ForeColor = System.Drawing.Color.Black
+        Me.TCOLAA.Location = New System.Drawing.Point(405, 295)
+        Me.TCOLAA.MaxLength = 2
+        Me.TCOLAA.Name = "TCOLAA"
+        Me.TCOLAA.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLAA.TabIndex = 661
+        Me.TCOLAA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label90
+        '
+        Me.Label90.AutoSize = True
+        Me.Label90.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label90.Location = New System.Drawing.Point(281, 229)
+        Me.Label90.Name = "Label90"
+        Me.Label90.Size = New System.Drawing.Size(119, 15)
+        Me.Label90.TabIndex = 652
+        Me.Label90.Text = "ID Cond. Esp Transp"
+        '
+        'TCOLR
+        '
+        Me.TCOLR.AcceptsReturn = True
+        Me.TCOLR.AcceptsTab = True
+        Me.TCOLR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLR.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLR.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLR.ForeColor = System.Drawing.Color.Black
+        Me.TCOLR.Location = New System.Drawing.Point(405, 96)
+        Me.TCOLR.MaxLength = 2
+        Me.TCOLR.Name = "TCOLR"
+        Me.TCOLR.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLR.TabIndex = 644
+        Me.TCOLR.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label91
+        '
+        Me.Label91.AutoSize = True
+        Me.Label91.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label91.Location = New System.Drawing.Point(267, 207)
+        Me.Label91.Name = "Label91"
+        Me.Label91.Size = New System.Drawing.Size(136, 15)
+        Me.Label91.TabIndex = 649
+        Me.Label91.Text = "ID Forma Farmaceutica"
+        '
+        'TCOLV
+        '
+        Me.TCOLV.AcceptsReturn = True
+        Me.TCOLV.AcceptsTab = True
+        Me.TCOLV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLV.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLV.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLV.ForeColor = System.Drawing.Color.Black
+        Me.TCOLV.Location = New System.Drawing.Point(405, 185)
+        Me.TCOLV.MaxLength = 2
+        Me.TCOLV.Name = "TCOLV"
+        Me.TCOLV.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLV.TabIndex = 651
+        Me.TCOLV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label92
+        '
+        Me.Label92.AutoSize = True
+        Me.Label92.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label92.Location = New System.Drawing.Point(290, 187)
+        Me.Label92.Name = "Label92"
+        Me.Label92.Size = New System.Drawing.Size(110, 15)
+        Me.Label92.TabIndex = 648
+        Me.Label92.Text = "Lote Medicamento"
+        '
+        'TCOLZ
+        '
+        Me.TCOLZ.AcceptsReturn = True
+        Me.TCOLZ.AcceptsTab = True
+        Me.TCOLZ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLZ.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLZ.ForeColor = System.Drawing.Color.Black
+        Me.TCOLZ.Location = New System.Drawing.Point(405, 273)
+        Me.TCOLZ.MaxLength = 2
+        Me.TCOLZ.Name = "TCOLZ"
+        Me.TCOLZ.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLZ.TabIndex = 659
+        Me.TCOLZ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label93
+        '
+        Me.Label93.AutoSize = True
+        Me.Label93.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label93.Location = New System.Drawing.Point(335, 142)
+        Me.Label93.Name = "Label93"
+        Me.Label93.Size = New System.Drawing.Size(65, 15)
+        Me.Label93.TabIndex = 646
+        Me.Label93.Text = "Fabricante"
+        '
+        'TCOLQ
+        '
+        Me.TCOLQ.AcceptsReturn = True
+        Me.TCOLQ.AcceptsTab = True
+        Me.TCOLQ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLQ.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLQ.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLQ.ForeColor = System.Drawing.Color.Black
+        Me.TCOLQ.Location = New System.Drawing.Point(405, 74)
+        Me.TCOLQ.MaxLength = 2
+        Me.TCOLQ.Name = "TCOLQ"
+        Me.TCOLQ.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLQ.TabIndex = 642
+        Me.TCOLQ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label94
+        '
+        Me.Label94.AutoSize = True
+        Me.Label94.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label94.Location = New System.Drawing.Point(286, 120)
+        Me.Label94.Name = "Label94"
+        Me.Label94.Size = New System.Drawing.Size(117, 15)
+        Me.Label94.TabIndex = 643
+        Me.Label94.Text = "Den. Distintiva Prod."
+        '
+        'TCOLW
+        '
+        Me.TCOLW.AcceptsReturn = True
+        Me.TCOLW.AcceptsTab = True
+        Me.TCOLW.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLW.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLW.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLW.ForeColor = System.Drawing.Color.Black
+        Me.TCOLW.Location = New System.Drawing.Point(405, 207)
+        Me.TCOLW.MaxLength = 2
+        Me.TCOLW.Name = "TCOLW"
+        Me.TCOLW.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLW.TabIndex = 654
+        Me.TCOLW.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label95
+        '
+        Me.Label95.AutoSize = True
+        Me.Label95.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label95.Location = New System.Drawing.Point(285, 98)
+        Me.Label95.Name = "Label95"
+        Me.Label95.Size = New System.Drawing.Size(118, 15)
+        Me.Label95.TabIndex = 641
+        Me.Label95.Text = "Den. Genérica Prod."
+        '
+        'TCOLY
+        '
+        Me.TCOLY.AcceptsReturn = True
+        Me.TCOLY.AcceptsTab = True
+        Me.TCOLY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLY.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLY.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLY.ForeColor = System.Drawing.Color.Black
+        Me.TCOLY.Location = New System.Drawing.Point(405, 251)
+        Me.TCOLY.MaxLength = 2
+        Me.TCOLY.Name = "TCOLY"
+        Me.TCOLY.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLY.TabIndex = 658
+        Me.TCOLY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label96
+        '
+        Me.Label96.AutoSize = True
+        Me.Label96.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label96.Location = New System.Drawing.Point(317, 77)
+        Me.Label96.Name = "Label96"
+        Me.Label96.Size = New System.Drawing.Size(86, 15)
+        Me.Label96.TabIndex = 640
+        Me.Label96.Text = "Nom. Quimico"
+        '
+        'TCOLP
+        '
+        Me.TCOLP.AcceptsReturn = True
+        Me.TCOLP.AcceptsTab = True
+        Me.TCOLP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLP.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLP.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLP.ForeColor = System.Drawing.Color.Black
+        Me.TCOLP.Location = New System.Drawing.Point(405, 52)
+        Me.TCOLP.MaxLength = 2
+        Me.TCOLP.Name = "TCOLP"
+        Me.TCOLP.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLP.TabIndex = 639
+        Me.TCOLP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label97
+        '
+        Me.Label97.AutoSize = True
+        Me.Label97.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label97.Location = New System.Drawing.Point(312, 54)
+        Me.Label97.Name = "Label97"
+        Me.Label97.Size = New System.Drawing.Size(91, 15)
+        Me.Label97.TabIndex = 637
+        Me.Label97.Text = "Nom Ing. Activo"
+        '
+        'TCOLX
+        '
+        Me.TCOLX.AcceptsReturn = True
+        Me.TCOLX.AcceptsTab = True
+        Me.TCOLX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCOLX.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TCOLX.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCOLX.ForeColor = System.Drawing.Color.Black
+        Me.TCOLX.Location = New System.Drawing.Point(405, 229)
+        Me.TCOLX.MaxLength = 2
+        Me.TCOLX.Name = "TCOLX"
+        Me.TCOLX.Size = New System.Drawing.Size(70, 21)
+        Me.TCOLX.TabIndex = 656
+        Me.TCOLX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label98
+        '
+        Me.Label98.AutoSize = True
+        Me.Label98.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label98.Location = New System.Drawing.Point(283, 32)
+        Me.Label98.Name = "Label98"
+        Me.Label98.Size = New System.Drawing.Size(120, 15)
+        Me.Label98.TabIndex = 636
+        Me.Label98.Text = "ID Sector COFEPRIS"
         '
         'Label72
         '
@@ -3703,6 +4369,27 @@ Partial Class frmClientesAE
         Me.Split2.Size = New System.Drawing.Size(1432, 483)
         Me.Split2.TabIndex = 1
         '
+        'TCUENTA_CONTABLE_FISCAL
+        '
+        Me.TCUENTA_CONTABLE_FISCAL.AcceptsReturn = True
+        Me.TCUENTA_CONTABLE_FISCAL.AcceptsTab = True
+        Me.TCUENTA_CONTABLE_FISCAL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCUENTA_CONTABLE_FISCAL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCUENTA_CONTABLE_FISCAL.Location = New System.Drawing.Point(143, 215)
+        Me.TCUENTA_CONTABLE_FISCAL.Name = "TCUENTA_CONTABLE_FISCAL"
+        Me.TCUENTA_CONTABLE_FISCAL.Size = New System.Drawing.Size(283, 21)
+        Me.TCUENTA_CONTABLE_FISCAL.TabIndex = 13
+        '
+        'Label102
+        '
+        Me.Label102.AutoSize = True
+        Me.Label102.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label102.Location = New System.Drawing.Point(1, 217)
+        Me.Label102.Name = "Label102"
+        Me.Label102.Size = New System.Drawing.Size(138, 16)
+        Me.Label102.TabIndex = 295
+        Me.Label102.Text = "Cuenta contable fiscal"
+        '
         'frmClientesAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4109,4 +4796,52 @@ Partial Class frmClientesAE
     Friend WithEvents BtnApli As C1.Win.C1Input.C1Button
     Friend WithEvents Label80 As Label
     Friend WithEvents TAPLICACION As TextBox
+    Friend WithEvents Label99 As Label
+    Friend WithEvents TCOLAI As TextBox
+    Friend WithEvents TCOLAC As TextBox
+    Friend WithEvents TCOLAG As TextBox
+    Friend WithEvents TCOLAH As TextBox
+    Friend WithEvents TCOLAF As TextBox
+    Friend WithEvents TCOLAJ As TextBox
+    Friend WithEvents Label106 As Label
+    Friend WithEvents Label107 As Label
+    Friend WithEvents TCOLAE As TextBox
+    Friend WithEvents Label108 As Label
+    Friend WithEvents Label109 As Label
+    Friend WithEvents Label110 As Label
+    Friend WithEvents TCOLAD As TextBox
+    Friend WithEvents Label111 As Label
+    Friend WithEvents Label112 As Label
+    Friend WithEvents Label82 As Label
+    Friend WithEvents TCOLU As TextBox
+    Friend WithEvents Label84 As Label
+    Friend WithEvents TCOLAB As TextBox
+    Friend WithEvents Label86 As Label
+    Friend WithEvents TCOLO As TextBox
+    Friend WithEvents TCOLS As TextBox
+    Friend WithEvents Label88 As Label
+    Friend WithEvents TCOLT As TextBox
+    Friend WithEvents Label89 As Label
+    Friend WithEvents TCOLAA As TextBox
+    Friend WithEvents Label90 As Label
+    Friend WithEvents TCOLR As TextBox
+    Friend WithEvents Label91 As Label
+    Friend WithEvents TCOLV As TextBox
+    Friend WithEvents Label92 As Label
+    Friend WithEvents TCOLZ As TextBox
+    Friend WithEvents Label93 As Label
+    Friend WithEvents TCOLQ As TextBox
+    Friend WithEvents Label94 As Label
+    Friend WithEvents TCOLW As TextBox
+    Friend WithEvents Label95 As Label
+    Friend WithEvents TCOLY As TextBox
+    Friend WithEvents Label96 As Label
+    Friend WithEvents TCOLP As TextBox
+    Friend WithEvents Label97 As Label
+    Friend WithEvents TCOLX As TextBox
+    Friend WithEvents Label98 As Label
+    Friend WithEvents Label100 As Label
+    Friend WithEvents Label101 As Label
+    Friend WithEvents TCUENTA_CONTABLE_FISCAL As TextBox
+    Friend WithEvents Label102 As Label
 End Class

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FgA.ColumnInfo" xml:space="preserve">
+    <value>5,1,0,0,0,95,Columns:1{Width:118;AllowSorting:False;Caption:"Cve. alter";AllowDragging:False;Style:"TextAlign:LeftCenter;";}	2{Width:35;Caption:"Tipo";ShowButtons:Always;Style:"TextAlign:CenterCenter;";}	3{Width:70;Caption:"Cliente/Prov.";Style:"ComboList:""|..."";DataType:System.String;TextAlign:LeftCenter;ImageAlign:CenterCenter;";}	4{Width:242;Caption:"Nombre";}	</value>
+  </data>
   <data name="Fg.ColumnInfo" xml:space="preserve">
     <value>4,1,0,0,0,95,Columns:1{Width:28;Caption:"Cve.";Style:"TextAlign:CenterCenter;";}	2{Width:151;Caption:"Descripción";}	3{Width:76;Caption:"precio";Style:"Format:""N2"";DataType:System.Single;TextAlign:GeneralCenter;ImageAlign:CenterCenter;";}	</value>
   </data>
@@ -207,9 +210,6 @@
         ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
         ooAKKKKACiiigAooooAKKKKAP//Z
 </value>
-  </data>
-  <data name="FgA.ColumnInfo" xml:space="preserve">
-    <value>5,1,0,0,0,95,Columns:1{Width:118;AllowSorting:False;Caption:"Cve. alter";AllowDragging:False;Style:"TextAlign:LeftCenter;";}	2{Width:35;Caption:"Tipo";ShowButtons:Always;Style:"TextAlign:CenterCenter;";}	3{Width:70;Caption:"Cliente/Prov.";Style:"ComboList:""|..."";DataType:System.String;TextAlign:LeftCenter;ImageAlign:CenterCenter;";}	4{Width:242;Caption:"Nombre";}	</value>
   </data>
   <data name="BtnMoneda.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

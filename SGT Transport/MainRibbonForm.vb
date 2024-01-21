@@ -2028,7 +2028,7 @@ Public Class MainRibbonForm
                 Case "Pago complemento"
                     FrmPagoComplementoAE.Dispose()
                 Case "Poliza egresos diesel"
-                    FrmPolizaEgresoDiesel.Dispose()
+                    FrmPolizaDiesel.Dispose()
                 Case "Poliza folios dinero"
                     FrmPolizaFoliosDinero.Dispose()
                 Case "Almacenes refacciones"
@@ -2049,8 +2049,8 @@ Public Class MainRibbonForm
                     FrmCtaBanEmpresa.Dispose()
                 Case "Poliza salida gen. oper y mec."
                     FrmPolizasSalidaGenOperMec.Dispose()
-                Case "Poliza ingreso"
-                    FrmPolizaIngresos.Dispose()
+                Case "Poliza ingresos CxC"
+                    FrmPolizaIngresosCxC.Dispose()
                 Case "Ventas por producto por cliente"
                     FrnVtaXProXCteTrackFullRojo.Dispose()
                 Case "Consulta movs. inv. OT"
@@ -3428,7 +3428,7 @@ Public Class MainRibbonForm
 
     Private Sub BarPolizaVentaFlete_Click(sender As Object, e As EventArgs) Handles BarPolizaVentaFlete.Click
         BACKUPTXT("XTAB_CAPTION", "FrmPolizaVentasFlete")
-        CREA_TAB(FrmPolizaVentasFlete, "Poliza ventas flete")
+        CREA_TAB(FrmPolizaVentasFlete, "Póliza ventas flete")
     End Sub
     Private Sub BarPolizaVentaOtros_Click(sender As Object, e As EventArgs) Handles BarPolizaVentaOtros.Click
         BACKUPTXT("XTAB_CAPTION", "FrmPolizaVentasOtros")
@@ -3465,8 +3465,8 @@ Public Class MainRibbonForm
         FrmReporDieselReconocido.ShowDialog()
     End Sub
     Private Sub BarPolizaEgresosDiesel_Click(sender As Object, e As EventArgs) Handles BarPolizaEgresosDiesel.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPolizaEgresoDiesel")
-        CREA_TAB(FrmPolizaEgresoDiesel, "Poliza egresos diesel")
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaDiesel")
+        CREA_TAB(FrmPolizaDiesel, "Póliza Egresos Diesel")
     End Sub
     Private Sub BarPolizaFoliosDinero_Click(sender As Object, e As EventArgs) Handles BarPolizaFoliosDinero.Click
         BACKUPTXT("XTAB_CAPTION", "FrmPolizaFoliosDinero")
@@ -3541,8 +3541,8 @@ Public Class MainRibbonForm
     End Sub
 
     Private Sub BarPolizaIngresos_Click(sender As Object, e As EventArgs) Handles BarPolizaIngresos.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPolizaIngresos")
-        CREA_TAB(FrmPolizaIngresos, "Poliza ingreso")
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaIngresosCxC")
+        CREA_TAB(FrmPolizaIngresosCxC, "Póliza Ingresos CxC")
     End Sub
     Private Sub RibOTExternas_Click(sender As Object, e As EventArgs) Handles RMante_Rep_OTExternas.Click
         BACKUPTXT("XTAB_CAPTION", "FrmRepOTExternas")
@@ -4243,5 +4243,15 @@ Public Class MainRibbonForm
             Process.Start(Application.StartupPath & "\Descarga SAT Masiva\Descarga SAT Masiva.exe")
         Catch ex As Exception
         End Try
+    End Sub
+
+    Private Sub BarContResumen_Click(sender As Object, e As EventArgs) Handles BarContResFacturas.Click, BarContResLiq.Click, BarContResLiqConceptos.Click, BarContResFacturasAbono.Click
+        Dim Consulta As String
+        Consulta = ObtenerNombrePestanaConsulta(sender.Name)
+        Dim frm As New FrmConsultaResumen()
+        frm.NombreConsulta = Consulta
+        frm.NombreFrm = sender.Name
+
+        CREA_TAB(frm, Consulta)
     End Sub
 End Class

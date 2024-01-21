@@ -308,6 +308,7 @@ Partial Class FrmPolizaVentasOtros
         Me.Fg.AllowFiltering = True
         Me.Fg.BackColor = System.Drawing.Color.White
         Me.Fg.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
+        Me.C1FlexGridSearchPanel1.SetC1FlexGridSearchPanel(Me.Fg, Me.C1FlexGridSearchPanel1)
         Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.Fg.ForeColor = System.Drawing.Color.Black

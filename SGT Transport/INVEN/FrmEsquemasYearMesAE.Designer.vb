@@ -50,9 +50,11 @@ Partial Class FrmEsquemasYearMesAE
         Me.C1DockingTabPage2 = New C1.Win.C1Command.C1DockingTabPage()
         Me.C1DockingTab2 = New C1.Win.C1Command.C1DockingTab()
         Me.C1DockingTabPage3 = New C1.Win.C1Command.C1DockingTabPage()
-        Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.C1DockingTabPage4 = New C1.Win.C1Command.C1DockingTabPage()
+        Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.Fg2 = New C1.Win.C1FlexGrid.C1FlexGrid()
+        Me.txCuentaAcred = New System.Windows.Forms.TextBox()
+        Me.lbCtaAcred = New System.Windows.Forms.Label()
         Me.BarraMenu.SuspendLayout()
         CType(Me.C1CheckBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.C1DockingTab1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,8 +66,8 @@ Partial Class FrmEsquemasYearMesAE
         Me.C1DockingTabPage2.SuspendLayout()
         CType(Me.C1DockingTab2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.C1DockingTab2.SuspendLayout()
-        CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.C1DockingTabPage4.SuspendLayout()
+        CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Fg2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -110,7 +112,7 @@ Partial Class FrmEsquemasYearMesAE
         Me.txYearMes.AcceptsReturn = True
         Me.txYearMes.AcceptsTab = True
         Me.txYearMes.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txYearMes.Location = New System.Drawing.Point(109, 85)
+        Me.txYearMes.Location = New System.Drawing.Point(142, 85)
         Me.txYearMes.Name = "txYearMes"
         Me.txYearMes.ReadOnly = True
         Me.txYearMes.Size = New System.Drawing.Size(110, 21)
@@ -119,7 +121,7 @@ Partial Class FrmEsquemasYearMesAE
         'lbClave
         '
         Me.lbClave.AutoSize = True
-        Me.lbClave.Location = New System.Drawing.Point(79, 88)
+        Me.lbClave.Location = New System.Drawing.Point(112, 88)
         Me.lbClave.Name = "lbClave"
         Me.lbClave.Size = New System.Drawing.Size(27, 13)
         Me.lbClave.TabIndex = 116
@@ -130,7 +132,7 @@ Partial Class FrmEsquemasYearMesAE
         Me.txImpuesto.AcceptsReturn = True
         Me.txImpuesto.AcceptsTab = True
         Me.txImpuesto.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txImpuesto.Location = New System.Drawing.Point(109, 112)
+        Me.txImpuesto.Location = New System.Drawing.Point(142, 112)
         Me.txImpuesto.Name = "txImpuesto"
         Me.txImpuesto.ReadOnly = True
         Me.txImpuesto.Size = New System.Drawing.Size(205, 21)
@@ -139,7 +141,7 @@ Partial Class FrmEsquemasYearMesAE
         'Nombre
         '
         Me.Nombre.AutoSize = True
-        Me.Nombre.Location = New System.Drawing.Point(56, 115)
+        Me.Nombre.Location = New System.Drawing.Point(89, 115)
         Me.Nombre.Name = "Nombre"
         Me.Nombre.Size = New System.Drawing.Size(50, 13)
         Me.Nombre.TabIndex = 115
@@ -155,7 +157,7 @@ Partial Class FrmEsquemasYearMesAE
         Me.txCuenta.AcceptsReturn = True
         Me.txCuenta.AcceptsTab = True
         Me.txCuenta.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txCuenta.Location = New System.Drawing.Point(109, 139)
+        Me.txCuenta.Location = New System.Drawing.Point(142, 139)
         Me.txCuenta.Name = "txCuenta"
         Me.txCuenta.Size = New System.Drawing.Size(205, 21)
         Me.txCuenta.TabIndex = 3
@@ -163,7 +165,7 @@ Partial Class FrmEsquemasYearMesAE
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(21, 142)
+        Me.Label1.Location = New System.Drawing.Point(54, 142)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(86, 13)
         Me.Label1.TabIndex = 120
@@ -408,6 +410,15 @@ Partial Class FrmEsquemasYearMesAE
         Me.C1DockingTabPage3.TabIndex = 0
         Me.C1DockingTabPage3.Text = "Talla"
         '
+        'C1DockingTabPage4
+        '
+        Me.C1DockingTabPage4.Controls.Add(Me.Fg)
+        Me.C1DockingTabPage4.Location = New System.Drawing.Point(1, 24)
+        Me.C1DockingTabPage4.Name = "C1DockingTabPage4"
+        Me.C1DockingTabPage4.Size = New System.Drawing.Size(455, 198)
+        Me.C1DockingTabPage4.TabIndex = 1
+        Me.C1DockingTabPage4.Text = "Color"
+        '
         'Fg
         '
         Me.Fg.AllowDragging = C1.Win.C1FlexGrid.AllowDraggingEnum.None
@@ -425,15 +436,6 @@ Partial Class FrmEsquemasYearMesAE
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 10
         Me.Fg.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Office2010Blue
-        '
-        'C1DockingTabPage4
-        '
-        Me.C1DockingTabPage4.Controls.Add(Me.Fg)
-        Me.C1DockingTabPage4.Location = New System.Drawing.Point(1, 24)
-        Me.C1DockingTabPage4.Name = "C1DockingTabPage4"
-        Me.C1DockingTabPage4.Size = New System.Drawing.Size(455, 198)
-        Me.C1DockingTabPage4.TabIndex = 1
-        Me.C1DockingTabPage4.Text = "Color"
         '
         'Fg2
         '
@@ -453,11 +455,32 @@ Partial Class FrmEsquemasYearMesAE
         Me.Fg2.TabIndex = 11
         Me.Fg2.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Office2010Blue
         '
+        'txCuentaAcred
+        '
+        Me.txCuentaAcred.AcceptsReturn = True
+        Me.txCuentaAcred.AcceptsTab = True
+        Me.txCuentaAcred.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txCuentaAcred.Location = New System.Drawing.Point(142, 166)
+        Me.txCuentaAcred.Name = "txCuentaAcred"
+        Me.txCuentaAcred.Size = New System.Drawing.Size(205, 21)
+        Me.txCuentaAcred.TabIndex = 4
+        '
+        'lbCtaAcred
+        '
+        Me.lbCtaAcred.AutoSize = True
+        Me.lbCtaAcred.Location = New System.Drawing.Point(19, 169)
+        Me.lbCtaAcred.Name = "lbCtaAcred"
+        Me.lbCtaAcred.Size = New System.Drawing.Size(120, 13)
+        Me.lbCtaAcred.TabIndex = 124
+        Me.lbCtaAcred.Text = "Cuenta Contable Acred."
+        '
         'FrmEsquemasYearMesAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(434, 188)
+        Me.ClientSize = New System.Drawing.Size(434, 203)
+        Me.Controls.Add(Me.txCuentaAcred)
+        Me.Controls.Add(Me.lbCtaAcred)
         Me.Controls.Add(Me.C1DockingTab1)
         Me.Controls.Add(Me.C1CheckBox1)
         Me.Controls.Add(Me.txCuenta)
@@ -486,8 +509,8 @@ Partial Class FrmEsquemasYearMesAE
         Me.C1DockingTabPage2.ResumeLayout(False)
         CType(Me.C1DockingTab2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.C1DockingTab2.ResumeLayout(False)
-        CType(Me.Fg, System.ComponentModel.ISupportInitialize).EndInit()
         Me.C1DockingTabPage4.ResumeLayout(False)
+        CType(Me.Fg, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Fg2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -526,4 +549,6 @@ Partial Class FrmEsquemasYearMesAE
     Friend WithEvents tSep1 As TextBox
     Friend WithEvents tGrupo As C1.Win.C1Input.C1NumericEdit
     Friend WithEvents LtEjemplo As Label
+    Friend WithEvents txCuentaAcred As TextBox
+    Friend WithEvents lbCtaAcred As Label
 End Class

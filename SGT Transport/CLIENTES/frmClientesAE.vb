@@ -227,7 +227,7 @@ Public Class frmClientesAE
     End Sub
     Sub DESPLEGAR_MERCANCIAS_CFG()
         Try
-            SQL = "SELECT M.COLA, M.COLB, M.COLC, M.COLD, M.COLE, M.COLF, M.COLG, M.COLH, M.COLI, M.COLJ, M.COLK, M.COLL, M.COLM, M.COLN
+            SQL = "SELECT *
                 FROM GCMERCANCIAS_CFG M 
                 WHERE CLIENTE = '" & TCLAVE.Text & "'"
             Using cmd As SqlCommand = cnSAE.CreateCommand
@@ -248,6 +248,28 @@ Public Class frmClientesAE
                         TCOLK.Text = dr("COLK").ToString
                         TCOLL.Text = dr("COLL").ToString
                         TCOLM.Text = dr("COLM").ToString
+                        TCOLO.Text = dr("COLO").ToString
+                        TCOLP.Text = dr("COLP").ToString
+                        TCOLQ.Text = dr("COLQ").ToString
+                        TCOLR.Text = dr("COLR").ToString
+                        TCOLS.Text = dr("COLS").ToString
+                        TCOLT.Text = dr("COLT").ToString
+                        TCOLU.Text = dr("COLU").ToString
+                        TCOLV.Text = dr("COLV").ToString
+                        TCOLW.Text = dr("COLW").ToString
+                        TCOLX.Text = dr("COLX").ToString
+                        TCOLY.Text = dr("COLY").ToString
+                        TCOLZ.Text = dr("COLZ").ToString
+                        TCOLAA.Text = dr("COLAA").ToString
+                        TCOLAB.Text = dr("COLAB").ToString
+                        TCOLAC.Text = dr("COLAC").ToString
+                        TCOLAD.Text = dr("COLAD").ToString
+                        TCOLAE.Text = dr("COLAE").ToString
+                        TCOLAF.Text = dr("COLAF").ToString
+                        TCOLAG.Text = dr("COLAG").ToString
+                        TCOLAH.Text = dr("COLAH").ToString
+                        TCOLAI.Text = dr("COLAI").ToString
+                        TCOLAJ.Text = dr("COLAJ").ToString
                     End If
                 End Using
             End Using
@@ -303,7 +325,7 @@ Public Class frmClientesAE
                 I.PAIS_ENVIO, I.CODIGO_ENVIO, I.CVE_ZONA_ENVIO, I.REFERENCIA_ENVIO, I.CUENTA_CONTABLE, I.METODODEPAGO, I.NUMCTAPAGO, 
                 I.MODELO, I.USO_CFDI, I.CVE_PAIS_SAT, I.NUMIDREGFISCAL, I.FORMADEPAGOSAT, ISNULL(OB.STR_OBS,'') AS OBSTR, I.REG_FISC,
                 R.descripcion as DESC_REG_FISC, I.NOMBRECOMERCIAL, I.FLETE, I.TIPO_CAMBIO, CVE_ESQIMPU, I.NUM_MON,
-                MUNICIPIO_SAT, LOCALIDAD_SAT, ESTADO_SAT, PAIS_SAT, COLONIA_SAT, ALIAS, APLICACION
+                MUNICIPIO_SAT, LOCALIDAD_SAT, ESTADO_SAT, PAIS_SAT, COLONIA_SAT, ALIAS, APLICACION, I.CUENTA_CONTABLE_FISCAL
                 FROM CLIE" & Empresa & " I
                 LEFT JOIN tblcregimenfiscal R ON R.regimenFiscal = I.REG_FISC
                 LEFT JOIN OCLI" & Empresa & " OB ON OB.CVE_OBS = I.CVE_OBS                
@@ -515,6 +537,8 @@ Public Class frmClientesAE
                     TCVE_ZONA_ENVIO.Text = IIf(IsDBNull(dr("CVE_ZONA_ENVIO")), "", dr("CVE_ZONA_ENVIO"))
                     TREFERENCIA_ENVIO.Text = IIf(IsDBNull(dr("REFERENCIA_ENVIO")), "", dr("REFERENCIA_ENVIO"))
                     TCUENTA_CONTABLE.Text = IIf(IsDBNull(dr("CUENTA_CONTABLE")), "", dr("CUENTA_CONTABLE"))
+                    TCUENTA_CONTABLE_FISCAL.Text = IIf(IsDBNull(dr("CUENTA_CONTABLE_FISCAL")), "", dr("CUENTA_CONTABLE_FISCAL"))
+
                     TMETODODEPAGO.Text = IIf(IsDBNull(dr("METODODEPAGO")), "", dr("METODODEPAGO"))
                     TNUMCTAPAGO.Text = IIf(IsDBNull(dr("NUMCTAPAGO")), "", dr("NUMCTAPAGO"))
                     TMODELO.Text = IIf(IsDBNull(dr("MODELO")), "", dr("MODELO"))
@@ -790,6 +814,7 @@ Public Class frmClientesAE
         TCVE_ZONA_ENVIO.MaxLength = 6
         TREFERENCIA_ENVIO.MaxLength = 255
         TCUENTA_CONTABLE.MaxLength = 28
+        TCUENTA_CONTABLE_FISCAL.MaxLength = 28
         TMETODODEPAGO.MaxLength = 255
         TNUMCTAPAGO.MaxLength = 255
         TMODELO.MaxLength = 255
@@ -871,6 +896,7 @@ Public Class frmClientesAE
             TCVE_ZONA_ENVIO.Text = ""
             TREFERENCIA_ENVIO.Text = ""
             TCUENTA_CONTABLE.Text = ""
+            TCUENTA_CONTABLE_FISCAL.Text = ""
             TMETODODEPAGO.Text = ""
             TNUMCTAPAGO.Text = ""
             TMODELO.Text = ""
@@ -996,7 +1022,7 @@ Public Class frmClientesAE
             NUMIDREGFISCAL = @NUMIDREGFISCAL, FORMADEPAGOSAT = @FORMADEPAGOSAT, STATUS = @STATUS, REG_FISC = @REG_FISC, 
             NOMBRECOMERCIAL = @NOMBRECOMERCIAL, FLETE = @FLETE, NUM_MON = @NUM_MON, CVE_ESQIMPU = @CVE_ESQIMPU, MUNICIPIO_SAT = @MUNICIPIO_SAT, 
             LOCALIDAD_SAT = @LOCALIDAD_SAT, ESTADO_SAT = @ESTADO_SAT, PAIS_SAT = @PAIS_SAT, COLONIA_SAT = @COLONIA_SAT,
-            ALIAS = @ALIAS, APLICACION = @APLICACION
+            ALIAS = @ALIAS, APLICACION = @APLICACION, CUENTA_CONTABLE_FISCAL =@CUENTA_CONTABLE_FISCAL
             WHERE CLAVE = @CLAVE
             ELSE
             INSERT INTO CLIE" & Empresa & " (CLAVE, STATUS, NOMBRE, RFC, CALLE, NUMINT, NUMEXT, CRUZAMIENTOS, CRUZAMIENTOS2, COLONIA, CODIGO,
@@ -1006,7 +1032,7 @@ Public Class frmClientesAE
             NUMINT_ENVIO, NUMEXT_ENVIO, CRUZAMIENTOS_ENVIO, CRUZAMIENTOS_ENVIO2, COLONIA_ENVIO, LOCALIDAD_ENVIO, MUNICIPIO_ENVIO, 
             ESTADO_ENVIO, PAIS_ENVIO, CODIGO_ENVIO, CVE_ZONA_ENVIO, REFERENCIA_ENVIO, CUENTA_CONTABLE, METODODEPAGO, NUMCTAPAGO, MODELO, 
             USO_CFDI, CVE_PAIS_SAT, NUMIDREGFISCAL, FORMADEPAGOSAT, REG_FISC, NOMBRECOMERCIAL, FLETE, NUM_MON, CVE_ESQIMPU, MUNICIPIO_SAT,
-            LOCALIDAD_SAT, ESTADO_SAT, PAIS_SAT, COLONIA_SAT, ALIAS, APLICACION) 
+            LOCALIDAD_SAT, ESTADO_SAT, PAIS_SAT, COLONIA_SAT, ALIAS, APLICACION, CUENTA_CONTABLE_FISCAL) 
             VALUES(
             @CLAVE, 'A', @NOMBRE, @RFC, @CALLE, @NUMINT, @NUMEXT, @CRUZAMIENTOS, @CRUZAMIENTOS2, @COLONIA, @CODIGO, @LOCALIDAD,
             @MUNICIPIO, @ESTADO, @PAIS, @NACIONALIDAD, @REFERDIR, @TELEFONO, @CLASIFIC, @FAX, @PAG_WEB, @CURP, @CVE_ZONA, @IMPRIR, @MAIL,
@@ -1015,7 +1041,7 @@ Public Class frmClientesAE
             @MATRIZ, @CALLE_ENVIO, @NUMINT_ENVIO, @NUMEXT_ENVIO, @CRUZAMIENTOS_ENVIO, @CRUZAMIENTOS_ENVIO2, @COLONIA_ENVIO, @LOCALIDAD_ENVIO,
             @MUNICIPIO_ENVIO, @ESTADO_ENVIO, @PAIS_ENVIO, @CODIGO_ENVIO, @CVE_ZONA_ENVIO, @REFERENCIA_ENVIO, @CUENTA_CONTABLE, @METODODEPAGO,
             @NUMCTAPAGO, @MODELO, @USO_CFDI, @CVE_PAIS_SAT, @NUMIDREGFISCAL, @FORMADEPAGOSAT, @REG_FISC, @NOMBRECOMERCIAL, @FLETE, 
-            @NUM_MON, @CVE_ESQIMPU, @MUNICIPIO_SAT, @LOCALIDAD_SAT, @ESTADO_SAT, @PAIS_SAT, @COLONIA_SAT, @ALIAS, @APLICACION)"
+            @NUM_MON, @CVE_ESQIMPU, @MUNICIPIO_SAT, @LOCALIDAD_SAT, @ESTADO_SAT, @PAIS_SAT, @COLONIA_SAT, @ALIAS, @APLICACION, @CUENTA_CONTABLE_FISCAL)"
 
         cmd.Connection = cnSAE
         cmd.CommandText = SQL
@@ -1102,6 +1128,7 @@ Public Class frmClientesAE
             cmd.Parameters.Add("@COLONIA_SAT", SqlDbType.VarChar).Value = TCOLONIA_SAT.Text
             cmd.Parameters.Add("@ALIAS", SqlDbType.VarChar).Value = TALIAS.Text
             cmd.Parameters.Add("@APLICACION", SqlDbType.VarChar).Value = TAPLICACION.Text
+            cmd.Parameters.Add("@CUENTA_CONTABLE_FISCAL", SqlDbType.VarChar).Value = TCUENTA_CONTABLE_FISCAL.Text
 
             returnValue = cmd.ExecuteNonQuery().ToString
             If returnValue IsNot Nothing Then
@@ -1145,12 +1172,20 @@ Public Class frmClientesAE
                     UPDATE GCMERCANCIAS_CFG SET 
                     COLA = @COLA, COLB = @COLB,
                     COLC = @COLC, COLD = @COLD, COLE = @COLE, COLF = @COLF, COLG = @COLG, COLH = @COLH, COLI = @COLI, 
-                    COLJ = @COLJ, COLK = @COLK, COLL = @COLL, COLM = @COLM, COLN = @COLN
+                    COLJ = @COLJ, COLK = @COLK, COLL = @COLL, COLM = @COLM, COLN = @COLN,
+                    COLO = @COLO, COLP = @COLP, COLQ = @COLQ, COLR = @COLR, COLS = @COLS, COLT = @COLT, COLU = @COLU, 
+                    COLV = @COLV, COLW = @COLW, COLX = @COLX, COLY = @COLY, COLZ = @COLZ, COLAA = @COLAA, COLAB = @COLAB, 
+                    COLAC = @COLAC, COLAD = @COLAD, COLAE = @COLAE, COLAF = @COLAF, COLAG = @COLAG, COLAH = @COLAH, 
+                    COLAI = @COLAI, COLAJ = @COLAJ
                     WHERE  CLIENTE = @CLIENTE
                 ELSE
-                    INSERT INTO GCMERCANCIAS_CFG (CLIENTE, COLA, COLB, COLC, COLD, COLE, COLF, COLG, COLH, COLI, COLJ, COLK, COLL, COLM, COLN)
+                    INSERT INTO GCMERCANCIAS_CFG (CLIENTE, COLA, COLB, COLC, COLD, COLE, COLF, COLG, COLH, COLI, COLJ, COLK, COLL, COLM, COLN,
+                    COLO, COLP, COLQ, COLR, COLS, COLT, COLU, COLV, COLW, COLX, COLY, COLZ, COLAA, COLAB, COLAC, COLAD, COLAE, COLAF, COLAG, 
+                    COLAH, COLAI, COLAJ)
                     VALUES (
-                    @CLIENTE, @COLA, @COLB, @COLC, @COLD, @COLE, @COLF, @COLG, @COLH, @COLI, @COLJ, @COLK, @COLL, @COLM, @COLN)"
+                    @CLIENTE, @COLA, @COLB, @COLC, @COLD, @COLE, @COLF, @COLG, @COLH, @COLI, @COLJ, @COLK, @COLL, @COLM, @COLN,
+                    @COLO, @COLP, @COLQ, @COLR, @COLS, @COLT, @COLU, @COLV, @COLW, @COLX, @COLY, @COLZ, @COLAA, @COLAB, @COLAC, @COLAD, @COLAE, 
+                    @COLAF, @COLAG, @COLAH, @COLAI, @COLAJ)"
 
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
@@ -1169,6 +1204,29 @@ Public Class frmClientesAE
                 cmd.Parameters.Add("@COLL", SqlDbType.VarChar).Value = TCOLL.Text
                 cmd.Parameters.Add("@COLM", SqlDbType.VarChar).Value = TCOLM.Text
                 cmd.Parameters.Add("@COLN", SqlDbType.VarChar).Value = TCOLN.Text
+                cmd.Parameters.Add("@COLO", SqlDbType.VarChar).Value = TCOLO.Text
+                cmd.Parameters.Add("@COLP", SqlDbType.VarChar).Value = TCOLP.Text
+                cmd.Parameters.Add("@COLQ", SqlDbType.VarChar).Value = TCOLQ.Text
+                cmd.Parameters.Add("@COLR", SqlDbType.VarChar).Value = TCOLR.Text
+                cmd.Parameters.Add("@COLS", SqlDbType.VarChar).Value = TCOLS.Text
+                cmd.Parameters.Add("@COLT", SqlDbType.VarChar).Value = TCOLT.Text
+                cmd.Parameters.Add("@COLU", SqlDbType.VarChar).Value = TCOLU.Text
+                cmd.Parameters.Add("@COLV", SqlDbType.VarChar).Value = TCOLV.Text
+                cmd.Parameters.Add("@COLW", SqlDbType.VarChar).Value = TCOLW.Text
+                cmd.Parameters.Add("@COLX", SqlDbType.VarChar).Value = TCOLX.Text
+                cmd.Parameters.Add("@COLY", SqlDbType.VarChar).Value = TCOLY.Text
+                cmd.Parameters.Add("@COLZ", SqlDbType.VarChar).Value = TCOLZ.Text
+                cmd.Parameters.Add("@COLAA", SqlDbType.VarChar).Value = TCOLAA.Text
+                cmd.Parameters.Add("@COLAB", SqlDbType.VarChar).Value = TCOLAB.Text
+                cmd.Parameters.Add("@COLAC", SqlDbType.VarChar).Value = TCOLAC.Text
+                cmd.Parameters.Add("@COLAD", SqlDbType.VarChar).Value = TCOLAD.Text
+                cmd.Parameters.Add("@COLAE", SqlDbType.VarChar).Value = TCOLAE.Text
+                cmd.Parameters.Add("@COLAF", SqlDbType.VarChar).Value = TCOLAF.Text
+                cmd.Parameters.Add("@COLAG", SqlDbType.VarChar).Value = TCOLAG.Text
+                cmd.Parameters.Add("@COLAH", SqlDbType.VarChar).Value = TCOLAH.Text
+                cmd.Parameters.Add("@COLAI", SqlDbType.VarChar).Value = TCOLAI.Text
+                cmd.Parameters.Add("@COLAJ", SqlDbType.VarChar).Value = TCOLAJ.Text
+
                 returnValue = cmd.ExecuteNonQuery().ToString
                 If returnValue IsNot Nothing Then
                     If returnValue = "1" Then
@@ -2451,4 +2509,5 @@ Public Class frmClientesAE
             Bitacora("120. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
+
 End Class

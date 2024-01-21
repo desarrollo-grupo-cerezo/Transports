@@ -19,7 +19,7 @@ Public Class FrmEsquemasYear
         Try
             Me.WindowState = FormWindowState.Maximized
             Fg.Rows.Count = 1
-            Fg.Cols.Count = 5
+            Fg.Cols.Count = 6
 
             Fg.Dock = DockStyle.Fill
 
@@ -42,6 +42,10 @@ Public Class FrmEsquemasYear
             Dim c4 As Column = Fg.Cols(4)
             c4.DataType = GetType(String)
 
+            Fg(0, 5) = "Cuenta Acred."
+            Dim c5 As Column = Fg.Cols(5)
+            c5.DataType = GetType(String)
+
             DESPLEGAR()
         Catch ex As Exception
             MsgBox("13. " & ex.Message & vbNewLine & "" & ex.StackTrace)
@@ -56,7 +60,7 @@ Public Class FrmEsquemasYear
             Dim dr As SqlDataReader
             cmd.Connection = cnSAE
 
-            SQL = "SELECT NUM_IMPU, [YEAR], IMPUESTO = CASE NUM_IMPU WHEN 3 THEN 'RET. IVA' WHEN 4 THEN 'IVA' END, CUENTA FROM CTAYEAR"
+            SQL = "SELECT NUM_IMPU, [YEAR], IMPUESTO = CASE NUM_IMPU WHEN 3 THEN 'RET. IVA' WHEN 4 THEN 'IVA' END, CUENTA, CUENTA_ACREDITABLE FROM CTAYEAR"
 
             cmd.CommandText = SQL
             dr = cmd.ExecuteReader
@@ -64,7 +68,7 @@ Public Class FrmEsquemasYear
             Fg.Rows.Count = 1
 
             Do While dr.Read
-                Fg.AddItem("" & vbTab & dr("NUM_IMPU") & vbTab & dr("YEAR") & vbTab & dr("IMPUESTO") & vbTab & dr("CUENTA"))
+                Fg.AddItem("" & vbTab & dr("NUM_IMPU") & vbTab & dr("YEAR") & vbTab & dr("IMPUESTO") & vbTab & dr("CUENTA") & vbTab & dr("CUENTA_ACREDITABLE"))
             Loop
             dr.Close()
             Fg.AutoSizeCols()

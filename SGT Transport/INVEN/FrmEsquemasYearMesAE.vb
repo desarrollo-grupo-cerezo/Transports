@@ -32,8 +32,11 @@ Public Class FrmEsquemasYearMesAE
                 Dim dr As SqlDataReader
                 cmd.Connection = cnSAE
                 If Var4 = "Año" Then
-                    SQL = "SELECT NUM_IMPU, [YEAR], IMPUESTO = CASE NUM_IMPU WHEN 3 THEN 'RET. IVA' WHEN 4 THEN 'IVA' END, CUENTA FROM CTAYEAR WHERE NUM_IMPU = " & Var2 & " AND [YEAR] = " & Var3
+
+                    SQL = "SELECT NUM_IMPU, [YEAR], IMPUESTO = CASE NUM_IMPU WHEN 3 THEN 'RET. IVA' WHEN 4 THEN 'IVA' END, CUENTA, CUENTA_ACREDITABLE FROM CTAYEAR WHERE NUM_IMPU = " & Var2 & " AND [YEAR] = " & Var3
                 Else
+                    txCuentaAcred.Visible = False
+                    lbCtaAcred.Visible = False
                     SQL = "SET LANGUAGE Spanish
                            SELECT NUM_IMPU, MES, MES_NOMBRE = UPPER(DATENAME (MONTH, CONCAT('1900', RIGHT(CONCAT('0', MES), 2) ,'01'))), IMPUESTO = CASE NUM_IMPU WHEN 3 THEN 'RET. IVA' WHEN 4 THEN 'IVA' END, CUENTA FROM CTAMES WHERE NUM_IMPU = " & Var2 & " AND MES = " & Var3
                 End If
@@ -48,6 +51,7 @@ Public Class FrmEsquemasYearMesAE
                         txImpuesto.Tag = dr("NUM_IMPU").ToString
                         txImpuesto.Text = dr("IMPUESTO").ToString
                         txCuenta.Text = dr("CUENTA").ToString
+                        txCuentaAcred.Text = dr("CUENTA_ACREDITABLE").ToString
                     Else
                         txYearMes.Tag = dr("MES").ToString
                         txYearMes.Text = dr("MES_NOMBRE").ToString
@@ -61,6 +65,7 @@ Public Class FrmEsquemasYearMesAE
                     txImpuesto.Tag = "0"
                     txImpuesto.Text = ""
                     txCuenta.Text = ""
+                    txCuentaAcred.Text = ""
 
                 End If
                 dr.Close()
@@ -106,7 +111,7 @@ Public Class FrmEsquemasYearMesAE
         End If
 
         If Var4 = "Año" Then
-            SQL = "UPDATE CTAYEAR SET CUENTA = @CUENTA WHERE NUM_IMPU = @NUMIMPU AND [YEAR] = @YEARMES"
+            SQL = "UPDATE CTAYEAR SET CUENTA = @CUENTA, CUENTA_ACREDITABLE=@CUENTA_ACREDITABLE WHERE NUM_IMPU = @NUMIMPU AND [YEAR] = @YEARMES"
         Else
             SQL = "UPDATE CTAMES SET CUENTA = @CUENTA WHERE NUM_IMPU = @NUMIMPU AND MES = @YEARMES"
         End If
@@ -118,6 +123,9 @@ Public Class FrmEsquemasYearMesAE
             cmd.Parameters.Add("@NUMIMPU", SqlDbType.Int).Value = txImpuesto.Tag
             cmd.Parameters.Add("@CUENTA", SqlDbType.VarChar).Value = txCuenta.Text
 
+            If Var4 = "Año" Then
+                cmd.Parameters.Add("@CUENTA_ACREDITABLE", SqlDbType.VarChar).Value = txCuentaAcred.Text
+            End If
 
             returnValue = cmd.ExecuteNonQuery().ToString
             If returnValue IsNot Nothing Then

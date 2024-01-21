@@ -64,7 +64,7 @@ Public Class FrmCtaBanEmpresaAE
 
             SQL = "SELECT B.CLAVE, B.STATUS, B.NOMBRE_BANCO, B.CALLE, B.TELEFONO, B.CIUDAD, B.CORREO1, B.RFC_BANCO, 
                 B.CUENTA_BANCARIA, B.CLABE, B.FECHA_APER, B.EJECUTIVO, B.ALIAS, B.SUCURSAL, ISNULL(B.SALDO,0) AS SALD, 
-                ISNULL(B.NUM_MONED,0) AS CVE_MONED, ISNULL(M.DESCR,'') AS DES
+                ISNULL(B.NUM_MONED,0) AS CVE_MONED, ISNULL(M.DESCR,'') AS DES, B.CUENTA_CONTABLE_FINANCIERA, B.CUENTA_CONTABLE_FISCAL
                 FROM CUENTA_BENEF" & Empresa & " B 
                 LEFT JOIN MONED" & Empresa & " M ON M.NUM_MONED = B.NUM_MONED
                 WHERE CLAVE = '" & Var2 & "'"
@@ -80,6 +80,8 @@ Public Class FrmCtaBanEmpresaAE
                 TTelefono.Text = dr("TELEFONO").ToString
                 TCiudad.Text = dr("CIUDAD").ToString
                 TCorreo.Text = dr("CORREO1").ToString
+                CCFINANCIERA.Text = dr("CUENTA_CONTABLE_FINANCIERA").ToString
+                CCFISCAL.Text = dr("CUENTA_CONTABLE_FISCAL").ToString
 
                 TCLABE.Text = dr("CLABE").ToString
                 If IsDate(dr("FECHA_APER").ToString) Then
@@ -122,14 +124,14 @@ Public Class FrmCtaBanEmpresaAE
         SQL = "UPDATE CUENTA_BENEF" & Empresa & " SET NOMBRE_BANCO = @NOMBRE_BANCO, CALLE = @CALLE, TELEFONO = @TELEFONO, 
             CIUDAD = @CIUDAD, SALDO = @SALDO, CORREO1 = @CORREO1, RFC_BANCO = @RFC_BANCO, CUENTA_BANCARIA = @CUENTA_BANCARIA,
             CLABE = @CLABE, FECHA_APER = @FECHA_APER, EJECUTIVO = @EJECUTIVO, ALIAS = @ALIAS, SUCURSAL = @SUCURSAL,
-            NUM_MONED = @NUM_MONED
+            NUM_MONED = @NUM_MONED, CUENTA_CONTABLE_FINANCIERA=@CUENTA_CONTABLE_FINANCIERA, CUENTA_CONTABLE_FISCAL=@CUENTA_CONTABLE_FISCAL
             WHERE CLAVE = @CLAVE
             IF @@ROWCOUNT = 0
             INSERT INTO CUENTA_BENEF" & Empresa & " (CLAVE, STATUS, NOMBRE_BANCO, CALLE, TELEFONO, CIUDAD, SALDO, CORREO1, 
-            RFC_BANCO, CUENTA_BANCARIA, CLABE, FECHA_APER, EJECUTIVO, ALIAS, SUCURSAL) 
+            RFC_BANCO, CUENTA_BANCARIA, CLABE, FECHA_APER, EJECUTIVO, ALIAS, SUCURSAL, CUENTA_CONTABLE_FINANCIERA, CUENTA_CONTABLE_FISCAL) 
             VALUES 
             (@CLAVE, 'A', @NOMBRE_BANCO, @CALLE, @TELEFONO, @CIUDAD, @SALDO, @CORREO1, @RFC_BANCO, @CUENTA_BANCARIA, @CLABE, 
-            @FECHA_APER, @EJECUTIVO, @ALIAS, @SUCURSAL)"
+            @FECHA_APER, @EJECUTIVO, @ALIAS, @SUCURSAL, @CUENTA_CONTABLE_FINANCIERA, @CUENTA_CONTABLE_FISCAL)"
 
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
@@ -149,6 +151,8 @@ Public Class FrmCtaBanEmpresaAE
                 cmd.Parameters.Add("@ALIAS", SqlDbType.VarChar).Value = TALIAS.Text
                 cmd.Parameters.Add("@SUCURSAL", SqlDbType.VarChar).Value = TSUCURSAL.Text
                 cmd.Parameters.Add("@NUM_MONED", SqlDbType.SmallInt).Value = Convert.ToInt16(CboMoneda.Items(CboMoneda.SelectedIndex).ToString.Substring(0, 2))
+                cmd.Parameters.Add("@CUENTA_CONTABLE_FINANCIERA", SqlDbType.VarChar).Value = CCFINANCIERA.Text
+                cmd.Parameters.Add("@CUENTA_CONTABLE_FISCAL", SqlDbType.VarChar).Value = CCFISCAL.Text
                 returnValue = cmd.ExecuteNonQuery().ToString
                 If returnValue IsNot Nothing Then
                     If returnValue = "1" Then

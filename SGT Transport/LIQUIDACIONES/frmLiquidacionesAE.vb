@@ -5213,6 +5213,7 @@ Public Class FrmLiquidacionesAE
 
             Dim GASTOS_VIAJE As Decimal = 0, GASTOS_COMPROBADOS As Decimal = 0
             Dim PERC_X_VIAJE As Decimal = 0, OTRAS_PERC As Decimal = 0
+            Dim SUELDO As Decimal = 0
 
             Try
                 For k = 1 To FgG.Rows.Count - 1
@@ -5243,6 +5244,7 @@ Public Class FrmLiquidacionesAE
                                 If Fg(k, _FgColSeleccione) Then
                                     If Fg(k, _FgColNumViaje).ToString.Length > 0 Then
                                         PERC_X_VIAJE += Fg(k, _FgColSueldoViaje)
+                                        SUELDO += IIf(Fg(k, _FgColSelCalculo), Fg(k, _FgColSdoPorTonedada), Fg(k, _FgColSueldo))
                                     End If
                                 End If
                             End If
@@ -5306,7 +5308,7 @@ Public Class FrmLiquidacionesAE
                                 If FgPA(k, 2).ToString.Length > 0 Then
                                     If IsNumeric(FgPA(k, 6)) Then
                                         FACTOR = FgPA(k, 6)
-                                        IMPORTE_PA = IMPORTE_LIQUIDAR * FACTOR / 100
+                                        IMPORTE_PA = SUELDO * FACTOR / 100
                                         FgPA(k, 7) = IMPORTE_PA
                                         PENSION_ALIMENTICIA += IMPORTE_PA
                                     End If

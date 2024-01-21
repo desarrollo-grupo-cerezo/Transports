@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class FrmPolizaVentasFlete
+Partial Class FrmPolizaIngresosCxC
     Inherits C1.Win.C1Ribbon.C1RibbonForm
 
     'Form overrides dispose to clean up the component list.
@@ -19,25 +19,23 @@ Partial Class FrmPolizaVentasFlete
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmPolizaVentasFlete))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmPolizaIngresosCxC))
         Me.MenuHolder = New C1.Win.C1Command.C1CommandHolder()
         Me.BarDesplegar = New C1.Win.C1Command.C1Command()
         Me.BarGenPoliza = New C1.Win.C1Command.C1Command()
         Me.BarExcel = New C1.Win.C1Command.C1Command()
-        Me.BarCopy = New C1.Win.C1Command.C1Command()
         Me.BarCarpeta = New C1.Win.C1Command.C1Command()
         Me.BarSalir = New C1.Win.C1Command.C1Command()
+        Me.BarCopy = New C1.Win.C1Command.C1Command()
         Me.C1ToolBar1 = New C1.Win.C1Command.C1ToolBar()
         Me.LkDesplegar = New C1.Win.C1Command.C1CommandLink()
         Me.LkGenPoliza = New C1.Win.C1Command.C1CommandLink()
         Me.LkExcel = New C1.Win.C1Command.C1CommandLink()
-        Me.LkCopy = New C1.Win.C1Command.C1CommandLink()
+        Me.C1CommandLink1 = New C1.Win.C1Command.C1CommandLink()
         Me.LkCarpeta = New C1.Win.C1Command.C1CommandLink()
         Me.LkSalir = New C1.Win.C1Command.C1CommandLink()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.chkSinPoliza = New System.Windows.Forms.CheckBox()
-        Me.RadFechaCarga = New System.Windows.Forms.RadioButton()
-        Me.RadFechaTimbre = New System.Windows.Forms.RadioButton()
         Me.TPOLIZA = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.LtNUm = New System.Windows.Forms.Label()
@@ -61,9 +59,9 @@ Partial Class FrmPolizaVentasFlete
         Me.MenuHolder.Commands.Add(Me.BarDesplegar)
         Me.MenuHolder.Commands.Add(Me.BarGenPoliza)
         Me.MenuHolder.Commands.Add(Me.BarExcel)
-        Me.MenuHolder.Commands.Add(Me.BarCopy)
         Me.MenuHolder.Commands.Add(Me.BarCarpeta)
         Me.MenuHolder.Commands.Add(Me.BarSalir)
+        Me.MenuHolder.Commands.Add(Me.BarCopy)
         Me.MenuHolder.Owner = Me
         '
         'BarDesplegar
@@ -89,14 +87,6 @@ Partial Class FrmPolizaVentasFlete
         Me.BarExcel.ShortcutText = ""
         Me.BarExcel.Text = "Excel"
         '
-        'BarCopy
-        '
-        Me.BarCopy.Image = Global.SGT_Transport.My.Resources.Resources.images3
-        Me.BarCopy.ImageTransparentColor = System.Drawing.Color.White
-        Me.BarCopy.Name = "BarCopy"
-        Me.BarCopy.ShortcutText = ""
-        Me.BarCopy.Text = "Copiar"
-        '
         'BarCarpeta
         '
         Me.BarCarpeta.Image = Global.SGT_Transport.My.Resources.Resources.folder3
@@ -115,6 +105,13 @@ Partial Class FrmPolizaVentasFlete
         Me.BarSalir.ShowTextAsToolTip = False
         Me.BarSalir.Text = "Salir"
         '
+        'BarCopy
+        '
+        Me.BarCopy.Image = Global.SGT_Transport.My.Resources.Resources.images3
+        Me.BarCopy.Name = "BarCopy"
+        Me.BarCopy.ShortcutText = ""
+        Me.BarCopy.Text = "Copiar"
+        '
         'C1ToolBar1
         '
         Me.C1ToolBar1.AccessibleName = "Tool Bar"
@@ -127,7 +124,7 @@ Partial Class FrmPolizaVentasFlete
         Me.C1ToolBar1.ButtonLookVert = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.C1ToolBar1.ButtonWidth = 90
         Me.C1ToolBar1.CommandHolder = Nothing
-        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkDesplegar, Me.LkGenPoliza, Me.LkExcel, Me.LkCopy, Me.LkCarpeta, Me.LkSalir})
+        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkDesplegar, Me.LkGenPoliza, Me.LkExcel, Me.C1CommandLink1, Me.LkCarpeta, Me.LkSalir})
         Me.C1ToolBar1.Dock = System.Windows.Forms.DockStyle.Top
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.C1ToolBar1.Movable = False
@@ -156,11 +153,11 @@ Partial Class FrmPolizaVentasFlete
         Me.LkExcel.SortOrder = 2
         Me.LkExcel.Text = "Excel"
         '
-        'LkCopy
+        'C1CommandLink1
         '
-        Me.LkCopy.Command = Me.BarCopy
-        Me.LkCopy.Delimiter = True
-        Me.LkCopy.SortOrder = 3
+        Me.C1CommandLink1.Command = Me.BarCopy
+        Me.C1CommandLink1.Delimiter = True
+        Me.C1CommandLink1.SortOrder = 3
         '
         'LkCarpeta
         '
@@ -182,8 +179,6 @@ Partial Class FrmPolizaVentasFlete
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel1.Controls.Add(Me.chkSinPoliza)
-        Me.Panel1.Controls.Add(Me.RadFechaCarga)
-        Me.Panel1.Controls.Add(Me.RadFechaTimbre)
         Me.Panel1.Controls.Add(Me.TPOLIZA)
         Me.Panel1.Controls.Add(Me.Label4)
         Me.Panel1.Controls.Add(Me.LtNUm)
@@ -201,47 +196,24 @@ Partial Class FrmPolizaVentasFlete
         'chkSinPoliza
         '
         Me.chkSinPoliza.AutoSize = True
-        Me.chkSinPoliza.Location = New System.Drawing.Point(22, 54)
+        Me.chkSinPoliza.Location = New System.Drawing.Point(22, 51)
         Me.chkSinPoliza.Name = "chkSinPoliza"
         Me.chkSinPoliza.Size = New System.Drawing.Size(187, 19)
-        Me.chkSinPoliza.TabIndex = 342
+        Me.chkSinPoliza.TabIndex = 5
         Me.chkSinPoliza.Text = "Ver solo pendientes de póliza"
         Me.chkSinPoliza.UseVisualStyleBackColor = True
         '
-        'RadFechaCarga
-        '
-        Me.RadFechaCarga.AutoSize = True
-        Me.RadFechaCarga.Location = New System.Drawing.Point(22, 6)
-        Me.RadFechaCarga.Name = "RadFechaCarga"
-        Me.RadFechaCarga.Size = New System.Drawing.Size(93, 19)
-        Me.RadFechaCarga.TabIndex = 341
-        Me.RadFechaCarga.Text = "Fecha carga"
-        Me.RadFechaCarga.UseVisualStyleBackColor = True
-        Me.RadFechaCarga.Visible = False
-        '
-        'RadFechaTimbre
-        '
-        Me.RadFechaTimbre.AutoSize = True
-        Me.RadFechaTimbre.Checked = True
-        Me.RadFechaTimbre.Location = New System.Drawing.Point(22, 30)
-        Me.RadFechaTimbre.Name = "RadFechaTimbre"
-        Me.RadFechaTimbre.Size = New System.Drawing.Size(111, 19)
-        Me.RadFechaTimbre.TabIndex = 340
-        Me.RadFechaTimbre.TabStop = True
-        Me.RadFechaTimbre.Text = "Fecha timbrado"
-        Me.RadFechaTimbre.UseVisualStyleBackColor = True
-        '
         'TPOLIZA
         '
-        Me.TPOLIZA.Location = New System.Drawing.Point(489, 29)
+        Me.TPOLIZA.Location = New System.Drawing.Point(416, 25)
         Me.TPOLIZA.Name = "TPOLIZA"
-        Me.TPOLIZA.Size = New System.Drawing.Size(466, 21)
+        Me.TPOLIZA.Size = New System.Drawing.Size(376, 21)
         Me.TPOLIZA.TabIndex = 4
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(486, 12)
+        Me.Label4.Location = New System.Drawing.Point(413, 8)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(133, 15)
         Me.Label4.TabIndex = 338
@@ -261,7 +233,7 @@ Partial Class FrmPolizaVentasFlete
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(272, 8)
+        Me.Label1.Location = New System.Drawing.Point(19, 8)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(100, 15)
         Me.Label1.TabIndex = 309
@@ -277,7 +249,7 @@ Partial Class FrmPolizaVentasFlete
         Me.F1.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.F1.Font = New System.Drawing.Font("Tahoma", 9.0!)
         Me.F1.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F1.Location = New System.Drawing.Point(208, 31)
+        Me.F1.Location = New System.Drawing.Point(51, 26)
         Me.F1.Name = "F1"
         Me.F1.Size = New System.Drawing.Size(100, 20)
         Me.F1.TabIndex = 0
@@ -296,7 +268,7 @@ Partial Class FrmPolizaVentasFlete
         Me.F2.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.F2.Font = New System.Drawing.Font("Tahoma", 9.0!)
         Me.F2.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F2.Location = New System.Drawing.Point(337, 31)
+        Me.F2.Location = New System.Drawing.Point(180, 26)
         Me.F2.Name = "F2"
         Me.F2.Size = New System.Drawing.Size(100, 20)
         Me.F2.TabIndex = 1
@@ -309,7 +281,7 @@ Partial Class FrmPolizaVentasFlete
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(176, 33)
+        Me.Label2.Location = New System.Drawing.Point(19, 29)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(26, 15)
         Me.Label2.TabIndex = 305
@@ -319,7 +291,7 @@ Partial Class FrmPolizaVentasFlete
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(314, 33)
+        Me.Label3.Location = New System.Drawing.Point(157, 29)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(17, 15)
         Me.Label3.TabIndex = 307
@@ -353,7 +325,7 @@ Partial Class FrmPolizaVentasFlete
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 341
         '
-        'FrmPolizaVentasFlete
+        'FrmPolizaIngresosCxC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -363,8 +335,8 @@ Partial Class FrmPolizaVentasFlete
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.C1ToolBar1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
-        Me.Name = "FrmPolizaVentasFlete"
-        Me.Text = "FrmPolizaVentas"
+        Me.Name = "FrmPolizaIngresosCxC"
+        Me.Text = "FrmPolizaIngresosCxC"
         Me.VisualStyleHolder = C1.Win.C1Ribbon.VisualStyle.Custom
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).EndInit()
@@ -400,9 +372,7 @@ Partial Class FrmPolizaVentasFlete
     Friend WithEvents C1FlexGridSearchPanel1 As C1.Win.C1FlexGrid.C1FlexGridSearchPanel
     Friend WithEvents LtNUm As Label
     Friend WithEvents Fg As C1.Win.C1FlexGrid.C1FlexGrid
-    Friend WithEvents RadFechaCarga As RadioButton
-    Friend WithEvents RadFechaTimbre As RadioButton
     Friend WithEvents chkSinPoliza As CheckBox
     Friend WithEvents BarCopy As C1.Win.C1Command.C1Command
-    Friend WithEvents LkCopy As C1.Win.C1Command.C1CommandLink
+    Friend WithEvents C1CommandLink1 As C1.Win.C1Command.C1CommandLink
 End Class

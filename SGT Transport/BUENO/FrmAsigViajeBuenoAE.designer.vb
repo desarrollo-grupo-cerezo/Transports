@@ -95,6 +95,8 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label72 = New System.Windows.Forms.Label()
         Me.Label73 = New System.Windows.Forms.Label()
         Me.Pag1 = New C1.Win.C1Command.C1DockingTabPage()
+        Me.TPERMISIONARIOS = New C1.Win.C1Input.C1TextBox()
+        Me.Label46 = New System.Windows.Forms.Label()
         Me.TOBS_COMPLE = New System.Windows.Forms.TextBox()
         Me.Lt1 = New System.Windows.Forms.Label()
         Me.TVIAJE_COMPLE = New System.Windows.Forms.TextBox()
@@ -457,6 +459,7 @@ Partial Class FrmAsigViajeBuenoAE
         CType(Me.TSUBT2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TIVA2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Pag1.SuspendLayout()
+        CType(Me.TPERMISIONARIOS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChComplemento, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TKMS_VACIO, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TTIPO_CAMBIO, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -674,7 +677,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label7.BackColor = System.Drawing.Color.Transparent
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ForeColor = System.Drawing.Color.Black
-        Me.Label7.Location = New System.Drawing.Point(490, 121)
+        Me.Label7.Location = New System.Drawing.Point(693, 119)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(37, 13)
         Me.Label7.TabIndex = 377
@@ -724,7 +727,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Box5.Location = New System.Drawing.Point(4, 344)
         Me.Box5.Name = "Box5"
         Me.Box5.Size = New System.Drawing.Size(1056, 92)
-        Me.Box5.TabIndex = 16
+        Me.Box5.TabIndex = 15
         Me.Box5.TabStop = False
         '
         'Label40
@@ -769,12 +772,12 @@ Partial Class FrmAsigViajeBuenoAE
         Me.FRD.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.FRD.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FRD.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.FRD.Location = New System.Drawing.Point(900, 53)
+        Me.FRD.Location = New System.Drawing.Point(900, 54)
         Me.FRD.Name = "FRD"
         Me.FRD.Size = New System.Drawing.Size(150, 19)
-        Me.FRD.TabIndex = 50
+        Me.FRD.TabIndex = 5
         Me.FRD.Tag = Nothing
-        Me.FRD.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
+        Me.FRD.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
         Me.FRD.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.FRD.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
@@ -813,9 +816,9 @@ Partial Class FrmAsigViajeBuenoAE
         Me.FRC.Location = New System.Drawing.Point(619, 54)
         Me.FRC.Name = "FRC"
         Me.FRC.Size = New System.Drawing.Size(150, 19)
-        Me.FRC.TabIndex = 49
+        Me.FRC.TabIndex = 4
         Me.FRC.Tag = Nothing
-        Me.FRC.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
+        Me.FRC.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.None
         Me.FRC.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'Label42
@@ -856,7 +859,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label77.BackColor = System.Drawing.Color.Transparent
         Me.Label77.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label77.ForeColor = System.Drawing.Color.Black
-        Me.Label77.Location = New System.Drawing.Point(776, 57)
+        Me.Label77.Location = New System.Drawing.Point(776, 55)
         Me.Label77.Name = "Label77"
         Me.Label77.Size = New System.Drawing.Size(119, 15)
         Me.Label77.TabIndex = 432
@@ -940,7 +943,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LDolly.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LDolly.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LDolly.Location = New System.Drawing.Point(1021, 93)
+        Me.LDolly.Location = New System.Drawing.Point(1036, 93)
         Me.LDolly.Name = "LDolly"
         Me.LDolly.Size = New System.Drawing.Size(162, 22)
         Me.LDolly.TabIndex = 213
@@ -952,17 +955,17 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCVE_DOLLY.AcceptsTab = True
         Me.TCVE_DOLLY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCVE_DOLLY.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCVE_DOLLY.Location = New System.Drawing.Point(899, 93)
+        Me.TCVE_DOLLY.Location = New System.Drawing.Point(914, 93)
         Me.TCVE_DOLLY.Name = "TCVE_DOLLY"
         Me.TCVE_DOLLY.Size = New System.Drawing.Size(93, 22)
-        Me.TCVE_DOLLY.TabIndex = 13
+        Me.TCVE_DOLLY.TabIndex = 11
         '
         'LtDolly
         '
         Me.LtDolly.AutoSize = True
         Me.LtDolly.BackColor = System.Drawing.Color.Transparent
         Me.LtDolly.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtDolly.Location = New System.Drawing.Point(861, 96)
+        Me.LtDolly.Location = New System.Drawing.Point(876, 96)
         Me.LtDolly.Name = "LtDolly"
         Me.LtDolly.Size = New System.Drawing.Size(34, 15)
         Me.LtDolly.TabIndex = 211
@@ -972,7 +975,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LTanque2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LTanque2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LTanque2.Location = New System.Drawing.Point(1021, 69)
+        Me.LTanque2.Location = New System.Drawing.Point(1036, 69)
         Me.LTanque2.Name = "LTanque2"
         Me.LTanque2.Size = New System.Drawing.Size(162, 22)
         Me.LTanque2.TabIndex = 209
@@ -984,17 +987,17 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCVE_TANQUE1.AcceptsTab = True
         Me.TCVE_TANQUE1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCVE_TANQUE1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCVE_TANQUE1.Location = New System.Drawing.Point(899, 47)
+        Me.TCVE_TANQUE1.Location = New System.Drawing.Point(914, 47)
         Me.TCVE_TANQUE1.Name = "TCVE_TANQUE1"
         Me.TCVE_TANQUE1.Size = New System.Drawing.Size(93, 22)
-        Me.TCVE_TANQUE1.TabIndex = 11
+        Me.TCVE_TANQUE1.TabIndex = 9
         '
         'LtTanque2
         '
         Me.LtTanque2.AutoSize = True
         Me.LtTanque2.BackColor = System.Drawing.Color.Transparent
         Me.LtTanque2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtTanque2.Location = New System.Drawing.Point(836, 73)
+        Me.LtTanque2.Location = New System.Drawing.Point(851, 73)
         Me.LtTanque2.Name = "LtTanque2"
         Me.LtTanque2.Size = New System.Drawing.Size(59, 15)
         Me.LtTanque2.TabIndex = 207
@@ -1004,7 +1007,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LTractor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LTractor.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LTractor.Location = New System.Drawing.Point(1021, 21)
+        Me.LTractor.Location = New System.Drawing.Point(1036, 21)
         Me.LTractor.Name = "LTractor"
         Me.LTractor.Size = New System.Drawing.Size(162, 22)
         Me.LTractor.TabIndex = 205
@@ -1016,17 +1019,17 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCVE_TRACTOR.AcceptsTab = True
         Me.TCVE_TRACTOR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCVE_TRACTOR.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCVE_TRACTOR.Location = New System.Drawing.Point(899, 24)
+        Me.TCVE_TRACTOR.Location = New System.Drawing.Point(914, 24)
         Me.TCVE_TRACTOR.Name = "TCVE_TRACTOR"
         Me.TCVE_TRACTOR.Size = New System.Drawing.Size(93, 22)
-        Me.TCVE_TRACTOR.TabIndex = 10
+        Me.TCVE_TRACTOR.TabIndex = 8
         '
         'LtTractor
         '
         Me.LtTractor.AutoSize = True
         Me.LtTractor.BackColor = System.Drawing.Color.Transparent
         Me.LtTractor.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtTractor.Location = New System.Drawing.Point(850, 27)
+        Me.LtTractor.Location = New System.Drawing.Point(865, 27)
         Me.LtTractor.Name = "LtTractor"
         Me.LtTractor.Size = New System.Drawing.Size(45, 15)
         Me.LtTractor.TabIndex = 204
@@ -1036,7 +1039,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.LTanque1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LTanque1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LTanque1.Location = New System.Drawing.Point(1021, 45)
+        Me.LTanque1.Location = New System.Drawing.Point(1036, 45)
         Me.LTanque1.Name = "LTanque1"
         Me.LTanque1.Size = New System.Drawing.Size(162, 22)
         Me.LTanque1.TabIndex = 203
@@ -1048,17 +1051,17 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCVE_TANQUE2.AcceptsTab = True
         Me.TCVE_TANQUE2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCVE_TANQUE2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCVE_TANQUE2.Location = New System.Drawing.Point(899, 70)
+        Me.TCVE_TANQUE2.Location = New System.Drawing.Point(914, 70)
         Me.TCVE_TANQUE2.Name = "TCVE_TANQUE2"
         Me.TCVE_TANQUE2.Size = New System.Drawing.Size(93, 22)
-        Me.TCVE_TANQUE2.TabIndex = 12
+        Me.TCVE_TANQUE2.TabIndex = 10
         '
         'LtTanque1
         '
         Me.LtTanque1.AutoSize = True
         Me.LtTanque1.BackColor = System.Drawing.Color.Transparent
         Me.LtTanque1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtTanque1.Location = New System.Drawing.Point(836, 50)
+        Me.LtTanque1.Location = New System.Drawing.Point(851, 50)
         Me.LtTanque1.Name = "LtTanque1"
         Me.LtTanque1.Size = New System.Drawing.Size(59, 15)
         Me.LtTanque1.TabIndex = 201
@@ -1072,7 +1075,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Box4.Location = New System.Drawing.Point(735, 1)
         Me.Box4.Name = "Box4"
         Me.Box4.Size = New System.Drawing.Size(79, 68)
-        Me.Box4.TabIndex = 9
+        Me.Box4.TabIndex = 7
         Me.Box4.TabStop = False
         Me.Box4.Text = "Tipo viaje"
         '
@@ -1718,6 +1721,8 @@ Partial Class FrmAsigViajeBuenoAE
         '
         'Pag1
         '
+        Me.Pag1.Controls.Add(Me.TPERMISIONARIOS)
+        Me.Pag1.Controls.Add(Me.Label46)
         Me.Pag1.Controls.Add(Me.TOBS_COMPLE)
         Me.Pag1.Controls.Add(Me.Lt1)
         Me.Pag1.Controls.Add(Me.TVIAJE_COMPLE)
@@ -1790,25 +1795,65 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Pag1.TabIndex = 0
         Me.Pag1.Text = "Datos generales"
         '
+        'TPERMISIONARIOS
+        '
+        Me.TPERMISIONARIOS.AcceptsReturn = True
+        Me.TPERMISIONARIOS.AcceptsTab = True
+        Me.TPERMISIONARIOS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TPERMISIONARIOS.CustomFormat = "###,###,##0.0000"
+        Me.TPERMISIONARIOS.DataType = GetType(Decimal)
+        Me.TPERMISIONARIOS.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TPERMISIONARIOS.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TPERMISIONARIOS.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.TPERMISIONARIOS.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.TPERMISIONARIOS.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TPERMISIONARIOS.Location = New System.Drawing.Point(580, 117)
+        Me.TPERMISIONARIOS.Name = "TPERMISIONARIOS"
+        Me.TPERMISIONARIOS.Size = New System.Drawing.Size(110, 20)
+        Me.TPERMISIONARIOS.TabIndex = 5
+        Me.TPERMISIONARIOS.Tag = Nothing
+        Me.TPERMISIONARIOS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TPERMISIONARIOS.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.TPERMISIONARIOS.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Label46
+        '
+        Me.Label46.AutoSize = True
+        Me.Label46.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label46.ForeColor = System.Drawing.Color.Black
+        Me.Label46.Location = New System.Drawing.Point(486, 120)
+        Me.Label46.Name = "Label46"
+        Me.Label46.Size = New System.Drawing.Size(90, 15)
+        Me.Label46.TabIndex = 627
+        Me.Label46.Text = "Permisionarios"
+        '
         'TOBS_COMPLE
         '
         Me.TOBS_COMPLE.AcceptsReturn = True
         Me.TOBS_COMPLE.AcceptsTab = True
         Me.TOBS_COMPLE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TOBS_COMPLE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TOBS_COMPLE.Location = New System.Drawing.Point(1080, 239)
+        Me.TOBS_COMPLE.Location = New System.Drawing.Point(1080, 308)
         Me.TOBS_COMPLE.MaxLength = 120
         Me.TOBS_COMPLE.Multiline = True
         Me.TOBS_COMPLE.Name = "TOBS_COMPLE"
         Me.TOBS_COMPLE.Size = New System.Drawing.Size(173, 82)
-        Me.TOBS_COMPLE.TabIndex = 623
+        Me.TOBS_COMPLE.TabIndex = 19
         Me.TOBS_COMPLE.Visible = False
         '
         'Lt1
         '
         Me.Lt1.AutoSize = True
         Me.Lt1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt1.Location = New System.Drawing.Point(1077, 174)
+        Me.Lt1.Location = New System.Drawing.Point(1077, 243)
         Me.Lt1.Name = "Lt1"
         Me.Lt1.Size = New System.Drawing.Size(34, 15)
         Me.Lt1.TabIndex = 624
@@ -1821,18 +1866,18 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TVIAJE_COMPLE.AcceptsTab = True
         Me.TVIAJE_COMPLE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TVIAJE_COMPLE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TVIAJE_COMPLE.Location = New System.Drawing.Point(1080, 195)
+        Me.TVIAJE_COMPLE.Location = New System.Drawing.Point(1080, 264)
         Me.TVIAJE_COMPLE.MaxLength = 120
         Me.TVIAJE_COMPLE.Name = "TVIAJE_COMPLE"
         Me.TVIAJE_COMPLE.Size = New System.Drawing.Size(173, 21)
-        Me.TVIAJE_COMPLE.TabIndex = 622
+        Me.TVIAJE_COMPLE.TabIndex = 18
         Me.TVIAJE_COMPLE.Visible = False
         '
         'Lt2
         '
         Me.Lt2.AutoSize = True
         Me.Lt2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt2.Location = New System.Drawing.Point(1077, 221)
+        Me.Lt2.Location = New System.Drawing.Point(1077, 290)
         Me.Lt2.Name = "Lt2"
         Me.Lt2.Size = New System.Drawing.Size(75, 15)
         Me.Lt2.TabIndex = 625
@@ -1845,11 +1890,11 @@ Partial Class FrmAsigViajeBuenoAE
         Me.ChComplemento.BorderColor = System.Drawing.Color.Transparent
         Me.ChComplemento.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.ChComplemento.ForeColor = System.Drawing.Color.Black
-        Me.ChComplemento.Location = New System.Drawing.Point(1072, 143)
+        Me.ChComplemento.Location = New System.Drawing.Point(1072, 212)
         Me.ChComplemento.Name = "ChComplemento"
         Me.ChComplemento.Padding = New System.Windows.Forms.Padding(1)
         Me.ChComplemento.Size = New System.Drawing.Size(111, 28)
-        Me.ChComplemento.TabIndex = 621
+        Me.ChComplemento.TabIndex = 17
         Me.ChComplemento.Text = "Complementario"
         Me.ChComplemento.UseVisualStyleBackColor = False
         Me.ChComplemento.Value = False
@@ -1891,10 +1936,10 @@ Partial Class FrmAsigViajeBuenoAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TKMS_VACIO.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TKMS_VACIO.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.TKMS_VACIO.Location = New System.Drawing.Point(899, 116)
+        Me.TKMS_VACIO.Location = New System.Drawing.Point(914, 116)
         Me.TKMS_VACIO.Name = "TKMS_VACIO"
         Me.TKMS_VACIO.Size = New System.Drawing.Size(93, 21)
-        Me.TKMS_VACIO.TabIndex = 570
+        Me.TKMS_VACIO.TabIndex = 12
         Me.TKMS_VACIO.Tag = Nothing
         Me.TKMS_VACIO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TKMS_VACIO.Value = New Decimal(New Integer() {0, 0, 0, 0})
@@ -1905,7 +1950,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.Label43.AutoSize = True
         Me.Label43.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label43.Location = New System.Drawing.Point(830, 119)
+        Me.Label43.Location = New System.Drawing.Point(845, 119)
         Me.Label43.Name = "Label43"
         Me.Label43.Size = New System.Drawing.Size(65, 15)
         Me.Label43.TabIndex = 571
@@ -1980,7 +2025,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TTIPO_CAMBIO.Location = New System.Drawing.Point(372, 118)
         Me.TTIPO_CAMBIO.Name = "TTIPO_CAMBIO"
         Me.TTIPO_CAMBIO.Size = New System.Drawing.Size(72, 19)
-        Me.TTIPO_CAMBIO.TabIndex = 5
+        Me.TTIPO_CAMBIO.TabIndex = 3
         Me.TTIPO_CAMBIO.Tag = Nothing
         Me.TTIPO_CAMBIO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TTIPO_CAMBIO.Value = New Decimal(New Integer() {0, 0, 0, 0})
@@ -1993,10 +2038,10 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TTIPO_CAMBIO_LEYENDA.AcceptsTab = True
         Me.TTIPO_CAMBIO_LEYENDA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TTIPO_CAMBIO_LEYENDA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TTIPO_CAMBIO_LEYENDA.Location = New System.Drawing.Point(450, 117)
+        Me.TTIPO_CAMBIO_LEYENDA.Location = New System.Drawing.Point(446, 117)
         Me.TTIPO_CAMBIO_LEYENDA.Name = "TTIPO_CAMBIO_LEYENDA"
         Me.TTIPO_CAMBIO_LEYENDA.Size = New System.Drawing.Size(34, 21)
-        Me.TTIPO_CAMBIO_LEYENDA.TabIndex = 516
+        Me.TTIPO_CAMBIO_LEYENDA.TabIndex = 4
         '
         'LtNombreRuta
         '
@@ -2077,10 +2122,10 @@ Partial Class FrmAsigViajeBuenoAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TVOLUMEN_PESO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TVOLUMEN_PESO.Location = New System.Drawing.Point(714, 119)
+        Me.TVOLUMEN_PESO.Location = New System.Drawing.Point(1152, 172)
         Me.TVOLUMEN_PESO.Name = "TVOLUMEN_PESO"
         Me.TVOLUMEN_PESO.Size = New System.Drawing.Size(110, 20)
-        Me.TVOLUMEN_PESO.TabIndex = 8
+        Me.TVOLUMEN_PESO.TabIndex = 16
         Me.TVOLUMEN_PESO.Tag = Nothing
         Me.TVOLUMEN_PESO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TVOLUMEN_PESO.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
@@ -2103,7 +2148,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Lt16.AutoSize = True
         Me.Lt16.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lt16.ForeColor = System.Drawing.Color.Black
-        Me.Lt16.Location = New System.Drawing.Point(633, 121)
+        Me.Lt16.Location = New System.Drawing.Point(1071, 174)
         Me.Lt16.Name = "Lt16"
         Me.Lt16.Size = New System.Drawing.Size(77, 13)
         Me.Lt16.TabIndex = 506
@@ -2149,7 +2194,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCVE_MON.Location = New System.Drawing.Point(101, 115)
         Me.TCVE_MON.Name = "TCVE_MON"
         Me.TCVE_MON.Size = New System.Drawing.Size(31, 22)
-        Me.TCVE_MON.TabIndex = 4
+        Me.TCVE_MON.TabIndex = 2
         '
         'Label51
         '
@@ -2191,13 +2236,13 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TCLIENTE.Location = New System.Drawing.Point(99, 86)
         Me.TCLIENTE.Name = "TCLIENTE"
         Me.TCLIENTE.Size = New System.Drawing.Size(57, 22)
-        Me.TCLIENTE.TabIndex = 3
+        Me.TCLIENTE.TabIndex = 1
         '
         'LtTipoViaje
         '
         Me.LtTipoViaje.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtTipoViaje.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtTipoViaje.Location = New System.Drawing.Point(899, 1)
+        Me.LtTipoViaje.Location = New System.Drawing.Point(914, 1)
         Me.LtTipoViaje.Name = "LtTipoViaje"
         Me.LtTipoViaje.Size = New System.Drawing.Size(93, 22)
         Me.LtTipoViaje.TabIndex = 446
@@ -2207,7 +2252,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.Label32.AutoSize = True
         Me.Label32.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label32.Location = New System.Drawing.Point(819, 6)
+        Me.Label32.Location = New System.Drawing.Point(834, 6)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(76, 15)
         Me.Label32.TabIndex = 445
@@ -2222,10 +2267,10 @@ Partial Class FrmAsigViajeBuenoAE
         Me.FECHA.Enabled = False
         Me.FECHA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FECHA.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.FECHA.Location = New System.Drawing.Point(533, 119)
+        Me.FECHA.Location = New System.Drawing.Point(734, 116)
         Me.FECHA.Name = "FECHA"
         Me.FECHA.Size = New System.Drawing.Size(98, 19)
-        Me.FECHA.TabIndex = 7
+        Me.FECHA.TabIndex = 6
         Me.FECHA.Tag = Nothing
         Me.FECHA.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
         Me.FECHA.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
@@ -2270,7 +2315,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Box1.Location = New System.Drawing.Point(4, 135)
         Me.Box1.Name = "Box1"
         Me.Box1.Size = New System.Drawing.Size(541, 216)
-        Me.Box1.TabIndex = 14
+        Me.Box1.TabIndex = 13
         Me.Box1.TabStop = False
         '
         'ChCalleFiscal
@@ -2404,7 +2449,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TRECOGER_EN.Location = New System.Drawing.Point(84, 187)
         Me.TRECOGER_EN.Name = "TRECOGER_EN"
         Me.TRECOGER_EN.Size = New System.Drawing.Size(50, 21)
-        Me.TRECOGER_EN.TabIndex = 3
+        Me.TRECOGER_EN.TabIndex = 1
         '
         'Label1
         '
@@ -2546,7 +2591,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Box2.Location = New System.Drawing.Point(544, 135)
         Me.Box2.Name = "Box2"
         Me.Box2.Size = New System.Drawing.Size(516, 216)
-        Me.Box2.TabIndex = 15
+        Me.Box2.TabIndex = 14
         Me.Box2.TabStop = False
         '
         'LtRFC2
@@ -2742,7 +2787,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.TENTREGAR_EN.Location = New System.Drawing.Point(82, 187)
         Me.TENTREGAR_EN.Name = "TENTREGAR_EN"
         Me.TENTREGAR_EN.Size = New System.Drawing.Size(50, 21)
-        Me.TENTREGAR_EN.TabIndex = 3
+        Me.TENTREGAR_EN.TabIndex = 1
         '
         'Label15
         '
@@ -2800,7 +2845,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnTanqueEdit2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnTanqueEdit2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnTanqueEdit2.Image = CType(resources.GetObject("BtnTanqueEdit2.Image"), System.Drawing.Image)
-        Me.BtnTanqueEdit2.Location = New System.Drawing.Point(1190, 71)
+        Me.BtnTanqueEdit2.Location = New System.Drawing.Point(1205, 71)
         Me.BtnTanqueEdit2.Name = "BtnTanqueEdit2"
         Me.BtnTanqueEdit2.Size = New System.Drawing.Size(24, 22)
         Me.BtnTanqueEdit2.TabIndex = 513
@@ -2814,7 +2859,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnTanque2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnTanque2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnTanque2.Image = CType(resources.GetObject("BtnTanque2.Image"), System.Drawing.Image)
-        Me.BtnTanque2.Location = New System.Drawing.Point(991, 71)
+        Me.BtnTanque2.Location = New System.Drawing.Point(1006, 71)
         Me.BtnTanque2.Name = "BtnTanque2"
         Me.BtnTanque2.Size = New System.Drawing.Size(24, 22)
         Me.BtnTanque2.TabIndex = 202
@@ -2827,7 +2872,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnTanqueEdit1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnTanqueEdit1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnTanqueEdit1.Image = CType(resources.GetObject("BtnTanqueEdit1.Image"), System.Drawing.Image)
-        Me.BtnTanqueEdit1.Location = New System.Drawing.Point(1190, 45)
+        Me.BtnTanqueEdit1.Location = New System.Drawing.Point(1205, 45)
         Me.BtnTanqueEdit1.Name = "BtnTanqueEdit1"
         Me.BtnTanqueEdit1.Size = New System.Drawing.Size(24, 22)
         Me.BtnTanqueEdit1.TabIndex = 512
@@ -2841,7 +2886,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnTanque1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnTanque1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnTanque1.Image = CType(resources.GetObject("BtnTanque1.Image"), System.Drawing.Image)
-        Me.BtnTanque1.Location = New System.Drawing.Point(991, 47)
+        Me.BtnTanque1.Location = New System.Drawing.Point(1006, 47)
         Me.BtnTanque1.Name = "BtnTanque1"
         Me.BtnTanque1.Size = New System.Drawing.Size(24, 22)
         Me.BtnTanque1.TabIndex = 198
@@ -2854,7 +2899,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnTractorEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnTractorEdit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnTractorEdit.Image = CType(resources.GetObject("BtnTractorEdit.Image"), System.Drawing.Image)
-        Me.BtnTractorEdit.Location = New System.Drawing.Point(1190, 21)
+        Me.BtnTractorEdit.Location = New System.Drawing.Point(1205, 21)
         Me.BtnTractorEdit.Name = "BtnTractorEdit"
         Me.BtnTractorEdit.Size = New System.Drawing.Size(24, 22)
         Me.BtnTractorEdit.TabIndex = 514
@@ -2868,7 +2913,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnDollyEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnDollyEdit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnDollyEdit.Image = CType(resources.GetObject("BtnDollyEdit.Image"), System.Drawing.Image)
-        Me.BtnDollyEdit.Location = New System.Drawing.Point(1190, 93)
+        Me.BtnDollyEdit.Location = New System.Drawing.Point(1205, 93)
         Me.BtnDollyEdit.Name = "BtnDollyEdit"
         Me.BtnDollyEdit.Size = New System.Drawing.Size(24, 22)
         Me.BtnDollyEdit.TabIndex = 515
@@ -2882,7 +2927,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnTractor.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnTractor.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnTractor.Image = CType(resources.GetObject("BtnTractor.Image"), System.Drawing.Image)
-        Me.BtnTractor.Location = New System.Drawing.Point(991, 23)
+        Me.BtnTractor.Location = New System.Drawing.Point(1006, 23)
         Me.BtnTractor.Name = "BtnTractor"
         Me.BtnTractor.Size = New System.Drawing.Size(24, 22)
         Me.BtnTractor.TabIndex = 208
@@ -2895,7 +2940,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.BtnDolly.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnDolly.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnDolly.Image = CType(resources.GetObject("BtnDolly.Image"), System.Drawing.Image)
-        Me.BtnDolly.Location = New System.Drawing.Point(991, 93)
+        Me.BtnDolly.Location = New System.Drawing.Point(1006, 93)
         Me.BtnDolly.Name = "BtnDolly"
         Me.BtnDolly.Size = New System.Drawing.Size(24, 22)
         Me.BtnDolly.TabIndex = 212
@@ -7033,6 +7078,7 @@ Partial Class FrmAsigViajeBuenoAE
         CType(Me.TIVA2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pag1.ResumeLayout(False)
         Me.Pag1.PerformLayout()
+        CType(Me.TPERMISIONARIOS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChComplemento, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TKMS_VACIO, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TTIPO_CAMBIO, System.ComponentModel.ISupportInitialize).EndInit()
@@ -7631,4 +7677,6 @@ Partial Class FrmAsigViajeBuenoAE
     Friend WithEvents TMONTO3 As C1.Win.C1Input.C1NumericEdit
     Friend WithEvents TMONTO2 As C1.Win.C1Input.C1NumericEdit
     Friend WithEvents TMONTO1 As C1.Win.C1Input.C1NumericEdit
+    Friend WithEvents TPERMISIONARIOS As C1.Win.C1Input.C1TextBox
+    Friend WithEvents Label46 As Label
 End Class

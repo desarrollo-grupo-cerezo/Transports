@@ -216,7 +216,10 @@ Public Class MainRibbonForm
         End Try
 
     End Sub
-
+    Private Sub MainRibbonForm_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        Me.BringToFront()
+        Me.Show()
+    End Sub
     Private Sub MainRibbonForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
 
         If MsgBox("Realmente desea salir?", vbYesNo) = vbYes Then
@@ -263,7 +266,7 @@ Public Class MainRibbonForm
             BarMultialmacen1.Visible = True
             BarLineasProductos2.Visible = True
             BarUniMed1.Visible = True
-
+            BarMovsInvOT.Visible = True
         Else
             'BarCFDICartaPorte.Visible = False
             BarTabRutasFlex.Visible = False
@@ -541,6 +544,7 @@ Public Class MainRibbonForm
             Catch ex As Exception
                 Bitacora(ex.Message & vbNewLine & ex.StackTrace)
             End Try
+            BarTabRutasFlex.Visible = True
         Else
             BarLicenciamientoMobulos.Visible = False
             '========================================================================================================================
@@ -664,9 +668,9 @@ Public Class MainRibbonForm
                 BarProveedores5.Visible = False
                 BarDiesel1.Visible = False
                 'LIQUIDACION
-                TabLiquidacion.Visible = False
-                BarLiquidaciones.Visible = False
-                BarConsignacion2.Visible = False
+                'TabLiquidacion.Visible = False
+                'BarLiquidaciones.Visible = False
+                'BarConsignacion2.Visible = False
                 'VENTAS
                 TabVentas.Visible = False
                 BarCotizaciones.Visible = False
@@ -782,6 +786,8 @@ Public Class MainRibbonForm
                                     TabLiquidacion.Visible = True
                                 Case 50020  'LIQUIDACION 
                                     BarLiquidaciones.Visible = True
+                                Case 50040  'SALDO DE OPERADORES
+                                    BarConsignacion2.Visible = True
                                 Case 50040  'SALDO DE OPERADORES
                                     BarConsignacion2.Visible = True
                                     'DERECHOS USUARIOS  SOLO USUARIOS  USUARIOS  USUARIOS  USUARIOS                                      USUARIOS  USUARIOS 
@@ -965,7 +971,7 @@ Public Class MainRibbonForm
                                     BarServiciosDeInventario.Visible = True
                                 Case 100500 'ENTREGA DE PRODUCTOS
                                     TabInvMovsInv.Visible = True
-                                    'BarMovsInvOT.Visible = True
+                                    BarMovsInvOT.Visible = True
                                 Case 101000 'MOVS. AL INVENTARIO
                                     TabInvMovsInv.Visible = True
                                     BarMinveTOT.Visible = True
@@ -4253,5 +4259,20 @@ Public Class MainRibbonForm
         frm.NombreFrm = sender.Name
 
         CREA_TAB(frm, Consulta)
+    End Sub
+
+    Private Sub RibPolPagRef_Click(sender As Object, e As EventArgs) Handles RibPolPagRef.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaPagoRef")
+        CREA_TAB(FrmPolizaPagoRef, "Póliza Pago Refacciones")
+    End Sub
+
+    Private Sub RibPolProvRef_Click(sender As Object, e As EventArgs) Handles RibPolProvRef.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaProvRef")
+        CREA_TAB(FrmPolizaProvRef, "Póliza Provisión Refacciones")
+    End Sub
+
+    Private Sub RibPolFondoOper_Click(sender As Object, e As EventArgs) Handles RibPolFondoOper.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaFondoOper")
+        CREA_TAB(FrmPolizaFondoOper, "Póliza Fondo Operadores")
     End Sub
 End Class

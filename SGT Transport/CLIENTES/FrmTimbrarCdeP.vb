@@ -2862,6 +2862,8 @@ Public Class FrmTimbrarCdeP
         Dim concepto As XmlNodeList, Elemento As XmlNode, subnodo As XmlElement, IdDocumento As String
         Dim XML As String, xDoc As XmlDocument, xNodo As XmlNodeList, xAtt As XmlElement, Comprobante As XmlNode, Impuestos As XmlNode = Nothing
         Dim totalImpuestosTrasladados As Decimal, TotalImpuestosRetenidos As Decimal, vsTIT As Decimal, k As Integer
+
+
         'aqui
         If fFILE_XML.Trim.Length = 0 Then
             Return ""

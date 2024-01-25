@@ -139,7 +139,8 @@ Public Class FrmProvAE
                 CVE_PAIS, NACIONALIDAD, TELEFONO, CLASIFIC, FAX, PAG_WEB, CURP, CVE_ZONA, CON_CREDITO, DIASCRED, LIMCRED, CVE_BITA, ULT_PAGOD, ULT_PAGOM,
                 ULT_PAGOF, ULT_COMPD, ULT_COMPM, ULT_COMPF, SALDO, VENTAS, DESCUENTO, TIP_TERCERO, TIP_OPERA, P.CVE_OBS, CUENTA_CONTABLE, FORMA_PAGO,
                 BENEFICIARIO, TITULAR_CUENTA, BANCO, SUCURSAL_BANCO, CUENTA_BANCO, CLABE, DESC_OTROS, IMPRIR, MAIL, ENVIOSILEN, EMAILPRED, MODELO,
-                ISNULL(OB.STR_OBS,'') AS OBSTR, CUENTA_MANTE
+                ISNULL(OB.STR_OBS,'') AS OBSTR, CUENTA_MANTE, ISNULL(CUENTA_PROV,'') AS CTA_PROV,
+                ISNULL(CUENTA_FIS_OPER,'') AS CUENTA_FIS_OPER, ISNULL(CUENTA_FIS_ADMIN,'') AS CUENTA_FIS_ADMIN, ISNULL(CUENTA_FIS_MTTO,'') AS CUENTA_FIS_MTTO
                 FROM PROV" & Empresa & " P
                 LEFT JOIN OPROV" & Empresa & " OB On OB.CVE_OBS = P.CVE_OBS
                 WHERE CLAVE = '" & PROVEEDOR & "' AND P.STATUS = 'A'"
@@ -160,7 +161,6 @@ Public Class FrmProvAE
                     TCRUZAMIENTOS.Text = IIf(IsDBNull(dr("CRUZAMIENTOS")), "", dr("CRUZAMIENTOS"))
                     tCRUZAMIENTOS2.Text = IIf(IsDBNull(dr("CRUZAMIENTOS2")), "", dr("CRUZAMIENTOS2"))
                     TCOLONIA.Text = IIf(IsDBNull(dr("COLONIA")), "", dr("COLONIA"))
-                    TCUENTA_MANTE.Text = dr.ReadNullAsEmptyString("CUENTA_MANTE")
                 Catch ex As Exception
                     MsgBox("10. " & ex.Message & vbNewLine & ex.StackTrace)
                     Bitacora("10. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -188,6 +188,12 @@ Public Class FrmProvAE
                     TCVE_ZONA.Text = IIf(IsDBNull(dr("CVE_ZONA")), "", dr("CVE_ZONA"))
                     LtZona.Text = BUSCA_CAT("Zona", TCVE_ZONA.Text)
                     TCUENTA_CONTABLE.Text = dr.ReadNullAsEmptyString("CUENTA_CONTABLE")
+                    TCUENTA_PROV.Text = dr.ReadNullAsEmptyString("CTA_PROV")
+                    TCUENTA_MANTE.Text = dr.ReadNullAsEmptyString("CUENTA_MANTE")
+                    TxCtaFisOper.Text = dr.ReadNullAsEmptyString("CUENTA_FIS_OPER")
+                    TxCtaFisAdmin.Text = dr.ReadNullAsEmptyString("CUENTA_FIS_ADMIN")
+                    TxCtaFisMtto.Text = dr.ReadNullAsEmptyString("CUENTA_FIS_MTTO")
+
                 Catch ex As Exception
                     MsgBox("30. " & ex.Message & vbNewLine & ex.StackTrace)
                     Bitacora("30. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -524,6 +530,11 @@ Public Class FrmProvAE
         TDESC_OTROS.MaxLength = 60
         TEMAILPRED.MaxLength = 60
         TMODELO.MaxLength = 255
+
+        TxCtaFisOper.MaxLength = 28
+        TxCtaFisAdmin.MaxLength = 28
+        TxCtaFisMtto.MaxLength = 28
+
     End Sub
     Sub INICIALIZAR_CONTROLES()
         Try
@@ -565,6 +576,11 @@ Public Class FrmProvAE
             TTIP_OPERA.Value = 0
             TCVE_OBS.Text = 0
             TCUENTA_CONTABLE.Text = ""
+
+            TxCtaFisOper.Text = ""
+            TxCtaFisAdmin.Text = ""
+            TxCtaFisMtto.Text = ""
+
             CboFormaPago.SelectedIndex = 1
             TDESC_OTROS.Text = ""
             ChImprir.Checked = False
@@ -677,20 +693,20 @@ Public Class FrmProvAE
             CVE_OBS = @CVE_OBS, CUENTA_CONTABLE = @CUENTA_CONTABLE, FORMA_PAGO = @FORMA_PAGO, BENEFICIARIO = @BENEFICIARIO, 
             TITULAR_CUENTA = @TITULAR_CUENTA, BANCO = @BANCO, SUCURSAL_BANCO = @SUCURSAL_BANCO, CUENTA_BANCO = @CUENTA_BANCO, 
             CLABE = @CLABE, DESC_OTROS = @DESC_OTROS, IMPRIR = @IMPRIR, MAIL = @MAIL, ENVIOSILEN = @ENVIOSILEN, EMAILPRED = 
-            @EMAILPRED, MODELO = @MODELO, CUENTA_MANTE = @CUENTA_MANTE
+            @EMAILPRED, MODELO = @MODELO, CUENTA_MANTE = @CUENTA_MANTE, CUENTA_PROV = @CUENTA_PROV, CUENTA_FIS_OPER=@CUENTA_FIS_OPER, CUENTA_FIS_ADMIN=@CUENTA_FIS_ADMIN, CUENTA_FIS_MTTO=@CUENTA_FIS_MTTO
             WHERE CLAVE = @CLAVE
             ELSE
             INSERT INTO PROV" & Empresa & " (CLAVE, STATUS, NOMBRE, RFC, CALLE, NUMINT, NUMEXT, CRUZAMIENTOS, CRUZAMIENTOS2, COLONIA, 
             CODIGO, LOCALIDAD, MUNICIPIO, ESTADO, CVE_PAIS, NACIONALIDAD, TELEFONO, CLASIFIC, FAX, PAG_WEB, CURP, CVE_ZONA, CON_CREDITO, 
             DIASCRED, LIMCRED, CVE_BITA, ULT_PAGOD, ULT_PAGOM, ULT_PAGOF, ULT_COMPD, ULT_COMPM, ULT_COMPF, SALDO, VENTAS, DESCUENTO, 
             TIP_TERCERO, TIP_OPERA, CVE_OBS, CUENTA_CONTABLE, FORMA_PAGO, BENEFICIARIO, TITULAR_CUENTA, BANCO, SUCURSAL_BANCO,
-            CUENTA_BANCO, CLABE, DESC_OTROS, IMPRIR, MAIL, ENVIOSILEN, EMAILPRED, MODELO, CUENTA_MANTE) 
+            CUENTA_BANCO, CLABE, DESC_OTROS, IMPRIR, MAIL, ENVIOSILEN, EMAILPRED, MODELO, CUENTA_MANTE, CUENTA_PROV, CUENTA_FIS_OPER, CUENTA_FIS_ADMIN, CUENTA_FIS_MTTO) 
             VALUES (
             @CLAVE, 'A', @NOMBRE, @RFC, @CALLE, @NUMINT, @NUMEXT, @CRUZAMIENTOS, @CRUZAMIENTOS2, @COLONIA, @CODIGO, @LOCALIDAD, 
             @MUNICIPIO, @ESTADO, @CVE_PAIS, @NACIONALIDAD, @TELEFONO, @CLASIFIC, @FAX, @PAG_WEB, @CURP, @CVE_ZONA, @CON_CREDITO, 
             @DIASCRED, @LIMCRED, @CVE_BITA, @ULT_PAGOD, @ULT_PAGOM, @ULT_PAGOF, @ULT_COMPD, @ULT_COMPM, @ULT_COMPF, @SALDO, @VENTAS, 
             @DESCUENTO, @TIP_TERCERO, @TIP_OPERA, @CVE_OBS, @CUENTA_CONTABLE, @FORMA_PAGO, @BENEFICIARIO, @TITULAR_CUENTA, @BANCO, 
-            @SUCURSAL_BANCO, @CUENTA_BANCO, @CLABE, @DESC_OTROS, @IMPRIR, @MAIL, @ENVIOSILEN, @EMAILPRED, @MODELO, @CUENTA_MANTE)"
+            @SUCURSAL_BANCO, @CUENTA_BANCO, @CLABE, @DESC_OTROS, @IMPRIR, @MAIL, @ENVIOSILEN, @EMAILPRED, @MODELO, @CUENTA_MANTE, @CUENTA_PROV, @CUENTA_FIS_OPER, @CUENTA_FIS_ADMIN, @CUENTA_FIS_MTTO)"
         cmd.CommandText = SQL
         Try
             cmd.Parameters.Add("@CLAVE", SqlDbType.VarChar).Value = RemoveCharacter(TCLAVE.Text)
@@ -733,22 +749,27 @@ Public Class FrmProvAE
             cmd.Parameters.Add("@TIP_OPERA", SqlDbType.Int).Value = CONVERTIR_TO_INT(TTIP_OPERA.Value)
             cmd.Parameters.Add("@CVE_OBS", SqlDbType.Int).Value = CVE_OBS
             cmd.Parameters.Add("@CUENTA_CONTABLE", SqlDbType.VarChar).Value = TCUENTA_CONTABLE.Text
-            cmd.Parameters.Add("@FORMA_PAGO", SqlDbType.Int).Value = CboFormaPago.SelectedIndex
+            cmd.Parameters.Add("@CUENTA_PROV", SqlDbType.VarChar).Value = TCUENTA_PROV.Text
+            cmd.Parameters.Add("@CUENTA_BANCO", SqlDbType.VarChar).Value = CUENTA
+            cmd.Parameters.Add("@CUENTA_MANTE", SqlDbType.VarChar).Value = TCUENTA_MANTE.Text
 
+            cmd.Parameters.Add("@FORMA_PAGO", SqlDbType.Int).Value = CboFormaPago.SelectedIndex
             cmd.Parameters.Add("@BENEFICIARIO", SqlDbType.VarChar).Value = BENEFICIARIO
             cmd.Parameters.Add("@TITULAR_CUENTA", SqlDbType.VarChar).Value = TITULAR_CUENTA
             cmd.Parameters.Add("@BANCO", SqlDbType.VarChar).Value = CVE_BANCO
             cmd.Parameters.Add("@SUCURSAL_BANCO", SqlDbType.VarChar).Value = SUCURSAL
-            cmd.Parameters.Add("@CUENTA_BANCO", SqlDbType.VarChar).Value = CUENTA
             cmd.Parameters.Add("@CLABE", SqlDbType.VarChar).Value = CLABE
-
             cmd.Parameters.Add("@DESC_OTROS", SqlDbType.VarChar).Value = TDESC_OTROS.Text
             cmd.Parameters.Add("@IMPRIR", SqlDbType.VarChar).Value = "S"
             cmd.Parameters.Add("@MAIL", SqlDbType.VarChar).Value = "S"
             cmd.Parameters.Add("@ENVIOSILEN", SqlDbType.VarChar).Value = "N"
             cmd.Parameters.Add("@EMAILPRED", SqlDbType.VarChar).Value = TEMAILPRED.Text
             cmd.Parameters.Add("@MODELO", SqlDbType.VarChar).Value = TMODELO.Text
-            cmd.Parameters.Add("@CUENTA_MANTE", SqlDbType.VarChar).Value = TCUENTA_MANTE.Text
+
+            cmd.Parameters.Add("@CUENTA_FIS_OPER", SqlDbType.VarChar).Value = TxCtaFisOper.Text
+            cmd.Parameters.Add("@CUENTA_FIS_ADMIN", SqlDbType.VarChar).Value = TxCtaFisAdmin.Text
+            cmd.Parameters.Add("@CUENTA_FIS_MTTO", SqlDbType.VarChar).Value = TxCtaFisMtto.Text
+
             returnValue = cmd.ExecuteNonQuery().ToString
             If returnValue IsNot Nothing Then
                 If returnValue = "1" Then

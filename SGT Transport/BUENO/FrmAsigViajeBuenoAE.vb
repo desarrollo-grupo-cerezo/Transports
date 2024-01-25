@@ -271,6 +271,10 @@ Public Class FrmAsigViajeBuenoAE
     Sub CARGAR_DATOS1()
         'TFOLIOFG.Value = 0
 
+
+        AssignValidation(TVIAJE_COMPLE, ValidationType.Only_Numbers)
+
+
         TDIAS_CRED.Value = 0 : TVOLUMEN_PESO.Value = 0 : TFLETE.Value = 0 : TSUB_TOTAL.Value = 0 : TRET.Value = 0 : TIVA.Value = 0
         TNETO.Value = 0 : TMONTO1.Value = 0 : TMONTO2.Value = 0 : TMONTO3.Value = 0 : TMONTO4.Value = 0 : TMONTO5.Value = 0 : TMONTO6.Value = 0
         TRET1.Value = 0 : TRET2.Value = 0 : TRET3.Value = 0 : TRET4.Value = 0 : TRET5.Value = 0 : TRET6.Value = 0 : TCVE_PRODSERV.Value = "" : TCVE_PRODSERV1.Value = ""
@@ -279,7 +283,7 @@ Public Class FrmAsigViajeBuenoAE
         TCVE_UNIDAD6.Value = "" : TABONO_NETO.Value = 0 : TFLETEA.Value = 0 : TSUBT_ABO3.Value = 0 : TIVA_ABO3.Value = 0 : TRET_ABO3.Value = 0 : TNETO_ABO3.Value = 0
         TKMS_VACIO.Value = 0 : TIVAC1.Value = 0 : TSUBT_O.Value = 0 : TIVA_O.Value = 0 : TRET_O.Value = 0 : TNETO_O.Value = 0 : TSUBT_O2.Value = 0 : TIVA_O2.Value = 0
         TRET_O2.Value = 0 : TNETO_O2.Value = 0 : TSALDO_SUBTOTAL.Value = 0 : TSALDO_IVA.Value = 0 : TSALDO_RET.Value = 0 : TSALDO_NETO.Value = 0
-        TFOLIOFG.Value = 0
+        TFOLIOFG.Value = 0 : TPERMISIONARIOS.Value = 0
 
         TDIAS_CRED.ErrorInfo.ShowErrorMessage = False : TVOLUMEN_PESO.ErrorInfo.ShowErrorMessage = False : TFLETE.ErrorInfo.ShowErrorMessage = False : TSUB_TOTAL.ErrorInfo.ShowErrorMessage = False : TRET.ErrorInfo.ShowErrorMessage = False : TIVA.ErrorInfo.ShowErrorMessage = False
         TNETO.ErrorInfo.ShowErrorMessage = False : TMONTO1.ErrorInfo.ShowErrorMessage = False : TMONTO2.ErrorInfo.ShowErrorMessage = False : TMONTO3.ErrorInfo.ShowErrorMessage = False : TMONTO4.ErrorInfo.ShowErrorMessage = False : TMONTO5.ErrorInfo.ShowErrorMessage = False : TMONTO6.ErrorInfo.ShowErrorMessage = False
@@ -505,9 +509,13 @@ Public Class FrmAsigViajeBuenoAE
             FgV.Cols(15).ComboList = "EDICION|CAPTURADO|"
 
             FgG.Cols(3).Width = 45
+            FgG.Cols(6).Width = 0
             FgG.Cols(8).Width = 0
             FgG.Cols(9).Width = 0
             FgG.Cols(11).Width = 0
+            FgG.Cols(12).Width = 0
+            FgG.Cols(13).Width = 600
+
 
             FgV.Cols(3).Width = 55
             FgV.Cols(3).Width = 100
@@ -542,7 +550,7 @@ Public Class FrmAsigViajeBuenoAE
             FgCarga.Dock = DockStyle.Fill
 
             If PASS_GRUPOCE = "BUS" Then
-                FgG.Cols(9).Width = 110
+                'FgG.Cols(9).Width = 110
                 FgV.Cols(17).Width = 110
                 FgV.Cols(18).Width = 110
                 FgV.Cols(19).Width = 10
@@ -1413,7 +1421,7 @@ Public Class FrmAsigViajeBuenoAE
             C.METODODEPAGO, SERIE, FOLIO, A.CVE_COBRO, CVE_PRODSERV, CVE_UNIDAD, C.NOMBRE, ISNULL(R.DESCR,'') AS DES1, ISNULL(R.DESCR2,'') AS DES2, 
             CALLE_FISCAL, CALLE1, CALLE2, A.TIPO_CAMBIO_LEYENDA, A.TIPO_CAMBIO, ISNULL(C.CVE_ESQIMPU,0) AS CVE_ESQ_CLIE,
             FECHA_REAL_CARGA, FECHA_REAL_DESCARGA, KMS_VACIO, ISNULL(FACTURADO,'') AS FACT_OK, ISNULL(TIMBRADO,'') AS TIMBRA,
-            ISNULL(COMPLEMENTO,0) AS COMPLE, ISNULL(VIAJE_COMPLE,'') AS VIA_COMPLE, ISNULL(OBS_COMPLE,'') AS OB_COMPLE
+            ISNULL(COMPLEMENTO,0) AS COMPLE, ISNULL(VIAJE_COMPLE,'') AS VIA_COMPLE, ISNULL(OBS_COMPLE,'') AS OB_COMPLE, PERMISIONARIOS
             FROM GCASIGNACION_VIAJE A 
             LEFT JOIN GCTAB_RUTAS_F R ON R.CVE_TAB = A.CVE_TAB
             LEFT JOIN CLIE" & Empresa & " C ON C.CLAVE = A.CLIENTE
@@ -1441,7 +1449,10 @@ Public Class FrmAsigViajeBuenoAE
                             Lt1.Visible = False
                             Lt2.Visible = False
                         End If
+
+                        TPERMISIONARIOS.Value = dr.ReadNullAsEmptyDecimal("PERMISIONARIOS")
                     Catch ex As Exception
+                        Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
                     End Try
 
                     If SeCopio <> "S" Then
@@ -1531,9 +1542,9 @@ Public Class FrmAsigViajeBuenoAE
                         MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
                     End Try
 
-                    TFORMADEPAGOSAT.Text = dr("FORMADEPAGOSAT")
-                    TUSO_CFDI.Text = dr("USO_CFDI")
-                    TMETODODEPAGO.Text = dr("METODODEPAGO")
+                    TFORMADEPAGOSAT.Text = dr.ReadNullAsEmptyString("FORMADEPAGOSAT")
+                    TUSO_CFDI.Text = dr.ReadNullAsEmptyString("USO_CFDI")
+                    TMETODODEPAGO.Text = dr.ReadNullAsEmptyString("METODODEPAGO")
 
 
                     For k = 0 To CboSerieFactura.Items.Count - 1
@@ -1835,6 +1846,456 @@ Public Class FrmAsigViajeBuenoAE
         End Try
 
     End Sub
+
+    Sub COPIAR_VIAJE(FCVE_VIAJE As String)
+        Dim cmd As New SqlCommand
+        Dim dr As SqlDataReader
+        cmd.Connection = cnSAE
+        Dim CAMBIO_MON As Decimal
+
+        If FCVE_VIAJE.Trim.Length = 0 Then
+            Return
+        End If
+
+
+        SQL = "SELECT A.CVE_VIAJE, A.CVE_DOC, A.FECHA, A.FECHA_CARGA, A.FECHA_DESCARGA, A.STATUS, ISNULL(A.CVE_ST_VIA,0) AS STATUS_VIA, 
+            ISNULL(CVE_ST_VALE,1) AS STATUS_VALE, ISNULL(A.CVE_ST_UNI,0) AS STATUS_UNI, A.TIPO_UNI, A.TIPO_VIAJE, A.CVE_OPER, 
+            A.CVE_CON, A.CVE_TRACTOR, A.CVE_TANQUE1, A.CVE_TANQUE2, A.CVE_DOLLY, ISNULL(A.CVE_RUTA,0) AS C_RUTA, 
+            ISNULL(A.RECOGER_EN,'') AS RECOGER, ISNULL(A.ENTREGAR_EN,'') AS ENTREGAR, ISNULL(A.CLAVE_O,'') AS ORIGEN, ISNULL(A.CLAVE_D,'') AS DESTINO, 
+            ISNULL(A.CVE_TAB, '') AS CVETAB, A.NOTA, A.ORDEN_DE, A.EMBARQUE, A.CARGA_ANTERIOR, ISNULL(A.CVE_TAB_VIAJE,0) AS TAB_VIAJE, 
+            ISNULL(R.CVE_TAB,'') AS CVE_TAB_RUTA, A.CLIENTE, A.CVE_MONED, A.VOLUMEN_PESO, PRECIO_VIAJE_TONE, IMPORTE_CONCEP, CVE_COBRO, 
+            ISNULL(SUBTOTAL,0) AS SUBT, ISNULL(IVA,0) AS IV, ISNULL(RETENCION,0) AS RET, ISNULL(NETO,0) AS NET, ISNULL(CANT,0) AS CANTIDAD, 
+            ISNULL(REM_CARGA,0) AS REM_CAR, ISNULL(A.FLETE,0) AS FLET, ISNULL(A.CVE_ESQIMPU,0) AS CVE_ESQ, C.FORMADEPAGOSAT, C.USO_CFDI, 
+            C.METODODEPAGO, SERIE, FOLIO, A.CVE_COBRO, CVE_PRODSERV, CVE_UNIDAD, C.NOMBRE, ISNULL(R.DESCR,'') AS DES1, ISNULL(R.DESCR2,'') AS DES2, 
+            CALLE_FISCAL, CALLE1, CALLE2, A.TIPO_CAMBIO_LEYENDA, A.TIPO_CAMBIO, ISNULL(C.CVE_ESQIMPU,0) AS CVE_ESQ_CLIE,
+            FECHA_REAL_CARGA, FECHA_REAL_DESCARGA, KMS_VACIO, ISNULL(FACTURADO,'') AS FACT_OK, ISNULL(TIMBRADO,'') AS TIMBRA,
+            ISNULL(COMPLEMENTO,0) AS COMPLE, ISNULL(VIAJE_COMPLE,'') AS VIA_COMPLE, ISNULL(OBS_COMPLE,'') AS OB_COMPLE, PERMISIONARIOS
+            FROM GCASIGNACION_VIAJE A 
+            LEFT JOIN GCTAB_RUTAS_F R ON R.CVE_TAB = A.CVE_TAB
+            LEFT JOIN CLIE" & Empresa & " C ON C.CLAVE = A.CLIENTE
+            WHERE A.CVE_VIAJE = '" & FCVE_VIAJE & "'"
+        Try
+            cmd.CommandText = SQL
+            dr = cmd.ExecuteReader
+            If dr.Read Then
+                Try
+                    Try
+                        If dr("COMPLE") = 1 Then
+                            ChComplemento.Checked = True
+                            TVIAJE_COMPLE.Text = dr("VIA_COMPLE")
+                            TOBS_COMPLE.Text = dr("OB_COMPLE")
+                            TVIAJE_COMPLE.Visible = True
+                            TOBS_COMPLE.Visible = True
+                            Lt1.Visible = True
+                            Lt2.Visible = True
+                        Else
+                            ChComplemento.Checked = False
+                            TVIAJE_COMPLE.Text = ""
+                            TOBS_COMPLE.Text = ""
+                            TVIAJE_COMPLE.Visible = False
+                            TOBS_COMPLE.Visible = False
+                            Lt1.Visible = False
+                            Lt2.Visible = False
+                        End If
+
+                        TPERMISIONARIOS.Value = dr.ReadNullAsEmptyDecimal("PERMISIONARIOS")
+                    Catch ex As Exception
+                        Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+
+                    If SeCopio <> "S" Then
+                        LtCVE_VIAJE.Text = FCVE_VIAJE
+                        LtCVE_VIAJE.Tag = LtCVE_VIAJE.Text
+                        Ltviaje2.Text = LtCVE_VIAJE.Text
+                    End If
+
+                    If IsDate(dr("FECHA_CARGA").ToString) Then
+                        F1.Value = dr("FECHA_CARGA").ToString
+                    Else
+                        F1.Value = BUSCAR_FECHA_EN_PEDIDOS("CARGA", dr("CVE_DOC").ToString)
+                    End If
+
+                    If IsDate(dr("FECHA_DESCARGA").ToString) Then
+                        F2.Value = dr("FECHA_DESCARGA").ToString
+                    Else
+                        F2.Value = BUSCAR_FECHA_EN_PEDIDOS("DESCARGA", dr("CVE_DOC").ToString)
+                    End If
+
+                    '---------------------------------------------------------------------------
+
+                    If IsDate(dr("FECHA_REAL_CARGA").ToString) Then
+                        FRC.Value = dr("FECHA_REAL_CARGA").ToString
+                    Else
+                        FRC.Value = Now
+                    End If
+
+                    If IsDate(dr("FECHA_REAL_DESCARGA").ToString) Then
+                        FRD.Value = dr("FECHA_REAL_DESCARGA").ToString
+                    Else
+                        FRD.Value = Now
+                    End If
+
+                    TCVE_TAB_VIAJE.Text = dr("TAB_VIAJE")
+                    If TCVE_TAB_VIAJE.Text = "0" Then TCVE_TAB_VIAJE.Text = ""
+
+                    TCLIENTE.Text = dr.ReadNullAsEmptyString("CLIENTE")
+
+                    LNombreCTe.Text = BUSCA_CAT("Cliente", TCLIENTE.Text)
+
+                    LtDescr.Text = dr("DES1")
+                    LtDescr2.Text = dr("DES2")
+
+
+                    TCVE_MON.Text = dr.ReadNullAsEmptyInteger("CVE_MONED")
+                    If TCVE_MON.Text = "0" Then
+                        TCVE_MON.Text = ""
+                    End If
+
+                    Try
+                        CAMBIO_MON = 0
+                        If TCVE_MON.Text.Trim.Length = 0 AndAlso Not IsNumeric(TCVE_MON.Text) Then
+                            TCVE_MON.Text = "1"
+                        End If
+
+                        Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                            SQL = "SELECT NUM_MONED, DESCR, TCAMBIO, CVE_MONED  
+                                    FROM MONED" & Empresa & " WHERE NUM_MONED = " & TCVE_MON.Text
+                            cmd2.CommandText = SQL
+                            Using dr2 As SqlDataReader = cmd2.ExecuteReader
+                                If dr2.Read Then
+                                    LtMoneda.Text = dr2("DESCR")
+                                    CAMBIO_MON = dr2.ReadNullAsEmptyDecimal("TCAMBIO")
+                                    LtCve_moned.Text = dr2("CVE_MONED")
+                                    TTIPO_CAMBIO.Value = dr2("TCAMBIO")
+                                Else
+                                    LtMoneda.Text = ""
+                                    CAMBIO_MON = 0
+                                    LtCve_moned.Text = ""
+                                    TTIPO_CAMBIO.Value = 0
+                                End If
+                            End Using
+                        End Using
+
+
+                        TTIPO_CAMBIO_LEYENDA.Text = dr.ReadNullAsEmptyString("TIPO_CAMBIO_LEYENDA")
+                        If dr.ReadNullAsEmptyDecimal("TIPO_CAMBIO") > 0 Then
+                            TTIPO_CAMBIO.Value = dr.ReadNullAsEmptyDecimal("TIPO_CAMBIO")
+                            TTIPO_CAMBIO.Tag = TTIPO_CAMBIO.Value
+                        Else
+                            TTIPO_CAMBIO.Value = CAMBIO_MON
+                            TTIPO_CAMBIO.Tag = TTIPO_CAMBIO.Value
+                        End If
+                    Catch ex As Exception
+                        Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+                    End Try
+
+                    TFORMADEPAGOSAT.Text = dr.ReadNullAsEmptyString("FORMADEPAGOSAT")
+                    TUSO_CFDI.Text = dr.ReadNullAsEmptyString("USO_CFDI")
+                    TMETODODEPAGO.Text = dr.ReadNullAsEmptyString("METODODEPAGO")
+
+
+                    For k = 0 To CboSerieFactura.Items.Count - 1
+                        If CboSerieFactura.Items(k) = dr.ReadNullAsEmptyString("SERIE") Then
+                            CboSerieFactura.SelectedIndex = k
+                            Exit For
+                        End If
+                    Next
+
+                    If SeCopio <> "S" Then
+                        LtSerie.Text = dr.ReadNullAsEmptyString("SERIE")
+                        LtFolio.Text = dr.ReadNullAsEmptyLong("FOLIO")
+                        TFOLIO.Value = dr.ReadNullAsEmptyLong("FOLIO")
+                    End If
+
+                    TKMS_VACIO.Value = dr("KMS_VACIO")
+                    STATUS_VIA = dr("STATUS_VIA")
+                    LtStatus.Text = BUSCA_CAT("Estatus Viaje", STATUS_VIA)
+
+                    If dr("FACT_OK") = "S" Then
+                        LtTimbrado.Visible = True
+                        LtTimbrado.Text = "FACTURADO"
+                        LtTimbrado.BorderStyle = BorderStyle.FixedSingle
+                        LtStatus.Text = "Facturado"
+                    End If
+
+                    If dr("TIMBRA") = "S" Or dr("TIMBRA") = "S" Then
+                        LtTimbrado.Visible = True
+                        LtTimbrado.Text = "TIMBRADO"
+                        LtTimbrado.BorderStyle = BorderStyle.FixedSingle
+                        LtStatus.Text = "Timbrado"
+                        ChCalleFiscal.Enabled = False
+                    End If
+
+                    If dr("STATUS") = "C" Then
+                        STATUS_CANCELADO = True
+                        LtStatus.Text = "Cancelado"
+                        ChCalleFiscal.Enabled = False
+                    End If
+
+                Catch ex As Exception
+                    Bitacora("15. " & ex.Message & vbNewLine & ex.StackTrace)
+                End Try
+
+                LtNoViaje.Text = LtCVE_VIAJE.Text
+                Try
+                    TORDEN_DE.Text = dr.ReadNullAsEmptyString("ORDEN_DE")
+                    TEMBARQUE.Text = dr.ReadNullAsEmptyString("EMBARQUE")
+                    TCARGA_ANTERIOR.Text = dr.ReadNullAsEmptyString("CARGA_ANTERIOR")
+                Catch ex As Exception
+                    Bitacora("15. " & ex.Message & vbNewLine & ex.StackTrace)
+                End Try
+
+                TRECOGER_EN.Text = dr("RECOGER")
+                TRECOGER_EN.Tag = dr("RECOGER")
+
+                TENTREGAR_EN.Text = dr("ENTREGAR")
+                TENTREGAR_EN.Tag = dr("ENTREGAR")
+
+                LtRecogerEn.Text = BUSCA_CAT("RecogerEn", TRECOGER_EN.Text)
+                LtEntregarEn.Text = BUSCA_CAT("EntregarEn", TENTREGAR_EN.Text)
+
+                TCLAVE_O.Text = dr("ORIGEN")
+                TCLAVE_D.Text = dr("DESTINO")
+
+                TCLAVE_O.Tag = dr("ORIGEN")
+                TCLAVE_D.Tag = dr("DESTINO")
+
+                If dr.ReadNullAsEmptyInteger("CALLE_FISCAL") = 1 Then
+
+                    ChCalleFiscal.Checked = True
+                    Try
+
+                        ChCalleFiscal.CheckState = CheckState.Checked
+
+                        Using cmd3 As SqlCommand = cnSAE.CreateCommand
+                            Using cmd2 As SqlCommand = cnSAE.CreateCommand
+
+                                SQL = "SELECT NOMBRE, RFC, CALLE, CRUZAMIENTOS, CRUZAMIENTOS2 
+                                FROM CLIE" & Empresa & "
+                                WHERE CLAVE  = '" & TCLIENTE.Text & "'"
+                                cmd3.CommandText = SQL
+                                Using dr3 As SqlDataReader = cmd3.ExecuteReader
+                                    If dr3.Read Then
+                                        LtNombre1.Text = dr3("NOMBRE")
+                                        LtRFC.Text = dr3("RFC")
+                                        LtCalle1.Text = dr3("CALLE")
+                                        LtCalle2.Text = dr3("CRUZAMIENTOS") & " " & dr3("CRUZAMIENTOS2")
+                                        LtAliasO.Text = ""
+                                        LtPlanta.Text = ""
+                                        LtNota.Text = ""
+                                    Else
+                                        LtNombre1.Text = ""
+                                        LtAliasO.Text = ""
+                                        LtCalle1.Text = ""
+                                        LtCalle2.Text = ""
+                                        LtPlanta.Text = ""
+                                        LtNota.Text = ""
+                                        LtRFC.Text = ""
+                                    End If
+                                End Using
+                            End Using
+                        End Using
+
+                        TCLAVE_O.Text = ""
+                        TCLAVE_O.Enabled = False
+                        BtnCLAVE_REM.Enabled = False
+                    Catch ex As Exception
+                        Bitacora("15. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+                Else
+                    ChCalleFiscal.Checked = False
+                    TCLAVE_O.Enabled = True
+                    BtnCLAVE_REM.Enabled = True
+                    If TCLAVE_O.Text.Trim.Length > 0 Then
+                        DESPLEGAR_CLIENTE_OPER(TCLAVE_O.Text)
+                    End If
+                End If
+
+                DESPLEGAR_CLIENTE_OPER2(TCLAVE_D.Text) 'GCCLIE_OP 
+
+                FECHA.Value = dr("FECHA").ToString
+
+                TCVE_OPER.Text = dr("CVE_OPER").ToString
+                TCVE_OPER.Tag = TCVE_OPER.Text
+
+                If TCVE_OPER.Text = "0" Then
+                    TCVE_OPER.Text = ""
+                    TCVE_OPER.Tag = ""
+                End If
+
+                If TCVE_OPER.Text.Trim.Length > 0 Then
+                    LOper.Text = BUSCA_CAT("Operador", TCVE_OPER.Text)
+                    LtOp1.Text = TCVE_OPER.Text
+                    LtOp2.Text = LOper.Text
+                    Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                        SQL = "SELECT ISNULL(NOMBRE,'') AS DES, LICENCIA, LIC_VENC FROM GCOPERADOR WHERE CLAVE = '" & TCVE_OPER.Text & "' AND STATUS  = 'A'"
+                        cmd2.CommandText = SQL
+                        Using dr2 As SqlDataReader = cmd2.ExecuteReader
+                            If dr2.Read Then
+                                LtLicencia.Text = dr2("LICENCIA")
+                                LtVigencia.Text = dr2("LIC_VENC")
+                            End If
+                            dr2.Close()
+                        End Using
+                    End Using
+                End If
+
+                TCVE_TRACTOR.Text = dr("CVE_TRACTOR").ToString
+                TCVE_TRACTOR.Tag = TCVE_TRACTOR.Text
+                LTractor.Tag = TCVE_TRACTOR.Text
+
+                LTractor.Text = BUSCA_CAT("Unidad", TCVE_TRACTOR.Text)
+
+                TCVE_TANQUE1.Text = dr("CVE_TANQUE1").ToString
+                TCVE_TANQUE1.Tag = TCVE_TANQUE1.Text
+                LTanque1.Tag = TCVE_TANQUE1.Text
+
+                LTanque1.Text = BUSCA_CAT("Unidad", TCVE_TANQUE1.Text)
+
+                TCVE_TANQUE2.Text = dr("CVE_TANQUE2").ToString
+                TCVE_TANQUE2.Tag = TCVE_TANQUE2.Text
+                LTanque2.Tag = TCVE_TANQUE2.Text
+
+                LTanque2.Text = BUSCA_CAT("Unidad", TCVE_TANQUE2.Text)
+
+                TCVE_DOLLY.Text = dr("CVE_DOLLY").ToString
+                TCVE_DOLLY.Tag = dr("CVE_DOLLY").ToString
+
+                LDolly.Text = BUSCA_CAT("Unidad", TCVE_DOLLY.Text)
+
+                If TCVE_TRACTOR.Text.Trim.Length > 0 Then
+                    If TCVE_TANQUE1.Text.Trim.Length > 0 And TCVE_TANQUE2.Text.Trim.Length > 0 Then
+                        LtTipoViaje.Text = "Full"
+                    Else
+                        LtTipoViaje.Text = "Sencillo"
+                    End If
+                End If
+
+                If dr.ReadNullAsEmptyInteger("TIPO_VIAJE") = 1 Then
+                    RadCargado.Checked = True
+                    RadVacio.Checked = False
+                Else
+                    RadCargado.Checked = False
+                    RadVacio.Checked = True
+                End If
+
+                Try
+
+                    TCVE_PRODSERV.Value = dr.ReadNullAsEmptyString("CVE_PRODSERV")
+                    TCVE_UNIDAD.Value = dr.ReadNullAsEmptyString("CVE_UNIDAD")
+
+                    If TCVE_PRODSERV.Value.ToString.Trim.Length = 0 Then TCVE_PRODSERV.Value = CVE_PRODSERV
+                    If TCVE_UNIDAD.Value.ToString.Trim.Length = 0 Then TCVE_UNIDAD.Value = CVE_UNIDAD
+
+                    'TAR_X_VIA_FULL
+                    'TAR_X_VIA_SENC
+                    'TTAR_X_TON_FULL
+                    TVOLUMEN_PESO.Value = dr.ReadNullAsEmptyDecimal("VOLUMEN_PESO")
+
+                    TIMPORTE_CONCEP.Value = dr.ReadNullAsEmptyDecimal("IMPORTE_CONCEP")
+                    TFLETE.Value = dr("FLET")
+                    TFLETE.Tag = dr("FLET")
+
+                    If dr.ReadNullAsEmptyInteger("PRECIO_VIAJE_TONE") = 0 Then
+                        RadPrecioXViaje.Checked = True
+                        MONTO_X_VIAJE = TFLETE.Value
+                    Else
+                        RadPrecioXTonelada.Checked = True
+                        MONTO_X_TON = TFLETE.Value
+                    End If
+
+                    TSUB_TOTAL.Value = dr("SUBT")
+                    TRET.Value = Math.Round(dr("RET"), 2)
+                    TIVA.Value = Math.Round(dr("IV"), 2)
+                    TNETO.Value = dr("NET")
+
+                    If ESCENARIO = 0 Then
+                        If FACTURA_UNO_O_MULT = "VVM" Then
+                            Pag0.TabVisible = False
+                        End If
+                    End If
+
+
+                    TCVE_ESQIMPU.Text = dr("CVE_ESQ")
+
+                    If TCVE_ESQIMPU.Text = "0" Then TCVE_ESQIMPU.Text = ""
+
+                    If TCVE_ESQIMPU.Text.Trim.Length > 0 Then
+                        LtEsquema.Text = BUSCA_CAT("Esquema", TCVE_ESQIMPU.Text)
+                    Else
+                        TCVE_ESQIMPU.Text = dr("CVE_ESQ_CLIE")
+
+                        If TCVE_ESQIMPU.Text = "0" Then TCVE_ESQIMPU.Text = ""
+
+                        If TCVE_ESQIMPU.Text.Trim.Length > 0 AndAlso IsNumeric(TCVE_ESQIMPU.Text.Trim) Then
+
+                            Try
+                                Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                                    SQL = "SELECT ISNULL(CVE_ESQIMPU, 0) AS CVE_ESQ, ISNULL(DESCRIPESQ,'') AS DES
+                                         FROM IMPU" & Empresa & " 
+                                         WHERE ISNULL(CVE_ESQIMPU, 0) = " & CONVERTIR_TO_INT(TCVE_ESQIMPU.Text.Trim)
+                                    cmd2.CommandText = SQL
+                                    Using dr2 As SqlDataReader = cmd2.ExecuteReader
+                                        If dr2.Read Then
+                                            If dr2("CVE_ESQ") > 0 Then
+                                                TCVE_ESQIMPU.Text = dr2("CVE_ESQ")
+                                                LtEsquema.Text = dr2("DES")
+                                            Else
+                                                TCVE_ESQIMPU.Text = "0"
+                                                LtEsquema.Text = ""
+                                            End If
+                                        End If
+                                    End Using
+                                End Using
+                            Catch ex As Exception
+                                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                                MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+                            End Try
+                        End If
+                    End If
+
+                Catch ex As Exception
+                    Bitacora("15. " & ex.Message & vbNewLine & ex.StackTrace)
+                End Try
+
+
+                'DESPLEGAR_GASTOS_VIAJE(FCVE_VIAJE, dr("STATUS_VIA"))
+
+                'DESPLEGAR_GASTOS_VALES(FCVE_VIAJE, dr("STATUS_VALE"))
+
+                'AQUI  ESTABA EL ERROR
+                'DESPLEGAR_MERCANCIAS(FCVE_VIAJE)
+
+                'DESPLEGAR_ADIC(FCVE_VIAJE)
+                'DESPLEGAR_CONCEP_PAR(FCVE_VIAJE)
+
+                'DESPLEGAR_CARGAS(FCVE_VIAJE)
+
+                'CARGAR_ABONOS_ESCENARIO3(FCVE_VIAJE)
+
+            Else
+                'BUSCA SI NO EXISTE EN LA TABLA GCASIGNACION_VIAJE 
+                'LtCVE_VIAJE.Text = SIGUIENTE_FOLIO_VIAJE(SERIE_A, FOLIO_A)
+                'LtCVE_VIAJE.Tag = ""
+                'Ltviaje2.Text = LtCVE_VIAJE.Text
+                MsgBox("1. Viaje inexistente, verifique por favor")
+                TFOLIO_VIAJE.Value = ""
+            End If
+            dr.Close()
+
+            If ESCENARIO = 2 And ESCENARIO <> 0 Then
+                'CALCULAR_ESCENARIO2_MULT(FCVE_VIAJE)
+            End If
+
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+
+    End Sub
+
+
     Sub CALCULAR_ESCENARIO2_MULT(FCVE_VIAJE As String)
 
         Dim PREC As Decimal, cIeps As Decimal, cImpu As Decimal, cImpu2 As Decimal, cImpu3 As Decimal, Sigue As Boolean
@@ -2614,8 +3075,7 @@ Public Class FrmAsigViajeBuenoAE
         End Try
     End Sub
     Sub DESPLEGAR_GASTOS_VIAJE(fCVE_VIAJE As String, fST_GASTOS_VIAJE As Integer)
-        Dim STATUS_VIAJES As String
-        Dim CVE_FOLIO As Long
+        Dim STATUS_VIAJES As String, CVE_FOLIO As Long, s As String
 
         Try
             STATUS_VIAJES = OBTENER_STATUS_GASTOS_VIAJE()
@@ -2629,9 +3089,8 @@ Public Class FrmAsigViajeBuenoAE
             End If
 
             Using cmd As SqlCommand = cnSAE.CreateCommand
-                SQL = "SELECT GV.CVE_OPER, GV.CVE_GAV, GV.FOLIO, convert(varchar, GV.FECHAELAB, 103) AS FECHA_G, GV.CVE_NUM, 
-                    GV.IMPORTE, ISNULL(C.DESCR,'No se encontró la deducción en la tabla GCCONC_GASTOS') AS DES, 
-                    ISNULL(GV.ST_GASTOS,'EDICION') AS ST_GAS, GV.UUID, GV.CVE_LIQ,
+                SQL = "SELECT GV.CVE_OPER, GV.CVE_GAV, GV.FOLIO, convert(varchar, GV.FECHAELAB, 103) AS FECHA_G, GV.CVE_NUM, GV.IMPORTE, ISNULL(C.DESCR,'No se encontró la deducción en la tabla GCCONC_GASTOS') AS DES, 
+                    ISNULL(GV.ST_GASTOS,'EDICION') AS ST_GAS, GV.UUID, GV.CVE_LIQ, ISNULL(OBS,'') AS OB,
                     CASE WHEN ISNULL(GV.TIPO_PAGO, -1) = -1 THEN '' WHEN ISNULL(GV.TIPO_PAGO, 0) = 0 THEN 'TRANSFERENCIA' ELSE 'EFECTIVO' END AS TPAGO
                     FROM GCASIGNACION_VIAJE_GASTOS GV
                     LEFT JOIN GCCONC_GASTOS C ON C.CVE_GAS = GV.CVE_NUM
@@ -2641,13 +3100,25 @@ Public Class FrmAsigViajeBuenoAE
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
 
-                        FgG.AddItem("" & vbTab & IIf(SeCopio = "S", CVE_FOLIO, dr("FOLIO")) & vbTab & dr("FECHA_G") & vbTab & dr("CVE_NUM") & vbTab &
-                                    dr("DES") & vbTab & dr("IMPORTE") & vbTab & dr("FOLIO") & vbTab & IIf(SeCopio = "S", "EDICION", dr("ST_GAS")) & vbTab &
-                                    "S" & vbTab & IIf(SeCopio = "S", "", dr("UUID")) & vbTab & dr("TPAGO") & vbTab & "" & vbTab & dr("CVE_LIQ"))
+                        s = IIf(SeCopio = "S", CVE_FOLIO, dr("FOLIO")) & vbTab '1
+                        s &= dr("FECHA_G") & vbTab '2
+                        s &= dr("CVE_NUM") & vbTab '3
+                        s &= dr("DES") & vbTab '4
+                        s &= dr("IMPORTE") & vbTab '5
+                        s &= dr("FOLIO") & vbTab '6
+                        s &= IIf(SeCopio = "S", "EDICION", dr("ST_GAS")) & vbTab '7
+                        s &= "S" & vbTab '8
+                        s &= IIf(SeCopio = "S", "", dr("UUID")) & vbTab '9
+                        s &= dr("TPAGO") & vbTab '10
+                        s &= "" & vbTab '11
+                        s &= dr("CVE_LIQ") & vbTab '12
+                        s &= dr("OB") '13
+
+                        FgG.AddItem("" & vbTab & s)
                         CVE_FOLIO += 1
                     End While
                 End Using
-                FgG.AutoSizeRows()
+                'FgG.AutoSizeRows()
             End Using
         Catch ex As Exception
             Bitacora("27. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -2843,6 +3314,7 @@ Public Class FrmAsigViajeBuenoAE
             TTIPO_CAMBIO.UpdateValueWithCurrentText()
             TKMS_VACIO.UpdateValueWithCurrentText()
             TVOLUMEN_PESO.UpdateValueWithCurrentText()
+            TPERMISIONARIOS.UpdateValueWithCurrentText()
         Catch ex As Exception
             Bitacora("35. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
@@ -3063,7 +3535,7 @@ Public Class FrmAsigViajeBuenoAE
                 FECHAELAB, UUID, CLIENTE, CVE_MONED, VOLUMEN_PESO, FLETE, SUBTOTAL, IVA, RETENCION, NETO, REM_CARGA, CANT, 
                 CVE_ESQIMPU, CVE_COBRO, IMPORTE_CONCEP, PRECIO_VIAJE_TONE, CVE_PRODSERV, CVE_UNIDAD, SERIE, FOLIO, 
                 TIPO_FACTURACION, CALLE_FISCAL, CALLE1, CALLE2, FECHA_REAL_CARGA, FECHA_REAL_DESCARGA, KMS_VACIO, COMPLEMENTO,
-                VIAJE_COMPLE, OBS_COMPLE) 
+                VIAJE_COMPLE, OBS_COMPLE, USUARIO, PERMISIONARIOS) 
                 VALUES (
                 @CVE_VIAJE, @FECHA, @FECHA_CARGA, @FECHA_DESCARGA, 'A', @TIPO_UNI, @TIPO_VIAJE, @CVE_OPER, @CVE_TRACTOR, @CVE_TANQUE1,  
                 @CVE_TANQUE2, @CVE_DOLLY, '1', '1', @RECOGER_EN, @ENTREGAR_EN, @CLAVE_O, @CLAVE_D, @CVE_TAB, @ORDEN_DE, @EMBARQUE, 
@@ -3071,7 +3543,7 @@ Public Class FrmAsigViajeBuenoAE
                 @VOLUMEN_PESO, @FLETE, @SUBTOTAL, @IVA, @RETENCION, @NETO, @REM_CARGA, @CANT, @CVE_ESQIMPU, @CVE_COBRO, 
                 @IMPORTE_CONCEP, @PRECIO_VIAJE_TONE, @CVE_PRODSERV, @CVE_UNIDAD, @SERIE, @FOLIO, @TIPO_FACTURACION,
                 @CALLE_FISCAL, @CALLE1, @CALLE2, @FECHA_REAL_CARGA, @FECHA_REAL_DESCARGA, @KMS_VACIO, @COMPLEMENTO,
-                @VIAJE_COMPLE, @OBS_COMPLE) "
+                @VIAJE_COMPLE, @OBS_COMPLE, @USUARIO, @PERMISIONARIOS)"
         Else
             SQLJ = "UPDATE GCASIGNACION_VIAJE SET TIPO_UNI = @TIPO_UNI, TIPO_VIAJE = @TIPO_VIAJE, CVE_OPER = @CVE_OPER, 
                 CVE_TRACTOR = @CVE_TRACTOR, CVE_TANQUE1 = @CVE_TANQUE1, CVE_TANQUE2 = @CVE_TANQUE2, CVE_DOLLY = @CVE_DOLLY, 
@@ -3081,10 +3553,11 @@ Public Class FrmAsigViajeBuenoAE
                 VOLUMEN_PESO = @VOLUMEN_PESO, FLETE = @FLETE, SUBTOTAL = @SUBTOTAL, IVA = @IVA, RETENCION = @RETENCION, NETO = @NETO, 
                 REM_CARGA = @REM_CARGA, CVE_ESQIMPU = @CVE_ESQIMPU, CVE_COBRO = @CVE_COBRO, IMPORTE_CONCEP = @IMPORTE_CONCEP, 
                 PRECIO_VIAJE_TONE = @PRECIO_VIAJE_TONE, CVE_PRODSERV = @CVE_PRODSERV, CVE_UNIDAD = @CVE_UNIDAD, SERIE = @SERIE, 
-                TIPO_FACTURACION = @TIPO_FACTURACION, FOLIO = @FOLIO, TIPO_CAMBIO_LEYENDA = @TIPO_CAMBIO_LEYENDA, 
+                TIPO_FACTURACION = @TIPO_FACTURACION, FOLIO = @FOLIO, TIPO_CAMBIO_LEYENDA = @TIPO_CAMBIO_LEYENDA,
                 TIPO_CAMBIO = @TIPO_CAMBIO, CALLE_FISCAL = @CALLE_FISCAL, CALLE1 = @CALLE1, CALLE2 = @CALLE2,
                 FECHA_REAL_CARGA = @FECHA_REAL_CARGA, FECHA_REAL_DESCARGA = @FECHA_REAL_DESCARGA, KMS_VACIO = @KMS_VACIO,
-                COMPLEMENTO = @COMPLEMENTO, VIAJE_COMPLE = @VIAJE_COMPLE, OBS_COMPLE = @OBS_COMPLE
+                COMPLEMENTO = @COMPLEMENTO, VIAJE_COMPLE = @VIAJE_COMPLE, OBS_COMPLE = @OBS_COMPLE, USUARIO = @USUARIO,
+                PERMISIONARIOS = @PERMISIONARIOS
                 WHERE CVE_VIAJE = @CVE_VIAJE "
         End If
 
@@ -3152,7 +3625,8 @@ Public Class FrmAsigViajeBuenoAE
                     cmd.Parameters.Add("@COMPLEMENTO", SqlDbType.SmallInt).Value = IIf(ChComplemento.Checked, 1, 0)
                     cmd.Parameters.Add("@VIAJE_COMPLE", SqlDbType.VarChar).Value = TVIAJE_COMPLE.Text
                     cmd.Parameters.Add("@OBS_COMPLE", SqlDbType.VarChar).Value = TOBS_COMPLE.Text
-
+                    cmd.Parameters.Add("@USUARIO", SqlDbType.VarChar).Value = USER_GRUPOCE
+                    cmd.Parameters.Add("@PERMISIONARIOS", SqlDbType.Float).Value = TPERMISIONARIOS.Value
                     returnValue = cmd.ExecuteNonQuery().ToString
                     If returnValue IsNot Nothing Then
                         If returnValue = "1" Then
@@ -3298,6 +3772,7 @@ Public Class FrmAsigViajeBuenoAE
             GRABAR_VALES(CVE_VIAJE)
 
             GRABAR_GCMERCANCIAS(CVE_VIAJE, CVE_DOC)
+
             GRABAR_CARGA(CVE_VIAJE, CVE_DOC)
 
             GRABAR_GASTOS_CAMPOS_ADIC(CVE_VIAJE)
@@ -3607,14 +4082,14 @@ Public Class FrmAsigViajeBuenoAE
 
                     FgA.FinishEditing()
 
-                    GRABAR_GASTOS(CVE_VIAJE)
-                    GRABAR_VALES(CVE_VIAJE)
+                    'GRABAR_GASTOS(CVE_VIAJE)
+                    'GRABAR_VALES(CVE_VIAJE)
 
-                    GRABAR_GCMERCANCIAS(CVE_VIAJE, CVE_DOC)
-                    GRABAR_CARGA(CVE_VIAJE, CVE_DOC)
+                    'GRABAR_GCMERCANCIAS(CVE_VIAJE, CVE_DOC)
+                    'GRABAR_CARGA(CVE_VIAJE, CVE_DOC)
 
-                    GRABAR_GASTOS_CAMPOS_ADIC(CVE_VIAJE)
-                    GRABAR_CONCEPTOS_PARTIDAS(CVE_VIAJE)
+                    'GRABAR_GASTOS_CAMPOS_ADIC(CVE_VIAJE)
+                    'GRABAR_CONCEPTOS_PARTIDAS(CVE_VIAJE)
 
                     GRABA_BITA(CVE_VIAJE, "", 0, "V", "Viaje copiado desde el viaje " & LtCVE_VIAJE.Text, LtCVE_VIAJE.Text, "", "Copy")
                     Using cmd2 As SqlCommand = cnSAE.CreateCommand
@@ -5541,10 +6016,9 @@ Public Class FrmAsigViajeBuenoAE
         End If
     End Sub
     Sub GRABAR_GASTOS(fCVE_VIAJE As String)
-        Dim CVE_FOLIO As String = "", UUID As String, FECH As Date, QUERY As String
+        Dim CVE_FOLIO As String = "", UUID As String, FECH As Date, QUERY As String, DETEC_ERROR_VIOLATION_KEY As Boolean, OBS As String = ""
         Dim FOL_VIA As Long = 0, TIPO_VIAJE As Integer = -1
         Dim cmd As New SqlCommand With {.Connection = cnSAE}
-        Dim DETEC_ERROR_VIOLATION_KEY As Boolean
 
         FgG.FinishEditing()
 
@@ -5553,15 +6027,15 @@ Public Class FrmAsigViajeBuenoAE
         End If
 
         Try
-            SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET STATUS = 'C' WHERE CVE_VIAJE = '" & fCVE_VIAJE & "'"
-            Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                cmd2.CommandText = SQL
-                returnValue = cmd2.ExecuteNonQuery().ToString
-                If returnValue IsNot Nothing Then
-                    If returnValue = "1" Then
-                    End If
-                End If
-            End Using
+            'SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET STATUS = 'C' WHERE CVE_VIAJE = '" & fCVE_VIAJE & "'"
+            'Using cmd2 As SqlCommand = cnSAE.CreateCommand
+            'cmd2.CommandText = SQL
+            'returnValue = cmd2.ExecuteNonQuery().ToString
+            'If returnValue IsNot Nothing Then
+            'If returnValue = "1" Then
+            '''End If
+            'End If
+            'End Using
         Catch ex As Exception
             Bitacora("40. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
@@ -5595,8 +6069,7 @@ Public Class FrmAsigViajeBuenoAE
                         Catch ex As Exception
                             Bitacora("50. " & ex.Message & vbNewLine & ex.StackTrace)
                         End Try
-                        QUERY = fCVE_VIAJE & ", " & TCVE_OPER.Text & ", " & CVE_FOLIO & FECH & ", " & FgG(k, 3) & ", " &
-                            FgG(k, 5) & ", " & FgG(k, 7) & TIPO_VIAJE & " row k " & k
+                        QUERY = fCVE_VIAJE & ", " & TCVE_OPER.Text & ", " & CVE_FOLIO & FECH & ", " & FgG(k, 3) & ", " & FgG(k, 5) & ", " & FgG(k, 7) & TIPO_VIAJE & " row k " & k
 
                         Try
                             If IsNothing(FgG(k, 2)) Then
@@ -5609,15 +6082,28 @@ Public Class FrmAsigViajeBuenoAE
                             Bitacora("50. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & QUERY)
                         End Try
 
+                        Try
+                            If IsNothing(FgG(k, 13)) Then
+                                OBS = ""
+                            Else
+                                OBS = FgG(k, 13)
+                            End If
+                        Catch ex As Exception
+                            FECH = F1.Value
+                            Bitacora("50. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & QUERY)
+                        End Try
+
                         For j = 1 To 10
 
-                            SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET CVE_OPER = @CVE_OPER, CVE_NUM = @CVE_NUM, IMPORTE = @IMPORTE,
-                                ST_GASTOS = @ST_GASTOS, STATUS = 'A', TIPO_PAGO = @TIPO_PAGO 
+                            SQL = "IF EXISTS (SELECT CVE_VIAJE FROM GCASIGNACION_VIAJE_GASTOS WHERE CVE_VIAJE = @CVE_VIAJE AND FOLIO = @FOLIO)
+                                UPDATE GCASIGNACION_VIAJE_GASTOS SET CVE_OPER = @CVE_OPER, CVE_NUM = @CVE_NUM, IMPORTE = @IMPORTE,
+                                ST_GASTOS = @ST_GASTOS, TIPO_PAGO = @TIPO_PAGO, USUARIO2 = @USUARIO2, FECHA = @FECHA, OBS = @OBS
                                 WHERE CVE_VIAJE = @CVE_VIAJE AND FOLIO = @FOLIO
-                                IF @@ROWCOUNT = 0
+                             ELSE
                                 INSERT INTO GCASIGNACION_VIAJE_GASTOS (CVE_VIAJE, STATUS, CVE_OPER, FOLIO, FECHA, CVE_NUM, IMPORTE, FECHAELAB, 
-                                ST_GASTOS, TIPO_PAGO, UUID) OUTPUT Inserted.UUID VALUES (@CVE_VIAJE,'A', @CVE_OPER, @FOLIO, @FECHA, @CVE_NUM, @IMPORTE, GETDATE(), 
-                                @ST_GASTOS, @TIPO_PAGO, NEWID())"
+                                ST_GASTOS, TIPO_PAGO, USUARIO1, OBS, UUID) OUTPUT Inserted.UUID 
+                                VALUES (
+                                @CVE_VIAJE,'A', @CVE_OPER, @FOLIO, @FECHA, @CVE_NUM, @IMPORTE, GETDATE(), @ST_GASTOS, @TIPO_PAGO, @USUARIO1, @OBS, NEWID())"
 
                             cmd.CommandText = SQL
                             cmd.Parameters.Clear()
@@ -5629,6 +6115,9 @@ Public Class FrmAsigViajeBuenoAE
                             cmd.Parameters.Add("@IMPORTE", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(FgG(k, 5))
                             cmd.Parameters.Add("@ST_GASTOS", SqlDbType.VarChar).Value = FgG(k, 7)
                             cmd.Parameters.Add("@TIPO_PAGO", SqlDbType.SmallInt).Value = TIPO_VIAJE
+                            cmd.Parameters.Add("@USUARIO1", SqlDbType.VarChar).Value = USER_GRUPOCE
+                            cmd.Parameters.Add("@USUARIO2", SqlDbType.VarChar).Value = USER_GRUPOCE
+                            cmd.Parameters.Add("@OBS", SqlDbType.VarChar).Value = OBS
                             Try
                                 returnValue = cmd.ExecuteScalar
                                 If returnValue IsNot Nothing Then
@@ -5643,7 +6132,9 @@ Public Class FrmAsigViajeBuenoAE
                             Catch ex As SqlException
                                 ' Log the original exception here
                                 For Each sqlError As SqlError In ex.Errors
-                                    Debug.Print(sqlError.Number & ", " & sqlError.ToString)
+
+                                    BITACORASQL("sqlError.Number :" & sqlError.Number & ", sqlError:" & sqlError.ToString)
+
                                     Select Case sqlError.Number
                                         Case 207 ' 207 = InvalidColumn
                                             'do your Stuff here
@@ -5704,15 +6195,15 @@ Public Class FrmAsigViajeBuenoAE
         End If
 
         Try
-            SQL = "UPDATE GCASIGNACION_VIAJE_VALES SET STATUS = 'C' WHERE CVE_VIAJE = '" & fCVE_VIAJE & "'"
-            Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                cmd2.CommandText = SQL
-                returnValue = cmd2.ExecuteNonQuery().ToString
-                If returnValue IsNot Nothing Then
-                    If returnValue = "1" Then
-                    End If
-                End If
-            End Using
+            'SQL = "UPDATE GCASIGNACION_VIAJE_VALES SET STATUS = 'C' WHERE CVE_VIAJE = '" & fCVE_VIAJE & "'"
+            'Using cmd2 As SqlCommand = cnSAE.CreateCommand
+            'cmd2.CommandText = SQL
+            'returnValue = cmd2.ExecuteNonQuery().ToString
+            'If returnValue IsNot Nothing Then
+            'If returnValue = "1" Then
+            'End If
+            'End If
+            'End Using
         Catch ex As Exception
             Bitacora("40. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
@@ -5731,15 +6222,15 @@ Public Class FrmAsigViajeBuenoAE
                 If UUID.Trim.Length > 0 Then
                     SQL1 = "UPDATE GCASIGNACION_VIAJE_VALES SET CVE_OPER = @CVE_OPER, FECHA = @FECHA, CVE_GAS = @CVE_GAS, LITROS = @LITROS, 
                         LITROS_REALES = @LITROS_REALES, P_X_LITRO = @P_X_LITRO, SUBTOTAL = @SUBTOTAL, IVA = @IVA, IEPS = @IEPS, IMPORTE = @IMPORTE, 
-                        FACTURA = @FACTURA, ST_VALES = @ST_VALES, STATUS = 'A', OBS = @OBS, FECHA_TRASPASO = @FECHA_TRASPASO
+                        FACTURA = @FACTURA, ST_VALES = @ST_VALES, STATUS = 'A', OBS = @OBS, FECHA_TRASPASO = @FECHA_TRASPASO, USUARIO2 = @USUARIO2 
                         OUTPUT INSERTED.UUID
                         WHERE CVE_VIAJE = @CVE_VIAJE AND FOLIO = @FOLIO"
                 Else
                     SQL1 = "INSERT INTO GCASIGNACION_VIAJE_VALES (CVE_VIAJE, STATUS, CVE_OPER, FOLIO, FECHA, FECHA_TRASPASO, CVE_GAS, 
-                        LITROS, LITROS_REALES, P_X_LITRO, SUBTOTAL, IVA, IEPS, IMPORTE, FACTURA, FECHAELAB, ST_VALES, OBS, UUID) 
+                        LITROS, LITROS_REALES, P_X_LITRO, SUBTOTAL, IVA, IEPS, IMPORTE, FACTURA, FECHAELAB, ST_VALES, OBS, USUARIO1, UUID) 
                         OUTPUT Inserted.UUID VALUES(
                         @CVE_VIAJE, 'A', @CVE_OPER, @FOLIO, @FECHA, @FECHA_TRASPASO, @CVE_GAS, @LITROS, @P_X_LITRO, @LITROS_REALES, 
-                        @SUBTOTAL, @IVA, @IEPS, @IMPORTE, @FACTURA, GETDATE(), @ST_VALES, @OBS, NEWID())"
+                        @SUBTOTAL, @IVA, @IEPS, @IMPORTE, @FACTURA, GETDATE(), @ST_VALES, @OBS, @USUARIO1, NEWID())"
                 End If
                 Try
                     CVE_GAS = IIf(String.IsNullOrEmpty(FgV(k, 4)), "", FgV(k, 4))
@@ -5798,6 +6289,8 @@ Public Class FrmAsigViajeBuenoAE
                         cmd.Parameters.Add("@FACTURA", SqlDbType.VarChar).Value = FACTURA
                         cmd.Parameters.Add("@ST_VALES", SqlDbType.VarChar).Value = FgV(k, 15)
                         cmd.Parameters.Add("@OBS", SqlDbType.VarChar).Value = OBS
+                        cmd.Parameters.Add("@USUARIO1", SqlDbType.VarChar).Value = USER_GRUPOCE
+                        cmd.Parameters.Add("@USUARIO2", SqlDbType.VarChar).Value = USER_GRUPOCE
                         Try
                             returnValue = cmd.ExecuteScalar
                             If returnValue IsNot Nothing Then
@@ -6687,6 +7180,10 @@ Public Class FrmAsigViajeBuenoAE
                 Return
             End If
             If MsgBox("Realmente desea eliminar la partida seleccionada?", vbYesNo) = vbYes Then
+
+                SQL = "DELETE FROM GCASIGNACION_VIAJE_GASTOS WHERE CVE_VIAJE = '" & LtCVE_VIAJE.Text & "' AND FOLIO = '" & FgG(FgG.Row, 1) & "'"
+                ReturnBool = EXECUTE_QUERY_NET(SQL)
+
                 FgG.Rows.Remove(FgG.Row)
             End If
         End If
@@ -6786,7 +7283,12 @@ Public Class FrmAsigViajeBuenoAE
             End If
 
             If MsgBox("Realmente desea eliminar la partida seleccionada?", vbYesNo) = vbYes Then
+
+                SQL = "DELETE FROM GCASIGNACION_VIAJE_VALES WHERE CVE_VIAJE = '" & LtCVE_VIAJE.Text & "' AND FOLIO = '" & FgV(FgV.Row, 1) & "'"
+                ReturnBool = EXECUTE_QUERY_NET(SQL)
+
                 FgV.Rows.Remove(FgV.Row)
+
             End If
         Catch ex As Exception
             Bitacora("800. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -9975,13 +10477,13 @@ Public Class FrmAsigViajeBuenoAE
                     SeCopio = "S"
 
                     If VIAJES_A_COPIAR = 1 Then
-                        DESPLEGAR_VIAJE(Var24)
+                        COPIAR_VIAJE(Var24)
 
                         BarCopiarViaje.Enabled = False
                     Else
                         If VIAJES_A_COPIAR > 1 Then
 
-                            DESPLEGAR_VIAJE(Var24)
+                            COPIAR_VIAJE(Var24)
 
                             Threading.Thread.Sleep(3000)
 
@@ -13354,8 +13856,7 @@ Public Class FrmAsigViajeBuenoAE
     End Sub
     Private Sub FgG_KeyDown(sender As Object, e As KeyEventArgs) Handles FgG.KeyDown
         Try
-            If FgG(FgG.Row, 7) = "DEPOSITADO" Or FgG(FgG.Row, 7) = "AUTORIZADO" Or FgG(FgG.Row, 7) = "CANCELADO" Or
-                FgG(FgG.Row, 7) = "ACEPTADO" Then
+            If FgG(FgG.Row, 7) = "DEPOSITADO" Or FgG(FgG.Row, 7) = "AUTORIZADO" Or FgG(FgG.Row, 7) = "CANCELADO" Or FgG(FgG.Row, 7) = "ACEPTADO" Then
                 MsgBox("La partida ya fue cerrada no se puede modificar")
                 Return
             End If
@@ -14039,6 +14540,12 @@ Public Class FrmAsigViajeBuenoAE
             End If
         Catch ex As Exception
         End Try
+    End Sub
+
+    Private Sub TPERMISIONARIOS_KeyDown(sender As Object, e As KeyEventArgs) Handles TPERMISIONARIOS.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            TCVE_TRACTOR.Focus()
+        End If
     End Sub
 End Class
 

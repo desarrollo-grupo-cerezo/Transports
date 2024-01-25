@@ -5229,15 +5229,15 @@ Public Class FrnAsigViajeBConsul
         End If
 
         Try
-            SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET STATUS = 'C' WHERE CVE_VIAJE = '" & fCVE_VIAJE & "'"
-            Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                cmd2.CommandText = SQL
-                returnValue = cmd2.ExecuteNonQuery().ToString
-                If returnValue IsNot Nothing Then
-                    If returnValue = "1" Then
-                    End If
-                End If
-            End Using
+            'SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET STATUS = 'C' WHERE CVE_VIAJE = '" & fCVE_VIAJE & "'"
+            'Using cmd2 As SqlCommand = cnSAE.CreateCommand
+            'cmd2.CommandText = SQL
+            'returnValue = cmd2.ExecuteNonQuery().ToString
+            'If returnValue IsNot Nothing Then
+            'If returnValue = "1" Then
+            'End If
+            'End If
+            'End Using
         Catch ex As Exception
             Bitacora("40. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
@@ -5288,7 +5288,7 @@ Public Class FrnAsigViajeBConsul
                         For j = 1 To 5
 
                             SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET CVE_OPER = @CVE_OPER, CVE_NUM = @CVE_NUM, IMPORTE = @IMPORTE,
-                                ST_GASTOS = @ST_GASTOS, STATUS = 'A', TIPO_PAGO = @TIPO_PAGO 
+                                ST_GASTOS = @ST_GASTOS, TIPO_PAGO = @TIPO_PAGO 
                                 WHERE CVE_VIAJE = @CVE_VIAJE AND FOLIO = @FOLIO
                                 IF @@ROWCOUNT = 0
                                 INSERT INTO GCASIGNACION_VIAJE_GASTOS (CVE_VIAJE, STATUS, CVE_OPER, FOLIO, FECHA, CVE_NUM, IMPORTE, FECHAELAB, 

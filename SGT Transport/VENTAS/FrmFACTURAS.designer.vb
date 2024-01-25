@@ -164,7 +164,7 @@ Partial Class frmFACTURAS
         Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
         Me.Fg.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Solid
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.Fg.Location = New System.Drawing.Point(101, 62)
+        Me.Fg.Location = New System.Drawing.Point(12, 72)
         Me.Fg.Name = "Fg"
         Me.Fg.Rows.DefaultSize = 19
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row

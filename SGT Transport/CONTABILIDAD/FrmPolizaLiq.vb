@@ -336,9 +336,12 @@ Public Class FrmPolizaLiq
                                 End Select
                             End If
 #End Region
+                            If dr("Orden").ToString().Equals("1") Then
+                                TotalDocumentos = TotalDocumentos + 1
+                            End If
 
                             Fg.AddItem("" & vbTab & dr("FechaDocumento") & vbTab & dr("Documento") & vbTab & dr("TipoDocumento") & vbTab & dr("FechaViaje") & vbTab &
-                                       dr("Viaje") & vbTab & dr("IdPoliza") & vbTab & dr("Orden") & vbTab & dr("TipoPoliza") & vbTab & dr("NoPolizaCuenta") & vbTab &
+                                       dr("Viaje") & vbTab & dr("IdPoliza") & vbTab & dr("Orden") & vbTab & dr("TipoPoliza") & vbTab & IIf(dr("Orden").ToString().Equals("1"), TotalDocumentos, dr("NoPolizaCuenta")) & vbTab &
                                        dr("ConceptoPolizaDepto") & vbTab & dr("DiaConceptoMov") & vbTab & dr("TipoCambio") & vbTab & IIf(dr("Orden") = "15", Math.Round(dr("TotalDebe"), 2), dr("Debe")) & vbTab & IIf(dr("Orden") = "15", Math.Round(dr("TotalHaber"), 2), dr("Haber")) & vbTab &
                                        dr("CentroCostos") & vbTab & dr("Proyecto"))
 
@@ -358,9 +361,7 @@ Public Class FrmPolizaLiq
                             If dr("Orden").ToString().Equals("1") And Not dr("IdPoliza").ToString().Equals("0") Then
                                 Fg.SetCellStyle(Fg.Rows.Count - 1, 9, NewStyle3)
                             End If
-                            If dr("Orden").ToString().Equals("1") Then
-                                TotalDocumentos = TotalDocumentos + 1
-                            End If
+
                         Catch ex As Exception
                             Bitacora("14. " & ex.Message & vbNewLine & ex.StackTrace)
                         End Try

@@ -39,14 +39,14 @@ Public Class FrmDetalladoComprasJulio
 
         TITULOS()
 
-        Dim N = DateTime.Now.AddMonths(-1)
-        Dim D1 As String, D2 As String
+        'Dim N = DateTime.Now.AddMonths(-1)
+        'Dim D1 As String, D2 As String
 
-        D1 = "01/" & Format(N.Month, "00") & "/" & Now.Year
-        D2 = Format(DateTime.DaysInMonth(N.Year, N.Month), "00") & "/" & Format(N.Month, "00") & "/" & Now.Year
+        'd1 = "01/" & Format(N.Month, "00") & "/" & Now.Year
+        'd2 = Format(DateTime.DaysInMonth(N.Year, N.Month), "00") & "/" & Format(N.Month, "00") & "/" & Now.Year
 
-        F1.Value = d1
-        F2.Value = d2
+        'F1.Value = d1
+        'F2.Value = d2
 
         CADENA = "WHERE FECHA_DOC >= '" & FSQL(F1.Value) & "' AND FECHA_DOC <= '" & FSQL(F2.Value) & "'"
 

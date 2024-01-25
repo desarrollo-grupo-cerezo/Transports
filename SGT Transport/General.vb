@@ -24,7 +24,9 @@ Module General
     End Function
     Public ColoFondoFG As Color = System.Drawing.Color.FromArgb(230, 233, 241, 250)
     '233, 241, 250
-
+    Public PRINTDIRECTPV As Integer
+    Public ReturnBool As Boolean
+    Public REPORTE_POS As String = ""
     Public ESCENARIO As Integer
     Public FFormOpen As String
     Public FORM_LOAD_KEY As Boolean
@@ -178,7 +180,7 @@ Module General
 
     Public Var26 As Integer
     Public Var27 As Integer
-
+    Public Var28 As String
     Public Var44 As Long = 0
     Public Var45 As Long = 0
     Public Var46 As String = ""
@@ -5963,38 +5965,56 @@ Module General
     End Function
     Public Function GET_CVE_FOLIO() As String
         Dim DatRegre As String = "", SQLx As String
+        Dim id As String = Guid.NewGuid().ToString("N")
+
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
-                SQLx = "SELECT ISNULL(ULT_CVE,0) + 1 AS CVE FROM TBLCONTROL" & Empresa & " WHERE ID_TABLA = 32"
+                'SQLx = "SELECT ISNULL(ULT_CVE,0) + 1 AS CVE FROM TBLCONTROL" & Empresa & " WHERE ID_TABLA = 32"
+                SQLx = "SELECT MAX(TRY_PARSE(CVE_FOLIO AS INT)) + 1 FROM MINVE" & Empresa
                 cmd.CommandText = SQLx
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     If dr.Read Then
-                        DatRegre = dr("CVE")
+                        DatRegre = dr(0)
                     End If
                 End Using
             End Using
             Return DatRegre
         Catch ex As Exception
             Bitacora("640. " & ex.Message & vbNewLine & ex.StackTrace)
-            Return ""
+            Return id
         End Try
     End Function
     Public Function GET_CVE_FOLIO_MINVE()
         Dim CVE_FOLIO As String = "", Ano As String
+        Dim id As String = Guid.NewGuid().ToString("N")
+        Dim ErrFolio As Boolean = False
         Try
             CVE_FOLIO = GET_CVE_FOLIO()
-            If CVE_FOLIO.Trim.Length < 2 Then
-                Ano = DateTime.Now.Year.ToString
-                Ano = Ano.Substring(Ano.Length - 1, 1)
-                CVE_FOLIO = Ano & Format(DateTime.Now.Month, "00") & Format(DateTime.Now.Day, "00") &
+            Ano = DateTime.Now.Year.ToString
+            Ano = Ano.Substring(Ano.Length - 1, 1)
+            CVE_FOLIO = Ano & Format(DateTime.Now.Month, "00") & Format(DateTime.Now.Day, "00") &
                     Format(DateTime.Now.Hour, "00") & Format(DateTime.Now.Minute, "00")
+
+            If CVE_FOLIO.Length > 9 Then
+                CVE_FOLIO = CVE_FOLIO.Substring(0, 9)
+            ElseIf CVE_FOLIO.Trim.Length = 0 Or CVE_FOLIO.Trim.Length < 6 Then
+                CVE_FOLIO = id
+                If CVE_FOLIO.Length > 9 Then
+                    CVE_FOLIO = CVE_FOLIO.Substring(0, 9)
+                End If
             End If
+        Catch ex As Exception
+            ErrFolio = True
+            Bitacora("150. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        If ErrFolio Then
+            CVE_FOLIO = id
             If CVE_FOLIO.Length > 9 Then
                 CVE_FOLIO = CVE_FOLIO.Substring(0, 9)
             End If
-        Catch ex As Exception
-            Bitacora("150. " & ex.Message & vbNewLine & ex.StackTrace)
-        End Try
+        End If
+
         Return CVE_FOLIO
     End Function
 
@@ -6401,6 +6421,107 @@ Module General
         FGrid.SearchDefinition = ""
         FGrid.SearchDefinition = search
     End Sub
+    Public Function GET_ETIQUETA(FIDTABLA As String, FCAMPO As String) As String
+        Dim ETIQUETA As String = ""
+        SQL = "SELECT ETIQUETA FROM PARAM_CAMPOSLIBRES" & Empresa & " 
+                WHERE IDTABLA = '" & FIDTABLA & "' AND CAMPO = '" & FCAMPO & "'"
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    If dr.Read Then
+                        ETIQUETA = dr("ETIQUETA")
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+
+        Return ETIQUETA
+    End Function
+
+    Public Sub GEN_IMPRIMIR_TICKET(FTIPO_DOC As String, FSERIE As String, FCVE_DOC As String, FPROC As String,
+                                   FIMPORTE As Decimal, Optional NUM_LETRA As String = "", Optional FCOPIAS_TK_NV As Integer = 1)
+        Dim report As New StiReport()
+        Dim RUTA_FORMATOS As String, j As Integer = 0, IMPRESORA As String = ""
+        Try
+            Dim Settings As New PrinterSettings()
+            REPORTE_POS = ""
+
+            Try
+                SQL = "SELECT FTOEMISION, IMPRESORA 
+                    FROM PARAM_FOLIOSF" & Empresa & " 
+                    WHERE TIPODOCTO = '" & FTIPO_DOC & "' AND (SERIE = '" & FSERIE & "' OR SERIE = 'STAND.')"
+
+                Using cmd As SqlCommand = cnSAE.CreateCommand
+                    cmd.CommandText = SQL
+                    Using dr As SqlDataReader = cmd.ExecuteReader
+                        If dr.Read Then
+                            REPORTE_POS = Path.GetFileName(dr.ReadNullAsEmptyString("FTOEMISION"))
+                            IMPRESORA = Path.GetFileName(dr.ReadNullAsEmptyString("IMPRESORA"))
+                        End If
+                    End Using
+                End Using
+
+            Catch ex As Exception
+                Bitacora("2040. " & ex.Message & vbNewLine & ex.StackTrace)
+                MsgBox("2040. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+
+            If IMPRESORA.Trim.Length = 0 Then
+                Settings.Copies = FCOPIAS_TK_NV
+                IMPRESORA = Settings.PrinterName
+            End If
+
+            If REPORTE_POS.Trim.Length = 0 Then
+                REPORTE_POS = "TicketEstandard.mrt"
+            End If
+
+            RUTA_FORMATOS = GET_RUTA_FORMATOS() & "\" & REPORTE_POS
+            If Not File.Exists(RUTA_FORMATOS) Then
+                MsgBox("No existe el reporte " & RUTA_FORMATOS & ", verifique por favor")
+                Return
+            End If
+            report.Load(RUTA_FORMATOS)
+
+            Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
+                Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
+
+            report.Dictionary.Databases.Clear()
+            report.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
+            report.Compile()
+            report.Dictionary.Synchronize()
+            report.ReportName = FPROC
+
+            If FTIPO_DOC = "A" Then
+                report.Item("REFER") = FCVE_DOC
+                report.Item("NUM_LETRA") = Num2Text(FIMPORTE)
+            Else
+                If REPORTE_POS = "TicketEstandard.mrt" Then
+                    report.Item("CVE_DOC") = FCVE_DOC
+                    report.Item("E") = Empresa
+                    report.Item("TE") = FTIPO_DOC & Empresa
+                Else
+                    report("CVE_DOC") = FCVE_DOC
+                End If
+            End If
+
+            report.Render()
+            If PRINTDIRECTPV = 1 Then
+
+                Dim printerSettings As New PrinterSettings With {.PrinterName = IMPRESORA, .Copies = FCOPIAS_TK_NV}
+                report.Print(False, printerSettings)
+
+            Else
+                report.Show()
+            End If
+        Catch ex As Exception
+            Bitacora("630. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("630. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
 
     Public Function ObtenerNombrePestanaConsulta(ByVal NombreMenu As String) As String
         Dim nombre As String = ""
@@ -6415,9 +6536,7 @@ Module General
             Case "BarContResFacturasAbono"
                 nombre = "Resumen Facturas Abonos"
         End Select
-
         Return nombre
     End Function
-
 End Module
 

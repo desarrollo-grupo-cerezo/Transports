@@ -268,7 +268,7 @@ Public Class FrmConfiguracionCFDI
             If returnValue IsNot Nothing Then
                 If returnValue = "1" Then
 
-                    If TFTOFACTURA.Text.Trim.Length > 0 Then
+                    If TFTOFACTURA.Text.Trim.Length > 0 And TFTOFACTURA.Tag.ToString.Trim.Length > 0 Then
                         Dim rutaCg As String = GET_RUTA_FORMATOS()
                         Dim copyToDir = Path.GetDirectoryName(TFTOFACTURA.Tag)
 

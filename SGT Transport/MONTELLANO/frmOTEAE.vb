@@ -127,14 +127,15 @@ Public Class frmOTEAE
         End Try
 
         If PASS_GRUPOCE = "BUS" Then
-            Fg.Cols(12).Visible = False
-            Fg.Cols(13).Visible = False
-            Fg.Cols(14).Visible = False
-            Fg.Cols(15).Visible = False
-            Fg.Cols(16).Visible = False
-            Fg.Cols(17).Visible = False
-
+            'Fg.Cols(12).Visible = False
+            'Fg.Cols(13).Visible = False
+            'Fg.Cols(14).Visible = False
+            'Fg.Cols(15).Visible = False
+            'Fg.Cols(16).Visible = False
+            'Fg.Cols(17).Visible = False
         Else
+            'Fg.Cols(6).Visible = True
+            'Fg.Cols(7).Visible = True
             Fg.Cols(12).Visible = False
             Fg.Cols(13).Visible = False
             Fg.Cols(14).Visible = False

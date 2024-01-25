@@ -399,11 +399,16 @@ Partial Class MainRibbonForm
         Me.BarPolizaIngresos = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarPolizaLiq = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarPolizaLiq1 = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonMenu5 = New C1.Win.C1Ribbon.RibbonMenu()
+        Me.RibPolPagRef = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonMenu7 = New C1.Win.C1Ribbon.RibbonMenu()
+        Me.RibPolProvRef = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarContabilidadConsultas = New C1.Win.C1Ribbon.RibbonMenu()
         Me.BarContResFacturas = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarContResLiq = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarContResLiqConceptos = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarContResFacturasAbono = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibPolFondoOper = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibCierreContable = New C1.Win.C1Ribbon.RibbonGroup()
         Me.RibbonToolBar8 = New C1.Win.C1Ribbon.RibbonToolBar()
         Me.RibbonToolBar7 = New C1.Win.C1Ribbon.RibbonToolBar()
@@ -561,7 +566,6 @@ Partial Class MainRibbonForm
         Me.c1Ribbon1.Tabs.Add(Me.TabConfig)
         Me.c1Ribbon1.Tabs.Add(Me.TabUtilerias)
         Me.C1ThemeController1.SetTheme(Me.c1Ribbon1, "VS2013Blue")
-        Me.c1Ribbon1.ToolTipSettings.Active = False
         Me.c1Ribbon1.TopToolBarHolder = Me.RibbonTopToolBar1
         '
         'AppMenu
@@ -3197,6 +3201,9 @@ Partial Class MainRibbonForm
         Me.RibbonGroup14.Items.Add(Me.BarPolizaIngresos)
         Me.RibbonGroup14.Items.Add(Me.BarPolizaLiq)
         Me.RibbonGroup14.Items.Add(Me.BarPolizaLiq1)
+        Me.RibbonGroup14.Items.Add(Me.RibPolFondoOper)
+        Me.RibbonGroup14.Items.Add(Me.RibbonMenu5)
+        Me.RibbonGroup14.Items.Add(Me.RibbonMenu7)
         Me.RibbonGroup14.Items.Add(Me.BarContabilidadConsultas)
         Me.RibbonGroup14.Name = "RibbonGroup14"
         '
@@ -3315,6 +3322,31 @@ Partial Class MainRibbonForm
         Me.BarPolizaLiq1.Name = "BarPolizaLiq1"
         Me.BarPolizaLiq1.Text = "Pólizas Gastos administrativos"
         '
+        'RibbonMenu5
+        '
+        Me.RibbonMenu5.Items.Add(Me.RibPolPagRef)
+        Me.RibbonMenu5.LargeImage = Global.SGT_Transport.My.Resources.Resources.Facturacion_CXC
+        Me.RibbonMenu5.Name = "RibbonMenu5"
+        Me.RibbonMenu5.Text = "Pólizas de Pagos"
+        '
+        'RibPolPagRef
+        '
+        Me.RibPolPagRef.Name = "RibPolPagRef"
+        Me.RibPolPagRef.SmallImage = Global.SGT_Transport.My.Resources.Resources.Facturacion_CXC
+        Me.RibPolPagRef.Text = "Pago de Refacciones"
+        '
+        'RibbonMenu7
+        '
+        Me.RibbonMenu7.Items.Add(Me.RibPolProvRef)
+        Me.RibbonMenu7.LargeImage = Global.SGT_Transport.My.Resources.Resources.conta21
+        Me.RibbonMenu7.Name = "RibbonMenu7"
+        Me.RibbonMenu7.Text = "Pólizas de Almacén"
+        '
+        'RibPolProvRef
+        '
+        Me.RibPolProvRef.Name = "RibPolProvRef"
+        Me.RibPolProvRef.Text = "Provisión de Refacciones"
+        '
         'BarContabilidadConsultas
         '
         Me.BarContabilidadConsultas.Items.Add(Me.BarContResFacturas)
@@ -3348,6 +3380,12 @@ Partial Class MainRibbonForm
         Me.BarContResFacturasAbono.Name = "BarContResFacturasAbono"
         Me.BarContResFacturasAbono.SmallImage = Global.SGT_Transport.My.Resources.Resources.impresora16
         Me.BarContResFacturasAbono.Text = "Resumen Facturas Abonos"
+        '
+        'RibPolFondoOper
+        '
+        Me.RibPolFondoOper.LargeImage = Global.SGT_Transport.My.Resources.Resources.centro_costo
+        Me.RibPolFondoOper.Name = "RibPolFondoOper"
+        Me.RibPolFondoOper.Text = "Póliza Fondo Operadores"
         '
         'RibCierreContable
         '
@@ -4728,4 +4766,9 @@ Partial Class MainRibbonForm
     Friend WithEvents BarContResLiq As RibbonButton
     Friend WithEvents BarContResLiqConceptos As RibbonButton
     Friend WithEvents BarContResFacturasAbono As RibbonButton
+    Friend WithEvents RibbonMenu5 As RibbonMenu
+    Friend WithEvents RibPolPagRef As RibbonButton
+    Friend WithEvents RibbonMenu7 As RibbonMenu
+    Friend WithEvents RibPolProvRef As RibbonButton
+    Friend WithEvents RibPolFondoOper As RibbonButton
 End Class

@@ -699,6 +699,7 @@ Public Class FrmSelItem2
                     Me.Width = 600
                     Fg.Width = Me.Width - 30
                 Case "Articulo"
+
                     If PARAM_VAR.Trim.Length > 0 Then
                         PARAM_VAR = "AND LIN_PROD = '" & PARAM_VAR & "'"
                     End If
@@ -707,6 +708,7 @@ Public Class FrmSelItem2
                         FROM INVE" & Empresa & " 
                         WHERE STATUS = 'A' AND TIPO_ELE <> 'K' AND CVE_ART <> 'TOT' " & PARAM_VAR & "
                         ORDER BY DESCR"
+
                     Fg.Rows.Count = 1
                     Fg.Cols.Count = 4
                     Fg(0, 0) = ""

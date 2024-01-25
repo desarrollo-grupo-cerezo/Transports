@@ -163,6 +163,7 @@ Module DocumentPrinter
             If File.Exists(Rreporte_MRT) Then
                 report.Load(Rreporte_MRT)
             End If
+
             report.Design()
 
         Catch ex As Exception

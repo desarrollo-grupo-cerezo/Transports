@@ -52,6 +52,9 @@ Partial Class frmAsigGastosImprimir
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label41 = New System.Windows.Forms.Label()
         Me.BtnOper = New C1.Win.C1Input.C1Button()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.CboUsuarios = New C1.Win.C1Input.C1ComboBox()
+        Me.StiReport1 = New Stimulsoft.Report.StiReport()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.F2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -60,6 +63,7 @@ Partial Class frmAsigGastosImprimir
         CType(Me.chEnviaXCorreo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.C1ComboBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnOper, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboUsuarios, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuHolder
@@ -107,7 +111,7 @@ Partial Class frmAsigGastosImprimir
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.C1ToolBar1.Movable = False
         Me.C1ToolBar1.Name = "C1ToolBar1"
-        Me.C1ToolBar1.Size = New System.Drawing.Size(571, 43)
+        Me.C1ToolBar1.Size = New System.Drawing.Size(606, 43)
         Me.C1ToolBar1.Text = "C1ToolBar1"
         Me.C1ToolBar1.VisualStyle = C1.Win.C1Command.VisualStyle.Office2010Blue
         Me.C1ToolBar1.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
@@ -159,7 +163,7 @@ Partial Class frmAsigGastosImprimir
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(99, 92)
+        Me.Label1.Location = New System.Drawing.Point(100, 92)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(28, 16)
         Me.Label1.TabIndex = 172
@@ -197,7 +201,7 @@ Partial Class frmAsigGastosImprimir
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(44, 215)
+        Me.Label4.Location = New System.Drawing.Point(45, 215)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(83, 16)
         Me.Label4.TabIndex = 177
@@ -217,7 +221,7 @@ Partial Class frmAsigGastosImprimir
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(99, 164)
+        Me.Label6.Location = New System.Drawing.Point(100, 164)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(28, 16)
         Me.Label6.TabIndex = 218
@@ -337,7 +341,7 @@ Partial Class frmAsigGastosImprimir
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(39, 263)
+        Me.Label8.Location = New System.Drawing.Point(40, 263)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(88, 16)
         Me.Label8.TabIndex = 228
@@ -350,7 +354,7 @@ Partial Class frmAsigGastosImprimir
         Me.chEnviaXCorreo.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.chEnviaXCorreo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.chEnviaXCorreo.ForeColor = System.Drawing.Color.Black
-        Me.chEnviaXCorreo.Location = New System.Drawing.Point(127, 451)
+        Me.chEnviaXCorreo.Location = New System.Drawing.Point(327, 263)
         Me.chEnviaXCorreo.Name = "chEnviaXCorreo"
         Me.chEnviaXCorreo.Padding = New System.Windows.Forms.Padding(1)
         Me.chEnviaXCorreo.Size = New System.Drawing.Size(104, 24)
@@ -365,16 +369,16 @@ Partial Class frmAsigGastosImprimir
         Me.tCORREO.AcceptsReturn = True
         Me.tCORREO.AcceptsTab = True
         Me.tCORREO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tCORREO.Location = New System.Drawing.Point(132, 406)
+        Me.tCORREO.Location = New System.Drawing.Point(132, 417)
         Me.tCORREO.Name = "tCORREO"
-        Me.tCORREO.Size = New System.Drawing.Size(351, 22)
+        Me.tCORREO.Size = New System.Drawing.Size(427, 22)
         Me.tCORREO.TabIndex = 259
         '
         'Label12
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(79, 409)
+        Me.Label12.Location = New System.Drawing.Point(80, 420)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(48, 16)
         Me.Label12.TabIndex = 260
@@ -386,7 +390,7 @@ Partial Class frmAsigGastosImprimir
         Me.LOper.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LOper.Location = New System.Drawing.Point(210, 307)
         Me.LOper.Name = "LOper"
-        Me.LOper.Size = New System.Drawing.Size(273, 20)
+        Me.LOper.Size = New System.Drawing.Size(349, 22)
         Me.LOper.TabIndex = 266
         Me.LOper.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -413,7 +417,7 @@ Partial Class frmAsigGastosImprimir
         Me.C1ComboBox2.ImagePadding = New System.Windows.Forms.Padding(0)
         Me.C1ComboBox2.ItemsDisplayMember = ""
         Me.C1ComboBox2.ItemsValueMember = ""
-        Me.C1ComboBox2.Location = New System.Drawing.Point(132, 361)
+        Me.C1ComboBox2.Location = New System.Drawing.Point(132, 381)
         Me.C1ComboBox2.Name = "C1ComboBox2"
         Me.C1ComboBox2.Size = New System.Drawing.Size(166, 20)
         Me.C1ComboBox2.TabIndex = 368
@@ -424,7 +428,7 @@ Partial Class frmAsigGastosImprimir
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(36, 363)
+        Me.Label9.Location = New System.Drawing.Point(37, 383)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(91, 16)
         Me.Label9.TabIndex = 370
@@ -433,10 +437,10 @@ Partial Class frmAsigGastosImprimir
         'Label41
         '
         Me.Label41.AutoSize = True
-        Me.Label41.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label41.BackColor = System.Drawing.Color.Transparent
         Me.Label41.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label41.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label41.Location = New System.Drawing.Point(62, 310)
+        Me.Label41.ForeColor = System.Drawing.Color.Black
+        Me.Label41.Location = New System.Drawing.Point(63, 310)
         Me.Label41.Name = "Label41"
         Me.Label41.Size = New System.Drawing.Size(65, 16)
         Me.Label41.TabIndex = 264
@@ -453,11 +457,59 @@ Partial Class frmAsigGastosImprimir
         Me.BtnOper.UseVisualStyleBackColor = True
         Me.BtnOper.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label10.Location = New System.Drawing.Point(46, 347)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(82, 16)
+        Me.Label10.TabIndex = 373
+        Me.Label10.Text = "Coordinador"
+        '
+        'CboUsuarios
+        '
+        Me.CboUsuarios.AllowSpinLoop = False
+        Me.CboUsuarios.BackColor = System.Drawing.Color.FromArgb(CType(CType(234, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.CboUsuarios.BorderColor = System.Drawing.SystemColors.WindowFrame
+        Me.CboUsuarios.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.CboUsuarios.Cursor = System.Windows.Forms.Cursors.Arrow
+        Me.CboUsuarios.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(183, Byte), Integer), CType(CType(183, Byte), Integer), CType(CType(183, Byte), Integer))
+        Me.CboUsuarios.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
+        Me.CboUsuarios.DropDownWidth = 600
+        Me.CboUsuarios.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboUsuarios.GapHeight = 0
+        Me.CboUsuarios.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.CboUsuarios.ItemsDisplayMember = ""
+        Me.CboUsuarios.ItemsValueMember = ""
+        Me.CboUsuarios.Location = New System.Drawing.Point(132, 345)
+        Me.CboUsuarios.Name = "CboUsuarios"
+        Me.CboUsuarios.Size = New System.Drawing.Size(427, 18)
+        Me.CboUsuarios.TabIndex = 372
+        Me.CboUsuarios.Tag = Nothing
+        Me.CboUsuarios.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'StiReport1
+        '
+        Me.StiReport1.CookieContainer = Nothing
+        Me.StiReport1.EngineVersion = Stimulsoft.Report.Engine.StiEngineVersion.EngineV2
+        Me.StiReport1.ReferencedAssemblies = New String() {"System.Dll", "System.Drawing.Dll", "System.Windows.Forms.Dll", "System.Data.Dll", "System.Xml.Dll", "Stimulsoft.Controls.Dll", "Stimulsoft.Base.Dll", "Stimulsoft.Report.Dll"}
+        Me.StiReport1.ReportAlias = "Report"
+        Me.StiReport1.ReportGuid = "2f1d25aa678f4ff7b15189fa1d587e01"
+        Me.StiReport1.ReportImage = Nothing
+        Me.StiReport1.ReportName = "Report"
+        Me.StiReport1.ReportSource = Nothing
+        Me.StiReport1.ReportUnit = Stimulsoft.Report.StiReportUnitType.Centimeters
+        Me.StiReport1.ScriptLanguage = Stimulsoft.Report.StiReportLanguageType.CSharp
+        Me.StiReport1.UseProgressInThread = False
+        '
         'frmAsigGastosImprimir
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(571, 517)
+        Me.ClientSize = New System.Drawing.Size(606, 517)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.CboUsuarios)
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.C1ComboBox2)
         Me.Controls.Add(Me.LOper)
@@ -503,6 +555,7 @@ Partial Class frmAsigGastosImprimir
         CType(Me.chEnviaXCorreo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.C1ComboBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnOper, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboUsuarios, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -540,4 +593,7 @@ Partial Class frmAsigGastosImprimir
     Friend WithEvents BtnOper As C1.Win.C1Input.C1Button
     Friend WithEvents C1ComboBox2 As C1.Win.C1Input.C1ComboBox
     Friend WithEvents Label9 As Label
+    Friend WithEvents Label10 As Label
+    Friend WithEvents CboUsuarios As C1.Win.C1Input.C1ComboBox
+    Friend WithEvents StiReport1 As Stimulsoft.Report.StiReport
 End Class

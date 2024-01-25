@@ -694,14 +694,15 @@ Public Class FrmSelItem
 
                 Case "InveS" 'SOLO SERVICIOS Y LINEA ESPECIFICA
                     SQL = "SELECT I.CVE_ART, DESCR, PRECIO,
-                        (SELECT TOP 1 CVE_ALTER FROM CVES_ALTER01 A WHERE CVE_ART = I.CVE_ART) AS ALTERNA, EXIST, TIPO_ELE,
+                        (SELECT TOP 1 CVE_ALTER FROM CVES_ALTER" & Empresa & " A WHERE CVE_ART = I.CVE_ART) AS ALTERNA, EXIST, TIPO_ELE,
                         ISNULL(COSTO_PROM,0) AS C_PROM
                         FROM INVE" & Empresa & " I 
                         LEFT JOIN PRECIO_X_PROD" & Empresa & " P ON P.CVE_ART = I.CVE_ART AND P.CVE_PRECIO = 1 
                         WHERE I.STATUS = 'A' AND TIPO_ELE = 'S' AND LIN_PROD = '" & Var5 & "' ORDER BY DESCR"
+                    Debug.Print("")
                 Case "InvenTabRutas"
                     SQL = "SELECT I.CVE_ART, DESCR, PRECIO,
-                        (SELECT TOP 1 CVE_ALTER FROM CVES_ALTER01 A WHERE CVE_ART = I.CVE_ART) AS ALTERNA, EXIST, TIPO_ELE,
+                        (SELECT TOP 1 CVE_ALTER FROM CVES_ALTER" & Empresa & " A WHERE CVE_ART = I.CVE_ART) AS ALTERNA, EXIST, TIPO_ELE,
                         ISNULL(COSTO_PROM,0) AS C_PROM, LIN_PROD
                         FROM INVE" & Empresa & " I 
                         LEFT JOIN PRECIO_X_PROD" & Empresa & " P ON P.CVE_ART = I.CVE_ART AND P.CVE_PRECIO = 1 

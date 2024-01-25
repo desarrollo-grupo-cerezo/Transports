@@ -35,13 +35,19 @@ Public Class frmAsigGastosImprimir
             F2.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
             F2.EditFormat.CustomFormat = "dd/MM/yyyy"
 
+            cboStGastos.Items.Clear()
+            cboStGastos.Items.Add("TODOS")
+            cboStGastos.Items.Add("EDICION")
+            cboStGastos.Items.Add("ACEPTADO")
+            cboStGastos.Items.Add("DEPOSITADO")
+            cboStGastos.Items.Add("AUTORIZADO")
+            cboStGastos.SelectedIndex = 0
+
             Dim dt As DataTable
             dt = New DataTable()
             dt.Columns.Add("Clave", GetType(System.String))
             dt.Columns.Add("Descripcion", GetType(System.String))
-            'dt.Columns.Add("BANCO", GetType(System.String))
-
-            dt.Rows.Add(0, "TODOS")
+            dt.Rows.Add("0", "TODOS")
 
             cboStatus.Items.Clear()
             Using cmd As SqlCommand = cnSAE.CreateCommand
@@ -53,31 +59,38 @@ Public Class frmAsigGastosImprimir
                     End While
                 End Using
             End Using
-
             cboStatus.TextDetached = True
             cboStatus.ItemsDataSource = dt.DefaultView
             cboStatus.ItemsDisplayMember = "Descripcion"
             cboStatus.ItemsValueMember = "Clave"
             cboStatus.ItemMode = C1.Win.C1Input.ComboItemMode.HtmlPattern
             cboStatus.HtmlPattern = "<table><tr><td width=30>{Clave}</td><td width=150>{Descripcion}</td><td width=220></tr></table>"
-            'cboStatus.HtmlPattern = "<table><tr><td width=30>{NUM.}</td><td width=150>{CUENTA}</td><td width=170>{BANCO}</td><td width=220></tr></table>"
-
-            'F1.Value = "23/04/2021"
-            'F2.Value = "27/04/2021"
-            'tCVE_VIAJE.Text = "00000010"
-            'tCVE_VIAJE2.Text = "00000011"
             cboStatus.SelectedIndex = 0
 
+            'USUARIOS
+            dt = New DataTable()
+            dt.Columns.Add("Coordinador", GetType(System.String))
+            dt.Columns.Add("Nombre", GetType(System.String))
+            dt.Rows.Add("", "TODOS")
 
-            cboStGastos.Items.Clear()
-            cboStGastos.Items.Add("TODOS")
-            cboStGastos.Items.Add("EDICION")
-            cboStGastos.Items.Add("ACEPTADO")
-            cboStGastos.Items.Add("DEPOSITADO")
-            cboStGastos.Items.Add("AUTORIZADO")
+            CboUsuarios.Items.Clear()
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT USUARIO, NOMBRE FROM GCUSUARIOS ORDER BY NOMBRE"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+                        dt.Rows.Add(dr("USUARIO").ToString.PadRight(15), dr("NOMBRE"))
+                    End While
+                End Using
+            End Using
 
-            cboStGastos.SelectedIndex = 0
-
+            CboUsuarios.TextDetached = True
+            CboUsuarios.ItemsDataSource = dt.DefaultView
+            CboUsuarios.ItemsDisplayMember = "Nombre"
+            CboUsuarios.ItemsValueMember = "Coordinador"
+            CboUsuarios.ItemMode = C1.Win.C1Input.ComboItemMode.HtmlPattern
+            CboUsuarios.HtmlPattern = "<table><tr><td width=30>{Coordinador}</td><td width=350>{Nombre}</td><td width=1000></tr></table>"
+            CboUsuarios.SelectedIndex = 0
         Catch ex As Exception
             Bitacora("27. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("27. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -196,8 +209,7 @@ Public Class frmAsigGastosImprimir
         Try
             Try
                 Dim RUTA_FORMATOS As String, CVE_STATUS As Integer, CVE_STATUS2 As Integer, CVE_ST As String, ST_GASTOS As String, ST_GASTOS2 As String
-                Dim CVE_VIAJE2 As String, VAR_ST_GASTOS As String, PDF As String, CVE_OPER1 As Integer = 0, CVE_OPER2 As Integer = 0
-
+                Dim CVE_VIAJE2 As String, VAR_ST_GASTOS As String, PDF As String, CVE_OPER1 As Integer = 0, CVE_OPER2 As Integer = 0, COORDINADOR As String
 
                 If tCVE_OPER.Text.Trim.Length = 0 Then
                     CVE_OPER1 = 0
@@ -219,6 +231,7 @@ Public Class frmAsigGastosImprimir
                 End If
 
                 CVE_STATUS = CInt(cboStatus.Items(cboStatus.SelectedIndex))
+                COORDINADOR = CStr(CboUsuarios.Items(CboUsuarios.SelectedIndex))
 
                 If cboStatus.SelectedIndex = 0 Then
                     CVE_STATUS = 0
@@ -247,44 +260,52 @@ Public Class frmAsigGastosImprimir
                     Return
                 End If
 
-                Dim Reporte As New StiReport
+                'Dim Reporte As New StiReport
 
-                Reporte.Load(RUTA_FORMATOS)
+                StiReport1.Load(RUTA_FORMATOS)
 
                 Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
                     Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
 
-                Reporte.Dictionary.Databases.Clear()
-                Reporte.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
+                StiReport1.Dictionary.Databases.Clear()
+                StiReport1.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
 
-                Reporte.Compile()
-                Reporte.ReportName = Me.Text
+                StiReport1.ReportName = "Gastos"
+                StiReport1.Compile()
+                StiReport1.Dictionary.Synchronize()
 
-                Reporte.Dictionary.Synchronize()
 
-                Reporte.Item("CVE_VIAJE") = tCVE_VIAJE.Text
-                Reporte.Item("CVE_VIAJE2") = CVE_VIAJE2
-                Reporte.Item("FECHA1") = F1.Value
-                Reporte.Item("FECHA2") = F2.Value
-                Reporte.Item("CVE_ESTATUS") = CVE_STATUS
-                Reporte.Item("CVE_ESTATUS2") = CVE_STATUS2
-                Reporte.Item("ST_GASTOS") = ST_GASTOS
-                Reporte.Item("ST_GASTOS2") = ST_GASTOS2
-                Reporte.Item("CVE_OPER1") = CVE_OPER1
-                Reporte.Item("CVE_OPER2") = CVE_OPER2
+                StiReport1.Item("CVE_VIAJE") = tCVE_VIAJE.Text
+                StiReport1.Item("CVE_VIAJE2") = CVE_VIAJE2
+                StiReport1.Item("FECHA1") = F1.Value
+                StiReport1.Item("FECHA2") = F2.Value
+                StiReport1.Item("CVE_ESTATUS") = CVE_STATUS
+                StiReport1.Item("CVE_ESTATUS2") = CVE_STATUS2
+                StiReport1.Item("ST_GASTOS") = ST_GASTOS
+                StiReport1.Item("ST_GASTOS2") = ST_GASTOS2
+                StiReport1.Item("CVE_OPER1") = CVE_OPER1
+                StiReport1.Item("CVE_OPER2") = CVE_OPER2
 
-                Reporte("CVE_VIAJE_V1") = tCVE_VIAJE.Text
-                Reporte("CVE_VIAJE_V2") = tCVE_VIAJE2.Text
-                Reporte("F1") = F1.Value.ToString.Substring(0, 10)
-                Reporte("F2") = F2.Value.ToString.Substring(0, 10)
-                Reporte("CVE_ST") = CVE_ST
-                Reporte("VAR_ST_GASTOS") = VAR_ST_GASTOS
-                Reporte("OPERADOR") = LOper.Text
+                StiReport1("CVE_VIAJE_V1") = tCVE_VIAJE.Text
+                StiReport1("CVE_VIAJE_V2") = tCVE_VIAJE2.Text
+                StiReport1("F1") = FSQL(F1.Value.ToString.Substring(0, 10))
+                StiReport1("F2") = FSQL(F2.Value.ToString.Substring(0, 10))
+                StiReport1("CVE_ST") = CVE_ST
+                StiReport1("VAR_ST_GASTOS") = VAR_ST_GASTOS
+                StiReport1("OPERADOR") = LOper.Text
 
-                Reporte.Render()
+                If COORDINADOR.Trim.Length > 0 Then
+                    StiReport1("COORDINADOR1") = COORDINADOR
+                    StiReport1("COORDINADOR2") = COORDINADOR
+                Else
+                    StiReport1("COORDINADOR1") = ""
+                    StiReport1("COORDINADOR2") = "zzzzzzzzzz"
+                End If
+
+                StiReport1.Render()
                 'Reporte.Show()
 
-                VisualizaReporte(Reporte)
+                VisualizaReporte(StiReport1)
 
                 Try
                     If chEnviaXCorreo.Checked Then
@@ -297,13 +318,11 @@ Public Class frmAsigGastosImprimir
                             End If
                             PDF = GET_RUTA_FORMATOS() & "\ReportGastosDeViajeG.pdf"
 
-                            Dim aCorreo As New ArrayList From {
-                                PDF
-                            }
+                            Dim aCorreo As New ArrayList From {PDF}
 
-                            Reporte.ExportDocument(StiExportFormat.Pdf, PDF)
+                            StiReport1.ExportDocument(StiExportFormat.Pdf, PDF)
                             SendEmail(tCORREO.Text, "Reporte vale de combustible", "Buen dia " & vbNewLine &
-                                 "Adjunto se envia el reporte de vale de combustible" & vbNewLine & "Gracias", aCorreo)
+                                 "Adjunto se envía el reporte de vale de combustible" & vbNewLine & "Gracias", aCorreo)
 
                         Catch ex As Exception
                             Bitacora("630. " & ex.Message & vbNewLine & ex.StackTrace)

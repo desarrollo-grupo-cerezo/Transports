@@ -691,10 +691,49 @@ Public Class frmFACTURAS
     End Sub
 
     Private Sub BarImprimir_Click(sender As Object, e As ClickEventArgs) Handles BarImprimir.Click
-
+        Dim RFC As String
         Try
             If Fg.Row > 0 Then
-                IMPRIMIR_CFDI_40(Fg(Fg.Row, 1), "FACTURAS")
+                Dim EXIST_DOC As Boolean = False
+                Try
+                    Using cmd As SqlCommand = cnSAE.CreateCommand
+                        SQL = "SELECT FACTURA FROM CFDI                             
+                            WHERE FACTURA = '" & Fg(Fg.Row, 1) & "'"
+                        cmd.CommandText = SQL
+                        Using dr As SqlDataReader = cmd.ExecuteReader
+                            If dr.Read Then
+                                EXIST_DOC = True
+                            End If
+                        End Using
+                    End Using
+                Catch ex As Exception
+                    Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                    MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+                End Try
+
+                PassData1 = "FACTURA"
+                If EXIST_DOC Then
+                    IMPRIMIR_CFDI_40(Fg(Fg.Row, 1), "FACTURA")
+                Else
+
+                    Try
+                        Using cmd As SqlCommand = cnSAE.CreateCommand
+                            SQL = "SELECT RFC FROM FACTF" & Empresa & " WHERE CVE_DOC = '" & Fg(Fg.Row, 1) & "'"
+                            cmd.CommandText = SQL
+                            Using dr As SqlDataReader = cmd.ExecuteReader
+                                If dr.Read Then
+                                    RFC = dr("RFC")
+                                End If
+                            End Using
+                        End Using
+                    Catch ex As Exception
+                        Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+                    End Try
+
+                    IMPRIMIR_CFDI_DIRECTO(Fg(Fg.Row, 1), "PDF", "", RFC)
+                End If
+
             Else
                 MsgBox("Por favor seleccione el documento a timbrar")
             End If

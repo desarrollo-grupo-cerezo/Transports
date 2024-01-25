@@ -47,6 +47,8 @@ Partial Class FrmPagoMultidocCxP
         Me.BtnDocto = New C1.Win.C1Input.C1Button()
         Me.BtnProv = New C1.Win.C1Input.C1Button()
         Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
+        Me.CboCuentabancaria = New C1.Win.C1Input.C1ComboBox()
+        Me.Label7 = New System.Windows.Forms.Label()
         Me.BarraMenu.SuspendLayout()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FECHA_DEP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -57,6 +59,7 @@ Partial Class FrmPagoMultidocCxP
         CType(Me.BtnDocto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnProv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboCuentabancaria, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'BarraMenu
@@ -187,7 +190,7 @@ Partial Class FrmPagoMultidocCxP
         Me.TDOCTO.AcceptsReturn = True
         Me.TDOCTO.AcceptsTab = True
         Me.TDOCTO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TDOCTO.Location = New System.Drawing.Point(110, 199)
+        Me.TDOCTO.Location = New System.Drawing.Point(110, 225)
         Me.TDOCTO.Name = "TDOCTO"
         Me.TDOCTO.Size = New System.Drawing.Size(132, 22)
         Me.TDOCTO.TabIndex = 4
@@ -196,7 +199,7 @@ Partial Class FrmPagoMultidocCxP
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(13, 202)
+        Me.Label4.Location = New System.Drawing.Point(13, 228)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(93, 16)
         Me.Label4.TabIndex = 304
@@ -387,7 +390,7 @@ Partial Class FrmPagoMultidocCxP
         Me.BtnDocto.AutoSize = True
         Me.BtnDocto.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnDocto.Image = CType(resources.GetObject("BtnDocto.Image"), System.Drawing.Image)
-        Me.BtnDocto.Location = New System.Drawing.Point(245, 198)
+        Me.BtnDocto.Location = New System.Drawing.Point(245, 224)
         Me.BtnDocto.Name = "BtnDocto"
         Me.BtnDocto.Size = New System.Drawing.Size(22, 22)
         Me.BtnDocto.TabIndex = 10
@@ -421,7 +424,7 @@ Partial Class FrmPagoMultidocCxP
         Me.Fg.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Heavy
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Fg.KeyActionEnter = C1.Win.C1FlexGrid.KeyActionEnum.None
-        Me.Fg.Location = New System.Drawing.Point(12, 227)
+        Me.Fg.Location = New System.Drawing.Point(12, 253)
         Me.Fg.Name = "Fg"
         Me.Fg.PreserveEditMode = True
         Me.Fg.Rows.DefaultSize = 24
@@ -432,12 +435,45 @@ Partial Class FrmPagoMultidocCxP
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 5
         '
+        'CboCuentabancaria
+        '
+        Me.CboCuentabancaria.AcceptsTab = True
+        Me.CboCuentabancaria.AllowSpinLoop = False
+        Me.CboCuentabancaria.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.CboCuentabancaria.Cursor = System.Windows.Forms.Cursors.Arrow
+        Me.CboCuentabancaria.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
+        Me.CboCuentabancaria.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboCuentabancaria.GapHeight = 0
+        Me.CboCuentabancaria.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.CboCuentabancaria.ItemsDisplayMember = ""
+        Me.CboCuentabancaria.ItemsValueMember = ""
+        Me.CboCuentabancaria.Location = New System.Drawing.Point(110, 198)
+        Me.CboCuentabancaria.MaxDropDownItems = 15
+        Me.CboCuentabancaria.Name = "CboCuentabancaria"
+        Me.CboCuentabancaria.Size = New System.Drawing.Size(341, 20)
+        Me.CboCuentabancaria.TabIndex = 4
+        Me.CboCuentabancaria.Tag = Nothing
+        Me.CboCuentabancaria.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.CboCuentabancaria.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(19, 200)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(87, 16)
+        Me.Label7.TabIndex = 377
+        Me.Label7.Text = "Cta. Bancaria"
+        '
         'FrmPagoMultidocCxP
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CausesValidation = False
-        Me.ClientSize = New System.Drawing.Size(797, 509)
+        Me.ClientSize = New System.Drawing.Size(797, 534)
+        Me.Controls.Add(Me.CboCuentabancaria)
+        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.TXTN)
         Me.Controls.Add(Me.TXT)
         Me.Controls.Add(Me.Label5)
@@ -480,6 +516,7 @@ Partial Class FrmPagoMultidocCxP
         CType(Me.BtnDocto, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnProv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboCuentabancaria, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -512,4 +549,6 @@ Partial Class FrmPagoMultidocCxP
     Friend WithEvents Label5 As Label
     Friend WithEvents TXT As C1.Win.C1Input.C1TextBox
     Friend WithEvents TXTN As C1.Win.C1Input.C1NumericEdit
+    Friend WithEvents CboCuentabancaria As C1.Win.C1Input.C1ComboBox
+    Friend WithEvents Label7 As Label
 End Class

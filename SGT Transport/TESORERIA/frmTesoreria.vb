@@ -348,7 +348,7 @@ Public Class FrmTesoreria
 
                         If Fg(k, 1) Then
                             Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                                SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET AUTORIZADO = 1, ST_GASTOS = 'AUTORIZADO', USUARIO1 = '" & USER_GRUPOCE & "',
+                                SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET AUTORIZADO = 1, ST_GASTOS = 'AUTORIZADO', USUARIO2 = '" & USER_GRUPOCE & "',
                                     FECHA_AUT = '" & Date.Now.ToString("yyyyMMdd", CultureInfo.InvariantCulture) & "' 
                                     WHERE CVE_VIAJE = '" & Fg(k, 4) & "' AND FOLIO = '" & Fg(k, 2) & "'"
                                 cmd2.CommandText = SQL
@@ -457,7 +457,7 @@ Public Class FrmTesoreria
                             Return
                         End If
                         Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                            SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET AUTORIZADO = 0, ST_GASTOS = 'EDICION', USUARIO1 = ''
+                            SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET AUTORIZADO = 0, ST_GASTOS = 'EDICION'
                                 WHERE CVE_VIAJE = '" & Fg(Fg.Row, 4) & "' AND FOLIO = '" & Fg(Fg.Row, 2) & "'"
                             cmd2.CommandText = SQL
                             returnValue = cmd2.ExecuteNonQuery().ToString
@@ -498,7 +498,7 @@ Public Class FrmTesoreria
                             Return
                         End If
                         Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                            SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET AUTORIZADO = 0, ST_GASTOS = 'ACEPTADO', USUARIO1 = '', FECHA_AUT = NULL WHERE
+                            SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET AUTORIZADO = 0, ST_GASTOS = 'ACEPTADO', FECHA_AUT = NULL WHERE
                                 CVE_VIAJE = '" & FgA(FgA.Row, 5) & "' AND FOLIO = '" & FgA(FgA.Row, 2) & "'"
                             cmd2.CommandText = SQL
                             returnValue = cmd2.ExecuteNonQuery().ToString

@@ -25,16 +25,13 @@ Public Class FrmBuenoRepFactura
             F2.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
             F2.EditFormat.CustomFormat = "dd/MM/yyyy"
             Me.CenterToScreen()
+            'Dim N = DateTime.Now.AddMonths(-1)
+            'Dim D1 As String, D2 As String
+            ' d1 = "01/" & Format(N.Month, "00") & "/" & N.Year
+            'd2 = Format(DateTime.DaysInMonth(N.Year, N.Month), "00") & "/" & Format(N.Month, "00") & "/" & N.Year
 
-            Dim N = DateTime.Now.AddMonths(-1)
-            Dim D1 As String, D2 As String
-
-            D1 = "01/" & Format(N.Month, "00") & "/" & N.Year
-            D2 = Format(DateTime.DaysInMonth(N.Year, N.Month), "00") & "/" & Format(N.Month, "00") & "/" & N.Year
-
-            F1.Value = D1
-            F2.Value = D2
-
+            'F1.Value = D1
+            'F2.Value = D2
             If PASS_GRUPOCE.ToUpper = "BUS" Or PASS_GRUPOCE.ToUpper = "BR3FRAJA" Then
                 BarDiseno.Visible = True
             Else
@@ -109,15 +106,15 @@ Public Class FrmBuenoRepFactura
         'Diseñador
         Select Case VarFORM2
             Case "1"
-                PrinterMRT("ReporteF1.mrt")
+                PrinterMRT("ReporteF1")
             Case "2"
-                PrinterMRT("ReporteF2.mrt")
+                PrinterMRT("ReporteF2")
             Case "3"
-                PrinterMRT("ReporteF3.mrt")
+                PrinterMRT("ReporteF3")
             Case "4"
-                PrinterMRT("ReporteF4.mrt")
+                PrinterMRT("ReporteF4")
             Case "5"
-                PrinterMRT("ReporteF5.mrt")
+                PrinterMRT("ReporteF5")
         End Select
     End Sub
 End Class

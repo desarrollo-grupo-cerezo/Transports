@@ -51,6 +51,12 @@ Public Class FrmPagoMultidocCxP
 
         'Fg.Cols(6).Visible = False
 
+        If Not CargaCuentasBancarias() Then
+            MsgBox("No existen cuentas bancarias registradas, favor de verificar")
+            Me.Close()
+            Return
+        End If
+
         If Var10 = "Compra" Then
             TPROV.Enabled = False
             TDOCTO.Enabled = False
@@ -89,6 +95,7 @@ Public Class FrmPagoMultidocCxP
 
         Dim j As Integer, NUM_CPTO As Integer, IMPORTE As Decimal, NUM_PAGOS As Integer, SUMAPAGOS As Decimal
         Dim FORMAPAGO As String, DOCTO As String, REFER As String, NUM_CARGO As Integer
+        Dim CVE_CTA As String
 
         If MsgBox("Realmente desea realizar el pago?", vbYesNo) = vbNo Then
             Return
@@ -115,6 +122,13 @@ Public Class FrmPagoMultidocCxP
 
             DOCTO = TDOCTO.Text
 
+            If CboCuentabancaria.SelectedIndex = -1 Then
+                MsgBox("Por favor selecciones una cuenta bancaria")
+                Return
+            End If
+
+            CVE_CTA = Split(CboCuentabancaria.Text, "|")(0).Trim
+
             NUM_PAGOS = 0 : SUMAPAGOS = 0
             ENTRA = False
             For j = 1 To Fg.Rows.Count - 1
@@ -138,7 +152,7 @@ Public Class FrmPagoMultidocCxP
 
                 If REFER.Trim.Length > 0 And IMPORTE > 0 Then
                     SUMAPAGOS = SUMAPAGOS + IMPORTE
-                    PAGA_DET_COM(REFER, IMPORTE, NUM_CPTO, DOCTO, NUM_CARGO)
+                    PAGA_DET_COM(REFER, IMPORTE, NUM_CPTO, DOCTO, NUM_CARGO, CVE_CTA)
                     NUM_PAGOS = NUM_PAGOS + 1
                 End If
             Next
@@ -153,7 +167,7 @@ Public Class FrmPagoMultidocCxP
             MsgBox("10. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
-    Sub PAGA_DET_COM(fCVE_DOC As String, fIMPORTE As Decimal, fNUM_CPTO As Integer, fDOCTO As String, FNUM_CARGO As Integer)
+    Sub PAGA_DET_COM(fCVE_DOC As String, fIMPORTE As Decimal, fNUM_CPTO As Integer, fDOCTO As String, FNUM_CARGO As Integer, FCVE_CTA As String)
 
         Dim CVE_CLIE As String, REFER As String, ID_MOV As Integer, NUM_CPTO As Integer, NUM_CARGO As Integer, CVE_OBS As Long, NO_FACTURA As String
         Dim IMPORTE As Decimal, AFEC_COI As String, NUM_MONED As Integer, TCAMBIO As Decimal, IMPMON_EXT As Decimal, CTLPOL As Integer
@@ -182,12 +196,12 @@ Public Class FrmPagoMultidocCxP
 
             SQL = "INSERT INTO PAGA_DET" & Empresa & " (CVE_PROV, REFER, ID_MOV, NUM_CPTO, NUM_CARGO, CVE_OBS, NO_FACTURA, DOCTO, 
                 IMPORTE, FECHA_APLI, FECHA_VENC, AFEC_COI, NUM_MONED, TCAMBIO, IMPMON_EXT, FECHAELAB, CTLPOL, CVE_FOLIO, TIPO_MOV, 
-                SIGNO, CVE_AUT, USUARIO, REF_SIST, NO_PARTIDA) VALUES('" & CVE_CLIE & "','" & REFER & "','" & ID_MOV & "','" &
+                SIGNO, CVE_AUT, USUARIO, REF_SIST, NO_PARTIDA, CVE_CTA) VALUES('" & CVE_CLIE & "','" & REFER & "','" & ID_MOV & "','" &
                 NUM_CPTO & "','" & NUM_CARGO & "','" & CVE_OBS & "','" & NO_FACTURA & "','" & fDOCTO & "','" &
                 Math.Round(IMPORTE, 6) & "','" & FSQL(FECHA_DEP.Value) & "','" & FSQL(F1.Value) & "','" & AFEC_COI & "','" &
                 NUM_MONED & "','" & TCAMBIO & "','" & Math.Round(IMPORTE, 6) & "',GETDATE(),'" & CTLPOL & "','" &
                 CVE_FOLIO & "','" & TIPO_MOV & "','" & SIGNO & "','" & CVE_AUT & "','" & Usuario2 & "','" & REF_SIST & "',
-                ISNULL((SELECT MAX(NO_PARTIDA) + 1 FROM PAGA_DET" & Empresa & " WHERE REFER = '" & REFER & "' AND CVE_PROV = '" & CVE_CLIE & "'),1))"
+                ISNULL((SELECT MAX(NO_PARTIDA) + 1 FROM PAGA_DET" & Empresa & " WHERE REFER = '" & REFER & "' AND CVE_PROV = '" & CVE_CLIE & "'),1), '" & FCVE_CTA & "')"
 
             cmd.CommandText = SQL
             returnValue = cmd.ExecuteNonQuery().ToString
@@ -1100,5 +1114,38 @@ Public Class FrmPagoMultidocCxP
             Bitacora("580. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
+
+    Private Function CargaCuentasBancarias() As Boolean
+        Try
+            Dim dt As DataTable
+            Dim exist As Boolean = False
+
+            CboCuentabancaria.Items.Clear()
+
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT TRY_PARSE(ISNULL(CLAVE,'0') AS INT) AS CVE, CUENTA_BANCARIA, ISNULL(NOMBRE_BANCO,'') AS NOMBRE
+                    FROM CUENTA_BENEF" & Empresa & " 
+                    WHERE ISNULL(STATUS,'A') = 'A' 
+                    ORDER BY TRY_PARSE(CLAVE AS INT)"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+                        CboCuentabancaria.Items.Add(String.Format("{0} | {1} | {2}", dr("CVE"), dr("CUENTA_BANCARIA"), dr("NOMBRE")))
+                        exist = True
+                    End While
+                End Using
+            End Using
+
+            If CboCuentabancaria.Items.Count = 1 Then
+                CboCuentabancaria.SelectedIndex = 0
+            End If
+
+            Return exist
+        Catch ex As Exception
+            Bitacora("40. ex.Message: " & ex.Message & vbNewLine & "" & ex.StackTrace)
+            MsgBox("40. ex.Message: " & ex.Message & vbNewLine & "" & ex.StackTrace)
+            Return False
+        End Try
+    End Function
 End Class
 

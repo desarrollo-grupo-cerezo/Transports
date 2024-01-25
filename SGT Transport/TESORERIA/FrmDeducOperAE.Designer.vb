@@ -25,11 +25,13 @@ Partial Class FrmDeducOperAE
         Me.BarCancelar = New C1.Win.C1Command.C1Command()
         Me.BarSaldoOper = New C1.Win.C1Command.C1Command()
         Me.BarSalir = New C1.Win.C1Command.C1Command()
+        Me.BarImprimir = New C1.Win.C1Command.C1Command()
         Me.C1ToolBar1 = New C1.Win.C1Command.C1ToolBar()
         Me.LkGrabar = New C1.Win.C1Command.C1CommandLink()
         Me.LkCancelar = New C1.Win.C1Command.C1CommandLink()
         Me.LkSaldoOper = New C1.Win.C1Command.C1CommandLink()
         Me.LkSalir = New C1.Win.C1Command.C1CommandLink()
+        Me.LkImprimir = New C1.Win.C1Command.C1CommandLink()
         Me.LOper = New System.Windows.Forms.Label()
         Me.TCVE_OPER = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -52,6 +54,9 @@ Partial Class FrmDeducOperAE
         Me.Split1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.Split2 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.Split3 = New C1.Win.C1SplitContainer.C1SplitterPanel()
+        Me.StiReport1 = New Stimulsoft.Report.StiReport()
+        Me.LkDisenador = New C1.Win.C1Command.C1CommandLink()
+        Me.BarDisenador = New C1.Win.C1Command.C1Command()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TIMPORTE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -73,11 +78,13 @@ Partial Class FrmDeducOperAE
         Me.MenuHolder.Commands.Add(Me.BarCancelar)
         Me.MenuHolder.Commands.Add(Me.BarSaldoOper)
         Me.MenuHolder.Commands.Add(Me.BarSalir)
+        Me.MenuHolder.Commands.Add(Me.BarImprimir)
+        Me.MenuHolder.Commands.Add(Me.BarDisenador)
         Me.MenuHolder.Owner = Me
         '
         'BarGrabar
         '
-        Me.BarGrabar.Image = Global.SGT_Transport.My.Resources.Resources.salvar
+        Me.BarGrabar.Image = Global.SGT_Transport.My.Resources.Resources.disco1
         Me.BarGrabar.Name = "BarGrabar"
         Me.BarGrabar.Shortcut = System.Windows.Forms.Shortcut.F3
         Me.BarGrabar.ShortcutText = ""
@@ -112,6 +119,13 @@ Partial Class FrmDeducOperAE
         Me.BarSalir.ShowTextAsToolTip = False
         Me.BarSalir.Text = "Salir"
         '
+        'BarImprimir
+        '
+        Me.BarImprimir.Image = Global.SGT_Transport.My.Resources.Resources.impresora27
+        Me.BarImprimir.Name = "BarImprimir"
+        Me.BarImprimir.ShortcutText = ""
+        Me.BarImprimir.Text = "Imprimir"
+        '
         'C1ToolBar1
         '
         Me.C1ToolBar1.AccessibleName = "Tool Bar"
@@ -124,12 +138,12 @@ Partial Class FrmDeducOperAE
         Me.C1ToolBar1.ButtonLookVert = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.C1ToolBar1.ButtonWidth = 95
         Me.C1ToolBar1.CommandHolder = Nothing
-        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkGrabar, Me.LkCancelar, Me.LkSaldoOper, Me.LkSalir})
+        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkGrabar, Me.LkCancelar, Me.LkSaldoOper, Me.LkImprimir, Me.LkDisenador, Me.LkSalir})
         Me.C1ToolBar1.Dock = System.Windows.Forms.DockStyle.Top
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.C1ToolBar1.Movable = False
         Me.C1ToolBar1.Name = "C1ToolBar1"
-        Me.C1ToolBar1.Size = New System.Drawing.Size(1055, 43)
+        Me.C1ToolBar1.Size = New System.Drawing.Size(1300, 43)
         Me.C1ToolBar1.Text = "C1ToolBar1"
         Me.C1ToolBar1.VisualStyle = C1.Win.C1Command.VisualStyle.Office2010Blue
         Me.C1ToolBar1.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
@@ -162,8 +176,14 @@ Partial Class FrmDeducOperAE
         Me.LkSalir.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.LkSalir.Command = Me.BarSalir
         Me.LkSalir.Delimiter = True
-        Me.LkSalir.SortOrder = 3
+        Me.LkSalir.SortOrder = 5
         Me.LkSalir.ToolTipText = "SALIR"
+        '
+        'LkImprimir
+        '
+        Me.LkImprimir.Command = Me.BarImprimir
+        Me.LkImprimir.Delimiter = True
+        Me.LkImprimir.SortOrder = 3
         '
         'LOper
         '
@@ -350,7 +370,7 @@ Partial Class FrmDeducOperAE
         Me.Fg.Rows.DefaultSize = 19
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg.Size = New System.Drawing.Size(1053, 231)
+        Me.Fg.Size = New System.Drawing.Size(1298, 278)
         Me.Fg.TabIndex = 5
         Me.Fg.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Custom
         '
@@ -367,7 +387,7 @@ Partial Class FrmDeducOperAE
         Me.Fg2.Rows.DefaultSize = 19
         Me.Fg2.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row
         Me.Fg2.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg2.Size = New System.Drawing.Size(1053, 206)
+        Me.Fg2.Size = New System.Drawing.Size(1298, 247)
         Me.Fg2.TabIndex = 536
         Me.Fg2.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Custom
         '
@@ -409,7 +429,7 @@ Partial Class FrmDeducOperAE
         Me.C1SplitContainer1.Panels.Add(Me.Split1)
         Me.C1SplitContainer1.Panels.Add(Me.Split2)
         Me.C1SplitContainer1.Panels.Add(Me.Split3)
-        Me.C1SplitContainer1.Size = New System.Drawing.Size(1055, 534)
+        Me.C1SplitContainer1.Size = New System.Drawing.Size(1300, 640)
         Me.C1SplitContainer1.SplitterColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
         Me.C1SplitContainer1.TabIndex = 538
         Me.C1SplitContainer1.ToolTipGradient = C1.Win.C1SplitContainer.ToolTipGradient.Blue
@@ -434,10 +454,10 @@ Partial Class FrmDeducOperAE
         Me.Split1.Controls.Add(Me.BtnDeduc)
         Me.Split1.Controls.Add(Me.Label7)
         Me.Split1.Controls.Add(Me.F1)
-        Me.Split1.Height = 87
+        Me.Split1.Height = 105
         Me.Split1.Location = New System.Drawing.Point(1, 1)
         Me.Split1.Name = "Split1"
-        Me.Split1.Size = New System.Drawing.Size(1053, 87)
+        Me.Split1.Size = New System.Drawing.Size(1298, 105)
         Me.Split1.SizeRatio = 16.569R
         Me.Split1.TabIndex = 0
         '
@@ -445,10 +465,10 @@ Partial Class FrmDeducOperAE
         '
         Me.Split2.AutoScroll = True
         Me.Split2.Controls.Add(Me.Fg)
-        Me.Split2.Height = 231
-        Me.Split2.Location = New System.Drawing.Point(1, 92)
+        Me.Split2.Height = 278
+        Me.Split2.Location = New System.Drawing.Point(1, 110)
         Me.Split2.Name = "Split2"
-        Me.Split2.Size = New System.Drawing.Size(1053, 231)
+        Me.Split2.Size = New System.Drawing.Size(1298, 278)
         Me.Split2.SizeRatio = 52.927R
         Me.Split2.TabIndex = 1
         '
@@ -456,18 +476,45 @@ Partial Class FrmDeducOperAE
         '
         Me.Split3.AutoScroll = True
         Me.Split3.Controls.Add(Me.Fg2)
-        Me.Split3.Height = 206
-        Me.Split3.Location = New System.Drawing.Point(1, 327)
+        Me.Split3.Height = 247
+        Me.Split3.Location = New System.Drawing.Point(1, 392)
         Me.Split3.Name = "Split3"
-        Me.Split3.Size = New System.Drawing.Size(1053, 206)
+        Me.Split3.Size = New System.Drawing.Size(1298, 247)
         Me.Split3.SizeRatio = 35.0R
         Me.Split3.TabIndex = 2
+        '
+        'StiReport1
+        '
+        Me.StiReport1.CookieContainer = Nothing
+        Me.StiReport1.EngineVersion = Stimulsoft.Report.Engine.StiEngineVersion.EngineV2
+        Me.StiReport1.ReferencedAssemblies = New String() {"System.Dll", "System.Drawing.Dll", "System.Windows.Forms.Dll", "System.Data.Dll", "System.Xml.Dll", "Stimulsoft.Controls.Dll", "Stimulsoft.Base.Dll", "Stimulsoft.Report.Dll"}
+        Me.StiReport1.ReportAlias = "Report"
+        Me.StiReport1.ReportGuid = "1a0f9518989b48039d50f5bb671d869e"
+        Me.StiReport1.ReportImage = Nothing
+        Me.StiReport1.ReportName = "Report"
+        Me.StiReport1.ReportSource = Nothing
+        Me.StiReport1.ReportUnit = Stimulsoft.Report.StiReportUnitType.Centimeters
+        Me.StiReport1.ScriptLanguage = Stimulsoft.Report.StiReportLanguageType.CSharp
+        Me.StiReport1.UseProgressInThread = False
+        '
+        'LkDisenador
+        '
+        Me.LkDisenador.Command = Me.BarDisenador
+        Me.LkDisenador.Delimiter = True
+        Me.LkDisenador.SortOrder = 4
+        '
+        'BarDisenador
+        '
+        Me.BarDisenador.Image = Global.SGT_Transport.My.Resources.Resources.diseñador
+        Me.BarDisenador.Name = "BarDisenador"
+        Me.BarDisenador.ShortcutText = ""
+        Me.BarDisenador.Text = "Diseñador"
         '
         'FrmDeducOperAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1055, 577)
+        Me.ClientSize = New System.Drawing.Size(1300, 683)
         Me.Controls.Add(Me.C1SplitContainer1)
         Me.Controls.Add(Me.C1ToolBar1)
         Me.DoubleBuffered = True
@@ -527,4 +574,9 @@ Partial Class FrmDeducOperAE
     Friend WithEvents Split1 As C1.Win.C1SplitContainer.C1SplitterPanel
     Friend WithEvents Split2 As C1.Win.C1SplitContainer.C1SplitterPanel
     Friend WithEvents Split3 As C1.Win.C1SplitContainer.C1SplitterPanel
+    Friend WithEvents BarImprimir As C1.Win.C1Command.C1Command
+    Friend WithEvents LkImprimir As C1.Win.C1Command.C1CommandLink
+    Friend WithEvents StiReport1 As Stimulsoft.Report.StiReport
+    Friend WithEvents BarDisenador As C1.Win.C1Command.C1Command
+    Friend WithEvents LkDisenador As C1.Win.C1Command.C1CommandLink
 End Class

@@ -123,7 +123,7 @@ Public Class FrmAsignacionViaje
                 CASE WHEN A.STATUS = 'C' THEN 'CANCELADO' ELSE (CAST(A.CVE_ST_VIA AS VARCHAR(6)) + '. ' + S.DESCR) END AS 'Estatus viaje', 
                 O.NOMBRE AS 'Operador', R1.NOTA 'Alias origen', R2.NOTA AS 'Alias destino', 
                 CASE WHEN A.FOLIO = 0 THEN '' ELSE A.SERIE + CAST(A.FOLIO AS VARCHAR(10)) END AS 'Factura', 
-                ISNULL(R.DESCR,'') AS 'Ruta', ISNULL(R.DESCR2,'') AS 'Ruta 2', A.ORDEN_DE AS 'Orden de'
+                ISNULL(R.DESCR,'') AS 'Ruta', ISNULL(R.DESCR2,'') AS 'Ruta 2', A.USUARIO AS 'Usuaio', A.CVE_OPER AS 'Clave oper.'
                 FROM GCASIGNACION_VIAJE A 
                 LEFT JOIN CLIE" & Empresa & " C ON C.CLAVE = A.CLIENTE
                 LEFT JOIN GCTAB_RUTAS_F R ON R.CVE_TAB = A.CVE_TAB
@@ -148,6 +148,8 @@ Public Class FrmAsignacionViaje
 
             If TAB1.SelectedIndex = 0 Then
                 Fg.DataSource = BindingSource1.DataSource
+
+                Fg.Cols(21).Visible = False
 
                 Fg.Cols(1).StarWidth = "*"
                 Fg.Cols(2).StarWidth = "*"
@@ -708,6 +710,7 @@ Public Class FrmAsignacionViaje
                 colFilter.ConditionFilter.Condition1.Parameter = TBUSCAR.Text
                 colFilter.ConditionFilter.Condition1.[Operator] = ConditionOperator.Contains   '  .BeginsWith
                 Fg.Cols("Clave viaje").Filter = colFilter
+                'Fg.Cols("Tractor").Filter = colFilter
             End If
         Catch ex As Exception
             Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -751,7 +754,84 @@ Public Class FrmAsignacionViaje
                 Else
                     MsgBox("Por favor seleccione un registro")
                 End If
+            Else
+                BarActualizar_Click(Nothing, Nothing)
             End If
         End If
+    End Sub
+
+    Private Sub BarImpLiquidacion_Click(sender As Object, e As EventArgs) Handles BarImpLiquidacion.Click
+        Dim RUTA_FORMATOS As String = "", CVE_LIQ As String = "", CVE_OPER As Integer, CVE_TRACTOR As String
+
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT CVE_LIQ FROM GCLIQ_PARTIDAS WHERE CVE_VIAJE = " & CLng(Fg(Fg.Row, 1))
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    If dr.Read Then
+                        CVE_LIQ = dr.ReadNullAsEmptyString("CVE_LIQ")
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+
+
+        If CVE_LIQ.Trim.Length > 0 Then
+
+            CVE_OPER = Fg(Fg.Row, 6)
+            CVE_TRACTOR = Fg(Fg.Row, 21)
+
+            Try
+                RUTA_FORMATOS = GET_RUTA_FORMATOS() & "\ReportLiquidacion.mrt"
+                If Not IO.File.Exists(RUTA_FORMATOS) Then
+                    MsgBox("No existe el reporte " & RUTA_FORMATOS & ", verifique por favor")
+                    Return
+                End If
+
+                StiReport1.Load(RUTA_FORMATOS)
+
+                Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
+                    Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
+
+                StiReport1.Dictionary.Databases.Clear()
+                StiReport1.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
+
+                StiReport1.Compile()
+                StiReport1.Dictionary.Synchronize()
+                StiReport1.ReportName = Me.Text
+                StiReport1.Item("CVE_LIQ1") = CLng(CVE_LIQ)
+                StiReport1.Item("CVE_LIQ2") = CLng(CVE_LIQ)
+                StiReport1.Item("CVE_LIQ3") = CLng(CVE_LIQ)
+                StiReport1.Item("CVE_LIQ4") = CLng(CVE_LIQ)
+                StiReport1.Item("CVE_LIQ5") = CLng(CVE_LIQ)
+                StiReport1.Item("CVE_OPER") = CLng(CVE_OPER)
+                StiReport1.Item("CVE_TRACTOR") = CVE_TRACTOR
+                StiReport1.Item("CVE_OPER_DED") = CLng(CVE_OPER)
+                StiReport1.Render()
+                'StiReport1.Print(True)
+                VisualizaReporte(StiReport1)
+
+            Catch ex As Exception
+                BITACORA_LIQ("1840. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & RUTA_FORMATOS)
+                MsgBox("1840. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+        Else
+            MsgBox("No se encontraron liquidación de este viaje")
+        End If
+    End Sub
+
+    Private Sub BtnBuscaGen_Click(sender As Object, e As EventArgs)
+        TBUSCAR.Text = ""
+        Fg.ClearFilter()
+        Fg.Focus()
+
+        BarActualizar_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub TBUSCA_GEN_TextChanged(sender As Object, e As EventArgs)
+
     End Sub
 End Class

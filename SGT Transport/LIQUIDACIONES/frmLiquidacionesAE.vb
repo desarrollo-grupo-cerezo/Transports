@@ -9,7 +9,6 @@ Public Class FrmLiquidacionesAE
     Private SHOW_MENSAJE As String = ""
     Private IsNew As Boolean = False
     Private ENTRA_VA As Boolean = False
-
     Private PRECIO_X_LTS As Decimal = 0
     Private ENTRA As Boolean
     Private ENTRA_D As Boolean
@@ -91,7 +90,30 @@ Public Class FrmLiquidacionesAE
         ProcessControls(Me)
 
     End Sub
-
+    Sub DERECHOS()
+        If Not pwPoder Then
+            BarCancelacion.Enabled = False
+            Try
+                SQL = "SELECT CLAVE FROM GCDERECHOS WHERE USUARIO = '" & USER_GRUPOCE & "' AND  (CLAVE >= 50000 AND CLAVE < 60000)"
+                Using cmd As SqlCommand = cnSAE.CreateCommand
+                    cmd.CommandText = SQL
+                    Using dr As SqlDataReader = cmd.ExecuteReader
+                        While dr.Read
+                            Select Case dr("CLAVE")
+                                Case 50060
+                                    BarCancelacion.Enabled = True
+                            End Select
+                        End While
+                    End Using
+                End Using
+            Catch ex As Exception
+                Bitacora("13. " & ex.Message & vbNewLine & ex.StackTrace)
+                MsgBox("13. " & ex.Message & vbNewLine & ex.StackTrace)
+            End Try
+        Else
+            BarCancelacion.Enabled = True
+        End If
+    End Sub
     Sub CARGAR_DATOS1()
         Try
             Dim theme As C1Theme = C1ThemeController.GetThemeByName(ThemeElekos, True)
@@ -151,6 +173,8 @@ Public Class FrmLiquidacionesAE
             MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
         End Try
 
+
+        DERECHOS()
 
 
         FgG.Rows.Count = 1
@@ -412,6 +436,13 @@ Public Class FrmLiquidacionesAE
                         BtnGastosViaje.Enabled = False
                         BtnGastosViajeEliminar.Enabled = False
                         FlexiSoloLectura = True
+                        BarDesplegar.Enabled = False
+                        BtnOper.Enabled = False
+                        BtnUnidad.Enabled = False
+                        TCVE_OPER.ReadOnly = True
+                        TCVE_TRACTOR.ReadOnly = True
+                        F1.ReadOnly = True
+                        TCVE_LIQ.Enabled = False
                     Else
                         If dr("STATUS") = "L" Then
                             FlexiLiquidada = True
@@ -428,23 +459,34 @@ Public Class FrmLiquidacionesAE
                             BtnAltaPA.Enabled = False
                             BtnEliPartPA.Enabled = False
                             FlexiSoloLectura = True
+                            BarDesplegar.Enabled = False
+                            BtnOper.Enabled = False
+                            BtnUnidad.Enabled = False
+
+                            TCVE_OPER.ReadOnly = True
+                            TCVE_TRACTOR.ReadOnly = True
+                            F1.ReadOnly = True
+                            TCVE_LIQ.Enabled = False
                         Else
                             TOBSER.ReadOnly = False
+                            BtnOper.Enabled = True
+                            BtnUnidad.Enabled = True
+
+                            TCVE_OPER.ReadOnly = False
+                            TCVE_TRACTOR.ReadOnly = False
+                            F1.ReadOnly = False
+                            TCVE_LIQ.Enabled = True
                         End If
                     End If
-                    BarDesplegar.Enabled = False
+
                     'FlexiSoloLectura = True
                 End If
                 dr.Close()
 
                 DESPLEGAR_RESETEO()
 
-                TCVE_OPER.ReadOnly = True
-                BtnOper.Enabled = False
-                TCVE_TRACTOR.ReadOnly = True
-                BtnUnidad.Enabled = False
-                F1.ReadOnly = True
-                TCVE_LIQ.Enabled = False
+                'BtnOper.Enabled = False
+
 
                 'DESPLEGA TODAS LAS LIQUIDACIONES DEL OPERQDOR MENOS LAS LIQUIDADASS
                 DESPLEGAR_BarDesplegar(True)
@@ -590,7 +632,8 @@ Public Class FrmLiquidacionesAE
                 ISNULL(R1.SUELDO_X_FACTOR,0) AS SUELDO_C_FAC, CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_FULL,0) ELSE ISNULL(R1.SUELDO_SENC,0) END AS SUEL_CONV,
 				A.CVE_DOC AS FACT1, '' AS FACT2, CLI.NOMBRE AS CLIENTE_NOMBRE, R1.DESCR AS ORIGEN, R1.DESCR2 AS DESTINO, ISNULL(FAC.CAN_TOT, 0) AS FACTURADO,
 				isnull(SEL_CALCULO, 0) AS SEL_CALCULO, isnull(PORC_SUELDO, 0) AS PORC_SUELDO, isnull(SUELDO_MANIOBRA, 0) AS SUELDO_MANIOBRA, isnull(PORC_SUELDO_MANIOBRA, 0) AS PORC_SUELDO_MANIOBRA, 
-                isnull(SDO_X_TONELADA, 0) AS SDO_X_TONELADA, isnull(SDO_MANIOBRA_X_TONELADA, 0) AS SDO_MANIOBRA_X_TONELADA, A.FECHA
+                isnull(SDO_X_TONELADA, 0) AS SDO_X_TONELADA, isnull(SDO_MANIOBRA_X_TONELADA, 0) AS SDO_MANIOBRA_X_TONELADA, A.FECHA,
+                ISNULL(L.CAMPLIB1,'') AS LIB1
                 FROM GCLIQ_PARTIDAS GV
                 LEFT JOIN GCCARTA_PORTE CP ON CP.CVE_FOLIO = GV.CVE_CAP1
                 LEFT JOIN GCSTATUS_CARTA_PORTE ST ON ST.CVE_CAP = CP.ST_CARTA_PORTE
@@ -601,6 +644,7 @@ Public Class FrmLiquidacionesAE
                 LEFT JOIN GCRECOGER_EN_ENTREGAR_EN R ON R.CVE_REG = GV.CLAVE_D
                 LEFT JOIN GCCAT_STATUS_VIAJE S ON S.CLAVE = GV.CVE_ST_VIA
 				LEFT JOIN CLIE05 CLI WITH (nolock) ON CLI.CLAVE = A.CLIENTE	
+                LEFT JOIN CLIE_CLIB" & Empresa & " L ON L.CVE_CLIE = CLI.CLAVE
 				LEFT JOIN FACTF05 FAC WITH (nolock) ON FAC.CVE_DOC = A.CVE_DOC AND FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
                 WHERE CVE_LIQ = " & fCVE_LIQ & " ORDER BY GV.FECHAELAB"
             Using cmd As SqlCommand = cnSAE.CreateCommand
@@ -648,54 +692,54 @@ Public Class FrmLiquidacionesAE
 
 
                                 s = IIf(dr("CVE_TAB").ToString.Trim.Length = 0, "", ">")
-                                s &= vbTab & True
-                                s &= vbTab & dr("CVE_VIAJE")
-                                s &= vbTab & dr("FECHA")
-                                s &= vbTab & dr("FACT1")
-                                s &= vbTab & dr("FACT2")
-                                s &= vbTab & dr("CLIENTE_NOMBRE")
-                                s &= vbTab & dr("ORIGEN")
-                                s &= vbTab & dr("DESTINO")
+                                s &= vbTab & True '1
+                                s &= vbTab & dr("CVE_VIAJE") '2
+                                s &= vbTab & dr("FECHA") '3
+                                s &= vbTab & dr("FACT1") '4
+                                s &= vbTab & dr("FACT2") '5
+                                s &= vbTab & dr("CLIENTE_NOMBRE") '6
+                                s &= vbTab & dr("ORIGEN") '7
+                                s &= vbTab & dr("DESTINO") '8
                                 's &= vbTab & TIP_VIAJE
-                                s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_UNIDAD") = 1, "Full", "Sencillo")
-                                s &= vbTab & dr("FACTURADO")
-                                s &= vbTab & dr("SUEL_CONV")
-                                s &= vbTab & dr("PORC_SUELDO")
-                                s &= vbTab & dr("SUELDO_MANIOBRA")
-                                s &= vbTab & dr("PORC_SUELDO_MANIOBRA")
-                                s &= vbTab & dr("SEL_CALCULO")
-                                s &= vbTab & dr("SDO_X_TONELADA")
-                                s &= vbTab & dr("SDO_MANIOBRA_X_TONELADA")
-                                s &= vbTab & dr("SUELDO")
-                                s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_VIAJE") = 1, "Cargado", "Vacio")
-                                s &= vbTab & dr.ReadNullAsEmptyString("CVE_UNI")
-                                s &= vbTab & dr("CAP1")
-                                s &= vbTab & dr("ST_CP")
-                                s &= vbTab & dr("CAP2")
-                                s &= vbTab & dr("ST_CP2")
-                                s &= vbTab & dr("CLAVE_O")
-                                s &= vbTab & dr("DESCR_ORIGEN")
-                                s &= vbTab & dr("CLAVE_D")
-                                s &= vbTab & dr("DESCR_DESTINO")
-                                s &= vbTab & dr("CVE_ST_VIA")
-                                s &= vbTab & dr("STATUS_VIAJE")
-                                s &= vbTab & ""
-                                s &= vbTab & "NO"
-                                s &= vbTab & 0
-                                s &= vbTab & dr("UUID")
-                                s &= vbTab & "N"
-                                s &= vbTab & dr("CVE_TAB")
-                                s &= vbTab & ""
-                                s &= vbTab & dr("FECHA_CARGA")
-                                s &= vbTab & dr("FECHA_REAL_CARGA")
-                                s &= vbTab & dr("FECHA_DESCARGA")
-                                s &= vbTab & dr("FECHA_REAL_DESCARGA")
-                                s &= vbTab & dr("DIF1")
-                                s &= vbTab & dr("DIF2")
-                                s &= vbTab & dr("SUEL_CONV")
-
-
+                                s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_UNIDAD") = 1, "Full", "Sencillo") '9
+                                s &= vbTab & dr("FACTURADO") '10
+                                s &= vbTab & dr("SUEL_CONV") '11
+                                s &= vbTab & dr("PORC_SUELDO") '12
+                                s &= vbTab & dr("SUELDO_MANIOBRA") '13
+                                s &= vbTab & dr("PORC_SUELDO_MANIOBRA") '14
+                                s &= vbTab & dr("SEL_CALCULO") '15
+                                s &= vbTab & dr("SDO_X_TONELADA") '16
+                                s &= vbTab & dr("SDO_MANIOBRA_X_TONELADA") '17
+                                s &= vbTab & dr("SUELDO") '18
+                                s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_VIAJE") = 1, "Cargado", "Vacio") '19
+                                s &= vbTab & dr.ReadNullAsEmptyString("CVE_UNI") '20
+                                s &= vbTab & dr("CAP1") '21
+                                s &= vbTab & dr("ST_CP") '22
+                                s &= vbTab & dr("CAP2") '23
+                                s &= vbTab & dr("ST_CP2") '24
+                                s &= vbTab & dr("CLAVE_O") '25
+                                s &= vbTab & dr("DESCR_ORIGEN") '26
+                                s &= vbTab & dr("CLAVE_D") '27
+                                s &= vbTab & dr("DESCR_DESTINO") '28
+                                s &= vbTab & dr("CVE_ST_VIA") '29
+                                s &= vbTab & dr("STATUS_VIAJE") '30
+                                s &= vbTab & "" '31
+                                s &= vbTab & "NO" '32
+                                s &= vbTab & 0 '33
+                                s &= vbTab & dr("UUID") '34
+                                s &= vbTab & "N" '35
+                                s &= vbTab & dr("CVE_TAB") '36
+                                s &= vbTab & "" '37
+                                s &= vbTab & dr("FECHA_CARGA") '38
+                                s &= vbTab & dr("FECHA_REAL_CARGA") '39
+                                s &= vbTab & dr("FECHA_DESCARGA") '40
+                                s &= vbTab & dr("FECHA_REAL_DESCARGA") '41
+                                s &= vbTab & dr("DIF1") '42
+                                s &= vbTab & dr("DIF2") '43
+                                s &= vbTab & dr("SUEL_CONV") '44
+                                s &= vbTab & dr("LIB1").ToString.Trim.ToUpper '45
                                 Fg.AddItem(s)
+
                                 DESPLEGAR_LIQ_GASTOS_VIAJE(dr("CVE_VIAJE"))
                                 DESPLEGAR_LIQ_VALES_VIAJE(dr("CVE_VIAJE"))
 
@@ -788,7 +832,8 @@ Public Class FrmLiquidacionesAE
             SUMA2 = 0
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 SQL = "SELECT CVE_VIAJE, ISNULL(GV.STATUS,'A') AS STA, CVE_OPER, CVE_GAV, FOLIO, FECHA, CVE_NUM, 
-                    ISNULL(IMPORTE,0) AS IMPORT, DESCR, ISNULL(ST_GASTOS,'EDICION') AS ST_GAS, GV.UUID
+                    ISNULL(IMPORTE,0) AS IMPORT, DESCR, ISNULL(ST_GASTOS,'EDICION') AS ST_GAS, GV.UUID, GV.CVE_LIQ,
+                    ISNULL(CHECK_BOX,1) AS CH_BOX
                     FROM GCASIGNACION_VIAJE_GASTOS GV
                     LEFT JOIN GCCONC_GASTOS C ON C.CVE_GAS = GV.CVE_NUM
                     WHERE CVE_LIQ = '" & fCVE_IAJE & "' AND ISNULL(ST_GASTOS,'') = 'DEPOSITADO' ORDER BY FECHAELAB"
@@ -806,12 +851,18 @@ Public Class FrmLiquidacionesAE
                             Next
 
 
-                            If STATUS Then
-                                FgG.AddItem("1" & vbTab & STATUS & vbTab & dr("CVE_VIAJE") & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab &
+                            If dr("CH_BOX") = 1 Then
+                                STATUS = True
+                            Else
+                                STATUS = False
+                            End If
+
+                            'If STATUS Then
+                            FgG.AddItem("" & vbTab & STATUS & vbTab & dr("CVE_VIAJE") & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab &
                                     dr("CVE_NUM") & vbTab & dr("DESCR") & vbTab & dr("IMPORT") & vbTab & dr("ST_GAS") & vbTab & 0 & vbTab & dr("UUID"))
                                 SUMA2 += dr("IMPORT")
                                 nGastos += 1
-                            End If
+                            'End If
                         Catch ex As Exception
                             BITACORA_LIQ("850. " & ex.Message & vbNewLine & ex.StackTrace)
                             MsgBox("850. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -1182,15 +1233,15 @@ Public Class FrmLiquidacionesAE
             BITACORA_LIQ("100. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
 
-        Dim FOLIO As Long, FOLIO2 As Long, FOLIO3 As Long, CVE_DED_OPER As Long, LTS_DESCONTAR As Decimal = 0, LITROS As Decimal = 0
+        Dim FOLIO As Long, FOLIO2 As Long, FOLIO3 As Long, CVE_DED_OPER As Long, LTS_DESCONTAR As Decimal = 0, DescXLitros As Decimal = 0
 
         If GpoEvento1.Visible Then
             Try
                 If IsNumeric(LtDescXLitros.Text.Replace(",", "")) Then
-                    LTS_DESCONTAR = LtDescXLitros.Text.Replace(",", "")
+                    DescXLitros = LtDescXLitros.Text.Replace(",", "")
                 End If
-                If IsNumeric(LtLTS_VALES.Text.Replace(",", "")) Then
-                    LITROS = LtLTS_VALES.Text.Replace(",", "")
+                If IsNumeric(TLTS_DESCONTAR2.Text.Replace(",", "")) Then
+                    LTS_DESCONTAR = TLTS_DESCONTAR2.Text.Replace(",", "")
                 End If
             Catch ex As Exception
                 BITACORA_LIQ("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
@@ -1198,10 +1249,10 @@ Public Class FrmLiquidacionesAE
         Else
             Try
                 If IsNumeric(LtDescXLitros2.Text.Replace(",", "")) Then
-                    LTS_DESCONTAR = LtDescXLitros2.Text.Replace(",", "")
+                    DescXLitros = LtDescXLitros2.Text.Replace(",", "")
                 End If
                 If IsNumeric(TLTS_DESCONTAR2.Text.Replace(",", "")) Then
-                    LITROS = TLTS_DESCONTAR2.Text.Replace(",", "")
+                    LTS_DESCONTAR = TLTS_DESCONTAR2.Text.Replace(",", "")
                 End If
             Catch ex As Exception
                 BITACORA_LIQ("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
@@ -1280,9 +1331,12 @@ Public Class FrmLiquidacionesAE
                     SE_GRABO = True
                     GRABAR_LIQ_PARTIDAS(CVE_LIQ) 'Fg   GCLIQ_PARTIDAS 
                     GRABAR_LIQ_GASTOS_VIAJE(CVE_LIQ) 'FgG  GCASIGNACION_VIAJE_GASTOS 
+
                     GRABAR_LIQ_VALES_VIAJE(CVE_LIQ) 'FgV   UPDATE GCASIGNACION_VIAJE_VALES 
+
                     GRABAR_LIQ_GASTOS_COMPROBADOS(CVE_LIQ) 'FgGC   GCLIQ_GASTOS_COMPROBADOS 
                     GRABAR_LIQ_DEDUCCIONES(CVE_LIQ) 'FgD   GCLIQ_DEDUCCIONES 
+
                     GRABAR_LIQ_PENSION_ALIMENTICIA(CVE_LIQ)
                     GRABAR_LIQ_CASETAS(CVE_LIQ)
 
@@ -1339,6 +1393,16 @@ Public Class FrmLiquidacionesAE
                         CVE_DED_OPER = GET_MAX("GCDEDUC_OPER", "CVE_DED_OPER")
                         FOLIO = GET_MAX("GCDEDUC_OPER", "FOLIO")
                     End If
+
+                    'TLTS_DESCONTAR2.Value = dr("LTS_DESCONTAR2")
+                    'LtDescXLitros2.Text = dr("DESCXLITROS2")
+
+                    If IsNumeric(LtDescXLitros2.Text.Replace(",", "")) Then
+                        IMPORTE = CDec(LtDescXLitros2.Text.Replace(",", ""))
+                    Else
+                        IMPORTE = 0
+                    End If
+
                     'DEDUCCION LITROS A DESCONTAR 7
                     SQL = "UPDATE GCDEDUC_OPER SET IMPORTE_PRESTAMO = @IMPORTE_PRESTAMO, CVE_RES = @CVE_RES WHERE FOLIO = @FOLIO
                         IF @@ROWCOUNT = 0
@@ -1356,10 +1420,10 @@ Public Class FrmLiquidacionesAE
                                     cmd2.Parameters.Add("@CVE_OPER", SqlDbType.Int).Value = CONVERTIR_TO_INT(TCVE_OPER.Text)
                                     cmd2.Parameters.Add("@CVE_LIQ", SqlDbType.Int).Value = CVE_LIQ
                                     cmd2.Parameters.Add("@CVE_DED", SqlDbType.Int).Value = 7
-                                    cmd2.Parameters.Add("@DESCR", SqlDbType.VarChar).Value = "RESETEO " & TCVE_RES.Text & " Litros a descontar " & Math.Abs(LITROS)
-                                    cmd2.Parameters.Add("@IMPORTE_PRESTAMO", SqlDbType.Float).Value = Math.Abs(LTS_DESCONTAR)
+                                    cmd2.Parameters.Add("@DESCR", SqlDbType.VarChar).Value = "RESETEO " & TCVE_RES.Text & " Litros a descontar " & Math.Abs(TLTS_DESCONTAR2.Value)
+                                    cmd2.Parameters.Add("@IMPORTE_PRESTAMO", SqlDbType.Float).Value = Math.Abs(IMPORTE)
                                     cmd2.Parameters.Add("@IMPORTE_PAGADO", SqlDbType.Float).Value = 0
-                                    cmd2.Parameters.Add("@SALDO", SqlDbType.Float).Value = Math.Abs(LTS_DESCONTAR)
+                                    cmd2.Parameters.Add("@SALDO", SqlDbType.Float).Value = Math.Abs(IMPORTE)
                                     cmd2.Parameters.Add("@PAGO_EN_LIQ", SqlDbType.Float).Value = 0
                                     cmd2.Parameters.Add("@SALDO_ACTUAL", SqlDbType.Float).Value = 0
                                     cmd2.Parameters.Add("@FECHA", SqlDbType.Date).Value = F1.Value
@@ -1662,6 +1726,8 @@ Public Class FrmLiquidacionesAE
             BarFinalizarLiq.Enabled = True
             BarImprimirLiq.Enabled = True
             BarDesplegar.Enabled = False
+            BarCancelacion.Enabled = False
+
 
             TCVE_LIQ.Text = CVE_LIQ
 
@@ -1958,7 +2024,9 @@ Public Class FrmLiquidacionesAE
                         Else
                             CVE_VIAJE = FgG(k, 2)
                         End If
-
+                        If FgG(FgG.Row, 3) = "337" Then
+                            Debug.Print("")
+                        End If
                         If CVE_VIAJE.Trim.Length > 0 Then
                             If FgG(k, 1) Then
                                 For j = 1 To Fg.Rows.Count - 1
@@ -1975,20 +2043,21 @@ Public Class FrmLiquidacionesAE
                                         BITACORA_LIQ("270. " & ex.Message & vbNewLine & "" & ex.StackTrace)
                                     End Try
                                 Next
-                                If Valida_Conexion() Then
-
-                                    cmd.CommandText = SQL
-                                    cmd.Parameters.Clear()
-                                    cmd.Parameters.Add("@CVE_LIQ", SqlDbType.Int).Value = IIf(FgG(k, 1), FCVE_LIQ, 0)
-                                    cmd.Parameters.Add("@STATUS", SqlDbType.VarChar).Value = STATUS
-                                    cmd.Parameters.Add("@UUID", SqlDbType.VarChar).Value = FgG(k, 10)
-                                    returnValue = cmd.ExecuteNonQuery
-                                    If returnValue IsNot Nothing Then
-                                        If returnValue = "1" Then
-                                        End If
+                            End If
+                            If Valida_Conexion() Then
+                                cmd.CommandText = SQL
+                                cmd.Parameters.Clear()
+                                cmd.Parameters.Add("@CVE_LIQ", SqlDbType.Int).Value = IIf(FgG(k, 1), FCVE_LIQ, 0)
+                                cmd.Parameters.Add("@STATUS", SqlDbType.VarChar).Value = STATUS
+                                cmd.Parameters.Add("@UUID", SqlDbType.VarChar).Value = FgG(k, 10)
+                                cmd.Parameters.Add("@CHECK_BOX", SqlDbType.Int).Value = IIf(FgG(k, 1), 1, 0)
+                                returnValue = cmd.ExecuteNonQuery
+                                If returnValue IsNot Nothing Then
+                                    If returnValue = "1" Then
                                     End If
                                 End If
                             End If
+
                         End If
                     Catch ex As Exception
                         BITACORA_LIQ("270. " & ex.Message & vbNewLine & "" & ex.StackTrace)
@@ -2100,7 +2169,7 @@ Public Class FrmLiquidacionesAE
                                             If Valida_Conexion() Then
                                                 If CVE_OBS = 0 Then
                                                     SQL2 = "INSERT INTO GCOBS (CVE_OBS, DESCR) OUTPUT Inserted.CVE_OBS 
-                                                    VALUES((SELECT ISNULL(MAX(CVE_OBS),0) + 1 FROM GCOBS),'" & FgGC(k, 14) & "')"
+                                                        VALUES((SELECT ISNULL(MAX(CVE_OBS),0) + 1 FROM GCOBS),'" & FgGC(k, 14) & "')"
                                                     Using cmd As SqlCommand = cnSAE.CreateCommand
                                                         cmd.CommandText = SQL2
                                                         returnValue = cmd.ExecuteScalar.ToString
@@ -2132,15 +2201,16 @@ Public Class FrmLiquidacionesAE
                                 If Valida_Conexion() Then
                                     Using cmd As SqlCommand = cnSAE.CreateCommand
                                         Try 'TAB4                      TAB4                      TAB4
-                                            SQL = "UPDATE GCLIQ_GASTOS_COMPROBADOS SET CVE_DOC = @CVE_DOC, REFER = @REFER, CVE_ART = @CVE_ART, CVE_PROV = @CVE_PROV, FECHA = @FECHA, 
-                                                SUBTOTAL = @SUBTOTAL, IVA = @IVA, TOTAL = @TOTAL, CVE_OBS = @CVE_OBS
+                                            SQL = "
+                                                UPDATE GCLIQ_GASTOS_COMPROBADOS SET CVE_DOC = @CVE_DOC, REFER = @REFER, CVE_ART = @CVE_ART, CVE_PROV = @CVE_PROV, FECHA = @FECHA, 
+                                                SUBTOTAL = @SUBTOTAL, IVA = @IVA, TOTAL = @TOTAL, CVE_OBS = @CVE_OBS, SELECCIONADO = @SELECCIONADO
                                                 WHERE CVE_LIQ = @CVE_LIQ AND NUM_PAR = @NUM_PAR
                                                 IF @@ROWCOUNT = 0
                                                 INSERT INTO GCLIQ_GASTOS_COMPROBADOS (CVE_LIQ, CVE_VIAJE, NUM_PAR, STATUS, CVE_DOC, REFER, CVE_ART, CVE_PROV, FECHA, SUBTOTAL, 
-                                                IVA, IEPS, TOTAL, CVE_OBS, FECHAELAB, UUID) 
+                                                IVA, IEPS, TOTAL, CVE_OBS, SELECCIONADO, FECHAELAB, UUID) 
                                                 OUTPUT Inserted.NUM_PAR VALUES (
                                                 @CVE_LIQ, '', ISNULL((SELECT MAX(NUM_PAR) + 1 FROM GCLIQ_GASTOS_COMPROBADOS WHERE CVE_LIQ = @CVE_LIQ),1),'A', 
-                                                @CVE_DOC, @REFER, @CVE_ART, @CVE_PROV, @FECHA, @SUBTOTAL, @IVA, @IEPS, @TOTAL, @CVE_OBS, GETDATE(), NEWID())"
+                                                @CVE_DOC, @REFER, @CVE_ART, @CVE_PROV, @FECHA, @SUBTOTAL, @IVA, @IEPS, @TOTAL, @CVE_OBS, @SELECCIONADO, GETDATE(), NEWID())"
 
                                             cmd.CommandText = SQL
                                             cmd.Parameters.Clear()
@@ -2156,6 +2226,7 @@ Public Class FrmLiquidacionesAE
                                             cmd.Parameters.Add("@IEPS", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(FgGC(k, 12)), 4)
                                             cmd.Parameters.Add("@TOTAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(FgGC(k, 13)), 4)
                                             cmd.Parameters.Add("@CVE_OBS", SqlDbType.Int).Value = CVE_OBS
+                                            cmd.Parameters.Add("@SELECCIONADO", SqlDbType.SmallInt).Value = IIf(FgGC(k, 1), 1, 0)
                                             'SE CORRIGIO PROBLEMA DE DUPLICIDAD DE FOLIO 10-NOV-2022
                                             Try
                                                 returnValue = cmd.ExecuteScalar()
@@ -2392,10 +2463,10 @@ Public Class FrmLiquidacionesAE
             For k = 1 To FgD.Rows.Count - 1
                 Try
                     If FgD.Rows(k).IsVisible Then
+
                         If Not IsNothing(FgD(k, 2)) Then
                             If Not IsNothing(FgD(k, 8)) Then
                                 If IsNumeric(FgD(k, 8)) Then
-
 
                                     'OBSERVACIONES
                                     Try
@@ -2415,7 +2486,7 @@ Public Class FrmLiquidacionesAE
                                                 If Valida_Conexion() Then
                                                     If CVE_OBS = 0 Then
                                                         SQL2 = "INSERT INTO GCOBS (CVE_OBS, DESCR) OUTPUT Inserted.CVE_OBS VALUES
-                                                         ((SELECT ISNULL(MAX(CVE_OBS),0) + 1 FROM GCOBS),'" & FgD(k, 10) & "')"
+                                                             ((SELECT ISNULL(MAX(CVE_OBS),0) + 1 FROM GCOBS),'" & FgD(k, 10) & "')"
                                                         Using cmd As SqlCommand = cnSAE.CreateCommand
                                                             cmd.CommandText = SQL2
                                                             returnValue = cmd.ExecuteScalar.ToString
@@ -2639,8 +2710,8 @@ Public Class FrmLiquidacionesAE
                     TCVE_OPER.Text = ""
                     TCVE_OPER.Select()
                 End If
-                TCVE_TRACTOR.Text = ""
-                LtUnidad.Text = ""
+                'TCVE_TRACTOR.Text = ""
+                'LtUnidad.Text = ""
             Else
                 LtOper.Text = ""
                 TCVE_OPER.Text = ""
@@ -2693,7 +2764,7 @@ Public Class FrmLiquidacionesAE
                 Return
             End If
         End If
-        'DESPLEGA TODAS LAS LIQUIDACIONES DEL OPERQDOR MENOS LAS LIQUIDADASS
+        'DESPLEGA TODAS LAS LIQUIDACIONES DEL OPERADOR MENOS LAS LIQUIDADAS
         DESPLEGAR_BarDesplegar()
 
         LtSubtotal.Text = 0
@@ -2740,7 +2811,8 @@ Public Class FrmLiquidacionesAE
 				CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_MANIOBRA_FULL, 0) ELSE ISNULL(R1.SUELDO_MANIOBRA_SENC, 0) END AS SUELDO_MANIOBRA,
 				CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END AS PORC_SUELDO_MANIOBRA,
                 round(((CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_SUELDO_FULL, 0) ELSE ISNULL(R1.PORC_SUELDO_SENC, 0) END * ISNULL(FAC.CAN_TOT, 0))/100), 2) AS SDO_X_TONELADA, 
-				round(((CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END * ISNULL(FAC.CAN_TOT, 0))/100), 2) AS SDO_MANIOBRA_X_TONELADA
+				round(((CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END * ISNULL(FAC.CAN_TOT, 0))/100), 2) AS SDO_MANIOBRA_X_TONELADA,
+                ISNULL(L.CAMPLIB1,'') AS LIB1, A.CLIENTE, CLI.NOMBRE
                 FROM GCASIGNACION_VIAJE A
                 LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = A.CVE_TAB_VIAJE
                 LEFT JOIN GCCARTA_PORTE CP1 ON CP1.CVE_FOLIO = A.CVE_CAP1
@@ -2752,11 +2824,13 @@ Public Class FrmLiquidacionesAE
                 LEFT JOIN GCCAT_STATUS_VIAJE S ON S.CLAVE = A.CVE_ST_VIA
                 LEFT JOIN GCOPERADOR O ON O.CLAVE = A.CVE_OPER
                 LEFT JOIN CLIE05 CLI WITH (nolock) ON CLI.CLAVE = A.CLIENTE	
+                LEFT JOIN CLIE_CLIB" & Empresa & " L ON L.CVE_CLIE = CLI.CLAVE
 				LEFT JOIN FACTF05 FAC WITH (nolock) ON FAC.CVE_DOC = A.CVE_DOC AND FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S' 
                 WHERE A.STATUS = 'A' AND A.CVE_OPER = '" & TCVE_OPER.Text & "' 
                 " & IIf(TCVE_TRACTOR.Text.Trim.Length > 0, " AND A.CVE_TRACTOR = '" & TCVE_TRACTOR.Text & "'", "") & " AND 
                 A.CVE_ST_VIA <> 5 
                 ORDER BY A.CVE_VIAJE"
+
             'TERMINADO      A.CVE_ST_VIA = '3' AND 
             '1   PENDIENTE                      LEFT JOIN GCPEDIDOS P ON P.CVE_VIAJE = C.CVE_VIAJE 
             '2   TRANSITO
@@ -2772,51 +2846,52 @@ Public Class FrmLiquidacionesAE
 
                 SUELDO_OPER = dr("SUEL_CONV")
 
-                s = IIf(dr("CVETAB").ToString.Trim.Length = 0, "", ">")
-                s &= vbTab & False
-                s &= vbTab & dr("CVE_VIAJE")
-                s &= vbTab & dr.ReadNullAsEmptyString("FECHA")
-                s &= vbTab & dr("FACT1")
-                s &= vbTab & dr("FACT2")
-                s &= vbTab & dr("CLIENTE_NOMBRE")
-                s &= vbTab & dr("ORIGEN")
-                s &= vbTab & dr("DESTINO")
-                s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_UNI") = 1, "Full", "Sencillo")
-                s &= vbTab & dr("FACTURADO")
-                s &= vbTab & SUELDO_OPER
-                s &= vbTab & dr("PORC_SUELDO")
-                s &= vbTab & dr("SUELDO_MANIOBRA")
-                s &= vbTab & dr("PORC_SUELDO_MANIOBRA")
-                s &= vbTab & False
-                s &= vbTab & dr("SDO_X_TONELADA")
-                s &= vbTab & dr("SDO_MANIOBRA_X_TONELADA")
-                s &= vbTab & Convert.ToDecimal(dr("SUEL_CONV")) + Convert.ToDecimal(dr("SUELDO_MANIOBRA"))
-                s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_VIAJE") = 1, "Cargado", "Vacio")
-                s &= vbTab & dr.ReadNullAsEmptyString("CVE_TRACTOR")
-                s &= vbTab & dr("CAP1")
-                s &= vbTab & dr("ST_CP")
-                s &= vbTab & dr("CAP2")
-                s &= vbTab & dr("ST_CP2")
-                s &= vbTab & dr("RECOGER_EN")
-                s &= vbTab & dr("RECOGER")
-                s &= vbTab & dr("ENTREGAR_EN")
-                s &= vbTab & dr("ENTREGAR")
-                s &= vbTab & dr("CVE_ST_VIA")
-                s &= vbTab & dr("STATUS_VIAJE")
-                s &= vbTab & ""
-                s &= vbTab & "NO"
-                s &= vbTab & 0
-                s &= vbTab & dr("UUID")
-                s &= vbTab & "S"
-                s &= vbTab & dr("CVETAB")
-                s &= vbTab & ""
-                s &= vbTab & dr("FECHA_CARGA")
-                s &= vbTab & dr("FECHA_REAL_CARGA")
-                s &= vbTab & dr("FECHA_DESCARGA")
-                s &= vbTab & dr("FECHA_REAL_DESCARGA")
-                s &= vbTab & dr("DIF1")
-                s &= vbTab & dr("DIF2")
-                s &= vbTab & dr("SUEL_CONV")
+                s = IIf(dr("CVETAB").ToString.Trim.Length = 0, "", ">") '0
+                s &= vbTab & False '1
+                s &= vbTab & dr("CVE_VIAJE") '2
+                s &= vbTab & dr.ReadNullAsEmptyString("FECHA") '3
+                s &= vbTab & dr("FACT1") '4
+                s &= vbTab & dr("FACT2") '5
+                s &= vbTab & dr("CLIENTE_NOMBRE") '6
+                s &= vbTab & dr("ORIGEN") '7
+                s &= vbTab & dr("DESTINO") '8
+                s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_UNI") = 1, "Full", "Sencillo") '9
+                s &= vbTab & dr("FACTURADO") '10
+                s &= vbTab & SUELDO_OPER '11
+                s &= vbTab & dr("PORC_SUELDO") '12
+                s &= vbTab & dr("SUELDO_MANIOBRA") '13
+                s &= vbTab & dr("PORC_SUELDO_MANIOBRA") '14
+                s &= vbTab & False '15
+                s &= vbTab & dr("SDO_X_TONELADA") '16
+                s &= vbTab & dr("SDO_MANIOBRA_X_TONELADA") '17
+                s &= vbTab & Convert.ToDecimal(dr("SUEL_CONV")) + Convert.ToDecimal(dr("SUELDO_MANIOBRA")) '18
+                s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_VIAJE") = 1, "Cargado", "Vacio") '19
+                s &= vbTab & dr.ReadNullAsEmptyString("CVE_TRACTOR") '20
+                s &= vbTab & dr("CAP1") '21
+                s &= vbTab & dr("ST_CP") '22
+                s &= vbTab & dr("CAP2") '23
+                s &= vbTab & dr("ST_CP2") '24
+                s &= vbTab & dr("RECOGER_EN") '25
+                s &= vbTab & dr("RECOGER") '26
+                s &= vbTab & dr("ENTREGAR_EN") '27
+                s &= vbTab & dr("ENTREGAR") '28
+                s &= vbTab & dr("CVE_ST_VIA") '29
+                s &= vbTab & dr("STATUS_VIAJE") '30
+                s &= vbTab & "" '32
+                s &= vbTab & "NO" '32
+                s &= vbTab & 0 '33
+                s &= vbTab & dr("UUID") '34
+                s &= vbTab & "S" '35
+                s &= vbTab & dr("CVETAB") '36
+                s &= vbTab & "" '37
+                s &= vbTab & dr("FECHA_CARGA") '38
+                s &= vbTab & dr("FECHA_REAL_CARGA") '39
+                s &= vbTab & dr("FECHA_DESCARGA") '40
+                s &= vbTab & dr("FECHA_REAL_DESCARGA") '41
+                s &= vbTab & dr("DIF1") '42
+                s &= vbTab & dr("DIF2") '43
+                s &= vbTab & dr("SUEL_CONV") '44
+                s &= vbTab & dr("LIB1").ToString.Trim.ToUpper '45
 
                 If Not FFiltrar_Liq Then
                     Fg.AddItem(s)
@@ -3099,7 +3174,13 @@ Public Class FrmLiquidacionesAE
                 If LtTipoCrobro.Text = "Edición" Then
                     If Fg(Fg.Row, _FgColSeleccione) Then
                         If Fg.Col <> _FgColSeleccione And Fg.Col <> _FgColStatusViaje And Fg.Col <> _FgColxFactor And Fg.Col <> _FgColSelCalculo Then
-                            e.Cancel = True
+
+                            If (Fg.Col = 11) AndAlso Fg(Fg.Row, 45) = "SEMANAL" Then
+
+                            Else
+                                e.Cancel = True
+                            End If
+
                         End If
                     Else
                         If Fg.Col <> _FgColSeleccione Then
@@ -3110,10 +3191,21 @@ Public Class FrmLiquidacionesAE
                     e.Cancel = True
                     Return
                 End If
+
+
+                If (Fg.Col = _FgColSeleccione Or Fg.Col = 11 Or Fg.Col = 15) Or Fg(Fg.Row, 45) = "SEMANAL" Then
+
+                Else
+                    e.Cancel = True
+                End If
+
             End If
         Catch ex As Exception
             BITACORA_LIQ("1340. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
+    End Sub
+    Private Sub Fg_Validated(sender As Object, e As EventArgs) Handles Fg.Validated
+        
     End Sub
     Private Sub Fg_EnterCell(sender As Object, e As EventArgs) Handles Fg.EnterCell
         Try
@@ -3123,6 +3215,10 @@ Public Class FrmLiquidacionesAE
 
             If Fg.Col = _FgColSeleccione And Fg.Col = _FgColSelCalculo And ENTRA Then
                 Fg.StartEditing()
+            End If
+
+            If Fg.Col = 11 AndAlso Fg(Fg.Row, 1) AndAlso Fg(Fg.Row, 45) = "SEMANAL" Then
+                'Fg.StartEditing()
             End If
         Catch ex As Exception
         End Try
@@ -3157,6 +3253,14 @@ Public Class FrmLiquidacionesAE
         If FlexiSoloLectura Then
             e.Cancel = True
             Return
+        End If
+
+        If Fg.Col = 11 AndAlso Fg(Fg.Row, 1) AndAlso Fg(Fg.Row, 45) = "SEMANAL" Then
+            Fg.FinishEditing()
+
+            Fg(Fg.Row, 18) = Fg(Fg.Row, 11)
+
+            CALCULAR_IMPORTES()
         End If
     End Sub
     Private Sub Fg_ValidateEdit(sender As Object, e As ValidateEditEventArgs) Handles Fg.ValidateEdit
@@ -3307,7 +3411,7 @@ Public Class FrmLiquidacionesAE
         If e.Row > 0 Then
             Try
                 If e.Col = _FgColSeleccione And ENTRA Then
-                    Dim PROC As String = ""
+                    Dim PROC As String = "", CADENA1 As String, CADENA2 As String
                     ENTRA = False
                     SUMA = 0 : SUMA2 = 0
 
@@ -3315,6 +3419,10 @@ Public Class FrmLiquidacionesAE
 
                     If Fg(e.Row, _FgColSeleccione) Then
                         PROC = "A"
+
+                        CADENA1 = Fg(e.Row, _FgColCheck19)
+                        CADENA2 = Fg(e.Row, _FgColNumViaje)
+
                         If Fg(e.Row, _FgColCheck19) <> "Check" Then
                             nGastos = 0 : nVales = 0
                             FGCHECK_DESPLEGAR_GASTOS_VIAJE(Fg(e.Row, _FgColNumViaje), PROC)
@@ -3386,9 +3494,9 @@ Public Class FrmLiquidacionesAE
                     ENTRA = False
                     'Fg(e.Row, _FgColSueldoViaje) = IIf(Fg(e.Row, _FgColSelCalculo), Fg(e.Row, _FgColSdoPorTonedada), Fg(e.Row, _FgColSueldo))
                     If Fg(e.Row, _FgColSelCalculo) Then
-                        Fg(e.Row, _FgColSueldoViaje) = Convert.ToDecimal(Fg(e.Row, _FgColSueldo)) + Convert.ToDecimal(Fg(e.Row, _FgColSdoManiobraPorTonedada))
+                        Fg(e.Row, _FgColSueldoViaje) = Convert.ToDecimal(Fg(e.Row, 16)) + Convert.ToDecimal(Fg(e.Row, 17))
                     Else
-                        Fg(e.Row, _FgColSueldoViaje) = Convert.ToDecimal(Fg(e.Row, _FgColSueldo)) + Convert.ToDecimal(Fg(e.Row, _FgColSueldoManiobra))
+                        Fg(e.Row, _FgColSueldoViaje) = Convert.ToDecimal(Fg(e.Row, 11)) + Convert.ToDecimal(Fg(e.Row, 13))
                     End If
                     CALCULAR_IMPORTES()
                     ENTRA = True
@@ -3546,9 +3654,11 @@ Public Class FrmLiquidacionesAE
                     LTS_VALES, LTS_LLEGADA, PDF, ESTADO, DESCT, CALIF, VELMAX, TIEMPO_MARCH_INERCIA, KMS_TAB, CALIF_FACTOR_CARGA, CALIF_RALENTI, 
                     CALIF_GLOBAL, CAL_FAC_CAR_EVA, CAL_RAL_EVA, CAL_GLO_EVA, LTS_DESCONTAR, PRECIO_X_LTS, LTS_AUTORIZADOS, LITROS_UREA, 
                     CARGO_X_PUNTO_MUERTO, FACTOR_CARGA, PORC_USO_RALENTI, LTS_UREA_REAL, PORC_TOLERANCIA, PORC_RALENTI, NO_VIAJE, NO_LIQUI, 
-                    BONO_RES, LTS_FORANEOS, CVE_EVE, CALIF_VEL_MAX, NO_DE_VIAJES, NO_DE_VIAJES_VACIO, BONO_RES_VACIO, 
-                    ISNULL(EVENTO,0) AS EVEN, ISNULL(EVENTO_LTS,0) AS EVEN_LTS, LTS_AUTORIZADOS2, LTS_VALES2, LTS_DESCONTAR2, LTS_DESCONTAR2
+                    BONO_RES, LTS_FORANEOS, CVE_EVE, CALIF_VEL_MAX, NO_DE_VIAJES, NO_DE_VIAJES_VACIO, BONO_RES_VACIO, ISNULL(EVENTO,0) AS EVEN, 
+                    ISNULL(EVENTO_LTS,0) AS EVEN_LTS, LTS_AUTORIZADOS2, LTS_VALES2, LTS_DESCONTAR2, DESCXLITROS2
                     FROM GCRESETEO R WHERE CVE_RES = " & TCVE_RES.Text
+
+                'LTS_DESCONTAR2, DESCXLITROS2
                 Using cmd As SqlCommand = cnSAE.CreateCommand
                     cmd.CommandText = SQL
                     Using dr As SqlDataReader = cmd.ExecuteReader
@@ -3693,14 +3803,16 @@ Public Class FrmLiquidacionesAE
 
                                 If dr("EVEN_LTS") = 0 Then
                                     RadLTS_ECM.Checked = True
-                                    TLTS_AUTORIZADOS2.Value = CSng(TLTS_ECM.Text.Replace(",", ""))
-                                    TLTS_DESCONTAR2.Value = CSng(TLTS_ECM.Text.Replace(",", "")) - dr("LTS_VALES2")
-                                    LtDescXLitros2.Text = Format(TLTS_DESCONTAR2.Value * CSng(TPRECIO_X_LTS.Text.Replace(",", "")), "###,###,##0.00")
+                                    TLTS_AUTORIZADOS2.Value = dr("LTS_AUTORIZADOS2")
+
+                                    TLTS_DESCONTAR2.Value = dr("LTS_DESCONTAR2")
+                                    LtDescXLitros2.Text = dr("DESCXLITROS2")
                                 Else
                                     RadLTS_TAB.Checked = True
-                                    TLTS_AUTORIZADOS2.Value = CDec(TLTS_TAB.Text.Replace(",", ""))
-                                    TLTS_DESCONTAR2.Value = CDec(TLTS_TAB.Text.Replace(",", "")) - dr("LTS_VALES2")
-                                    LtDescXLitros2.Text = Format(TLTS_DESCONTAR2.Value * CSng(TPRECIO_X_LTS.Text.Replace(",", "")), "###,###,##0.00")
+                                    TLTS_AUTORIZADOS2.Value = dr("LTS_AUTORIZADOS2")
+
+                                    TLTS_DESCONTAR2.Value = dr("LTS_DESCONTAR2")
+                                    LtDescXLitros2.Text = dr("DESCXLITROS2")
                                 End If
                             End If
                         Else
@@ -3753,7 +3865,7 @@ Public Class FrmLiquidacionesAE
                 StiReport1.Item("CVE_RES") = TCVE_RES.Text
                 StiReport1.Render()
                 'StiReport1.Print(True)
-                StiReport1.Show()
+                VisualizaReporte(StiReport1)
             Catch ex As Exception
                 BITACORA_LIQ("1480. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & RUTA_FORMATOS)
                 MsgBox("1480. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -4564,7 +4676,8 @@ Public Class FrmLiquidacionesAE
                 StiReport1.Item("CVE_OPER_DED") = CLng(TCVE_OPER.Text)
                 StiReport1.Render()
                 'StiReport1.Print(True)
-                StiReport1.Show()
+                VisualizaReporte(StiReport1)
+
             Catch ex As Exception
                 BITACORA_LIQ("1840. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & RUTA_FORMATOS)
                 MsgBox("1840. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -5245,6 +5358,8 @@ Public Class FrmLiquidacionesAE
                                     If Fg(k, _FgColNumViaje).ToString.Length > 0 Then
                                         PERC_X_VIAJE += Fg(k, _FgColSueldoViaje)
                                         SUELDO += IIf(Fg(k, _FgColSelCalculo), Fg(k, _FgColSdoPorTonedada), Fg(k, _FgColSueldo))
+                                        'SUELDO += Fg(k, 18)
+                                        'PERC_X_VIAJE += Fg(k, 18)
                                     End If
                                 End If
                             End If
@@ -5552,232 +5667,253 @@ Public Class FrmLiquidacionesAE
             End If
 
             If LtTipoCrobro.Text = "Cancelado" Then
-                MsgBox("La liquidación se encuengra cancelada")
+                MsgBox("La liquidación se encuentra cancelada")
                 Return
             End If
 
             If LtTipoCrobro.Text = "Contabilizada" Then
-                MsgBox("La liquidación se encuengra contabilizada no es posible realizar la cancelación")
+                MsgBox("La liquidación se encuentra contabilizada no es posible realizar la cancelación")
                 Return
             End If
             If LtTipoCrobro.Text = "Depositada" Then
-                MsgBox("La liquidación se encuengra depositada no es posible realizar la cancelación")
+                MsgBox("La liquidación se encuentra depositada no es posible realizar la cancelación")
                 Return
             End If
 
             If MsgBox("Realmente desea cancelar la liquidación?", vbYesNo) = vbYes Then
 
-                Var4 = ""
-                FrmMotivoBaja.ShowDialog()
-
-                If Var4.Trim.Length > 0 Then
-                    Dim CVE_MTC As Long = 0
-                    Try
-                        CVE_MTC = GRABA_MOTIVO_CANC("LIQUIDACIONES", Var4)
+                'Dim CVE_MTC As Long = 0
+                Try
+                        'CVE_MTC = GRABA_MOTIVO_CANC("LIQUIDACIONES", Var4)
                     Catch ex As Exception
                         BITACORA_LIQ("12. " & ex.Message & vbNewLine & "" & ex.StackTrace)
                     End Try
 
-                    SQL = "UPDATE GCLIQUIDACIONES SET STATUS = 'C', CVE_MTC = " & CVE_MTC & " WHERE CVE_LIQ = " & CLng(TCVE_LIQ.Text)
+                SQL = "UPDATE GCLIQUIDACIONES SET STATUS = 'C' WHERE CVE_LIQ = " & CLng(TCVE_LIQ.Text)
+                Dim cmd As New SqlCommand With {.Connection = cnSAE, .CommandText = SQL}
+                returnValue = cmd.ExecuteNonQuery().ToString
 
-                    Dim cmd As New SqlCommand With {
-                        .Connection = cnSAE,
-                        .CommandText = SQL
-                    }
-                    returnValue = cmd.ExecuteNonQuery().ToString
-                    If returnValue IsNot Nothing Then
-                        If returnValue = "1" Then
-                            For k = 1 To Fg.Rows.Count - 1
-                                If Not IsNothing(Fg(k, _FgColNumViaje)) Then
-                                    If Not String.IsNullOrEmpty(Fg(k, _FgColNumViaje)) Then
-                                        If Fg(k, _FgColNumViaje).ToString.Trim.Length > 0 Then
 
-                                            If Not Valida_Conexion() Then
-                                            End If
+                For k = 1 To Fg.Rows.Count - 1
 
-                                            Try
-                                                SQL = "UPDATE GCLIQ_PARTIDAS SET STATUS = 'C' WHERE UUID = '" & Fg(k, _FgColUUID) & "'"
-                                                Using cmd3 As SqlCommand = cnSAE.CreateCommand
-                                                    cmd3.CommandText = SQL
-                                                    returnValue = cmd3.ExecuteNonQuery().ToString
-                                                    If returnValue IsNot Nothing Then
-                                                        If returnValue = "1" Then
-                                                        Else
+                    If Not IsNothing(Fg(k, _FgColNumViaje)) Then
+                        If Not String.IsNullOrEmpty(Fg(k, _FgColNumViaje)) Then
+                            If Fg(k, _FgColNumViaje).ToString.Trim.Length > 0 Then
 
-                                                        End If
-                                                    End If
-                                                End Using
-                                            Catch ex As Exception
-                                                BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                                                MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                                            End Try
-                                            Try
-                                                SQL = "UPDATE GCASIGNACION_VIAJE SET CVE_ST_VIA = 6 WHERE CVE_VIAJE = '" & Fg(k, _FgColNumViaje) & "'"
-                                                Using cmd3 As SqlCommand = cnSAE.CreateCommand
-                                                    cmd3.CommandText = SQL
-                                                    returnValue = cmd3.ExecuteNonQuery().ToString
-                                                    If returnValue IsNot Nothing Then
-                                                        If returnValue = "1" Then
-                                                        Else
-                                                            If PASS_GRUPOCE.ToUpper = "GOHAN" Then
-                                                                'MsgBox("Cristian tomale una foto a esta ventana y enviamela por fa" & vbNewLine & SQL)
-                                                            End If
-                                                        End If
-                                                    End If
-                                                End Using
-                                            Catch ex As Exception
-                                                BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                                                MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                                            End Try
-                                        End If
-                                    End If
+                                If Not Valida_Conexion() Then
                                 End If
-                            Next
-                            'GASTOS DE VIAJE FgG
-                            For k = 1 To FgG.Rows.Count - 1
+
                                 Try
-                                    If Not IsNothing(FgG(k, 2)) Then
-                                        If Not String.IsNullOrEmpty(FgG(k, 2)) Then
-                                            If FgG(k, 3).ToString.Trim.Length > 0 Then
+                                    SQL = "UPDATE GCLIQ_PARTIDAS SET STATUS = 'C' WHERE UUID = '" & Fg(k, _FgColUUID) & "'"
+                                    Using cmd3 As SqlCommand = cnSAE.CreateCommand
+                                        cmd3.CommandText = SQL
+                                        returnValue = cmd3.ExecuteNonQuery().ToString
+                                        If returnValue IsNot Nothing Then
+                                            If returnValue = "1" Then
+                                            Else
 
-                                                If Not Valida_Conexion() Then
+                                            End If
+                                        End If
+                                    End Using
+                                Catch ex As Exception
+                                    BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                                    MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                                End Try
+                                Try
+                                    SQL = "UPDATE GCASIGNACION_VIAJE SET CVE_ST_VIA = 6 WHERE CVE_VIAJE = '" & Fg(k, _FgColNumViaje) & "'"
+                                    Using cmd3 As SqlCommand = cnSAE.CreateCommand
+                                        cmd3.CommandText = SQL
+                                        returnValue = cmd3.ExecuteNonQuery().ToString
+                                        If returnValue IsNot Nothing Then
+                                            If returnValue = "1" Then
+                                            Else
+                                                If PASS_GRUPOCE.ToUpper = "GOHAN" Then
+                                                    'MsgBox("Cristian tomale una foto a esta ventana y enviamela por fa" & vbNewLine & SQL)
                                                 End If
+                                            End If
+                                        End If
+                                    End Using
+                                Catch ex As Exception
+                                    BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                                    MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                                End Try
+                            End If
+                        End If
+                    End If
+                Next
+                'GASTOS DE VIAJE FgG
+                For k = 1 To FgG.Rows.Count - 1
+                        Try
+                            If Not IsNothing(FgG(k, 2)) Then
+                                If Not String.IsNullOrEmpty(FgG(k, 2)) Then
+                                    If FgG(k, 3).ToString.Trim.Length > 0 Then
 
-                                                SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET STATUS = 'A', CVE_LIQ = 0 WHERE 
+                                        If Not Valida_Conexion() Then
+                                        End If
+
+                                        SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET STATUS = 'A', CVE_LIQ = 0 WHERE 
                                                     CVE_VIAJE = '" & FgG(k, 2) & "' AND FOLIO = '" & FgG(k, 3) & "'"
-                                                Using cmd3 As SqlCommand = cnSAE.CreateCommand
-                                                    cmd3.CommandText = SQL
-                                                    returnValue = cmd3.ExecuteNonQuery().ToString
-                                                    If returnValue IsNot Nothing Then
-                                                        If returnValue = "1" Then
-                                                        End If
-                                                    End If
-                                                End Using
-                                            End If
-                                        End If
-                                    End If
-                                Catch ex As Exception
-                                    BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                                    MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                                End Try
-                            Next
-                            '************* FIN GASTOS DE VIAJE
-
-                            'VALES DE VIAJE FgV
-                            For k = 1 To FgV.Rows.Count - 1
-                                Try
-                                    If Not IsNothing(FgV(k, 1)) Then
-                                        If Not String.IsNullOrEmpty(FgV(k, 1)) Then
-                                            If FgV(k, 2).ToString.Trim.Length > 0 Then
-
-                                                If Not Valida_Conexion() Then
+                                        Using cmd3 As SqlCommand = cnSAE.CreateCommand
+                                            cmd3.CommandText = SQL
+                                            returnValue = cmd3.ExecuteNonQuery().ToString
+                                            If returnValue IsNot Nothing Then
+                                                If returnValue = "1" Then
                                                 End If
-
-                                                SQL = "UPDATE GCASIGNACION_VIAJE_VALES SET STATUS = 'A', CVE_LIQ = 0 WHERE 
-                                                    CVE_VIAJE = '" & FgV(k, 1) & "' AND FOLIO = '" & FgV(k, 2) & "'"
-                                                Using cmd3 As SqlCommand = cnSAE.CreateCommand
-                                                    cmd3.CommandText = SQL
-                                                    returnValue = cmd3.ExecuteNonQuery().ToString
-                                                    If returnValue IsNot Nothing Then
-                                                        If returnValue = "1" Then
-                                                        End If
-                                                    End If
-                                                End Using
                                             End If
-                                        End If
+                                        End Using
                                     End If
-                                Catch ex As Exception
-                                    BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                                    MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                                End Try
-                            Next
-                            '************* FIN VALES DE VIAJE
-                            Try
-                                'LIQ. GASTOS COMPROBADOS
-                                If Not Valida_Conexion() Then
                                 End If
+                            End If
+                        Catch ex As Exception
+                            BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                            MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                        End Try
+                    Next
+                    '************* FIN GASTOS DE VIAJE
 
-                                SQL = "UPDATE GCLIQ_GASTOS_COMPROBADOS SET STATUS = 'C' WHERE CVE_LIQ = " & CLng(TCVE_LIQ.Text)
-                                Using cmd3 As SqlCommand = cnSAE.CreateCommand
-                                    cmd3.CommandText = SQL
-                                    returnValue = cmd3.ExecuteNonQuery().ToString
-                                    If returnValue IsNot Nothing Then
-                                        If returnValue = "1" Then
+                    'VALES DE VIAJE FgV
+                    For k = 1 To FgV.Rows.Count - 1
+                        Try
+                            If Not IsNothing(FgV(k, 1)) Then
+                                If Not String.IsNullOrEmpty(FgV(k, 1)) Then
+                                    If FgV(k, 2).ToString.Trim.Length > 0 Then
+
+                                        If Not Valida_Conexion() Then
                                         End If
-                                    End If
-                                End Using
-                            Catch ex As Exception
-                                BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                                MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                            End Try
 
-                            'LIQ. DEDUCCIONES
-                            Try
-                                If Not Valida_Conexion() Then
+                                        SQL = "UPDATE GCASIGNACION_VIAJE_VALES SET STATUS = 'A', CVE_LIQ = 0 WHERE 
+                                                    CVE_VIAJE = '" & FgV(k, 1) & "' AND FOLIO = '" & FgV(k, 2) & "'"
+                                        Using cmd3 As SqlCommand = cnSAE.CreateCommand
+                                            cmd3.CommandText = SQL
+                                            returnValue = cmd3.ExecuteNonQuery().ToString
+                                            If returnValue IsNot Nothing Then
+                                                If returnValue = "1" Then
+                                                End If
+                                            End If
+                                        End Using
+                                    End If
                                 End If
-                                SQL = "UPDATE GCLIQ_DEDUCCIONES SET STATUS = 'C' WHERE CVE_LIQ = " & CLng(TCVE_LIQ.Text)
-                                Using cmd3 As SqlCommand = cnSAE.CreateCommand
-                                    cmd3.CommandText = SQL
-                                    returnValue = cmd3.ExecuteNonQuery().ToString
-                                    If returnValue IsNot Nothing Then
-                                        If returnValue = "1" Then
-                                        End If
-                                    End If
-                                End Using
-                            Catch ex As Exception
-                                BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                                MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                            End Try
+                            End If
+                        Catch ex As Exception
+                            BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                            MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                        End Try
+                    Next
+                    '************* FIN VALES DE VIAJE
+                    Try
+                        'LIQ. GASTOS COMPROBADOS
+                        If Not Valida_Conexion() Then
+                        End If
 
-                            'SALDO DEDUCCIONES
+                        SQL = "UPDATE GCLIQ_GASTOS_COMPROBADOS SET STATUS = 'C' WHERE CVE_LIQ = " & CLng(TCVE_LIQ.Text)
+                        Using cmd3 As SqlCommand = cnSAE.CreateCommand
+                            cmd3.CommandText = SQL
+                            returnValue = cmd3.ExecuteNonQuery().ToString
+                            If returnValue IsNot Nothing Then
+                                If returnValue = "1" Then
+                                End If
+                            End If
+                        End Using
+                    Catch ex As Exception
+                        BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+
+                    'LIQ. DEDUCCIONES
+                    Try
+                        If Not Valida_Conexion() Then
+                        End If
+                        SQL = "UPDATE GCLIQ_DEDUCCIONES SET STATUS = 'C' WHERE CVE_LIQ = " & CLng(TCVE_LIQ.Text)
+                        Using cmd3 As SqlCommand = cnSAE.CreateCommand
+                            cmd3.CommandText = SQL
+                            returnValue = cmd3.ExecuteNonQuery().ToString
+                            If returnValue IsNot Nothing Then
+                                If returnValue = "1" Then
+                                End If
+                            End If
+                        End Using
+                    Catch ex As Exception
+                        BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+
+                    'SALDO DEDUCCIONES
+                    Try
+                        Dim ABONO As Decimal = 0, FOLIO_DED As Long = 0, IMPORTE_PAGADO As Decimal = 0
+
+                        For k = 1 To FgD.Rows.Count - 1
                             Try
-                                Dim ABONO As Decimal = 0, FOLIO_DED As Long = 0, IMPORTE_PAGADO As Decimal = 0
+                                If Not IsNothing(FgD(k, 11)) Then
+                                    If IsNumeric(FgD(k, 11)) Then
+                                        If Not IsNothing(FgD(k, 2)) Then
+                                            If IsNumeric(FgD(k, 2)) Then
+                                                If IsNumeric(FgD(k, 6)) Then
 
-                                For k = 1 To FgD.Rows.Count - 1
-                                    Try
-                                        If Not IsNothing(FgD(k, 11)) Then
-                                            If IsNumeric(FgD(k, 11)) Then
-                                                If Not IsNothing(FgD(k, 2)) Then
-                                                    If IsNumeric(FgD(k, 2)) Then
-                                                        If IsNumeric(FgD(k, 6)) Then
+                                                    FOLIO_DED = CLng(FgD(k, 2))
 
-                                                            FOLIO_DED = CLng(FgD(k, 2))
+                                                    If Not Valida_Conexion() Then
+                                                    End If
 
-                                                            If Not Valida_Conexion() Then
-                                                            End If
+                                                    IMPORTE_PAGADO = OBTEN_IMPORTE_PAGADO_GCDEDUC_OPER(FOLIO_DED)
 
-                                                            IMPORTE_PAGADO = OBTEN_IMPORTE_PAGADO_GCDEDUC_OPER(FOLIO_DED)
-
-                                                            SQL = "UPDATE GCDEDUC_OPER SET STATUS = 'A', 
+                                                    SQL = "UPDATE GCDEDUC_OPER SET STATUS = 'A', 
                                                                 IMPORTE_PAGADO = IMPORTE_PAGADO - " & IMPORTE_PAGADO & ", 
                                                                 SALDO = SALDO + " & IMPORTE_PAGADO & "
                                                                 WHERE FOLIO = " & FOLIO_DED
-                                                            Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                                                                cmd2.CommandText = SQL
-                                                                returnValue = cmd2.ExecuteNonQuery().ToString
-                                                                If returnValue IsNot Nothing Then
-                                                                    If returnValue = "1" Then
-                                                                    End If
-                                                                End If
-                                                            End Using
-                                                            AJUSTA_DEDUCCIONES(FOLIO_DED)
+                                                    Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                                                        cmd2.CommandText = SQL
+                                                        returnValue = cmd2.ExecuteNonQuery().ToString
+                                                        If returnValue IsNot Nothing Then
+                                                            If returnValue = "1" Then
+                                                            End If
                                                         End If
-                                                    End If
+                                                    End Using
+                                                    AJUSTA_DEDUCCIONES(FOLIO_DED)
                                                 End If
                                             End If
                                         End If
-                                    Catch ex As Exception
-                                        BITACORA_LIQ("720. " & ex.Message & vbNewLine & "" & ex.StackTrace)
-                                    End Try
-                                Next
+                                    End If
+                                End If
                             Catch ex As Exception
-                                BITACORA_LIQ("730. " & ex.Message & vbNewLine & ex.StackTrace)
-                                MsgBox("730. " & ex.Message & vbNewLine & ex.StackTrace)
+                                BITACORA_LIQ("720. " & ex.Message & vbNewLine & "" & ex.StackTrace)
                             End Try
+                        Next
+                    Catch ex As Exception
+                        BITACORA_LIQ("730. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("730. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
 
-                            'BORRANDO DEDUCCION 10
+                    'BORRANDO DEDUCCION 10
+                    Try
+                        SQL = "DELETE FROM GCDEDUC_OPER WHERE CVE_LIQ = " & CLng(TCVE_LIQ.Text) & " AND CVE_DED = 10"
+                        Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                            cmd2.CommandText = SQL
+                            returnValue = cmd2.ExecuteNonQuery().ToString
+                            If returnValue IsNot Nothing Then
+                                If returnValue = "1" Then
+                                End If
+                            End If
+                        End Using
+                    Catch ex As Exception
+                        BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                    End Try
+
+                Try
+                    If CONVERTIR_TO_INT(TCVE_RES.Text) > 0 Then
+                        If Not Valida_Conexion() Then
+                        End If
+
+                        Using cmd3 As SqlCommand = cnSAE.CreateCommand
+                            ' ANTES "EN LIQUIDACION"
+                            SQL = "UPDATE GCRESETEO SET ESTADO = 'FINALIZADO' WHERE CVE_RES = " & CONVERTIR_TO_LONG(TCVE_RES.Text)
+                            cmd3.CommandText = SQL
+                            returnValue = cmd3.ExecuteNonQuery().ToString
+                            If returnValue IsNot Nothing Then
+                                If returnValue = "1" Then
+                                End If
+                            End If
                             Try
-                                SQL = "DELETE FROM GCDEDUC_OPER WHERE CVE_LIQ = " & CLng(TCVE_LIQ.Text) & " AND CVE_DED = 10"
+                                SQL = "UPDATE GCDEDUC_OPER SET STATUS = 'C' WHERE CVE_LIQ = " & CLng(TCVE_LIQ.Text) & " AND CVE_RES = " & CONVERTIR_TO_LONG(TCVE_RES.Text)
                                 Using cmd2 As SqlCommand = cnSAE.CreateCommand
                                     cmd2.CommandText = SQL
                                     returnValue = cmd2.ExecuteNonQuery().ToString
@@ -5789,56 +5925,16 @@ Public Class FrmLiquidacionesAE
                             Catch ex As Exception
                                 BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
                             End Try
-
-                            Try
-                                If CONVERTIR_TO_INT(TCVE_RES.Text) > 0 Then
-                                    If Not Valida_Conexion() Then
-                                    End If
-
-                                    Using cmd3 As SqlCommand = cnSAE.CreateCommand
-                                        ' ANTES "EN LIQUIDACION"
-                                        SQL = "UPDATE GCRESETEO SET ESTADO = 'FINALIZADO' 
-                                            WHERE CVE_RES = " & CONVERTIR_TO_LONG(TCVE_RES.Text)
-                                        cmd3.CommandText = SQL
-                                        returnValue = cmd3.ExecuteNonQuery().ToString
-                                        If returnValue IsNot Nothing Then
-                                            If returnValue = "1" Then
-                                            End If
-                                        End If
-                                        Try
-                                            SQL = "UPDATE GCDEDUC_OPER SET STATUS = 'C' WHERE CVE_LIQ = " & CLng(TCVE_LIQ.Text) & " AND 
-                                                CVE_RES = " & CONVERTIR_TO_LONG(TCVE_RES.Text)
-                                            Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                                                cmd2.CommandText = SQL
-                                                returnValue = cmd2.ExecuteNonQuery().ToString
-                                                If returnValue IsNot Nothing Then
-                                                    If returnValue = "1" Then
-                                                    End If
-                                                End If
-                                            End Using
-                                        Catch ex As Exception
-                                            BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                                        End Try
-                                    End Using
-                                End If
-                            Catch ex As Exception
-                                BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
-                            End Try
-
-                            Dim ResultMensaje As String
-                            ResultMensaje = MensajeBox("!! La liquidación se cancelo correctamente !!", "Proceso finalizado", "Information")
-
-                            Me.Close()
-                        Else
-                            MsgBox("!!NO se logro cancelar la liquidación!!")
-                        End If
-                    Else
-                        MsgBox("!!NO se logro cancelar la liquidación!!")
+                        End Using
                     End If
-                Else
-                    Dim ResultMensaje As String
-                    ResultMensaje = MensajeBox("!! Cancelación abortada ¡¡", "Proceso finalizado", "Error")
-                End If
+                Catch ex As Exception
+                    BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
+                End Try
+
+                Dim ResultMensaje As String
+                ResultMensaje = MensajeBox("!! La liquidación se cancelo correctamente !!", "Proceso finalizado", "Information")
+
+                Me.Close()
             End If
         Catch ex As Exception
             BITACORA_LIQ("12. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -6428,6 +6524,13 @@ Else " & vbNewLine & "
         Catch ex As Exception
             BITACORA_LIQ("2200. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
+    End Sub
+
+    Private Sub Fg_Leave(sender As Object, e As EventArgs) Handles Fg.Leave
+        If Fg.Col = 11 AndAlso Fg(Fg.Row, 1) AndAlso Fg(Fg.Row, 45) = "SEMANAL" Then
+            Fg.FinishEditing()
+            CALCULAR_IMPORTES()
+        End If
     End Sub
 End Class
 

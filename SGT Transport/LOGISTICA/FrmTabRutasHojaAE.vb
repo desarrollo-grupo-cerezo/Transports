@@ -1143,8 +1143,7 @@ Public Class FrmTabRutasHojaAE
 
     Private Sub TSUELDO_FULL_TextChanged(sender As Object, e As EventArgs) Handles TSUELDO_FULL.TextChanged
         Try
-            'TTAR_OPER_FULL
-            'TPORC_SUELDO_FULL
+
         Catch ex As Exception
         End Try
     End Sub

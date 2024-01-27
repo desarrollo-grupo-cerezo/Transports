@@ -29,7 +29,6 @@ Partial Class FrmPagoMultidocCxC
         Me.TCLIENTE = New System.Windows.Forms.TextBox()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.LtNombre = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.F1 = New C1.Win.Calendar.C1DateEdit()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.BtnDocto = New C1.Win.C1Input.C1Button()
@@ -49,6 +48,10 @@ Partial Class FrmPagoMultidocCxC
         Me.TXTN = New C1.Win.C1Input.C1NumericEdit()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.CboCuentabancaria = New C1.Win.C1Input.C1ComboBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.txTC = New C1.Win.C1Input.C1TextBox()
+        Me.CboMoneda = New System.Windows.Forms.ComboBox()
+        Me.Label9 = New System.Windows.Forms.Label()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.BarraMenu.SuspendLayout()
         CType(Me.BtnClie, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -60,6 +63,7 @@ Partial Class FrmPagoMultidocCxC
         CType(Me.TXT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TXTN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CboCuentabancaria, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txTC, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Fg
@@ -76,14 +80,14 @@ Partial Class FrmPagoMultidocCxC
         Me.Fg.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Heavy
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Fg.KeyActionEnter = C1.Win.C1FlexGrid.KeyActionEnum.None
-        Me.Fg.Location = New System.Drawing.Point(10, 262)
+        Me.Fg.Location = New System.Drawing.Point(10, 250)
         Me.Fg.Name = "Fg"
         Me.Fg.PreserveEditMode = True
         Me.Fg.Rows.DefaultSize = 24
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Cell
         Me.Fg.ShowButtons = C1.Win.C1FlexGrid.ShowButtonsEnum.Always
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg.Size = New System.Drawing.Size(664, 268)
+        Me.Fg.Size = New System.Drawing.Size(720, 301)
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 5
         '
@@ -96,7 +100,7 @@ Partial Class FrmPagoMultidocCxC
         Me.BarraMenu.Location = New System.Drawing.Point(0, 0)
         Me.BarraMenu.Name = "BarraMenu"
         Me.BarraMenu.Padding = New System.Windows.Forms.Padding(0, 8, 0, 0)
-        Me.BarraMenu.Size = New System.Drawing.Size(686, 60)
+        Me.BarraMenu.Size = New System.Drawing.Size(740, 60)
         Me.BarraMenu.Stretch = False
         Me.BarraMenu.TabIndex = 8
         Me.BarraMenu.Text = "MenuStrip1"
@@ -176,21 +180,11 @@ Partial Class FrmPagoMultidocCxC
         '
         Me.LtNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtNombre.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtNombre.Location = New System.Drawing.Point(291, 75)
+        Me.LtNombre.Location = New System.Drawing.Point(236, 75)
         Me.LtNombre.Name = "LtNombre"
-        Me.LtNombre.Size = New System.Drawing.Size(338, 20)
+        Me.LtNombre.Size = New System.Drawing.Size(393, 20)
         Me.LtNombre.TabIndex = 300
         Me.LtNombre.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(233, 78)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(56, 16)
-        Me.Label2.TabIndex = 299
-        Me.Label2.Text = "Nombre"
         '
         'F1
         '
@@ -227,7 +221,7 @@ Partial Class FrmPagoMultidocCxC
         Me.BtnDocto.AutoSize = True
         Me.BtnDocto.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BtnDocto.Image = CType(resources.GetObject("BtnDocto.Image"), System.Drawing.Image)
-        Me.BtnDocto.Location = New System.Drawing.Point(246, 225)
+        Me.BtnDocto.Location = New System.Drawing.Point(246, 192)
         Me.BtnDocto.Name = "BtnDocto"
         Me.BtnDocto.Size = New System.Drawing.Size(22, 22)
         Me.BtnDocto.TabIndex = 10
@@ -240,16 +234,16 @@ Partial Class FrmPagoMultidocCxC
         Me.TDOCTO.AcceptsReturn = True
         Me.TDOCTO.AcceptsTab = True
         Me.TDOCTO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TDOCTO.Location = New System.Drawing.Point(110, 225)
+        Me.TDOCTO.Location = New System.Drawing.Point(110, 192)
         Me.TDOCTO.Name = "TDOCTO"
         Me.TDOCTO.Size = New System.Drawing.Size(132, 22)
-        Me.TDOCTO.TabIndex = 4
+        Me.TDOCTO.TabIndex = 5
         '
         'Label4
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(13, 228)
+        Me.Label4.Location = New System.Drawing.Point(13, 195)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(93, 16)
         Me.Label4.TabIndex = 304
@@ -260,7 +254,7 @@ Partial Class FrmPagoMultidocCxC
         Me.TMagico.AcceptsReturn = True
         Me.TMagico.AcceptsTab = True
         Me.TMagico.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TMagico.Location = New System.Drawing.Point(748, 289)
+        Me.TMagico.Location = New System.Drawing.Point(789, 289)
         Me.TMagico.Name = "TMagico"
         Me.TMagico.Size = New System.Drawing.Size(57, 22)
         Me.TMagico.TabIndex = 8
@@ -290,10 +284,11 @@ Partial Class FrmPagoMultidocCxC
         Me.FECHA_DEP.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.FECHA_DEP.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FECHA_DEP.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.FECHA_DEP.Location = New System.Drawing.Point(341, 106)
+        Me.FECHA_DEP.Location = New System.Drawing.Point(384, 106)
         Me.FECHA_DEP.Name = "FECHA_DEP"
         Me.FECHA_DEP.Size = New System.Drawing.Size(110, 22)
         Me.FECHA_DEP.TabIndex = 2
+        Me.FECHA_DEP.TabStop = False
         Me.FECHA_DEP.Tag = Nothing
         Me.FECHA_DEP.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
         Me.FECHA_DEP.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
@@ -303,7 +298,7 @@ Partial Class FrmPagoMultidocCxC
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(233, 109)
+        Me.Label1.Location = New System.Drawing.Point(276, 109)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(101, 16)
         Me.Label1.TabIndex = 359
@@ -315,7 +310,7 @@ Partial Class FrmPagoMultidocCxC
         Me.LtConc.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LtConc.Location = New System.Drawing.Point(236, 137)
         Me.LtConc.Name = "LtConc"
-        Me.LtConc.Size = New System.Drawing.Size(338, 20)
+        Me.LtConc.Size = New System.Drawing.Size(393, 20)
         Me.LtConc.TabIndex = 363
         Me.LtConc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -374,7 +369,7 @@ Partial Class FrmPagoMultidocCxC
             Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TIMPORTE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TIMPORTE.Location = New System.Drawing.Point(110, 168)
+        Me.TIMPORTE.Location = New System.Drawing.Point(110, 221)
         Me.TIMPORTE.Name = "TIMPORTE"
         Me.TIMPORTE.ReadOnly = True
         Me.TIMPORTE.Size = New System.Drawing.Size(132, 22)
@@ -387,7 +382,7 @@ Partial Class FrmPagoMultidocCxC
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(54, 171)
+        Me.Label5.Location = New System.Drawing.Point(54, 224)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(52, 16)
         Me.Label5.TabIndex = 374
@@ -399,7 +394,7 @@ Partial Class FrmPagoMultidocCxC
         Me.TXT.BorderColor = System.Drawing.Color.Black
         Me.TXT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TXT.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TXT.Location = New System.Drawing.Point(729, 182)
+        Me.TXT.Location = New System.Drawing.Point(770, 182)
         Me.TXT.Name = "TXT"
         Me.TXT.Size = New System.Drawing.Size(127, 19)
         Me.TXT.TabIndex = 6
@@ -424,7 +419,7 @@ Partial Class FrmPagoMultidocCxC
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.TXTN.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TXTN.ImagePadding = New System.Windows.Forms.Padding(45, 0, 0, 0)
-        Me.TXTN.Location = New System.Drawing.Point(748, 227)
+        Me.TXTN.Location = New System.Drawing.Point(789, 227)
         Me.TXTN.Name = "TXTN"
         Me.TXTN.Size = New System.Drawing.Size(88, 19)
         Me.TXTN.TabIndex = 7
@@ -439,7 +434,7 @@ Partial Class FrmPagoMultidocCxC
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(19, 200)
+        Me.Label7.Location = New System.Drawing.Point(19, 167)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(87, 16)
         Me.Label7.TabIndex = 375
@@ -457,21 +452,87 @@ Partial Class FrmPagoMultidocCxC
         Me.CboCuentabancaria.ImagePadding = New System.Windows.Forms.Padding(0)
         Me.CboCuentabancaria.ItemsDisplayMember = ""
         Me.CboCuentabancaria.ItemsValueMember = ""
-        Me.CboCuentabancaria.Location = New System.Drawing.Point(110, 198)
+        Me.CboCuentabancaria.Location = New System.Drawing.Point(110, 165)
         Me.CboCuentabancaria.MaxDropDownItems = 15
         Me.CboCuentabancaria.Name = "CboCuentabancaria"
-        Me.CboCuentabancaria.Size = New System.Drawing.Size(341, 20)
-        Me.CboCuentabancaria.TabIndex = 376
+        Me.CboCuentabancaria.Size = New System.Drawing.Size(384, 20)
+        Me.CboCuentabancaria.TabIndex = 4
         Me.CboCuentabancaria.Tag = Nothing
         Me.CboCuentabancaria.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.CboCuentabancaria.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(500, 224)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(34, 16)
+        Me.Label8.TabIndex = 378
+        Me.Label8.Text = "T. C."
+        '
+        'txTC
+        '
+        Me.txTC.AcceptsReturn = True
+        Me.txTC.AcceptsTab = True
+        Me.txTC.AutoSize = False
+        Me.txTC.BorderColor = System.Drawing.SystemColors.WindowFrame
+        Me.txTC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txTC.CustomFormat = "###,###,##0.000000"
+        Me.txTC.DataType = GetType(Decimal)
+        Me.txTC.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.txTC.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.txTC.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.txTC.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.txTC.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.txTC.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txTC.Location = New System.Drawing.Point(540, 221)
+        Me.txTC.Name = "txTC"
+        Me.txTC.Size = New System.Drawing.Size(89, 22)
+        Me.txTC.TabIndex = 7
+        Me.txTC.Tag = Nothing
+        Me.txTC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txTC.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'CboMoneda
+        '
+        Me.CboMoneda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CboMoneda.DropDownWidth = 200
+        Me.CboMoneda.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboMoneda.FormattingEnabled = True
+        Me.CboMoneda.Location = New System.Drawing.Point(321, 220)
+        Me.CboMoneda.Name = "CboMoneda"
+        Me.CboMoneda.Size = New System.Drawing.Size(173, 24)
+        Me.CboMoneda.TabIndex = 6
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(258, 223)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(57, 16)
+        Me.Label9.TabIndex = 471
+        Me.Label9.Text = "Moneda"
         '
         'FrmPagoMultidocCxC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CausesValidation = False
-        Me.ClientSize = New System.Drawing.Size(686, 563)
+        Me.ClientSize = New System.Drawing.Size(740, 563)
+        Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.CboMoneda)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.txTC)
         Me.Controls.Add(Me.CboCuentabancaria)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.TXTN)
@@ -491,7 +552,6 @@ Partial Class FrmPagoMultidocCxC
         Me.Controls.Add(Me.F1)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.LtNombre)
-        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.BtnClie)
         Me.Controls.Add(Me.TCLIENTE)
         Me.Controls.Add(Me.Label14)
@@ -517,6 +577,7 @@ Partial Class FrmPagoMultidocCxC
         CType(Me.TXT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TXTN, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CboCuentabancaria, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txTC, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -531,7 +592,6 @@ Partial Class FrmPagoMultidocCxC
     Friend WithEvents TCLIENTE As TextBox
     Friend WithEvents Label14 As Label
     Friend WithEvents LtNombre As Label
-    Friend WithEvents Label2 As Label
     Friend WithEvents F1 As C1.Win.Calendar.C1DateEdit
     Friend WithEvents Label3 As Label
     Friend WithEvents BtnDocto As C1.Win.C1Input.C1Button
@@ -551,4 +611,8 @@ Partial Class FrmPagoMultidocCxC
     Friend WithEvents TXTN As C1.Win.C1Input.C1NumericEdit
     Friend WithEvents Label7 As Label
     Friend WithEvents CboCuentabancaria As C1.Win.C1Input.C1ComboBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents txTC As C1.Win.C1Input.C1TextBox
+    Private WithEvents CboMoneda As ComboBox
+    Friend WithEvents Label9 As Label
 End Class

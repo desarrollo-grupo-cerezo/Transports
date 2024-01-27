@@ -231,20 +231,20 @@ Public Class FrmEdoCuentaCliente
 
                     LtSaldo.Text = Lt3.Text
 
-                    Try
-                        If Var49 <> IMPORTE + ABONOS Then
-                            SQL = "UPDATE CLIE" & Empresa & " SET SALDO = " & IMPORTE + ABONOS & " WHERE CLAVE = '" & Var4 & "'"
-                            Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                                cmd2.CommandText = SQL
-                                returnValue = cmd2.ExecuteNonQuery().ToString
-                                If returnValue IsNot Nothing Then
-                                    If returnValue = "1" Then
-                                    End If
-                                End If
-                            End Using
-                        End If
-                    Catch ex As Exception
-                    End Try
+                    'Try
+                    '    If Var49 <> IMPORTE + ABONOS Then
+                    '        SQL = "UPDATE CLIE" & Empresa & " SET SALDO = " & IMPORTE + ABONOS & " WHERE CLAVE = '" & Var4 & "'"
+                    '        Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                    '            cmd2.CommandText = SQL
+                    '            returnValue = cmd2.ExecuteNonQuery().ToString
+                    '            If returnValue IsNot Nothing Then
+                    '                If returnValue = "1" Then
+                    '                End If
+                    '            End If
+                    '        End Using
+                    '    End If
+                    'Catch ex As Exception
+                    'End Try
 
                 End Using
             End Using

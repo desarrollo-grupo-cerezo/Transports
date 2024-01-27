@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Fg.ColumnInfo" xml:space="preserve">
-    <value>8,1,0,0,0,100,Columns:1{Width:147;AllowSorting:False;Caption:"Factura";ShowButtons:Always;AllowDragging:False;Editor:"TXT";Style:"DataType:System.String;TextAlign:LeftCenter;";}	2{Width:23;AllowSorting:False;Caption:".....";ShowButtons:Always;AllowDragging:False;Style:"ComboList:""..."";";}	3{Width:74;AllowNull:False;AllowSorting:False;AllowFiltering:None;Caption:"No. cargo";ShowButtons:Always;AllowDragging:False;AllowEditing:False;Style:"DataType:System.String;TextAlign:LeftCenter;";}	4{Width:132;AllowSorting:False;Caption:"Monto";ShowButtons:Always;Editor:"TXTN";Style:"Format:""N6"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	5{Width:132;AllowSorting:False;Caption:"Saldo";ShowButtons:Always;Style:"Format:""N6"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	6{Caption:"Importe";Style:"Format:""N6"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	7{Visible:False;}	</value>
+    <value>10,1,0,0,0,100,Columns:1{Width:147;AllowSorting:False;Caption:"Factura";ShowButtons:Always;AllowDragging:False;Editor:"TXT";Style:"DataType:System.String;TextAlign:LeftCenter;";}	2{Width:23;AllowSorting:False;Caption:".....";ShowButtons:Always;AllowDragging:False;Style:"ComboList:""..."";";}	3{Width:74;AllowNull:False;AllowSorting:False;AllowFiltering:None;Caption:"No. cargo";ShowButtons:Always;AllowDragging:False;AllowEditing:False;Style:"DataType:System.String;TextAlign:LeftCenter;";}	4{Width:132;AllowSorting:False;Caption:"Monto";ShowButtons:Always;Editor:"TXTN";Style:"Format:""N6"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	5{Width:132;AllowSorting:False;Caption:"Saldo";ShowButtons:Always;Style:"Format:""N6"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	6{Caption:"Importe";Style:"Format:""N6"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	7{Width:60;Caption:"Moneda";}	8{Caption:"NumMoneda";Visible:False;Style:"DataType:System.Int32;TextAlign:GeneralCenter;";}	9{Visible:False;}	</value>
   </data>
   <data name="Fg.StyleInfo" xml:space="preserve">
     <value>Normal{}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:234, 236, 245;ForeColor:ControlText;SearchBackColor:Orange;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	FrozenAlternate{}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:SeaShell;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	Footer{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	FirstCustomStyle{}	</value>
@@ -130,7 +130,7 @@
   <data name="BtnDocto.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        6QAAAOkBVJIUSwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
+        6AAAAOgBhtX2rwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
         2XJ5Zb3Hy9vm/4+buud/+NyT/8Pnnf4fN23f/zKgWEF5/wV3v3w1qHJUYOUWy5ZX1nc6o335/5idr//H
         H/mBgmN3v/uf2rHif0FZ301b9zReqDYECI2rzq4A2oJNMwxH73n7v7B13v/Q2LIGqDYEKKqaeBHkbGwa
         kbHvlF3/80q7nkO1IUBF/bTX4XNPYdWEjJ3mHP1fWNH3R904khWqFQIq6ggbEH3423/7OUf+55d1/zG0
@@ -147,7 +147,7 @@
   <data name="BtnConc.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        6QAAAOkBVJIUSwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
+        6AAAAOgBhtX2rwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
         2XJ5Zb3Hy9vm/4+buud/+NyT/8Pnnf4fN23f/zKgWEF5/wV3v3w1qHJUYOUWy5ZX1nc6o335/5idr//H
         H/mBgmN3v/uf2rHif0FZ301b9zReqDYECI2rzq4A2oJNMwxH73n7v7B13v/Q2LIGqDYEKKqaeBHkbGwa
         kbHvlF3/80q7nkO1IUBF/bTX4XNPYdWEjJ3mHP1fWNH3R904khWqFQIq6ggbEH3423/7OUf+55d1/zG0

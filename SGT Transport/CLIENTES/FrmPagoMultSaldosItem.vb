@@ -17,7 +17,7 @@ Public Class FrmPagoMultSaldosItem
 
         Application.EnableVisualStyles()
 
-        Fg.Cols.Count = 13
+        Fg.Cols.Count = 16
 
         Fg.Dock = DockStyle.Fill
 
@@ -34,6 +34,9 @@ Public Class FrmPagoMultSaldosItem
         Fg(0, 10) = "Importe"
         Fg(0, 11) = "Saldo"
         Fg(0, 12) = "NumCargo"
+        Fg(0, 13) = "Num_Moneda"
+        Fg(0, 14) = "Moneda"
+        Fg(0, 15) = "TC"
 
 
         Fg.Cols(1).StarWidth = "*"
@@ -47,8 +50,15 @@ Public Class FrmPagoMultSaldosItem
         Fg.Cols(9).StarWidth = "*"
         Fg.Cols(10).StarWidth = "*"
         Fg.Cols(11).StarWidth = "*"
+        Fg.Cols(13).StarWidth = "*"
+        Fg.Cols(14).StarWidth = "*"
+        Fg.Cols(15).StarWidth = "*"
 
         Fg.Cols(12).Visible = False
+
+        Fg.Cols(13).Visible = False
+        Fg.Cols(15).Visible = False
+
         Fg.Cols(1).MinWidth = 50
         Fg.Cols(1).DataType = GetType(Boolean)
 
@@ -74,20 +84,21 @@ Public Class FrmPagoMultSaldosItem
 
             '                1           2         3            4            5             6          7
             SQL = "SELECT M.REFER, M.CVE_CLIE, P.NOMBRE, M.FECHA_APLI, M.FECHA_VENC, M.NO_FACTURA, M.DOCTO, "
-            SQL &= "ISNULL((SELECT SUM(IMPORTE * SIGNO) FROM CUEN_DET" & Empresa & " D WHERE M.CVE_CLIE = D.CVE_CLIE AND 
+            SQL &= "ISNULL((SELECT SUM(IMPMON_EXT * SIGNO) FROM CUEN_DET" & Empresa & " D WHERE M.CVE_CLIE = D.CVE_CLIE AND 
                 M.REFER = D.REFER AND M.NUM_CPTO = D.ID_MOV AND M.NUM_CARGO = D.NUM_CARGO),0) + 
-                (SELECT COALESCE(SUM(C3.IMPORTE * SIGNO),0) AS ABONOS FROM CUEN_DET" & Empresa & " C3 
-                WHERE C3.REFER = M.REFER AND ID_MOV = M.NUM_CPTO AND SIGNO = 1) AS SUMA_CUENDET, M.IMPORTE, "
+                (SELECT COALESCE(SUM(C3.IMPMON_EXT * SIGNO),0) AS ABONOS FROM CUEN_DET" & Empresa & " C3 
+                WHERE C3.REFER = M.REFER AND ID_MOV = M.NUM_CPTO AND SIGNO = 1) AS SUMA_CUENDET, M.IMPMON_EXT AS IMPORTE, "
             '                                                                            8             9
             '                  10
-            SQL &= "M.IMPORTE + 
-                ISNULL((SELECT SUM(IMPORTE*SIGNO) FROM CUEN_DET" & Empresa & " C4 WHERE REFER = M.REFER AND CVE_CLIE = M.CVE_CLIE AND ID_MOV = M.NUM_CPTO AND NUM_CARGO = M.NUM_CARGO),0) AS SALDO,"
+            SQL &= "M.IMPMON_EXT + 
+                ISNULL((SELECT SUM(IMPMON_EXT*SIGNO) FROM CUEN_DET" & Empresa & " C4 WHERE REFER = M.REFER AND CVE_CLIE = M.CVE_CLIE AND ID_MOV = M.NUM_CPTO AND NUM_CARGO = M.NUM_CARGO),0) AS SALDO,"
             '              11          12
-            SQL &= "M.NUM_CARGO, M.NUM_CPTO "
+            SQL &= "M.NUM_CARGO, M.NUM_CPTO, M.NUM_MONED, D.CVE_MONED, M.TCAMBIO  "
             SQL &= "FROM CUEN_M" & Empresa & " M
                 INNER JOIN CLIE" & Empresa & " P ON P.CLAVE = M.CVE_CLIE
+                INNER JOIN MONED" & Empresa & " D ON D.NUM_MONED = M.NUM_MONED
                 WHERE M.NUM_CPTO <> 9 AND
-            (M.IMPORTE + ISNULL((SELECT SUM(IMPORTE * SIGNO) FROM CUEN_DET" & Empresa & " D WHERE CVE_CLIE = M.CVE_CLIE AND REFER = M.REFER AND ID_MOV = M.NUM_CPTO AND M.NUM_CARGO = D.NUM_CARGO),0)) > 0.1 " &
+            (M.IMPMON_EXT + ISNULL((SELECT SUM(IMPMON_EXT * SIGNO) FROM CUEN_DET" & Empresa & " D WHERE CVE_CLIE = M.CVE_CLIE AND REFER = M.REFER AND ID_MOV = M.NUM_CPTO AND M.NUM_CARGO = D.NUM_CARGO),0)) > 0.1 " &
             IIf(Var4.Trim.Length = 0, "", " AND M.CVE_CLIE = '" & Var4 & "'") & " ORDER BY M.CVE_CLIE, M.REFER "
 
             Using cmd As SqlCommand = cnSAE.CreateCommand
@@ -95,7 +106,7 @@ Public Class FrmPagoMultSaldosItem
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
                         Fg.AddItem("" & vbTab & "" & vbTab & dr(0) & vbTab & dr(1) & vbTab & dr(2) & vbTab & dr(3) & vbTab & dr(4) & vbTab &
-                                   dr(5) & vbTab & dr(6) & vbTab & dr(7) & vbTab & dr(8) & vbTab & dr(9) & vbTab & dr(10))
+                                   dr(5) & vbTab & dr(6) & vbTab & dr(7) & vbTab & dr(8) & vbTab & dr(9) & vbTab & dr(10) & vbTab & dr(12) & vbTab & dr(13) & vbTab & dr(14))
                     End While
                 End Using
             End Using
@@ -119,7 +130,7 @@ Public Class FrmPagoMultSaldosItem
                         z += 1
                     End If
                 Next
-                ReDim aTPV(z, 4)
+                ReDim aTPV(z, 7)
 
                 z = 0
                 For k = 1 To Fg.Rows.Count - 1
@@ -129,6 +140,10 @@ Public Class FrmPagoMultSaldosItem
                         aTPV(z, 2) = Fg(k, 11) 'SALDO
                         aTPV(z, 3) = 0 'SALDO
                         aTPV(z, 4) = Fg(k, 11) 'SALDO
+
+                        aTPV(z, 5) = Fg(k, 13) 'NUM_MONEDA
+                        aTPV(z, 6) = Fg(k, 14) 'CVE_MONEDA
+                        aTPV(z, 7) = Fg(k, 15) 'TC
                         z += 1
                     End If
                 Next

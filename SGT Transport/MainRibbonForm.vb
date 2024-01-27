@@ -3472,7 +3472,7 @@ Public Class MainRibbonForm
     End Sub
     Private Sub BarPolizaEgresosDiesel_Click(sender As Object, e As EventArgs) Handles BarPolizaEgresosDiesel.Click
         BACKUPTXT("XTAB_CAPTION", "FrmPolizaDiesel")
-        CREA_TAB(FrmPolizaDiesel, "Póliza Egresos Diesel")
+        CREA_TAB(FrmPolizaDiesel, "Pólizas Provisión Diesel")
     End Sub
     Private Sub BarPolizaFoliosDinero_Click(sender As Object, e As EventArgs) Handles BarPolizaFoliosDinero.Click
         BACKUPTXT("XTAB_CAPTION", "FrmPolizaFoliosDinero")

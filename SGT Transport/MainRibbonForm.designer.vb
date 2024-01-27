@@ -399,6 +399,7 @@ Partial Class MainRibbonForm
         Me.BarPolizaIngresos = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarPolizaLiq = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarPolizaLiq1 = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibPolFondoOper = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibbonMenu5 = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RibPolPagRef = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibbonMenu7 = New C1.Win.C1Ribbon.RibbonMenu()
@@ -408,7 +409,6 @@ Partial Class MainRibbonForm
         Me.BarContResLiq = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarContResLiqConceptos = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarContResFacturasAbono = New C1.Win.C1Ribbon.RibbonButton()
-        Me.RibPolFondoOper = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibCierreContable = New C1.Win.C1Ribbon.RibbonGroup()
         Me.RibbonToolBar8 = New C1.Win.C1Ribbon.RibbonToolBar()
         Me.RibbonToolBar7 = New C1.Win.C1Ribbon.RibbonToolBar()
@@ -3290,7 +3290,7 @@ Partial Class MainRibbonForm
         '
         Me.BarPolizaEgresosDiesel.LargeImage = Global.SGT_Transport.My.Resources.Resources.finalizar22
         Me.BarPolizaEgresosDiesel.Name = "BarPolizaEgresosDiesel"
-        Me.BarPolizaEgresosDiesel.Text = "Pólizas egresos diesel"
+        Me.BarPolizaEgresosDiesel.Text = "Pólizas Provisión Diesel"
         '
         'BarPolizaFoliosDinero
         '
@@ -3321,6 +3321,12 @@ Partial Class MainRibbonForm
         Me.BarPolizaLiq1.LargeImage = Global.SGT_Transport.My.Resources.Resources.gastos26
         Me.BarPolizaLiq1.Name = "BarPolizaLiq1"
         Me.BarPolizaLiq1.Text = "Pólizas Gastos administrativos"
+        '
+        'RibPolFondoOper
+        '
+        Me.RibPolFondoOper.LargeImage = Global.SGT_Transport.My.Resources.Resources.centro_costo
+        Me.RibPolFondoOper.Name = "RibPolFondoOper"
+        Me.RibPolFondoOper.Text = "Póliza Fondo Operadores"
         '
         'RibbonMenu5
         '
@@ -3380,12 +3386,6 @@ Partial Class MainRibbonForm
         Me.BarContResFacturasAbono.Name = "BarContResFacturasAbono"
         Me.BarContResFacturasAbono.SmallImage = Global.SGT_Transport.My.Resources.Resources.impresora16
         Me.BarContResFacturasAbono.Text = "Resumen Facturas Abonos"
-        '
-        'RibPolFondoOper
-        '
-        Me.RibPolFondoOper.LargeImage = Global.SGT_Transport.My.Resources.Resources.centro_costo
-        Me.RibPolFondoOper.Name = "RibPolFondoOper"
-        Me.RibPolFondoOper.Text = "Póliza Fondo Operadores"
         '
         'RibCierreContable
         '

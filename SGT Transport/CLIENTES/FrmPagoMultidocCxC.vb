@@ -3,6 +3,7 @@ Imports System.IO
 Imports C1.Win.C1FlexGrid
 Imports System.Data.SqlClient
 Imports System.ComponentModel
+Imports System.Security.Cryptography
 
 Public Class FrmPagoMultidocCxC
     Private ENTRA As Boolean = True
@@ -51,6 +52,25 @@ Public Class FrmPagoMultidocCxC
             Return
         End If
 
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT NUM_MONED, DESCR, TCAMBIO, CVE_MONED 
+                    FROM MONED" & Empresa & " WHERE STATUS = 'A' AND NOT CVE_MONED IS NULL ORDER BY NUM_MONED"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+                        CboMoneda.Items.Add(String.Format("{0} | {1} | {2}", dr("NUM_MONED"), dr("CVE_MONED"), dr("DESCR")))
+                    End While
+                End Using
+                CboMoneda.SelectedIndex = 0
+            End Using
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+
+        txTC.Value = 1
+        txTC.ReadOnly = True
         'Fg.Cols(6).Visible = False
 
         If Var10 = "Compra" Then
@@ -60,7 +80,7 @@ Public Class FrmPagoMultidocCxC
         Try
             Fg.Rows.Count = 1
             '                    concepto       f2        descr concep   docto       importe 
-            Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0")
+            Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "" & vbTab & "0")
             Fg.Row = 1
             Fg.Col = 1
 
@@ -80,6 +100,8 @@ Public Class FrmPagoMultidocCxC
         Dim j As Integer, NUM_CPTO As Integer, IMPORTE As Decimal, NUM_PAGOS As Integer, SUMAPAGOS As Decimal
         Dim FORMAPAGO As String, DOCTO As String, REFER As String, NUM_CARGO As Integer
         Dim CVE_CTA As String
+        Dim NUM_MONEDA As Integer, NUM_MONEDA_FAC As Integer
+        Dim TC As Decimal, TC_FAC As Decimal
 
         If MsgBox("Realmente desea realizar el pago?", vbYesNo) = vbNo Then
             Return
@@ -112,6 +134,16 @@ Public Class FrmPagoMultidocCxC
             End If
 
             CVE_CTA = Split(CboCuentabancaria.Text, "|")(0).Trim
+            NUM_MONEDA = Convert.ToInt32(Split(CboMoneda.Text, "|")(0).Trim)
+
+            If NUM_MONEDA <> 1 Then
+                If txTC.Value <= 1 Then
+                    MsgBox("Por favor capture el Tipo de Cambio")
+                    Return
+                End If
+            End If
+
+            TC = txTC.Value
 
             NUM_PAGOS = 0 : SUMAPAGOS = 0
             ENTRA = False
@@ -133,10 +165,23 @@ Public Class FrmPagoMultidocCxC
                     NUM_CARGO = 1
                 End If
 
+                If IsNumeric(Fg(j, 8)) Then
+                    NUM_MONEDA_FAC = Fg(j, 8)
+                Else
+                    NUM_MONEDA_FAC = 1
+                End If
+
+                TC_FAC = 1
+
+                If NUM_MONEDA <> 1 And NUM_MONEDA_FAC <> 1 Then
+                    NUM_MONEDA_FAC = NUM_MONEDA
+                    TC_FAC = TC
+                End If
+
 
                 If REFER.Trim.Length > 0 And IMPORTE > 0 Then
                     SUMAPAGOS = SUMAPAGOS + IMPORTE
-                    CUEN_DET_COM(REFER, IMPORTE, NUM_CPTO, DOCTO, NUM_CARGO, CVE_CTA)
+                    CUEN_DET_COM(REFER, IMPORTE, NUM_CPTO, DOCTO, NUM_CARGO, CVE_CTA, NUM_MONEDA_FAC, TC_FAC)
                     NUM_PAGOS = NUM_PAGOS + 1
                 End If
             Next
@@ -151,7 +196,7 @@ Public Class FrmPagoMultidocCxC
             MsgBox("10. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
-    Sub CUEN_DET_COM(fCVE_DOC As String, fIMPORTE As Decimal, fNUM_CPTO As Integer, fDOCTO As String, FNUM_CARGO As Integer, FCVE_CTA As String)
+    Sub CUEN_DET_COM(fCVE_DOC As String, fIMPORTE As Decimal, fNUM_CPTO As Integer, fDOCTO As String, FNUM_CARGO As Integer, FCVE_CTA As String, FNUM_MONEDA As Integer, FTC As Decimal)
 
         Dim CVE_CLIE As String, REFER As String, ID_MOV As Integer, NUM_CPTO As Integer, NUM_CARGO As Integer, CVE_OBS As Long, NO_FACTURA As String
         Dim IMPORTE As Decimal, AFEC_COI As String, NUM_MONED As Integer, TCAMBIO As Decimal, IMPMON_EXT As Decimal, CTLPOL As Integer
@@ -173,8 +218,11 @@ Public Class FrmPagoMultidocCxC
             CVE_OBS = 0
             If fDOCTO.Trim.Length = 0 Then fDOCTO = fCVE_DOC
             IMPORTE = fIMPORTE
-            AFEC_COI = "" : NUM_MONED = 1 : TCAMBIO = 1
-            IMPMON_EXT = IMPORTE
+            AFEC_COI = ""
+
+            NUM_MONED = FNUM_MONEDA
+            TCAMBIO = FTC
+            IMPMON_EXT = IMPORTE / FTC
 
             CTLPOL = 0 : CVE_FOLIO = "" : TIPO_MOV = "A" : SIGNO = -1 : CVE_AUT = 0 : Usuario2 = 0 : REF_SIST = "" : NO_PARTIDA = 1
 
@@ -183,7 +231,7 @@ Public Class FrmPagoMultidocCxC
                 SIGNO, CVE_AUT, USUARIO, REF_SIST, NO_PARTIDA, CVE_CTA) VALUES('" & CVE_CLIE & "','" & REFER & "','" & ID_MOV & "','" &
                 NUM_CPTO & "','" & NUM_CARGO & "','" & CVE_OBS & "','" & NO_FACTURA & "','" & fDOCTO & "','" &
                 Math.Round(IMPORTE, 6) & "','" & FSQL(FECHA_DEP.Value) & "','" & FSQL(F1.Value) & "','" & AFEC_COI & "','" &
-                NUM_MONED & "','" & TCAMBIO & "','" & Math.Round(IMPORTE, 6) & "',GETDATE(),'" & CTLPOL & "','" &
+                NUM_MONED & "','" & TCAMBIO & "','" & Math.Round(IMPMON_EXT, 6) & "',GETDATE(),'" & CTLPOL & "','" &
                 CVE_FOLIO & "','" & TIPO_MOV & "','" & SIGNO & "','" & CVE_AUT & "','" & Usuario2 & "','" & REF_SIST & "',
                 ISNULL((SELECT MAX(NO_PARTIDA) + 1 FROM CUEN_DET" & Empresa & " WHERE REFER = '" & REFER & "' AND CVE_CLIE = '" & CVE_CLIE & "'),1), '" & FCVE_CTA & "')"
 
@@ -206,7 +254,7 @@ Public Class FrmPagoMultidocCxC
             TDOCTO.Text = ""
 
             Fg.Rows.Count = 1
-            Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0")
+            Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "" & vbTab & "0")
             Fg.Row = 1
             Fg.Col = 1
 
@@ -277,13 +325,22 @@ Public Class FrmPagoMultidocCxC
             Var2 = "CLIE"
             Var4 = ""
             Var5 = ""
-            frmSelItem.ShowDialog()
+            Var9 = ""
+
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 TCLIENTE.Text = Var4
                 LtNombre.Text = Var5
+                If Var9 <> "0" Then
+                    TNUM_CPTO.Text = Var9
+                    TNUM_CPTO_Validated(Nothing, Nothing)
+
+                End If
+
                 Var2 = ""
                 Var4 = ""
                 Var5 = ""
+                Var9 = ""
                 F1.Focus()
             End If
         Catch ex As Exception
@@ -371,7 +428,7 @@ Public Class FrmPagoMultidocCxC
             Var2 = "ClieDocTo"
             Var4 = TCLIENTE.Text
             Var5 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 TDOCTO.Text = Var4
                 Var2 = ""
@@ -461,10 +518,11 @@ Public Class FrmPagoMultidocCxC
             frmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 TNUM_CPTO.Text = Var4
+                LtConc.Text = Var5
                 Var2 = ""
                 Var4 = ""
                 Var5 = ""
-                TDOCTO.Focus()
+                CboCuentabancaria.Focus()
             End If
 
         Catch Ex As Exception
@@ -485,11 +543,11 @@ Public Class FrmPagoMultidocCxC
                 DESCR = BUSCA_CAT("ConcCxCRefer", TNUM_CPTO.Text)
                 If DESCR <> "" Then
                     LtConc.Text = DESCR
-                    TDOCTO.Focus()
+                    CboCuentabancaria.Focus()
                 Else
                     MsgBox("El concepto no existe")
                     TNUM_CPTO.Text = ""
-                    TNUM_CPTO.Select()
+                    'TNUM_CPTO.Select()
                 End If
             End If
 
@@ -506,7 +564,7 @@ Public Class FrmPagoMultidocCxC
                 DESCR = BUSCA_CAT("ConcCxCRefer", TNUM_CPTO.Text)
                 If DESCR <> "" Then
                     LtConc.Text = DESCR
-                    TDOCTO.Focus()
+                    CboCuentabancaria.Focus()
                 Else
                     MsgBox("El concepto no existe")
                     TNUM_CPTO.Text = ""
@@ -526,7 +584,7 @@ Public Class FrmPagoMultidocCxC
                 DESCR = BUSCA_CAT("ConcCxCRefer", TNUM_CPTO.Text)
                 If DESCR <> "" Then
                     LtConc.Text = DESCR
-                    TDOCTO.Focus()
+                    CboCuentabancaria.Focus()
                 Else
                     MsgBox("El concepto no existe")
                     TNUM_CPTO.Text = ""
@@ -547,7 +605,7 @@ Public Class FrmPagoMultidocCxC
 
             If Fg.Rows.Count = 1 Then
                 '                     REFER          F2        NUM_CARGO      ABONO         saldo       importe
-                Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "0" & vbTab & "0")
+                Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
             End If
 
         Catch ex As Exception
@@ -620,6 +678,12 @@ Public Class FrmPagoMultidocCxC
         End If
         Try    'REFER
             ReDim aTPV(0, 0)
+            Dim HayMonedaExtranjera = False
+            Dim Mda As String = "", MdaExt = ""
+            Dim i As Integer
+
+            Mda = Split(CboMoneda.Text, "|")(1).Trim
+            MdaExt = Mda
 
             Var2 = "ClieDocSaldos2"
             Var4 = TCLIENTE.Text
@@ -635,7 +699,13 @@ Public Class FrmPagoMultidocCxC
                     Try
                         If Not IsNothing(aTPV(k, 0)) Then
                             If aTPV(k, 0).ToString.Trim.Length > 0 Then
-                                Fg.AddItem("" & vbTab & aTPV(k, 0) & vbTab & "" & vbTab & aTPV(k, 1) & vbTab & aTPV(k, 2) & vbTab & aTPV(k, 3) & vbTab & aTPV(k, 4))
+                                Fg.AddItem("" & vbTab & aTPV(k, 0) & vbTab & "" & vbTab & aTPV(k, 1) & vbTab & aTPV(k, 2) & vbTab & aTPV(k, 3) & vbTab & aTPV(k, 4) & vbTab & aTPV(k, 6) & vbTab & aTPV(k, 5))
+
+                                If aTPV(k, 5) <> 1 Then
+                                    HayMonedaExtranjera = True
+                                    MdaExt = aTPV(k, 6)
+                                End If
+
                                 z += 1
                             End If
                         End If
@@ -643,8 +713,19 @@ Public Class FrmPagoMultidocCxC
                         Bitacora("4300. " & ex.Message & vbNewLine & ex.StackTrace)
                     End Try
                 Next
+
+                If Mda <> MdaExt Then
+                    For i = 0 To CboMoneda.Items.Count
+                        If CboMoneda.Items.Item(i).ToString().Contains(MdaExt) Then
+                            CboMoneda.SelectedIndex = i
+                            Exit For
+                        End If
+                    Next
+                End If
+
+                CalculaTotal()
                 '                     REFER          F2        NUM_CARGO      ABONO         saldo       importe
-                Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "0" & vbTab & "0")
+                Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
 
                 Fg.Row = Fg.Rows.Count - 1
                 Fg.Col = 1
@@ -801,7 +882,7 @@ Public Class FrmPagoMultidocCxC
                                 ENTRA = False
                                 If Fg.Row = Fg.Rows.Count - 1 Then
                                     If Fg(Fg.Row, 1).ToString.Trim.Length > 0 Then
-                                        Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "0")
+                                        Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
                                         Fg.Row = Fg.Rows.Count - 1
                                     Else
 
@@ -934,7 +1015,7 @@ Public Class FrmPagoMultidocCxC
         Try
             ENTRA = False
             If Fg.Row = Fg.Rows.Count - 1 Then
-                Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "0")
+                Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
                 Fg.Row = Fg.Rows.Count - 1
             Else
                 Fg.Row = Fg.Row + 1
@@ -972,6 +1053,26 @@ Public Class FrmPagoMultidocCxC
             Return 0
         End Try
     End Function
+
+
+    Private Sub CalculaTotal()
+        Try
+            Dim SUMA As Decimal
+            ENTRA = False
+            SUMA = 0
+            For k = 1 To Fg.Rows.Count - 1
+                If Fg(k, 1) <> "" Then
+                    SUMA = SUMA + Fg(k, 4)
+                End If
+            Next
+
+            TIMPORTE.Value = SUMA
+        Catch ex As Exception
+
+            Bitacora("4050. " & ex.Message & vbNewLine & ex.StackTrace)
+
+        End Try
+    End Sub
 
     Private Sub FECHA_DEP_KeyDown(sender As Object, e As KeyEventArgs) Handles FECHA_DEP.KeyDown
         If e.KeyCode = 13 Then
@@ -1102,7 +1203,7 @@ Public Class FrmPagoMultidocCxC
                             ENTRA = False
                             If Fg.Row = Fg.Rows.Count - 1 Then
                                 If Fg(Fg.Row, 1).ToString.Trim.Length > 0 Then
-                                    Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "0")
+                                    Fg.AddItem("" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "0" & vbTab & "0" & vbTab & "" & vbTab & "0")
                                     Fg.Row = Fg.Rows.Count - 1
                                 Else
 
@@ -1146,7 +1247,7 @@ Public Class FrmPagoMultidocCxC
                         If Not IsNothing(TXTN.Value) Then
                             If TXTN.Value > 0 Then
                                 TIMPORTE.Value = CalculaPagos(Fg.Row, TXTN.Value)
-
+                                'CalculaTotal()
                             Else
                                 MsgBox("El monto no puede ser cero verifique por favor")
                                 Fg.Col = 1
@@ -1196,5 +1297,34 @@ Public Class FrmPagoMultidocCxC
             Return False
         End Try
     End Function
+
+    Private Sub CboMoneda_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboMoneda.SelectedIndexChanged
+        If CboMoneda.Text.Contains("MXN") Then
+            txTC.Value = 1
+            txTC.ReadOnly = True
+        Else
+            Try
+                Dim NUM_MONEDA As Integer
+                NUM_MONEDA = Convert.ToInt32(Split(CboMoneda.Text, "|")(0).Trim)
+                Using cmd As SqlCommand = cnSAE.CreateCommand
+                    SQL = String.Format("SELECT NUM_MONED, DESCR, TCAMBIO, CVE_MONED FROM MONED" & Empresa & " WHERE STATUS = 'A' AND NUM_MONED = {0}", NUM_MONEDA)
+                    cmd.CommandText = SQL
+                    Using dr As SqlDataReader = cmd.ExecuteReader
+                        If dr.Read Then
+                            txTC.Value = dr("TCAMBIO")
+                            txTC.ReadOnly = False
+                        End If
+                    End Using
+                End Using
+            Catch ex As Exception
+                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+            End Try
+        End If
+    End Sub
+
+    Private Sub F1_ValueChanged(sender As Object, e As EventArgs) Handles F1.ValueChanged
+        FECHA_DEP.Value = F1.Value
+    End Sub
 End Class
 

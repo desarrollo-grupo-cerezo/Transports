@@ -254,6 +254,7 @@ Public Class FrmPolizaProvRef
                                 ORDER BY a.FechaDocumento, a.Documento, a.Orden, a.DocAgr, a.SubOrden, a.Viaje", Filtro)
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
+                cmd.CommandTimeout = 0
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     Fg.AddItem(" " & vbTab & " " & vbTab & " " & vbTab & " " & vbTab & " " & vbTab &
                                        " " & vbTab & " " & vbTab & " " & vbTab & " " & vbTab & " " & vbTab &
@@ -440,11 +441,18 @@ Public Class FrmPolizaProvRef
 
     Private Sub BarExcel_Click(sender As Object, e As ClickEventArgs) Handles BarExcel.Click
         Try
+            For k = 1 To Fg.Rows.Count - 1
+                If Fg(k, 9) = "FIN_PARTIDAS" Then
+                    Fg(k, 13) = ""
+                    Fg(k, 14) = ""
+                End If
+            Next
             Fg.AllowFiltering = True
             Fg.FilterDefinition = "<ColumnFilters><ColumnFilter ColumnIndex='6' ColumnName='Orden' DataType='System.String'><ConditionFilter AndConditions='True'><Condition Operator='DoesNotContain' Parameter='99' /></ConditionFilter></ColumnFilter></ColumnFilters>"
             EXPORTAR_EXCEL_TRANSPORT(Fg, TPOLIZA.Text, True)
             Fg.FilterDefinition = ""
             Fg.AllowFiltering = False
+            BarDesplegar_Click(Nothing, Nothing)
         Catch ex As Exception
             MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace)
             Bitacora("12. " & ex.Message & vbNewLine & ex.StackTrace)

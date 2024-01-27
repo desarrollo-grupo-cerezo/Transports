@@ -443,12 +443,19 @@ Public Class FrmPolizaVentasFlete
 
     Private Sub BarExcel_Click(sender As Object, e As ClickEventArgs) Handles BarExcel.Click
         Try
+            For k = 1 To Fg.Rows.Count - 1
+                If Fg(k, 9) = "FIN_PARTIDAS" Then
+                    Fg(k, 13) = ""
+                    Fg(k, 14) = ""
+                End If
+            Next
             Fg.AllowFiltering = True
             Fg.FilterDefinition = "<ColumnFilters><ColumnFilter ColumnIndex='6' ColumnName='Orden' DataType='System.String'><ConditionFilter AndConditions='True'><Condition Operator='DoesNotContain' Parameter='99' /></ConditionFilter></ColumnFilter></ColumnFilters>"
             EXPORTAR_EXCEL_TRANSPORT(Fg, "Poliza ventas flete", True)
 
             Fg.FilterDefinition = ""
             Fg.AllowFiltering = False
+            BarDesplegar_Click(Nothing, Nothing)
 
         Catch ex As Exception
             MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace)

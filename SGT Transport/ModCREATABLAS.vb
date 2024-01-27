@@ -14166,7 +14166,7 @@ AS
 					SubOrden = T.Tipo,
 					TipoPoliza = '',
 					NoPolizaCuenta = IIF(T.Tipo = 1, dbo.fn_formato_cuenta(dbo.fn_get_cta_gtos('DIESEL'), UN.CUEN_CONT), dbo.fn_formato_cuenta(dbo.fn_get_cta_gtos('FONDO DIESEL'), OP.CUEN_CONT)),
-					ConceptoPolizaDepto = '',
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT('V', V.CVE_VIAJE, ' ', VV.LITROS_REALES, ' LTRS LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = IIF(T.Tipo = 1, CONCAT('', VV.SUBTOTAL + VV.IEPS), ''),
@@ -14202,7 +14202,7 @@ AS
 					NoPolizaCuenta = CASE	WHEN T.Tipo = 1 AND SDO.DiasCalculo > 0 THEN dbo.fn_formato_cuenta(dbo.fn_get_cta_gtos('SUELDO'), UN.CUEN_CONT)
 											WHEN T.Tipo = 1 AND SDO.DiasCalculo = 0 THEN dbo.fn_formato_cuenta(dbo.fn_get_cta_gtos('NOTAS DIVERSAS'), UN.CUEN_CONT)
 											WHEN T.Tipo = 2 THEN dbo.fn_get_cta_gtos('SUELDO FISCAL') END,
-					ConceptoPolizaDepto = '',
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT('V', LP.CVE_VIAJE,' SDO ', 'LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = CONCAT('', CASE WHEN T.Tipo = 1 THEN SDO.Sueldo END),
@@ -14237,7 +14237,7 @@ AS
 					NoPolizaCuenta = CASE WHEN T.Tipo = 1 THEN dbo.fn_formato_cuenta(SR.CUENT_CONT, UN.CUEN_CONT)   
 										  WHEN T.Tipo = 2 THEN  dbo.fn_get_cta(4, 7, GC.FECHA) 
 										  WHEN T.Tipo IN (3, 4) THEN PV.CUENTA_CONTABLE END, 
-					ConceptoPolizaDepto = '',
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT('FCP-', GC.REFER, ' ', PV.NOMBRE), 
 					TipoCambio = '1',
 					Debe = CONCAT('', CASE WHEN T.Tipo = 1 THEN GC.SUBTOTAL WHEN T.Tipo = 2 THEN GC.IVA WHEN T.Tipo = 3 THEN GC.TOTAL END),
@@ -14270,7 +14270,7 @@ AS
 					SubOrden = 0,
 					TipoPoliza = '',
 					NoPolizaCuenta = dbo.fn_formato_cuenta(dbo.fn_get_cta_gtos('NOTAS VARIAS'), UN.CUEN_CONT), 
-					ConceptoPolizaDepto = '',
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''),' VARIOS ', 'LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = CONCAT('', SUM(GC.TOTAL)),
@@ -14308,7 +14308,7 @@ AS
 											WHEN T.Tipo = 6 THEN dbo.fn_get_cta_gtos('ISR FISCAL') 
 											WHEN T.Tipo = 7 THEN dbo.fn_get_cta_gtos('IMSS FISCAL') 
 											END, 
-					ConceptoPolizaDepto = '',
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT('V', SDO.CveViaje, 
 									CASE	WHEN T.Tipo = 1 OR T.Tipo = 2 THEN ' DIF'											
 											WHEN T.Tipo = 3 OR T.Tipo = 4 OR T.Tipo = 5 THEN ' IMP'											
@@ -14356,7 +14356,7 @@ AS
 					SubOrden = 0,
 					TipoPoliza = '',
 					NoPolizaCuenta = dbo.fn_formato_cuenta(CPT.CUEN_CONT, OP.CUEN_CONT), 
-					ConceptoPolizaDepto = '',
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT('V', GV.CVE_VIAJE, ' ', GV.FOLIO, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
@@ -14387,7 +14387,7 @@ AS
 					SubOrden = 0,
 					TipoPoliza = '',
 					NoPolizaCuenta = dbo.fn_formato_cuenta(DD.CTA_CONTABLE, OP.CUEN_CONT), 
-					ConceptoPolizaDepto = '',
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
@@ -14400,7 +14400,7 @@ AS
 			INNER JOIN GCLIQ_DEDUCCIONES LD WITH (nolock) ON LD.CVE_LIQ = LIQ.CVE_LIQ 
 			INNER JOIN GCDEDUC_OPER DO WITH (nolock) ON DO.FOLIO = LD.CVE_DED
 			INNER JOIN GCDEDUCCIONES DD WITH (nolock) ON DD.CVE_DED = DO.CVE_DED
-			WHERE LIQ.STATUS = 'L' 
+			WHERE LIQ.STATUS = 'L' AND LD.IMPORTE!=0
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -14419,7 +14419,7 @@ AS
 					SubOrden = 0,
 					TipoPoliza = '',
 					NoPolizaCuenta = dbo.fn_formato_cuenta(SR.CUENT_CONT, OP.CUEN_CONT), 
-					ConceptoPolizaDepto = '',
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
@@ -14449,8 +14449,8 @@ AS
 					DocAgr = '',
 					SubOrden = 0,
 					TipoPoliza = '',
-					NoPolizaCuenta = dbo.fn_get_cta_gtos('DEPOSITO MENOR'), --dbo.fn_formtato_cuenta(dbo.fn_get_cta_gtos('DEPOSITO MAYOR'), OP.CUEN_CONT2)
-					ConceptoPolizaDepto = '',
+					NoPolizaCuenta = isnull(EmpBancos.CuentaFinanciera, ''), --dbo.fn_get_cta_gtos('DEPOSITO MENOR'), --dbo.fn_formtato_cuenta(dbo.fn_get_cta_gtos('DEPOSITO MAYOR'), OP.CUEN_CONT2)
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
@@ -14459,7 +14459,13 @@ AS
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
 			INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER			
-			INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI					
+			INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI	
+            LEFT JOIN GCBANCOS B ON B.CVE_BANCO = OP.CVE_BANCO
+			LEFT JOIN (
+					SELECT Banco = B.DESCR, CuentaFinanciera = MAX(C.CUENTA_CONTABLE_FINANCIERA) 
+					FROM CUENTA_BENEF05 C
+					INNER JOIN GCBANCOS B ON B.CVE_BANCO = C.CVE_BANCO
+					GROUP BY B.DESCR) EmpBancos ON EmpBancos.Banco = B.DESCR
 			WHERE LIQ.STATUS = 'L' 			
 			UNION ALL
 			SELECT						
@@ -14480,7 +14486,7 @@ AS
 					TipoPoliza = '',
 					NoPolizaCuenta = CASE WHEN T.Tipo = 1 THEN dbo.fn_get_cta_gtos('GASTO FISCAL') 
 										  WHEN T.Tipo = 2 THEN dbo.fn_get_cta_gtos('IVA FISCAL') END, 
-					ConceptoPolizaDepto = '',
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT('FCP-', GC.REFER, ' ', PV.NOMBRE), 
 					TipoCambio = '1',
 					Debe = '',
@@ -14512,7 +14518,7 @@ AS
 					SubOrden = 0,
 					TipoPoliza = '',
 					NoPolizaCuenta = dbo.fn_get_cta_gtos('DEPOSITO'), 
-					ConceptoPolizaDepto = '',
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
@@ -14544,7 +14550,7 @@ AS
 					SubOrden = 0,
 					TipoPoliza = '',
 					NoPolizaCuenta = dbo.fn_get_cta_gtos('NOTAS VARIAS FISCALES'), 
-					ConceptoPolizaDepto = '',
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
@@ -14576,8 +14582,8 @@ AS
 					DocAgr = '',
 					SubOrden = 0,
 					TipoPoliza = '',
-					NoPolizaCuenta = dbo.fn_get_cta_gtos('BANCO FISCAL'), 
-					ConceptoPolizaDepto = '',
+					NoPolizaCuenta = isnull(EmpBancos.CuentaFiscalEgresos, ''), --dbo.fn_get_cta_gtos('BANCO FISCAL'), 
+					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = CONCAT('', LIQ.IMPORTE),
@@ -14586,7 +14592,13 @@ AS
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
 			INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER			
-			INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI					
+			INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI	
+            LEFT JOIN GCBANCOS B ON B.CVE_BANCO = OP.CVE_BANCO
+			LEFT JOIN (
+					SELECT Banco = B.DESCR, CuentaFiscalEgresos = MAX(C.CUENTA_CONTABLE_FISCAL_EG) 
+					FROM CUENTA_BENEF05 C
+					INNER JOIN GCBANCOS B ON B.CVE_BANCO = C.CVE_BANCO
+					GROUP BY B.DESCR) EmpBancos ON EmpBancos.Banco = B.DESCR
 			WHERE LIQ.STATUS = 'L' 
 			UNION ALL
 			SELECT						
@@ -15682,7 +15694,7 @@ AS
 		Docto		= F.CVE_DOC,					
 		Factura		= F.SU_REFER,
 		Descripcion	= INV.DESCR,
-		CtaCtb		= isnull(INV.CUENT_CONT, ''),
+		CtaCtb		= isnull(ALM.CUEN_CONT, ''),
 		UUID_XML	= C.UUID_XML,
 		CVE_PROV	= F.CVE_CLPV,
 		TC			= F.TIPCAMB,		
@@ -15696,6 +15708,7 @@ AS
 	FROM COMPC" & Empresa & " F WITH (nolock) 
 	INNER JOIN PAR_COMPC" & Empresa & " DET WITH (nolock) ON DET.CVE_DOC = F.CVE_DOC
 	INNER JOIN INVE" & Empresa & " INV WITH (nolock) ON INV.CVE_ART = DET.CVE_ART
+    INNER JOIN ALMACENES" & Empresa & " ALM WITH (nolock) ON ALM.CVE_ALM = DET.NUM_ALM
 	INNER JOIN GCCOMPRAS C WITH (nolock) ON C.TIPO_DOC = F.TIP_DOC AND C.CVE_DOC = F.CVE_DOC
 	LEFT JOIN (SELECT A.TIP_DOC_SIG, A.DOC_SIG 
 					FROM COMPO" & Empresa & " A WITH (nolock)
@@ -15720,7 +15733,7 @@ AS
 		IVA				= SUM(grp.IVA),
 		Total			= SUM(grp.Total),
 		TotalFactura	= MAX(grp.TotalFactura),
-		Diferencia		= iif(abs(round(MAX(grp.TotalFactura) - SUM(grp.Total), 2)) < 0.02, round(MAX(grp.TotalFactura) - SUM(grp.Total), 2), 0.00),
+		Diferencia		= iif(abs(round(MAX(grp.TotalFactura) - SUM(grp.Total), 2)) <= 0.05, round(MAX(grp.TotalFactura) - SUM(grp.Total), 2), 0.00),
 		SerieFactura	= REPLACE(Factura, dbo.udf_GetNumeric(Factura), ''),
 		FolioFactura	= dbo.udf_GetNumeric(Factura)
 	FROM VT_PolProvsionRef_Importes grp
@@ -15788,7 +15801,7 @@ AS
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = COM.Descripcion,
 					TipoCambio = CONCAT('', cast(COM.TC as varchar)),
-					Debe = CONCAT('', cast(cast(iif(COM.NumPar = 1, COM.SubTotal + Grp.Diferencia, COM.SubTotal) as numeric(27, 2)) as varchar)),
+					Debe = CONCAT('', cast(cast(iif(COM.NumPar = 1, COM.SubTotal + COM.IEPS + Grp.Diferencia, COM.SubTotal + COM.IEPS) as numeric(27, 2)) as varchar)),
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
@@ -15906,7 +15919,7 @@ BEGIN
 										[NoPolizaCuenta] [varchar](50) NULL, [ConceptoPolizaDepto] [varchar](8000) NULL, [DiaConceptoMov] [varchar](8000) NULL, [TipoCambio] [varchar](257) NOT NULL, [Debe] [varchar](100) NOT NULL,
 										[Haber] [varchar](100) NOT NULL, [CentroCostos] [varchar](100) NOT NULL, [Proyecto] [varchar](100) NOT NULL)
 
-	DECLARE @TotalDepositos AS Decimal
+	DECLARE @TotalDepositos AS NUMERIC(27, 2)
 	SET @TotalDepositos = isnull((SELECT SUM(Total) FROM VT_PolFondoOperadores WHERE FechaDeposito BETWEEN @FechaIni AND @FechaFin), 0)
 
 	INSERT INTO @TBPolFondoOper
@@ -16039,6 +16052,13 @@ BEGIN
 		ORDER BY a.FechaDocumento, a.Documento, a.Orden, a.DocAgr, a.SubOrden, a.Viaje
 	
 	END"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
+        SQL = "IF NOT EXISTS(SELECT 1 FROM sys.indexes WHERE name='IX_GCORDEN_TRA_SER_EXT_TR' AND object_id = OBJECT_ID('dbo.GCORDEN_TRA_SER_EXT'))
+                BEGIN
+	                CREATE NONCLUSTERED INDEX [IX_GCORDEN_TRA_SER_EXT_TR] ON [dbo].[GCORDEN_TRA_SER_EXT] ([TIEMPO_REAL])
+                END"
         cmd.CommandText = SQL
         cmd.ExecuteNonQuery()
 

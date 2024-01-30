@@ -103,7 +103,7 @@ Public Class FrmAlmacenesAE
                 cmd.Connection = cnSAE
 
                 SQL = "SELECT M.CVE_ALM, M.DESCR, M.DIRECCION, M.ENCARGADO, M.TELEFONO, M.LISTA_PREC, M.CUEN_CONT, 
-                    M.CVE_MENT, M.CVE_MSAL 
+                    M.CVE_MENT, M.CVE_MSAL, M.CUEN_CONT2 
                     FROM ALMACENES" & Empresa & " M 
                     WHERE CVE_ALM = " & Var2
                 cmd.CommandText = SQL
@@ -125,6 +125,8 @@ Public Class FrmAlmacenesAE
                         TLISTA_PREC.Value = 1
                     End If
                     TCUEN_CONT.Text = dr.ReadNullAsEmptyString("CUEN_CONT")
+                    TCUEN_CONT2.Text = dr.ReadNullAsEmptyString("CUEN_CONT2")
+
                     TCVE_MENT.Value = dr.ReadNullAsEmptyInteger("CVE_MENT")
                     TCVE_MSAL.Value = dr.ReadNullAsEmptyInteger("CVE_MSAL")
 
@@ -134,6 +136,7 @@ Public Class FrmAlmacenesAE
                     CboAlmacen.SelectedIndex = -1
                     TDescr.Text = ""
                     TCUEN_CONT.Text = ""
+                    TCUEN_CONT2.Text = ""
                 End If
                 dr.Close()
 
@@ -249,13 +252,13 @@ Public Class FrmAlmacenesAE
         SQL = "IF EXISTS (SELECT CVE_ALM FROM ALMACENES" & Empresa & " WHERE CVE_ALM  = @CVE_ALM)
                 UPDATE ALMACENES" & Empresa & " SET DESCR = @DESCR, DIRECCION = @DIRECCION, ENCARGADO = @ENCARGADO, 
                 TELEFONO = @TELEFONO, LISTA_PREC = @LISTA_PREC, CUEN_CONT = @CUEN_CONT, CVE_MENT = @CVE_MENT, 
-                CVE_MSAL = @CVE_MSAL
+                CVE_MSAL = @CVE_MSAL, CUEN_CONT2=@CUEN_CONT2
                 WHERE CVE_ALM = @CVE_ALM
             ELSE
                 INSERT INTO ALMACENES" & Empresa & " (CVE_ALM, STATUS, DESCR, DIRECCION, ENCARGADO, TELEFONO, LISTA_PREC, 
-                CUEN_CONT, CVE_MENT, CVE_MSAL)
+                CUEN_CONT, CVE_MENT, CVE_MSAL, CUEN_CONT2)
                 VALUES(
-                @CVE_ALM, 'A', @DESCR, @DIRECCION, @ENCARGADO, @TELEFONO, @LISTA_PREC, @CUEN_CONT, @CVE_MENT, @CVE_MSAL)"
+                @CVE_ALM, 'A', @DESCR, @DIRECCION, @ENCARGADO, @TELEFONO, @LISTA_PREC, @CUEN_CONT, @CVE_MENT, @CVE_MSAL, @CUEN_CONT2)"
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
@@ -268,6 +271,7 @@ Public Class FrmAlmacenesAE
                 cmd.Parameters.Add("@CUEN_CONT", SqlDbType.VarChar).Value = TCUEN_CONT.Text
                 cmd.Parameters.Add("@CVE_MENT", SqlDbType.Int).Value = TCVE_MENT.Value
                 cmd.Parameters.Add("@CVE_MSAL", SqlDbType.Int).Value = TCVE_MSAL.Value
+                cmd.Parameters.Add("@CUEN_CONT2", SqlDbType.VarChar).Value = TCUEN_CONT2.Text
                 returnValue = cmd.ExecuteNonQuery()
                 If returnValue IsNot Nothing Then
                     If returnValue = "1" Then

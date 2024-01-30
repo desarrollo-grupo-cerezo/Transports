@@ -13169,6 +13169,8 @@ Module ModCREATABLAS
         Try
             CatalogosSAT()
 
+            CREA_CAMPO("ALMACENES" & Empresa, "CUEN_CONT2", "VARCHAR", "28", "")
+
             CREA_CAMPO("FACTF" & Empresa, "IDPOLIZACOI", "INT", "", "")
             CREA_CAMPO("FACTF" & Empresa, "CMT", "VARCHAR", "250", "")
 
@@ -13458,7 +13460,9 @@ Module ModCREATABLAS
                     IF NOT EXISTS(SELECT 1 FROM GCParamTiposPolizasCOI WHERE ID = 7)
 	                    INSERT INTO GCParamTiposPolizasCOI(ID, Documento, TipoPoliza) VALUES(7, 'Provisión Refacciones', '01')
                     IF NOT EXISTS(SELECT 1 FROM GCParamTiposPolizasCOI WHERE ID = 8)
-	                    INSERT INTO GCParamTiposPolizasCOI(ID, Documento, TipoPoliza) VALUES(8, 'Fondo Operador', '25')"
+	                    INSERT INTO GCParamTiposPolizasCOI(ID, Documento, TipoPoliza) VALUES(8, 'Fondo Operador', '25')
+                    IF NOT EXISTS(SELECT 1 FROM GCParamTiposPolizasCOI WHERE ID = 9)
+	                    INSERT INTO GCParamTiposPolizasCOI(ID, Documento, TipoPoliza) VALUES(9, 'Salida de Almacen Refacciones', '04')"
 
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
@@ -16055,6 +16059,110 @@ BEGIN
         cmd.CommandText = SQL
         cmd.ExecuteNonQuery()
 
+
+        If EXISTE_VISTA("VT_PolSalidaAlmacen_Costo") Then
+            SQL = "DROP VIEW [dbo].[VT_PolSalidaAlmacen_Costo]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+        SQL = "CREATE VIEW [dbo].[VT_PolSalidaAlmacen_Costo]
+AS	
+	SELECT 
+		IdPolizaCOI = 0,			
+		Fecha		= OT.FECHA,
+		Docto		= OT.CVE_ORD,		
+		Producto	= I.DESCR,
+		Cantidad	= M.CANT,
+		UnidadProducto = M.UNI_VENTA,
+		Unidad		= TU.DESCR,
+		NumUnidad	= U.CLAVEMONTE,
+		CtaCtbCpt	= A.CUEN_CONT2,
+		CtaCtbUnidad= U.CUEN_CONT2,
+		CtaCtbAlm	= A.CUEN_CONT,		
+		TC			= 1,		
+		Costo		= round(M.CANT * M.COSTO, 2)
+	FROM MINVE" & Empresa & " M
+	INNER JOIN INVE" & Empresa & " I ON I.CVE_ART = M.CVE_ART
+	INNER JOIN GCORDEN_TRABAJO_EXT OT ON CONCAT('OT', OT.CVE_ORD, '/') = SUBSTRING(M.REFER, 1, CHARINDEX('/', M.REFER))
+	INNER JOIN GCUNIDADES U ON U.CLAVEMONTE = OT.CVE_UNI
+	LEFT JOIN GCTIPO_UNIDAD TU ON TU.CVE_UNI = U.CVE_TIPO_UNI
+	INNER JOIN ALMACENES" & Empresa & " A ON A.CVE_ALM = M.ALMACEN
+	INNER JOIN CONM" & Empresa & " CPT ON CPT.CVE_CPTO = M.CVE_CPTO
+	WHERE M.CVE_CPTO IN (10, 60, 61, 62)"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
+        If EXISTE_VISTA("VT_CTB_POLIZA_SALIDA_ALMACEN") Then
+            SQL = "DROP VIEW [dbo].[VT_CTB_POLIZA_SALIDA_ALMACEN]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+        SQL = "CREATE VIEW [dbo].[VT_CTB_POLIZA_SALIDA_ALMACEN]
+AS
+
+
+	SELECT *	
+	FROM
+		(
+			SELECT						
+					FechaDocumento =  Fecha,
+					Documento = Docto,
+					TipoDocumento = 0,
+					FechaViaje = Fecha,
+					Viaje = '', 
+					CveCliente = '',
+					FormatoColumnasImportes = 0, 
+					TipoCambioCFDI = '',
+					MonedaCFDI = '',
+					VersionCFDI = '',
+					IdPoliza = IdPolizaCOI, 
+					Orden = Ord.Tipo,
+					DocAgr = '',
+					SubOrden = 0,
+					TipoPoliza = iif(Ord.Tipo = 1, dbo.fn_get_TipoPolizaCOI(9), ''),
+					NoPolizaCuenta = iif(Ord.Tipo = 1, 'S/P', 'FIN_PARTIDAS'),
+					ConceptoPolizaDepto = iif(Ord.Tipo = 1, CONCAT(CONVERT(VARCHAR, Fecha, 103), '|', Docto, '|', Unidad, '|', NumUnidad), ''),
+					DiaConceptoMov = iif(Ord.Tipo = 1, CONVERT(VARCHAR, Fecha, 103), ''), 
+					TipoCambio = '',
+					Debe = '',
+					Haber = '',
+					CentroCostos = '',
+					Proyecto = ''						
+			FROM VT_PolSalidaAlmacen_Costo
+			INNER JOIN (SELECT Tipo = 1 UNION ALL SELECT Tipo = 4) Ord ON 1 = 1
+			GROUP BY IdPolizaCOI, Fecha, Docto, Unidad, NumUnidad, Ord.Tipo
+			UNION ALL
+			SELECT						
+					FechaDocumento = Fecha,
+					Documento = Docto,
+					TipoDocumento = 0,
+					FechaViaje = Fecha,
+					Viaje = '', 
+					CveOper = '',
+					FormatoColumnasImportes = 0, 
+					TipoCambioCFDI = '',
+					MonedaCFDI = '',
+					VersionCFDI = '',
+					IdPoliza = IdPolizaCOI, 
+					Orden = Ord.Tipo,
+					DocAgr = '',
+					SubOrden = 0,
+					TipoPoliza = '',
+					NoPolizaCuenta = iif(Ord.Tipo = 2, dbo.fn_formato_cuenta(CtaCtbCpt, CtaCtbUnidad), CtaCtbAlm),
+					ConceptoPolizaDepto = '0',
+					DiaConceptoMov = CONCAT(Docto, ' | ', Cantidad, UnidadProducto, ' ', Producto),
+					TipoCambio = CONCAT('', cast(TC as varchar)),
+					Debe =  iif(Ord.Tipo = 2, CONCAT('', CAST(Costo AS NUMERIC(27, 2))), ''),
+					Haber = iif(Ord.Tipo = 3, CONCAT('', CAST(Costo AS NUMERIC(27, 2))), ''),
+					CentroCostos = '',
+					Proyecto = ''
+			FROM VT_PolSalidaAlmacen_Costo 
+			INNER JOIN (SELECT Tipo = 2 UNION ALL SELECT Tipo = 3) Ord ON 1 = 1
+			) QRY"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
+
         SQL = "IF NOT EXISTS(SELECT 1 FROM sys.indexes WHERE name='IX_GCORDEN_TRA_SER_EXT_TR' AND object_id = OBJECT_ID('dbo.GCORDEN_TRA_SER_EXT'))
                 BEGIN
 	                CREATE NONCLUSTERED INDEX [IX_GCORDEN_TRA_SER_EXT_TR] ON [dbo].[GCORDEN_TRA_SER_EXT] ([TIEMPO_REAL])
@@ -16062,6 +16170,12 @@ BEGIN
         cmd.CommandText = SQL
         cmd.ExecuteNonQuery()
 
+        SQL = "IF NOT EXISTS(SELECT 1 FROM sys.indexes WHERE name='IX_MINVE_CVE_CPTO' AND object_id = OBJECT_ID('dbo.MINVE" & Empresa & "'))
+                BEGIN
+	                CREATE NONCLUSTERED INDEX [IX_MINVE_CVE_CPTO] ON [dbo].[MINVE" & Empresa & "] ([CVE_CPTO]) INCLUDE ([CVE_ART],[ALMACEN],[REFER],[CANT],[COSTO],[UNI_VENTA])
+                END"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
         'If EXISTE_VISTA("") Then
         '    SQL = "DROP VIEW [dbo].[]"
         '    cmd.CommandText = SQL

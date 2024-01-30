@@ -901,6 +901,12 @@
     <Compile Include="CONTABILIDAD\FrmConsultaResumen.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaSalidaAlmacen.designer.vb">
+      <DependentUpon>FrmPolizaSalidaAlmacen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaSalidaAlmacen.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CONTABILIDAD\FrmPolizaFondoOper.designer.vb">
       <DependentUpon>FrmPolizaFondoOper.vb</DependentUpon>
     </Compile>
@@ -4675,6 +4681,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CONTABILIDAD\FrmConsultaResumen.resx">
       <DependentUpon>FrmConsultaResumen.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaSalidaAlmacen.resx">
+      <DependentUpon>FrmPolizaSalidaAlmacen.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CONTABILIDAD\FrmPolizaFondoOper.resx">
       <DependentUpon>FrmPolizaFondoOper.vb</DependentUpon>

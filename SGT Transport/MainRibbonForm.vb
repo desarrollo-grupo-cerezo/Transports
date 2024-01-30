@@ -4275,4 +4275,9 @@ Public Class MainRibbonForm
         BACKUPTXT("XTAB_CAPTION", "FrmPolizaFondoOper")
         CREA_TAB(FrmPolizaFondoOper, "Póliza Fondo Operadores")
     End Sub
+
+    Private Sub RibPolSalAlm_Click(sender As Object, e As EventArgs) Handles RibPolSalAlm.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaSalidaAlmacen")
+        CREA_TAB(FrmPolizaSalidaAlmacen, "Póliza Salida Almacén Refacciones")
+    End Sub
 End Class

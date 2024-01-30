@@ -25,7 +25,7 @@ Public Class FrmAlmacenes
 
             Me.KeyPreview = True
             Fg.Rows.Count = 1
-            Fg.Cols.Count = 11
+            Fg.Cols.Count = 12
 
             Fg.Rows(0).Height = 40
             Fg.Width = Screen.PrimaryScreen.Bounds.Width - 25
@@ -59,17 +59,21 @@ Public Class FrmAlmacenes
             Dim c7 As Column = Fg.Cols(7)
             c7.DataType = GetType(String)
 
-            Fg(0, 8) = "Movimiento entrada"
+            Fg(0, 8) = "Cuenta contable 2"
             Dim c8 As Column = Fg.Cols(8)
-            c8.DataType = GetType(Int32)
+            c8.DataType = GetType(String)
 
-            Fg(0, 9) = "Movimiento salida"
+            Fg(0, 9) = "Movimiento entrada"
             Dim c9 As Column = Fg.Cols(9)
             c9.DataType = GetType(Int32)
 
-            Fg(0, 10) = "Estatus"
+            Fg(0, 10) = "Movimiento salida"
             Dim c10 As Column = Fg.Cols(10)
-            c10.DataType = GetType(String)
+            c10.DataType = GetType(Int32)
+
+            Fg(0, 11) = "Estatus"
+            Dim c11 As Column = Fg.Cols(11)
+            c11.DataType = GetType(String)
 
             DESPLEGAR()
 
@@ -88,7 +92,7 @@ Public Class FrmAlmacenes
             cmd.Connection = cnSAE
 
             SQL = "SELECT CVE_ALM, DESCR, DIRECCION, ENCARGADO, TELEFONO, LISTA_PREC, CUEN_CONT, CVE_MENT, 
-                CVE_MSAL, ISNULL(STATUS,'A') AS ST
+                CVE_MSAL, ISNULL(STATUS,'A') AS ST, CUEN_CONT2
                 FROM ALMACENES" & Empresa & " WHERE ISNULL(STATUS,'A') = 'A'"
 
             cmd.CommandText = SQL
@@ -97,7 +101,7 @@ Public Class FrmAlmacenes
             Fg.Rows.Count = 1
             Do While dr.Read
                 Fg.AddItem("" & vbTab & dr("CVE_ALM") & vbTab & dr("DESCR") & vbTab & dr("DIRECCION") & vbTab & dr("ENCARGADO") & vbTab &
-                           dr("TELEFONO") & vbTab & dr("LISTA_PREC") & vbTab & dr("CUEN_CONT") & vbTab & dr("CVE_MENT") & vbTab &
+                           dr("TELEFONO") & vbTab & dr("LISTA_PREC") & vbTab & dr("CUEN_CONT") & vbTab & dr("CUEN_CONT2") & vbTab & dr("CVE_MENT") & vbTab &
                            dr("CVE_MSAL") & vbTab & IIf(dr("ST") = "A", "Activo", "Baja"))
             Loop
             dr.Close()

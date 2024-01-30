@@ -217,12 +217,12 @@ Public Class FrmPagoMultidocCxC
             NUM_CARGO = FNUM_CARGO
             CVE_OBS = 0
             If fDOCTO.Trim.Length = 0 Then fDOCTO = fCVE_DOC
-            IMPORTE = fIMPORTE
+            IMPORTE = fIMPORTE * FTC
             AFEC_COI = ""
 
             NUM_MONED = FNUM_MONEDA
             TCAMBIO = FTC
-            IMPMON_EXT = IMPORTE / FTC
+            IMPMON_EXT = fIMPORTE
 
             CTLPOL = 0 : CVE_FOLIO = "" : TIPO_MOV = "A" : SIGNO = -1 : CVE_AUT = 0 : Usuario2 = 0 : REF_SIST = "" : NO_PARTIDA = 1
 

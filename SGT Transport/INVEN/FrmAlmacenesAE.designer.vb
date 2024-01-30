@@ -67,6 +67,8 @@ Partial Class FrmAlmacenesAE
         Me.TNUMEXT = New System.Windows.Forms.TextBox()
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.BtnOblig = New C1.Win.C1Input.C1Button()
         Me.TKMS_RECORRIDOS = New C1.Win.C1Input.C1NumericEdit()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.BtCP = New C1.Win.C1Input.C1Button()
@@ -89,13 +91,14 @@ Partial Class FrmAlmacenesAE
         Me.BtnMovEnt = New C1.Win.C1Input.C1Button()
         Me.BtnListaPrec = New C1.Win.C1Input.C1Button()
         Me.BtnMovSal = New C1.Win.C1Input.C1Button()
-        Me.BtnOblig = New C1.Win.C1Input.C1Button()
-        Me.Label22 = New System.Windows.Forms.Label()
+        Me.TCUEN_CONT2 = New System.Windows.Forms.TextBox()
+        Me.Label23 = New System.Windows.Forms.Label()
         Me.BarMenu.SuspendLayout()
         CType(Me.TCVE_MSAL, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TCVE_MENT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TLISTA_PREC, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.BtnOblig, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TKMS_RECORRIDOS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtCP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtEstado, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,7 +114,6 @@ Partial Class FrmAlmacenesAE
         CType(Me.BtnMovEnt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnListaPrec, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnMovSal, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnOblig, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label27
@@ -136,7 +138,7 @@ Partial Class FrmAlmacenesAE
         Me.TDescr.Location = New System.Drawing.Point(160, 98)
         Me.TDescr.MaxLength = 40
         Me.TDescr.Name = "TDescr"
-        Me.TDescr.Size = New System.Drawing.Size(397, 22)
+        Me.TDescr.Size = New System.Drawing.Size(417, 22)
         Me.TDescr.TabIndex = 1
         '
         'Nombre
@@ -196,7 +198,7 @@ Partial Class FrmAlmacenesAE
         Me.TCUEN_CONT.AcceptsTab = True
         Me.TCUEN_CONT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCUEN_CONT.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCUEN_CONT.Location = New System.Drawing.Point(409, 179)
+        Me.TCUEN_CONT.Location = New System.Drawing.Point(429, 179)
         Me.TCUEN_CONT.MaxLength = 28
         Me.TCUEN_CONT.Name = "TCUEN_CONT"
         Me.TCUEN_CONT.Size = New System.Drawing.Size(148, 22)
@@ -206,7 +208,7 @@ Partial Class FrmAlmacenesAE
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(301, 182)
+        Me.Label1.Location = New System.Drawing.Point(319, 182)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(104, 16)
         Me.Label1.TabIndex = 91
@@ -221,7 +223,7 @@ Partial Class FrmAlmacenesAE
         Me.TDIRECCION.Location = New System.Drawing.Point(160, 152)
         Me.TDIRECCION.MaxLength = 60
         Me.TDIRECCION.Name = "TDIRECCION"
-        Me.TDIRECCION.Size = New System.Drawing.Size(397, 22)
+        Me.TDIRECCION.Size = New System.Drawing.Size(417, 22)
         Me.TDIRECCION.TabIndex = 3
         '
         'Label2
@@ -243,7 +245,7 @@ Partial Class FrmAlmacenesAE
         Me.TENCARGADO.Location = New System.Drawing.Point(160, 125)
         Me.TENCARGADO.MaxLength = 60
         Me.TENCARGADO.Name = "TENCARGADO"
-        Me.TENCARGADO.Size = New System.Drawing.Size(398, 22)
+        Me.TENCARGADO.Size = New System.Drawing.Size(417, 22)
         Me.TENCARGADO.TabIndex = 2
         '
         'Label3
@@ -721,6 +723,28 @@ Partial Class FrmAlmacenesAE
         Me.Panel1.Size = New System.Drawing.Size(638, 351)
         Me.Panel1.TabIndex = 9
         '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label22.Location = New System.Drawing.Point(26, 329)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(80, 16)
+        Me.Label22.TabIndex = 626
+        Me.Label22.Text = "Obligatorios"
+        '
+        'BtnOblig
+        '
+        Me.BtnOblig.FlatAppearance.BorderSize = 0
+        Me.BtnOblig.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnOblig.Image = CType(resources.GetObject("BtnOblig.Image"), System.Drawing.Image)
+        Me.BtnOblig.Location = New System.Drawing.Point(3, 329)
+        Me.BtnOblig.Name = "BtnOblig"
+        Me.BtnOblig.Size = New System.Drawing.Size(17, 17)
+        Me.BtnOblig.TabIndex = 625
+        Me.BtnOblig.UseVisualStyleBackColor = True
+        Me.BtnOblig.VisualStyle = C1.Win.C1Input.VisualStyle.System
+        '
         'TKMS_RECORRIDOS
         '
         Me.TKMS_RECORRIDOS.BackColor = System.Drawing.Color.FromArgb(CType(CType(234, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
@@ -1006,33 +1030,35 @@ Partial Class FrmAlmacenesAE
         Me.BtnMovSal.TabIndex = 27
         Me.BtnMovSal.UseVisualStyleBackColor = True
         '
-        'BtnOblig
+        'TCUEN_CONT2
         '
-        Me.BtnOblig.FlatAppearance.BorderSize = 0
-        Me.BtnOblig.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnOblig.Image = CType(resources.GetObject("BtnOblig.Image"), System.Drawing.Image)
-        Me.BtnOblig.Location = New System.Drawing.Point(3, 329)
-        Me.BtnOblig.Name = "BtnOblig"
-        Me.BtnOblig.Size = New System.Drawing.Size(17, 17)
-        Me.BtnOblig.TabIndex = 625
-        Me.BtnOblig.UseVisualStyleBackColor = True
-        Me.BtnOblig.VisualStyle = C1.Win.C1Input.VisualStyle.System
+        Me.TCUEN_CONT2.AcceptsReturn = True
+        Me.TCUEN_CONT2.AcceptsTab = True
+        Me.TCUEN_CONT2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCUEN_CONT2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCUEN_CONT2.Location = New System.Drawing.Point(429, 204)
+        Me.TCUEN_CONT2.MaxLength = 28
+        Me.TCUEN_CONT2.Name = "TCUEN_CONT2"
+        Me.TCUEN_CONT2.Size = New System.Drawing.Size(148, 22)
+        Me.TCUEN_CONT2.TabIndex = 581
         '
-        'Label22
+        'Label23
         '
-        Me.Label22.AutoSize = True
-        Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label22.Location = New System.Drawing.Point(26, 329)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(80, 16)
-        Me.Label22.TabIndex = 626
-        Me.Label22.Text = "Obligatorios"
+        Me.Label23.AutoSize = True
+        Me.Label23.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label23.Location = New System.Drawing.Point(309, 208)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(114, 16)
+        Me.Label23.TabIndex = 582
+        Me.Label23.Text = "Cuenta contable 2"
         '
         'FrmAlmacenesAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(660, 629)
+        Me.Controls.Add(Me.TCUEN_CONT2)
+        Me.Controls.Add(Me.Label23)
         Me.Controls.Add(Me.CboAlmacen)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.BtnMovEnt)
@@ -1072,6 +1098,7 @@ Partial Class FrmAlmacenesAE
         CType(Me.TLISTA_PREC, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.BtnOblig, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TKMS_RECORRIDOS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtCP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtEstado, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1087,7 +1114,6 @@ Partial Class FrmAlmacenesAE
         CType(Me.BtnMovEnt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnListaPrec, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnMovSal, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnOblig, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1162,4 +1188,6 @@ Partial Class FrmAlmacenesAE
     Friend WithEvents Label21 As Label
     Friend WithEvents Label22 As Label
     Friend WithEvents BtnOblig As C1.Win.C1Input.C1Button
+    Friend WithEvents TCUEN_CONT2 As TextBox
+    Friend WithEvents Label23 As Label
 End Class

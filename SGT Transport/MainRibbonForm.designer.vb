@@ -404,6 +404,7 @@ Partial Class MainRibbonForm
         Me.RibPolPagRef = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibbonMenu7 = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RibPolProvRef = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibPolSalAlm = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarContabilidadConsultas = New C1.Win.C1Ribbon.RibbonMenu()
         Me.BarContResFacturas = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarContResLiq = New C1.Win.C1Ribbon.RibbonButton()
@@ -3344,6 +3345,7 @@ Partial Class MainRibbonForm
         'RibbonMenu7
         '
         Me.RibbonMenu7.Items.Add(Me.RibPolProvRef)
+        Me.RibbonMenu7.Items.Add(Me.RibPolSalAlm)
         Me.RibbonMenu7.LargeImage = Global.SGT_Transport.My.Resources.Resources.conta21
         Me.RibbonMenu7.Name = "RibbonMenu7"
         Me.RibbonMenu7.Text = "Pólizas de Almacén"
@@ -3352,6 +3354,11 @@ Partial Class MainRibbonForm
         '
         Me.RibPolProvRef.Name = "RibPolProvRef"
         Me.RibPolProvRef.Text = "Provisión de Refacciones"
+        '
+        'RibPolSalAlm
+        '
+        Me.RibPolSalAlm.Name = "RibPolSalAlm"
+        Me.RibPolSalAlm.Text = "Salida de Almacén Refacciones"
         '
         'BarContabilidadConsultas
         '
@@ -4771,4 +4778,5 @@ Partial Class MainRibbonForm
     Friend WithEvents RibbonMenu7 As RibbonMenu
     Friend WithEvents RibPolProvRef As RibbonButton
     Friend WithEvents RibPolFondoOper As RibbonButton
+    Friend WithEvents RibPolSalAlm As RibbonButton
 End Class

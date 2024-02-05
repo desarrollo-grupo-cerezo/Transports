@@ -749,11 +749,11 @@ Partial Class frmUnidadesAE
         Me.Label132.AutoSize = True
         Me.Label132.BackColor = System.Drawing.Color.Transparent
         Me.Label132.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label132.Location = New System.Drawing.Point(527, 351)
+        Me.Label132.Location = New System.Drawing.Point(536, 349)
         Me.Label132.Name = "Label132"
-        Me.Label132.Size = New System.Drawing.Size(144, 16)
+        Me.Label132.Size = New System.Drawing.Size(135, 16)
         Me.Label132.TabIndex = 413
-        Me.Label132.Text = "Cuenta contable diesel"
+        Me.Label132.Text = "Cuenta contable O. T."
         '
         'TCUEN_CONT_VTA
         '

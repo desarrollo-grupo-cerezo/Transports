@@ -1671,6 +1671,7 @@ Public Class FrmAsigViajeBuenoAE
                 TCVE_OPER.Text = dr("CVE_OPER").ToString
                 TCVE_OPER.Tag = TCVE_OPER.Text
 
+
                 If TCVE_OPER.Text = "0" Then
                     TCVE_OPER.Text = ""
                     TCVE_OPER.Tag = ""
@@ -3769,6 +3770,7 @@ Public Class FrmAsigViajeBuenoAE
             FgA.FinishEditing()
 
             GRABAR_GASTOS(CVE_VIAJE)
+
             GRABAR_VALES(CVE_VIAJE)
 
             GRABAR_GCMERCANCIAS(CVE_VIAJE, CVE_DOC)
@@ -6093,75 +6095,85 @@ Public Class FrmAsigViajeBuenoAE
                             Bitacora("50. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine & QUERY)
                         End Try
 
-                        For j = 1 To 10
+                        If CVE_FOLIO.Trim.Length > 0 Then
 
-                            SQL = "IF EXISTS (SELECT CVE_VIAJE FROM GCASIGNACION_VIAJE_GASTOS WHERE CVE_VIAJE = @CVE_VIAJE AND FOLIO = @FOLIO)
+                            For j = 1 To 5
+
+                                SQL = "IF EXISTS (SELECT CVE_VIAJE FROM GCASIGNACION_VIAJE_GASTOS WHERE FOLIO = @FOLIO)
                                 UPDATE GCASIGNACION_VIAJE_GASTOS SET CVE_OPER = @CVE_OPER, CVE_NUM = @CVE_NUM, IMPORTE = @IMPORTE,
                                 ST_GASTOS = @ST_GASTOS, TIPO_PAGO = @TIPO_PAGO, USUARIO2 = @USUARIO2, FECHA = @FECHA, OBS = @OBS
-                                WHERE CVE_VIAJE = @CVE_VIAJE AND FOLIO = @FOLIO
+                                WHERE FOLIO = @FOLIO
                              ELSE
                                 INSERT INTO GCASIGNACION_VIAJE_GASTOS (CVE_VIAJE, STATUS, CVE_OPER, FOLIO, FECHA, CVE_NUM, IMPORTE, FECHAELAB, 
                                 ST_GASTOS, TIPO_PAGO, USUARIO1, OBS, UUID) OUTPUT Inserted.UUID 
                                 VALUES (
                                 @CVE_VIAJE,'A', @CVE_OPER, @FOLIO, @FECHA, @CVE_NUM, @IMPORTE, GETDATE(), @ST_GASTOS, @TIPO_PAGO, @USUARIO1, @OBS, NEWID())"
 
-                            cmd.CommandText = SQL
-                            cmd.Parameters.Clear()
-                            cmd.Parameters.Add("@CVE_VIAJE", SqlDbType.VarChar).Value = fCVE_VIAJE
-                            cmd.Parameters.Add("@CVE_OPER", SqlDbType.Int).Value = CONVERTIR_TO_INT(TCVE_OPER.Text)
-                            cmd.Parameters.Add("@FOLIO", SqlDbType.VarChar).Value = CVE_FOLIO
-                            cmd.Parameters.Add("@FECHA", SqlDbType.Date).Value = FECH
-                            cmd.Parameters.Add("@CVE_NUM", SqlDbType.VarChar).Value = FgG(k, 3)
-                            cmd.Parameters.Add("@IMPORTE", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(FgG(k, 5))
-                            cmd.Parameters.Add("@ST_GASTOS", SqlDbType.VarChar).Value = FgG(k, 7)
-                            cmd.Parameters.Add("@TIPO_PAGO", SqlDbType.SmallInt).Value = TIPO_VIAJE
-                            cmd.Parameters.Add("@USUARIO1", SqlDbType.VarChar).Value = USER_GRUPOCE
-                            cmd.Parameters.Add("@USUARIO2", SqlDbType.VarChar).Value = USER_GRUPOCE
-                            cmd.Parameters.Add("@OBS", SqlDbType.VarChar).Value = OBS
-                            Try
-                                returnValue = cmd.ExecuteScalar
-                                If returnValue IsNot Nothing Then
-                                    If returnValue = "1" Then
-
+                                cmd.CommandText = SQL
+                                cmd.Parameters.Clear()
+                                cmd.Parameters.Add("@CVE_VIAJE", SqlDbType.VarChar).Value = fCVE_VIAJE
+                                cmd.Parameters.Add("@CVE_OPER", SqlDbType.Int).Value = CONVERTIR_TO_INT(TCVE_OPER.Text)
+                                cmd.Parameters.Add("@FOLIO", SqlDbType.VarChar).Value = CVE_FOLIO
+                                cmd.Parameters.Add("@FECHA", SqlDbType.Date).Value = FECH
+                                cmd.Parameters.Add("@CVE_NUM", SqlDbType.VarChar).Value = FgG(k, 3)
+                                cmd.Parameters.Add("@IMPORTE", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(FgG(k, 5))
+                                cmd.Parameters.Add("@ST_GASTOS", SqlDbType.VarChar).Value = FgG(k, 7)
+                                cmd.Parameters.Add("@TIPO_PAGO", SqlDbType.SmallInt).Value = TIPO_VIAJE
+                                cmd.Parameters.Add("@USUARIO1", SqlDbType.VarChar).Value = USER_GRUPOCE
+                                cmd.Parameters.Add("@USUARIO2", SqlDbType.VarChar).Value = USER_GRUPOCE
+                                cmd.Parameters.Add("@OBS", SqlDbType.VarChar).Value = OBS
+                                Try
+                                    returnValue = cmd.ExecuteScalar
+                                    If returnValue IsNot Nothing Then
+                                        If returnValue = "1" Then
+                                        End If
                                     End If
+
                                     FgG(k, 6) = CVE_FOLIO
                                     FgG(k, 9) = returnValue
                                     FgG(k, 8) = "S"
+
+                                    Exit For
+                                Catch ex As SqlException
+                                    ' Log the original exception here
+                                    For Each sqlError As SqlError In ex.Errors
+
+                                        BITACORASQL("sqlError.Number :" & sqlError.Number & ", sqlError:" & sqlError.ToString)
+
+                                        Select Case sqlError.Number
+                                            Case 207 ' 207 = InvalidColumn
+                                                'do your Stuff here
+                                                Exit Select
+                                            Case 547 ' 547 = (Foreign) Key violation
+                                                'do your Stuff here
+                                                DETEC_ERROR_VIOLATION_KEY = True
+                                                Exit Select
+                                            Case 2601, 2627 ' 2601 = (Primary) key violation
+                                                'do your Stuff here
+                                                DETEC_ERROR_VIOLATION_KEY = True
+                                                Exit Select
+                                            Case 3621
+                                                'The statement has been terminated.
+                                            Case Else                        'do your Stuff here
+                                                Exit Select
+                                        End Select
+                                    Next
+                                Catch ex As Exception
+                                    Bitacora("38. " & ex.Message & vbNewLine & ex.StackTrace)
+                                End Try
+
+                                If Not Valida_Conexion() Then
                                 End If
-                                Exit For
-                            Catch ex As SqlException
-                                ' Log the original exception here
-                                For Each sqlError As SqlError In ex.Errors
 
-                                    BITACORASQL("sqlError.Number :" & sqlError.Number & ", sqlError:" & sqlError.ToString)
+                                If DETEC_ERROR_VIOLATION_KEY Then
+                                    FOL_VIA = GET_MAX_TRY("GCASIGNACION_VIAJE_GASTOS", "FOLIO")
+                                    CVE_FOLIO = FOL_VIA
+                                End If
+                            Next
 
-                                    Select Case sqlError.Number
-                                        Case 207 ' 207 = InvalidColumn
-                                            'do your Stuff here
-                                            Exit Select
-                                        Case 547 ' 547 = (Foreign) Key violation
-                                            'do your Stuff here
-                                            DETEC_ERROR_VIOLATION_KEY = True
-                                            Exit Select
-                                        Case 2601, 2627 ' 2601 = (Primary) key violation
-                                            'do your Stuff here
-                                            DETEC_ERROR_VIOLATION_KEY = True
-                                            Exit Select
-                                        Case 3621
-                                            'The statement has been terminated.
-                                        Case Else                        'do your Stuff here
-                                            Exit Select
-                                    End Select
-                                Next
-                            Catch ex As Exception
-                                Bitacora("38. " & ex.Message & vbNewLine & ex.StackTrace)
-                            End Try
+                            GRABA_BITA(fCVE_VIAJE, "", CONVERTIR_TO_DECIMAL(FgG(k, 5)), "V", "Se agrego o modifico folio de gastos, folio:" & FOL_VIA & ", Operador: " & TCVE_OPER.Text, fCVE_VIAJE, "", "FtoF")
+                        End If
 
-                            If DETEC_ERROR_VIOLATION_KEY Then
-                                FOL_VIA = GET_MAX_TRY("GCASIGNACION_VIAJE_GASTOS", "FOLIO")
-                                CVE_FOLIO = FOL_VIA
-                            End If
-                        Next
                     Catch ex As Exception
                         Bitacora("40. " & ex.Message & vbNewLine & ex.StackTrace)
                         MsgBox("40. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -6431,7 +6443,7 @@ Public Class FrmAsigViajeBuenoAE
             TORDEN_DE.Focus()
         End If
 
-        If TIENE_GASTOS_Y_VALES() Then
+        If Not ViajeNew AndAlso TIENE_GASTOS_Y_VALES() Then
             MsgBox("El viaje tiene capturado gastos y vales no es posible cambiar de operador")
             TORDEN_DE.Focus()
             e.Handled = True
@@ -6445,7 +6457,7 @@ Public Class FrmAsigViajeBuenoAE
         Dim TieneGastos As Boolean = False
         Try
             For k = 1 To FgG.Rows.Count - 1
-                If FgG(k, 7) = "AUTORIZADO" Or FgG(k, 7) = "DEPOSITADO" Then
+                If FgG(k, 7) = "AUTORIZADO" Or FgG(k, 7) = "DEPOSITADO" Or FgG(k, 7) = "ACEPTADO" Then
                     TieneGastos = True
                     Exit For
                 End If
@@ -6501,7 +6513,6 @@ Public Class FrmAsigViajeBuenoAE
                     LtOp2.Text = ""
                     LOper.Text = ""
                     TCVE_OPER.Text = ""
-                    TCVE_OPER.Tag = ""
                     TCVE_OPER.Select()
                 End If
             Else
@@ -6516,19 +6527,14 @@ Public Class FrmAsigViajeBuenoAE
     End Sub
     Private Sub BtnOper_Click(sender As Object, e As EventArgs) Handles BtnOper.Click
 
-        Try
-            If FACTURA_UNO_O_MULT <> "SEFACTURA" AndAlso FACTURA_UNO_O_MULT <> "SEFACTURA_MULT" Then
-                If TCVE_OPER.Text.Trim <> "" And TCVE_OPER.Text <> "0" Then
-                    If Not DOC_NEW Then
-                        If FgG.Rows.Count > 1 Or FgV.Rows.Count > 1 Then
-                            'MsgBox("El operador no puede ser modificado porque tiene gastos o vales de combustible asignados")
-                            'Return
-                        End If
-                    End If
-                End If
-            End If
-        Catch ex As Exception
-        End Try
+
+        If TIENE_GASTOS_Y_VALES() Then
+            MsgBox("El viaje tiene capturado gastos y vales no es posible cambiar de operador")
+            TORDEN_DE.Focus()
+            TCVE_OPER.Text = TCVE_OPER.Tag
+            Return
+        End If
+
         Try
             Var2 = "Operador"
             Var4 = "" : Var5 = ""

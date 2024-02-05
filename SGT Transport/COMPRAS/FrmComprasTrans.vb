@@ -1550,10 +1550,11 @@ Public Class FrmComprasTrans
                         DESCR = Fg(i, 6)
                         DESCR = DESCR.Replace("'", "")
                         If DESCR.Length > 40 Then DESCR = DESCR.Substring(0, 40)
+
                     Catch ex As Exception
                     End Try
 
-                    ULT_COSTO = 0 : COSTO_PROM = 0
+                    COSTO_PROM = 0
                     CVE_ESQIMPU = 1
 
                     Try
@@ -1577,6 +1578,7 @@ Public Class FrmComprasTrans
 
                     UNI_MED = Fg(i, 7)
                     COSTO = CDec(Fg(i, 13))
+                    ULT_COSTO = COSTO
                     COSTO = Math.Round(CDec(COSTO), 6)
 
                     Try

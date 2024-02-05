@@ -111,11 +111,13 @@ Partial Class FrmTPV
         Me.BtnClie = New C1.Win.C1Input.C1Button()
         Me.BtnVend = New C1.Win.C1Input.C1Button()
         Me.Page2 = New C1.Win.C1Command.C1DockingTabPage()
+        Me.CboMoneda = New System.Windows.Forms.ComboBox()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.txTC = New C1.Win.C1Input.C1TextBox()
         Me.Lt2 = New System.Windows.Forms.Label()
         Me.BtnDocRel = New C1.Win.C1Input.C1Button()
         Me.Label28 = New System.Windows.Forms.Label()
         Me.LtCorreo = New System.Windows.Forms.Label()
-        Me.cbMoneda = New System.Windows.Forms.ComboBox()
         Me.cbMetodoPago = New System.Windows.Forms.ComboBox()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.Label26 = New System.Windows.Forms.Label()
@@ -154,6 +156,7 @@ Partial Class FrmTPV
         CType(Me.BtnClie, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnVend, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Page2.SuspendLayout()
+        CType(Me.txTC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnDocRel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Page3.SuspendLayout()
         CType(Me.BtnFactura, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1269,11 +1272,13 @@ Partial Class FrmTPV
         '
         'Page2
         '
+        Me.Page2.Controls.Add(Me.CboMoneda)
+        Me.Page2.Controls.Add(Me.Label22)
+        Me.Page2.Controls.Add(Me.txTC)
         Me.Page2.Controls.Add(Me.Lt2)
         Me.Page2.Controls.Add(Me.BtnDocRel)
         Me.Page2.Controls.Add(Me.Label28)
         Me.Page2.Controls.Add(Me.LtCorreo)
-        Me.Page2.Controls.Add(Me.cbMoneda)
         Me.Page2.Controls.Add(Me.cbMetodoPago)
         Me.Page2.Controls.Add(Me.Label24)
         Me.Page2.Controls.Add(Me.Label26)
@@ -1292,11 +1297,63 @@ Partial Class FrmTPV
         Me.Page2.Text = "Datos CFDI"
         Me.Page2.Visible = False
         '
+        'CboMoneda
+        '
+        Me.CboMoneda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CboMoneda.DropDownWidth = 200
+        Me.CboMoneda.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboMoneda.FormattingEnabled = True
+        Me.CboMoneda.Location = New System.Drawing.Point(145, 65)
+        Me.CboMoneda.Name = "CboMoneda"
+        Me.CboMoneda.Size = New System.Drawing.Size(223, 24)
+        Me.CboMoneda.TabIndex = 424
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label22.Location = New System.Drawing.Point(386, 72)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(34, 16)
+        Me.Label22.TabIndex = 423
+        Me.Label22.Text = "T. C."
+        '
+        'txTC
+        '
+        Me.txTC.AcceptsReturn = True
+        Me.txTC.AcceptsTab = True
+        Me.txTC.AutoSize = False
+        Me.txTC.BorderColor = System.Drawing.SystemColors.WindowFrame
+        Me.txTC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txTC.CustomFormat = "###,###,##0.000000"
+        Me.txTC.DataType = GetType(Decimal)
+        Me.txTC.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.txTC.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.txTC.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.txTC.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.txTC.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.txTC.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txTC.Location = New System.Drawing.Point(426, 69)
+        Me.txTC.Name = "txTC"
+        Me.txTC.Size = New System.Drawing.Size(89, 22)
+        Me.txTC.TabIndex = 422
+        Me.txTC.Tag = Nothing
+        Me.txTC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txTC.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
         'Lt2
         '
         Me.Lt2.AutoSize = True
         Me.Lt2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt2.Location = New System.Drawing.Point(921, 120)
+        Me.Lt2.Location = New System.Drawing.Point(1076, 120)
         Me.Lt2.Margin = New System.Windows.Forms.Padding(3)
         Me.Lt2.Name = "Lt2"
         Me.Lt2.Size = New System.Drawing.Size(71, 15)
@@ -1307,7 +1364,7 @@ Partial Class FrmTPV
         'BtnDocRel
         '
         Me.BtnDocRel.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnDocRel.Location = New System.Drawing.Point(909, 66)
+        Me.BtnDocRel.Location = New System.Drawing.Point(1064, 66)
         Me.BtnDocRel.Name = "BtnDocRel"
         Me.BtnDocRel.Size = New System.Drawing.Size(128, 48)
         Me.BtnDocRel.TabIndex = 420
@@ -1318,7 +1375,7 @@ Partial Class FrmTPV
         '
         Me.Label28.AutoSize = True
         Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(475, 118)
+        Me.Label28.Location = New System.Drawing.Point(630, 118)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(48, 16)
         Me.Label28.TabIndex = 418
@@ -1328,23 +1385,10 @@ Partial Class FrmTPV
         '
         Me.LtCorreo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtCorreo.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtCorreo.Location = New System.Drawing.Point(529, 115)
+        Me.LtCorreo.Location = New System.Drawing.Point(684, 115)
         Me.LtCorreo.Name = "LtCorreo"
         Me.LtCorreo.Size = New System.Drawing.Size(331, 20)
         Me.LtCorreo.TabIndex = 419
-        '
-        'cbMoneda
-        '
-        Me.cbMoneda.DisplayMember = "ClaveYDescripcion"
-        Me.cbMoneda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cbMoneda.DropDownWidth = 200
-        Me.cbMoneda.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cbMoneda.FormattingEnabled = True
-        Me.cbMoneda.Location = New System.Drawing.Point(145, 66)
-        Me.cbMoneda.Name = "cbMoneda"
-        Me.cbMoneda.Size = New System.Drawing.Size(208, 24)
-        Me.cbMoneda.TabIndex = 415
-        Me.cbMoneda.ValueMember = "Id"
         '
         'cbMetodoPago
         '
@@ -1353,7 +1397,7 @@ Partial Class FrmTPV
         Me.cbMetodoPago.DropDownWidth = 250
         Me.cbMetodoPago.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbMetodoPago.FormattingEnabled = True
-        Me.cbMetodoPago.Location = New System.Drawing.Point(529, 66)
+        Me.cbMetodoPago.Location = New System.Drawing.Point(684, 66)
         Me.cbMetodoPago.Name = "cbMetodoPago"
         Me.cbMetodoPago.Size = New System.Drawing.Size(253, 23)
         Me.cbMetodoPago.TabIndex = 416
@@ -1398,7 +1442,7 @@ Partial Class FrmTPV
         '
         Me.Label27.AutoSize = True
         Me.Label27.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label27.Location = New System.Drawing.Point(416, 71)
+        Me.Label27.Location = New System.Drawing.Point(571, 71)
         Me.Label27.Margin = New System.Windows.Forms.Padding(3)
         Me.Label27.Name = "Label27"
         Me.Label27.Size = New System.Drawing.Size(107, 16)
@@ -1409,7 +1453,7 @@ Partial Class FrmTPV
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(422, 26)
+        Me.Label5.Location = New System.Drawing.Point(577, 26)
         Me.Label5.Margin = New System.Windows.Forms.Padding(3)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(101, 16)
@@ -1423,7 +1467,7 @@ Partial Class FrmTPV
         Me.cbRegimenesFiscales.DropDownWidth = 500
         Me.cbRegimenesFiscales.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbRegimenesFiscales.FormattingEnabled = True
-        Me.cbRegimenesFiscales.Location = New System.Drawing.Point(529, 21)
+        Me.cbRegimenesFiscales.Location = New System.Drawing.Point(684, 21)
         Me.cbRegimenesFiscales.Name = "cbRegimenesFiscales"
         Me.cbRegimenesFiscales.Size = New System.Drawing.Size(294, 24)
         Me.cbRegimenesFiscales.TabIndex = 410
@@ -1457,7 +1501,7 @@ Partial Class FrmTPV
         Me.BtnRefreshRegFisc.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnRefreshRegFisc.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnRefreshRegFisc.Image = Global.SGT_Transport.My.Resources.Resources.rotate
-        Me.BtnRefreshRegFisc.Location = New System.Drawing.Point(858, 21)
+        Me.BtnRefreshRegFisc.Location = New System.Drawing.Point(1013, 21)
         Me.BtnRefreshRegFisc.Name = "BtnRefreshRegFisc"
         Me.BtnRefreshRegFisc.Size = New System.Drawing.Size(28, 23)
         Me.BtnRefreshRegFisc.TabIndex = 411
@@ -1649,6 +1693,7 @@ Partial Class FrmTPV
         CType(Me.BtnVend, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Page2.ResumeLayout(False)
         Me.Page2.PerformLayout()
+        CType(Me.txTC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnDocRel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Page3.ResumeLayout(False)
         Me.Page3.PerformLayout()
@@ -1745,7 +1790,6 @@ Partial Class FrmTPV
     Private WithEvents Label5 As Label
     Private WithEvents cbRegimenesFiscales As ComboBox
     Private WithEvents BtnRefreshRegFisc As Button
-    Private WithEvents cbMoneda As ComboBox
     Private WithEvents cbMetodoPago As ComboBox
     Private WithEvents Label24 As Label
     Private WithEvents Label26 As Label
@@ -1776,4 +1820,7 @@ Partial Class FrmTPV
     Friend WithEvents TXTN As C1.Win.C1Input.C1NumericEdit
     Friend WithEvents TXT As TextBox
     Friend WithEvents CboALmacenFG As C1.Win.C1Input.C1ComboBox
+    Friend WithEvents Label22 As Label
+    Friend WithEvents txTC As C1.Win.C1Input.C1TextBox
+    Private WithEvents CboMoneda As ComboBox
 End Class

@@ -25,15 +25,23 @@ Partial Class FrmEdoCuentaProv
         Me.BarEliminar = New C1.Win.C1Command.C1Command()
         Me.BarExcel = New C1.Win.C1Command.C1Command()
         Me.BarSalir = New C1.Win.C1Command.C1Command()
+        Me.BarActualizar = New C1.Win.C1Command.C1Command()
         Me.C1ToolBar1 = New C1.Win.C1Command.C1ToolBar()
         Me.LkImprimir = New C1.Win.C1Command.C1CommandLink()
         Me.LkEliminar = New C1.Win.C1Command.C1CommandLink()
+        Me.LkActualizar = New C1.Win.C1Command.C1CommandLink()
         Me.LkExcel = New C1.Win.C1Command.C1CommandLink()
         Me.LkSalir = New C1.Win.C1Command.C1CommandLink()
         Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.chSaldo = New C1.Win.C1Input.C1CheckBox()
         Me.SplitMain = New C1.Win.C1SplitContainer.C1SplitContainer()
         Me.Split1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
+        Me.BtnFiltro = New C1.Win.C1Input.C1Button()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.F2 = New C1.Win.Calendar.C1DateEdit()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.F1 = New C1.Win.Calendar.C1DateEdit()
         Me.LtClave = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.LtNombre = New System.Windows.Forms.Label()
@@ -65,28 +73,21 @@ Partial Class FrmEdoCuentaProv
         Me.ABONOS = New System.Data.DataColumn()
         Me.SALDO = New System.Data.DataColumn()
         Me.CP = New System.Data.DataColumn()
-        Me.BtnFiltro = New C1.Win.C1Input.C1Button()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.F2 = New C1.Win.Calendar.C1DateEdit()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.F1 = New C1.Win.Calendar.C1DateEdit()
         Me.C1FlexGridSearchPanel1 = New C1.Win.C1FlexGrid.C1FlexGridSearchPanel()
-        Me.BarActualizar = New C1.Win.C1Command.C1Command()
-        Me.LkActualizar = New C1.Win.C1Command.C1CommandLink()
+        Me.SU_REFER = New System.Data.DataColumn()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chSaldo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitMain, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitMain.SuspendLayout()
         Me.Split1.SuspendLayout()
+        CType(Me.BtnFiltro, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.F2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Split2.SuspendLayout()
         Me.Split3.SuspendLayout()
         CType(Me.DataSet1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataTable1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnFiltro, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.F2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuHolder
@@ -131,6 +132,13 @@ Partial Class FrmEdoCuentaProv
         Me.BarSalir.ShowTextAsToolTip = False
         Me.BarSalir.Text = "Salir"
         '
+        'BarActualizar
+        '
+        Me.BarActualizar.Image = Global.SGT_Transport.My.Resources.Resources.rotate
+        Me.BarActualizar.Name = "BarActualizar"
+        Me.BarActualizar.ShortcutText = ""
+        Me.BarActualizar.Text = "Actualizar"
+        '
         'C1ToolBar1
         '
         Me.C1ToolBar1.AccessibleName = "Tool Bar"
@@ -165,6 +173,12 @@ Partial Class FrmEdoCuentaProv
         Me.LkEliminar.Command = Me.BarEliminar
         Me.LkEliminar.SortOrder = 1
         Me.LkEliminar.Text = "Eliminar pago"
+        '
+        'LkActualizar
+        '
+        Me.LkActualizar.Command = Me.BarActualizar
+        Me.LkActualizar.SortOrder = 2
+        Me.LkActualizar.Text = "Actualizar"
         '
         'LkExcel
         '
@@ -259,6 +273,89 @@ Partial Class FrmEdoCuentaProv
         Me.Split1.Size = New System.Drawing.Size(1033, 81)
         Me.Split1.SizeRatio = 17.984R
         Me.Split1.TabIndex = 0
+        '
+        'BtnFiltro
+        '
+        Me.BtnFiltro.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnFiltro.Location = New System.Drawing.Point(838, 45)
+        Me.BtnFiltro.Name = "BtnFiltro"
+        Me.BtnFiltro.Size = New System.Drawing.Size(78, 30)
+        Me.BtnFiltro.TabIndex = 382
+        Me.BtnFiltro.Text = "Filtrar"
+        Me.BtnFiltro.UseVisualStyleBackColor = True
+        Me.BtnFiltro.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label3.Location = New System.Drawing.Point(622, 35)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(110, 16)
+        Me.Label3.TabIndex = 381
+        Me.Label3.Text = "Rango de fechas"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label4.Location = New System.Drawing.Point(672, 56)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(18, 16)
+        Me.Label4.TabIndex = 380
+        Me.Label4.Text = "al"
+        '
+        'F2
+        '
+        Me.F2.BorderColor = System.Drawing.SystemColors.WindowFrame
+        Me.F2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.F2.Calendar.RightToLeft = System.Windows.Forms.RightToLeft.Inherit
+        Me.F2.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.F2.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.F2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.F2.FormatType = C1.Win.C1Input.FormatTypeEnum.ShortDate
+        Me.F2.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.F2.Location = New System.Drawing.Point(698, 54)
+        Me.F2.Name = "F2"
+        Me.F2.Size = New System.Drawing.Size(122, 20)
+        Me.F2.TabIndex = 378
+        Me.F2.Tag = Nothing
+        Me.F2.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
+        Me.F2.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label6.Location = New System.Drawing.Point(509, 56)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(28, 16)
+        Me.Label6.TabIndex = 379
+        Me.Label6.Text = "Del"
+        '
+        'F1
+        '
+        Me.F1.BorderColor = System.Drawing.SystemColors.WindowFrame
+        Me.F1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.F1.Calendar.RightToLeft = System.Windows.Forms.RightToLeft.Inherit
+        Me.F1.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.F1.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.F1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.F1.FormatType = C1.Win.C1Input.FormatTypeEnum.ShortDate
+        Me.F1.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.F1.Location = New System.Drawing.Point(543, 54)
+        Me.F1.Name = "F1"
+        Me.F1.Size = New System.Drawing.Size(122, 20)
+        Me.F1.TabIndex = 377
+        Me.F1.Tag = Nothing
+        Me.F1.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
+        Me.F1.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'LtClave
         '
@@ -392,7 +489,7 @@ Partial Class FrmEdoCuentaProv
         '
         'DataTable1
         '
-        Me.DataTable1.Columns.AddRange(New System.Data.DataColumn() {Me.CLIENTE, Me.NOMBRE, Me.CALLE, Me.RFC, Me.CLASIFICACION, Me.DIAS_CREDITO, Me.LIMITE_CREDITO, Me.SALDO_GEN, Me.CLAVE, Me.CVE_DOC, Me.NUM, Me.FECHA_APLI, Me.FECHA_VENC, Me.CARGOS, Me.ABONOS, Me.SALDO, Me.CP})
+        Me.DataTable1.Columns.AddRange(New System.Data.DataColumn() {Me.CLIENTE, Me.NOMBRE, Me.CALLE, Me.RFC, Me.CLASIFICACION, Me.DIAS_CREDITO, Me.LIMITE_CREDITO, Me.SALDO_GEN, Me.CLAVE, Me.CVE_DOC, Me.NUM, Me.FECHA_APLI, Me.FECHA_VENC, Me.CARGOS, Me.ABONOS, Me.SALDO, Me.CP, Me.SU_REFER})
         Me.DataTable1.TableName = "Table1"
         '
         'CLIENTE
@@ -474,89 +571,6 @@ Partial Class FrmEdoCuentaProv
         '
         Me.CP.ColumnName = "CP"
         '
-        'BtnFiltro
-        '
-        Me.BtnFiltro.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnFiltro.Location = New System.Drawing.Point(838, 45)
-        Me.BtnFiltro.Name = "BtnFiltro"
-        Me.BtnFiltro.Size = New System.Drawing.Size(78, 30)
-        Me.BtnFiltro.TabIndex = 382
-        Me.BtnFiltro.Text = "Filtrar"
-        Me.BtnFiltro.UseVisualStyleBackColor = True
-        Me.BtnFiltro.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label3.Location = New System.Drawing.Point(622, 35)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(110, 16)
-        Me.Label3.TabIndex = 381
-        Me.Label3.Text = "Rango de fechas"
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label4.Location = New System.Drawing.Point(672, 56)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(18, 16)
-        Me.Label4.TabIndex = 380
-        Me.Label4.Text = "al"
-        '
-        'F2
-        '
-        Me.F2.BorderColor = System.Drawing.SystemColors.WindowFrame
-        Me.F2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.F2.Calendar.RightToLeft = System.Windows.Forms.RightToLeft.Inherit
-        Me.F2.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.F2.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
-        Me.F2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.F2.FormatType = C1.Win.C1Input.FormatTypeEnum.ShortDate
-        Me.F2.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F2.Location = New System.Drawing.Point(698, 54)
-        Me.F2.Name = "F2"
-        Me.F2.Size = New System.Drawing.Size(122, 20)
-        Me.F2.TabIndex = 378
-        Me.F2.Tag = Nothing
-        Me.F2.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
-        Me.F2.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label6.Location = New System.Drawing.Point(509, 56)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(28, 16)
-        Me.Label6.TabIndex = 379
-        Me.Label6.Text = "Del"
-        '
-        'F1
-        '
-        Me.F1.BorderColor = System.Drawing.SystemColors.WindowFrame
-        Me.F1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.F1.Calendar.RightToLeft = System.Windows.Forms.RightToLeft.Inherit
-        Me.F1.Calendar.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        Me.F1.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
-        Me.F1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.F1.FormatType = C1.Win.C1Input.FormatTypeEnum.ShortDate
-        Me.F1.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F1.Location = New System.Drawing.Point(543, 54)
-        Me.F1.Name = "F1"
-        Me.F1.Size = New System.Drawing.Size(122, 20)
-        Me.F1.TabIndex = 377
-        Me.F1.Tag = Nothing
-        Me.F1.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
-        Me.F1.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
         'C1FlexGridSearchPanel1
         '
         Me.C1FlexGridSearchPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -568,20 +582,11 @@ Partial Class FrmEdoCuentaProv
         Me.C1FlexGridSearchPanel1.TabIndex = 383
         Me.C1FlexGridSearchPanel1.Watermark = "Texto a buscar"
         '
-        'BarActualizar
+        'SU_REFER
         '
-        Me.BarActualizar.Image = Global.SGT_Transport.My.Resources.Resources.rotate
-        Me.BarActualizar.Name = "BarActualizar"
-        Me.BarActualizar.ShortcutText = ""
-        Me.BarActualizar.Text = "Actualizar"
+        Me.SU_REFER.ColumnName = "SU_REFER"
         '
-        'LkActualizar
-        '
-        Me.LkActualizar.Command = Me.BarActualizar
-        Me.LkActualizar.SortOrder = 2
-        Me.LkActualizar.Text = "Actualizar"
-        '
-        'frmEdoCuentaProv
+        'FrmEdoCuentaProv
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -590,7 +595,7 @@ Partial Class FrmEdoCuentaProv
         Me.Controls.Add(Me.SplitMain)
         Me.Controls.Add(Me.C1ToolBar1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Name = "frmEdoCuentaProv"
+        Me.Name = "FrmEdoCuentaProv"
         Me.ShowInTaskbar = False
         Me.Text = "Estado de cuenta proveedor"
         Me.VisualStyleHolder = C1.Win.C1Ribbon.VisualStyle.Custom
@@ -601,13 +606,13 @@ Partial Class FrmEdoCuentaProv
         Me.SplitMain.ResumeLayout(False)
         Me.Split1.ResumeLayout(False)
         Me.Split1.PerformLayout()
+        CType(Me.BtnFiltro, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.F2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.F1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Split2.ResumeLayout(False)
         Me.Split3.ResumeLayout(False)
         CType(Me.DataSet1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DataTable1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnFiltro, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.F2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.F1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -666,4 +671,5 @@ Partial Class FrmEdoCuentaProv
     Friend WithEvents C1FlexGridSearchPanel1 As C1.Win.C1FlexGrid.C1FlexGridSearchPanel
     Friend WithEvents BarActualizar As C1.Win.C1Command.C1Command
     Friend WithEvents LkActualizar As C1.Win.C1Command.C1CommandLink
+    Friend WithEvents SU_REFER As DataColumn
 End Class

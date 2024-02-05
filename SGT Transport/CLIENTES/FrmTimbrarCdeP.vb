@@ -54,7 +54,7 @@ Public Class FrmTimbrarCdeP
     Private Sub FrmTimbrarCdeP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Try
-            Dim theme As C1Theme = C1ThemeController.GetThemeByName(ThemeElekos2, True)
+            Dim theme As C1Theme = C1ThemeController.GetThemeByName(ThemeElekos, True)
             C1ThemeController.ApplyThemeToControlTree(Me, theme)
 
             Me.CenterToScreen()
@@ -1199,7 +1199,7 @@ Public Class FrmTimbrarCdeP
         Dim METODODEPAGO As String = "", RFC As String = "", NOMBRE_CLIENTE As String = "", CP As String = ""
         Dim CAN_TOT As Decimal = 0, IMP_TOT1 As Decimal = 0, IMP_TOT2 As Decimal = 0, IMP_TOT3 As Decimal = 0, IMP_TOT4 As Decimal = 0, IMPORTE As Decimal = 0
         Dim CLAVE As String = "", SERIE_F As String = "", FOLIO_F As Long = 0, ObjetoImp As String = ""
-        Dim USUAARIO_TIMB As String, PASS_TIMB As String, TimbreOK As Boolean
+        Dim USUAARIO_TIMB As String, PASS_TIMB As String, TimbreOK As Boolean, TIPCAMB As Decimal
 
         _comprobante = New Comprobante()
 
@@ -1211,7 +1211,7 @@ Public Class FrmTimbrarCdeP
         Try
             Try
                 SQL = "SELECT P.CVE_ART, P.CANT, P.PREC, P.NUM_PAR, ISNULL(I.DESCR,'') AS DES, I.UNI_MED, P.IMPU1, P.IMPU2, P.IMPU3, P.IMPU4, P.TOT_PARTIDA,
-                    I.CVE_PRODSERV, I.CVE_UNIDAD, M.CVE_MONED, F.USO_CFDI, F.FORMADEPAGOSAT, F.METODODEPAGO, C.NOMBRE, C.CODIGO, C.REG_FISC, F.RFC, 
+                    I.CVE_PRODSERV, I.CVE_UNIDAD, M.CVE_MONED, F.TIPCAMB, F.USO_CFDI, F.FORMADEPAGOSAT, F.METODODEPAGO, C.NOMBRE, C.CODIGO, C.REG_FISC, F.RFC, 
                     C.CLAVE, F.SERIE, F.FOLIO, F.CAN_TOT, F.IMP_TOT1, F.IMP_TOT1, F.IMP_TOT1, F.IMP_TOT1, F.IMPORTE, ISNULL(C.EMAILPRED,'') AS CORREO
                     FROM PAR_FACTF" & Empresa & " P
                     LEFT JOIN FACTF" & Empresa & " F ON F.CVE_DOC = P.CVE_DOC
@@ -1238,6 +1238,8 @@ Public Class FrmTimbrarCdeP
                             IMP_TOT4 = dr("IMP_TOT1")
 
                             MONEDA = dr.ReadNullAsEmptyString("CVE_MONED")
+                            TIPCAMB = dr("TIPCAMB")
+
                             USO_CFDI = dr.ReadNullAsEmptyString("USO_CFDI")
                             FORMADEPAGOSAT = dr.ReadNullAsEmptyString("FORMADEPAGOSAT")
                             METODODEPAGO = dr.ReadNullAsEmptyString("METODODEPAGO")
@@ -1303,6 +1305,10 @@ Public Class FrmTimbrarCdeP
 
             _comprobante.TipoDeComprobante = "I"
             _comprobante.Moneda = MONEDA
+            If MONEDA <> "MXN" Then
+                _comprobante.TipoCambio = TIPCAMB
+            End If
+
             _comprobante.MetodoPago = METODODEPAGO
             If METODODEPAGO = "PPD" Then
                 _comprobante.FormaPago = "99"
@@ -1444,6 +1450,9 @@ Public Class FrmTimbrarCdeP
                     End Try
                 Next
 
+                SQL = "UPDATE FACTF" & Empresa & " SET TIMBRADO = 'S' WHERE CVE_DOC = '" & CVE_DOC & "'"
+                EXECUTE_QUERY_NET(SQL)
+
                 Dim msg As Object
 
                 Me.Cursor = Cursors.Default
@@ -1532,14 +1541,14 @@ Public Class FrmTimbrarCdeP
                 FIMPU3 /= 100
                 Impuesto.Retenciones.Add(New RetencionC() With {.TasaOCuota = FIMPU3, .Base = (FPRECIO * FCANT) - FDESC, .Impuesto = "002", .Importe = Math.Round(((FPRECIO * FCANT) - FDESC) * FIMPU3, 2), .TipoFactor = "Tasa"})
             End If
-            'If FIMPU4 > 0 Then
-            FIMPU4 /= 100
-            If FFAC_GLOBAL Then
-                Impuesto.Traslados.Add(New TrasladoC() With {.TasaOCuota = FIMPU4, .Base = (FPRECIO * FCANT) - FDESC, .Impuesto = "002", .Importe = Math.Round(((FPRECIO * FCANT) - FDESC) * FIMPU4, 6), .TipoFactor = "Tasa"})
-            Else
-                Impuesto.Traslados.Add(New TrasladoC() With {.TasaOCuota = FIMPU4, .Base = (FPRECIO * FCANT) - FDESC, .Impuesto = "002", .Importe = Math.Round(((FPRECIO * FCANT) - FDESC) * FIMPU4, 2), .TipoFactor = "Tasa"})
+            If FIMPU4 > 0 Then
+                FIMPU4 /= 100
+                If FFAC_GLOBAL Then
+                    Impuesto.Traslados.Add(New TrasladoC() With {.TasaOCuota = FIMPU4, .Base = (FPRECIO * FCANT) - FDESC, .Impuesto = "002", .Importe = Math.Round(((FPRECIO * FCANT) - FDESC) * FIMPU4, 6), .TipoFactor = "Tasa"})
+                Else
+                    Impuesto.Traslados.Add(New TrasladoC() With {.TasaOCuota = FIMPU4, .Base = (FPRECIO * FCANT) - FDESC, .Impuesto = "002", .Importe = Math.Round(((FPRECIO * FCANT) - FDESC) * FIMPU4, 2), .TipoFactor = "Tasa"})
+                End If
             End If
-            'End If
         Catch ex As Exception
             BITACORATPV("1750. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("1750. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -2205,14 +2214,14 @@ Public Class FrmTimbrarCdeP
         Dim CER64 As String, KEY64 As String, USUAARIO_TIMB As String = "", PASS_TIMB As String = "", CVE_OBS As Long = 0
         Dim CVE_BITA As Long = 0, REFER As String = "", FORMA_PAGO_SAT As String = "", CVE_MONED As String = "", CTA_BAN_ORD As String = ""
         Dim RFC_ORD As String = "", BANCO_ORD As String = "", CTA_BAN_BEN As String = "", RFC_BEN As String = "", NUM_OPER As String = ""
-        Dim Continua As Boolean = False, Continua_Par As Boolean = False
-        Dim CALCULO_INVERSO As Decimal = 0
-        Dim ObjetoImpDR As String, Impuesto_DR As String, Impuesto_RET As String, BASE_PT As Decimal = 0, BASE_PR As Decimal = 0
+        Dim Continua As Boolean = False, Continua_Par As Boolean = False, IMPORTE As Decimal = 0, TipoCambio As Decimal = 0
+        Dim CALCULO_INVERSO As Decimal = 0, TOTAL_MXN As Decimal = 0, CALC_IVA As Decimal = 0, CALC_RET As Decimal = 0
+        Dim ObjetoImpDR As String = "002", Impuesto_DR As String, Impuesto_RET As String, BASE_PT As Decimal = 0, BASE_PR As Decimal = 0
         Dim IMP_IVA As Decimal = 0, IMP_RET As Decimal = 0, SUBT As Decimal = 0
         Dim TOTALTRASLADOSBASEIVAEXENTO As Decimal = 0, TOTALTRASLADOSIMPUESTOIVA0 As Decimal = 0, TOTALTRASLADOSBASEIVA0 As Decimal = 0
         Dim TOTALTRASLADOSIMPUESTOIVA8 As Decimal = 0, TOTALTRASLADOSBASEIVA8 As Decimal = 0, TOTALTRASLADOSIMPUESTOIVA16 As Decimal = 0
         Dim TOTALTRASLADOSBASEIVA16 As Decimal = 0, TOTALRETENCIONESIEPS As Decimal = 0, TOTALRETENCIONESISR As Decimal = 0, TOTALRETENCIONESIVA As Decimal = 0
-        Dim IMPPAGADO As Decimal = 0, SALDO_ANT As Decimal, SALDO_INSOLUTO As Decimal
+        Dim IMPPAGADO As Decimal = 0, SALDO_ANT As Decimal, SALDO_INSOLUTO As Decimal, ISUSD As String = "MXN"
         Dim aUUID(0) As String, ListaUUID As New List(Of String)
         Dim d As DateTime = DateTime.Now
         Dim UUID As String = "", x As Integer = 0, nDR As Integer = 0, NDR_UUID As Integer = 0
@@ -2249,9 +2258,7 @@ Public Class FrmTimbrarCdeP
             _comprobante.Exportacion = "01"
             _comprobante.Moneda = "XXX"
 
-            _comprobante.Complemento = New Complemento With {
-                .Pagos = New Pagos
-            }
+            _comprobante.Complemento = New Complemento With {.Pagos = New Pagos}
 
             _comprobante.Receptor.Nombre = LtNombre.Text
             _comprobante.Receptor.Rfc = LtRFC.Text
@@ -2299,12 +2306,11 @@ Public Class FrmTimbrarCdeP
                                 SQL = "SELECT DR.CVE_DOC, DR.REFER, DR.FECHA, DR.IMPSALDOANT, DR.IMPPAGADO, DR.IMPSALDOINSOLUTO, DR.NUMPARCIALIDAD, 
                                     DR.MONEDADR, DR.EQUIVALENCIADR, DR.FOLIO, DR.SERIE, DR.OBJETOIMP_DR, DR.IDDOCUMENTO, DR.FORMADEPAGOSAT, 
                                     DR.TCAMBIO, ISNULL(F.SUBTOTAL,0) AS SUBT, ISNULL(F.IVA,0) AS IV, ISNULL(F.RETENCION,0) AS RET, 
-                                    ISNULL(F.XML,'') AS XML_DOC, FF.IMP_TOT1, FF.IMP_TOT2, FF.IMP_TOT3, FF.IMP_TOT4, FF.CAN_TOT, FF.IMPORTE,
+                                    ISNULL(F.XML,'') AS XML_DOC, F.RETENCION AS IMP_TOT3, F.IVA AS IMP_TOT4, F.SUBTOTAL AS CAN_TOT, F.IMPORTE, 
                                     ISNULL(FC.XML_DOC,'') AS XML_FAC 
                                     FROM CFDI_COMPAGO_PAR_DR DR
                                     LEFT JOIN CFDI F ON F.FACTURA = DR.REFER
-                                    LEFT JOIN FACTF" & Empresa & " FF ON FF.CVE_DOC = DR.REFER
-                                    LEFT JOIN CFDI" & Empresa & " FC ON FC.CVE_DOC = FF.CVE_DOC
+                                    LEFT JOIN CFDI" & Empresa & " FC ON FC.CVE_DOC = DR.REFER
                                     WHERE DR.CVE_DOC = '" & CVE_DOC & "' AND DOCTO = '" & dr("REFER") & "' ORDER BY NUMPARCIALIDAD"
                                 cmd2.CommandText = SQL
                                 Using dr2 As SqlDataReader = cmd2.ExecuteReader
@@ -2322,17 +2328,32 @@ Public Class FrmTimbrarCdeP
 
                                             pago.CtaOrdenante = dr("CTA_ORD")
                                             pago.RfcEmisorCtaOrd = dr("RFC_ORD")
+
+                                            pago.Monto += dr2("CAN_TOT")
+
+                                            ISUSD = "USD"
+                                        Else
+                                            pago.Monto += dr2("IMPORTE")
+                                            ISUSD = "MXN"
                                         End If
-                                        pago.Monto = Math.Round(dr("IMPORTE"), 2)
+                                        TipoCambio = dr("TCAMBIO")
+
                                         pago.NumOperacion = dr("NUM_OPERACION")
                                         pago.TipoCambioP = dr("TCAMBIO")
                                         pago.MonedaP = dr("CVE_MONED")
                                         pago.FormaDePagoP = dr("FORMAPAGOSAT")
                                         pago.FechaPago = dr2("FECHA")
 
+                                        If dr("TCAMBIO") <> 1 Then
+                                            TOTAL_MXN += dr2("SUBT") * TipoCambio
+                                        Else
+                                            TOTAL_MXN = 0
+                                        End If
+
                                         SUBT = dr2("SUBT")
                                         IVA = dr2("IV")
                                         RET = Math.Abs(dr2("RET"))
+                                        '_comprobante.Complemento.Pagos.Pago          montoTotalPagos += p.Monto * p.TipoCambioP
 
                                         If IVA = 0 Then
                                             If dr2("XML_DOC").ToString.Trim.Length > 0 Then
@@ -2362,38 +2383,47 @@ Public Class FrmTimbrarCdeP
                                                 WHERE FACTURA = '" & dr2("REFER") & "'"
                                             'EXECUTE_QUERY_NET(SQL)
                                         End If
-
                                         IVA_SUM += IVA
                                         RET_SUM += RET
 
                                         SALDO_ANT = dr2.ReadNullAsEmptyDecimal("IMPSALDOANT")
                                         SALDO_INSOLUTO = dr2.ReadNullAsEmptyDecimal("IMPSALDOINSOLUTO")
 
-                                        If SALDO_INSOLUTO < 0 Then
-                                            SALDO_INSOLUTO = Math.Abs(SALDO_INSOLUTO)
+                                        If SALDO_INSOLUTO <= 0 Then
+                                            SALDO_INSOLUTO = 0
                                         End If
 
                                         Impuesto_DR = "002"
                                         Impuesto_RET = "002"
 
-                                        If Impuesto_DR.Trim.Length > 0 Then
+                                        If IVA = 0 And RET = 0 Then
                                             ObjetoImpDR = "02"
                                         Else
-                                            ObjetoImpDR = "01"
+                                            ObjetoImpDR = "02"
                                         End If
 
+                                        If dr2("MONEDADR") = "USD" Then
+                                            SALDO_ANT = dr2("CAN_TOT")
+                                            SALDO_INSOLUTO = 0
+                                            IMPPAGADO = dr2("CAN_TOT")
+                                            TipoCambio = 1
+                                        Else
+                                            SALDO_ANT = dr2("IMPPAGADO")
+                                            IMPPAGADO = dr2("IMPPAGADO")
+                                        End If
+                                        '_comprobante.Complemento.Pagos.Pago          montoTotalPagos += p.Monto * p.TipoCambioP
+
                                         Dim Tdr As New PDoctoRelacionado With {
-                                            .Folio = dr2("FOLIO"),
+                                            .Folio = dr2("REFER"),
                                             .IdDocumento = dr2("IDDOCUMENTO"),
-                                            .ImpPagado = Math.Round(dr2("IMPPAGADO"), 2),
+                                            .ImpPagado = IMPPAGADO,
                                             .ImpSaldoAnt = SALDO_ANT,
                                             .ImpSaldoInsoluto = SALDO_INSOLUTO,
-                                            .ObjetoImpDR = "02",
+                                            .ObjetoImpDR = ObjetoImpDR,
                                             .MonedaDR = dr2("MONEDADR"),
                                             .NumParcialidad = dr2("NUMPARCIALIDAD"),
                                             .Serie = dr2("SERIE"),
-                                            .EquivalenciaDR = dr2("TCAMBIO")
-                                        }
+                                            .EquivalenciaDR = TipoCambio}
 
                                         Dim ImpuestosDR As New ImpuestosDR
                                         Dim TrasladosDR As New TrasladosDR
@@ -2401,9 +2431,15 @@ Public Class FrmTimbrarCdeP
                                         'TRASLADOS
                                         If IVA > 0 And RET > 0 Then
                                             CALCULO_INVERSO = CALCULA_CALC_INVERSO(dr2("IMPPAGADO"), 0.16, -0.04)
-                                        Else
+                                        ElseIf RET > 0 Then
                                             CALCULO_INVERSO = CALCULA_CALC_INVERSO(dr2("IMPPAGADO"), 0.16, 0)
+                                        Else
+                                            CALCULO_INVERSO = 0
                                         End If
+
+                                        CALC_IVA += Math.Round(CALCULO_INVERSO, 2)
+                                        'CALC_RET += CALCULO_INVERSO
+
                                         If IVA > 0 Then
                                             'SUMA TOTAL IMPUESO IVA TRASLAOD
                                             BASE_PT += Math.Round(CALCULO_INVERSO, 2)
@@ -2416,9 +2452,7 @@ Public Class FrmTimbrarCdeP
                                             ImpuestoDr.ImpuestoDR = Impuesto_DR
                                             ImpuestoDr.BaseDR = Math.Round(CALCULO_INVERSO, 2)
 
-                                            Dim TrasladoDr As New List(Of TrasladoDR) From {
-                                                ImpuestoDr
-                                            }
+                                            Dim TrasladoDr As New List(Of TrasladoDR) From {ImpuestoDr}
                                             TrasladosDR.TrasladoDR = TrasladoDr
                                             ImpuestosDR.TrasladosDR = TrasladosDR
                                         End If
@@ -2429,11 +2463,11 @@ Public Class FrmTimbrarCdeP
 
                                             IMP_RET += Math.Round(CALCULO_INVERSO * 0.04, 2)
 
-                                            RetImpuestoDr.ImporteDR = CALCULO_INVERSO * 0.04
+                                            RetImpuestoDr.ImporteDR = Math.Round(CALCULO_INVERSO * 0.04, 2)
                                             RetImpuestoDr.TasaOCuotaDR = 0.04
                                             RetImpuestoDr.TipoFactorDR = "Tasa"
                                             RetImpuestoDr.ImpuestoDR = Impuesto_RET
-                                            RetImpuestoDr.BaseDR = CALCULO_INVERSO
+                                            RetImpuestoDr.BaseDR = Math.Round(CALCULO_INVERSO, 2)
 
                                             Dim RetencionDR As New List(Of RetencionDR)
                                             Dim _RetencionesDR As New List(Of RetencionesDR)
@@ -2441,11 +2475,33 @@ Public Class FrmTimbrarCdeP
                                             RetencionDR.Add(RetImpuestoDr)
                                             RetencionesDR.RetencionDR = RetencionDR
                                             ImpuestosDR.RetencionesDR = RetencionesDR
-
                                             'FIN RETENCIONES
                                         End If  '_ImpuestosDR.Add(ImpuestosDR)
-                                        Tdr.ImpuestosDR = ImpuestosDR
 
+                                        '_comprobante.Complemento.Pagos.Pago          montoTotalPagos += p.Monto * p.TipoCambioP
+                                        If IVA = 0 And RET = 0 Then
+                                            ImpuestoDr.ImporteDR = "0.00"
+                                            ImpuestoDr.TasaOCuotaDR = "0.000000"
+                                            ImpuestoDr.TipoFactorDR = "Tasa"
+                                            ImpuestoDr.ImpuestoDR = Impuesto_DR
+
+                                            If dr2("MONEDADR") = "USD" Then
+                                                ImpuestoDr.BaseDR = SUBT
+                                            Else
+                                                ImpuestoDr.BaseDR = dr2("IMPPAGADO")
+                                            End If
+
+                                            Dim TrasladoDr As New List(Of TrasladoDR) From {ImpuestoDr}
+                                            TrasladosDR.TrasladoDR = TrasladoDr
+                                            ImpuestosDR.TrasladosDR = TrasladosDR
+                                        End If
+
+                                        If dr2("MONEDADR") = "USD" Then
+                                            IMPORTE += dr2("CAN_TOT")
+                                        Else
+                                            IMPORTE += dr2("IMPPAGADO")
+                                        End If
+                                        Tdr.ImpuestosDR = ImpuestosDR
 
                                         Try
                                             SQL1 = "UPDATE CFDI_COMPAGO_PAR_DR SET OBJETOIMPDR = '" & ObjetoImpDR & "', 
@@ -2459,16 +2515,13 @@ Public Class FrmTimbrarCdeP
                                         Catch ex As Exception
                                             BITACORACFDI("650. " & ex.Message & vbNewLine & ex.StackTrace)
                                         End Try
-
                                         '_ImpuestosP.Add(ImpuestosP)
                                         _documentosRelacionados.Add(Tdr)
                                         pago.DoctoRelacionado = _documentosRelacionados
-
                                         'pago.Impuestos = RetencionesTP
                                         '_ImpuestosP.Add(ImpuestosP)
                                         'pago.Impuestos.RetencionesP
                                         'pago.Impuestos = ImpuestosP
-
                                         '▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
                                     End While
                                 End Using
@@ -2488,9 +2541,11 @@ Public Class FrmTimbrarCdeP
                     Dim TrasladosP As New TrasladosP
                     'IMPUESTOP TRASLADO     PARTIDA 1 
                     If IVA_SUM = 0 Then
-                        ITrasladoP.TipoFactorP = "Exento"
+                        ITrasladoP.TipoFactorP = "Tasa"
                         ITrasladoP.ImpuestoP = "002"
-                        ITrasladoP.BaseP = BASE_PT
+
+                        ITrasladoP.BaseP = IMPORTE
+
                         TrasladoP.Add(ITrasladoP)
                     End If
                     If IVA_SUM > 0 Then
@@ -2498,9 +2553,10 @@ Public Class FrmTimbrarCdeP
                         ITrasladoP.TasaOCuotaP = "0.160000"
                         ITrasladoP.TipoFactorP = "Tasa"
                         ITrasladoP.ImpuestoP = "002"
-                        ITrasladoP.BaseP = BASE_PT
+                        ITrasladoP.BaseP = CALC_IVA
                         TrasladoP.Add(ITrasladoP)
                     End If
+
                     TrasladosP.TrasladoP = TrasladoP
                     ImpuestosP.TrasladosP = TrasladosP
                     If RET_SUM > 0 Then 'IMPUESTOP RETENCIONES
@@ -2515,7 +2571,6 @@ Public Class FrmTimbrarCdeP
                         'TOTALRETENCIONESISR 'TOTALRETENCIONESIVA
                         RetencionesP.RetencionP = RetencionP
                         ImpuestosP.RetencionesP = RetencionesP
-
                     End If
 
                     pago.Impuestos = ImpuestosP
@@ -2524,11 +2579,15 @@ Public Class FrmTimbrarCdeP
 
                     TOTALTRASLADOSBASEIVAEXENTO += 0
                     TOTALTRASLADOSIMPUESTOIVA0 += 0
-                    TOTALTRASLADOSBASEIVA0 += 0
+
+
+                    TOTALTRASLADOSBASEIVA0 += TOTAL_MXN
+
                     TOTALTRASLADOSIMPUESTOIVA8 += 0
                     TOTALTRASLADOSBASEIVA8 += 0
                     TOTALTRASLADOSIMPUESTOIVA16 += IMP_IVA
                     TOTALTRASLADOSBASEIVA16 += BASE_PT
+
                     TOTALRETENCIONESIEPS += 0
                     TOTALRETENCIONESISR += 0
                     TOTALRETENCIONESIVA += Math.Abs(IMP_RET)
@@ -2538,9 +2597,10 @@ Public Class FrmTimbrarCdeP
                     _comprobante.Complemento.Pagos.Totales.TotalTrasladosBaseIVAExento = TOTALTRASLADOSBASEIVAEXENTO
                     _comprobante.Complemento.Pagos.Totales.TotalTrasladosBaseIVA0 = TOTALTRASLADOSBASEIVA0
                     _comprobante.Complemento.Pagos.Totales.TotalTrasladosBaseIVA8 = TOTALTRASLADOSBASEIVA8
-                    _comprobante.Complemento.Pagos.Totales.TotalTrasladosBaseIVA16 = BASE_PT
+                    _comprobante.Complemento.Pagos.Totales.TotalTrasladosBaseIVA16 = TOTALTRASLADOSBASEIVA16
 
                     _comprobante.Complemento.Pagos.Totales.TotalTrasladosImpuestoIVA0 = TOTALTRASLADOSIMPUESTOIVA0
+
                     _comprobante.Complemento.Pagos.Totales.TotalTrasladosImpuestoIVA8 = TOTALTRASLADOSIMPUESTOIVA8
                     _comprobante.Complemento.Pagos.Totales.TotalTrasladosImpuestoIVA16 = IMP_IVA
 
@@ -2564,6 +2624,12 @@ Public Class FrmTimbrarCdeP
         If Not errorC.HayError Then
 
         End If
+
+        'pollo
+
+        PassData9 = ISUSD
+
+        _comprobante.Serie = GET_ONLY_LETTER(CVE_DOC)
         _comprobante.Folio = GetNumeric(CVE_DOC)
 
         Dim rutaPFX As String = gRutaPFX
@@ -2580,11 +2646,7 @@ Public Class FrmTimbrarCdeP
         Dim xml As XmlDocument = GenerarXML.ObtenerXML(_comprobante, rutaPFX, gContraPFX, rutaCertificado)
         xml.Save(RutaXML_NO_TIMBRADO)
 
-        Dim q As New BasicHttpBinding(BasicHttpSecurityMode.None) With {
-            .MaxBufferSize = 2147483646,
-            .MaxBufferPoolSize = 2147483646,
-            .MaxReceivedMessageSize = 2147483646
-        }
+        Dim q As New BasicHttpBinding(BasicHttpSecurityMode.None) With {.MaxBufferSize = 2147483646, .MaxBufferPoolSize = 2147483646, .MaxReceivedMessageSize = 2147483646}
         q.ReaderQuotas.MaxArrayLength = 2147483646
         q.ReaderQuotas.MaxBytesPerRead = 2147483646
         q.ReaderQuotas.MaxDepth = 2147483646
@@ -2669,8 +2731,11 @@ Public Class FrmTimbrarCdeP
     Private Sub CalculaTotales()
         Try
             Dim montoTotalPagos As Decimal = 0, TrasBaseIVAExento As Decimal = 0
+
             For Each p As Pago In _comprobante.Complemento.Pagos.Pago
-                montoTotalPagos += p.Monto
+
+                montoTotalPagos += p.Monto * p.TipoCambioP
+
             Next
 
             _comprobante.Complemento.Pagos.Totales.MontoTotalPagos = montoTotalPagos
@@ -2987,7 +3052,9 @@ Public Class FrmTimbrarCdeP
                             k = 1
                             For Each vRegIT As XmlElement In Impuestos.ChildNodes
                                 If vRegIT.Name = "cfdi:Traslados" Then
-                                    vsTIT += CDec(vRegIT.FirstChild.Attributes("importe").Value)
+                                    If Not IsNothing(vRegIT.FirstChild.Attributes("importe")) Then
+                                        vsTIT += CDec(vRegIT.FirstChild.Attributes("importe").Value)
+                                    End If
                                 End If
                             Next
                         Else

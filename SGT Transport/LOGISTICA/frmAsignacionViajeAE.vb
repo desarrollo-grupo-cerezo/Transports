@@ -1802,7 +1802,7 @@ Public Class FrmAsignacionViajeAE
 
                 DESCR = BUSCA_CAT("Operador", TCVE_OPER.Text)
                 If DESCR <> "" Then
-                    'OPER = OPERADOR_ASIGNADO_VIAJE(tCVE_OPER.Text) 'OBTIEN CVE_VIAJE
+                    OPER = OPERADOR_ASIGNADO_VIAJE(TCVE_OPER.Text) 'OBTIEN CVE_VIAJE
                     OPER = ""
                     If OPER = "" Then
                         LOper.Text = DESCR
@@ -1843,11 +1843,9 @@ Public Class FrmAsignacionViajeAE
     Private Sub BtnOper_Click(sender As Object, e As EventArgs) Handles BtnOper.Click
 
         Try
-            If TCVE_OPER.Text.Trim <> "" And TCVE_OPER.Text <> "0" Then
-                If FgG.Rows.Count > 1 Or FgV.Rows.Count > 1 Then
-                    MsgBox("El operador no puede ser modificado porque tiene gastos o vales de combustible asignados")
-                    Return
-                End If
+            If FgG.Rows.Count > 1 Or FgV.Rows.Count > 1 Then
+                MsgBox("El operador no puede ser modificado porque tiene gastos o vales de combustible asignados")
+                Return
             End If
         Catch ex As Exception
         End Try

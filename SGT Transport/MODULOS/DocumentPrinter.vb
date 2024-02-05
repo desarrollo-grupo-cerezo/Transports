@@ -97,6 +97,7 @@ Module DocumentPrinter
         Try
 
             Dim Rreporte_MRT As String = "", Existe As Boolean = False
+
             Rreporte_MRT = GET_RUTA_FORMATOS() & "\" & FREPORTE & ".mrt"
 
             Using cmd As SqlCommand = cnSAE.CreateCommand
@@ -138,13 +139,14 @@ Module DocumentPrinter
                             End If
                         End If
                     End Using
-                    If Not File.Exists(Rreporte_MRT) Then
-                        CREATE_REPORTE(Rreporte_MRT)
-                    End If
                 Catch ex As Exception
                     MsgBox("10. " & ex.Message & vbNewLine & ex.StackTrace)
                     Bitacora("10. " & ex.Message & vbNewLine & ex.StackTrace)
                 End Try
+            End If
+
+            If Not File.Exists(Rreporte_MRT) Then
+                CREATE_REPORTE(Rreporte_MRT)
             End If
 
             Dim report = New StiReport()

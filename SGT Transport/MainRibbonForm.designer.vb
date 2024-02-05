@@ -402,6 +402,7 @@ Partial Class MainRibbonForm
         Me.RibPolFondoOper = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibbonMenu5 = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RibPolPagRef = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibPolPagOTE = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibbonMenu7 = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RibPolProvRef = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibPolSalAlm = New C1.Win.C1Ribbon.RibbonButton()
@@ -448,6 +449,8 @@ Partial Class MainRibbonForm
         Me.BarReporteDeTallerExterno = New C1.Win.C1Ribbon.RibbonButton()
         Me.GpoReportes1 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarOperacionDiaria = New C1.Win.C1Ribbon.RibbonButton()
+        Me.BarRepGerencial2 = New C1.Win.C1Ribbon.RibbonButton()
+        Me.BarGerencial3 = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarVtasXProXCteTrackFullRojo = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibResumenVentas1 = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarMenuReportes1 = New C1.Win.C1Ribbon.RibbonMenu()
@@ -3332,6 +3335,7 @@ Partial Class MainRibbonForm
         'RibbonMenu5
         '
         Me.RibbonMenu5.Items.Add(Me.RibPolPagRef)
+        Me.RibbonMenu5.Items.Add(Me.RibPolPagOTE)
         Me.RibbonMenu5.LargeImage = Global.SGT_Transport.My.Resources.Resources.Facturacion_CXC
         Me.RibbonMenu5.Name = "RibbonMenu5"
         Me.RibbonMenu5.Text = "Pólizas de Pagos"
@@ -3341,6 +3345,12 @@ Partial Class MainRibbonForm
         Me.RibPolPagRef.Name = "RibPolPagRef"
         Me.RibPolPagRef.SmallImage = Global.SGT_Transport.My.Resources.Resources.Facturacion_CXC
         Me.RibPolPagRef.Text = "Pago de Refacciones"
+        '
+        'RibPolPagOTE
+        '
+        Me.RibPolPagOTE.Name = "RibPolPagOTE"
+        Me.RibPolPagOTE.SmallImage = Global.SGT_Transport.My.Resources.Resources.Facturacion_CXC
+        Me.RibPolPagOTE.Text = "Pago de OT Externas"
         '
         'RibbonMenu7
         '
@@ -3353,11 +3363,13 @@ Partial Class MainRibbonForm
         'RibPolProvRef
         '
         Me.RibPolProvRef.Name = "RibPolProvRef"
+        Me.RibPolProvRef.SmallImage = Global.SGT_Transport.My.Resources.Resources.conta21
         Me.RibPolProvRef.Text = "Provisión de Refacciones"
         '
         'RibPolSalAlm
         '
         Me.RibPolSalAlm.Name = "RibPolSalAlm"
+        Me.RibPolSalAlm.SmallImage = Global.SGT_Transport.My.Resources.Resources.centro_costo
         Me.RibPolSalAlm.Text = "Salida de Almacén Refacciones"
         '
         'BarContabilidadConsultas
@@ -3643,6 +3655,8 @@ Partial Class MainRibbonForm
         'GpoReportes1
         '
         Me.GpoReportes1.Items.Add(Me.BarOperacionDiaria)
+        Me.GpoReportes1.Items.Add(Me.BarRepGerencial2)
+        Me.GpoReportes1.Items.Add(Me.BarGerencial3)
         Me.GpoReportes1.Items.Add(Me.BarVtasXProXCteTrackFullRojo)
         Me.GpoReportes1.Items.Add(Me.RibResumenVentas1)
         Me.GpoReportes1.Items.Add(Me.BarMenuReportes1)
@@ -3656,6 +3670,18 @@ Partial Class MainRibbonForm
         Me.BarOperacionDiaria.LargeImage = Global.SGT_Transport.My.Resources.Resources.finalizar8
         Me.BarOperacionDiaria.Name = "BarOperacionDiaria"
         Me.BarOperacionDiaria.Text = "Reporte gerencial de operación"
+        '
+        'BarRepGerencial2
+        '
+        Me.BarRepGerencial2.LargeImage = Global.SGT_Transport.My.Resources.Resources.flujo22
+        Me.BarRepGerencial2.Name = "BarRepGerencial2"
+        Me.BarRepGerencial2.Text = "Reporte gerencial 2"
+        '
+        'BarGerencial3
+        '
+        Me.BarGerencial3.LargeImage = Global.SGT_Transport.My.Resources.Resources.flujo5
+        Me.BarGerencial3.Name = "BarGerencial3"
+        Me.BarGerencial3.Text = "Reporte ggerencial 3"
         '
         'BarVtasXProXCteTrackFullRojo
         '
@@ -4777,6 +4803,9 @@ Partial Class MainRibbonForm
     Friend WithEvents RibPolPagRef As RibbonButton
     Friend WithEvents RibbonMenu7 As RibbonMenu
     Friend WithEvents RibPolProvRef As RibbonButton
+    Friend WithEvents BarRepGerencial2 As RibbonButton
+    Friend WithEvents BarGerencial3 As RibbonButton
     Friend WithEvents RibPolFondoOper As RibbonButton
     Friend WithEvents RibPolSalAlm As RibbonButton
+    Friend WithEvents RibPolPagOTE As RibbonButton
 End Class

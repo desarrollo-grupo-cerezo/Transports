@@ -56,7 +56,7 @@ Public Class FrmConciValesCombusAE
         Fg.Cols(9).Width = 80
         Fg.Cols(10).Width = 80
         Fg.Cols(11).Width = 80
-        Fg.Cols(12).Width = 0
+        Fg.Cols(12).Width = 80
 
         Fg2.Cols(2).Width = 40
         Fg2.Cols(3).Width = 90
@@ -488,7 +488,8 @@ Public Class FrmConciValesCombusAE
         If Not Valida_Conexion() Then
         End If
 
-        SQL = "INSERT INTO GCCONCI_VALES_COMBUS_PAR (CVE_COVC, CVE_VIAJE, CVE_FOLIO, STATUS, FECHA, CVE_GAS, SUBTOTAL, IVA, NETO, UUID)
+        SQL = "SET ansi_warnings OFF
+            INSERT INTO GCCONCI_VALES_COMBUS_PAR (CVE_COVC, CVE_VIAJE, CVE_FOLIO, STATUS, FECHA, CVE_GAS, SUBTOTAL, IVA, NETO, UUID)
              VALUES(@CVE_COVC, @CVE_VIAJE, @CVE_FOLIO, 'A', @FECHA, @CVE_GAS, @SUBTOTAL, @IVA, @NETO, NEWID())"
         cmd.CommandText = SQL
         'PARTIDAS    PARTIDAS    PARTIDAS    PARTIDAS    PARTIDAS    PARTIDAS    PARTIDAS    

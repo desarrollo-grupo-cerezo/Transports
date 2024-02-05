@@ -11,10 +11,11 @@ Public Class FrmUtilerias
     Private SubtotalCFD As Decimal
     Private IVAcfd As Decimal
     Private RETcfd As Decimal
+    Private TOTAL_CFDI As Decimal
     Private UUIDR As String
     Private SerieCFD As String, FolioCFD As Long, FechaEmision As String, VersionCFD As String
     Private MonedaCFD As String, FormaPagoCFD As String, TipoComprobanteCFD As String, UsoCFDICFD As String
-    Private TIPO_RELACION As String
+    Private TIPO_RELACION As String, PNUM_MONED As Integer, PTCAMBIO As Decimal
     Private BindingSource1 As Windows.Forms.BindingSource = New BindingSource
     Private Sub FrmUtilerias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -28,6 +29,8 @@ Public Class FrmUtilerias
 
         Fg.Width = Me.Width - 25
         Fg.Height = Me.Height - barSalir.Height - 50
+
+        Fg.Rows.Count = 1
 
         Fg.Cols.Count = 6
         Fg(0, 0) = ""
@@ -1474,7 +1477,7 @@ Public Class FrmUtilerias
 
                         If IMPORTE > 0 Then
 
-                            If CUEN_M(REFER, CVE_CLPV, IMPORTE, CVE_VEND, 0) Then
+                            If CUEN_M(REFER, CVE_CLPV, IMPORTE, CVE_VEND, 0, 1, 1, "") Then
                                 Fg.AddItem("" & vbTab & REFER & vbTab & CVE_CLPV & vbTab & IMPORTE & vbTab & CVE_VEND)
                             End If
                         End If
@@ -1738,8 +1741,8 @@ Public Class FrmUtilerias
         Dim CVE_DOC As String, RUTA_XML As String, RUTA_PDF As String, EMISOR_RAZON_SOCIAL As String = "", EMISOR_LUGAR_EXPEDICION As String = ""
         Dim EMISOR_REGIMEN_FISCAL As String = "", EmisorRfcCFD As String, SerieCFD As String, FolioCFD As String, FechaEmision As String
         Dim TotalCFD As Decimal, SubtotalCFD As Decimal, IVAcfd As Decimal, RETcfd As Decimal, VersionCFD As String, MonedaCFD As String
-        Dim FormaPagoCFD As String, UsoCFDICFD As String, TipoComprobanteCFD As String, strTipoRelacion As String
-
+        Dim FormaPagoCFD As String, UsoCFDICFD As String, TipoComprobanteCFD As String, strTipoRelacion As String, strTipoCambio As String = 0
+        Dim FILE_XML As String
 
         'aqui
         XML = fFILE_XML
@@ -1748,10 +1751,9 @@ Public Class FrmUtilerias
             Return ""
         End If
 
+        FILE_XML = OBTENER_RUTA_XML_TRANS_PDF() & "\TEMPXML_FAC.xml"
+        File.WriteAllText(FILE_XML, XML)
 
-        If Not File.Exists(XML) Then
-            Return ""
-        End If
 
         strEmisorRfc = ""
         strTipoComprobante = "" : strUsoCFDI = ""
@@ -1766,10 +1768,10 @@ Public Class FrmUtilerias
 
 
         Try
-            If XML.Trim.Length > 0 Then
-                Dim books = XDocument.Load(XML)
+            If FILE_XML.Trim.Length > 0 Then
+                Dim books = XDocument.Load(FILE_XML)
 
-                xDoc.Load(XML)
+                xDoc.Load(FILE_XML)
 
                 Comprobante = xDoc.Item("cfdi:Comprobante")
                 xNodo = xDoc.GetElementsByTagName("cfdi:Comprobante")
@@ -1809,10 +1811,31 @@ Public Class FrmUtilerias
 
                             VersionCFD = strVersion
                             MonedaCFD = strMoneda
+
+                            TOTAL_CFDI = strTotal
+                            If MonedaCFD = "MXN" Then
+                                PNUM_MONED = 1
+                            Else
+                                PNUM_MONED = 2
+                            End If
+
+                            Try
+                                PTCAMBIO = VarXml(xAtt, "TipoCambio")
+                            Catch ex As Exception
+                                PTCAMBIO = 1
+                            End Try
+
+                            'Moneda="USD" TipoCambio="16.7650"
+
                             FormaPagoCFD = BUSCAR_FORMA_PAGO(strFormaPago)
                             VersionCFD = strVersion
                             UsoCFDICFD = strUsoCFDI
                             TipoComprobanteCFD = IIf(strTipoComprobante = "I", "Ingreso", "Egreso")
+
+                            If SerieCFD & FolioCFD = "CP-87864" Then
+                                Debug.Print("")
+                            End If
+
                         Catch ex As Exception
                             Bitacora("90. " & ex.Message & vbNewLine & ex.StackTrace)
                             'MsgBox("90. " & ex.Message & vbNewLine & "ex.StackTrace: " & ex.StackTrace)
@@ -1940,15 +1963,15 @@ Public Class FrmUtilerias
 
                                         CVE_DOC = SerieCFD & "-" & FolioCFD
 
-                                        SQL = "IF EXISTS (SELECT UUID FROM CFDI_REL" & Empresa & " WHERE UUID = '" & UUIDR & "' AND CVE_DOC = '" & CVE_DOC & "')
-                                            UPDATE CFDI_REL" & Empresa & " SET UUID ='" & UUIDR & "', TIP_REL = '" & TIPO_RELACION & "', FEbCHA_CERT = '" & strFechaEmision & "'
-                                            WHERE UUID = '" & UUIDR & "' AND CVE_DOC = '" & CVE_DOC & "'
-                                        ELSE
-                                            INSERT INTO CFDI_REL" & Empresa & " (UUID, TIP_REL, CVE_DOC, CVE_DOC_REL, TIP_DOC, FECHA_CERT) 
-                                             VALUES ('" & UUIDR & "','" & TIPO_RELACION & "','" & CVE_DOC & "',' ','P','" & strFechaEmision & "')"
-                                        If Not EXECUTE_QUERY_NET(SQL) Then
-                                            Debug.Print("")
-                                        End If
+                                        'SQL = "IF EXISTS (SELECT UUID FROM CFDI_REL" & Empresa & " WHERE UUID = '" & UUIDR & "' AND CVE_DOC = '" & CVE_DOC & "')
+                                        '    UPDATE CFDI_REL" & Empresa & " SET UUID ='" & UUIDR & "', TIP_REL = '" & TIPO_RELACION & "', FEbCHA_CERT = '" & strFechaEmision & "'
+                                        '    WHERE UUID = '" & UUIDR & "' AND CVE_DOC = '" & CVE_DOC & "'
+                                        'ELSE
+                                        '    INSERT INTO CFDI_REL" & Empresa & " (UUID, TIP_REL, CVE_DOC, CVE_DOC_REL, TIP_DOC, FECHA_CERT) 
+                                        '     VALUES ('" & UUIDR & "','" & TIPO_RELACION & "','" & CVE_DOC & "',' ','P','" & strFechaEmision & "')"
+                                        'If Not EXECUTE_QUERY_NET(SQL) Then
+                                        '    Debug.Print("")
+                                        'End If
 
 
                                     End If
@@ -2055,12 +2078,247 @@ Public Class FrmUtilerias
 
     End Function
 
+    Private Sub BarBorrarCxCQueNoEstenEnFACTF_Click(sender As Object, e As EventArgs) Handles BarBorrarCxCQueNoEstenEnFACTF.Click
+        Dim j As Integer = 0
 
-    Private Function CUEN_M(fCVE_DOC As String, fCLAVE As String, fIMPORTE As Decimal,
-                            fCVE_VEND As String, fCVE_BITA As Long) As Boolean
+        Fg.Rows.Count = 1
+
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT REFER, IMPORTE FROM CUEN_M" & Empresa
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+
+                        Using cmdCFDI As SqlCommand = cnSAE.CreateCommand
+
+                            SQL = "SELECT FACTURA FROM CFDI WHERE FACTURA = '" & dr("REFER") & "'"
+
+                            cmdCFDI.CommandText = SQL
+                            Using drCFDI As SqlDataReader = cmdCFDI.ExecuteReader
+                                If Not drCFDI.Read Then
+
+                                    SQL = "DELETE FROM CUEN_M" & Empresa & " WHERE REFER = '" & dr("REFER") & "'"
+                                    ReturnBool = EXECUTE_QUERY_NET(SQL)
+                                    j += 1
+
+                                    If ReturnBool Then
+                                        Fg.AddItem("" & vbTab & dr("REFER") & vbTab & dr("IMPORTE"))
+
+                                        SQL = "DELETE FROM CUEN_DET" & Empresa & " WHERE REFER = '" & dr("REFER") & "'"
+                                        ReturnBool = EXECUTE_QUERY_NET(SQL)
+
+                                    End If
+                                End If
+                            End Using
+                        End Using
+
+                    End While
+                End Using
+            End Using
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT FACTURA, ISNULL(ESTATUS,'') AS ST, IMPORTE FROM CFDI WHERE ISNULL(ESTATUS,'') = 'C'"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+
+                        If dr("ST") = "C" Then
+
+                            SQL = "DELETE FROM CUEN_M" & Empresa & " WHERE REFER = '" & dr("FACTURA") & "'"
+                            ReturnBool = EXECUTE_QUERY_NET(SQL)
+                            j += 1
+
+                            If ReturnBool Then
+                                Fg.AddItem("" & vbTab & dr("FACTURA") & vbTab & dr("IMPORTE"))
+
+                                SQL = "DELETE FROM CUEN_DET" & Empresa & " WHERE REFER = '" & dr("FACTURA") & "'"
+                                ReturnBool = EXECUTE_QUERY_NET(SQL)
+
+                            End If
+                        End If
+                    End While
+                End Using
+            End Using
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+
+        MsgBox("Proceso terminado")
+    End Sub
+
+    Private Sub BarValidarProceso21_Click(sender As Object, e As EventArgs) Handles BarValidarProceso21.Click
+        Dim j As Integer = 0
+
+        Fg.Rows.Count = 1
+
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT FACTURA, ISNULL(ESTATUS,'') AS ST FROM CFDI"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+
+                        Using cmdCFDI As SqlCommand = cnSAE.CreateCommand
+
+                            SQL = "SELECT REFER FROM CUEN_M" & Empresa & " WHERE REFER = '" & dr("FACTURA") & "'"
+
+                            cmdCFDI.CommandText = SQL
+                            Using drCFDI As SqlDataReader = cmdCFDI.ExecuteReader
+                                If Not drCFDI.Read Then
+
+                                    Fg.AddItem("" & vbTab & dr("FACTURA") & vbTab & dr("ST"))
+
+                                End If
+                            End Using
+                        End Using
+
+                    End While
+                End Using
+            End Using
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+
+        MsgBox("Proceso terminado")
+    End Sub
+
+    Private Sub BarRepararTipoDeCambioCUEN_M_Click(sender As Object, e As EventArgs) Handles BarRepararTipoDeCambioCUEN_M.Click
+        Try
+            'SQL = "TRUNCATE FROM CUEN_M" & Empresa
+            'EXECUTE_QUERY_NET(SQL)
+
+            'SQL = "TRUNCATE FROM CUEN_DET" & Empresa
+            'EXECUTE_QUERY_NET(SQL)
+
+
+            Dim j As Integer = 0
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT FACTURA, T.IMPORTE, ISNULL(F.NUM_MONED,1) AS NU_MON, ISNULL(F.TIPCAMB,1) AS TCAMBIO
+                    FROM CFDI T
+                    LEFT JOIN FACTF" & Empresa & " F ON F.CVE_DOC = T.FACTURA
+                    WHERE ISNULL(ESTATUS,'') <> 'C'"
+
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+
+                        Try
+                            If dr("NU_MON") > 1 Then
+                                j += 1
+                            End If
+
+                            SQL = "UPDATE CUEN_M" & Empresa & " SET IMPORTE = " & dr("IMPORTE") * dr("TCAMBIO") & ", IMPMON_EXT = " & dr("IMPORTE") & ", 
+                                TCAMBIO = " & dr("TCAMBIO") & ", NUM_MONED = " & dr("NU_MON") & "
+                                WHERE REFER = '" & dr("FACTURA") & "'"
+                            ReturnBool = EXECUTE_QUERY_NET(SQL)
+                            If Not ReturnBool Then
+                                Debug.Print("")
+                            End If
+
+                        Catch ex As Exception
+                            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                        End Try
+                    End While
+                End Using
+            End Using
+
+            MsgBox("Proceso terminado, USD encontrados:" & j)
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+    End Sub
+
+    Private Sub ActualizaBarActMonedYTipoDeCambioEnCuendet_Click(sender As Object, e As EventArgs) Handles BarActMonedYTipoDeCambioEnCuendet.Click
+        Try
+            Dim j As Integer = 0
+
+            Fg.Rows.Count = 1
+
+            If MsgBox("Este proceso borrara las cuenta por cobrar y las agregara desde el XML, Realmente desea continuar", vbYesNo) = vbNo Then
+                Return
+            End If
+
+            Fg(0, 1) = "FACTURA"
+            Fg(0, 2) = "Importe cfdi"
+            Fg(0, 3) = "Num moned"
+            Fg(0, 4) = "Tipo cambio"
+            Fg(0, 5) = "Importe XML"
+
+
+            SQL = "DELETE FROM CUEN_M" & Empresa
+            ReturnBool = EXECUTE_QUERY_NET(SQL)
+
+            SQL = "DELETE FROM CUEN_DET" & Empresa
+            ReturnBool = EXECUTE_QUERY_NET(SQL)
+
+
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT FACTURA, T.IMPORTE, CLIENTE, T.FECHAELAB, XML
+                    FROM CFDI T
+                    WHERE ISNULL(ESTATUS,'') <> 'C'"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+                        Try
+                            PNUM_MONED = 1
+                            PTCAMBIO = 1
+
+                            Dim FECHA_APLI As String = Format(dr("FECHAELAB"), "yyyyMMdd")
+
+                            'PNUM_MONED = dr.ReadNullAsEmptyInteger("NUM_MONED")
+                            'PTCAMBIO = dr.ReadNullAsEmptyDecimal("TIPCAMB")
+                            OBTENER_UUID_XML(dr("XML"))
+
+
+                            If PNUM_MONED = 0 Then
+                                PNUM_MONED = 1
+                            End If
+                            If PTCAMBIO = 0 Then
+                                PTCAMBIO = 1
+                            End If
+
+                            If CUEN_M(dr("FACTURA"), dr("CLIENTE"), TOTAL_CFDI, "", 0, PNUM_MONED, PTCAMBIO, FECHA_APLI) Then
+                                Fg.AddItem("" & vbTab & dr("FACTURA") & vbTab & TOTAL_CFDI & vbTab & PNUM_MONED & vbTab & PTCAMBIO & vbTab & TOTAL_CFDI)
+                            Else
+                                Fg.AddItem("" & vbTab & dr("FACTURA") & vbTab & TOTAL_CFDI & vbTab & PNUM_MONED & vbTab & PTCAMBIO & vbTab & "NO SE GRABO")
+                            End If
+
+                            If PNUM_MONED > 1 Then
+
+                                SQL = "UPDATE FACTF" & Empresa & " SET CVE_VEND = '" & PNUM_MONED & "' WHERE CVE_DOC = '" & dr("FACTURA") & "'"
+                                ReturnBool = EXECUTE_QUERY_NET(SQL)
+                                If ReturnBool Then
+                                    Debug.Print("")
+                                End If
+                            End If
+
+                        Catch ex As Exception
+                            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                        End Try
+                    End While
+                End Using
+            End Using
+
+            MsgBox("Proceso terminado, USD encontrados:" & j)
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+
+    End Sub
+
+    Private Function CUEN_M(fCVE_DOC As String, fCLAVE As String, fIMPORTE As Decimal, fCVE_VEND As String, fCVE_BITA As Long, FNUM_MONED As Integer, FTIPO_CAMBIO As Decimal, FFECHA As String) As Boolean
 
         Dim CVE_CLIE As String, REFER As String, NUM_CPTO As Integer, CVE_OBS As Long, NO_FACTURA As String, DOCTO As String, IMPORTE As Decimal
-        Dim AFEC_COI As String, STRCVEVEND As String, NUM_MONED As Integer, TCAMBIO As Decimal, IMPMON_EXT As Decimal, CVE_FOLIO As String
+        Dim AFEC_COI As String, STRCVEVEND As String, IMPMON_EXT As Decimal, CVE_FOLIO As String
         Dim TIPO_MOV As String, SIGNO As Integer, ENTREGADA As String, SEGRABO As Boolean = False
         Dim cmd As New SqlCommand
         Dim cmdT As New SqlCommand
@@ -2070,23 +2328,20 @@ Public Class FrmUtilerias
             REFER = fCVE_DOC
             NO_FACTURA = REFER
             DOCTO = REFER
-            IMPORTE = fIMPORTE
+            IMPORTE = fIMPORTE * FTIPO_CAMBIO
             IMPMON_EXT = fIMPORTE
 
-            SIGNO = 1
-            NUM_CPTO = 1
-            CVE_OBS = 0 : AFEC_COI = "S" : STRCVEVEND = fCVE_VEND : NUM_MONED = 1 : TCAMBIO = 1
-            CVE_FOLIO = "" : TIPO_MOV = "C" : ENTREGADA = "S"
+            SIGNO = 1 : NUM_CPTO = 1
+            CVE_OBS = 0 : AFEC_COI = "N" : STRCVEVEND = fCVE_VEND : CVE_FOLIO = "" : TIPO_MOV = "C" : ENTREGADA = "S"
 
-            SQL = "IF NOT EXISTS(SELECT REFER FROM CUEN_M" & Empresa & " WHERE " &
-                "REFER = '" & REFER & "' AND CVE_CLIE = '" & CVE_CLIE & "' AND NUM_CPTO = " & NUM_CPTO & " AND NUM_CARGO = 1) " &
-                "INSERT INTO CUEN_M" & Empresa & " (CVE_CLIE, REFER, NUM_CPTO, NUM_CARGO, CVE_OBS, NO_FACTURA, DOCTO, " &
-                "IMPORTE, FECHA_APLI, FECHA_VENC, AFEC_COI, STRCVEVEND, NUM_MONED, TCAMBIO, IMPMON_EXT, FECHAELAB, TIPO_MOV, " &
-                "CVE_BITA, SIGNO, USUARIO, ENTREGADA, FECHA_ENTREGA, STATUS, UUID, VERSION_SINC) VALUES('" & CVE_CLIE & "','" & REFER & "','" & NUM_CPTO &
-                "','1','" & CVE_OBS & "','" & NO_FACTURA & "','" & DOCTO & "','" & Math.Round(fIMPORTE, 6) & "',CONVERT(varchar, GETDATE(), 112)," &
-                "CONVERT(varchar, GETDATE(), 112),'" & AFEC_COI & "','" & STRCVEVEND & "','" & NUM_MONED & "','" & TCAMBIO & "','" &
-                Math.Round(IMPMON_EXT, 6) & "',GETDATE(),'" & TIPO_MOV & "','" & fCVE_BITA & "','" & SIGNO & "','" &
-                CLAVE_SAE & "','" & ENTREGADA & "',CONVERT(varchar, GETDATE(), 112),'A', NEWID(), GETDATE())"
+            SQL = "IF NOT EXISTS(SELECT REFER FROM CUEN_M" & Empresa & " WHERE REFER = '" & REFER & "' AND CVE_CLIE = '" &
+                CVE_CLIE & "' AND NUM_CPTO = " & NUM_CPTO & " AND NUM_CARGO = 1)
+                INSERT INTO CUEN_M" & Empresa & " (CVE_CLIE, REFER, NUM_CPTO, NUM_CARGO, CVE_OBS, NO_FACTURA, DOCTO, IMPORTE, FECHA_APLI, FECHA_VENC, AFEC_COI, 
+                STRCVEVEND, NUM_MONED, TCAMBIO, IMPMON_EXT, FECHAELAB, TIPO_MOV, CVE_BITA, SIGNO, USUARIO, ENTREGADA, FECHA_ENTREGA, STATUS, UUID, VERSION_SINC) 
+                VALUES('" &
+                CVE_CLIE & "','" & REFER & "','" & NUM_CPTO & "','1','" & CVE_OBS & "','" & NO_FACTURA & "','" & DOCTO & "','" & Math.Round(IMPORTE, 6) & "','" & FFECHA & "','" &
+                FFECHA & "','" & AFEC_COI & "','" & STRCVEVEND & "','" & FNUM_MONED & "','" & FTIPO_CAMBIO & "','" & Math.Round(IMPMON_EXT, 6) & "',GETDATE(),'" & TIPO_MOV & "','" &
+                fCVE_BITA & "','" & SIGNO & "','" & CLAVE_SAE & "','" & ENTREGADA & "','" & FFECHA & "','A', NEWID(), GETDATE())"
             Try
                 cmd.Connection = cnSAE
                 cmd.CommandText = SQL
@@ -2164,7 +2419,7 @@ Public Class FrmUtilerias
                 CVE_VEND = ""
                 If IMPORTE > 0 Then
 
-                    If CUEN_M(REFER, CVE_CLPV, IMPORTE, 1, CVE_VEND) Then
+                    If CUEN_M(REFER, CVE_CLPV, IMPORTE, 1, CVE_VEND, 1, 1, "") Then
 
 
                         j += 1
@@ -2172,8 +2427,8 @@ Public Class FrmUtilerias
                         UPDATE_DATOS_CLIE(Math.Round(IMPORTE, 6), REFER, CVE_CLPV, SIGNO)
                         Try
                             SQL = "UPDATE AFACT" & Empresa & " SET FVTA_COM = ISNULL(FVTA_COM,0) + " & CAN_TOT & " WHERE CVE_AFACT = " & Now.Month & "
-                                       If @@ROWCOUNT = 0
-                                       INSERT INTO AFACT" & Empresa & " (CVE_AFACT, FVTA_COM, FDESCTO) VALUES ('" & Now.Month & "','" & CAN_TOT & "','0')"
+                                If @@ROWCOUNT = 0
+                                INSERT INTO AFACT" & Empresa & " (CVE_AFACT, FVTA_COM, FDESCTO) VALUES ('" & Now.Month & "','" & CAN_TOT & "','0')"
                             Using cmd As SqlCommand = cnSAE.CreateCommand
                                 cmd.CommandText = SQL
                                 returnValue = cmd.ExecuteNonQuery().ToString

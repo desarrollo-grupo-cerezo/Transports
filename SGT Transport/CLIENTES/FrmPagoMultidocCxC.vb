@@ -3,7 +3,6 @@ Imports System.IO
 Imports C1.Win.C1FlexGrid
 Imports System.Data.SqlClient
 Imports System.ComponentModel
-Imports System.Security.Cryptography
 
 Public Class FrmPagoMultidocCxC
     Private ENTRA As Boolean = True

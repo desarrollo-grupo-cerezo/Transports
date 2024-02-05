@@ -192,6 +192,7 @@ Module General
 
     Public DialogOK As String
 
+
     Public PassData As String 'frmOTIAE, frmcfdirelacionados, frmcfdicanc FrmCFDIRelFac
     Public PassData1 As String 'FrmFACTURAS
     Public PassData2 As String 'frmpagocomplemento
@@ -1582,7 +1583,7 @@ Module General
         Return RETURNVALUE
     End Function
 
-    Public Function CONVERTIR_TO_INT(ByRef FNUM As String) As Integer
+    Public Function CONVERTIR_TO_INT(ByRef FNUM As String) As Long
         Dim RETURNVALUE As Single
         Dim Num_single As Single
         Try
@@ -1598,7 +1599,6 @@ Module General
             Return RETURNVALUE
         Catch Ex As Exception
             Bitacora("270. " & Ex.Message & vbNewLine & Ex.StackTrace)
-            MsgBox("270. " & Ex.Message & vbNewLine & Ex.StackTrace)
             Return 0
         End Try
     End Function
@@ -3420,7 +3420,7 @@ Module General
     End Function
 
 
-    Public Function SIGUIENTE_CVE_DOC_VENTA_CEROS(ByVal fTipoVENTA As String, ByVal fLETRA As String) As String
+    Public Function SIGUIENTE_CVE_DOC_VENTA_CEROS(ByVal FTipoVENTA As String, ByVal FLETRA As String) As String
         Dim cmd As New SqlCommand
         Dim dr As SqlDataReader
         Dim CVE_DOC As String
@@ -3429,21 +3429,21 @@ Module General
 
         Try
             SQL = "SELECT ISNULL(ULT_DOC,0) AS ULTDOC, ISNULL(SERIE,'') AS LETRA " &
-                "FROM FOLIOSF" & Empresa & " WHERE TIP_DOC = '" & fTipoVENTA & "' AND " &
-                "SERIE = '" & IIf(fLETRA = "", "STAND.", fLETRA) & "'"
+                "FROM FOLIOSF" & Empresa & " WHERE TIP_DOC = '" & FTipoVENTA & "' AND " &
+                "SERIE = '" & IIf(FLETRA = "", "STAND.", FLETRA) & "'"
 
             cmd.Connection = cnSAE
             cmd.CommandText = SQL
             dr = cmd.ExecuteReader
             If dr.Read Then
                 FOLIO_VENTA = dr("ULTDOC") + 1
-                If fLETRA = "STAND." Or fLETRA.Trim.Length = 0 Then
+                If FLETRA = "STAND." Or FLETRA.Trim.Length = 0 Then
                     LETRA_VENTA = ""
                     CVE_DOC = Format(FOLIO_VENTA, "0000000000")
                     CVE_DOC = Space(20 - CVE_DOC.Trim.Length) & CVE_DOC.Trim
                 Else
-                    If Len(Trim(fLETRA)) > 0 Then
-                        CVE_DOC = fLETRA & Format(FOLIO_VENTA, "0000000000")
+                    If Len(Trim(FLETRA)) > 0 Then
+                        CVE_DOC = FLETRA & Format(FOLIO_VENTA, "0000000000")
                     Else
                         CVE_DOC = Format(FOLIO_VENTA, "0000000000")
                         CVE_DOC = Space(20 - CVE_DOC.Trim.Length) & CVE_DOC.Trim
@@ -3465,6 +3465,53 @@ Module General
             Return ""
         End Try
     End Function
+
+    Public Function SIGUIENTE_CVE_DOC_PAGOS(ByVal FTipoVENTA As String, ByVal FLETRA As String) As String
+        Dim cmd As New SqlCommand
+        Dim dr As SqlDataReader
+        Dim CVE_DOC As String
+        Dim FOLIO_VENTA As Long
+        Dim LETRA_VENTA As String
+
+        Try
+            SQL = "SELECT ISNULL(ULT_DOC,0) AS ULTDOC, ISNULL(SERIE,'') AS LETRA " &
+                "FROM FOLIOSF" & Empresa & " WHERE TIP_DOC = '" & FTipoVENTA & "' AND " &
+                "SERIE = '" & IIf(FLETRA = "", "STAND.", FLETRA) & "'"
+
+            cmd.Connection = cnSAE
+            cmd.CommandText = SQL
+            dr = cmd.ExecuteReader
+            If dr.Read Then
+                FOLIO_VENTA = dr("ULTDOC") + 1
+                If FLETRA = "STAND." Or FLETRA.Trim.Length = 0 Then
+                    LETRA_VENTA = ""
+                    CVE_DOC = Format(FOLIO_VENTA, "0000")
+                    CVE_DOC = Space(20 - CVE_DOC.Trim.Length) & CVE_DOC.Trim
+                Else
+                    If Len(Trim(FLETRA)) > 0 Then
+                        CVE_DOC = FLETRA & Format(FOLIO_VENTA, "0000")
+                    Else
+                        CVE_DOC = Format(FOLIO_VENTA, "0000")
+                        CVE_DOC = Space(20 - CVE_DOC.Trim.Length) & CVE_DOC.Trim
+                    End If
+                End If
+            Else
+                LETRA_VENTA = ""
+                FOLIO_VENTA = 1
+                CVE_DOC = Format(FOLIO_VENTA, "0000")
+                CVE_DOC = Space(20 - CVE_DOC.Trim.Length) & CVE_DOC.Trim
+            End If
+            dr.Close()
+            FOLIO_G = FOLIO_VENTA
+
+            Return CVE_DOC
+        Catch ex As Exception
+            MsgBox("474. " & ex.Message & vbNewLine & ex.StackTrace)
+            Bitacora("474. " & ex.Message & vbNewLine & vbNewLine & ex.StackTrace)
+            Return ""
+        End Try
+    End Function
+
     Public Function SIGUIENTE_FOLIO_VENTA(ByVal fTipoVENTA As String, ByVal fLETRA As String) As String
         Dim cmd As New SqlCommand
         Dim dr As SqlDataReader
@@ -4325,17 +4372,19 @@ Module General
         End Try
     End Function
 
-    Public Function OBTENER_SERIE_USUARIO_TIPO_VENTA(fTIPO_VENTA As String) As String
+    Public Function OBTENER_SERIE_USUARIO_TIPO_VENTA(FTIPO_VENTA As String) As String
         Dim cmd As New SqlCommand
         Dim dr As SqlDataReader
         Dim SER_VENTA As String = "", SQLx As String
         Try
-            SQLx = "SELECT * FROM GCUSUARIOS_SERIE WHERE UPPER(USUARIO) = '" & USER_GRUPOCE.ToUpper & "' AND TIP_DOC = '" & fTIPO_VENTA & "'"
+            'SQLx = "SELECT SERIE FROM GCUSUARIOS_SERIE WHERE UPPER(USUARIO) = '" & USER_GRUPOCE.ToUpper & "' AND TIP_DOC = '" & fTIPO_VENTA & "'"
+
+            SQLx = "SELECT SERIE FROM GCUSUARIOS_PARAM WHERE UPPER(USUARIO) = '" & USER_GRUPOCE.ToUpper & "' AND TIPO_DOC = '" & FTIPO_VENTA & "'"
             cmd.Connection = cnSAE
             cmd.CommandText = SQLx
             dr = cmd.ExecuteReader
             If dr.Read Then
-                SER_VENTA = dr("SERIE_VENTA")
+                SER_VENTA = dr("SERIE")
             End If
             dr.Close()
             Return SER_VENTA
@@ -6522,6 +6571,27 @@ Module General
             MsgBox("630. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
+
+    Public Function EL_PAGO_ESTA_TIMBRADO(FCVE_DOC As String) As Boolean
+        Dim EXISTE As Boolean = False
+
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT * FROM CFDI WHERE FACTURA = '" & FCVE_DOC & "' AND ISNULL(ESTATUS,'') <> 'C'"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    If dr.Read Then
+                        EXISTE = True
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+
+        Return EXISTE
+    End Function
 
     Public Function ObtenerNombrePestanaConsulta(ByVal NombreMenu As String) As String
         Dim nombre As String = ""

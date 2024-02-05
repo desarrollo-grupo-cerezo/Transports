@@ -30,12 +30,14 @@ Partial Class FrmCasetasXRutaAE
         Me.BtnPlaza2 = New System.Windows.Forms.Button()
         Me.tCVE_PLAZA2 = New System.Windows.Forms.TextBox()
         Me.Label41 = New System.Windows.Forms.Label()
-        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Lt1 = New System.Windows.Forms.Label()
         Me.TCVE_CXR = New System.Windows.Forms.TextBox()
         Me.Label27 = New System.Windows.Forms.Label()
         Me.C1ThemeController1 = New C1.Win.C1Themes.C1ThemeController()
         Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.cboEjesTotal = New C1.Win.C1Input.C1ComboBox()
         Me.txDescripcion = New System.Windows.Forms.TextBox()
         Me.rbFull = New System.Windows.Forms.RadioButton()
         Me.rbSencillo = New System.Windows.Forms.RadioButton()
@@ -56,8 +58,7 @@ Partial Class FrmCasetasXRutaAE
         Me.BtnAgregarCaseta = New C1.Win.C1Input.C1Button()
         Me.BtnRecargarCasetas = New C1.Win.C1Input.C1Button()
         Me.C1FlexGridSearchPanel1 = New C1.Win.C1FlexGrid.C1FlexGridSearchPanel()
-        Me.cboEjesTotal = New C1.Win.C1Input.C1ComboBox()
-        Me.Label5 = New System.Windows.Forms.Label()
+        Me.BarExcel = New System.Windows.Forms.ToolStripMenuItem()
         Me.barMenu.SuspendLayout()
         CType(Me.C1ThemeController1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -65,19 +66,19 @@ Partial Class FrmCasetasXRutaAE
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.cboEjesTotal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnAgregarCaseta, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnRecargarCasetas, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboEjesTotal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'barMenu
         '
         Me.barMenu.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.barMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible
-        Me.barMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.barGrabar, Me.mnuSalir})
+        Me.barMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.barGrabar, Me.BarExcel, Me.mnuSalir})
         Me.barMenu.Location = New System.Drawing.Point(0, 0)
         Me.barMenu.Name = "barMenu"
-        Me.barMenu.Size = New System.Drawing.Size(1219, 55)
+        Me.barMenu.Size = New System.Drawing.Size(1452, 55)
         Me.barMenu.Stretch = False
         Me.barMenu.TabIndex = 11
         Me.barMenu.Text = "MenuStrip1"
@@ -115,7 +116,7 @@ Partial Class FrmCasetasXRutaAE
         Me.LtPlaza2.Enabled = False
         Me.LtPlaza2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LtPlaza2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.LtPlaza2.Location = New System.Drawing.Point(607, 63)
+        Me.LtPlaza2.Location = New System.Drawing.Point(598, 63)
         Me.LtPlaza2.Name = "LtPlaza2"
         Me.LtPlaza2.Size = New System.Drawing.Size(305, 22)
         Me.LtPlaza2.TabIndex = 5
@@ -203,18 +204,18 @@ Partial Class FrmCasetasXRutaAE
         Me.Label41.Text = "Origen"
         Me.C1ThemeController1.SetTheme(Me.Label41, "Office2010Blue")
         '
-        'Label13
+        'Lt1
         '
-        Me.Label13.AutoSize = True
-        Me.Label13.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label13.Location = New System.Drawing.Point(548, 65)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(53, 16)
-        Me.Label13.TabIndex = 446
-        Me.Label13.Text = "Destino"
-        Me.C1ThemeController1.SetTheme(Me.Label13, "Office2010Blue")
+        Me.Lt1.AutoSize = True
+        Me.Lt1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Lt1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lt1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Lt1.Location = New System.Drawing.Point(539, 65)
+        Me.Lt1.Name = "Lt1"
+        Me.Lt1.Size = New System.Drawing.Size(53, 16)
+        Me.Lt1.TabIndex = 446
+        Me.Lt1.Text = "Destino"
+        Me.C1ThemeController1.SetTheme(Me.Lt1, "Office2010Blue")
         '
         'TCVE_CXR
         '
@@ -246,22 +247,23 @@ Partial Class FrmCasetasXRutaAE
         'Fg
         '
         Me.Fg.AllowFiltering = True
-        Me.Fg.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None
         Me.Fg.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Fg.AutoClipboard = True
         Me.Fg.BackColor = System.Drawing.Color.White
         Me.Fg.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
         Me.C1FlexGridSearchPanel1.SetC1FlexGridSearchPanel(Me.Fg, Me.C1FlexGridSearchPanel1)
+        Me.Fg.ClipboardCopyMode = C1.Win.C1FlexGrid.ClipboardCopyModeEnum.DataAndColumnHeaders
         Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Fg.ForeColor = System.Drawing.Color.Black
-        Me.Fg.Location = New System.Drawing.Point(0, 53)
+        Me.Fg.Location = New System.Drawing.Point(8, 53)
         Me.Fg.Name = "Fg"
         Me.Fg.Rows.DefaultSize = 19
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg.Size = New System.Drawing.Size(1219, 310)
+        Me.Fg.Size = New System.Drawing.Size(1452, 390)
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 15
         Me.C1ThemeController1.SetTheme(Me.Fg, "Office2010Blue")
@@ -297,7 +299,7 @@ Partial Class FrmCasetasXRutaAE
         Me.SplitContainer1.Panel1.Controls.Add(Me.LtPlaza2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Label27)
         Me.SplitContainer1.Panel1.Controls.Add(Me.TCVE_CXR)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Label13)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Lt1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.BtnPlaza)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Label41)
         Me.SplitContainer1.Panel1.Controls.Add(Me.LtPlaza)
@@ -313,10 +315,48 @@ Partial Class FrmCasetasXRutaAE
         Me.SplitContainer1.Panel2.Controls.Add(Me.C1FlexGridSearchPanel1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.Fg)
         Me.C1ThemeController1.SetTheme(Me.SplitContainer1.Panel2, "(default)")
-        Me.SplitContainer1.Size = New System.Drawing.Size(1219, 518)
-        Me.SplitContainer1.SplitterDistance = 151
+        Me.SplitContainer1.Size = New System.Drawing.Size(1452, 630)
+        Me.SplitContainer1.SplitterDistance = 183
         Me.SplitContainer1.TabIndex = 456
         Me.C1ThemeController1.SetTheme(Me.SplitContainer1, "(default)")
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.Label5.Location = New System.Drawing.Point(558, 95)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(34, 16)
+        Me.Label5.TabIndex = 468
+        Me.Label5.Text = "Ejes"
+        Me.C1ThemeController1.SetTheme(Me.Label5, "Office2010Blue")
+        '
+        'cboEjesTotal
+        '
+        Me.cboEjesTotal.AllowSpinLoop = False
+        Me.cboEjesTotal.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.cboEjesTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.cboEjesTotal.Cursor = System.Windows.Forms.Cursors.Arrow
+        Me.cboEjesTotal.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.cboEjesTotal.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
+        Me.cboEjesTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboEjesTotal.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.cboEjesTotal.GapHeight = 0
+        Me.cboEjesTotal.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.cboEjesTotal.ItemsDisplayMember = ""
+        Me.cboEjesTotal.ItemsValueMember = ""
+        Me.cboEjesTotal.Location = New System.Drawing.Point(598, 92)
+        Me.cboEjesTotal.Name = "cboEjesTotal"
+        Me.cboEjesTotal.Size = New System.Drawing.Size(68, 20)
+        Me.cboEjesTotal.Style.DropDownBackColor = System.Drawing.Color.White
+        Me.cboEjesTotal.Style.DropDownBorderColor = System.Drawing.Color.Gainsboro
+        Me.cboEjesTotal.TabIndex = 467
+        Me.cboEjesTotal.Tag = Nothing
+        Me.cboEjesTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.C1ThemeController1.SetTheme(Me.cboEjesTotal, "Office2010Blue")
+        Me.cboEjesTotal.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'txDescripcion
         '
@@ -335,7 +375,7 @@ Partial Class FrmCasetasXRutaAE
         'rbFull
         '
         Me.rbFull.AutoSize = True
-        Me.rbFull.Location = New System.Drawing.Point(986, 111)
+        Me.rbFull.Location = New System.Drawing.Point(940, 111)
         Me.rbFull.Name = "rbFull"
         Me.rbFull.Size = New System.Drawing.Size(41, 17)
         Me.rbFull.TabIndex = 14
@@ -347,7 +387,7 @@ Partial Class FrmCasetasXRutaAE
         'rbSencillo
         '
         Me.rbSencillo.AutoSize = True
-        Me.rbSencillo.Location = New System.Drawing.Point(986, 87)
+        Me.rbSencillo.Location = New System.Drawing.Point(940, 87)
         Me.rbSencillo.Name = "rbSencillo"
         Me.rbSencillo.Size = New System.Drawing.Size(62, 17)
         Me.rbSencillo.TabIndex = 13
@@ -359,7 +399,7 @@ Partial Class FrmCasetasXRutaAE
         'rbTractor
         '
         Me.rbTractor.AutoSize = True
-        Me.rbTractor.Location = New System.Drawing.Point(986, 63)
+        Me.rbTractor.Location = New System.Drawing.Point(940, 63)
         Me.rbTractor.Name = "rbTractor"
         Me.rbTractor.Size = New System.Drawing.Size(59, 17)
         Me.rbTractor.TabIndex = 12
@@ -416,9 +456,9 @@ Partial Class FrmCasetasXRutaAE
         Me.TTIPO_RUTA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TTIPO_RUTA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TTIPO_RUTA.ForeColor = System.Drawing.Color.Black
-        Me.TTIPO_RUTA.Location = New System.Drawing.Point(451, 122)
+        Me.TTIPO_RUTA.Location = New System.Drawing.Point(598, 117)
         Me.TTIPO_RUTA.Name = "TTIPO_RUTA"
-        Me.TTIPO_RUTA.Size = New System.Drawing.Size(152, 22)
+        Me.TTIPO_RUTA.Size = New System.Drawing.Size(305, 22)
         Me.TTIPO_RUTA.TabIndex = 10
         Me.C1ThemeController1.SetTheme(Me.TTIPO_RUTA, "Office2010Blue")
         '
@@ -428,11 +468,11 @@ Partial Class FrmCasetasXRutaAE
         Me.Label2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label2.Location = New System.Drawing.Point(366, 125)
+        Me.Label2.Location = New System.Drawing.Point(539, 119)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(79, 16)
+        Me.Label2.Size = New System.Drawing.Size(53, 16)
         Me.Label2.TabIndex = 465
-        Me.Label2.Text = "Tipo de ruta"
+        Me.Label2.Text = "Destino"
         Me.C1ThemeController1.SetTheme(Me.Label2, "Office2010Blue")
         '
         'TIAVE
@@ -442,9 +482,9 @@ Partial Class FrmCasetasXRutaAE
         Me.TIAVE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TIAVE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TIAVE.ForeColor = System.Drawing.Color.Black
-        Me.TIAVE.Location = New System.Drawing.Point(145, 122)
+        Me.TIAVE.Location = New System.Drawing.Point(145, 117)
         Me.TIAVE.Name = "TIAVE"
-        Me.TIAVE.Size = New System.Drawing.Size(204, 22)
+        Me.TIAVE.Size = New System.Drawing.Size(382, 22)
         Me.TIAVE.TabIndex = 9
         Me.C1ThemeController1.SetTheme(Me.TIAVE, "Office2010Blue")
         '
@@ -454,11 +494,11 @@ Partial Class FrmCasetasXRutaAE
         Me.Label1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label1.Location = New System.Drawing.Point(106, 124)
+        Me.Label1.Location = New System.Drawing.Point(96, 119)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(37, 16)
+        Me.Label1.Size = New System.Drawing.Size(47, 16)
         Me.Label1.TabIndex = 463
-        Me.Label1.Text = "IAVE"
+        Me.Label1.Text = "Origen"
         Me.C1ThemeController1.SetTheme(Me.Label1, "Office2010Blue")
         '
         'BtnCLAVE_REM
@@ -519,7 +559,7 @@ Partial Class FrmCasetasXRutaAE
         Me.LtImporte.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtImporte.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LtImporte.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.LtImporte.Location = New System.Drawing.Point(760, 121)
+        Me.LtImporte.Location = New System.Drawing.Point(751, 90)
         Me.LtImporte.Name = "LtImporte"
         Me.LtImporte.Size = New System.Drawing.Size(152, 22)
         Me.LtImporte.TabIndex = 11
@@ -532,7 +572,7 @@ Partial Class FrmCasetasXRutaAE
         Me.Label3.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label3.Location = New System.Drawing.Point(679, 125)
+        Me.Label3.Location = New System.Drawing.Point(679, 94)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(63, 16)
         Me.Label3.TabIndex = 455
@@ -577,52 +617,28 @@ Partial Class FrmCasetasXRutaAE
         Me.C1ThemeController1.SetTheme(Me.C1FlexGridSearchPanel1, "Office2010Blue")
         Me.C1FlexGridSearchPanel1.Watermark = "Texto a buscar"
         '
-        'cboEjesTotal
+        'BarExcel
         '
-        Me.cboEjesTotal.AllowSpinLoop = False
-        Me.cboEjesTotal.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.cboEjesTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.cboEjesTotal.Cursor = System.Windows.Forms.Cursors.Arrow
-        Me.cboEjesTotal.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
-        Me.cboEjesTotal.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
-        Me.cboEjesTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboEjesTotal.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.cboEjesTotal.GapHeight = 0
-        Me.cboEjesTotal.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.cboEjesTotal.ItemsDisplayMember = ""
-        Me.cboEjesTotal.ItemsValueMember = ""
-        Me.cboEjesTotal.Location = New System.Drawing.Point(760, 92)
-        Me.cboEjesTotal.Name = "cboEjesTotal"
-        Me.cboEjesTotal.Size = New System.Drawing.Size(68, 20)
-        Me.cboEjesTotal.Style.DropDownBackColor = System.Drawing.Color.White
-        Me.cboEjesTotal.Style.DropDownBorderColor = System.Drawing.Color.Gainsboro
-        Me.cboEjesTotal.TabIndex = 467
-        Me.cboEjesTotal.Tag = Nothing
-        Me.cboEjesTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.C1ThemeController1.SetTheme(Me.cboEjesTotal, "Office2010Blue")
-        Me.cboEjesTotal.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label5.Location = New System.Drawing.Point(679, 97)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(34, 16)
-        Me.Label5.TabIndex = 468
-        Me.Label5.Text = "Ejes"
-        Me.C1ThemeController1.SetTheme(Me.Label5, "Office2010Blue")
+        Me.BarExcel.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.BarExcel.ForeColor = System.Drawing.Color.Black
+        Me.BarExcel.Image = Global.SGT_Transport.My.Resources.Resources.excel1
+        Me.BarExcel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarExcel.Name = "BarExcel"
+        Me.BarExcel.ShortcutKeyDisplayString = "Grabar registro"
+        Me.BarExcel.ShortcutKeys = System.Windows.Forms.Keys.F3
+        Me.BarExcel.Size = New System.Drawing.Size(54, 51)
+        Me.BarExcel.Text = "Grabar"
+        Me.BarExcel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'FrmCasetasXRutaAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1219, 573)
+        Me.ClientSize = New System.Drawing.Size(1452, 685)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.barMenu)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MinimizeBox = False
         Me.Name = "FrmCasetasXRutaAE"
         Me.ShowInTaskbar = False
         Me.Text = "Asignación casetas"
@@ -637,9 +653,9 @@ Partial Class FrmCasetasXRutaAE
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.cboEjesTotal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnAgregarCaseta, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnRecargarCasetas, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboEjesTotal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -655,7 +671,7 @@ Partial Class FrmCasetasXRutaAE
     Friend WithEvents BtnPlaza2 As Button
     Friend WithEvents tCVE_PLAZA2 As TextBox
     Friend WithEvents Label41 As Label
-    Friend WithEvents Label13 As Label
+    Friend WithEvents Lt1 As Label
     Friend WithEvents TCVE_CXR As TextBox
     Friend WithEvents Label27 As Label
     Friend WithEvents C1ThemeController1 As C1.Win.C1Themes.C1ThemeController
@@ -686,4 +702,5 @@ Partial Class FrmCasetasXRutaAE
     Friend WithEvents BtnAgregarCaseta As C1.Win.C1Input.C1Button
     Friend WithEvents cboEjesTotal As C1.Win.C1Input.C1ComboBox
     Friend WithEvents Label5 As Label
+    Friend WithEvents BarExcel As ToolStripMenuItem
 End Class

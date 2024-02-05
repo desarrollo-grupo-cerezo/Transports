@@ -91,6 +91,8 @@ Partial Class FrmConfiguracionCFDI
         Me.TPAIS = New C1.Win.C1Input.C1TextBox()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.C1DockingTabPage2 = New C1.Win.C1Command.C1DockingTabPage()
+        Me.cboVerCCP = New C1.Win.C1Input.C1ComboBox()
+        Me.Label43 = New System.Windows.Forms.Label()
         Me.ChAddendaCE = New C1.Win.C1Input.C1CheckBox()
         Me.LtVencCer = New System.Windows.Forms.Label()
         Me.Label41 = New System.Windows.Forms.Label()
@@ -132,8 +134,6 @@ Partial Class FrmConfiguracionCFDI
         Me.MenuHolder = New C1.Win.C1Command.C1CommandHolder()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.Label43 = New System.Windows.Forms.Label()
-        Me.cboVerCCP = New C1.Win.C1Input.C1ComboBox()
         CType(Me.TEMISOR_LUGAR_EXPEDICION, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TEMISOR_REGIMEN_FISCAL, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TEMISOR_RAZON_SOCIAL, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -163,6 +163,7 @@ Partial Class FrmConfiguracionCFDI
         CType(Me.TMUNICIPIO_SAT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TPAIS, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.C1DockingTabPage2.SuspendLayout()
+        CType(Me.cboVerCCP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChAddendaCE, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.C1DockingTabPage3.SuspendLayout()
         CType(Me.BtnFTODev, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -172,7 +173,6 @@ Partial Class FrmConfiguracionCFDI
         CType(Me.TFTODEV, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TFTOCOMPPAGO, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboVerCCP, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TEMISOR_LUGAR_EXPEDICION
@@ -1095,6 +1095,42 @@ Partial Class FrmConfiguracionCFDI
         Me.C1DockingTabPage2.TabIndex = 1
         Me.C1DockingTabPage2.Text = "CFDI"
         '
+        'cboVerCCP
+        '
+        Me.cboVerCCP.AllowSpinLoop = False
+        Me.cboVerCCP.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.cboVerCCP.BorderColor = System.Drawing.SystemColors.WindowFrame
+        Me.cboVerCCP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.cboVerCCP.Cursor = System.Windows.Forms.Cursors.Arrow
+        Me.cboVerCCP.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
+        Me.cboVerCCP.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
+        Me.cboVerCCP.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboVerCCP.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
+        Me.cboVerCCP.GapHeight = 0
+        Me.cboVerCCP.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.cboVerCCP.ItemsDisplayMember = ""
+        Me.cboVerCCP.ItemsValueMember = ""
+        Me.cboVerCCP.Location = New System.Drawing.Point(166, 436)
+        Me.cboVerCCP.Name = "cboVerCCP"
+        Me.cboVerCCP.Size = New System.Drawing.Size(68, 20)
+        Me.cboVerCCP.Style.DropDownBackColor = System.Drawing.Color.White
+        Me.cboVerCCP.Style.DropDownBorderColor = System.Drawing.Color.Gainsboro
+        Me.cboVerCCP.TabIndex = 628
+        Me.cboVerCCP.Tag = Nothing
+        Me.cboVerCCP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.cboVerCCP.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Label43
+        '
+        Me.Label43.AutoSize = True
+        Me.Label43.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label43.Location = New System.Drawing.Point(37, 438)
+        Me.Label43.Margin = New System.Windows.Forms.Padding(3)
+        Me.Label43.Name = "Label43"
+        Me.Label43.Size = New System.Drawing.Size(126, 16)
+        Me.Label43.TabIndex = 627
+        Me.Label43.Text = "Versión  Carta Porte"
+        '
         'ChAddendaCE
         '
         Me.ChAddendaCE.BackColor = System.Drawing.Color.Transparent
@@ -1505,41 +1541,6 @@ Partial Class FrmConfiguracionCFDI
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'Label43
-        '
-        Me.Label43.AutoSize = True
-        Me.Label43.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label43.Location = New System.Drawing.Point(37, 438)
-        Me.Label43.Margin = New System.Windows.Forms.Padding(3)
-        Me.Label43.Name = "Label43"
-        Me.Label43.Size = New System.Drawing.Size(126, 16)
-        Me.Label43.TabIndex = 627
-        Me.Label43.Text = "Versión  Carta Porte"
-        '
-        'cboVerCCP
-        '
-        Me.cboVerCCP.AllowSpinLoop = False
-        Me.cboVerCCP.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.cboVerCCP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.cboVerCCP.Cursor = System.Windows.Forms.Cursors.Arrow
-        Me.cboVerCCP.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
-        Me.cboVerCCP.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
-        Me.cboVerCCP.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboVerCCP.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.cboVerCCP.GapHeight = 0
-        Me.cboVerCCP.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.cboVerCCP.ItemsDisplayMember = ""
-        Me.cboVerCCP.ItemsValueMember = ""
-        Me.cboVerCCP.Location = New System.Drawing.Point(166, 436)
-        Me.cboVerCCP.Name = "cboVerCCP"
-        Me.cboVerCCP.Size = New System.Drawing.Size(68, 20)
-        Me.cboVerCCP.Style.DropDownBackColor = System.Drawing.Color.White
-        Me.cboVerCCP.Style.DropDownBorderColor = System.Drawing.Color.Gainsboro
-        Me.cboVerCCP.TabIndex = 628
-        Me.cboVerCCP.Tag = Nothing
-        Me.cboVerCCP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.cboVerCCP.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
-        '
         'FrmConfiguracionCFDI
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1582,6 +1583,7 @@ Partial Class FrmConfiguracionCFDI
         CType(Me.TPAIS, System.ComponentModel.ISupportInitialize).EndInit()
         Me.C1DockingTabPage2.ResumeLayout(False)
         Me.C1DockingTabPage2.PerformLayout()
+        CType(Me.cboVerCCP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChAddendaCE, System.ComponentModel.ISupportInitialize).EndInit()
         Me.C1DockingTabPage3.ResumeLayout(False)
         Me.C1DockingTabPage3.PerformLayout()
@@ -1592,7 +1594,6 @@ Partial Class FrmConfiguracionCFDI
         CType(Me.TFTODEV, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TFTOCOMPPAGO, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboVerCCP, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

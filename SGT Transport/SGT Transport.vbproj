@@ -901,34 +901,16 @@
     <Compile Include="CONTABILIDAD\FrmConsultaResumen.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CONTABILIDAD\FrmPolizaPagoOTE.designer.vb">
-      <DependentUpon>FrmPolizaPagoOTE.vb</DependentUpon>
-    </Compile>
-    <Compile Include="CONTABILIDAD\FrmPolizaPagoOTE.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CONTABILIDAD\FrmPolizaProvisionOTE.designer.vb">
-      <DependentUpon>FrmPolizaProvisionOTE.vb</DependentUpon>
-    </Compile>
-    <Compile Include="CONTABILIDAD\FrmPolizaProvisionOTE.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CONTABILIDAD\FrmPolizaSalidaAlmacen.designer.vb">
-      <DependentUpon>FrmPolizaSalidaAlmacen.vb</DependentUpon>
-    </Compile>
-    <Compile Include="CONTABILIDAD\FrmPolizaSalidaAlmacen.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="CONTABILIDAD\FrmPolizaFondoOper.designer.vb">
       <DependentUpon>FrmPolizaFondoOper.vb</DependentUpon>
     </Compile>
     <Compile Include="CONTABILIDAD\FrmPolizaFondoOper.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CONTABILIDAD\FrmPolizaProvRef.designer.vb">
-      <DependentUpon>FrmPolizaProvRef.vb</DependentUpon>
+    <Compile Include="CONTABILIDAD\FrmPolizaPagoOTE.designer.vb">
+      <DependentUpon>FrmPolizaPagoOTE.vb</DependentUpon>
     </Compile>
-    <Compile Include="CONTABILIDAD\FrmPolizaProvRef.vb">
+    <Compile Include="CONTABILIDAD\FrmPolizaPagoOTE.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CONTABILIDAD\FrmPolizaPagoRef.designer.vb">
@@ -971,6 +953,24 @@
       <DependentUpon>FrmPolizaLiq.vb</DependentUpon>
     </Compile>
     <Compile Include="CONTABILIDAD\FrmPolizaLiq.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaProvisionOTE.designer.vb">
+      <DependentUpon>FrmPolizaProvisionOTE.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaProvisionOTE.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaProvRef.designer.vb">
+      <DependentUpon>FrmPolizaProvRef.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaProvRef.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaSalidaAlmacen.designer.vb">
+      <DependentUpon>FrmPolizaSalidaAlmacen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaSalidaAlmacen.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Ejemplo.vb" />
@@ -1170,6 +1170,18 @@
       <DependentUpon>FrmImpresionReportes.vb</DependentUpon>
     </Compile>
     <Compile Include="REPORTES\FrmImpresionReportes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="REPORTES\FrmRepGerencial2.Designer.vb">
+      <DependentUpon>FrmRepGerencial2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTES\FrmRepGerencial2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="REPORTES\FrmRepGerencial3.Designer.vb">
+      <DependentUpon>FrmRepGerencial3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTES\FrmRepGerencial3.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UTILERIAS\RoundedRectangle.vb" />
@@ -4694,20 +4706,11 @@
     <EmbeddedResource Include="CONTABILIDAD\FrmConsultaResumen.resx">
       <DependentUpon>FrmConsultaResumen.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaPagoOTE.resx">
-      <DependentUpon>FrmPolizaPagoOTE.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaProvisionOTE.resx">
-      <DependentUpon>FrmPolizaProvisionOTE.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaSalidaAlmacen.resx">
-      <DependentUpon>FrmPolizaSalidaAlmacen.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CONTABILIDAD\FrmPolizaFondoOper.resx">
       <DependentUpon>FrmPolizaFondoOper.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaProvRef.resx">
-      <DependentUpon>FrmPolizaProvRef.vb</DependentUpon>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaPagoOTE.resx">
+      <DependentUpon>FrmPolizaPagoOTE.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CONTABILIDAD\FrmPolizaPagoRef.resx">
       <DependentUpon>FrmPolizaPagoRef.vb</DependentUpon>
@@ -4729,6 +4732,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CONTABILIDAD\FrmPolizaLiq.resx">
       <DependentUpon>FrmPolizaLiq.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaProvisionOTE.resx">
+      <DependentUpon>FrmPolizaProvisionOTE.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaProvRef.resx">
+      <DependentUpon>FrmPolizaProvRef.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaSalidaAlmacen.resx">
+      <DependentUpon>FrmPolizaSalidaAlmacen.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="INVEN\FrmEsquemasMes.resx">
       <DependentUpon>FrmEsquemasMes.vb</DependentUpon>
@@ -4824,6 +4836,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="REPORTES\FrmImpresionReportes.resx">
       <DependentUpon>FrmImpresionReportes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="REPORTES\FrmRepGerencial2.resx">
+      <DependentUpon>FrmRepGerencial2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="REPORTES\FrmRepGerencial3.resx">
+      <DependentUpon>FrmRepGerencial3.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VENTAS POS\FrmFacturaGlobal.resx">
       <DependentUpon>FrmFacturaGlobal.vb</DependentUpon>
@@ -5003,6 +5021,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CONFIGURACION\FrmAcercaDe.resx">
       <DependentUpon>FrmAcercaDe.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CONFIGURACION\FrmLicenciamientoModulos.resx">
       <DependentUpon>FrmLicenciamientoModulos.vb</DependentUpon>
@@ -7117,6 +7136,7 @@
     <Content Include="Resources\diseñador16.png" />
     <Content Include="Resources\diseñador24.png" />
     <None Include="Resources\disk7.png" />
+    <None Include="Resources\flujo22.png" />
     <Content Include="Resources\motor1.jpg" />
     <Content Include="Resources\motor11.jpg" />
     <Content Include="Resources\Tesoreria_Autorización_de_Gastos.png" />

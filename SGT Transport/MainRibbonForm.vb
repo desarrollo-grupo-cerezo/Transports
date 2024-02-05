@@ -2033,7 +2033,7 @@ Public Class MainRibbonForm
                     FrmPagoComplemento.Dispose()
                 Case "Pago complemento"
                     FrmPagoComplementoAE.Dispose()
-                Case "Poliza egresos diesel"
+                Case "Pólizas Provisión Diesel"
                     FrmPolizaDiesel.Dispose()
                 Case "Poliza folios dinero"
                     FrmPolizaFoliosDinero.Dispose()
@@ -3480,8 +3480,8 @@ Public Class MainRibbonForm
     End Sub
 
     Private Sub RibPolizasManteExterno_Click(sender As Object, e As EventArgs) Handles RibPolizasManteExterno.Click
-        BACKUPTXT("XTAB_CAPTION", "frmPolizaMantExt")
-        CREA_TAB(FrmPolizaMantExt, "Poliza mantenimiento externo")
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaProvisionOTE")
+        CREA_TAB(FrmPolizaProvisionOTE, "Póliza Provisión OT Ext.")
     End Sub
     Private Sub RibPolizasManteInterno_Click(sender As Object, e As EventArgs) Handles RibPolizasManteInterno.Click
         Try
@@ -4262,6 +4262,7 @@ Public Class MainRibbonForm
     End Sub
 
     Private Sub RibPolPagRef_Click(sender As Object, e As EventArgs) Handles RibPolPagRef.Click
+        'FrmPolizaPagoRef
         BACKUPTXT("XTAB_CAPTION", "FrmPolizaPagoRef")
         CREA_TAB(FrmPolizaPagoRef, "Póliza Pago Refacciones")
     End Sub
@@ -4269,6 +4270,16 @@ Public Class MainRibbonForm
     Private Sub RibPolProvRef_Click(sender As Object, e As EventArgs) Handles RibPolProvRef.Click
         BACKUPTXT("XTAB_CAPTION", "FrmPolizaProvRef")
         CREA_TAB(FrmPolizaProvRef, "Póliza Provisión Refacciones")
+    End Sub
+
+    Private Sub BarRepGerencial2_Click(sender As Object, e As EventArgs) Handles BarRepGerencial2.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmRepGerencial2")
+        FrmRepGerencial2.ShowDialog()
+    End Sub
+
+    Private Sub BarGerencial3_Click(sender As Object, e As EventArgs) Handles BarGerencial3.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmRepGerencial3")
+        FrmRepGerencial3.ShowDialog()
     End Sub
 
     Private Sub RibPolFondoOper_Click(sender As Object, e As EventArgs) Handles RibPolFondoOper.Click
@@ -4279,5 +4290,10 @@ Public Class MainRibbonForm
     Private Sub RibPolSalAlm_Click(sender As Object, e As EventArgs) Handles RibPolSalAlm.Click
         BACKUPTXT("XTAB_CAPTION", "FrmPolizaSalidaAlmacen")
         CREA_TAB(FrmPolizaSalidaAlmacen, "Póliza Salida Almacén Refacciones")
+    End Sub
+
+    Private Sub RibPolPagOTE_Click(sender As Object, e As EventArgs) Handles RibPolPagOTE.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaPagoOTE")
+        CREA_TAB(FrmPolizaPagoOTE, "Póliza Pago OT Ext.")
     End Sub
 End Class

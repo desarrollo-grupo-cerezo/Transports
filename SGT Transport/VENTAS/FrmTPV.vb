@@ -4,6 +4,7 @@ Imports System.IO
 Imports System.Data.SqlClient
 Imports C1.Win.C1FlexGrid
 Imports System.ComponentModel
+Imports System.Runtime.InteropServices
 
 Public Class FrmTPV
 
@@ -159,6 +160,24 @@ Public Class FrmTPV
             GEN_OC_OT = ""
             TOBRA.Tag = LUUID
 
+            Try
+                Using cmd As SqlCommand = cnSAE.CreateCommand
+                    SQL = "SELECT NUM_MONED, DESCR, TCAMBIO, CVE_MONED 
+                    FROM MONED" & Empresa & " WHERE STATUS = 'A' AND NOT CVE_MONED IS NULL ORDER BY NUM_MONED"
+                    cmd.CommandText = SQL
+                    Using dr As SqlDataReader = cmd.ExecuteReader
+                        While dr.Read
+                            CboMoneda.Items.Add(String.Format("{0} | {1} | {2}", dr("NUM_MONED"), dr("CVE_MONED"), dr("DESCR")))
+                        End While
+                    End Using
+                    CboMoneda.SelectedIndex = 0
+                End Using
+            Catch ex As Exception
+                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+            End Try
+
+            txTC.Value = 1
 
         Catch ex As Exception
             BITACORATPV("10. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -206,6 +225,14 @@ Public Class FrmTPV
         End If
 
         ENTRA = True
+
+        Var2 = ""
+        FrmSelFactura.ShowDialog()
+        If Var2.Trim.Length > 0 Then
+
+        Else
+            Me.Close()
+        End If
     End Sub
     Private Sub FrmTPV_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         Try
@@ -285,14 +312,17 @@ Public Class FrmTPV
 
             OBSER_X_PARTIDA = 0
             OBSER_X_DOC = 0
-            Obser = ""
+            OBSER = ""
             LtCVE_DOC.Tag = 0
             Ldocu.Tag = ""
             TXTN.ErrorInfo.ShowErrorMessage = False
 
             CARGA_PARAM_VENTAS()
+
             CARGA_PARAM_INVENT()  'LEER MULTIALMACEN O o 1  
+
             CARGA_PARAM_CFDI()
+
             CARGAR_PARAM_USUARIO()
 
             'AQUI SONSO
@@ -409,17 +439,34 @@ Public Class FrmTPV
             MsgBox("20. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
 
-        'OBTIENE SERIE DESDE LA TABLA GCUSUARIOS_SERIE TOMANDO EN CUENTA EL USUARIO Y TIPO DE VENTA = CAMPO SERIE_VENTA
-        LETRA_VENTA = OBTENER_SERIE_USUARIO_TIPO_VENTA(TIPO_VENTA_LOCAL)
+        Try
+            'Using cmd As SqlCommand = cnSAE.CreateCommand
+            '    SQL = "SELECT SERIE FROM GCUSUARIOS_PARAM WHERE 
+            '        UPPER(USUARIO) = '" & USER_GRUPOCE.ToUpper & "' AND TIPO_DOC = '" & TIPO_VENTA_LOCAL & "'"
+            '    cmd.CommandText = SQL
+            '    Using dr As SqlDataReader = cmd.ExecuteReader
+            '        If dr.Read Then
+            '            LETRA_VENTA = dr("SERIE")
+            '        End If
+            '    End Using
+            'End Using
 
-        LtCVE_DOC.Text = SIGUIENTE_CVE_DOC_FACTURA(TIPO_VENTA_LOCAL, LETRA_VENTA)
+            'OBTIENE SERIE DESDE LA TABLA GCUSUARIOS_SERIE TOMANDO EN CUENTA EL USUARIO Y TIPO DE VENTA = CAMPO SERIE_VENTA
+            LETRA_VENTA = OBTENER_SERIE_USUARIO_TIPO_VENTA(TIPO_VENTA_LOCAL)
 
-        MODO_EDIT = Var11
+            LtCVE_DOC.Text = SIGUIENTE_CVE_DOC_FACTURA(TIPO_VENTA_LOCAL, LETRA_VENTA)
+
+            MODO_EDIT = Var11
+        Catch ex As Exception
+            BITACORATPV("20. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("20. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
 
         If TIPO_VENTA_LOCAL = "D" Or TIPO_VENTA_LOCAL = "F" Then
             '  Var11
             If MODO_EDIT = "edit" Then
-                LETRA_VENTA = String.Concat(Var12.Where(AddressOf Char.IsLetter))
+                'LETRA_VENTA = String.Concat(Var12.Where(AddressOf Char.IsLetter))
             End If
 
             FACTURA_DIGITAL = "Impresión"
@@ -1137,7 +1184,7 @@ Public Class FrmTPV
         CustomStyle.BackColor = Color.Orange
         'LtCVE_DOC.Tag = 0
         'LtCVE_DOC.Text = fCVE_DOC
-        Obser = ""
+        OBSER = ""
 
         SQL = "DELETE FROM GCLIB_PAR_P"
         ReturnBool = EXECUTE_QUERY_NET(SQL)
@@ -1287,7 +1334,7 @@ Public Class FrmTPV
                                     End If
 
                                     Try
-                                        Obser = dr("DOC_OBS")
+                                        OBSER = dr("DOC_OBS")
                                         Dim TIPO_SERIE As String = ""
                                         Try
                                             Using cmd2 As SqlCommand = cnSAE.CreateCommand
@@ -1837,7 +1884,7 @@ Public Class FrmTPV
         Dim CustomStyle As C1.Win.C1FlexGrid.CellStyle = Fg.Styles.Add("CustomStyle")
         CustomStyle.BackColor = Color.Orange
         LtCVE_DOC.Tag = 0
-        Obser = ""
+        OBSER = ""
 
         If Not Valida_Conexion() Then
             Return
@@ -2675,7 +2722,7 @@ Public Class FrmTPV
 
             CALCULAR_IMPORTES()
             If OBSER_X_DOC = 1 Then
-                Var4 = Obser
+                Var4 = OBSER
                 Var5 = "NUEVO"
                 Var6 = "FACTF_CLIB"
                 Var7 = "FACT" & TIPO_VENTA & "_CLIB" & Empresa
@@ -2706,7 +2753,7 @@ Public Class FrmTPV
 
 
                 FrmObserYCampLib.ShowDialog()
-                Obser = Var4
+                OBSER = Var4
                 Sigue = True
 
             Else
@@ -2876,14 +2923,16 @@ Public Class FrmTPV
 
 
                         'MONEDA
-                        If cbMoneda.SelectedIndex = -1 Then
+                        If CboMoneda.SelectedIndex = -1 Then
                             MsgBox("Por favor seleccione el uso CFDI")
                             Tab1.SelectedIndex = 1
                             Return
                         End If
-                        If Not IsNothing(cbMoneda.SelectedItem) Then
 
-                            MONEDA = (CType(cbMoneda.SelectedItem, cMoneda)).Moneda
+                        NUM_MONED = CboMoneda.SelectedItem.ToString.Substring(0, 1)
+                        MONEDA = NUM_MONED
+
+                        If Not IsNothing(CboMoneda.SelectedItem) Then
 
                             If IsNothing(MONEDA) Then
                                 MsgBox("Por favor seleccione la moneda")
@@ -2896,7 +2945,7 @@ Public Class FrmTPV
                                 Return
                             End If
 
-                            NUM_MONED = (CType(cbMoneda.SelectedItem, cMoneda)).Id
+                            NUM_MONED = CboMoneda.SelectedItem.ToString.Substring(0, 1)
 
                         End If
                         'METODODEPAGO 
@@ -3213,7 +3262,7 @@ Public Class FrmTPV
 
             IMP_TOT1 = 0 : IMP_TOT2 = 0 : IMP_TOT3 = 0 : IMP_TOT4 = 0 : DES_TOT = 0 : DES_FIN = 0 : COM_TOT = 0
             CONDICION = tCONDICION.Text : CVE_OBS = 0 : ACT_CXC = "S" : ACT_COI = "A" : ENLAZADO = "O"
-            TIPCAMB = 1 : NUM_PAGOS = 1
+            NUM_PAGOS = 1
             CTLPOL = 0 : ESCFD = "N" : AUTORIZA = 0 : AUTOANIO = "" : CONTADO = "S" : CVE_BITA = 0 : Bloq = "N"
             FORMAENVIO = "I" : DES_FIN_PORC = 0 : NUMCTAPAGO = "" : AUTORIZA = 1
             DAT_ENVIO = 0 : COM_TOT_PORC = 0 : IMPORTE = 0
@@ -3223,11 +3272,12 @@ Public Class FrmTPV
             SUBTOTAL = 0 : SUBTOTAL2 = 0
 
             If TIPO_VENTA_LOCAL = "" Then
-                NUM_MONED = 1
                 If TIPO_VENTA_LOCAL = "V" Then
                     METODODEPAGO = "PUE" : USO_CFDI = "G03" : FORMADEPAGOSAT = "99"
                 End If
             End If
+
+            TIPCAMB = txTC.Value
 
             TIP_DOC_E = "O"
             '          CABEZAS          CABEZAS          CABEZAS          CABEZAS          CABEZAS          CABEZAS          CABEZAS
@@ -3433,9 +3483,9 @@ Public Class FrmTPV
             RFC = LtRFC.Text
             CVE_OBS = 0
             Try
-                If Obser.Trim.Length > 0 Then
+                If OBSER.Trim.Length > 0 Then
                     CVE_OBS = Val(LtRFC.Tag)
-                    CVE_OBS = INSERT_UPDATE_OBS_FAC(CVE_OBS, Obser)
+                    CVE_OBS = INSERT_UPDATE_OBS_FAC(CVE_OBS, OBSER)
                 End If
             Catch ex As Exception
                 BITACORATPV("680. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -3653,7 +3703,7 @@ Public Class FrmTPV
                 '                            F                                  
                 If (TIPO_VENTA_LOCAL = "V" Or TIPO_VENTA_LOCAL = "F") And Continua Then
                     'CUEN M
-                    CUEN_M(CVE_DOC, CLIENTE, IMPORTE, CVE_VEND, CVE_BITA)
+                    CUEN_M(CVE_DOC, CLIENTE, IMPORTE, CVE_VEND, CVE_BITA, NUM_MONED, txTC.Value)
 
                     If CREDITO <> "CREDITO" Then
                         'RUTIANA CONTADO  
@@ -4628,7 +4678,9 @@ Public Class FrmTPV
 
                 If cbRegimenesFiscales.SelectedItem IsNot Nothing Then REG_FISC = (CType(cbRegimenesFiscales.SelectedItem, cRegimenFiscal)).RegimenFiscal
                 USO_CFDI = cbUsoCfdi.Items(cbUsoCfdi.SelectedIndex).ToString.Substring(0, 3)
-                MONEDA = (CType(cbMoneda.SelectedItem, cMoneda)).Moneda
+
+                MONEDA = CboMoneda.SelectedItem
+
                 METODODEPAGO = (CType(cbMetodoPago.SelectedItem, cMetodoPago)).MetodoPago
                 FORMAPAGO = (CType(cbFormaPago.SelectedItem, cFormaPago)).FormaPago
 
@@ -5661,10 +5713,10 @@ Public Class FrmTPV
     End Function
 
 
-    Sub CUEN_M(fCVE_DOC As String, fCLAVE As String, fIMPORTE As Decimal, fCVE_VEND As String, fCVE_BITA As Long)
+    Sub CUEN_M(fCVE_DOC As String, fCLAVE As String, fIMPORTE As Decimal, fCVE_VEND As String, fCVE_BITA As Long, FNUM_MONED As Integer, FTIPO_CAMBIO As Decimal)
 
         Dim CVE_CLIE As String, REFER As String, NUM_CPTO As Integer, CVE_OBS As Long, NO_FACTURA As String, DOCTO As String, IMPORTE As Decimal
-        Dim AFEC_COI As String, STRCVEVEND As String, NUM_MONED As Integer, TCAMBIO As Decimal, IMPMON_EXT As Decimal, CVE_FOLIO As String
+        Dim AFEC_COI As String, STRCVEVEND As String, IMPMON_EXT As Decimal, CVE_FOLIO As String
         Dim TIPO_MOV As String, SIGNO As Integer, ENTREGADA As String
         Dim cmd As New SqlCommand
         Dim cmdT As New SqlCommand
@@ -5679,7 +5731,7 @@ Public Class FrmTPV
 
             SIGNO = 1
             NUM_CPTO = 2
-            CVE_OBS = 0 : AFEC_COI = "S" : STRCVEVEND = fCVE_VEND : NUM_MONED = 1 : TCAMBIO = 1
+            CVE_OBS = 0 : AFEC_COI = "S" : STRCVEVEND = fCVE_VEND
             CVE_FOLIO = "" : TIPO_MOV = "C" : ENTREGADA = "S"
 
             SQL = "IF NOT EXISTS(SELECT REFER FROM CUEN_M" & Empresa & " WHERE
@@ -5690,7 +5742,7 @@ Public Class FrmTPV
                 VALUES('" &
                 CVE_CLIE & "','" & REFER & "','" & NUM_CPTO & "','1','" & CVE_OBS & "','" & NO_FACTURA & "','" & DOCTO & "','" &
                 TIPO_MOV & "','" & Math.Round(fIMPORTE, 6) & "',CONVERT(varchar, GETDATE(), 112),CONVERT(varchar, GETDATE(), 112),'" & AFEC_COI & "','" &
-                STRCVEVEND & "','" & NUM_MONED & "','" & TCAMBIO & "','" & Math.Round(IMPMON_EXT, 6) & "',GETDATE(),'" &
+                STRCVEVEND & "','" & FNUM_MONED & "','" & FTIPO_CAMBIO & "','" & Math.Round(IMPMON_EXT, 6) & "',GETDATE(),'" &
                 fCVE_BITA & "','" & SIGNO & "','" & CLAVE_SAE & "','" & ENTREGADA &
                 "',CONVERT(varchar, GETDATE(), 112),'A', NEWID(), GETDATE())"
             Try
@@ -5711,7 +5763,9 @@ Public Class FrmTPV
             MsgBox("2020. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
-    Sub CUEN_DET(FCVE_DOC As String, FDOCTO As String, FCLAVE As String, FIMPORTE As Decimal, FNUM_CPTO_PAGO As Integer, FCVE_VEND As String, Optional FTIPO_VTA As String = "")
+    Sub CUEN_DET(FCVE_DOC As String, FDOCTO As String, FCLAVE As String, FIMPORTE As Decimal, FNUM_CPTO_PAGO As Integer, FCVE_VEND As String,
+                 Optional FTIPO_VTA As String = "", Optional FNUM_MONED As Integer = 1, Optional FTIPO_CAMBIO As Decimal = 1)
+
         Dim CVE_CLIE As String, REFER As String, ID_MOV As Integer, NUM_CPTO As Integer, NUM_CARGO As Integer, CVE_OBS As Long, NO_FACTURA As String
         Dim DOCTO As String, IMPORTE As Decimal, STRCVEVEND As String, NUM_MONED As Integer, TCAMBIO As Decimal, IMPMON_EXT As Decimal, CVE_FOLIO As String
         Dim TIPO_MOV As String, SIGNO As Integer, NO_PARTIDA As Integer, AFEC_COI As String
@@ -5743,7 +5797,7 @@ Public Class FrmTPV
             End Select
         End If
 
-        CVE_OBS = 0 : DOCTO = FDOCTO : NUM_MONED = 1 : TCAMBIO = 1 : AFEC_COI = "S"
+        CVE_OBS = 0 : DOCTO = FDOCTO : AFEC_COI = "S"
         IMPORTE = FIMPORTE
         STRCVEVEND = FCVE_VEND
         IMPMON_EXT = IMPORTE
@@ -5772,8 +5826,8 @@ Public Class FrmTPV
             "FECHA_APLI, FECHA_VENC, AFEC_COI, STRCVEVEND, NUM_MONED, TCAMBIO, IMPMON_EXT, FECHAELAB, CTLPOL, CVE_FOLIO, TIPO_MOV, SIGNO, " &
             "CVE_AUT, USUARIO, NO_PARTIDA, UUID, VERSION_SINC) VALUES('" & CVE_CLIE & "','" & REFER & "','" & ID_MOV & "','" & NUM_CPTO & "','" &
             NUM_CARGO & "','" & CVE_OBS & "','" & NO_FACTURA & "','" & DOCTO & "','" & Math.Round(FIMPORTE, 6) &
-            "',CONVERT(varchar, GETDATE(), 112),CONVERT(varchar, GETDATE(), 112),'" & AFEC_COI & "','" & STRCVEVEND & "','" & NUM_MONED & "','" &
-            TCAMBIO & "','" & Math.Round(IMPMON_EXT, 6) & "',GETDATE(),'0','" & CVE_FOLIO & "','" & TIPO_MOV & "','" & SIGNO & "','0','" & CLAVE_SAE & "','" &
+            "',CONVERT(varchar, GETDATE(), 112),CONVERT(varchar, GETDATE(), 112),'" & AFEC_COI & "','" & STRCVEVEND & "','" & FNUM_MONED & "','" &
+            FTIPO_CAMBIO & "','" & Math.Round(IMPMON_EXT, 6) & "',GETDATE(),'0','" & CVE_FOLIO & "','" & TIPO_MOV & "','" & SIGNO & "','0','" & CLAVE_SAE & "','" &
             NO_PARTIDA & "',NEWID(), GETDATE())"
         Try
             cmd.Connection = cnSAE
@@ -7103,7 +7157,7 @@ Public Class FrmTPV
                         lista.Add(New cMoneda(dr.ReadNullAsEmptyInteger("NUM_MONED"), dr.ReadNullAsEmptyString("CVE_MONED"), dr.ReadNullAsEmptyString("DESCR")))
                     End While
                 End Using
-                cbMoneda.DataSource = lista
+                'cbMoneda.DataSource = lista
             End Using
         Catch SQLex As SqlException
             Dim SSS As SqlError, Sqlcadena As String = ""
@@ -9324,6 +9378,32 @@ Public Class FrmTPV
         If e.Row >= Fg.Rows.Fixed And e.Col = Fg.Cols.Fixed - 1 Then
             Dim rowNumber As Integer = e.Row - Fg.Rows.Fixed + 1
             e.Text = rowNumber.ToString()
+        End If
+    End Sub
+
+
+    Private Sub CboMoneda_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboMoneda.SelectedIndexChanged
+        If CboMoneda.Text.Contains("MXN") Then
+            txTC.Value = 1
+            txTC.ReadOnly = True
+        Else
+            Try
+                Dim NUM_MONEDA As Integer
+                NUM_MONEDA = Convert.ToInt32(Split(CboMoneda.Text, "|")(0).Trim)
+                Using cmd As SqlCommand = cnSAE.CreateCommand
+                    SQL = String.Format("SELECT NUM_MONED, DESCR, TCAMBIO, CVE_MONED FROM MONED" & Empresa & " WHERE STATUS = 'A' AND NUM_MONED = {0}", NUM_MONEDA)
+                    cmd.CommandText = SQL
+                    Using dr As SqlDataReader = cmd.ExecuteReader
+                        If dr.Read Then
+                            txTC.Value = dr("TCAMBIO")
+                            txTC.ReadOnly = False
+                        End If
+                    End Using
+                End Using
+            Catch ex As Exception
+                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+            End Try
         End If
     End Sub
 End Class

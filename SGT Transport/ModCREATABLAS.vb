@@ -13256,6 +13256,15 @@ Module ModCREATABLAS
                 cmd.CommandText = SQL
                 cmd.ExecuteNonQuery()
             End If
+
+
+            SQL = " IF NOT EXISTS(SELECT 1 FROM tblctiporelacion WHERE tipoRelacion = '01')
+	                    INSERT INTO tblctiporelacion(tipoRelacion, descripcion) VALUES('01', 'Nota de crédito de los documentos relacionados')
+                    IF NOT EXISTS(SELECT 1 FROM tblctiporelacion WHERE tipoRelacion = '03')
+	                    INSERT INTO tblctiporelacion(tipoRelacion, descripcion) VALUES('03', 'Devolución de mercancía sobre facturas o traslados previos')"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
         Catch ex As Exception
             BITACORADB("900. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
@@ -13276,6 +13285,9 @@ Module ModCREATABLAS
             CREA_CAMPO("GCASIGNACION_VIAJE", "IDPOLIZACOI", "INT", "", "")
 
             CREA_CAMPO("GCLIQUIDACIONES", "IDPOLIZACOI", "INT", "", "")
+            CREA_CAMPO("GCLIQUIDACIONES", "USUARIO_REG", "VARCHAR", "30", "")
+            CREA_CAMPO("GCLIQUIDACIONES", "USUARIO_MOD", "VARCHAR", "30", "")
+            CREA_CAMPO("GCLIQUIDACIONES", "FECHA_ULT_MOD", "DT", "", "")
 
             CREA_CAMPO("FOLIOSF" & Empresa, "CTA_VTA_MN", "VARCHAR", "30", "")
             CREA_CAMPO("FOLIOSF" & Empresa, "CTA_VTA_USD", "VARCHAR", "30", "")
@@ -13396,6 +13408,7 @@ Module ModCREATABLAS
             CREA_CAMPO("CFDI_CFG", "VerCCP", "VARCHAR", "3", "")
 
             CREA_CAMPO("CLIE" & Empresa, "CUENTA_CONTABLE_FISCAL", "VARCHAR", "28", "")
+            CREA_CAMPO("CLIE" & Empresa, "TIPO_REL_NC", "INT", "", "")
             CREA_CAMPO("INVE" & Empresa, "CUENTA_CONT_PF", "VARCHAR", "28", "")
             CREA_CAMPO("INVE" & Empresa, "CUENTA_CONT_PM", "VARCHAR", "28", "")
             CREA_CAMPO("CUENTA_BENEF" & Empresa, "CUENTA_CONTABLE_FINANCIERA", "VARCHAR", "28", "")

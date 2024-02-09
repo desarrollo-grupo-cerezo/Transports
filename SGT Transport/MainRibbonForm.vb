@@ -4296,4 +4296,9 @@ Public Class MainRibbonForm
         BACKUPTXT("XTAB_CAPTION", "FrmPolizaPagoOTE")
         CREA_TAB(FrmPolizaPagoOTE, "Póliza Pago OT Ext.")
     End Sub
+
+    Private Sub RibRepPensionAlimenticia_Click(sender As Object, e As EventArgs) Handles RibRepPensionAlimenticia.Click, RLiq_Rep_Pension.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmPensionAlimenticia")
+        FrmPensionAlimenticia.ShowDialog()
+    End Sub
 End Class

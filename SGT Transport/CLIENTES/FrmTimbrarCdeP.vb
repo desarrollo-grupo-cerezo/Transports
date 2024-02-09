@@ -2228,6 +2228,7 @@ Public Class FrmTimbrarCdeP
         Dim FACTURA As String = "", Texto As String = "", Texto2 As String = "", Texto3 As String = ""
         Dim IVA_SUM As Decimal, RET_SUM As Decimal
         Dim xdoc As New XmlDocument()
+        'Dim IMP_IVA_P As Decimal = 0, IMP_RET_P As Decimal = 0, CALC_IVA_P As Decimal = 0, CALC_RET_P As Decimal = 0
 
         Dim IVA As Decimal = 0, RET As Decimal = 0
 
@@ -2330,6 +2331,12 @@ Public Class FrmTimbrarCdeP
                                             pago.RfcEmisorCtaOrd = dr("RFC_ORD")
 
                                             pago.Monto += dr2("CAN_TOT")
+
+                                            'If dr("CVE_MONED") = "USD" And dr2("MONEDADR") = "MXN" Then
+                                            '    pago.Monto += Math.Round((dr2("IMPPAGADO") / dr2("TCAMBIO")), 2)
+                                            'Else
+                                            '    pago.Monto += dr2("IMPPAGADO")
+                                            'End If
 
                                             ISUSD = "USD"
                                         Else
@@ -2438,6 +2445,13 @@ Public Class FrmTimbrarCdeP
                                         End If
 
                                         CALC_IVA += Math.Round(CALCULO_INVERSO, 2)
+
+                                        'If dr("CVE_MONED") = "USD" And dr2("MONEDADR") = "MXN" Then
+                                        '    CALC_IVA_P += (CALC_IVA / dr2("TCAMBIO"))
+                                        'Else
+                                        '    CALC_IVA_P += CALC_IVA
+                                        'End If
+
                                         'CALC_RET += CALCULO_INVERSO
 
                                         If IVA > 0 Then
@@ -2455,7 +2469,14 @@ Public Class FrmTimbrarCdeP
                                             Dim TrasladoDr As New List(Of TrasladoDR) From {ImpuestoDr}
                                             TrasladosDR.TrasladoDR = TrasladoDr
                                             ImpuestosDR.TrasladosDR = TrasladosDR
+
+                                            'If dr("CVE_MONED") = "USD" And dr2("MONEDADR") = "MXN" Then
+                                            '    IMP_IVA_P += (IMP_IVA / dr2("TCAMBIO"))
+                                            'Else
+                                            '    IMP_IVA_P += IMP_IVA
+                                            'End If
                                         End If
+
                                         'RETENCIONES
                                         If RET > 0 Then
                                             Dim RetencionesDR As New RetencionesDR
@@ -2475,6 +2496,13 @@ Public Class FrmTimbrarCdeP
                                             RetencionDR.Add(RetImpuestoDr)
                                             RetencionesDR.RetencionDR = RetencionDR
                                             ImpuestosDR.RetencionesDR = RetencionesDR
+
+                                            'If dr("CVE_MONED") = "USD" And dr2("MONEDADR") = "MXN" Then
+                                            '    IMP_RET_P += (IMP_RET / dr2("TCAMBIO"))
+                                            'Else
+                                            '    IMP_RET_P += IMP_RET
+                                            'End If
+
                                             'FIN RETENCIONES
                                         End If  '_ImpuestosDR.Add(ImpuestosDR)
 

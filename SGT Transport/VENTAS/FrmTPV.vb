@@ -226,10 +226,25 @@ Public Class FrmTPV
 
         ENTRA = True
 
-        Var2 = ""
+        Var24 = ""
         FrmSelFactura.ShowDialog()
-        If Var2.Trim.Length > 0 Then
-
+        If Var24.Trim.Length > 0 Then
+            Try
+                Using cmd As SqlCommand = cnSAE.CreateCommand
+                    SQL = "SELECT CVE_CLPV FROM FACTF" & Empresa & " F WHERE CVE_DOC = '" & Var24 & "'"
+                    cmd.CommandText = SQL
+                    Using dr As SqlDataReader = cmd.ExecuteReader
+                        If dr.Read Then
+                            TCLIENTE.Text = dr("CVE_CLPV")
+                            TCLIENTE_Validated(Nothing, Nothing)
+                        End If
+                    End Using
+                    CboMoneda.SelectedIndex = 0
+                End Using
+            Catch ex As Exception
+                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+            End Try
         Else
             Me.Close()
         End If
@@ -518,7 +533,7 @@ Public Class FrmTPV
             Case "R"
                 LtVenta.Text = "Remisión"
             Case "D"
-                LtVenta.Text = "Devolución (Nota de crédito)"
+                LtVenta.Text = "Nota de Crédito"
                 'LA SERIE ES DIGITAL
                 If Ldocu.Tag = "Digital" Then
                     CargarUsosCfdi()
@@ -1045,7 +1060,7 @@ Public Class FrmTPV
             dr = cmd.ExecuteReader
 
             If dr.Read Then
-                NUM_CPTO_NC = dr.ReadNullAsEmptyInteger("NUM_CPTO_NC")
+                'NUM_CPTO_NC = dr.ReadNullAsEmptyInteger("NUM_CPTO_NC")
                 CVE_ART_NC = dr.ReadNullAsEmptyString("ART_NC")
             End If
             dr.Close()
@@ -1064,12 +1079,13 @@ Public Class FrmTPV
             CVE_ART_NC = ""
 
             cmd.Connection = cnSAE
-            SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN FROM GCPARAMINVENT"
+            SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, ISNULL(CVE_ART_NC,'') AS CVEARTNC FROM GCPARAMINVENT"
             cmd.CommandText = SQL
             dr = cmd.ExecuteReader
 
             If dr.Read Then
                 MULTIALMACEN = dr("M_ULTIALMACEN")
+                CVE_ART_NC = dr("CVEARTNC")
             End If
             dr.Close()
         Catch ex As Exception

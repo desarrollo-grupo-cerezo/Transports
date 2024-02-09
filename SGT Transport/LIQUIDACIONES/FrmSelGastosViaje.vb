@@ -24,7 +24,7 @@ Public Class FrmSelGastosViaje
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 SQL = "SELECT GV.CVE_VIAJE, ISNULL(GV.STATUS,'A') AS STA, GV.CVE_OPER, GV.CVE_GAV, GV.FOLIO, GV.FECHA, GV.CVE_NUM, 
-                    ISNULL(GV.IMPORTE,0) AS IMPORT, DESCR, ISNULL(GV.ST_GASTOS,'EDICION') AS ST_GAS, GV.UUID
+                    ISNULL(GV.IMPORTE,0) AS IMPORT, DESCR, ISNULL(GV.ST_GASTOS,'EDICION') AS ST_GAS, GV.UUID, ISNULL(GV.OBS, '') AS OBS
                     FROM GCASIGNACION_VIAJE_GASTOS GV
                     LEFT JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = GV.CVE_VIAJE
                     LEFT JOIN GCCONC_GASTOS C ON C.CVE_GAS = GV.CVE_NUM
@@ -50,7 +50,7 @@ Public Class FrmSelGastosViaje
 
                             If STATUS Then
                                 Fg.AddItem("" & vbTab & "" & vbTab & dr("CVE_VIAJE") & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab & dr("CVE_NUM") & vbTab &
-                                    dr("DESCR") & vbTab & dr("IMPORT") & vbTab & dr("ST_GAS") & vbTab & 0 & vbTab & dr("UUID"))
+                                    dr("DESCR") & vbTab & dr("IMPORT") & vbTab & dr("ST_GAS") & vbTab & 0 & vbTab & dr("UUID") & vbTab & "" & vbTab & dr("OBS"))
                             End If
                         Catch ex As Exception
                             Bitacora("850. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -104,7 +104,8 @@ Public Class FrmSelGastosViaje
                     frmLiquidacionesAE.FgG(cRow, 8) = Fg(k, 8)
                     frmLiquidacionesAE.FgG(cRow, 9) = 0
                     frmLiquidacionesAE.FgG(cRow, 10) = Fg(k, 10)
-                    frmLiquidacionesAE.FgG(cRow, 11) = "G"
+                    FrmLiquidacionesAE.FgG(cRow, 11) = "G"
+                    FrmLiquidacionesAE.FgG(cRow, 12) = Fg(k, 12)
                 End If
             Next
             Me.Close()

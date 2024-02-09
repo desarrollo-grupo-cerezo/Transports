@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmOTIAE
+Partial Class FrmOTIAE
     Inherits C1.Win.C1Ribbon.C1RibbonForm
 
     'Form overrides dispose to clean up the component list.

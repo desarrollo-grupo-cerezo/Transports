@@ -879,9 +879,9 @@ Partial Class FrmTPV
         Me.LtVenta.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.LtVenta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtVenta.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtVenta.Location = New System.Drawing.Point(1041, 10)
+        Me.LtVenta.Location = New System.Drawing.Point(941, 10)
         Me.LtVenta.Name = "LtVenta"
-        Me.LtVenta.Size = New System.Drawing.Size(214, 42)
+        Me.LtVenta.Size = New System.Drawing.Size(314, 42)
         Me.LtVenta.TabIndex = 354
         Me.LtVenta.Text = "Nota de Venta"
         Me.LtVenta.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -1579,7 +1579,7 @@ Partial Class FrmTPV
         Me.LtCanc.AutoSize = True
         Me.LtCanc.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LtCanc.ForeColor = System.Drawing.Color.Red
-        Me.LtCanc.Location = New System.Drawing.Point(862, 12)
+        Me.LtCanc.Location = New System.Drawing.Point(770, 10)
         Me.LtCanc.Name = "LtCanc"
         Me.LtCanc.Size = New System.Drawing.Size(165, 29)
         Me.LtCanc.TabIndex = 422

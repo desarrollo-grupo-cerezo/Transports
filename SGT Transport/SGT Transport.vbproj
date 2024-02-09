@@ -998,6 +998,12 @@
     <Compile Include="INVEN\FrmEsquemasYearMesAE.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="LIQUIDACIONES\FrmPensionAlimenticia.designer.vb">
+      <DependentUpon>FrmPensionAlimenticia.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LIQUIDACIONES\FrmPensionAlimenticia.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LLANTAS\FrmPilaDesecho.Designer.vb">
       <DependentUpon>FrmPilaDesecho.vb</DependentUpon>
     </Compile>
@@ -4750,6 +4756,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="INVEN\FrmEsquemasYearMesAE.resx">
       <DependentUpon>FrmEsquemasYearMesAE.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LIQUIDACIONES\FrmPensionAlimenticia.resx">
+      <DependentUpon>FrmPensionAlimenticia.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LLANTAS\FrmPilaDesecho.resx">
       <DependentUpon>FrmPilaDesecho.vb</DependentUpon>

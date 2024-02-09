@@ -867,7 +867,7 @@ Public Class FrmLiquidacionesAE
                 'FgG.Rows.Count = 1
                 SQL = "SELECT CVE_VIAJE, ISNULL(GV.STATUS,'A') AS STA, CVE_OPER, CVE_GAV, FOLIO, FECHA, CVE_NUM, 
                     ISNULL(IMPORTE,0) AS IMPORT, DESCR, ISNULL(ST_GASTOS,'EDICION') AS ST_GAS, GV.UUID, GV.CVE_LIQ,
-                    ISNULL(CHECK_BOX,1) AS CH_BOX
+                    ISNULL(CHECK_BOX,1) AS CH_BOX, ISNULL(OBS, '') AS OBS
                     FROM GCASIGNACION_VIAJE_GASTOS GV
                     LEFT JOIN GCCONC_GASTOS C ON C.CVE_GAS = GV.CVE_NUM
                     WHERE CVE_VIAJE = '" & fCVE_IAJE & "' ORDER BY FECHAELAB"
@@ -893,7 +893,7 @@ Public Class FrmLiquidacionesAE
                                 End If
 
                                 FgG.AddItem("" & vbTab & STATUS & vbTab & dr("CVE_VIAJE") & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab &
-                                        dr("CVE_NUM") & vbTab & dr("DESCR") & vbTab & dr("IMPORT") & vbTab & dr("ST_GAS") & vbTab & 0 & vbTab & dr("UUID"))
+                                        dr("CVE_NUM") & vbTab & dr("DESCR") & vbTab & dr("IMPORT") & vbTab & dr("ST_GAS") & vbTab & 0 & vbTab & dr("UUID") & vbTab & "" & vbTab & dr("OBS"))
                                 SUMA2 += dr("IMPORT")
                             End If
 
@@ -1333,11 +1333,11 @@ Public Class FrmLiquidacionesAE
 
             SQL = "INSERT INTO GCLIQUIDACIONES (CVE_LIQ, STATUS, FECHA, CVE_OPER, CVE_UNI, CVE_RES, CVE_ST_LIQ, CVE_OBS, GASTOS_VIAJE, 
                 VALES_COMBUSTIBLE, PERCEP_X_VIAJE, OTRAS_PERCEP, DEDUCCIONES, DIF_COMPROBACION, SUBTOTAL, IMPORTE, CVE_DED_RES, 
-                CVE_DED_DESCUENTO, CVE_DED_CARGO_P_MUERTO, FECHAELAB, UUID) 
+                CVE_DED_DESCUENTO, CVE_DED_CARGO_P_MUERTO, FECHAELAB, UUID, USUARIO_REG) 
                 VALUES (
                 @CVE_LIQ, 'A', @FECHA, @CVE_OPER, @CVE_UNI, @CVE_RES, @CVE_ST_LIQ, @CVE_OBS, @GASTOS_VIAJE, @VALES_COMBUSTIBLE, 
                 @PERCEP_X_VIAJE, @OTRAS_PERCEP, @DEDUCCIONES, @DIF_COMPROBACION, @SUBTOTAL, @IMPORTE, @CVE_DED_RES, 
-                @CVE_DED_DESCUENTO, @CVE_DED_CARGO_P_MUERTO, GETDATE(), NEWID())"
+                @CVE_DED_DESCUENTO, @CVE_DED_CARGO_P_MUERTO, GETDATE(), NEWID(), @USUARIO)"
         Else
 
             CVE_LIQ = TCVE_LIQ.Text
@@ -1346,7 +1346,7 @@ Public Class FrmLiquidacionesAE
                 GASTOS_VIAJE = @GASTOS_VIAJE, VALES_COMBUSTIBLE = @VALES_COMBUSTIBLE, PERCEP_X_VIAJE = @PERCEP_X_VIAJE, 
                 OTRAS_PERCEP = @OTRAS_PERCEP, DEDUCCIONES = @DEDUCCIONES, DIF_COMPROBACION = @DIF_COMPROBACION, SUBTOTAL = @SUBTOTAL, 
                 IMPORTE = @IMPORTE, CVE_OBS = @CVE_OBS, CVE_DED_RES = @CVE_DED_RES, CVE_DED_DESCUENTO = @CVE_DED_DESCUENTO,
-                CVE_DED_CARGO_P_MUERTO = @CVE_DED_CARGO_P_MUERTO
+                CVE_DED_CARGO_P_MUERTO = @CVE_DED_CARGO_P_MUERTO, FECHA=@FECHA, USUARIO_MOD =@USUARIO, FECHA_ULT_MOD=GETDATE() 
                 WHERE CVE_LIQ = @CVE_LIQ"
         End If
         cmd.CommandText = SQL
@@ -1374,6 +1374,7 @@ Public Class FrmLiquidacionesAE
                     cmd.Parameters.Add("@CVE_DED_RES", SqlDbType.Int).Value = FOLIO
                     cmd.Parameters.Add("@CVE_DED_DESCUENTO", SqlDbType.Int).Value = FOLIO2
                     cmd.Parameters.Add("@CVE_DED_CARGO_P_MUERTO", SqlDbType.Int).Value = FOLIO3
+                    cmd.Parameters.Add("@USUARIO", SqlDbType.VarChar).Value = USER_GRUPOCE
                     returnValue = cmd.ExecuteNonQuery().ToString
                     If returnValue IsNot Nothing Then
                         If returnValue = "1" Then

@@ -3121,6 +3121,18 @@ Public Class FrmAsigViajeBuenoAE
                 End Using
                 'FgG.AutoSizeRows()
             End Using
+
+            If FgG.Rows.Count > 1 Then
+                TCVE_OPER.BackColor = Color.LightYellow
+                TCVE_OPER.ForeColor = Color.Black
+                TCVE_OPER.Enabled = False
+                BtnOper.Enabled = False
+                TCVE_TRACTOR.BackColor = Color.LightYellow
+                TCVE_TRACTOR.ForeColor = Color.Black
+                TCVE_TRACTOR.Enabled = False
+                BtnTractor.Enabled = False
+            End If
+
         Catch ex As Exception
             Bitacora("27. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("27. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -3180,11 +3192,24 @@ Public Class FrmAsigViajeBuenoAE
                         FgV.AddItem("" & vbTab & s)
                         'FOLIO_TRASPASO = FOLIO_TRASPASO
                         CVE_FOLIO += 1
+
+
+
+
                     End While
                     FgV.AutoSizeRows()
                 End Using
             End Using
-
+            If FgV.Rows.Count > 1 Then
+                TCVE_OPER.BackColor = Color.LightYellow
+                TCVE_OPER.ForeColor = Color.Black
+                TCVE_OPER.Enabled = False
+                BtnOper.Enabled = False
+                TCVE_TRACTOR.BackColor = Color.LightYellow
+                TCVE_TRACTOR.ForeColor = Color.Black
+                TCVE_TRACTOR.Enabled = False
+                BtnTractor.Enabled = False
+            End If
             FgV.ShowButtons = ShowButtonsEnum.Always
         Catch ex As Exception
             Bitacora("30. " & ex.Message & vbNewLine & ex.StackTrace)

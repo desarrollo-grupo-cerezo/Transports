@@ -1333,7 +1333,7 @@ Public NotInheritable Class GenerarXML
         If dr.Serie <> String.Empty Then nodoPDoctoRelacionado.SetAttribute("Serie", dr.Serie)
         If dr.Folio <> String.Empty Then nodoPDoctoRelacionado.SetAttribute("Folio", dr.Folio)
         nodoPDoctoRelacionado.SetAttribute("MonedaDR", dr.MonedaDR)
-        If dr.EquivalenciaDR > 0 Then nodoPDoctoRelacionado.SetAttribute("EquivalenciaDR", dr.EquivalenciaDR.ToString("F0"))
+        If dr.EquivalenciaDR > 0 Then nodoPDoctoRelacionado.SetAttribute("EquivalenciaDR", dr.EquivalenciaDR.ToString("F6"))
         If dr.NumParcialidad <> String.Empty Then nodoPDoctoRelacionado.SetAttribute("NumParcialidad", dr.NumParcialidad)
 
         nodoPDoctoRelacionado.SetAttribute("ImpSaldoAnt", dr.ImpSaldoAnt.ToString("F2"))

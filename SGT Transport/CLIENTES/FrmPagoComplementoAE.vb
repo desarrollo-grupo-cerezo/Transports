@@ -488,7 +488,7 @@ Public Class FrmPagoComplementoAE
         Dim DOCTO As String = ""
         Dim CER64 As String, KEY64 As String, USUAARIO_TIMB As String, PASS_TIMB As String, CVE_OBS As Long
         Dim CVE_DOC As String = "", REFER As String = "", FORMA_PAGO_SAT As String = "", IMPORTE As Decimal
-        Dim CVE_MONED As String = "", TIPO_CAMBIO As Integer, CTA_BAN_ORD As String = "", RFC_ORD As String = "", BANCO_ORD As String = ""
+        Dim CVE_MONED As String = "", TIPO_CAMBIO As Decimal, CTA_BAN_ORD As String = "", RFC_ORD As String = "", BANCO_ORD As String = ""
         Dim CTA_BAN_BEN As String = "", RFC_BEN As String = "", NUM_OPER As String = "", Continua As Boolean = False, Continua_Par As Boolean
         Dim FECHA_PAGO As Date, NUM_CPTO As Integer = 0, resultado As String, z As Integer = 0, NO_PARTIDA_CUEN_DET As Integer
 
@@ -2614,7 +2614,7 @@ Public Class FrmPagoComplementoAE
                                         LEFT JOIN CONC" & Empresa & " CT ON CT.NUM_CPTO = D.NUM_CPTO
                                         LEFT JOIN CFDI LV ON LV.FACTURA = D.REFER
                                         LEFT JOIN CLIE" & Empresa & " P ON P.CLAVE = D.CVE_CLIE 
-                                        LEFT JOIN MONED" & Empresa & " N ON N.NUM_MONED = M.NUM_MONED 
+                                        LEFT JOIN MONED" & Empresa & " N ON N.NUM_MONED = D.NUM_MONED 
                                         WHERE ISNULL(LV.METODODEPAGO,'PPD') = 'PPD' AND ISNULL(LV.FORMADEPAGOSAT,'99') = 99 AND 
                                         ISNULL(D.CVE_DOC_COMPPAGO,'') = '' AND UPPER(D.DOCTO) = '" & TXT.Text.Trim.ToUpper & "'"
                                     cmd.CommandText = SQL
@@ -3092,7 +3092,7 @@ Public Class FrmPagoComplementoAE
                     LEFT JOIN PAR_FACTF" & Empresa & " P ON P.CVE_DOC = D.REFER AND NUM_PAR = 1
                     LEFT JOIN CFDI LV ON LV.FACTURA = D.REFER
                     LEFT JOIN CLIE" & Empresa & " C ON C.CLAVE = D.CVE_CLIE 
-                    LEFT JOIN MONED" & Empresa & " N ON N.NUM_MONED = M.NUM_MONED 
+                    LEFT JOIN MONED" & Empresa & " N ON N.NUM_MONED = D.NUM_MONED 
                     WHERE ISNULL(LV.METODODEPAGO,'PPD') = 'PPD' AND ISNULL(LV.FORMADEPAGOSAT,'99') = 99 AND 
                     ISNULL(D.CVE_DOC_COMPPAGO,'') = '' AND UPPER(D.DOCTO) = '" & CVE_DOC.ToUpper & "'"
                 cmd.CommandText = SQL

@@ -459,6 +459,7 @@ Partial Class MainRibbonForm
         Me.RibDieselReconocido = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarViajesXOperador = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibIngresosXOperador = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibRepPensionAlimenticia = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibComparativoPesosReales = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibbonMenu61 = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RibCartaPorteXRecibir1 = New C1.Win.C1Ribbon.RibbonButton()
@@ -534,6 +535,7 @@ Partial Class MainRibbonForm
         Me.C1ThemeController1 = New C1.Win.C1Themes.C1ThemeController()
         Me.Tab1 = New C1.Win.C1Command.C1DockingTab()
         Me.BarOrdenesDeTrabajoExternas1 = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RLiq_Rep_Pension = New C1.Win.C1Ribbon.RibbonButton()
         CType(Me.c1Ribbon1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.c1StatusBar1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.C1ThemeController1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2280,6 +2282,7 @@ Partial Class MainRibbonForm
         Me.BarMenuReportes11.Items.Add(Me.RLiq_Rep_DieselReconocido)
         Me.BarMenuReportes11.Items.Add(Me.RLiq_Rep_ViajesXOperador)
         Me.BarMenuReportes11.Items.Add(Me.RLiq_Rep_EstadoCtaGenOper)
+        Me.BarMenuReportes11.Items.Add(Me.RLiq_Rep_Pension)
         Me.BarMenuReportes11.LargeImage = CType(resources.GetObject("BarMenuReportes11.LargeImage"), System.Drawing.Image)
         Me.BarMenuReportes11.LargeItemDropDownWidth = 99
         Me.BarMenuReportes11.Name = "BarMenuReportes11"
@@ -3705,6 +3708,7 @@ Partial Class MainRibbonForm
         Me.BarMenuReportes1.Items.Add(Me.RibDieselReconocido)
         Me.BarMenuReportes1.Items.Add(Me.BarViajesXOperador)
         Me.BarMenuReportes1.Items.Add(Me.RibIngresosXOperador)
+        Me.BarMenuReportes1.Items.Add(Me.RibRepPensionAlimenticia)
         Me.BarMenuReportes1.LargeImage = CType(resources.GetObject("BarMenuReportes1.LargeImage"), System.Drawing.Image)
         Me.BarMenuReportes1.LargeItemDropDownWidth = 99
         Me.BarMenuReportes1.Name = "BarMenuReportes1"
@@ -3742,6 +3746,12 @@ Partial Class MainRibbonForm
         Me.RibIngresosXOperador.LargeImage = Global.SGT_Transport.My.Resources.Resources.recibo2
         Me.RibIngresosXOperador.Name = "RibIngresosXOperador"
         Me.RibIngresosXOperador.Text = "Ingresos por operador"
+        '
+        'RibRepPensionAlimenticia
+        '
+        Me.RibRepPensionAlimenticia.Name = "RibRepPensionAlimenticia"
+        Me.RibRepPensionAlimenticia.SmallImage = Global.SGT_Transport.My.Resources.Resources.conta6
+        Me.RibRepPensionAlimenticia.Text = "Pensión Alimenticia"
         '
         'RibComparativoPesosReales
         '
@@ -4268,6 +4278,12 @@ Partial Class MainRibbonForm
         Me.BarOrdenesDeTrabajoExternas1.LargeImage = Global.SGT_Transport.My.Resources.Resources.hoja7
         Me.BarOrdenesDeTrabajoExternas1.Name = "BarOrdenesDeTrabajoExternas1"
         Me.BarOrdenesDeTrabajoExternas1.Text = "Ordenes de trabajo mantenimiento"
+        '
+        'RLiq_Rep_Pension
+        '
+        Me.RLiq_Rep_Pension.Name = "RLiq_Rep_Pension"
+        Me.RLiq_Rep_Pension.SmallImage = Global.SGT_Transport.My.Resources.Resources.conta6
+        Me.RLiq_Rep_Pension.Text = "Pensión Alimenticia"
         '
         'MainRibbonForm
         '
@@ -4808,4 +4824,6 @@ Partial Class MainRibbonForm
     Friend WithEvents RibPolFondoOper As RibbonButton
     Friend WithEvents RibPolSalAlm As RibbonButton
     Friend WithEvents RibPolPagOTE As RibbonButton
+    Friend WithEvents RibRepPensionAlimenticia As RibbonButton
+    Friend WithEvents RLiq_Rep_Pension As RibbonButton
 End Class

@@ -84,14 +84,14 @@ Public Class FrmPagoMultSaldosItem
 
             '                1           2         3            4            5             6          7
             SQL = "SELECT M.REFER, M.CVE_CLIE, P.NOMBRE, M.FECHA_APLI, M.FECHA_VENC, M.NO_FACTURA, M.DOCTO, "
-            SQL &= "ISNULL((SELECT SUM(IMPMON_EXT * SIGNO) FROM CUEN_DET" & Empresa & " D WHERE M.CVE_CLIE = D.CVE_CLIE AND 
+            SQL &= "round(ISNULL((SELECT SUM(IMPMON_EXT * SIGNO) FROM CUEN_DET" & Empresa & " D WHERE M.CVE_CLIE = D.CVE_CLIE AND 
                 M.REFER = D.REFER AND M.NUM_CPTO = D.ID_MOV AND M.NUM_CARGO = D.NUM_CARGO),0) + 
                 (SELECT COALESCE(SUM(C3.IMPMON_EXT * SIGNO),0) AS ABONOS FROM CUEN_DET" & Empresa & " C3 
-                WHERE C3.REFER = M.REFER AND ID_MOV = M.NUM_CPTO AND SIGNO = 1) AS SUMA_CUENDET, M.IMPMON_EXT AS IMPORTE, "
+                WHERE C3.REFER = M.REFER AND ID_MOV = M.NUM_CPTO AND SIGNO = 1), 2) AS SUMA_CUENDET, M.IMPMON_EXT AS IMPORTE, "
             '                                                                            8             9
             '                  10
-            SQL &= "M.IMPMON_EXT + 
-                ISNULL((SELECT SUM(IMPMON_EXT*SIGNO) FROM CUEN_DET" & Empresa & " C4 WHERE REFER = M.REFER AND CVE_CLIE = M.CVE_CLIE AND ID_MOV = M.NUM_CPTO AND NUM_CARGO = M.NUM_CARGO),0) AS SALDO,"
+            SQL &= "round(M.IMPMON_EXT + 
+                ISNULL((SELECT SUM(IMPMON_EXT*SIGNO) FROM CUEN_DET" & Empresa & " C4 WHERE REFER = M.REFER AND CVE_CLIE = M.CVE_CLIE AND ID_MOV = M.NUM_CPTO AND NUM_CARGO = M.NUM_CARGO),0), 2) AS SALDO,"
             '              11          12
             SQL &= "M.NUM_CARGO, M.NUM_CPTO, M.NUM_MONED, D.CVE_MONED, M.TCAMBIO  "
             SQL &= "FROM CUEN_M" & Empresa & " M

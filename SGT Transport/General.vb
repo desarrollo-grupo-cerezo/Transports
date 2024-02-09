@@ -2241,7 +2241,7 @@ Module General
                         ISNULL((SELECT ISNULL(SUM(PXR),0) FROM PAR_COMP" & Var15 & Empresa & " WHERE CVE_DOC = F.CVE_DOC),0) > 0 AND 
                         F.CVE_DOC = '" & Var11 & "'"
                 Case "ServiciosOrdenes"
-                    SQL = "SELECT ISNULL(DESCR,'') AS DES FROM GCSERVICIOS_MANTE WHERE STATUS = 'A'"
+                    SQL = "SELECT ISNULL(DESCR,'') AS DES FROM GCSERVICIOS_MANTE WHERE STATUS = 'A' AND CVE_SER = '" & fCLAVE & "'"
                 Case "Usuario"
                     SQL = "SELECT NOMBRE AS DES FROM GCUSUARIOS WHERE USUARIO = '" & Var4 & "'"
 

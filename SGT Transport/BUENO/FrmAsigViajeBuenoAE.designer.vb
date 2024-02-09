@@ -700,7 +700,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label8.ForeColor = System.Drawing.Color.Black
         Me.Label8.Location = New System.Drawing.Point(502, 7)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(88, 16)
+        Me.Label8.Size = New System.Drawing.Size(89, 16)
         Me.Label8.TabIndex = 375
         Me.Label8.Text = "Folio de viaje"
         '
@@ -892,7 +892,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label11.Location = New System.Drawing.Point(14, 12)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(65, 16)
+        Me.Label11.Size = New System.Drawing.Size(66, 16)
         Me.Label11.TabIndex = 195
         Me.Label11.Text = "Operador"
         '
@@ -915,7 +915,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label47.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label47.Location = New System.Drawing.Point(558, 12)
         Me.Label47.Name = "Label47"
-        Me.Label47.Size = New System.Drawing.Size(57, 16)
+        Me.Label47.Size = New System.Drawing.Size(58, 16)
         Me.Label47.TabIndex = 214
         Me.Label47.Text = "Licencia"
         '
@@ -925,7 +925,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label49.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label49.Location = New System.Drawing.Point(846, 11)
         Me.Label49.Name = "Label49"
-        Me.Label49.Size = New System.Drawing.Size(60, 16)
+        Me.Label49.Size = New System.Drawing.Size(61, 16)
         Me.Label49.TabIndex = 216
         Me.Label49.Text = "Vigencia"
         '
@@ -2074,7 +2074,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label96.ForeColor = System.Drawing.Color.Black
         Me.Label96.Location = New System.Drawing.Point(523, 62)
         Me.Label96.Name = "Label96"
-        Me.Label96.Size = New System.Drawing.Size(39, 16)
+        Me.Label96.Size = New System.Drawing.Size(40, 16)
         Me.Label96.TabIndex = 509
         Me.Label96.Text = "Serie"
         '
@@ -2098,7 +2098,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label98.ForeColor = System.Drawing.Color.Black
         Me.Label98.Location = New System.Drawing.Point(602, 61)
         Me.Label98.Name = "Label98"
-        Me.Label98.Size = New System.Drawing.Size(37, 16)
+        Me.Label98.Size = New System.Drawing.Size(38, 16)
         Me.Label98.TabIndex = 510
         Me.Label98.Text = "Folio"
         '
@@ -2202,7 +2202,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label51.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label51.Location = New System.Drawing.Point(38, 119)
         Me.Label51.Name = "Label51"
-        Me.Label51.Size = New System.Drawing.Size(57, 16)
+        Me.Label51.Size = New System.Drawing.Size(58, 16)
         Me.Label51.TabIndex = 426
         Me.Label51.Text = "Moneda"
         '
@@ -2213,7 +2213,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label48.ForeColor = System.Drawing.Color.Black
         Me.Label48.Location = New System.Drawing.Point(507, 33)
         Me.Label48.Name = "Label48"
-        Me.Label48.Size = New System.Drawing.Size(83, 16)
+        Me.Label48.Size = New System.Drawing.Size(84, 16)
         Me.Label48.TabIndex = 450
         Me.Label48.Text = "Estatus viaje"
         '
@@ -3075,7 +3075,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label26.Location = New System.Drawing.Point(681, 242)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(190, 16)
+        Me.Label26.Size = New System.Drawing.Size(191, 16)
         Me.Label26.TabIndex = 373
         Me.Label26.Text = "VALES DE COMBUSTIBLE"
         '
@@ -3106,7 +3106,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label34.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label34.Location = New System.Drawing.Point(19, 44)
         Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(65, 16)
+        Me.Label34.Size = New System.Drawing.Size(66, 16)
         Me.Label34.TabIndex = 199
         Me.Label34.Text = "Operador"
         '
@@ -3156,7 +3156,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label27.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label27.Location = New System.Drawing.Point(681, 44)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(140, 16)
+        Me.Label27.Size = New System.Drawing.Size(141, 16)
         Me.Label27.TabIndex = 374
         Me.Label27.Text = "GASTOS DE VIAJE"
         '
@@ -3186,7 +3186,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label36.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label36.Location = New System.Drawing.Point(406, 44)
         Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(79, 16)
+        Me.Label36.Size = New System.Drawing.Size(80, 16)
         Me.Label36.TabIndex = 203
         Me.Label36.Text = "No. de viaje"
         '
@@ -4169,7 +4169,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.RadPrecioXViaje.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
         Me.RadPrecioXViaje.Location = New System.Drawing.Point(36, 12)
         Me.RadPrecioXViaje.Name = "RadPrecioXViaje"
-        Me.RadPrecioXViaje.Size = New System.Drawing.Size(105, 20)
+        Me.RadPrecioXViaje.Size = New System.Drawing.Size(106, 20)
         Me.RadPrecioXViaje.TabIndex = 0
         Me.RadPrecioXViaje.TabStop = True
         Me.RadPrecioXViaje.Text = "Precio x viaje"
@@ -4183,7 +4183,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.RadPrecioXTonelada.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
         Me.RadPrecioXTonelada.Location = New System.Drawing.Point(163, 12)
         Me.RadPrecioXTonelada.Name = "RadPrecioXTonelada"
-        Me.RadPrecioXTonelada.Size = New System.Drawing.Size(136, 20)
+        Me.RadPrecioXTonelada.Size = New System.Drawing.Size(137, 20)
         Me.RadPrecioXTonelada.TabIndex = 1
         Me.RadPrecioXTonelada.TabStop = True
         Me.RadPrecioXTonelada.Text = "Valor por tonelada"
@@ -6432,7 +6432,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label103.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
         Me.Label103.Location = New System.Drawing.Point(75, 234)
         Me.Label103.Name = "Label103"
-        Me.Label103.Size = New System.Drawing.Size(99, 16)
+        Me.Label103.Size = New System.Drawing.Size(100, 16)
         Me.Label103.TabIndex = 710
         Me.Label103.Text = "Observaciones"
         Me.Label103.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -6466,7 +6466,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label102.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
         Me.Label102.Location = New System.Drawing.Point(140, 205)
         Me.Label102.Name = "Label102"
-        Me.Label102.Size = New System.Drawing.Size(34, 16)
+        Me.Label102.Size = New System.Drawing.Size(35, 16)
         Me.Label102.TabIndex = 705
         Me.Label102.Text = "Pais"
         Me.Label102.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -6500,7 +6500,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label100.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
         Me.Label100.Location = New System.Drawing.Point(14, 119)
         Me.Label100.Name = "Label100"
-        Me.Label100.Size = New System.Drawing.Size(160, 16)
+        Me.Label100.Size = New System.Drawing.Size(161, 16)
         Me.Label100.TabIndex = 701
         Me.Label100.Text = "Nún. exportador confiable"
         Me.Label100.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -6534,7 +6534,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label84.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
         Me.Label84.Location = New System.Drawing.Point(75, 60)
         Me.Label84.Name = "Label84"
-        Me.Label84.Size = New System.Drawing.Size(99, 16)
+        Me.Label84.Size = New System.Drawing.Size(100, 16)
         Me.Label84.TabIndex = 697
         Me.Label84.Text = "Tipo operación"
         '
@@ -6609,7 +6609,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label92.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
         Me.Label92.Location = New System.Drawing.Point(75, 31)
         Me.Label92.Name = "Label92"
-        Me.Label92.Size = New System.Drawing.Size(99, 16)
+        Me.Label92.Size = New System.Drawing.Size(100, 16)
         Me.Label92.TabIndex = 687
         Me.Label92.Text = "Motivo traslado"
         '
@@ -6621,7 +6621,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label97.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
         Me.Label97.Location = New System.Drawing.Point(74, 176)
         Me.Label97.Name = "Label97"
-        Me.Label97.Size = New System.Drawing.Size(100, 16)
+        Me.Label97.Size = New System.Drawing.Size(101, 16)
         Me.Label97.TabIndex = 686
         Me.Label97.Text = "Unidad aduana"
         Me.Label97.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -6634,7 +6634,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label83.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
         Me.Label83.Location = New System.Drawing.Point(96, 148)
         Me.Label83.Name = "Label83"
-        Me.Label83.Size = New System.Drawing.Size(78, 16)
+        Me.Label83.Size = New System.Drawing.Size(79, 16)
         Me.Label83.TabIndex = 685
         Me.Label83.Text = "INCOTERM"
         Me.Label83.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -6647,7 +6647,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.Label82.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
         Me.Label82.Location = New System.Drawing.Point(46, 89)
         Me.Label82.Name = "Label82"
-        Me.Label82.Size = New System.Drawing.Size(128, 16)
+        Me.Label82.Size = New System.Drawing.Size(129, 16)
         Me.Label82.TabIndex = 682
         Me.Label82.Text = "Clave de pedimento"
         '
@@ -6895,7 +6895,7 @@ Partial Class FrmAsigViajeBuenoAE
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.C1ToolBar1.Movable = False
         Me.C1ToolBar1.Name = "C1ToolBar1"
-        Me.C1ToolBar1.Size = New System.Drawing.Size(1485, 43)
+        Me.C1ToolBar1.Size = New System.Drawing.Size(1386, 43)
         Me.C1ToolBar1.Text = "C1ToolBar1"
         Me.C1ToolBar1.VisualStyle = C1.Win.C1Command.VisualStyle.Office2010Blue
         Me.C1ToolBar1.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
@@ -7032,7 +7032,7 @@ Partial Class FrmAsigViajeBuenoAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1485, 788)
+        Me.ClientSize = New System.Drawing.Size(1386, 788)
         Me.Controls.Add(Me.BtnSelViaje)
         Me.Controls.Add(Me.Label45)
         Me.Controls.Add(Me.TFOLIO_VIAJE)

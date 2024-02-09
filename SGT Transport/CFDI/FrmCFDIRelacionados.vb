@@ -156,8 +156,12 @@ Public Class FrmCFDIRelacionados
         Dim ExistRelacion As Boolean = True
         Try
             Select Case TCVE_TIPORELACION.Text
+                Case "01"
+                    LtTipoRelacion.Text = "Nota de crédito de los documentos relacionados"
                 Case "02"
                     LtTipoRelacion.Text = "Nota de débito de los documentos relacionados"
+                Case "03"
+                    LtTipoRelacion.Text = "Devolución de mercancía sobre facturas o traslados previos"
                 Case "04"
                     LtTipoRelacion.Text = "Sustitución de los CFDI previos"
                 Case "05"

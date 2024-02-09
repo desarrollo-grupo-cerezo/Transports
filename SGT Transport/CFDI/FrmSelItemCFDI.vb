@@ -93,7 +93,9 @@ Public Class FrmSelItemCFDI
                         Fg.Cols(0).Width = 35
                         Fg.Cols(1).Width = 100
                         Fg.Cols(2).Width = 250
+                        Fg.AddItem("" & vbTab & "01" & vbTab & "Nota de crédito de los documentos relacionados")
                         Fg.AddItem("" & vbTab & "02" & vbTab & "Nota de débito de los documentos relacionados")
+                        Fg.AddItem("" & vbTab & "03" & vbTab & "Devolución de mercancía sobre facturas o traslados previos")
                         Fg.AddItem("" & vbTab & "04" & vbTab & "Sustitución de los CFDI previos")
                         Fg.AddItem("" & vbTab & "05" & vbTab & "Traslado de marcancias facturados previamente")
                         Fg.AddItem("" & vbTab & "06" & vbTab & "Factura generada por los traslados previos")

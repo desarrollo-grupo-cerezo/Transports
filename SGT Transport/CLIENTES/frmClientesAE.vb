@@ -171,6 +171,23 @@ Public Class frmClientesAE
                 End Using
             End Using
 
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT * FROM tblctiporelacion WHERE tipoRelacion IN ('01', '03')"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    Dim z As Integer = 0
+                    cboTipoRelNC.Items.Clear()
+                    Do While dr.Read
+                        cboTipoRelNC.Items.Add(New ValueDescriptionPair(dr("id"), String.Format("{0} - {1}", dr("tipoRelacion"), dr("descripcion")), dr("tipoRelacion"), "", z))
+                        z = z + 1
+                    Loop
+                    dr.Close()
+                    cboTipoRelNC.SelectedIndex = -1
+                End Using
+            End Using
+
+
+
             CONTROLES_MAXLENGHT()
             Try
                 Dim cmd As New SqlCommand
@@ -325,7 +342,7 @@ Public Class frmClientesAE
                 I.PAIS_ENVIO, I.CODIGO_ENVIO, I.CVE_ZONA_ENVIO, I.REFERENCIA_ENVIO, I.CUENTA_CONTABLE, I.METODODEPAGO, I.NUMCTAPAGO, 
                 I.MODELO, I.USO_CFDI, I.CVE_PAIS_SAT, I.NUMIDREGFISCAL, I.FORMADEPAGOSAT, ISNULL(OB.STR_OBS,'') AS OBSTR, I.REG_FISC,
                 R.descripcion as DESC_REG_FISC, I.NOMBRECOMERCIAL, I.FLETE, I.TIPO_CAMBIO, CVE_ESQIMPU, I.NUM_MON,
-                MUNICIPIO_SAT, LOCALIDAD_SAT, ESTADO_SAT, PAIS_SAT, COLONIA_SAT, ALIAS, APLICACION, I.CUENTA_CONTABLE_FISCAL
+                MUNICIPIO_SAT, LOCALIDAD_SAT, ESTADO_SAT, PAIS_SAT, COLONIA_SAT, ALIAS, APLICACION, I.CUENTA_CONTABLE_FISCAL, I.TIPO_REL_NC
                 FROM CLIE" & Empresa & " I
                 LEFT JOIN tblcregimenfiscal R ON R.regimenFiscal = I.REG_FISC
                 LEFT JOIN OCLI" & Empresa & " OB ON OB.CVE_OBS = I.CVE_OBS                
@@ -353,6 +370,15 @@ Public Class frmClientesAE
                     TCVE_ESQIMPU.Value = dr.ReadNullAsEmptyInteger("CVE_ESQIMPU")
                     LtEsquema.Text = BUSCA_CAT("Esquema", TCVE_ESQIMPU.Text)
 
+                    Try
+                        For Each vdp As ValueDescriptionPair In cboTipoRelNC.Items
+                            If vdp.ValuePair = dr.ReadNullAsEmptyInteger("TIPO_REL_NC") Then
+                                cboTipoRelNC.SelectedIndex = vdp.cboIndex
+                                Exit For
+                            End If
+                        Next
+                    Catch ex As Exception
+                    End Try
 
                     TNUM_MON.Value = dr.ReadNullAsEmptyDecimal("NUM_MON")
                     If TNUM_MON.Value > 0 Then
@@ -1004,6 +1030,17 @@ Public Class frmClientesAE
             Bitacora("22. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
 
+        Dim TIPO_REL_NC As Integer
+
+        Try
+            If cboTipoRelNC.SelectedIndex = -1 Then
+                TIPO_REL_NC = 0
+            Else
+                TIPO_REL_NC = Convert.ToInt32(CType(cboTipoRelNC.SelectedItem, ValueDescriptionPair).ValuePair)
+            End If
+        Catch ex As Exception
+        End Try
+
 
         SQL = "IF EXISTS (SELECT CLAVE FROM CLIE" & Empresa & " WHERE CLAVE = @CLAVE) 
             UPDATE CLIE" & Empresa & " Set CLAVE = @CLAVE, NOMBRE = @NOMBRE, RFC = @RFC, CALLE = @CALLE, NUMINT = @NUMINT, NUMEXT = @NUMEXT, 
@@ -1022,7 +1059,7 @@ Public Class frmClientesAE
             NUMIDREGFISCAL = @NUMIDREGFISCAL, FORMADEPAGOSAT = @FORMADEPAGOSAT, STATUS = @STATUS, REG_FISC = @REG_FISC, 
             NOMBRECOMERCIAL = @NOMBRECOMERCIAL, FLETE = @FLETE, NUM_MON = @NUM_MON, CVE_ESQIMPU = @CVE_ESQIMPU, MUNICIPIO_SAT = @MUNICIPIO_SAT, 
             LOCALIDAD_SAT = @LOCALIDAD_SAT, ESTADO_SAT = @ESTADO_SAT, PAIS_SAT = @PAIS_SAT, COLONIA_SAT = @COLONIA_SAT,
-            ALIAS = @ALIAS, APLICACION = @APLICACION, CUENTA_CONTABLE_FISCAL =@CUENTA_CONTABLE_FISCAL
+            ALIAS = @ALIAS, APLICACION = @APLICACION, CUENTA_CONTABLE_FISCAL =@CUENTA_CONTABLE_FISCAL, TIPO_REL_NC=@TIPO_REL_NC
             WHERE CLAVE = @CLAVE
             ELSE
             INSERT INTO CLIE" & Empresa & " (CLAVE, STATUS, NOMBRE, RFC, CALLE, NUMINT, NUMEXT, CRUZAMIENTOS, CRUZAMIENTOS2, COLONIA, CODIGO,
@@ -1032,7 +1069,7 @@ Public Class frmClientesAE
             NUMINT_ENVIO, NUMEXT_ENVIO, CRUZAMIENTOS_ENVIO, CRUZAMIENTOS_ENVIO2, COLONIA_ENVIO, LOCALIDAD_ENVIO, MUNICIPIO_ENVIO, 
             ESTADO_ENVIO, PAIS_ENVIO, CODIGO_ENVIO, CVE_ZONA_ENVIO, REFERENCIA_ENVIO, CUENTA_CONTABLE, METODODEPAGO, NUMCTAPAGO, MODELO, 
             USO_CFDI, CVE_PAIS_SAT, NUMIDREGFISCAL, FORMADEPAGOSAT, REG_FISC, NOMBRECOMERCIAL, FLETE, NUM_MON, CVE_ESQIMPU, MUNICIPIO_SAT,
-            LOCALIDAD_SAT, ESTADO_SAT, PAIS_SAT, COLONIA_SAT, ALIAS, APLICACION, CUENTA_CONTABLE_FISCAL) 
+            LOCALIDAD_SAT, ESTADO_SAT, PAIS_SAT, COLONIA_SAT, ALIAS, APLICACION, CUENTA_CONTABLE_FISCAL, TIPO_REL_NC) 
             VALUES(
             @CLAVE, 'A', @NOMBRE, @RFC, @CALLE, @NUMINT, @NUMEXT, @CRUZAMIENTOS, @CRUZAMIENTOS2, @COLONIA, @CODIGO, @LOCALIDAD,
             @MUNICIPIO, @ESTADO, @PAIS, @NACIONALIDAD, @REFERDIR, @TELEFONO, @CLASIFIC, @FAX, @PAG_WEB, @CURP, @CVE_ZONA, @IMPRIR, @MAIL,
@@ -1041,7 +1078,7 @@ Public Class frmClientesAE
             @MATRIZ, @CALLE_ENVIO, @NUMINT_ENVIO, @NUMEXT_ENVIO, @CRUZAMIENTOS_ENVIO, @CRUZAMIENTOS_ENVIO2, @COLONIA_ENVIO, @LOCALIDAD_ENVIO,
             @MUNICIPIO_ENVIO, @ESTADO_ENVIO, @PAIS_ENVIO, @CODIGO_ENVIO, @CVE_ZONA_ENVIO, @REFERENCIA_ENVIO, @CUENTA_CONTABLE, @METODODEPAGO,
             @NUMCTAPAGO, @MODELO, @USO_CFDI, @CVE_PAIS_SAT, @NUMIDREGFISCAL, @FORMADEPAGOSAT, @REG_FISC, @NOMBRECOMERCIAL, @FLETE, 
-            @NUM_MON, @CVE_ESQIMPU, @MUNICIPIO_SAT, @LOCALIDAD_SAT, @ESTADO_SAT, @PAIS_SAT, @COLONIA_SAT, @ALIAS, @APLICACION, @CUENTA_CONTABLE_FISCAL)"
+            @NUM_MON, @CVE_ESQIMPU, @MUNICIPIO_SAT, @LOCALIDAD_SAT, @ESTADO_SAT, @PAIS_SAT, @COLONIA_SAT, @ALIAS, @APLICACION, @CUENTA_CONTABLE_FISCAL, @TIPO_REL_NC)"
 
         cmd.Connection = cnSAE
         cmd.CommandText = SQL
@@ -1129,6 +1166,7 @@ Public Class frmClientesAE
             cmd.Parameters.Add("@ALIAS", SqlDbType.VarChar).Value = TALIAS.Text
             cmd.Parameters.Add("@APLICACION", SqlDbType.VarChar).Value = TAPLICACION.Text
             cmd.Parameters.Add("@CUENTA_CONTABLE_FISCAL", SqlDbType.VarChar).Value = TCUENTA_CONTABLE_FISCAL.Text
+            cmd.Parameters.Add("@TIPO_REL_NC", SqlDbType.Int).Value = TIPO_REL_NC
 
             returnValue = cmd.ExecuteNonQuery().ToString
             If returnValue IsNot Nothing Then

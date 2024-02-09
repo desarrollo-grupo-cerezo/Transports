@@ -74,7 +74,7 @@ Public Class FrmDocumentos
                 Case "C"
                     LtCompras.Text = "Cotización"
                 Case "D"
-                    LtCompras.Text = "Devoluciones"
+                    LtCompras.Text = "Notas de Crédito"
             End Select
 
             If Var4 = "CARTA PORTE" Then

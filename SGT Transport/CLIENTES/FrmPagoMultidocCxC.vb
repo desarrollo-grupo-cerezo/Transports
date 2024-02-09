@@ -96,10 +96,10 @@ Public Class FrmPagoMultidocCxC
             Return
         End If
 
-        Dim j As Integer, NUM_CPTO As Integer, IMPORTE As Decimal, NUM_PAGOS As Integer, SUMAPAGOS As Decimal
+        Dim j As Integer, NUM_CPTO As Integer, IMPORTE As Decimal, IMPORTE_EXT As Decimal, NUM_PAGOS As Integer, SUMAPAGOS As Decimal
         Dim FORMAPAGO As String, DOCTO As String, REFER As String, NUM_CARGO As Integer
-        Dim CVE_CTA As String
-        Dim NUM_MONEDA As Integer, NUM_MONEDA_FAC As Integer
+        Dim CVE_CTA As String, CTA_MDA As String
+        Dim NUM_MONEDA As Integer, NUM_MONEDA_FAC As Integer, FAC_MDA As String
         Dim TC As Decimal, TC_FAC As Decimal
 
         If MsgBox("Realmente desea realizar el pago?", vbYesNo) = vbNo Then
@@ -133,6 +133,8 @@ Public Class FrmPagoMultidocCxC
             End If
 
             CVE_CTA = Split(CboCuentabancaria.Text, "|")(0).Trim
+            CTA_MDA = Split(CboCuentabancaria.Text, "|")(3).Trim
+
             NUM_MONEDA = Convert.ToInt32(Split(CboMoneda.Text, "|")(0).Trim)
 
             If NUM_MONEDA <> 1 Then
@@ -164,23 +166,38 @@ Public Class FrmPagoMultidocCxC
                     NUM_CARGO = 1
                 End If
 
-                If IsNumeric(Fg(j, 8)) Then
-                    NUM_MONEDA_FAC = Fg(j, 8)
-                Else
-                    NUM_MONEDA_FAC = 1
-                End If
+                'If IsNumeric(Fg(j, 8)) Then
+                '    NUM_MONEDA_FAC = Fg(j, 8)
+                'Else
+                '    NUM_MONEDA_FAC = 1
+                'End If
+
+                FAC_MDA = Fg(j, 7)
 
                 TC_FAC = 1
-
-                If NUM_MONEDA <> 1 And NUM_MONEDA_FAC <> 1 Then
-                    NUM_MONEDA_FAC = NUM_MONEDA
-                    TC_FAC = TC
-                End If
-
-
+                IMPORTE_EXT = IMPORTE
                 If REFER.Trim.Length > 0 And IMPORTE > 0 Then
+
+                    NUM_MONEDA_FAC = NUM_MONEDA
+
+                    If CTA_MDA = "MXN" And FAC_MDA <> "MXN" Then
+                        TC_FAC = TC
+                        IMPORTE = TC_FAC * IMPORTE_EXT
+                    End If
+                    If CTA_MDA <> "MXN" And FAC_MDA = "MXN" Then
+                        TC_FAC = TC
+                        IMPORTE_EXT = IMPORTE / TC_FAC
+                    End If
+                    If CTA_MDA = "MXN" And FAC_MDA = "MXN" Then
+                        TC_FAC = 1
+                    End If
+                    If CTA_MDA <> "MXN" And FAC_MDA <> "MXN" Then
+                        TC_FAC = TC
+                        IMPORTE = TC_FAC * IMPORTE_EXT
+                    End If
+
                     SUMAPAGOS = SUMAPAGOS + IMPORTE
-                    CUEN_DET_COM(REFER, IMPORTE, NUM_CPTO, DOCTO, NUM_CARGO, CVE_CTA, NUM_MONEDA_FAC, TC_FAC)
+                    CUEN_DET_COM(REFER, IMPORTE, IMPORTE_EXT, NUM_CPTO, DOCTO, NUM_CARGO, CVE_CTA, NUM_MONEDA_FAC, TC_FAC)
                     NUM_PAGOS = NUM_PAGOS + 1
                 End If
             Next
@@ -195,7 +212,7 @@ Public Class FrmPagoMultidocCxC
             MsgBox("10. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
-    Sub CUEN_DET_COM(fCVE_DOC As String, fIMPORTE As Decimal, fNUM_CPTO As Integer, fDOCTO As String, FNUM_CARGO As Integer, FCVE_CTA As String, FNUM_MONEDA As Integer, FTC As Decimal)
+    Sub CUEN_DET_COM(fCVE_DOC As String, fIMPORTE As Decimal, fIMPORTE_EXT As Decimal, fNUM_CPTO As Integer, fDOCTO As String, FNUM_CARGO As Integer, FCVE_CTA As String, FNUM_MONEDA As Integer, FTC As Decimal)
 
         Dim CVE_CLIE As String, REFER As String, ID_MOV As Integer, NUM_CPTO As Integer, NUM_CARGO As Integer, CVE_OBS As Long, NO_FACTURA As String
         Dim IMPORTE As Decimal, AFEC_COI As String, NUM_MONED As Integer, TCAMBIO As Decimal, IMPMON_EXT As Decimal, CTLPOL As Integer
@@ -216,12 +233,12 @@ Public Class FrmPagoMultidocCxC
             NUM_CARGO = FNUM_CARGO
             CVE_OBS = 0
             If fDOCTO.Trim.Length = 0 Then fDOCTO = fCVE_DOC
-            IMPORTE = fIMPORTE * FTC
+            IMPORTE = fIMPORTE '* FTC
             AFEC_COI = ""
 
             NUM_MONED = FNUM_MONEDA
             TCAMBIO = FTC
-            IMPMON_EXT = fIMPORTE
+            IMPMON_EXT = fIMPORTE_EXT
 
             CTLPOL = 0 : CVE_FOLIO = "" : TIPO_MOV = "A" : SIGNO = -1 : CVE_AUT = 0 : Usuario2 = 0 : REF_SIST = "" : NO_PARTIDA = 1
 
@@ -1272,14 +1289,15 @@ Public Class FrmPagoMultidocCxC
             CboCuentabancaria.Items.Clear()
 
             Using cmd As SqlCommand = cnSAE.CreateCommand
-                SQL = "SELECT TRY_PARSE(ISNULL(CLAVE,'0') AS INT) AS CVE, CUENTA_BANCARIA, ISNULL(NOMBRE_BANCO,'') AS NOMBRE
-                    FROM CUENTA_BENEF" & Empresa & " 
-                    WHERE ISNULL(STATUS,'A') = 'A' 
-                    ORDER BY TRY_PARSE(CLAVE AS INT)"
+                SQL = "SELECT TRY_PARSE(ISNULL(B.CLAVE,'0') AS INT) AS CVE, B.CUENTA_BANCARIA, ISNULL(B.NOMBRE_BANCO,'') AS NOMBRE, M.CVE_MONED, M.DESCR
+                        FROM CUENTA_BENEF" & Empresa & " B
+                        INNER JOIN MONED" & Empresa & " M ON M.NUM_MONED = B.NUM_MONED
+                        WHERE ISNULL(B.STATUS,'A') = 'A' 
+                        ORDER BY TRY_PARSE(B.CLAVE AS INT)"
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
-                        CboCuentabancaria.Items.Add(String.Format("{0} | {1} | {2}", dr("CVE"), dr("CUENTA_BANCARIA"), dr("NOMBRE")))
+                        CboCuentabancaria.Items.Add(String.Format("{0} | {1} | {2} | {3} | {4}", dr("CVE"), dr("CUENTA_BANCARIA"), dr("NOMBRE"), dr("CVE_MONED"), dr("DESCR")))
                         exist = True
                     End While
                 End Using
@@ -1324,6 +1342,24 @@ Public Class FrmPagoMultidocCxC
 
     Private Sub F1_ValueChanged(sender As Object, e As EventArgs) Handles F1.ValueChanged
         FECHA_DEP.Value = F1.Value
+    End Sub
+
+    Private Sub CboCuentabancaria_TextChanged(sender As Object, e As EventArgs) Handles CboCuentabancaria.TextChanged
+        Dim CTA_MDA As String
+        Try
+
+            CTA_MDA = Split(CboCuentabancaria.Text, "|")(3).Trim
+
+            For i = 0 To CboMoneda.Items.Count
+                If CboMoneda.Items.Item(i).ToString().Contains(CTA_MDA) Then
+                    CboMoneda.SelectedIndex = i
+                    Exit For
+                End If
+            Next
+
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class
 

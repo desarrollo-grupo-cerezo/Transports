@@ -4223,7 +4223,8 @@ Module General
             If fCVE_ACTIVIDAD.Length > 5 Then fCVE_ACTIVIDAD = fCVE_ACTIVIDAD.Substring(0, 5)
             If fCVE_ART.Length > 16 Then fCVE_ART = fCVE_ART.Substring(0, 16)
 
-            OBSER = fMOTIVO & " {" & fCVE_DOC_OBS & "} $ " & IIf(fTIPO_VENTA <> "C" And fTIPO_VENTA <> "V", Format(fIMPORTE, "###,##0.00"), "")
+            OBSER = fMOTIVO & " {" & fCVE_DOC_OBS & "} $ " & Format(fIMPORTE, "###,##0.00")
+
             If Len(OBSER) > 255 Then OBSER = Mid$(OBSER, 1, 255)
 
             SQL = "SET ansi_warnings OFF

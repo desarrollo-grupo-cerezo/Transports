@@ -71,6 +71,8 @@ Partial Class FrmParamGenerales
         Me.Label9 = New System.Windows.Forms.Label()
         Me.cboOT = New C1.Win.C1Input.C1ComboBox()
         Me.TabVistaReset = New C1.Win.C1Command.C1DockingTabPage()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.txTOLERANCIA = New C1.Win.C1Input.C1TextBox()
         Me.ChNumGen2 = New C1.Win.C1Input.C1CheckBox()
         Me.ChLtsDescGen = New C1.Win.C1Input.C1CheckBox()
         Me.ChNumGen1 = New C1.Win.C1Input.C1CheckBox()
@@ -117,6 +119,7 @@ Partial Class FrmParamGenerales
         CType(Me.cboOTE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboOT, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabVistaReset.SuspendLayout()
+        CType(Me.txTOLERANCIA, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChNumGen2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChLtsDescGen, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChNumGen1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -826,6 +829,8 @@ Partial Class FrmParamGenerales
         '
         'TabVistaReset
         '
+        Me.TabVistaReset.Controls.Add(Me.Label12)
+        Me.TabVistaReset.Controls.Add(Me.txTOLERANCIA)
         Me.TabVistaReset.Controls.Add(Me.ChNumGen2)
         Me.TabVistaReset.Controls.Add(Me.ChLtsDescGen)
         Me.TabVistaReset.Controls.Add(Me.ChNumGen1)
@@ -857,6 +862,50 @@ Partial Class FrmParamGenerales
         Me.TabVistaReset.Size = New System.Drawing.Size(676, 473)
         Me.TabVistaReset.TabIndex = 4
         Me.TabVistaReset.Text = "Vista evaluacion reseteo"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.BackColor = System.Drawing.Color.Transparent
+        Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label12.ForeColor = System.Drawing.Color.Black
+        Me.Label12.Location = New System.Drawing.Point(29, 374)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(68, 13)
+        Me.Label12.TabIndex = 549
+        Me.Label12.Text = "Tolerancia %"
+        '
+        'txTOLERANCIA
+        '
+        Me.txTOLERANCIA.AcceptsReturn = True
+        Me.txTOLERANCIA.AcceptsTab = True
+        Me.txTOLERANCIA.BackColor = System.Drawing.Color.FromArgb(CType(CType(234, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.txTOLERANCIA.BorderColor = System.Drawing.SystemColors.WindowFrame
+        Me.txTOLERANCIA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txTOLERANCIA.CustomFormat = "###,###,##0.00"
+        Me.txTOLERANCIA.DataType = GetType(Decimal)
+        Me.txTOLERANCIA.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(183, Byte), Integer), CType(CType(183, Byte), Integer), CType(CType(183, Byte), Integer))
+        Me.txTOLERANCIA.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.txTOLERANCIA.DisplayFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.txTOLERANCIA.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
+        Me.txTOLERANCIA.EditFormat.Inherit = CType((((((C1.Win.C1Input.FormatInfoInheritFlags.CustomFormat Or C1.Win.C1Input.FormatInfoInheritFlags.NullText) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) _
+            Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
+        Me.txTOLERANCIA.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txTOLERANCIA.Location = New System.Drawing.Point(115, 372)
+        Me.txTOLERANCIA.Name = "txTOLERANCIA"
+        Me.txTOLERANCIA.Size = New System.Drawing.Size(67, 18)
+        Me.txTOLERANCIA.TabIndex = 547
+        Me.txTOLERANCIA.Tag = Nothing
+        Me.txTOLERANCIA.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txTOLERANCIA.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.txTOLERANCIA.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
         'ChNumGen2
         '
@@ -1307,6 +1356,8 @@ Partial Class FrmParamGenerales
         CType(Me.cboOTE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboOT, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabVistaReset.ResumeLayout(False)
+        Me.TabVistaReset.PerformLayout()
+        CType(Me.txTOLERANCIA, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChNumGen2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChLtsDescGen, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChNumGen1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1417,4 +1468,6 @@ Partial Class FrmParamGenerales
     Friend WithEvents CBOASIG_VIAJE As C1.Win.C1Input.C1ComboBox
     Friend WithEvents Label7 As Label
     Friend WithEvents CboBAJA_VIAJE_FACTURACION As C1.Win.C1Input.C1ComboBox
+    Friend WithEvents Label12 As Label
+    Friend WithEvents txTOLERANCIA As C1.Win.C1Input.C1TextBox
 End Class

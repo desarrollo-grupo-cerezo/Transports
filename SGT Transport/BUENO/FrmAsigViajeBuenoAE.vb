@@ -759,6 +759,11 @@ Public Class FrmAsigViajeBuenoAE
                 TCVE_UNIDAD.Value = CVE_UNIDAD
 
                 RadCargado.Checked = True
+
+                FgG.Cols(1).Width = 0
+                FgV.Cols(1).Width = 0
+                FgG.Cols(6).Width = 0
+
             Catch ex As Exception
                 MsgBox("2. " & ex.Message & vbNewLine & ex.StackTrace)
                 Bitacora("2. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -766,6 +771,10 @@ Public Class FrmAsigViajeBuenoAE
         Else
             ViajeNew = False
             BarCopiarViaje.Enabled = False
+
+            FgG.Cols(1).Width = 95
+            FgV.Cols(1).Width = 95
+            FgG.Cols(6).Width = 95
 
             'Var11 = "Viajes a facturar"
             If FACTURA_UNO_O_MULT = "SEFACTURA_MULT" Then
@@ -3803,10 +3812,22 @@ Public Class FrmAsigViajeBuenoAE
             GRABAR_CARGA(CVE_VIAJE, CVE_DOC)
 
             GRABAR_GASTOS_CAMPOS_ADIC(CVE_VIAJE)
+
             GRABAR_CONCEPTOS_PARTIDAS(CVE_VIAJE)
 
             SeDesplega = True
             Try
+
+                GRABA_BITA(CVE_VIAJE, "", 0, "V", "Asignación viaje Tabulador: " & TCVE_TAB_VIAJE.Text & "  ", LtCVE_VIAJE.Text, "", "FtoF")
+                GRABA_BITA(CVE_VIAJE, "", 0, "V", "Asignación viaje cliente:" & TCLIENTE.Text & "  ", LtCVE_VIAJE.Text, "", "FtoF")
+                GRABA_BITA(CVE_VIAJE, "", 0, "V", "Asignación viaje Moneda:" & TCVE_MON.Text & "  ", LtCVE_VIAJE.Text, "", "FtoF")
+                GRABA_BITA(CVE_VIAJE, "", 0, "V", "Asignación viaje Origen:" & TCLAVE_O.Text & "  ", LtCVE_VIAJE.Text, "", "FtoF")
+                GRABA_BITA(CVE_VIAJE, "", 0, "V", "Asignación viaje Operador:" & TCVE_OPER.Text & "  ", LtCVE_VIAJE.Text, "", "FtoF")
+                GRABA_BITA(CVE_VIAJE, "", 0, "V", "Asignación viaje Destino:" & TCLAVE_D.Text & "  ", LtCVE_VIAJE.Text, "", "FtoF")
+
+                GRABA_BITA(CVE_VIAJE, "", 0, "V", "Asignación viaje volumen peso:" & TVOLUMEN_PESO.Value & "  ", LtCVE_VIAJE.Text, "", "FtoF")
+
+
                 If LTractor.Tag.ToString.Trim.Length > 0 Then
                     If TCVE_TRACTOR.Text <> LTractor.Tag Then
                         GRABA_BITA(CVE_VIAJE, "", 0, "V", "Se cambio la unidad " & TCVE_TRACTOR.Text & " por " & LTractor.Tag, LtCVE_VIAJE.Text, "", "FtoF")
@@ -3910,6 +3931,11 @@ Public Class FrmAsigViajeBuenoAE
 
         If GrabarSalir Then
             Me.Close()
+
+        Else
+            FgG.Cols(1).Width = 95
+            FgV.Cols(1).Width = 95
+            FgG.Cols(6).Width = 95
         End If
     End Sub
     Sub BORRA_FACTURA(CVE_DOC)
@@ -6196,7 +6222,9 @@ Public Class FrmAsigViajeBuenoAE
                                 End If
                             Next
 
-                            GRABA_BITA(fCVE_VIAJE, "", CONVERTIR_TO_DECIMAL(FgG(k, 5)), "V", "Se agrego o modifico folio de gastos, folio:" & FOL_VIA & ", Operador: " & TCVE_OPER.Text, fCVE_VIAJE, "", "FtoF")
+                            '                        FCVE_DOC_OBS       IMPORTE                                       MOTIVO  
+                            GRABA_BITA(LtCVE_VIAJE.Text, "", CONVERTIR_TO_DECIMAL(FgG(k, 5)), "G", "Se grabo o modifico gastos de viaje, folio:" & FgG(k, 1) & ", 
+                                Operador: " & TCVE_OPER.Text & ", Estatus gasto " & FgG(k, 7) & ",  Folio:" & LtSerie.Text & LtFolio.Text, LtCVE_VIAJE.Text, "", "AV")
                         End If
 
                     Catch ex As Exception
@@ -6372,6 +6400,15 @@ Public Class FrmAsigViajeBuenoAE
                                 End Try
                                 'FIN SEGUIMIENTO DE PEDIDOS
                             End If
+
+
+                            '                        FCVE_DOC_OBS       IMPORTE                                       MOTIVO  
+                            GRABA_BITA(LtCVE_VIAJE.Text, "", CONVERTIR_TO_DECIMAL(FgV(k, 1)), "V", "Se modifico o se agrego folio de gastos, folio:" & FgV(k, 1) & ", 
+                                Operador: " & TCVE_OPER.Text & " Estatus Vale " & FgV(k, 15) & ",  Gasolinera " & FgV(k, 5) & ",  Litros iniciales " & FgV(k, 6) & ", 
+                                Litros reales " & FgV(k, 7) & ", Precio x litro " & FgV(k, 8) & ", Subtotal " & FgV(k, 9) & ", IVA " & FgV(k, 10) & ", 
+                                IEPS " & FgV(k, 11) & ", Total " & FgV(k, 12) & ", Factura " & FgV(k, 13) & ", 
+                                Folio:" & LtSerie.Text & LtFolio.Text, LtCVE_VIAJE.Text, "", "AV")
+
 
                             Exit For
 
@@ -7195,7 +7232,9 @@ Public Class FrmAsigViajeBuenoAE
 
                 FgG.AddItem("" & vbTab & (FOLIO_AG + Fol) & vbTab & DateTime.Now.ToString("dd/MM/yyyy") & vbTab & "" & vbTab & "" & vbTab &
                             "0" & vbTab & "" & vbTab & IIf(STATUS_VIAJE.Trim.Length > 0, STATUS_VIAJE, "EDICION") & vbTab & "N" & vbTab &
-                            " " & vbTab & "TRANSFERENCIA" & vbTab & " ")
+                            " " & vbTab & "TRANSFERENCIA" & vbTab & " " & vbTab & " " & vbTab & " " & vbTab & "Nuevo")
+
+
             Else
                 MsgBox("Por favor capture el gasto")
             End If
@@ -7212,8 +7251,12 @@ Public Class FrmAsigViajeBuenoAE
             End If
             If MsgBox("Realmente desea eliminar la partida seleccionada?", vbYesNo) = vbYes Then
 
-                SQL = "DELETE FROM GCASIGNACION_VIAJE_GASTOS WHERE CVE_VIAJE = '" & LtCVE_VIAJE.Text & "' AND FOLIO = '" & FgG(FgG.Row, 1) & "'"
+                SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET STATUS = 'C' WHERE CVE_VIAJE = '" & LtCVE_VIAJE.Text & "' AND FOLIO = '" & FgG(FgG.Row, 1) & "'"
                 ReturnBool = EXECUTE_QUERY_NET(SQL)
+
+                '                        FCVE_DOC_OBS       IMPORTE                                       MOTIVO  
+                GRABA_BITA(LtCVE_VIAJE.Text, "", CONVERTIR_TO_DECIMAL(FgG(FgG.Row, 5)), "G", "Se elimino folio de gastos, folio:" & FgG(FgG.Row, 1) & ", 
+                Operador: " & TCVE_OPER.Text & ", Estatus gasto " & FgG(FgG.Row, 7) & ",  Folio:" & LtSerie.Text & LtFolio.Text, LtCVE_VIAJE.Text, "", "AV")
 
                 FgG.Rows.Remove(FgG.Row)
             End If
@@ -7317,6 +7360,13 @@ Public Class FrmAsigViajeBuenoAE
 
                 SQL = "DELETE FROM GCASIGNACION_VIAJE_VALES WHERE CVE_VIAJE = '" & LtCVE_VIAJE.Text & "' AND FOLIO = '" & FgV(FgV.Row, 1) & "'"
                 ReturnBool = EXECUTE_QUERY_NET(SQL)
+
+                '                        FCVE_DOC_OBS       IMPORTE                                       MOTIVO  
+                GRABA_BITA(LtCVE_VIAJE.Text, "", CONVERTIR_TO_DECIMAL(FgV(FgV.Row, 1)), "V", "Se elimino folio de gastos, folio:" & FgV(FgV.Row, 1) & ", 
+                Operador: " & TCVE_OPER.Text & " Estatus Vale " & FgV(FgV.Row, 15) & ",  Gasolinera " & FgV(FgV.Row, 5) & ",  Litros iniciales " & FgV(FgV.Row, 6) & ", 
+                Litros reales " & FgV(FgV.Row, 7) & ", Precio x litro " & FgV(FgV.Row, 8) & ", Subtotal " & FgV(FgV.Row, 9) & ", IVA " & FgV(FgV.Row, 10) & ", 
+                IEPS " & FgV(FgV.Row, 11) & ", Total " & FgV(FgV.Row, 12) & ", Factura " & FgV(FgV.Row, 13) & ", 
+                Folio:" & LtSerie.Text & LtFolio.Text, LtCVE_VIAJE.Text, "", "AV")
 
                 FgV.Rows.Remove(FgV.Row)
 
@@ -10348,64 +10398,64 @@ Public Class FrmAsigViajeBuenoAE
 
                 M1 = IIf(IsNumeric(TMONTO1.Value), Convert.ToDecimal(TMONTO1.Value), 0)
                 If ChCAUSA_IVA1.Checked Then
-                    IVA1 = M1 * IIf(Not IsNothing(TIVAC1.Value) AndAlso IsNumeric(TIVAC1.Value), TIVAC1.Value, 0) / 100
+                    IVA1 = Math.Round(M1 * IIf(Not IsNothing(TIVAC1.Value) AndAlso IsNumeric(TIVAC1.Value), TIVAC1.Value, 0) / 100, 2)
                 End If
                 If ChCAUSA_RET1.Checked Then
-                    RET1 = M1 * IIf(IsNumeric(TRET1.Value), Convert.ToDecimal(TRET1.Value), 0) / 100
+                    RET1 = Math.Round(M1 * IIf(IsNumeric(TRET1.Value), Convert.ToDecimal(TRET1.Value), 0) / 100, 2)
                 End If
 
                 M2 = IIf(IsNumeric(TMONTO2.Value), Convert.ToDecimal(TMONTO2.Value), 0)
                 If ChCAUSA_IVA2.Checked Then
-                    IVA2 = M2 * IIf(Not IsNothing(TIVAC2.Value) AndAlso IsNumeric(TIVAC2.Value), TIVAC2.Value, 0) / 100
+                    IVA2 = Math.Round(M2 * IIf(Not IsNothing(TIVAC2.Value) AndAlso IsNumeric(TIVAC2.Value), TIVAC2.Value, 0) / 100, 2)
                 End If
                 If ChCAUSA_RET2.Checked Then
-                    RET2 = M2 * IIf(IsNumeric(TRET2.Value), Convert.ToDecimal(TRET2.Value), 0) / 100
+                    RET2 = Math.Round(M2 * IIf(IsNumeric(TRET2.Value), Convert.ToDecimal(TRET2.Value), 0) / 100, 2)
                 End If
 
                 M3 = IIf(IsNumeric(TMONTO3.Value), Convert.ToDecimal(TMONTO3.Value), 0)
                 If ChCAUSA_IVA3.Checked Then
-                    IVA3 = M3 * IIf(Not IsNothing(TIVAC3.Value) AndAlso IsNumeric(TIVAC3.Value), TIVAC3.Value, 0) / 100
+                    IVA3 = Math.Round(M3 * IIf(Not IsNothing(TIVAC3.Value) AndAlso IsNumeric(TIVAC3.Value), TIVAC3.Value, 0) / 100, 2)
                 End If
                 If ChCAUSA_RET3.Checked Then
-                    RET3 = M3 * IIf(IsNumeric(TRET3.Value), Convert.ToDecimal(TRET3.Value), 0) / 100
+                    RET3 = Math.Round(M3 * IIf(IsNumeric(TRET3.Value), Convert.ToDecimal(TRET3.Value), 0) / 100, 2)
                 End If
 
                 M4 = IIf(IsNumeric(TMONTO4.Value), Convert.ToDecimal(TMONTO4.Value), 0)
                 If ChCAUSA_IVA4.Checked Then
-                    IVA4 = M4 * IIf(Not IsNothing(TIVAC4.Value) AndAlso IsNumeric(TIVAC4.Value), TIVAC4.Value, 0) / 100
+                    IVA4 = Math.Round(M4 * IIf(Not IsNothing(TIVAC4.Value) AndAlso IsNumeric(TIVAC4.Value), TIVAC4.Value, 0) / 100, 2)
                 End If
                 If ChCAUSA_RET4.Checked Then
-                    RET4 = M4 * IIf(IsNumeric(TRET4.Value), Convert.ToDecimal(TRET4.Value), 0) / 100
+                    RET4 = Math.Round(M4 * IIf(IsNumeric(TRET4.Value), Convert.ToDecimal(TRET4.Value), 0) / 100, 2)
                 End If
 
                 M5 = IIf(IsNumeric(TMONTO5.Value), Convert.ToDecimal(TMONTO5.Value), 0)
                 If ChCAUSA_IVA5.Checked Then
-                    IVA5 = M5 * IIf(Not IsNothing(TIVAC5.Value) AndAlso IsNumeric(TIVAC5.Value), TIVAC5.Value, 0) / 100
+                    IVA5 = Math.Round(M5 * IIf(Not IsNothing(TIVAC5.Value) AndAlso IsNumeric(TIVAC5.Value), TIVAC5.Value, 0) / 100, 2)
                 End If
                 If ChCAUSA_RET5.Checked Then
-                    RET5 = M5 * IIf(IsNumeric(TRET5.Value), Convert.ToDecimal(TRET5.Value), 0) / 100
+                    RET5 = Math.Round(M5 * IIf(IsNumeric(TRET5.Value), Convert.ToDecimal(TRET5.Value), 0) / 100, 2)
                 End If
 
                 M6 = IIf(IsNumeric(TMONTO6.Value), Convert.ToDecimal(TMONTO6.Value), 0)
                 If ChCAUSA_IVA6.Checked Then
-                    IVA6 = M6 * IIf(Not IsNothing(TIVAC6.Value) AndAlso IsNumeric(TIVAC6.Value), TIVAC6.Value, 0) / 100
+                    IVA6 = Math.Round(M6 * IIf(Not IsNothing(TIVAC6.Value) AndAlso IsNumeric(TIVAC6.Value), TIVAC6.Value, 0) / 100, 2)
                 End If
                 If ChCAUSA_RET6.Checked Then
-                    RET6 = M6 * IIf(IsNumeric(TRET6.Value), Convert.ToDecimal(TRET6.Value), 0) / 100
+                    RET6 = Math.Round(M6 * IIf(IsNumeric(TRET6.Value), Convert.ToDecimal(TRET6.Value), 0) / 100, 2)
                 End If
 
                 TIMPORTE_CONCEP.Value = M1 + M2 + M3 + M4 + M5 + M6
 
                 'PREC += TIMPORTE_CONCEP.Value
 
-                cIeps = PREC * vIMPU1 / 100
-                cImpu2 = PREC * vIMPU2 / 100
-                cImpu3 = PREC * vIMPU3 / 100
-                cImpu = PREC * vIMPU4 / 100
+                cIeps = Math.Round(PREC * vIMPU1 / 100, 2)
+                cImpu2 = Math.Round(PREC * vIMPU2 / 100, 2)
+                cImpu3 = Math.Round(PREC * vIMPU3 / 100, 2)
+                cImpu = Math.Round(PREC * vIMPU4 / 100, 2)
 
                 TSUB_TOTAL.Value = PREC + TIMPORTE_CONCEP.Value '+ M1 + M2 + M3 + M4 + M5 + M6
-                TIVA.Value = Math.Round(cIeps + cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6, 2)
-                TRET.Value = Math.Round(cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6, 2)
+                TIVA.Value = cIeps + cImpu + IVA1 + IVA2 + IVA3 + IVA4 + IVA5 + IVA6
+                TRET.Value = cImpu2 + cImpu3 + RET1 + RET2 + RET3 + RET4 + RET5 + RET6
                 TNETO.Value = TSUB_TOTAL.Value + TIVA.Value + TRET.Value
 
                 If ESCENARIO = 3 Then
@@ -11086,7 +11136,7 @@ Public Class FrmAsigViajeBuenoAE
                         If dr.Read Then
                             If dr.ReadNullAsEmptyInteger("CAUSA_IVA") = 1 Then
                                 ChCAUSA_IVA2.Checked = True
-                                TIVAC1.Value = dr.ReadNullAsEmptyDecimal("IVA") 'IMPUESTO
+                                TIVAC2.Value = dr.ReadNullAsEmptyDecimal("IVA") 'IMPUESTO
                             Else
                                 ChCAUSA_IVA2.Checked = False
                                 TIVAC2.Value = 0 'IMPUESTO
@@ -11245,13 +11295,13 @@ Public Class FrmAsigViajeBuenoAE
 
                 TMONTO4.Focus()
             Else
-                ChCAUSA_IVA3.Checked = False
-                ChCAUSA_RET3.Checked = False
-                TMONTO3.Value = 0
-                TIVAC3.Value = 0
-                TRET3.Value = 0
-                TCVE_PRODSERV3.Value = ""
-                TCVE_UNIDAD3.Value = ""
+                ChCAUSA_IVA4.Checked = False
+                ChCAUSA_RET4.Checked = False
+                TMONTO4.Value = 0
+                TIVAC4.Value = 0
+                TRET4.Value = 0
+                TCVE_PRODSERV4.Value = ""
+                TCVE_UNIDAD4.Value = ""
             End If
         Catch ex As Exception
             Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)

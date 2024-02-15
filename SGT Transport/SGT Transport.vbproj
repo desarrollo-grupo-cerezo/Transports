@@ -4564,6 +4564,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BUENO\FrmAsigViajeBuenoAE.resx">
       <DependentUpon>FrmAsigViajeBuenoAE.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BUENO\FrmFGCopiandoViajes.resx">
       <DependentUpon>FrmFGCopiandoViajes.vb</DependentUpon>

@@ -2098,7 +2098,7 @@ Public Class frmOTI_GMAE
 
                     If MsgBox("Este proceso cancelará los movimientos al inventario, Realmente desea continuar?", vbYesNo) = vbYes Then
                         Try
-                            CANCELAR_MOVS_PARTIDA()
+                            CANCELAR_MOVS_PARTIDA("C")
                         Catch ex As Exception
                             Bitacora("860. " & ex.Message & vbNewLine & ex.StackTrace)
                             MsgBox("860. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -2113,7 +2113,7 @@ Public Class frmOTI_GMAE
             MsgBox("880. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
-    Sub CANCELAR_MOVS_PARTIDA()
+    Sub CANCELAR_MOVS_PARTIDA(Optional FCANCELAR As String = "")
         Try
             Dim z As Integer = 0, CVE_DOC As String, COSTO As Decimal = 0
             Dim NewStyle1 As CellStyle
@@ -2141,7 +2141,7 @@ Public Class frmOTI_GMAE
                                     End If
                                 End If
 
-                                GENERA_MINVE_OT_PARTIDA(CVE_DOC, Fg(k, 2), Fg(k, 9), Fg(k, 25), k, Date.Today, Fg(k, 20), 1, COSTO)
+                                GENERA_MINVE_OT_PARTIDA(CVE_DOC, Fg(k, 2), Fg(k, 9), Fg(k, 25), k, Date.Today, Fg(k, 20), 1, COSTO, FCANCELAR)
 
                                 Fg.Rows(k).Style = NewStyle1
 
@@ -2403,13 +2403,13 @@ Public Class frmOTI_GMAE
         End Try
     End Sub
     Sub GENERA_MINVE_OT_PARTIDA(fCVE_DOC As String, fCVE_ART As String, fCANT As Decimal, fUUID As String, fROW As Integer,
-                                FFECHA As Date, FCVE_FOLIO As String, FSIGNO As Integer, FCOSTO As Decimal)
+                                FFECHA As Date, FCVE_FOLIO As String, FSIGNO As Integer, FCOSTO As Decimal, Optional FCANCELAR As String = "")
         Dim CVE_ART As String = ""
         Dim CVE_CPTO As Integer = 60, FACTOR_CON As Decimal = 1, SIGNO As Integer = -1, COSTEADO As String = "S", COSTO_PROM_INI As Single, COSTO_PROM_FIN As Single
         Dim DESDE_INVE As String = "S", MOV_ENLAZADO As Integer = 0, TIPO_DOC As String = "M", TIPO_PROD As String = "P", ExistProd As Boolean = False
         Dim CANT As Decimal, PREC As Single = 0, COSTO As Decimal = 0, CVE_VEND As String = "", REG_SERIE As Integer = 0, UNI_MED As String = "", E_LTPD As String = ""
         Dim CVE_DOC As String, CLIENTE As String = "", COSTO_PROM As Single = 0, EXIST As Single = 0 : Dim ALMACEN As Integer = 0
-        Dim HayPart As Boolean, Continua As Boolean, CVE_FOLIO As String
+        Dim HayPart As Boolean, Continua As Boolean, CVE_FOLIO As String, SIGUE As Boolean
 
         Dim cmd As New SqlCommand
 
@@ -2521,9 +2521,25 @@ Public Class frmOTI_GMAE
                     End Try
                 End If
 
+                BACKUPTXT("SECUENCIA", "1")
                 If TIPO_PROD = "P" Then
+
                     '███████████████████████████████████████████████████████████
-                    If EXIST >= CANT Then
+
+                    SIGUE = False
+
+                    If FCANCELAR = "C" Then
+                        SIGUE = True
+                    Else
+                        If EXIST >= CANT Then
+                            SIGUE = True
+                        End If
+                    End If
+
+                    If SIGUE Then
+
+                        BACKUPTXT("SECUENCIA", "2")
+
                         Try
                             If MULTIALMACEN = 1 Then
                                 SQL = "UPDATE MULT" & Empresa & " SET EXIST = COALESCE(EXIST,0) + " & (CANT * SIGNO) &
@@ -2562,6 +2578,7 @@ Public Class frmOTI_GMAE
                                 COSTO = COSTO_PROM
                             End If
 
+                            BACKUPTXT("SECUENCIA", "3")
                             Try
                                 COSTO = CALCULA_COSTO_PROM(CVE_ART, COSTO_PROM, COSTO, CANT, SIGNO)
                             Catch ex As Exception
@@ -2590,9 +2607,14 @@ Public Class frmOTI_GMAE
                                     Math.Round(COSTO_PROM_FIN, 4) & "','" & DESDE_INVE & "','" & MOV_ENLAZADO & "','" & Math.Round(COSTO, 4) & "')"
                                 cmd.CommandText = SQL
                                 returnValue = cmd.ExecuteNonQuery.ToString
+
+                                BACKUPTXT("SECUENCIA", "4" & returnValue)
+
+                                BACKUPTXT("SECUENCIA", "4" & vbNewLine & SQL)
+
                                 If returnValue IsNot Nothing Then
                                     If returnValue = "1" Then
-                                        NProc = NProc + 1
+                                        NProc += 1
                                         Try
                                             SQL = "UPDATE GCORDEN_TRABAJO_EXT SET ESTATUS = 'Captura' WHERE CVE_ORD = '" & tCVE_ORD.Text & "'"
                                             cmd.CommandText = SQL

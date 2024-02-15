@@ -1272,7 +1272,7 @@ Public NotInheritable Class GenerarXML
                 nodoPago.SetAttribute("FechaPago", pg.FechaPago.ToString("s"))
                 nodoPago.SetAttribute("FormaDePagoP", pg.FormaDePagoP)
                 nodoPago.SetAttribute("MonedaP", pg.MonedaP)
-                If pg.TipoCambioP > 0 Then nodoPago.SetAttribute("TipoCambioP", pg.TipoCambioP.ToString("F6"))
+                If pg.TipoCambioP > 0 Then nodoPago.SetAttribute("TipoCambioP", IIf(pg.TipoCambioP = 1, "1", pg.TipoCambioP.ToString("F6")))
                 nodoPago.SetAttribute("Monto", pg.Monto.ToString("F2"))
                 If Not String.IsNullOrEmpty(pg.NumOperacion) Then nodoPago.SetAttribute("NumOperacion", pg.NumOperacion)
                 If Not String.IsNullOrEmpty(pg.RfcEmisorCtaOrd) Then nodoPago.SetAttribute("RfcEmisorCtaOrd", pg.RfcEmisorCtaOrd)

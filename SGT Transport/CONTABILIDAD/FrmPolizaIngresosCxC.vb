@@ -386,7 +386,8 @@ Public Class FrmPolizaIngresosCxC
 
                             Fg.AddItem("" & vbTab & dr("FechaDocumento") & vbTab & dr("Documento") & vbTab & dr("TipoDocumento") & vbTab & dr("FechaViaje") & vbTab &
                                        dr("Viaje") & vbTab & dr("IdPoliza") & vbTab & dr("Orden") & vbTab & dr("TipoPoliza") & vbTab & dr("NoPolizaCuenta") & vbTab &
-                                       dr("ConceptoPolizaDepto") & vbTab & dr("DiaConceptoMov") & vbTab & dr("TipoCambio") & vbTab & IIf(dr("Orden") = "14", Math.Round(dr("TotalDebe"), 2), dr("Debe")) & vbTab & IIf(dr("Orden") = "14", Math.Round(dr("TotalHaber"), 2), dr("Haber")) & vbTab &
+                                       dr("ConceptoPolizaDepto") & vbTab & dr("DiaConceptoMov") & vbTab & dr("TipoCambio") & vbTab & IIf(dr("Orden") = "14", Math.Round(dr("TotalDebe"), 2), dr("Debe")) & vbTab &
+                                       IIf(dr("Orden") = "14", Math.Round(dr("TotalHaber"), 2), dr("Haber")) & vbTab &
                                        dr("CentroCostos") & vbTab & dr("Proyecto"))
 
                             If Convert.ToInt32(dr("Orden")) > 1 And Convert.ToInt32(dr("Orden")) < 14 And Convert.ToInt32(dr("SubOrden")) = 0 Then

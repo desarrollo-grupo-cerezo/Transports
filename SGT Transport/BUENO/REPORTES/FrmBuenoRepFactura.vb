@@ -85,6 +85,22 @@ Public Class FrmBuenoRepFactura
             Reporte.Dictionary.Synchronize()
             Reporte.ReportName = Me.Text
 
+            Dim formatString As String = "yyyyMMdd HHmmss"
+            Dim sample As String = "20100611221912"
+            'Dim dt As DateTime = DateTime.ParseExact(sample, formatString, Nothing)
+
+
+            Dim dt As DateTime = F1.Value
+            Dim dt2 As DateTime = F2.Value
+            Dim FF1 As String
+            Dim FF2 As String
+
+            FF1 = dt.Year & Format(dt.Month, "00") & Format(dt.Day, "00") '& " 00:00:00"
+            FF2 = dt2.Year & Format(dt2.Month, "00") & Format(dt2.Day, "00") '& " 23:59:59"
+
+            'Reporte.Item("FF1") = FSQL(F1.Value)
+            'Reporte.Item("FF2") = FSQL(F2.Value)
+
             Reporte("F1") = FSQL(F1.Value)
             Reporte("F2") = FSQL(F2.Value)
 

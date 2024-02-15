@@ -13405,6 +13405,12 @@ Module ModCREATABLAS
 
             CREA_CAMPO("CFDI", "IdCCP", "VARCHAR", "50", "")
             CREA_CAMPO("CFDI", "CVE_ESQIMPU", "SMALLINT", "", "")
+
+            CREA_CAMPO("CFDI", "IDPOLIZACOI", "INT", "", "")
+            CREA_CAMPO("CFDI", "TIPCAMB", "FLOAT", "", "")
+            CREA_CAMPO("CFDI", "NUM_MONED", "INT", "", "")
+            CREA_CAMPO("CFDI", "RFC", "VARCHAR", "15", "")
+
             CREA_CAMPO("CFDI_CFG", "VerCCP", "VARCHAR", "3", "")
 
             CREA_CAMPO("CLIE" & Empresa, "CUENTA_CONTABLE_FISCAL", "VARCHAR", "28", "")
@@ -13424,6 +13430,11 @@ Module ModCREATABLAS
             CREA_CAMPO("PROV" & Empresa, "CUENTA_FIS_OPER", "VARCHAR", "40", "")
             CREA_CAMPO("PROV" & Empresa, "CUENTA_FIS_ADMIN", "VARCHAR", "40", "")
             CREA_CAMPO("PROV" & Empresa, "CUENTA_FIS_MTTO", "VARCHAR", "40", "")
+
+            CREA_CAMPO("GCASIGNACION_VIAJE", "REACTIVADO", "INT", "", "")
+            CREA_CAMPO("GCASIGNACION_VIAJE", "STATUS2", "VARCHAR", "3", "")
+
+            CREA_CAMPO("GCPARAMGENERALES", "TOLERANCIA", "FLOAT", "", "")
 
             SQL = "UPDATE CFDI_CFG SET VerCCP = '2.0' WHERE VerCCP IS NULL"
             cmd.CommandText = SQL
@@ -15365,7 +15376,6 @@ AS
         SQL = "CREATE VIEW [dbo].[VT_CTB_POLIZA_INGRESOS_CXC]
 AS
 
-
 	SELECT *	
 	FROM
 		(
@@ -15509,17 +15519,17 @@ AS
 					TipoPoliza = '',
 					NoPolizaCuenta = '', ----- CUENTA CONTABLE
 					ConceptoPolizaDepto = CONVERT(VARCHAR, F.FECHA_CFDI, 103),
-					DiaConceptoMov = FAC.SERIE,
-					TipoCambio = REPLACE(F.FACTURA, FAC.SERIE, ''),
+					DiaConceptoMov = F.SERIE,
+					TipoCambio = REPLACE(F.FACTURA, F.SERIE, ''),
 					Debe = CFG.EMISOR_RFC,
-					Haber = FAC.RFC,
+					Haber = P.RFC,
 					CentroCostos = FORMAT(F.IMPORTE, 'N2'),
 					Proyecto = UPPER(F.UUID_CFDI)
 			FROM CUEN_DET" & Empresa & " M WITH (nolock)
 			INNER JOIN CLIE" & Empresa & " P WITH (nolock) ON P.CLAVE = M.CVE_CLIE 
 			INNER JOIN CFDI F WITH (nolock) ON F.FACTURA = M.REFER
 			INNER JOIN MONED" & Empresa & " N WITH (nolock) ON N.NUM_MONED = M.NUM_MONED	
-			INNER JOIN FACTF" & Empresa & " FAC WITH (nolock) ON FAC.CVE_DOC = F.FACTURA	
+			--INNER JOIN FACTF" & Empresa & " FAC WITH (nolock) ON FAC.CVE_DOC = F.FACTURA	
 			INNER JOIN CFDI_CFG CFG WITH (nolock) ON 1 = 1
 			UNION ALL
 			SELECT						
@@ -15647,6 +15657,8 @@ AS
 					GROUP BY M.DOCTO, M.FECHA_APLI, M.TCAMBIO, M.CVE_CLIE, P.NOMBRE, P.RFC, M.NUM_MONED, IDPOLIZACOI
 
 			) QRY"
+
+        'FIN VT_CTB_POLIZA_INGRESOS_CXC        VT_CTB_POLIZA_INGRESOS_CXC          VT_CTB_POLIZA_INGRESOS_CXC
         cmd.CommandText = SQL
         cmd.ExecuteNonQuery()
 
@@ -16693,6 +16705,43 @@ AS
 		) QRY"
         cmd.CommandText = SQL
         cmd.ExecuteNonQuery()
+
+        If EXISTE_STORE_PROCEDURE("sp_ActualizaEstatusViaje") Then
+            SQL = "DROP PROCEDURE sp_ActualizaEstatusViaje"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+        SQL = "CREATE PROCEDURE [dbo].[sp_ActualizaEstatusViaje] 
+	                    @CveViaje VARCHAR(20)
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+                
+	UPDATE A SET
+			STATUS2 = CASE	--ISNULL(SDO.ABONOS, 0) = 0 - SALDO VIAJE = NO
+							WHEN A.FACTURADO = 'S' AND A.TIMBRADO = 'N' AND ISNULL(SDO.ABONOS, 0) = 0 AND ISNULL(REACTIVADO, 0) = 0 THEN 'F'
+							WHEN A.FACTURADO = 'S' AND A.TIMBRADO = 'N' AND ISNULL(SDO.ABONOS, 0) != 0 AND ISNULL(REACTIVADO, 0) != 0 THEN 'G'
+							WHEN A.FACTURADO = 'S' AND A.TIMBRADO = 'N' AND ISNULL(SDO.ABONOS, 0) != 0 AND ISNULL(REACTIVADO, 0) = 0 THEN 'D'
+							WHEN A.FACTURADO = 'S' AND A.TIMBRADO = 'N' AND ISNULL(SDO.ABONOS, 0) != 0 AND ISNULL(REACTIVADO, 0) != 0 THEN 'C'
+							WHEN A.FACTURADO = 'S' AND A.TIMBRADO = 'S' AND ISNULL(SDO.ABONOS, 0) = 0 AND ISNULL(REACTIVADO, 0) = 0 THEN 'B'
+							WHEN A.FACTURADO = 'S' AND A.TIMBRADO = 'S' AND ISNULL(SDO.ABONOS, 0) = 0 AND ISNULL(REACTIVADO, 0) != 0 THEN 'H'
+							WHEN A.FACTURADO = 'S' AND A.TIMBRADO = 'S' AND ISNULL(SDO.ABONOS, 0) != 0 AND ISNULL(REACTIVADO, 0) != 0 THEN 'E'
+							WHEN A.FACTURADO = 'S' AND A.TIMBRADO = 'S' AND ISNULL(SDO.ABONOS, 0) != 0 AND ISNULL(REACTIVADO, 0) = 0 THEN 'A'
+							ELSE ''
+						END
+	FROM GCASIGNACION_VIAJE A
+	LEFT JOIN (
+				SELECT CVE_VIAJE, ABONOS = SUM(NETO) 
+				FROM GCASIGNACION_VIAJE_ABONOS
+				WHERE CVE_VIAJE = @CveViaje
+				GROUP BY CVE_VIAJE) AS SDO ON SDO.CVE_VIAJE = A.CVE_VIAJE
+	WHERE A.CVE_VIAJE = @CveViaje
+
+END"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
 
         'If EXISTE_VISTA("") Then
         '    SQL = "DROP VIEW [dbo].[]"

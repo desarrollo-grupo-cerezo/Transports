@@ -14011,8 +14011,8 @@ AS
 	FROM
 		(
 			SELECT						
-					FechaFactura = FAC.FECHA_DOC,
-					Factura = FAC.CVE_DOC,
+					FechaFactura = C.FECHA_CFDI,
+					Factura = C.FACTURA,
 					TipoFacturacion = MIN(V.TIPO_FACTURACION),
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
@@ -14020,27 +14020,27 @@ AS
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
-					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
+					IdPoliza = 0, --isnull(FAC.IDPOLIZACOI, 0),
 					Orden = 1,
-					TipoPoliza = (SELECT dbo.fn_get_TipoPolizaCOI(CASE WHEN FAC.SERIE LIKE 'CP%' THEN 1 ELSE 2 END)),
-					NoPolizaCuenta = CASE WHEN MAX(PC.Folio) IS NULL THEN 'S/P' ELSE CAST(MAX(PC.Folio) AS VARCHAR) END, --CAST(ROW_NUMBER() OVER (ORDER BY FAC.FECHA_DOC, FAC.CVE_DOC) AS VARCHAR),
-					ConceptoPolizaDepto = CONCAT(FAC.CVE_DOC, ' ', CLI.NOMBRE) + CASE WHEN FAC.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(FAC.IMPORTE, 'N2'), ' ', FAC.TIPCAMB) ELSE '' END,
-					DiaConceptoMov = CONCAT('', DAY(FAC.FECHA_DOC)),
+					TipoPoliza = (SELECT dbo.fn_get_TipoPolizaCOI(CASE WHEN C.SERIE LIKE 'CP%' THEN 1 ELSE 2 END)),
+					NoPolizaCuenta = 'S/P', -- CASE WHEN MAX(PC.Folio) IS NULL THEN 'S/P' ELSE CAST(MAX(PC.Folio) AS VARCHAR) END, --CAST(ROW_NUMBER() OVER (ORDER BY FAC.FECHA_DOC, FAC.CVE_DOC) AS VARCHAR),
+					ConceptoPolizaDepto = CONCAT(C.FACTURA, ' ', CLI.NOMBRE) + CASE WHEN C.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(C.IMPORTE, 'N2'), ' ', C.TIPCAMB) ELSE '' END,
+					DiaConceptoMov = CONCAT('', DAY(C.FECHA_CFDI)),
 					TipoCambio = '',
 					Debe = '',
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
-			FROM FACTF" & Empresa & " FAC WITH (nolock)		
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON ((V.CVE_DOC = FAC.CVE_DOC AND V.TIPO_FACTURACION != 3) OR (V.CVE_VIAJE = FAC.CVE_VIAJE AND V.TIPO_FACTURACION = 3)) AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')
-			INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV		
-			LEFT JOIN PolizasCOI PC WITH (nolock) ON PC.IdPoliza = FAC.IDPOLIZACOI
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'	
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.SERIE, FAC.FOLIO, FAC.IMPORTE, CLI.NOMBRE, FAC.NUM_MONED, FAC.TIPCAMB, FAC.IDPOLIZACOI
+			FROM CFDI C WITH (nolock)		
+			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON (V.CVE_DOC = C.FACTURA) OR (V.CVE_VIAJE = C.CVE_VIAJE)
+			INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = V.CLIENTE	
+			--LEFT JOIN PolizasCOI PC WITH (nolock) ON PC.IdPoliza = FAC.IDPOLIZACOI
+			WHERE C.ESTATUS != 'C' 
+			GROUP BY C.FECHA_CFDI, C.FACTURA, C.SERIE, C.FOLIO, C.IMPORTE, CLI.NOMBRE, C.NUM_MONED, C.TIPCAMB			
 			UNION ALL
 			SELECT	DISTINCT					
-					FechaFactura = FAC.FECHA_DOC,
-					Factura = FAC.CVE_DOC,
+					FechaFactura = C.FECHA_CFDI,
+					Factura = C.FACTURA,
 					TipoFacturacion = MIN(V.TIPO_FACTURACION),
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
@@ -14048,26 +14048,26 @@ AS
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
-					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
+					IdPoliza = 0, --isnull(FAC.IDPOLIZACOI, 0),
 					Orden = 2,
 					TipoPoliza = '',
 					NoPolizaCuenta = CLI.CUENTA_CONTABLE,
 					ConceptoPolizaDepto = '0',
-					DiaConceptoMov = CONCAT(FAC.FOLIO, IIF(MIN(V.TIPO_FACTURACION) = 2, '', ' V' + MIN(V.CVE_VIAJE)), ' ', CLI.NOMBRE) + CASE WHEN FAC.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(FAC.IMPORTE, 'N2'), ' ', FAC.TIPCAMB) ELSE '' END,
+					DiaConceptoMov = CONCAT(C.FOLIO, IIF(MIN(V.TIPO_FACTURACION) = 2, '', ' V' + MIN(V.CVE_VIAJE)), ' ', CLI.NOMBRE) + CASE WHEN C.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(C.IMPORTE, 'N2'), ' ', ISNULL(C.TIPCAMB, 1)) ELSE '' END,
 					TipoCambio = '1',
-					Debe = CONCAT('', CAST(FAC.IMPORTE*FAC.TIPCAMB AS decimal(18, 6))),
+					Debe = CONCAT('', CAST(C.IMPORTE*ISNULL(C.TIPCAMB, 1) AS decimal(18, 6))),
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
-			FROM FACTF" & Empresa & " FAC WITH (nolock)		
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON ((V.CVE_DOC = FAC.CVE_DOC AND V.TIPO_FACTURACION != 3) OR (V.CVE_VIAJE = FAC.CVE_VIAJE AND V.TIPO_FACTURACION = 3)) AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')
-			INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV 
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, CLI.CUENTA_CONTABLE, FAC.FOLIO, CLI.NOMBRE, FAC.NUM_MONED, FAC.IMPORTE, FAC.TIPCAMB, FAC.IDPOLIZACOI
+			FROM CFDI C WITH (nolock)		
+			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON (V.CVE_DOC = C.FACTURA) OR (V.CVE_VIAJE = C.CVE_VIAJE)
+			INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = V.CLIENTE	
+			WHERE C.ESTATUS != 'C'
+			GROUP BY C.FECHA_CFDI, C.FACTURA, C.SERIE, C.FOLIO, C.IMPORTE, CLI.NOMBRE, C.NUM_MONED, C.TIPCAMB, CLI.CUENTA_CONTABLE
 			UNION ALL
 			SELECT						
-					FechaFactura = FAC.FECHA_DOC,
-					Factura = FAC.CVE_DOC,
+					FechaFactura = C.FECHA_CFDI,
+					Factura =  C.FACTURA,
 					TipoFacturacion = MIN(V.TIPO_FACTURACION),
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
@@ -14075,7 +14075,7 @@ AS
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
-					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
+					IdPoliza = 0, --isnull(FAC.IDPOLIZACOI, 0),
 					Orden = 3,
 					TipoPoliza = '',
 					NoPolizaCuenta = '',
@@ -14086,42 +14086,41 @@ AS
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
-			FROM FACTF" & Empresa & " FAC WITH (nolock)		
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON ((V.CVE_DOC = FAC.CVE_DOC AND V.TIPO_FACTURACION != 3) OR (V.CVE_VIAJE = FAC.CVE_VIAJE AND V.TIPO_FACTURACION = 3)) AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')			
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.IDPOLIZACOI
+			FROM CFDI C WITH (nolock)		
+			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON (V.CVE_DOC = C.FACTURA) OR (V.CVE_VIAJE = C.CVE_VIAJE)
+			WHERE C.ESTATUS != 'C'
+			GROUP BY C.FECHA_CFDI, C.FACTURA
 			UNION ALL		
 			SELECT						
-					FechaFactura = FAC.FECHA_DOC,
-					Factura = FAC.CVE_DOC,
+					FechaFactura = C.FECHA_CFDI,
+					Factura = C.FACTURA,
 					TipoFacturacion = MIN(V.TIPO_FACTURACION),
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
 					FormatoColumnasImportes = 0, -- 0 = String, 1 = Int, 2 = Decimal, 3 = Bool
-					TipoCambioCFDI = CAST(FAC.TIPCAMB AS VARCHAR),
+					TipoCambioCFDI = CAST(C.TIPCAMB AS VARCHAR),
 					MonedaCFDI = C.MONEDA,
 					VersionCFDI = C.VERSION,
-					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
+					IdPoliza = 0, --isnull(FAC.IDPOLIZACOI, 0),
 					Orden = 4,
 					TipoPoliza = '',
 					NoPolizaCuenta = '',
-					ConceptoPolizaDepto = CONVERT(VARCHAR, FAC.FECHA_DOC, 103),
-					DiaConceptoMov = FAC.SERIE,
-					TipoCambio = CAST(FAC.FOLIO AS VARCHAR),
+					ConceptoPolizaDepto = CONVERT(VARCHAR, C.FECHA_CFDI, 103),
+					DiaConceptoMov = C.SERIE,
+					TipoCambio = CAST(C.FOLIO AS VARCHAR),
 					Debe = CFG.EMISOR_RFC,
-					Haber = FAC.RFC,
-					CentroCostos = FORMAT(FAC.IMPORTE, 'N2'),
+					Haber = C.RFC,
+					CentroCostos = FORMAT(C.IMPORTE, 'N2'),
 					Proyecto = UPPER(C.UUID_CFDI)
-			FROM FACTF" & Empresa & " FAC WITH (nolock)		
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON ((V.CVE_DOC = FAC.CVE_DOC AND V.TIPO_FACTURACION != 3) OR (V.CVE_VIAJE = FAC.CVE_VIAJE AND V.TIPO_FACTURACION = 3)) AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')
-			INNER JOIN CFDI_CFG CFG WITH (nolock) ON 1 = 1
-			LEFT JOIN CFDI C WITH (nolock) ON C.FACTURA = FAC.CVE_DOC  
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.SERIE, FAC.FOLIO, CFG.EMISOR_RFC, FAC.IMPORTE, CFG.EMISOR_RFC, FAC.RFC, C.UUID_CFDI, C.MONEDA, FAC.TIPCAMB, C.VERSION, FAC.IDPOLIZACOI
+			FROM CFDI C WITH (nolock)		
+			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON (V.CVE_DOC = C.FACTURA) OR (V.CVE_VIAJE = C.CVE_VIAJE)
+			INNER JOIN CFDI_CFG CFG WITH (nolock) ON 1 = 1			
+			WHERE C.ESTATUS != 'C'
+			GROUP BY C.FECHA_CFDI, C.FACTURA, C.SERIE, C.FOLIO, CFG.EMISOR_RFC, C.IMPORTE, CFG.EMISOR_RFC, C.RFC, C.UUID_CFDI, C.MONEDA, C.TIPCAMB, C.VERSION
 			UNION ALL
 			SELECT	DISTINCT					
-					FechaFactura = FAC.FECHA_DOC,
-					Factura = FAC.CVE_DOC,
+					FechaFactura = C.FECHA_CFDI,
+					Factura = C.FACTURA,
 					TipoFacturacion = MIN(V.TIPO_FACTURACION),
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
@@ -14129,7 +14128,7 @@ AS
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
-					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
+					IdPoliza = 0, --isnull(FAC.IDPOLIZACOI, 0),
 					Orden = 5,
 					TipoPoliza = '',
 					NoPolizaCuenta = '',
@@ -14140,14 +14139,14 @@ AS
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
-			FROM FACTF" & Empresa & " FAC WITH (nolock)	
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON ((V.CVE_DOC = FAC.CVE_DOC AND V.TIPO_FACTURACION != 3) OR (V.CVE_VIAJE = FAC.CVE_VIAJE AND V.TIPO_FACTURACION = 3)) AND V.CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0')
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.IDPOLIZACOI
+			FROM CFDI C WITH (nolock)		
+			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON (V.CVE_DOC = C.FACTURA) OR (V.CVE_VIAJE = C.CVE_VIAJE)
+			WHERE C.ESTATUS != 'C'
+			GROUP BY C.FECHA_CFDI, C.FACTURA
 			UNION ALL			
 			SELECT 					
-					FechaFactura = FAC.FECHA_DOC,
-					Factura = FAC.CVE_DOC,
+					FechaFactura = C.FECHA_CFDI,
+					Factura =C.FACTURA,
 					TipoFacturacion = MIN(V.TIPO_FACTURACION),
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
@@ -14155,25 +14154,25 @@ AS
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
-					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
+					IdPoliza = 0, --isnull(FAC.IDPOLIZACOI, 0),
 					Orden = CFD.Orden,
 					TipoPoliza = '',
 					NoPolizaCuenta = CASE 										
-										WHEN CFD.Orden = 6 THEN dbo.fn_get_cta(3, 7, FAC.FECHA_DOC) 
-										WHEN CFD.Orden = 7 THEN dbo.fn_get_cta(4, 7, FAC.FECHA_DOC) 
-										WHEN CFD.Orden = 8 THEN dbo.fn_formato_cuenta(dbo.fn_get_cta_folio(IIF(FAC.SERIE LIKE 'CP%', FAC.NUM_MONED, 1) , FAC.SERIE), UN.CUEN_CONT_VTA) 
+										WHEN CFD.Orden = 6 THEN dbo.fn_get_cta(3, 7, C.FECHA_CFDI) 
+										WHEN CFD.Orden = 7 THEN dbo.fn_get_cta(4, 7, C.FECHA_CFDI) 
+										WHEN CFD.Orden = 8 THEN dbo.fn_formato_cuenta(dbo.fn_get_cta_folio(IIF(C.SERIE LIKE 'CP%', C.NUM_MONED, 1) , C.SERIE), UN.CUEN_CONT_VTA) 
 										ELSE '' END,
 					ConceptoPolizaDepto = '0',
-					DiaConceptoMov = CONCAT(FAC.FOLIO, ' V', MIN(V.CVE_VIAJE) , ' ', CLI.NOMBRE) + CASE WHEN FAC.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(FAC.IMPORTE, 'N2'), ' ', FAC.TIPCAMB) ELSE '' END,
+					DiaConceptoMov = CONCAT(C.FOLIO, ' V', MIN(V.CVE_VIAJE) , ' ', CLI.NOMBRE) + CASE WHEN C.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(C.IMPORTE, 'N2'), ' ', ISNULL(C.TIPCAMB, 1)) ELSE '' END,
 					TipoCambio = '1',
-					Debe = CASE WHEN SUM(CFD.Debe * FAC.TIPCAMB) = 0 THEN '' ELSE CONCAT('', CAST(SUM(CFD.Debe * FAC.TIPCAMB) AS decimal(18, 6))) END,
-					Haber = CASE WHEN SUM(CFD.Haber * FAC.TIPCAMB) = 0 THEN '' ELSE CONCAT('', CAST(SUM(CFD.Haber * FAC.TIPCAMB) AS decimal(18, 6))) END,
+					Debe = CASE WHEN SUM(CFD.Debe * ISNULL(C.TIPCAMB, 1)) = 0 THEN '' ELSE CONCAT('', CAST(SUM(CFD.Debe * ISNULL(C.TIPCAMB, 1)) AS decimal(18, 6))) END,
+					Haber = CASE WHEN SUM(CFD.Haber * ISNULL(C.TIPCAMB, 1)) = 0 THEN '' ELSE CONCAT('', CAST(SUM(CFD.Haber * ISNULL(C.TIPCAMB, 1)) AS decimal(18, 6))) END,
 					CentroCostos = '',
 					Proyecto = ''
-			FROM FACTF" & Empresa & " FAC WITH (nolock)
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON ((V.CVE_DOC = FAC.CVE_DOC AND V.TIPO_FACTURACION != 3) OR (V.CVE_VIAJE = FAC.CVE_VIAJE AND V.TIPO_FACTURACION = 3)) AND NOT V.CVE_DOC IN ('', '0') AND V.TIPO_FACTURACION != 2
+			FROM CFDI C WITH (nolock)
+			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON ((V.CVE_DOC = C.FACTURA) OR (V.CVE_VIAJE = C.CVE_VIAJE)) AND V.TIPO_FACTURACION != 2
 			LEFT JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = V.CVE_TRACTOR
-			INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV		
+			INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = V.CLIENTE	
 			INNER JOIN (
 							SELECT FACTURA, Orden = 6, Debe = ABS(RETENCION), Haber = CAST(0 AS float)
 							FROM CFDI WITH (nolock)
@@ -14185,14 +14184,14 @@ AS
 							UNION ALL
 							SELECT FACTURA, Orden = 8, Debe = CAST(0 AS float), Haber = SUBTOTAL
 							FROM CFDI WITH (nolock) 						
-							WHERE SUBTOTAL != 0) CFD ON CFD.FACTURA = FAC.CVE_DOC
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S' AND V.CVE_VIAJE != '' 
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, UN.CUEN_CONT_VTA, CFD.Orden, FAC.FOLIO, CLI.NOMBRE, FAC.NUM_MONED, FAC.IMPORTE, FAC.TIPCAMB, FAC.IDPOLIZACOI, FAC.SERIE
+							WHERE SUBTOTAL != 0) CFD ON CFD.FACTURA = C.FACTURA
+			WHERE C.ESTATUS != 'C' 
+			GROUP BY C.FECHA_CFDI, C.FACTURA, UN.CUEN_CONT_VTA, CFD.Orden, C.FOLIO, CLI.NOMBRE, C.NUM_MONED, C.IMPORTE, C.TIPCAMB, C.SERIE
 			UNION ALL
 			-- FACTURAS CON TIPO DE FACTURACIÓN 2
 			SELECT 					
-					FechaFactura = FAC.FECHA_DOC,
-					Factura = FAC.CVE_DOC,
+					FechaFactura = C.FECHA_CFDI,
+					Factura = C.FACTURA,
 					TipoFacturacion = 2,
 					FechaViaje = MIN(CFD.FECHA_CARGA),
 					Viaje = CFD.CVE_VIAJE,
@@ -14200,29 +14199,29 @@ AS
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
-					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
+					IdPoliza = 0, --isnull(FAC.IDPOLIZACOI, 0),
 					Orden = CFD.Orden,
 					TipoPoliza = '',
 					NoPolizaCuenta = CASE 										 
-										WHEN CFD.Orden = 6 THEN dbo.fn_get_cta(3, 7, FAC.FECHA_DOC) 
-										WHEN CFD.Orden = 7 THEN dbo.fn_get_cta(4, 7, FAC.FECHA_DOC) 
-										WHEN CFD.Orden = 8 THEN dbo.fn_formato_cuenta(dbo.fn_get_cta_folio(IIF(FAC.SERIE LIKE 'CP%', FAC.NUM_MONED, 1) , FAC.SERIE), CFD.CUENTA) 
+										WHEN CFD.Orden = 6 THEN dbo.fn_get_cta(3, 7, C.FECHA_CFDI) 
+										WHEN CFD.Orden = 7 THEN dbo.fn_get_cta(4, 7, C.FECHA_CFDI) 
+										WHEN CFD.Orden = 8 THEN dbo.fn_formato_cuenta(dbo.fn_get_cta_folio(IIF(C.SERIE LIKE 'CP%', C.NUM_MONED, 1) , C.SERIE), CFD.CUENTA) 
 										ELSE '' END,
 					ConceptoPolizaDepto = '0',
-					DiaConceptoMov = CONCAT(FAC.FOLIO, IIF(CFD.CVE_VIAJE = '', '', ' V' + CFD.CVE_VIAJE), ' ', CLI.NOMBRE) + CASE WHEN FAC.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(FAC.IMPORTE, 'N2'), ' ', FAC.TIPCAMB) ELSE '' END,
+					DiaConceptoMov = CONCAT(C.FOLIO, IIF(CFD.CVE_VIAJE = '', '', ' V' + CFD.CVE_VIAJE), ' ', CLI.NOMBRE) + CASE WHEN C.NUM_MONED = 2 THEN CONCAT(' ', FORMAT(C.IMPORTE, 'N2'), ' ', ISNULL(C.TIPCAMB, 1)) ELSE '' END,
 					TipoCambio = '1',
-					Debe = CASE WHEN SUM(CFD.Debe * FAC.TIPCAMB) = 0 THEN '' ELSE CONCAT('', CAST(SUM(CFD.Debe * FAC.TIPCAMB) AS decimal(18, 6))) END,
-					Haber = CASE WHEN SUM(CFD.Haber * FAC.TIPCAMB) = 0 THEN '' ELSE CONCAT('', CAST(SUM(CFD.Haber * FAC.TIPCAMB) AS decimal(18, 6))) END,
+					Debe = CASE WHEN SUM(CFD.Debe * ISNULL(C.TIPCAMB, 1)) = 0 THEN '' ELSE CONCAT('', CAST(SUM(CFD.Debe * ISNULL(C.TIPCAMB, 1)) AS decimal(18, 6))) END,
+					Haber = CASE WHEN SUM(CFD.Haber * ISNULL(C.TIPCAMB, 1)) = 0 THEN '' ELSE CONCAT('', CAST(SUM(CFD.Haber * ISNULL(C.TIPCAMB, 1)) AS decimal(18, 6))) END,
 					CentroCostos = '',
 					Proyecto = ''
-			FROM FACTF" & Empresa & " FAC WITH (nolock)		
-			INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV		
+			FROM CFDI C WITH (nolock)		
+			INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = C.CLIENTE		
 			INNER JOIN (
-							SELECT FACTURA = CVE_DOC, FECHA_CARGA, CVE_VIAJE = '', CUENTA = '', Orden = 6, Debe = ABS(RETENCION), Haber = CAST(0 AS float), TIPO_FACTURACION 
+							SELECT FACTURA = CVE_DOC, FECHA_CARGA, CVE_VIAJE, CUENTA = '', Orden = 6, Debe = ABS(RETENCION), Haber = CAST(0 AS float), TIPO_FACTURACION 
 							FROM GCASIGNACION_VIAJE WITH (nolock)
 							WHERE RETENCION != 0 AND CVE_VIAJE != '' AND NOT CVE_DOC IN ('', '0') AND TIPO_FACTURACION = 2
 							UNION ALL
-							SELECT FACTURA = CVE_DOC, FECHA_CARGA, CVE_VIAJE = '', CUENTA = '', Orden = 7, Debe = CAST(0 AS float), Haber = IVA, TIPO_FACTURACION 
+							SELECT FACTURA = CVE_DOC, FECHA_CARGA, CVE_VIAJE, CUENTA = '', Orden = 7, Debe = CAST(0 AS float), Haber = IVA, TIPO_FACTURACION 
 							FROM GCASIGNACION_VIAJE WITH (nolock)
 							WHERE IVA != 0 AND CVE_VIAJE != '' AND NOT CVE_DOC IN ('', '0') AND TIPO_FACTURACION = 2
 							UNION ALL
@@ -14230,13 +14229,13 @@ AS
 							FROM GCASIGNACION_VIAJE V WITH (nolock)
 							LEFT JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = CVE_TRACTOR
 							WHERE SUBTOTAL != 0 AND CVE_VIAJE != '' AND NOT V.CVE_DOC IN ('', '0') AND TIPO_FACTURACION = 2
-							) CFD ON CFD.FACTURA = FAC.CVE_DOC
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S' 
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.FOLIO, CLI.NOMBRE, FAC.NUM_MONED, FAC.IMPORTE, FAC.TIPCAMB, CFD.Orden, CFD.CUENTA, CFD.CVE_VIAJE, FAC.IDPOLIZACOI, FAC.SERIE
+							) CFD ON CFD.FACTURA = C.FACTURA
+			WHERE C.ESTATUS != 'C' 
+			GROUP BY C.FECHA_CFDI, C.FACTURA, C.FOLIO, CLI.NOMBRE, C.NUM_MONED, C.IMPORTE, C.TIPCAMB, CFD.Orden, CFD.CUENTA, CFD.CVE_VIAJE, C.SERIE
 			UNION ALL
 			SELECT	DISTINCT					
-					FechaFactura = FAC.FECHA_DOC,
-					Factura = FAC.CVE_DOC,
+					FechaFactura = C.FECHA_CFDI,
+					Factura = C.FACTURA,
 					TipoFacturacion = MIN(V.TIPO_FACTURACION),
 					FechaViaje = MIN(V.FECHA_CARGA),
 					Viaje = MIN(V.CVE_VIAJE),
@@ -14244,7 +14243,7 @@ AS
 					TipoCambioCFDI = '',
 					MonedaCFDI = '',
 					VersionCFDI = '',
-					IdPoliza = isnull(FAC.IDPOLIZACOI, 0),
+					IdPoliza = 0, -- isnull(FAC.IDPOLIZACOI, 0),
 					Orden = 9,
 					TipoPoliza = '',
 					NoPolizaCuenta = 'FIN_PARTIDAS',
@@ -14255,10 +14254,10 @@ AS
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
-			FROM FACTF" & Empresa & " FAC WITH (nolock)		
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON ((V.CVE_DOC = FAC.CVE_DOC AND V.TIPO_FACTURACION != 3) OR (V.CVE_VIAJE = FAC.CVE_VIAJE AND V.TIPO_FACTURACION = 3)) AND NOT V.CVE_DOC IN ('', '0')
-			WHERE FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S'
-			GROUP BY FAC.FECHA_DOC, FAC.CVE_DOC, FAC.IDPOLIZACOI
+			FROM CFDI C WITH (nolock)		
+			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON (V.CVE_DOC = C.FACTURA) OR (V.CVE_VIAJE = C.CVE_VIAJE)
+			WHERE C.ESTATUS != 'C'
+			GROUP BY C.FECHA_CFDI, C.FACTURA
 		
 			) QRY
 "
@@ -14710,7 +14709,7 @@ AS
 					DocAgr = '',
 					SubOrden = 0,
 					TipoPoliza = '',
-					NoPolizaCuenta = dbo.fn_get_cta_gtos('NOTAS VARIAS FISCALES'), 
+					NoPolizaCuenta = iif(MAX(SDO.Diferencia)>0, dbo.fn_formato_cuenta(dbo.fn_get_cta_gtos('NOTAS DIVERSAS'), UN.CUEN_CONT), dbo.fn_get_cta_gtos('NOTAS VARIAS FISCALES')), 
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
@@ -14724,7 +14723,7 @@ AS
 			LEFT JOIN GCLIQ_GASTOS_COMPROBADOS GC WITH (nolock) ON GC.CVE_LIQ = LIQ.CVE_LIQ AND (UPPER(GC.REFER) = 'NA' OR ISNULL(GC.REFER, '') = '')
 			INNER JOIN (SELECT CveLiq, Diferencia = SUM(Diferencia), Maniobra = SUM(Maniobra), ISR = SUM(ISR), IMSS = SUM(IMSS) FROM GCLIQ_SUELDO WITH (nolock) GROUP BY CveLiq) SDO ON SDO.CveLiq = LIQ.CVE_LIQ
 			WHERE LIQ.STATUS = 'L' 
-			GROUP BY LIQ.FECHA, LIQ.CVE_LIQ, LIQ.CVE_UNI, OP.NOMBRE, LIQ.IDPOLIZACOI
+			GROUP BY LIQ.FECHA, LIQ.CVE_LIQ, LIQ.CVE_UNI, OP.NOMBRE, LIQ.IDPOLIZACOI, UN.CUEN_CONT
 			HAVING (ISNULL(SUM(GC.TOTAL), 0) + MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS)) !=0
 			UNION ALL
 			SELECT						

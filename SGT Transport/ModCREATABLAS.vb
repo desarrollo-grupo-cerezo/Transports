@@ -15395,7 +15395,7 @@ AS
 					SubOrden = 0,
 					TipoPoliza = dbo.fn_get_TipoPolizaCOI(4),
 					NoPolizaCuenta = CASE WHEN MAX(PC.Folio) IS NULL THEN 'S/P' ELSE CAST(MAX(PC.Folio) AS VARCHAR) END, 
-					ConceptoPolizaDepto = CONCAT('DEPXBNX ',SUM(M.TCAMBIO*M.IMPORTE), ' ', P.NOMBRE),
+					ConceptoPolizaDepto = CONCAT('DEPXBNX ', FORMAT(SUM(M.TCAMBIO*M.IMPORTE), 'N2'), ' ', P.NOMBRE),
 					DiaConceptoMov = CONCAT('', DAY(M.FECHA_APLI)),
 					TipoCambio = '',
 					Debe = '',
@@ -15427,9 +15427,9 @@ AS
 					TipoPoliza = '',
 					NoPolizaCuenta = B.CUENTA_CONTABLE_FINANCIERA,
 					ConceptoPolizaDepto = '0',
-					DiaConceptoMov = CONCAT('DEPXBNX ',SUM(M.TCAMBIO*M.IMPORTE), ' ', P.NOMBRE),
+					DiaConceptoMov = CONCAT('DEPXBNX ',FORMAT(SUM(M.TCAMBIO*M.IMPORTE), 'N2'), ' ', P.NOMBRE),
 					TipoCambio = CONCAT('', M.TCAMBIO),
-					Debe = CONCAT('', SUM(M.TCAMBIO*M.IMPORTE)),
+					Debe = CONCAT('', CAST(SUM(M.TCAMBIO*M.IMPORTE) AS NUMERIC(27, 2))),
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
@@ -15461,7 +15461,7 @@ AS
 					DiaConceptoMov = CONCAT(F.FACTURA, ' DEPXBNX ',T.TOTAL, ' ', P.NOMBRE),
 					TipoCambio = CONCAT('', M.TCAMBIO),
 					Debe = '',
-					Haber = CONCAT('', (M.TCAMBIO*M.IMPORTE)),
+					Haber = CONCAT('', CAST((M.TCAMBIO*M.IMPORTE) AS NUMERIC(27, 2))),
 					CentroCostos = '',
 					Proyecto = ''
 			FROM CUEN_DET" & Empresa & " M WITH (nolock)
@@ -15653,7 +15653,7 @@ AS
 					INNER JOIN CLIE" & Empresa & " P WITH (nolock) ON P.CLAVE = M.CVE_CLIE 
 					INNER JOIN CFDI F WITH (nolock) ON F.FACTURA = M.REFER
 					INNER JOIN MONED" & Empresa & " N WITH (nolock) ON N.NUM_MONED = M.NUM_MONED			
-					GROUP BY M.DOCTO, M.FECHA_APLI, M.TCAMBIO, M.CVE_CLIE, P.NOMBRE, P.RFC, M.NUM_MONED, IDPOLIZACOI
+					GROUP BY M.DOCTO, M.FECHA_APLI, M.TCAMBIO, M.CVE_CLIE, P.NOMBRE, P.RFC, M.NUM_MONED, M.IDPOLIZACOI
 
 			) QRY"
 

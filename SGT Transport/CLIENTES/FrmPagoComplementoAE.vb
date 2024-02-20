@@ -1014,8 +1014,9 @@ Public Class FrmPagoComplementoAE
                                     CVE_DOC_F = aDATA(k, 0)
                                     UUID_F = aDATA(k, 1)
                                     Try
-                                        SQL = "INSERT INTO CFDI_REL" & Empresa & " (UUID, TIP_REL, CVE_DOC, CVE_DOC_REL, TIP_DOC, FECHA_CERT) 
-                                            VALUES ('" & UUID_F & "','" & PassData5 & "','" & CVE_DOC & "','" & CVE_DOC_F & "','P','" & FECHA_CERT & "')"
+                                        SQL = "IF NOT EXISTS(SELECT 1 FROM CFDI_REL" & Empresa & " WHERE CVE_DOC = '" & CVE_DOC & "' AND TIP_DOC = 'P' AND CVE_DOC_REL = '" & CVE_DOC_F & "') " &
+                                                "INSERT INTO CFDI_REL" & Empresa & " (UUID, TIP_REL, CVE_DOC, CVE_DOC_REL, TIP_DOC, FECHA_CERT) 
+                                                VALUES ('" & UUID_F & "','" & PassData5 & "','" & CVE_DOC & "','" & CVE_DOC_F & "','P','" & FECHA_CERT & "')"
 
                                         Using cmd As SqlCommand = cnSAE.CreateCommand
                                             cmd.CommandText = SQL

@@ -1102,13 +1102,31 @@ Module ModCREATABLAS
         CREA_CAMPO("GCASIGNACION_VIAJE_VALES", "USUARIO1", "VARCHAR", "30", "")
         CREA_CAMPO("GCASIGNACION_VIAJE_VALES", "USUARIO2", "VARCHAR", "30", "")
 
-        CREA_CAMPO("MINVE" & Empresa, "EXIFIN", "FLOAT", "", "")
-        CREA_CAMPO("MINVE" & Empresa, "EXIINI", "FLOAT", "", "")
-
         CREA_CAMPO("PAR_FACTF" & Empresa, "FACTURA_CIERRE", "VARCHAR", "9", "")
         CREA_CAMPO("PAR_FACTF" & Empresa, "CVE_PRODSERV", "VARCHAR", "9", "")
         CREA_CAMPO("PAR_FACTF" & Empresa, "CVE_UNIDAD", "VARCHAR", "5", "")
-        CREA_CAMPO("PAR_FACTF" & Empresa, "EXIFIN", "FLOAT", "", "")
+
+        CREA_CAMPO("PAR_FACTV" & Empresa, "FACTURA_CIERRE", "VARCHAR", "9", "")
+        CREA_CAMPO("PAR_FACTV" & Empresa, "CVE_PRODSERV", "VARCHAR", "9", "")
+        CREA_CAMPO("PAR_FACTV" & Empresa, "CVE_UNIDAD", "VARCHAR", "5", "")
+
+        CREA_CAMPO("PAR_FACTV" & Empresa, "FACTURA_CIERRE", "VARCHAR", "9", "")
+        CREA_CAMPO("PAR_FACTV" & Empresa, "CVE_PRODSERV", "VARCHAR", "9", "")
+        CREA_CAMPO("PAR_FACTV" & Empresa, "CVE_UNIDAD", "VARCHAR", "5", "")
+
+        CREA_CAMPO("PAR_FACTR" & Empresa, "FACTURA_CIERRE", "VARCHAR", "9", "")
+        CREA_CAMPO("PAR_FACTR" & Empresa, "CVE_PRODSERV", "VARCHAR", "9", "")
+        CREA_CAMPO("PAR_FACTR" & Empresa, "CVE_UNIDAD", "VARCHAR", "5", "")
+
+        CREA_CAMPO("PAR_FACTP" & Empresa, "FACTURA_CIERRE", "VARCHAR", "9", "")
+        CREA_CAMPO("PAR_FACTP" & Empresa, "CVE_PRODSERV", "VARCHAR", "9", "")
+        CREA_CAMPO("PAR_FACTP" & Empresa, "CVE_UNIDAD", "VARCHAR", "5", "")
+
+        CREA_CAMPO("PAR_FACTD" & Empresa, "FACTURA_CIERRE", "VARCHAR", "9", "")
+        CREA_CAMPO("PAR_FACTD" & Empresa, "CVE_PRODSERV", "VARCHAR", "9", "")
+        CREA_CAMPO("PAR_FACTD" & Empresa, "CVE_UNIDAD", "VARCHAR", "5", "")
+
+
 
         CREA_CAMPO("GCPARAMVENTAS", "VALIDAR_EXIST_PED", "SMALLINT", "", "")
 
@@ -1326,6 +1344,8 @@ Module ModCREATABLAS
         CREA_CAMPO("CFDI_COMPAGO", "CVE_DOC_REL", "VARCHAR", "20", "")
         CREA_CAMPO("CFDI_COMPAGO", "UUID_REL", "VARCHAR", "50", "")
         CREA_CAMPO("PARAM_FOLIOSF" & Empresa, "FTOEMISIONCFDI40", "VARCHAR", "1024", "")
+        CREA_CAMPO("PARAM_FOLIOSF" & Empresa, "IMPRESORA", "VARCHAR", "255", "")
+
         CREA_CAMPO("GCLLANTAS", "TIPO_RIN", "VARCHAR", "20", "")
         CREA_CAMPO("GCINSPEC_LLANTAS", "TIPO_RIN", "VARCHAR", "20", "")
 
@@ -14475,7 +14495,7 @@ AS
 											ELSE '' END 
 											, ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
-					Debe = CONCAT('', CASE	WHEN T.Tipo = 1 THEN SDO.Diferencia 
+					Debe = CONCAT('', CASE	WHEN T.Tipo = 1 THEN iif(SDO.Diferencia = 0, SDO.Sueldo, SDO.Diferencia) 
 											WHEN T.Tipo = 2 THEN SDO.Maniobra 
 											WHEN T.Tipo = 3 THEN (SDO.ISR+SDO.IMSS) 
 											WHEN T.Tipo = 6 THEN SDO.ISR 
@@ -14490,7 +14510,7 @@ AS
 			INNER JOIN GCLIQ_PARTIDAS LP WITH (nolock) ON LP.CVE_LIQ = LIQ.CVE_LIQ
 			LEFT JOIN GCLIQ_SUELDO SDO WITH (nolock) ON SDO.CveLiq = LIQ.CVE_LIQ AND SDO.CveViaje = LP.CVE_VIAJE
 			INNER JOIN (SELECT Tipo = 1 UNION ALL SELECT Tipo = 2 UNION ALL SELECT Tipo = 3 UNION ALL SELECT Tipo = 4 UNION ALL SELECT Tipo = 5 UNION ALL SELECT Tipo = 6 UNION ALL SELECT Tipo = 7) T ON 
-				(T.Tipo = 1 AND SDO.Diferencia != 0) OR
+				(T.Tipo = 1 AND (SDO.Diferencia != 0 OR SDO.Sueldo != 0)) OR
 				(T.Tipo = 2 AND SDO.Maniobra != 0) OR
 				(T.Tipo = 3 AND (SDO.ISR+SDO.IMSS) != 0) OR
 				(T.Tipo = 4 AND SDO.ISR != 0) OR
@@ -14626,7 +14646,7 @@ AS
 					FROM CUENTA_BENEF" & Empresa & " C
 					INNER JOIN GCBANCOS B ON B.CVE_BANCO = C.CVE_BANCO
 					GROUP BY B.DESCR) EmpBancos ON EmpBancos.Banco = B.DESCR
-			WHERE LIQ.STATUS = 'L' 			
+			WHERE LIQ.STATUS = 'L'  AND LIQ.IMPORTE!=0			
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -14691,7 +14711,7 @@ AS
 			LEFT JOIN (SELECT CVE_LIQ, IMPORTE = SUM(IMPORTE) FROM GCASIGNACION_VIAJE_GASTOS WITH (nolock) GROUP BY CVE_LIQ) GV  ON GV.CVE_LIQ = LIQ.CVE_LIQ	
 			LEFT JOIN (SELECT CVE_LIQ, IMPORTE = SUM(IMPORTE) FROM GCLIQ_DEDUCCIONES WITH (nolock) GROUP BY CVE_LIQ) LD ON LD.CVE_LIQ = LIQ.CVE_LIQ 
 			LEFT JOIN (SELECT CVE_LIQ, IMPORTE = SUM(IMPORTE) FROM GCLIQ_PENSION_ALI WITH (nolock) GROUP BY CVE_LIQ) PA ON PA.CVE_LIQ = LIQ.CVE_LIQ 
-			WHERE LIQ.STATUS = 'L' AND (ISNULL(GV.IMPORTE, 0) + ISNULL(LD.IMPORTE, 0)) !=0			
+			WHERE LIQ.STATUS = 'L' AND ((ISNULL(GV.IMPORTE, 0) + ISNULL(LD.IMPORTE, 0) + ISNULL(PA.IMPORTE, 0))*-1) !=0			
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -14709,22 +14729,25 @@ AS
 					DocAgr = '',
 					SubOrden = 0,
 					TipoPoliza = '',
-					NoPolizaCuenta = iif(MAX(SDO.Diferencia)>0, dbo.fn_formato_cuenta(dbo.fn_get_cta_gtos('NOTAS DIVERSAS'), UN.CUEN_CONT), dbo.fn_get_cta_gtos('NOTAS VARIAS FISCALES')), 
+					NoPolizaCuenta = iif(MAX(SDO.Diferencia)=0, dbo.fn_formato_cuenta(dbo.fn_get_cta_gtos('NOTAS DIVERSAS'), UN.CUEN_CONT), dbo.fn_get_cta_gtos('NOTAS VARIAS FISCALES')), 
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
-					Haber = CONCAT('', CAST(ISNULL(SUM(GC.TOTAL), 0) AS decimal(27, 6)) + MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS)),
+					Haber = CONCAT('', iif(MAX(SDO.Diferencia)=0, MAX(SDO.SueldoExcedido)+CAST(ISNULL(SUM(GC.TOTAL), 0) AS decimal(27, 6)),											
+											CAST(ISNULL(SUM(GC.TOTAL), 0) AS decimal(27, 6)) + MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS)
+											)),
 					CentroCostos = '',
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
 			INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER			
 			INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI
 			LEFT JOIN GCLIQ_GASTOS_COMPROBADOS GC WITH (nolock) ON GC.CVE_LIQ = LIQ.CVE_LIQ AND (UPPER(GC.REFER) = 'NA' OR ISNULL(GC.REFER, '') = '')
-			INNER JOIN (SELECT CveLiq, Diferencia = SUM(Diferencia), Maniobra = SUM(Maniobra), ISR = SUM(ISR), IMSS = SUM(IMSS) FROM GCLIQ_SUELDO WITH (nolock) GROUP BY CveLiq) SDO ON SDO.CveLiq = LIQ.CVE_LIQ
+			INNER JOIN (SELECT CveLiq, Diferencia = SUM(Diferencia), Maniobra = SUM(Maniobra), ISR = SUM(ISR), IMSS = SUM(IMSS), SueldoExcedido = SUM(Sueldo) - SUM(Diferencia) FROM GCLIQ_SUELDO WITH (nolock) GROUP BY CveLiq) SDO ON SDO.CveLiq = LIQ.CVE_LIQ
 			WHERE LIQ.STATUS = 'L' 
 			GROUP BY LIQ.FECHA, LIQ.CVE_LIQ, LIQ.CVE_UNI, OP.NOMBRE, LIQ.IDPOLIZACOI, UN.CUEN_CONT
 			HAVING (ISNULL(SUM(GC.TOTAL), 0) + MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS)) !=0
+				   OR (MAX(SDO.SueldoExcedido)>0)
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -14759,7 +14782,7 @@ AS
 					FROM CUENTA_BENEF" & Empresa & " C
 					INNER JOIN GCBANCOS B ON B.CVE_BANCO = C.CVE_BANCO
 					GROUP BY B.DESCR) EmpBancos ON EmpBancos.Banco = B.DESCR
-			WHERE LIQ.STATUS = 'L' 
+			WHERE LIQ.STATUS = 'L'  AND LIQ.IMPORTE!=0
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -14831,12 +14854,17 @@ AS
 	                    DECLARE @ISR decimal(27,6)
 	                    DECLARE @IMSS decimal(27,6)
 
-	                    SELECT @CveOper = CVE_OPER, @Fecha = FECHA, @IdPolizaCOI = IDPOLIZACOI FROM GCLIQUIDACIONES WHERE CVE_LIQ = @CveLiq
+						DECLARE @StatusLiq varchar(10)
+
+	                    SELECT @CveOper = CVE_OPER, @Fecha = FECHA, @IdPolizaCOI = IDPOLIZACOI, @StatusLiq = [STATUS] FROM GCLIQUIDACIONES WHERE CVE_LIQ = @CveLiq
 
 	                    IF @IdPolizaCOI != null 
 		                    RETURN
 
 	                    DELETE FROM GCLIQ_SUELDO WHERE CveLiq = @CveLiq
+
+						IF @StatusLiq != 'L' 
+		                    RETURN
 
 	                    SET @SueldoDiarioOperador = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 1)
 	                    SET @PorcentajeManiobra = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 2)
@@ -14911,6 +14939,46 @@ AS
                     END"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
+
+            If EXISTE_STORE_PROCEDURE("sp_LiqCalculaSueldoAll") Then
+                SQL = "DROP PROCEDURE sp_LiqCalculaSueldoAll"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
+            SQL = "CREATE PROCEDURE [dbo].[sp_LiqCalculaSueldoAll] 
+	@Fecha datetime
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+
+	DECLARE @CveLiq int
+	DECLARE @mCursor as CURSOR;
+
+	DELETE FROM GCLIQ_SUELDO WHERE MONTH(Fecha) = MONTH(@Fecha) AND YEAR(Fecha) = YEAR(@Fecha);
+
+	SET @mCursor = CURSOR FAST_FORWARD FOR
+		SELECT CVE_LIQ FROM GCLIQUIDACIONES 
+		WHERE MONTH(FECHA) = MONTH(@Fecha) AND YEAR(FECHA) = YEAR(@Fecha) --IDPOLIZACOI IS NULL 
+		ORDER BY FECHA, CVE_LIQ
+ 
+	OPEN @mCursor;
+	FETCH NEXT FROM @mCursor INTO @CveLiq;
+	 WHILE @@FETCH_STATUS = 0
+	BEGIN
+     
+		 --PRINT CONCAT('EXEC [dbo].[sp_LiqCalculaSueldo] ', @CveLiq)
+		 EXEC [dbo].[sp_LiqCalculaSueldo] @CveLiq
+
+		 FETCH NEXT FROM @mCursor INTO @CveLiq;
+	END
+	CLOSE @mCursor;
+	DEALLOCATE @mCursor;	                    
+
+END"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
 
             If EXISTE_STORE_PROCEDURE("sp_ObtieneImpuestosFactura") Then
                 SQL = "DROP PROCEDURE sp_ObtieneImpuestosFactura"
@@ -16754,6 +16822,8 @@ END"
 
 
     End Sub
+
+
 
 
 End Module

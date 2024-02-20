@@ -4,7 +4,7 @@ Imports System.IO
 Imports System.Data.SqlClient
 Imports C1.Win.C1FlexGrid
 Imports System.ComponentModel
-Imports System.Runtime.InteropServices
+
 
 Public Class FrmTPV
 
@@ -12,6 +12,9 @@ Public Class FrmTPV
     Private SERIE_POS As String
     Private LONGITUD As Integer
     Private PRINTDIRECTPV As Integer
+    Private ABONOS_NC As Decimal
+    Private MONTO_FACTURA As Decimal
+    Private HacerCero As Boolean = False
 
     Private FTP_CFDI_DEV As String = ""
     Private gUSUARIO_PAC As String
@@ -226,28 +229,33 @@ Public Class FrmTPV
 
         ENTRA = True
 
-        Var24 = ""
-        FrmSelFactura.ShowDialog()
-        If Var24.Trim.Length > 0 Then
-            Try
-                Using cmd As SqlCommand = cnSAE.CreateCommand
-                    SQL = "SELECT CVE_CLPV FROM FACTF" & Empresa & " F WHERE CVE_DOC = '" & Var24 & "'"
-                    cmd.CommandText = SQL
-                    Using dr As SqlDataReader = cmd.ExecuteReader
-                        If dr.Read Then
-                            TCLIENTE.Text = dr("CVE_CLPV")
-                            TCLIENTE_Validated(Nothing, Nothing)
-                        End If
+        If MODO_EDIT <> "edit" Then
+            Var24 = ""
+            FrmSelFactura.ShowDialog()
+            If Var24.Trim.Length > 0 Then
+                Try
+                    LtDocRel.Text = Var24
+
+                    Using cmd As SqlCommand = cnSAE.CreateCommand
+                        SQL = "SELECT CVE_CLPV FROM FACTF" & Empresa & " F WHERE CVE_DOC = '" & Var24 & "'"
+                        cmd.CommandText = SQL
+                        Using dr As SqlDataReader = cmd.ExecuteReader
+                            If dr.Read Then
+                                TCLIENTE.Text = dr("CVE_CLPV")
+                                TCLIENTE_Validated(Nothing, Nothing)
+                            End If
+                        End Using
+                        CboMoneda.SelectedIndex = 0
                     End Using
-                    CboMoneda.SelectedIndex = 0
-                End Using
-            Catch ex As Exception
-                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
-                MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
-            End Try
-        Else
-            Me.Close()
+                Catch ex As Exception
+                    Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                    MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+                End Try
+            Else
+                Me.Close()
+            End If
         End If
+
     End Sub
     Private Sub FrmTPV_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         Try
@@ -335,8 +343,6 @@ Public Class FrmTPV
             CARGA_PARAM_VENTAS()
 
             CARGA_PARAM_INVENT()  'LEER MULTIALMACEN O o 1  
-
-            CARGA_PARAM_CFDI()
 
             CARGAR_PARAM_USUARIO()
 
@@ -510,6 +516,7 @@ Public Class FrmTPV
         Page2.TabVisible = False
         Page3.TabVisible = False
         BarTimbrarNC.Enabled = False
+        BarCancNC.Enabled = False
 
         Select Case TIPO_VENTA_LOCAL
             Case "F"
@@ -546,13 +553,14 @@ Public Class FrmTPV
 
                     If Var18 = "Timbrada" Then
                         BarTimbrarNC.Enabled = False
+                        BarCancNC.Enabled = False
                         BarObserDoc.Enabled = False
                         BarObserPar.Enabled = False
 
                     End If
 
                     If CVE_ART_NC.Trim.Length = 0 Then
-                        MsgBox("Por favor capture la clave del articulo para notas de crédito en parámetros-configuración CFDI")
+                        MsgBox("Por favor capture la clave del articulo para notas de crédito en configurcion-parámetros-param ventas-pestaña transport")
                     End If
                 End If
         End Select
@@ -722,10 +730,13 @@ Public Class FrmTPV
 
                     If Var18 = "Timbrada" Then
                         BarTimbrarNC.Enabled = False
+                        BarCancNC.Enabled = False
                         BarObserDoc.Enabled = False
                         BarObserPar.Enabled = False
                     Else
                         BarObserDoc.Enabled = True : BarObserPar.Enabled = True
+                        BarTimbrarNC.Enabled = True
+                        BarCancNC.Enabled = True
                     End If
 
                     Label30.Visible = Efecto
@@ -743,6 +754,7 @@ Public Class FrmTPV
                     tEsquema.Enabled = True : Fg.Enabled = True : CboTipoVenta.Enabled = True : F1.Enabled = False : BarGrabar.Enabled = True
                     BarEliminar.Enabled = True : BarObserDoc.Enabled = True : BarSerie.Enabled = True : BarAltaProv.Enabled = True : BarAltaArticulo.Enabled = True
                     BarTimbrarNC.Enabled = False
+                    BarCancNC.Enabled = False
 
                     Fg.Cols(1).Visible = False
                     Fg(0, 2) = "Cantidad"
@@ -1047,30 +1059,6 @@ Public Class FrmTPV
         End Try
     End Sub
 
-    Sub CARGA_PARAM_CFDI()
-        Try
-            Dim cmd As New SqlCommand
-            Dim dr As SqlDataReader
-
-            CVE_ART_NC = ""
-
-            cmd.Connection = cnSAE
-            SQL = "SELECT ISNULL(CVE_ART_NC,'') AS ART_NC, NUM_CPTO_NC FROM CFDI_CFG"
-            cmd.CommandText = SQL
-            dr = cmd.ExecuteReader
-
-            If dr.Read Then
-                'NUM_CPTO_NC = dr.ReadNullAsEmptyInteger("NUM_CPTO_NC")
-                CVE_ART_NC = dr.ReadNullAsEmptyString("ART_NC")
-            End If
-            dr.Close()
-        Catch ex As Exception
-            BITACORATPV("75. " & ex.Message & vbNewLine & ex.StackTrace)
-            MsgBox("75. " & ex.Message & vbNewLine & ex.StackTrace)
-        End Try
-
-    End Sub
-
     Sub CARGA_PARAM_INVENT()
         Try
             Dim cmd As New SqlCommand
@@ -1086,6 +1074,7 @@ Public Class FrmTPV
             If dr.Read Then
                 MULTIALMACEN = dr("M_ULTIALMACEN")
                 CVE_ART_NC = dr("CVEARTNC")
+
             End If
             dr.Close()
         Catch ex As Exception
@@ -1221,7 +1210,7 @@ Public Class FrmTPV
                     DOC_SIG, ISNULL(ENLAZADO,'') AS ENLAZADO_DOC, F.STATUS, P.CVE_ESQ, ISNULL(P.FACTURA_CIERRE,'') AS FAC_CIERRE,
                     ISNULL(I.CON_LOTE,'') AS CONLOTE, P.CVE_ESQ, F.FORMADEPAGOSAT, F.METODODEPAGO, F.SERIE, TIP_DOC_ANT, DOC_ANT,
                     P.DESC3 AS MONTO_REMISIONADO, CAN_TOT, IMPORTE
-                    From PAR_FACT" & fTIPOC.ToUpper & Empresa & " P
+                    FROM PAR_FACT" & fTIPOC.ToUpper & Empresa & " P
                     LEFT JOIN FACT" & fTIPOC.ToUpper & Empresa & " F ON F.CVE_DOC = P.CVE_DOC
                     LEFT JOIN OBS_DOCF" & Empresa & " OD ON OD.CVE_OBS = F.CVE_OBS
                     LEFT JOIN OBS_DOCF" & Empresa & " OP ON OP.CVE_OBS = P.CVE_OBS
@@ -1624,11 +1613,13 @@ Public Class FrmTPV
                                     s &= dr("CVE_ESQ") & vbTab '28
                                     s &= MONTO_REMISIONADO & vbTab '29
                                     s &= dr("TIPOELE") & vbTab '30 TIPO_ELE
-                                    s &= dr("LINEA") '31    LINEA
-                                    s &= "" '32    politica
-                                    s &= 0 '33    PREC_PUBLICO PRECIO
-                                    s &= 0 '34    LISTA_PREC_VTA 'LISTA DE PRECIOS
-                                    s &= 0 '35    CANT_POLIT 'PIEZAS
+                                    s &= dr("LINEA") & vbTab  '31    LINEA
+                                    s &= "" & vbTab  '32    politica
+                                    s &= 0 & vbTab '33    PREC_PUBLICO PRECIO
+                                    s &= 0 & vbTab '34    LISTA_PREC_VTA 'LISTA DE PRECIOS
+                                    s &= 0 & vbTab '35    CANT_POLIT 'PIEZAS
+                                    s &= 0 & vbTab  '36  ABONOS DESDE CUENDET
+
 
                                     'Fg(z, 32) = "" 'POLITICA
                                     'Fg(z, 33) = 0 'PREC_PUBLICO PRECIO
@@ -2148,17 +2139,17 @@ Public Class FrmTPV
                     Ldocu.Tag = Var18 ' = "Digital"
 
                     If TIPO_VENTA_LOCAL = "D" And Ldocu.Tag = "Digital" Then
-                        If CVE_ART_NC.Trim.Length = 0 Then
-                            MsgBox("Por favor capture la clave del articulo para notas de crédito en parámetros-inventario")
-                        Else
-                            '1,4,6,13
-                            Fg.Row = 1
-                            Fg(1, 1) = 1
-                            Fg(1, 2) = 1
-                            Fg(1, 4) = CVE_ART_NC
-                            Fg.Col = 4
+                        'If CVE_ART_NC.Trim.Length = 0 Then
+                        'MsgBox("Por favor capture la clave del articulo para notas de crédito en configurcion-parámetros-param ventas-pestaña transport")
+                        'Else
+                        '1,4,6,13
+                        Fg.Row = 1
+                        Fg(1, 1) = 1
+                        Fg(1, 2) = 1
+                        Fg(1, 4) = CVE_ART_NC
+                        Fg.Col = 4
 
-                        End If
+                        'End If
                     End If
                 Else
                     Ldocu.Tag = "Impresión"
@@ -2408,7 +2399,7 @@ Public Class FrmTPV
     Private Sub BarTotales_Click(sender As Object, e As EventArgs) Handles BarTotales.Click
 
         If Not ExistenPartidas() Then
-            MsgBox("No existen partidas por favor agreguelas")
+            MsgBox("No existen partidas por favor agréguelas")
             Return
         End If
 
@@ -2688,6 +2679,7 @@ Public Class FrmTPV
     Private Function ExistenPartidas() As Boolean
         Try
             Dim Siok As Boolean = False
+
             For k = 1 To Fg.Rows.Count - 1
                 Try
                     If Fg(k, 2) > 0 And Fg(k, 4).ToString.Trim.Length > 0 Then
@@ -2840,7 +2832,7 @@ Public Class FrmTPV
         Dim DESDE_INVE As String, MOV_ENLAZADO As Integer, FORMADEPAGOSAT As String = "", UNI_MED As String, COSTO_PROM As Decimal, UUID As String
         Dim SIGUE As Boolean, FOLIO_ASIGNADO As Boolean, cIEPS As Decimal, cIMPU As Decimal, UNI_VENTA As String, DETEC_ERROR_VIOLATION_KEY As Boolean
         Dim CVE_PRODSERV As String = "", CVE_UNIDAD As String = "", SUBTOTAL2 As Decimal
-        Dim Continua2 As Boolean
+        Dim Continua2 As Boolean, CVE_DOC_REL As String = ""
 
         Dim cmdT As New SqlCommand
         Dim cmdF As New SqlCommand
@@ -3039,11 +3031,12 @@ Public Class FrmTPV
                     If TIPO_VENTA_LOCAL = "D" Then
                         'DEVOLUCION
                         If Ldocu.Tag = "Digital" Then
-                            If CVE_ART_NC.Trim.Length = 0 Then
-                                MsgBox("Por favor capture la clave del artículo para notas de crédito en parametros-inventario")
-                                Return
-                            End If
-                            If LtFAC_CVE_DOC.Text.Trim.Length = 0 Then
+                            'If CVE_ART_NC.Trim.Length = 0 Then
+                            'MsgBox("Por favor capture la clave del artículo para notas de crédito en parametros-inventario")
+                            'Return
+                            'End If
+                            If Lt2.Text.Trim.Length = 0 Then
+
                                 If MsgBox("No ha enlazado ninguna factura desea continuar?", vbYesNo) = vbNo Then
                                     Return
                                 End If
@@ -3334,16 +3327,7 @@ Public Class FrmTPV
                     CANT = 0 : NUM_ALM = 1 : CVE_ART = ""
                 End Try
 
-                Continua2 = False
-                If CHCAMPOLIB_CUADRILLA = 0 Then
-                    If CANT > 0 Then
-                        Continua2 = True
-                    End If
-                Else
-                    Continua2 = True
-                End If
-
-                If Continua2 And CVE_ART.Trim.Length > 0 Then
+                If CANT > 0 And CVE_ART.Trim.Length > 0 Then
 
                     DOC_ANT = Fg(k, 20)
                     TIP_DOC_ANT = Fg(k, 21)
@@ -3566,8 +3550,8 @@ Public Class FrmTPV
                                     SET ENLAZADO = 'T', TIP_DOC_E = '" & TIPO_VENTA_LOCAL & "', 
                                     TIP_DOC_SIG = '" & TIPO_VENTA_LOCAL & "', DOC_SIG = '" & CVE_DOC & "' 
                                     WHERE CVE_DOC = '" & DOC_ANT & "'"
-                                returnValue2 = EXECUTE_QUERY_NET(SQL)
 
+                                returnValue2 = EXECUTE_QUERY_NET(SQL)
                             End If
                         End If
 
@@ -3797,7 +3781,6 @@ Public Class FrmTPV
 
                     If TIPO_VENTA_LOCAL = "D" And Ldocu.Tag = "Digital" And DOC_NEW Then
 
-                        Dim CVE_DOC_REL As String = ""
 
                         For k = 0 To aDATA.GetLength(0) - 1
                             If Not IsNothing(aDATA(k, 0)) And Not IsNothing(aDATA(k, 1)) Then
@@ -3901,7 +3884,7 @@ Public Class FrmTPV
         For k = 1 To Fg.Rows.Count - 1
 
             For w = 1 To 5
-                If Valida_Conexion() Then
+                If Not Valida_Conexion() Then
                     Exit For
                 End If
             Next
@@ -3971,7 +3954,7 @@ Public Class FrmTPV
                 Continua2 = True
             End If
 
-            If Continua2 And CVE_ART.Trim.Length > 0 Then
+            If CANT > 0 And CVE_ART.Trim.Length > 0 Then
                 Try
                     SQL = "SELECT UNI_MED, I.CVE_ESQIMPU, ISNULL(I.ULT_COSTO,0) AS ULTCOSTO, ISNULL(I.COSTO_PROM,0) AS COSTOPROM,
                         COALESCE(P.IMPUESTO1,0) AS IMPU1, COALESCE(P.IMPUESTO2,0) AS IMPU2, COALESCE(P.IMPUESTO3,0) AS IMPU3,
@@ -4054,6 +4037,7 @@ Public Class FrmTPV
                     DESC1 = Fg(k, 8)
 
                     PRECIO = Fg(k, 13)
+
                     PREC = PRECIO
 
                     DESC2 = 0 : DESC3 = 0
@@ -4127,7 +4111,7 @@ Public Class FrmTPV
                         COMI & "','" & APAR & "','" & ACT_INV & "','" & NUM_ALM & "','" & POLIT_APLI & "','" & TIP_CAM & "','" & UNI_MED & "','" &
                         TIPO_PROD & "','" & CVE_OBS & "','" & REG_SERIE & "','" & E_LTPD & "','" & TIPO_ELEM & "','0','" & Math.Round(TOT_PARTIDA, 6) &
                         "','S',GETDATE(),'" & MAN_IEPS & "','" & APL_MAN_IMP & "','" & CUOTA_IEPS & "','" & APL_MAN_IEPS & "','" & MTO_PORC & "','" &
-                        MTO_CUOTA & "','" & CVE_DOC_ENLAZADO & "','" & CVE_ESQ & "','" & CVE_PRODSERV & "','" & CVE_UNIDAD & "',NEWID())"
+                        MTO_CUOTA & "','" & Fg(k, 6) & "','" & CVE_ESQ & "','" & CVE_PRODSERV & "','" & CVE_UNIDAD & "',NEWID())"
                     Try
                         cmdF.Connection = cnSAE
                         cmdF.CommandText = SQL
@@ -4272,8 +4256,7 @@ Public Class FrmTPV
                                             CVE_PROD & "' AND CVE_CPTO = " & CVE_CPTO & " AND ALMACEN = " & NUM_ALM & ")
                                             INSERT INTO MINVE" & Empresa & " (CVE_ART, ALMACEN, NUM_MOV, CVE_CPTO, FECHA_DOCU, TIPO_DOC, REFER, CLAVE_CLPV,
                                             VEND, CANT, CANT_COST, PRECIO, COSTO, REG_SERIE, UNI_VENTA, E_LTPD, EXIST_G, EXISTENCIA, TIPO_PROD, FACTOR_CON,
-                                            FECHAELAB, CVE_FOLIO, SIGNO, COSTEADO, COSTO_PROM_INI, COSTO_PROM_FIN, DESDE_INVE, MOV_ENLAZADO, COSTO_PROM_GRAL, 
-                                            EXIINI, EXIFIN)
+                                            FECHAELAB, CVE_FOLIO, SIGNO, COSTEADO, COSTO_PROM_INI, COSTO_PROM_FIN, DESDE_INVE, MOV_ENLAZADO, COSTO_PROM_GRAL)
                                             VALUES ('" & CVE_PROD & "','" & NUM_ALM & "','" & NUM_MOV_KIT & "','" & CVE_CPTO & "','" & FECHA_DOC & "','" &
                                             TIPO_VENTA_LOCAL & "','" & CVE_DOC & "','" & CLIENTE & "','" & CVE_VEND & "','" & CANT_KIT & "','" &
                                             CANT_KIT & "','" & PRECIO_KIT & "','" & COST & "','" & REG_SERIE & "','" & UNI_MED & "','" & E_LTPD & "'," &
@@ -4287,7 +4270,7 @@ Public Class FrmTPV
                                         SQL &= TIPO_PROD & "','" & FACTOR_CON & "',GETDATE(),(SELECT ULT_CVE FROM TBLCONTROL" & Empresa & " 
                                             WHERE ID_TABLA = 32),'" &
                                              SIGNO & "','" & COSTEADO & "','" & COSTO_PROM_INI & "','" & COSTO_PROM_FIN & "','" & DESDE_INVE & "','" &
-                                             MOV_ENLAZADO & "','" & COSTO_PROM_GRAL & "','" & EXI_INI2 & "','" & (EXI_INI2 - CANT) & "')"
+                                             MOV_ENLAZADO & "','" & COSTO_PROM_GRAL & "')"
                                         Try
                                             Using cmd3 As SqlCommand = cnSAE.CreateCommand
                                                 cmd3.CommandText = SQL
@@ -4362,8 +4345,7 @@ Public Class FrmTPV
                             REFER = '" & CVE_DOC & "' AND CVE_ART = '" & CVE_ART & "' AND CVE_CPTO = " & CVE_CPTO & " AND ALMACEN = " & NUM_ALM & ")
                             INSERT INTO MINVE" & Empresa & " (CVE_ART, ALMACEN, NUM_MOV, CVE_CPTO, FECHA_DOCU, TIPO_DOC, REFER, CLAVE_CLPV,
                             VEND, CANT, CANT_COST, PRECIO, COSTO, REG_SERIE, UNI_VENTA, E_LTPD, EXIST_G, EXISTENCIA, TIPO_PROD, FACTOR_CON,
-                            FECHAELAB, CVE_FOLIO, SIGNO, COSTEADO, COSTO_PROM_INI, COSTO_PROM_FIN, DESDE_INVE, MOV_ENLAZADO, COSTO_PROM_GRAL, 
-                            EXIINI, EXIFIN)
+                            FECHAELAB, CVE_FOLIO, SIGNO, COSTEADO, COSTO_PROM_INI, COSTO_PROM_FIN, DESDE_INVE, MOV_ENLAZADO, COSTO_PROM_GRAL)
                             VALUES('" &
                             CVE_ART & "','" & NUM_ALM & "',(SELECT COALESCE(MAX(NUM_MOV),0) + 1 FROM MINVE" & Empresa & "),'" &
                             CVE_CPTO & "','" & FECHA_DOC & "','" & TIPO_VENTA_LOCAL & "','" & CVE_DOC & "','" & CLIENTE & "','" & CVE_VEND & "','" &
@@ -4376,7 +4358,7 @@ Public Class FrmTPV
                         End If
                         SQL &= TIPO_PROD & "','" & FACTOR_CON & "',GETDATE(),(SELECT ULT_CVE FROM TBLCONTROL" & Empresa & " WHERE ID_TABLA = 32),'" &
                             SIGNO & "','" & COSTEADO & "','" & Math.Round(COSTO_PROM_INI, 6) & "','" & Math.Round(COSTO_PROM_FIN, 6) & "','" & DESDE_INVE & "','" &
-                            MOV_ENLAZADO & "','" & Math.Round(COSTO_PROM_GRAL, 6) & "','" & EXI_INI & "','" & (EXI_INI - CANT) & "')"
+                            MOV_ENLAZADO & "','" & Math.Round(COSTO_PROM_GRAL, 6) & "')"
                         Try
                             Using cmd3 As SqlCommand = cnSAE.CreateCommand
                                 cmd3.CommandText = SQL
@@ -4686,8 +4668,9 @@ Public Class FrmTPV
 
         If TIPO_VENTA_LOCAL = "D" And Ldocu.Tag = "Digital" Then
 
-            If Var18 <> "Timbrada" Then
-                GRABAR_CFDI_REL("D", CVE_DOC)
+            GRABAR_CFDI_REL("D", CVE_DOC, CVE_DOC_REL)
+
+            If Var18 = "NONONONONONONONO-Timbrada" Then
 
                 Dim d1 As DateTime = F1.Value
                 Dim FECHA_CERT As String = d1.ToString("yyyy/MM/ddTHH:mm:ss")
@@ -4695,10 +4678,14 @@ Public Class FrmTPV
                 If cbRegimenesFiscales.SelectedItem IsNot Nothing Then REG_FISC = (CType(cbRegimenesFiscales.SelectedItem, cRegimenFiscal)).RegimenFiscal
                 USO_CFDI = cbUsoCfdi.Items(cbUsoCfdi.SelectedIndex).ToString.Substring(0, 3)
 
-                MONEDA = CboMoneda.SelectedItem
+                MONEDA = IIf(CboMoneda.SelectedItem.ToString.IndexOf("MXN") > -1, "MXN", CboMoneda.SelectedItem.ToString.Substring(4, 3))
 
                 METODODEPAGO = (CType(cbMetodoPago.SelectedItem, cMetodoPago)).MetodoPago
+
+                Debug.Print(CboMoneda.SelectedItem.ToString.Substring(4, 3))
+
                 FORMAPAGO = (CType(cbFormaPago.SelectedItem, cFormaPago)).FormaPago
+
 
                 TimbrarDigiBoxNC(CVE_DOC, DOC_ENLAZADO, CAN_TOT, IMP_TOT1, IMP_TOT2, IMP_TOT3, IMP_TOT4, IMPORTE, TCLIENTE.Text, LtNombre.Text, FECHA_CERT,
                                 LtRFC.Text, LtCP.Text)
@@ -4710,14 +4697,8 @@ Public Class FrmTPV
             Var18 = ""
             Var16 = ""
 
-            IMPRIMIR_CFDI_DIRECTO(CVE_DOC, "PDF", PassData8, RFC)
-            ' INICA PROCESO DE TIMBRAR 
-            'FrmTimbrarCdeP.LtNombre.Text = LtNombre.Text
-            'FrmTimbrarCdeP.LtRFC.Text = LtRFC.Text
-            'FrmTimbrarCdeP.LtUSO_CFDI.Text = USO_CFDI
-            'FrmTimbrarCdeP.LtRegimenReceptor.Text = REG_FISC
-            'FrmTimbrarCdeP.LtCP.Text = LtCP.Text
-            'FrmTimbrarCdeP.ShowDialog()
+            'IMPRIMIR_CFDI_DIRECTO(CVE_DOC, "PDF", PassData8, RFC)
+
             LtFAC_CVE_DOC.Text = ""
             LtUUID.Text = ""
 
@@ -4746,7 +4727,7 @@ Public Class FrmTPV
                 returnValue2 = EXECUTE_QUERY_NET(SQL)
 
                 PassData1 = "FACTURA"
-                GRABAR_CFDI_REL("F", CVE_DOC)
+                GRABAR_CFDI_REL("F", CVE_DOC, CVE_DOC_REL)
 
 
                 '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
@@ -4819,7 +4800,7 @@ Public Class FrmTPV
             MsgBox("1990. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
-    Sub GRABAR_CFDI_REL(FTIPO_DOC As String, FCVE_DOC As String)
+    Sub GRABAR_CFDI_REL(FTIPO_DOC As String, FCVE_DOC As String, FCVE_DOC_REL As String)
         Dim z As Integer = 0
         Try
             For k = 0 To aDATA.GetLength(0) - 1
@@ -5237,7 +5218,7 @@ Public Class FrmTPV
         Dim DETEC_ERROR_VIOLATION_KEY As Boolean, UUID_TIMBRADO As String
         Dim FECHA_T1 As DateTime
         Dim d1 As DateTime = F1.Value
-        Dim FECHA_T2 As String = d1.ToString("yyyy/MM/ddTHH:mm:ss")
+        Dim FECHA_T2 As String '= d1.ToString("yyyy/MM/ddTHH:mm:ss")
 
         Me.Cursor = Cursors.WaitCursor
 
@@ -5412,6 +5393,10 @@ Public Class FrmTPV
                 Next
                 Var8 = ""
 
+                SQL = "UPDATE FACTD" & Empresa & " SET ESCFD = 'S' WHERE CVE_DOC = '" & FCVE_DOC & "'"
+                ReturnBool = EXECUTE_QUERY_NET(SQL)
+
+
                 MsgBox("Documento timbrado")
 
                 PassData1 = "CFDI Nota de crédito"
@@ -5469,7 +5454,7 @@ Public Class FrmTPV
                     If dr.Read Then
 
                         gUSUARIO_PAC = dr("USUARIO")
-                        gPASS_PAC = dr("PASS")
+                        gPASS_PAC = Desencriptar(dr("PASS"))
                         '0 - NO 1 - SI
                         If dr.ReadNullAsEmptyInteger("TIMBRADO_DEMO") = 0 Then
                             TIMBRADO_DEMO = "No"
@@ -5500,7 +5485,7 @@ Public Class FrmTPV
                         End Try
 
                         gRutaPFX = dr("FILE_PFX")
-                        gContraPFX = dr("PASS_PFX")
+                        gContraPFX = Desencriptar(dr("PASS_PFX").ToString)  'contrasena del certificado
                         gRutaCertificado = dr("FILE_CER")
 
                         CALLE = dr.ReadNullAsEmptyString("CALLE")
@@ -5524,10 +5509,13 @@ Public Class FrmTPV
                 End Using
             End Using
 
+            Dim d1 As DateTime = Now
+            Dim FECHA_CERT As String = d1.ToString("yyyy/MM/ddTHH:mm:ss")
+
             _c.Emisor.Nombre = RAZONSOCIALEMISOR
             _c.Emisor.Rfc = EMISORRFC
             _c.LugarExpedicion = LUGAREXPEDICION
-            _c.Fecha = F1.Value
+            _c.Fecha = FECHA_CERT
             _c.Serie = LETRA_VENTA
             _c.Folio = FOLIO_VENTA
             _c.Emisor.RegimenFiscal = EMISOR_REGIMEN_FISCAL
@@ -5798,11 +5786,7 @@ Public Class FrmTPV
             NUM_CPTO = FNUM_CPTO_PAGO
         End If
 
-        If TIPO_VENTA_LOCAL = "F" Then
-            ID_MOV = 1
-        Else
-            ID_MOV = 2
-        End If
+        ID_MOV = 1
 
         If FTIPO_VTA.Trim.Length > 0 Then
             Select Case FTIPO_VTA
@@ -5870,7 +5854,6 @@ Public Class FrmTPV
                 CLAVE_OBRA = TOBRA.Text
                 Var10 = CLAVE_OBRA '& " - " & LtObra.Text
                 Var14 = CAMPLIB_OBRA
-
             End If
 
             Var4 = Obser
@@ -5878,7 +5861,6 @@ Public Class FrmTPV
             Var6 = "FACTF_CLIB"
             Var7 = "FACT" & TIPO_VENTA & "_CLIB" & Empresa
             Var9 = "D"
-
 
             If DOC_NEW Then
                 Var8 = LUUID
@@ -6738,17 +6720,17 @@ Public Class FrmTPV
                                             End If
 
                                             SQL = "INSERT INTO MINVE" & Empresa & " (CVE_ART, ALMACEN, NUM_MOV, CVE_CPTO, FECHA_DOCU, TIPO_DOC, REFER, CLAVE_CLPV,
-                                            VEND, CANT, CANT_COST, PRECIO, COSTO, REG_SERIE, UNI_VENTA, E_LTPD, EXIST_G, EXISTENCIA, TIPO_PROD, FACTOR_CON,
-                                            FECHAELAB, CVE_FOLIO, SIGNO, COSTEADO, COSTO_PROM_INI, COSTO_PROM_FIN, DESDE_INVE, MOV_ENLAZADO, CVE_OBS, 
-                                            COSTO_PROM_GRAL, EXIINI, EXIFIN)
-                                            OUTPUT Inserted.NUM_MOV VALUES('" &
+                                                VEND, CANT, CANT_COST, PRECIO, COSTO, REG_SERIE, UNI_VENTA, E_LTPD, EXIST_G, EXISTENCIA, TIPO_PROD, FACTOR_CON,
+                                                FECHAELAB, CVE_FOLIO, SIGNO, COSTEADO, COSTO_PROM_INI, COSTO_PROM_FIN, DESDE_INVE, MOV_ENLAZADO, CVE_OBS, 
+                                                COSTO_PROM_GRAL)
+                                                OUTPUT Inserted.NUM_MOV VALUES('" &
                                                 dr("CVE_ART") & "','" & dr("NUM_ALM") & "',(SELECT COALESCE(MAX(NUM_MOV),0) + 1 FROM MINVE" & Empresa & "),'" & CVE_CPTO &
                                                 "',Convert(varchar, GETDATE(), 112),'" & TIPO_VENTA_LOCAL & "','" & CVE_DOC & "','" & CLAVE_CLPV & "','" &
                                                 CVE_VEND & "','" & dr("CANT") & "','" & CANT_COST & "','" & dr("PREC") & "','" & dr("COST") & "','" & REG_SERIE & "','" &
                                                 dr("UNI_VENTA") & "','" & E_LTPD & "'," & EXIST_G & "," & CADENA_EXIST & ",'" & dr("TIPO_ELE") & "','" & FACTOR_CON &
                                                 "',GETDATE()" & ",(SELECT ULT_CVE FROM TBLCONTROL" & Empresa & " WHERE ID_TABLA = 32),'" & SIGNO & "','" &
                                                 COSTEADO & "','" & COSTO_PROM_INI & "','" & COSTO_PROM_FIN & "','" & DESDE_INVE & "','" & MOV_ENLAZADO & "','" &
-                                                CVE_OBS & "','" & CANT_COST & "','" & EXI_INI & "','" & (EXI_INI + dr("CANT")) & "')"
+                                                CVE_OBS & "','" & CANT_COST & "')"
                                             returnValue2 = EXECUTE_QUERY_NET(SQL)
 
                                         End If
@@ -7241,10 +7223,73 @@ Public Class FrmTPV
                 Lt2.Visible = False
             End If
 
+            Try
+                Using cmd As SqlCommand = cnSAE.CreateCommand
+                    SQL = "SELECT IMPORTE FROM FACTF" & Empresa & " WHERE CVE_DOC = '" & aDATA(0, 0).ToString() & "'"
+                    cmd.CommandText = SQL
+                    Using dr As SqlDataReader = cmd.ExecuteReader
+                        If dr.Read Then
+                            LtImporte.Text = dr("IMPORTE")
+                        End If
+                    End Using
+                End Using
+            Catch ex As Exception
+                Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+            End Try
+
+
+
+            'MONTO_FACTURA = BUSCA_IMPORTE_CUEN_M(aDATA(0, 0).ToString())
+            'ABONOS_NC = BUSCA_ABONOS(aDATA(0, 0).ToString())
+
+            'If (MONTO_FACTURA - ABONOS_NC) < 0.1 Then
+            '    MsgBox("La nota de crédito ya fue saldada, verifique por favor")
+            '    LIMPIAR()
+            '    Return
+            'End If
         Catch ex As Exception
             BITACORACFDI("850. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
+    Private Function BUSCA_IMPORTE_CUEN_M(FCVE_DOC As String)
+        Dim TOT_ABONO As Decimal = 0
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT IMPORTE FROM CUEN_M" & Empresa & " WHERE REFER = '" & FCVE_DOC & "'"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    If dr.Read Then
+                        TOT_ABONO = dr.ReadNullAsEmptyDecimal("IMPORTE")
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+
+        Return TOT_ABONO
+    End Function
+    Private Function BUSCA_ABONOS(FCVE_DOC As String)
+        Dim TOT_ABONO As Decimal = 0
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT SUM(IMPORTE * SIGNO) AS TOT_ABO FROM CUEN_DET" & Empresa & " WHERE REFER = '" & FCVE_DOC & "'"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    If dr.Read Then
+                        TOT_ABONO = dr.ReadNullAsEmptyDecimal("TOT_ABO")
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+
+        Return TOT_ABONO
+    End Function
 
     Private Sub BarCancelar2_Click(sender As Object, e As EventArgs) Handles BarCancelar2.Click
 
@@ -8037,17 +8082,18 @@ Public Class FrmTPV
                     End If
                 End If
                 If Fg.Col = 13 Then
-                    If VALIDAR_EXIST_PED = 1 Then
-                        If TXTN.Text.Length > 0 Then
-
-                        End If
-                    Else
+                    If VALIDAR_EXIST_PED <> "0" Then
                         If TXTN.Text <> "" AndAlso TXTN.Value < 0 Then
                             e.Cancel = True
+                        Else
+
                         End If
+
                     End If
                 End If
+
                 ENTRA = True
+
             End If
         Catch ex As Exception
             ENTRA = True
@@ -8056,6 +8102,7 @@ Public Class FrmTPV
     End Sub
 
     Private Sub TXTN_Validated(sender As Object, e As EventArgs) Handles TXTN.Validated
+        Dim ABONO As Decimal, SUMA As Decimal = 0
         Try
             Dim CANT_MONTO As Decimal = 0, DESC1 As Decimal = 0, CANT As Decimal = 0, MONTO As Decimal = 0
             If Fg.Row > 0 Then
@@ -8108,9 +8155,21 @@ Public Class FrmTPV
                             Fg(Fg.Row, 15) = CANT_MONTO
                             Var13 = "SOLOTOTAL"
                         End If
-                    End If
+                    Else
+                        'MONTO_FACTURA += 
 
+                        ABONO = TXTN.Text.Replace(",", "")
+                        If ABONO > 0 Then
+                            'If (MONTO_FACTURA - ABONOS_NC - ABONO - SUMA) < 0 Then
+                            'HacerCero = True
+                            'MsgBox("El documento ya fue saldado o el abono es mayor al importe de la factura, verifique por favor")
+                            'LIMPIAR()
+                            'Return
+                            'End If
+                        End If
+                    End If
                     'PASO NO. 3
+
                     ENTRA = False
                     CALCULAR_IMPORTES()
                     ENTRA = True
@@ -8123,13 +8182,42 @@ Public Class FrmTPV
             Bitacora("980. " & ex.Message & vbNewLine & vbNewLine & ex.StackTrace)
         End Try
     End Sub
+    Private Sub TXTN_Leave(sender As Object, e As EventArgs) Handles TXTN.Leave
 
-    '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-    '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-    '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-    '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-    '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-    '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+    End Sub
+    Private Sub TXTN_TextChanged(sender As Object, e As EventArgs) Handles TXTN.TextChanged
+        Dim ABONO As Decimal, SUMA As Decimal = 0, S1 As Decimal = 0
+        Try
+            If Fg.Row > 0 Then
+                If Fg.Col = 13 Then
+                    ABONO = TXTN.Text.Replace(",", "")
+                    'ABONOS_NC += ABONO
+
+                    For k = 1 To Fg.Rows.Count - 1
+                        If k <> Fg.Row Then
+                            SUMA += Fg(k, 13)
+                        End If
+                    Next
+
+                    'If ABONO > 0 Then
+                    '    S1 = (MONTO_FACTURA - ABONOS_NC - ABONO - SUMA)
+                    '    If S1 < 0.00 Then
+                    '        MsgBox("El documento ya fue saldado o el abono es mayor al importe de la factura, verifique por favor")
+                    '        TXTN.UpdateValueWithCurrentText()
+                    '        TXTN.Value = 0
+                    '        'LIMPIAR()
+                    '        'Return
+                    '    End If
+                    'End If
+                End If
+            End If
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+    '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+    '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 
     Private Sub TXT_KeyDown(sender As Object, e As KeyEventArgs) Handles TXT.KeyDown
         Dim CVE_ART As String, RW_ As Integer, SIGUE As Boolean, NumPart As Integer = 0
@@ -8160,12 +8248,13 @@ Public Class FrmTPV
                                 Return
                             Else
                                 If DESC_X_PARTIDA = 1 Then
-                                    Fg.Col = 8
+                                    Fg.Col = 6
                                 Else
                                     If IMPUESTOS_X_PARTIDA = 1 Then
                                         Fg.Col = 9 'IMPU1
                                     Else
-                                        Fg.Col = 13 'PRECIO
+                                        Fg.Col = 6 'PRECIO
+                                        Fg.StartEditing()
                                     End If
                                 End If
                                 EXIST_NOT = False
@@ -8183,6 +8272,8 @@ Public Class FrmTPV
                             ENTRA = True
                             Return
                         End If
+                    Case 6
+                        Fg.Col = 13
                 End Select
             End If
             If e.KeyCode = Keys.Left Then
@@ -8362,8 +8453,12 @@ Public Class FrmTPV
                             If IMPUESTOS_X_PARTIDA = 1 Then
                                 Fg.Col = 9 'IMPU1
                             Else
-                                Fg.Col = 13 'PRECIO
+                                Fg.Col = 6 'PRECIO
                             End If
+                        End If
+                    Else
+                        If Fg.Col = 6 Then
+                            Fg.Col = 13
                         End If
                     End If
                 End If
@@ -8467,7 +8562,7 @@ Public Class FrmTPV
                 End Select
 
                 If Fg.Row > 0 Then
-                    If Fg.Col = 2 Or Fg.Col = 3 Or Fg.Col = 4 Or Fg.Col = 5 Or Fg.Col = 7 Or Fg.Col = 8 Or
+                    If Fg.Col = 2 Or Fg.Col = 3 Or Fg.Col = 4 Or Fg.Col = 5 Or Fg.Col = 65 Or Fg.Col = 7 Or Fg.Col = 8 Or
                         Fg.Col = 9 Or Fg.Col = 10 Or Fg.Col = 11 Or Fg.Col = 12 Or Fg.Col = 13 Or Fg.Col = 14 Or Fg.Col = 15 Then
                     Else
                         e.Cancel = True
@@ -8533,7 +8628,7 @@ Public Class FrmTPV
                         ENTRA = True
                     End If
                 End If
-                If Fg.Col = 2 Or Fg.Col = 3 Or Fg.Col = 4 Or Fg.Col = 5 Or Fg.Col = 7 Or Fg.Col = 8 Or
+                If Fg.Col = 2 Or Fg.Col = 3 Or Fg.Col = 4 Or Fg.Col = 5 Or Fg.Col = 6 Or Fg.Col = 7 Or Fg.Col = 8 Or
                     Fg.Col = 9 Or Fg.Col = 10 Or Fg.Col = 11 Or Fg.Col = 12 Or Fg.Col = 13 Or Fg.Col = 14 Or Fg.Col = 15 Then
                 Else
                     ENTRA = False
@@ -8556,7 +8651,7 @@ Public Class FrmTPV
             End If
             If ENTRA Then
                 ENTRA = False
-                If Fg.Col = 2 Or Fg.Col = 4 Or Fg.Col = 5 Or Fg.Col = 8 Or Fg.Col = 13 Or Fg.Col = 14 Or Fg.Col = 15 Then
+                If Fg.Col = 2 Or Fg.Col = 4 Or Fg.Col = 5 Or Fg.Col = 6 Or Fg.Col = 8 Or Fg.Col = 13 Or Fg.Col = 14 Or Fg.Col = 15 Then
                     'start editing the cell with the custom editor
                     Fg.StartEditing()
                 End If
@@ -9421,5 +9516,9 @@ Public Class FrmTPV
                 MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
             End Try
         End If
+    End Sub
+
+    Private Sub BarCancNC_Click(sender As Object, e As EventArgs) Handles BarCancNC.Click
+
     End Sub
 End Class

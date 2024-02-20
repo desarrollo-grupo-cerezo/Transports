@@ -194,9 +194,8 @@ Public Class FrmAntiguedadSaldosProv
             CADENA = " AND (M.IMPORTE * M.SIGNO) + ISNULL((SELECT SUM(IMPORTE * SIGNO) FROM PAGA_DET" & Empresa & " 
                     WHERE CVE_PROV = M.CVE_PROV AND ID_MOV = M.NUM_CPTO AND REFER = M.REFER),0) > 0.9 "
 
-            SQL = "SELECT M.CVE_PROV, T.NOMBRE, T.CLASIFIC, M.REFER, (M.IMPORTE * M.SIGNO) As IMPORTE_M, 
-                D.NO_FACTURA As NO_FAC_D, D.DOCTO As DOCTO_D, ISNULL(M.FECHA_APLI,'') AS F_APLI_M, 
-                M.FECHA_VENC, 
+            SQL = "SELECT M.CVE_PROV, T.NOMBRE, T.CLASIFIC, M.REFER, (M.IMPORTE * M.SIGNO) As IMPORTE_M, D.NO_FACTURA As NO_FAC_D, D.DOCTO As DOCTO_D, ISNULL(M.FECHA_APLI,'') AS F_APLI_M, 
+                M.FECHA_VENC, ISNULL(T.DIASCRED,0) AS DIAS_CRED,
                 ISNULL((Select SUM(IMPORTE*SIGNO) FROM PAGA_DET" & Empresa & " WHERE CVE_PROV = M.CVE_PROV AND ID_MOV = M.NUM_CPTO And SIGNO = -1 And REFER = M.REFER),0) As CARGOS, 
                 ISNULL((Select SUM(IMPORTE*SIGNO) FROM PAGA_DET" & Empresa & " WHERE CVE_PROV = M.CVE_PROV AND ID_MOV = M.NUM_CPTO And SIGNO = 1 AND REFER = M.REFER),0) As ABONOS,
                 ISNULL(D.FECHA_APLI,'') AS F_APLI_D, ISNULL(D.FECHA_VENC,'') AS F_VENC_D, ISNULL(D.SIGNO,1) As SIGNO_D, 
@@ -214,7 +213,19 @@ Public Class FrmAntiguedadSaldosProv
                         IMPORTE = dr("IMPORTE_M")
                         SALDO = IMPORTE + dr("ABONOS")
                         ABONOS += dr("ABONOS")
-                        NDIAS = DateDiff(DateInterval.Day, dr("FECHA_VENC"), F1.Value)
+                        'NDIAS = DateDiff(DateInterval.Day, dr("FECHA_VENC"), F1.Value)
+
+                        Dim dt As DateTime = dr("F_APLI_M")
+
+                        If dr("DIAS_CRED") = 0 Then
+                            dt = dt.AddDays(dr("DIAS_CRED"))
+                            NDIAS = DateDiff(DateInterval.Day, dr("F_APLI_M"), Now)
+                        Else
+                            dt = dt.AddDays(dr("DIAS_CRED"))
+                            NDIAS = DateDiff(DateInterval.Day, dr("F_APLI_M"), dt)
+                        End If
+
+
                         SALDO30 = 0 : SALDO60 = 0 : SALDO90 = 0 : SALDO91 = 0
                         Select Case NDIAS
                             Case 1 To 30
@@ -230,6 +241,8 @@ Public Class FrmAntiguedadSaldosProv
                         r("REFER") = dr("REFER")
                         r("CLIENTE") = dr("CVE_PROV")
                         r("NOMBRE") = dr("NOMBRE")
+                        r("DIASCRED") = dr("DIAS_CRED")
+                        r("NDIAS") = NDIAS
                         r("IMPORTE") = dr("IMPORTE_M")
                         r("SALDO") = SALDO
                         r("ABONOS") = ABONOS
@@ -239,6 +252,7 @@ Public Class FrmAntiguedadSaldosProv
                         r("NDIASMAYOR90") = SALDO91
                         r("CLASIFIC") = dr("CLASIFIC")
                         r("FECHA_APLI") = dr("F_APLI_M")
+                        r("FECHA_VENC") = dt
                         r("FECHA1") = F1.Value.ToString.Substring(0, 10)
                         r("CLIENTE1") = TPROV1.Text
                         r("CLIENTE2") = TPROV2.Text
@@ -280,7 +294,8 @@ Public Class FrmAntiguedadSaldosProv
             If PASS_GRUPOCE = "BUS" Then
                 StiReport1.Design()
             Else
-                StiReport1.Show()
+                'StiReport1.Show()
+                VisualizaReporte(StiReport1)
             End If
         Catch ex As Exception
             Bitacora("630. " & ex.Message & vbNewLine & ex.StackTrace)

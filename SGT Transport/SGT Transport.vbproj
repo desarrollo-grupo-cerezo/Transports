@@ -674,10 +674,10 @@
     <Compile Include="BUENO\FrmSelViajes.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BUENO\REPORTES\FrmBuenoRepFactura.Designer.vb">
-      <DependentUpon>FrmBuenoRepFactura.vb</DependentUpon>
+    <Compile Include="BUENO\REPORTES\FrmReporte44.Designer.vb">
+      <DependentUpon>FrmReporte44.vb</DependentUpon>
     </Compile>
-    <Compile Include="BUENO\REPORTES\FrmBuenoRepFactura.vb">
+    <Compile Include="BUENO\REPORTES\FrmReporte44.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="BUSQUEDAS\FrmListaXML.Designer.vb">
@@ -4564,7 +4564,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BUENO\FrmAsigViajeBuenoAE.resx">
       <DependentUpon>FrmAsigViajeBuenoAE.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BUENO\FrmFGCopiandoViajes.resx">
       <DependentUpon>FrmFGCopiandoViajes.vb</DependentUpon>
@@ -4587,8 +4586,8 @@
     <EmbeddedResource Include="BUENO\FrmSelViajes.resx">
       <DependentUpon>FrmSelViajes.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BUENO\REPORTES\FrmBuenoRepFactura.resx">
-      <DependentUpon>FrmBuenoRepFactura.vb</DependentUpon>
+    <EmbeddedResource Include="BUENO\REPORTES\FrmReporte44.resx">
+      <DependentUpon>FrmReporte44.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BUSQUEDAS\FrmListaXML.resx">
       <DependentUpon>FrmListaXML.vb</DependentUpon>
@@ -5347,6 +5346,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="COMBUSTIBLE\frmCriterioEvaAE.resx">
       <DependentUpon>frmCriterioEvaAE.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="COMBUSTIBLE\frmCriteriosEva.resx">
       <DependentUpon>frmCriteriosEva.vb</DependentUpon>

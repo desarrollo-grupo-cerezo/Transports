@@ -101,6 +101,8 @@ Partial Class FrmTPV
         Me.LtDocSig = New System.Windows.Forms.Label()
         Me.Tab1 = New C1.Win.C1Command.C1DockingTab()
         Me.Page1 = New C1.Win.C1Command.C1DockingTabPage()
+        Me.LtImporte = New System.Windows.Forms.Label()
+        Me.LtDocRel = New System.Windows.Forms.Label()
         Me.BtnCampos = New System.Windows.Forms.Button()
         Me.LtObra = New System.Windows.Forms.Label()
         Me.BtnObra = New C1.Win.C1Input.C1Button()
@@ -138,6 +140,7 @@ Partial Class FrmTPV
         Me.TXTN = New C1.Win.C1Input.C1NumericEdit()
         Me.TXT = New System.Windows.Forms.TextBox()
         Me.CboALmacenFG = New C1.Win.C1Input.C1ComboBox()
+        Me.BarCancNC = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarraMENU.SuspendLayout()
         CType(Me.CboAlmacen, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tEsquema, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -169,11 +172,11 @@ Partial Class FrmTPV
         Me.BarraMENU.AutoSize = False
         Me.BarraMENU.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible
         Me.BarraMENU.ImageScalingSize = New System.Drawing.Size(12, 12)
-        Me.BarraMENU.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarGrabar, Me.BarTotales, Me.BarEnlaceDocumento, Me.BarKardex, Me.BarImprimir, Me.BarTimbrarNC, Me.MnuCFD, Me.BarSalir})
+        Me.BarraMENU.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarGrabar, Me.BarTotales, Me.BarEnlaceDocumento, Me.BarKardex, Me.BarImprimir, Me.BarTimbrarNC, Me.BarCancNC, Me.MnuCFD, Me.BarSalir})
         Me.BarraMENU.Location = New System.Drawing.Point(0, 0)
         Me.BarraMENU.Name = "BarraMENU"
         Me.BarraMENU.Padding = New System.Windows.Forms.Padding(0, 8, 0, 0)
-        Me.BarraMENU.Size = New System.Drawing.Size(1267, 60)
+        Me.BarraMENU.Size = New System.Drawing.Size(1513, 60)
         Me.BarraMENU.Stretch = False
         Me.BarraMENU.TabIndex = 9
         Me.BarraMENU.Text = "MenuStrip1"
@@ -250,6 +253,7 @@ Partial Class FrmTPV
         Me.BarTimbrarNC.Size = New System.Drawing.Size(143, 52)
         Me.BarTimbrarNC.Text = "Timbrar nota de crédito"
         Me.BarTimbrarNC.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.BarTimbrarNC.Visible = False
         '
         'MnuCFD
         '
@@ -450,7 +454,7 @@ Partial Class FrmTPV
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.tEsquema.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tEsquema.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.tEsquema.Location = New System.Drawing.Point(1330, 62)
+        Me.tEsquema.Location = New System.Drawing.Point(1445, 56)
         Me.tEsquema.Name = "tEsquema"
         Me.tEsquema.Size = New System.Drawing.Size(88, 20)
         Me.tEsquema.TabIndex = 10
@@ -483,7 +487,7 @@ Partial Class FrmTPV
         '
         Me.tEntregarEn.AcceptsReturn = True
         Me.tEntregarEn.AcceptsTab = True
-        Me.tEntregarEn.Location = New System.Drawing.Point(1330, 36)
+        Me.tEntregarEn.Location = New System.Drawing.Point(1445, 30)
         Me.tEntregarEn.MaxLength = 10
         Me.tEntregarEn.Name = "tEntregarEn"
         Me.tEntregarEn.Size = New System.Drawing.Size(79, 20)
@@ -548,7 +552,7 @@ Partial Class FrmTPV
         '
         Me.LEntregarEn.AutoSize = True
         Me.LEntregarEn.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LEntregarEn.Location = New System.Drawing.Point(1262, 40)
+        Me.LEntregarEn.Location = New System.Drawing.Point(1377, 34)
         Me.LEntregarEn.Name = "LEntregarEn"
         Me.LEntregarEn.Size = New System.Drawing.Size(62, 13)
         Me.LEntregarEn.TabIndex = 342
@@ -573,7 +577,7 @@ Partial Class FrmTPV
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.tDesFin.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tDesFin.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.tDesFin.Location = New System.Drawing.Point(1330, 90)
+        Me.tDesFin.Location = New System.Drawing.Point(1445, 84)
         Me.tDesFin.Name = "tDesFin"
         Me.tDesFin.Size = New System.Drawing.Size(73, 20)
         Me.tDesFin.TabIndex = 11
@@ -589,7 +593,7 @@ Partial Class FrmTPV
         '
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(1265, 92)
+        Me.Label15.Location = New System.Drawing.Point(1380, 86)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(61, 16)
         Me.Label15.TabIndex = 341
@@ -639,7 +643,7 @@ Partial Class FrmTPV
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(1260, 64)
+        Me.Label13.Location = New System.Drawing.Point(1375, 58)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(65, 16)
         Me.Label13.TabIndex = 339
@@ -679,7 +683,7 @@ Partial Class FrmTPV
         Me.Fg.ShowCellLabels = True
         Me.Fg.ShowCursor = True
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg.Size = New System.Drawing.Size(1200, 253)
+        Me.Fg.Size = New System.Drawing.Size(1446, 253)
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 9
         '
@@ -879,7 +883,7 @@ Partial Class FrmTPV
         Me.LtVenta.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.LtVenta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtVenta.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtVenta.Location = New System.Drawing.Point(941, 10)
+        Me.LtVenta.Location = New System.Drawing.Point(1187, 10)
         Me.LtVenta.Name = "LtVenta"
         Me.LtVenta.Size = New System.Drawing.Size(314, 42)
         Me.LtVenta.TabIndex = 354
@@ -964,7 +968,7 @@ Partial Class FrmTPV
         Me.LtTOTAL.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.LtTOTAL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtTOTAL.Font = New System.Drawing.Font("Tahoma", 48.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtTOTAL.Location = New System.Drawing.Point(826, 500)
+        Me.LtTOTAL.Location = New System.Drawing.Point(1072, 500)
         Me.LtTOTAL.Name = "LtTOTAL"
         Me.LtTOTAL.Size = New System.Drawing.Size(373, 101)
         Me.LtTOTAL.TabIndex = 403
@@ -984,7 +988,7 @@ Partial Class FrmTPV
         '
         Me.Label16.AutoSize = True
         Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(1411, 91)
+        Me.Label16.Location = New System.Drawing.Point(1526, 85)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(54, 13)
         Me.Label16.TabIndex = 405
@@ -1097,7 +1101,7 @@ Partial Class FrmTPV
         Me.Tab1.HotTrack = True
         Me.Tab1.Location = New System.Drawing.Point(5, 63)
         Me.Tab1.Name = "Tab1"
-        Me.Tab1.Size = New System.Drawing.Size(1202, 179)
+        Me.Tab1.Size = New System.Drawing.Size(1448, 179)
         Me.Tab1.TabIndex = 421
         Me.Tab1.TabSizeMode = C1.Win.C1Command.TabSizeModeEnum.Fit
         Me.Tab1.TabsShowFocusCues = False
@@ -1107,6 +1111,8 @@ Partial Class FrmTPV
         '
         'Page1
         '
+        Me.Page1.Controls.Add(Me.LtImporte)
+        Me.Page1.Controls.Add(Me.LtDocRel)
         Me.Page1.Controls.Add(Me.BtnCampos)
         Me.Page1.Controls.Add(Me.LtObra)
         Me.Page1.Controls.Add(Me.BtnObra)
@@ -1167,9 +1173,29 @@ Partial Class FrmTPV
         Me.Page1.Controls.Add(Me.LtAlm)
         Me.Page1.Location = New System.Drawing.Point(1, 24)
         Me.Page1.Name = "Page1"
-        Me.Page1.Size = New System.Drawing.Size(1200, 154)
+        Me.Page1.Size = New System.Drawing.Size(1446, 154)
         Me.Page1.TabIndex = 0
         Me.Page1.Text = "Datos documento"
+        '
+        'LtImporte
+        '
+        Me.LtImporte.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LtImporte.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LtImporte.Location = New System.Drawing.Point(1026, 62)
+        Me.LtImporte.Name = "LtImporte"
+        Me.LtImporte.Size = New System.Drawing.Size(125, 25)
+        Me.LtImporte.TabIndex = 426
+        Me.LtImporte.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'LtDocRel
+        '
+        Me.LtDocRel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LtDocRel.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LtDocRel.Location = New System.Drawing.Point(1026, 28)
+        Me.LtDocRel.Name = "LtDocRel"
+        Me.LtDocRel.Size = New System.Drawing.Size(125, 25)
+        Me.LtDocRel.TabIndex = 425
+        Me.LtDocRel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'BtnCampos
         '
@@ -1227,7 +1253,7 @@ Partial Class FrmTPV
         Me.btnEsquema.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnEsquema.Image = Global.SGT_Transport.My.Resources.Resources.lupu16
         Me.btnEsquema.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnEsquema.Location = New System.Drawing.Point(1422, 61)
+        Me.btnEsquema.Location = New System.Drawing.Point(1537, 55)
         Me.btnEsquema.Name = "btnEsquema"
         Me.btnEsquema.Size = New System.Drawing.Size(23, 20)
         Me.btnEsquema.TabIndex = 346
@@ -1240,7 +1266,7 @@ Partial Class FrmTPV
         Me.btnEntregarEn.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnEntregarEn.Image = Global.SGT_Transport.My.Resources.Resources.lupu16
         Me.btnEntregarEn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnEntregarEn.Location = New System.Drawing.Point(1410, 36)
+        Me.btnEntregarEn.Location = New System.Drawing.Point(1525, 30)
         Me.btnEntregarEn.Name = "btnEntregarEn"
         Me.btnEntregarEn.Size = New System.Drawing.Size(23, 20)
         Me.btnEntregarEn.TabIndex = 401
@@ -1292,7 +1318,7 @@ Partial Class FrmTPV
         Me.Page2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Page2.Location = New System.Drawing.Point(1, 24)
         Me.Page2.Name = "Page2"
-        Me.Page2.Size = New System.Drawing.Size(1200, 154)
+        Me.Page2.Size = New System.Drawing.Size(1446, 154)
         Me.Page2.TabIndex = 1
         Me.Page2.Text = "Datos CFDI"
         Me.Page2.Visible = False
@@ -1516,7 +1542,7 @@ Partial Class FrmTPV
         Me.Page3.Controls.Add(Me.BtnFactura)
         Me.Page3.Location = New System.Drawing.Point(1, 24)
         Me.Page3.Name = "Page3"
-        Me.Page3.Size = New System.Drawing.Size(1200, 154)
+        Me.Page3.Size = New System.Drawing.Size(1446, 154)
         Me.Page3.TabIndex = 2
         Me.Page3.Text = "Datos relacionados"
         '
@@ -1579,7 +1605,7 @@ Partial Class FrmTPV
         Me.LtCanc.AutoSize = True
         Me.LtCanc.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LtCanc.ForeColor = System.Drawing.Color.Red
-        Me.LtCanc.Location = New System.Drawing.Point(770, 10)
+        Me.LtCanc.Location = New System.Drawing.Point(1016, 10)
         Me.LtCanc.Name = "LtCanc"
         Me.LtCanc.Size = New System.Drawing.Size(165, 29)
         Me.LtCanc.TabIndex = 422
@@ -1646,11 +1672,21 @@ Partial Class FrmTPV
         Me.CboALmacenFG.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         Me.CboALmacenFG.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
+        'BarCancNC
+        '
+        Me.BarCancNC.Image = Global.SGT_Transport.My.Resources.Resources.cfdi6
+        Me.BarCancNC.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarCancNC.Name = "BarCancNC"
+        Me.BarCancNC.Size = New System.Drawing.Size(148, 52)
+        Me.BarCancNC.Text = "Cancelar nota de crédito"
+        Me.BarCancNC.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.BarCancNC.Visible = False
+        '
         'FrmTPV
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1267, 641)
+        Me.ClientSize = New System.Drawing.Size(1513, 641)
         Me.Controls.Add(Me.CboALmacenFG)
         Me.Controls.Add(Me.LtCanc)
         Me.Controls.Add(Me.Tab1)
@@ -1823,4 +1859,7 @@ Partial Class FrmTPV
     Friend WithEvents Label22 As Label
     Friend WithEvents txTC As C1.Win.C1Input.C1TextBox
     Private WithEvents CboMoneda As ComboBox
+    Friend WithEvents LtDocRel As Label
+    Friend WithEvents LtImporte As Label
+    Friend WithEvents BarCancNC As ToolStripMenuItem
 End Class

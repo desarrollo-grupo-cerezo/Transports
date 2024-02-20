@@ -239,6 +239,23 @@ Public Class FrmPolizaLiq
         Fg.Rows.Count = 1
         Fg.Redraw = False
 
+        Try
+
+            SQL = String.Format("EXEC dbo.sp_LiqCalculaSueldoAll '{0:yyyyMMdd}'", F1.Value)
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            End Using
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            Return
+        End Try
+
         Filtro = String.Format("{0} BETWEEN '{1:yyyyMMdd}' AND '{2:yyyyMMdd}' {3} {4}", "FechaDocumento", F1.Value, F2.Value, IIf(chkSinPoliza.CheckState = CheckState.Checked, "AND IdPoliza = 0", ""), IIf(Trim(TCVE_OPER.Text) <> "", "AND CveOper = " & TCVE_OPER.Text, ""))
 
         Try

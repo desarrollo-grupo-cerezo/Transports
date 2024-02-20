@@ -292,7 +292,7 @@ Public Class FrmConfiguracionCFDI
                         End Try
                     End If
 
-                    If TFTODEV.Text.Trim.Length > 0 Then
+                    If TFTODEV.Text.Trim.Length > 0 AndAlso TFTODEV.Tag.ToString.Trim.Length > 0 Then
                         Dim rutaCg As String = GET_RUTA_FORMATOS()
                         Dim copyToDir = Path.GetDirectoryName(TFTODEV.Tag)
 
@@ -316,7 +316,7 @@ Public Class FrmConfiguracionCFDI
                         End Try
                     End If
 
-                    If TFTOCOMPPAGO.Text.Trim.Length > 0 Then
+                    If TFTOCOMPPAGO.Text.Trim.Length > 0 AndAlso TFTOCOMPPAGO.Tag.Tag.ToString.Trim.Length > 0 Then
                         Dim rutaCg As String = GET_RUTA_FORMATOS()
                         Dim copyToDir = Path.GetDirectoryName(TFTOCOMPPAGO.Tag)
 

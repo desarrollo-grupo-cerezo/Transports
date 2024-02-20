@@ -522,7 +522,7 @@ Public Class FrmOrdenDeTrabajoExtAE
             cmd.Connection = cnSAE
             cmd.CommandTimeout = 180
 
-            SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, ISNULL(AFEC_TABLA_INVE,0) AS AFE_TAB_INV, ISNULL(CVE_CPTO_OT,0) AS CVE_CPTOOT, " &
+            SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, ISNULL(CVE_CPTO_OT,0) AS CVE_CPTOOT, " &
                 "ISNULL(CVE_CPTO_OT_SAL,0) AS CVE_CPTOOT_SAL " &
                 "FROM GCPARAMINVENT"
             cmd.CommandText = SQL
@@ -530,7 +530,6 @@ Public Class FrmOrdenDeTrabajoExtAE
 
             If dr.Read Then
                 MULTIALMACEN = dr("M_ULTIALMACEN")
-                AFEC_TABLA_INVE = dr("AFE_TAB_INV")
                 CVE_CPTO_OT = dr("CVE_CPTOOT")
                 CVE_CPTO_OT_SAL = dr("CVE_CPTOOT_SAL")
             End If

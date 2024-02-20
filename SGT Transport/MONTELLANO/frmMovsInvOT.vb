@@ -125,16 +125,14 @@ Public Class FrmMovsInvOT
             Dim dr As SqlDataReader
 
             cmd.Connection = cnSAE
-            SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, ISNULL(AFEC_TABLA_INVE,0) AS AFE_TAB_INV, ISNULL(CVE_CPTO_OT_SAL,0) AS CVE_CPTOOT " &
+            SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, ISNULL(CVE_CPTO_OT_SAL,0) AS CVE_CPTOOT " &
                 "FROM GCPARAMINVENT"
             cmd.CommandText = SQL
             dr = cmd.ExecuteReader
 
             If dr.Read Then
                 MULTIALMACEN = dr("M_ULTIALMACEN")
-                AFEC_TABLA_INVE = dr("AFE_TAB_INV")
                 CVE_CPTO_OT = dr("CVE_CPTOOT")
-
             End If
             dr.Close()
 

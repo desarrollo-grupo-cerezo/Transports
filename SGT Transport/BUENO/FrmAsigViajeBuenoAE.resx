@@ -132,6 +132,9 @@
         4fFVJTBDSqsnY0YrMQBoSEFeSc+3hPTGdQAE9opxY2EZNgAAAABJRU5ErkJggg==
 </value>
   </data>
+  <metadata name="Pag4.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <data name="BtnPlazaFG.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
@@ -380,9 +383,6 @@
   <data name="Fg.StyleInfo" xml:space="preserve">
     <value>Normal{BackColor:White;ForeColor:Black;WordWrap:True;Border:Flat,1,DimGray,Both;}	Alternate{BackColor:LightSkyBlue;}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:LightSkyBlue;ForeColor:ControlText;SearchBackColor:Orange;Border:Double,2,Red,Both;}	Focus{BackColor:Lime;Border:Double,1,Red,Both;}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	FrozenAlternate{}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	Footer{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	FirstCustomStyle{}	</value>
   </data>
-  <metadata name="Pag4.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <data name="FgCarga.ColumnInfo" xml:space="preserve">
     <value>11,1,0,0,0,105,Columns:1{Width:71;Caption:"Cantidad";Editor:"TXTNC";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	2{Width:201;Caption:"Embalaje";Editor:"TXTC";Style:"TextAlign:LeftCenter;";}	3{Width:256;Caption:"Carga";ShowButtons:Never;Editor:"CboCarga";Style:"";}	4{Width:214;Caption:"Que el remitente dice contienen";Editor:"TXTC";Style:"TextAlign:LeftCenter;";}	5{Width:70;Caption:"Peso";Editor:"TXTNC";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	6{Width:70;Caption:"Volumen";Editor:"TXTNC";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	7{Width:79;Caption:"Peso est.";Editor:"TXTNC";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	8{Width:86;Caption:"Pedimento";Editor:"TXTC";Style:"DataType:System.String;TextAlign:LeftCenter;";}	9{Caption:"Num_par";}	10{Caption:"Reg. Ori.";Visible:False;Style:"DataType:System.Int16;TextAlign:GeneralCenter;";}	</value>
   </data>

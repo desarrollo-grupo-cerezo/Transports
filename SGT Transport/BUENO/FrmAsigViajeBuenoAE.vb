@@ -872,6 +872,8 @@ Public Class FrmAsigViajeBuenoAE
             ChCalleFiscal.Enabled = False
         End If
 
+        ValidaEsatusViaje("")
+
         FgG.EndUpdate()
         FgV.EndUpdate()
         Fg.EndUpdate()
@@ -6069,7 +6071,7 @@ Public Class FrmAsigViajeBuenoAE
         End If
     End Sub
     Sub GRABAR_GASTOS(fCVE_VIAJE As String)
-        Dim CVE_FOLIO As String = "", UUID As String, FECH As Date, QUERY As String, DETEC_ERROR_VIOLATION_KEY As Boolean, OBS As String = ""
+        Dim CVE_FOLIO As String = "", UUID As String = "", FECH As Date, QUERY As String, DETEC_ERROR_VIOLATION_KEY As Boolean, OBS As String = ""
         Dim FOL_VIA As Long = 0, TIPO_VIAJE As Integer = -1
         Dim cmd As New SqlCommand With {.Connection = cnSAE}
 
@@ -7234,7 +7236,7 @@ Public Class FrmAsigViajeBuenoAE
                             "0" & vbTab & "" & vbTab & IIf(STATUS_VIAJE.Trim.Length > 0, STATUS_VIAJE, "EDICION") & vbTab & "N" & vbTab &
                             " " & vbTab & "TRANSFERENCIA" & vbTab & " " & vbTab & " " & vbTab & " " & vbTab & "Nuevo")
 
-
+                ValidaEsatusViaje("")
             Else
                 MsgBox("Por favor capture el gasto")
             End If
@@ -7333,7 +7335,9 @@ Public Class FrmAsigViajeBuenoAE
                 s &= " " '20  BANDERA SI ES TRANS
 
                 FgV.AddItem("" & vbTab & s)
-                '                                              16 folio     
+                '                                              16 folio
+
+                ValidaEsatusViaje("")
             Else
                 MsgBox("Por favor capture la gasolinera")
             End If
@@ -14627,6 +14631,24 @@ Public Class FrmAsigViajeBuenoAE
         If e.KeyCode = Keys.Enter Then
             TCVE_TRACTOR.Focus()
         End If
+    End Sub
+
+    Private Sub ValidaEsatusViaje(estatus As String)
+
+        If FgV.Rows.Count > 1 Or FgG.Rows.Count > 1 Then
+
+            TCVE_OPER.BackColor = Color.LightYellow
+            TCVE_OPER.ForeColor = Color.Black
+            TCVE_OPER.Enabled = False
+            BtnOper.Enabled = False
+
+            TCVE_TRACTOR.BackColor = Color.LightYellow
+            TCVE_TRACTOR.ForeColor = Color.Black
+            TCVE_TRACTOR.Enabled = False
+            BtnTractor.Enabled = False
+
+        End If
+
     End Sub
 End Class
 

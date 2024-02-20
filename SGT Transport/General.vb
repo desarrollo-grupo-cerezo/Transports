@@ -88,7 +88,6 @@ Module General
     Public TIPO_MEDICION_COMBUSTIBLE As Integer = 0
     Public MULTIALMACEN As Integer = 0
     Public G_ALM As Integer = 1
-    Public AFEC_TABLA_INVE As Integer = 0
     Public LINEA_VALOR_DECLA As String
 
     Public TIPO_VENTA As String
@@ -290,13 +289,12 @@ Module General
             LETRA_COMPRA = ""
             Try
                 Using cmd As SqlCommand = cnSAE.CreateCommand
-                    SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, ISNULL(AFEC_TABLA_INVE,0) AS AFE_TAB_INV, LINEA_VALOR_DECLA 
+                    SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, LINEA_VALOR_DECLA 
                         FROM GCPARAMINVENT"
                     cmd.CommandText = SQL
                     Using dr As SqlDataReader = cmd.ExecuteReader
                         If dr.Read Then
                             MULTIALMACEN = dr("M_ULTIALMACEN")
-                            AFEC_TABLA_INVE = dr("AFE_TAB_INV")
                             LINEA_VALOR_DECLA = dr.ReadNullAsEmptyString("LINEA_VALOR_DECLA")
                         End If
                     End Using
@@ -5150,8 +5148,8 @@ Module General
                     End Using
                 End Using
                 If XML_TABLA.Trim.Length = 0 Then
-                    SQL = "SELECT ISNULL(XML_DOC,'') AS XML, ISNULL(VERSION,'') AS VERSION_CFDI 
-                        FROM CFDI" & Empresa & " WHERE CVE_DOC = '" & FFACTURA & "'"
+                    SQL = "SELECT ISNULL(XML,'') AS XML, ISNULL(VERSION,'') AS VERSION_CFDI 
+                        FROM CFDI WHERE FACTURA = '" & FFACTURA & "'"
                     Using cmd As SqlCommand = cnSAE.CreateCommand
                         cmd.CommandText = SQL
                         Using dr As SqlDataReader = cmd.ExecuteReader

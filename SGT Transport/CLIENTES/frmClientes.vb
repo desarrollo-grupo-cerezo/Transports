@@ -19,6 +19,8 @@ Public Class frmClientes
             Me.Close()
             Return
         End If
+
+        Fg.Dock = DockStyle.Fill
     End Sub
     Sub CARGAR_DATOS()
         Try

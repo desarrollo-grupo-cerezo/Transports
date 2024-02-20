@@ -44,7 +44,7 @@ Public Class FrmParamInvent
             Dim CVE_CPTO_SAL_UNIDAD As Integer = 0
 
             cmd.Connection = cnSAE
-            SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, ISNULL(ALM_CONSIGNA,0) AS ALM_CON, ISNULL(AFEC_TABLA_INVE,0) AS AFE_TAB_INV,
+            SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, ISNULL(ALM_CONSIGNA,0) AS ALM_CON, 
                 ISNULL(CVE_ART_TOT,'') AS CVE_TOT, ISNULL(CVE_CPTO_OT,0) AS CVE_CPTOOT, ISNULL(CVE_CPTO_OT_SAL,0) AS CVE_CPTOOTSAL,
                 CVE_CPTO_SAL_OPER, ISNULL(CVE_ALM_RNBDO, -1) AS ALM_RBDO, ISNULL(CVE_ART_RNBDO,'') AS ART_RBDO, isnull(ACTIVAR_RENOVADO,0) AS ACT_REN,
                 ISNULL(CVE_ART_NUEVAS,'') AS CVE_ART_NEW, ISNULL(CVE_CPTO_RENOVADO,0) AS CPTO_REN, ISNULL(CVE_ART_REPARA,'') AS ART_REPARA, 
@@ -62,7 +62,6 @@ Public Class FrmParamInvent
                     TLIN_PROD.Text = dr("CVE_TOT")
 
                     LtLinea.Text = BUSCA_CAT("Linea", TLIN_PROD.Text)
-                    ChAfecTablaInve.Value = dr("AFE_TAB_INV")
                     CVE_CPTO = dr("CVE_CPTOOT")
                     CVE_CPTO_SAL = dr("CVE_CPTOOTSAL")
                     CVE_CPTO_SAL_OPER = dr.ReadNullAsEmptyInteger("CVE_CPTO_SAL_OPER")
@@ -344,11 +343,10 @@ Public Class FrmParamInvent
             End Try
 
             MULTIALMACEN = IIf(ChMULTIALMACEN.Value, 1, 0)
-            AFEC_TABLA_INVE = IIf(ChAfecTablaInve.Checked, 1, 0)
 
 
             SQL = "UPDATE GCPARAMINVENT SET MULTIALMACEN = " & MULTIALMACEN & ", CVE_ART_TOT = '" & TLIN_PROD.Text & "', ALM_CONSIGNA = " & ALM_CONS & ", 
-                AFEC_TABLA_INVE = " & AFEC_TABLA_INVE & ", CVE_CPTO_OT = " & CVE_CPTO & ", CVE_CPTO_OT_SAL = " & CVE_CPTO_SAL & ",
+                CVE_CPTO_OT = " & CVE_CPTO & ", CVE_CPTO_OT_SAL = " & CVE_CPTO_SAL & ",
                 CVE_CPTO_SAL_OPER =  " & CVE_CPTO_SAL_OPER & ", CVE_ART_RNBDO = '" & TCVE_ART_RNBDO.Text & "', CVE_ART_REPARA = '" & TCVE_ART_REPARA.Text & "', 
                 CVE_CPTO_RENOVADO = " & CVE_CPTO_RENOVADO & ", CVE_CPTO_RENOVADO_ENT = " & CVE_CPTO_RENOVADO_ENT & ", 
                 LINEA_VALOR_DECLA = '" & TLINEA_VALOR_DECLA.Text & "', CVE_CPTO_SAL_UNIDAD = " & CVE_CPTO_SAL_UNIDAD & ", 

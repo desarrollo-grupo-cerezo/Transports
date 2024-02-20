@@ -1,8 +1,6 @@
 ﻿Imports C1.Win.C1Themes
 Imports System.Data.SqlClient
 Imports C1.Win.C1FlexGrid
-Imports System.Windows.Media.Media3D
-Imports Stimulsoft.Report.StiOptions.Export
 Imports Stimulsoft.Report
 
 Public Class FrmLiquidaciones
@@ -37,6 +35,7 @@ Public Class FrmLiquidaciones
             Tab1.HotTrack = True
             Tab1.SelectedTabBold = True
             Tab1.TabAreaBorder = True
+
 
             Try
                 C1FlexGridSearchPanel1.SetC1FlexGridSearchPanel(Fg, C1FlexGridSearchPanel1)
@@ -87,7 +86,8 @@ Public Class FrmLiquidaciones
 
             SQL = "SELECT L.CVE_LIQ, ISNULL(L.STATUS,'A') AS ST, L.FECHA, L.CVE_OPER, O.NOMBRE, ISNULL(S.DESCR,'EDICION') AS DESCR_ST_LIQ, 
                 L.CVE_UNI, L.CVE_RES, IMPORTE, ISNULL((SELECT COUNT(*) FROM GCLIQ_PARTIDAS WHERE CVE_LIQ = L.CVE_LIQ),0) AS NUM_VIAJES,
-                CASE WHEN L.STATUS = 'L' THEN 'LIQUIDADO' ELSE '' END AS ESTATUS
+                CASE WHEN L.STATUS = 'L' THEN 'LIQUIDADO' ELSE '' END AS ESTATUS,
+                ISNULL(STUFF((SELECT ' ' + CVE_VIAJE + ', ' FROM GCLIQ_PARTIDAS S WHERE S.CVE_LIQ = L.CVE_LIQ FOR XML PATH ('')),1,1, ''),'') AS VIAJES
                 FROM GCLIQUIDACIONES L
                 LEFT JOIN GCSTATUS_LIQUIDACION S ON S.CVE_LIQ = L.CVE_ST_LIQ
                 LEFT JOIN GCOPERADOR O ON O.CLAVE = L.CVE_OPER " & CADENA & "
@@ -98,16 +98,16 @@ Public Class FrmLiquidaciones
                 If dr("ST") <> "C" Then
                     Fg.AddItem("" & vbTab & dr("CVE_LIQ") & vbTab & dr("FECHA") & vbTab & dr("CVE_OPER") & vbTab & dr("NOMBRE") & vbTab &
                            dr("CVE_UNI") & vbTab & dr("CVE_RES") & vbTab & dr("DESCR_ST_LIQ") & vbTab & dr("IMPORTE") & vbTab &
-                           dr("NUM_VIAJES") & vbTab & dr("ESTATUS"))
+                           dr("NUM_VIAJES") & vbTab & dr("ESTATUS") & vbTab & dr("VIAJES"))
                 Else
                     Fg2.AddItem("" & vbTab & dr("CVE_LIQ") & vbTab & IIf(dr("ST") = "C", "Cancelada", "") & vbTab & dr("FECHA") & vbTab &
                         dr("CVE_OPER") & vbTab & dr("NOMBRE") & vbTab & dr("CVE_UNI") & vbTab & dr("CVE_RES") & vbTab & dr("DESCR_ST_LIQ") & vbTab &
-                        dr("IMPORTE") & vbTab & dr("NUM_VIAJES") & vbTab & dr("ESTATUS"))
+                        dr("IMPORTE") & vbTab & dr("NUM_VIAJES") & vbTab & dr("ESTATUS") & vbTab & dr("VIAJES"))
                 End If
             Loop
             dr.Close()
-            Fg.AutoSizeCols()
-            Fg2.AutoSizeCols()
+            'Fg.AutoSizeCols()
+            'Fg2.AutoSizeCols()
         Catch ex As Exception
             MsgBox("14. " & ex.Message & vbNewLine & ex.StackTrace)
             Bitacora("14. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -268,7 +268,7 @@ Public Class FrmLiquidaciones
     Sub TITULOS()
         Try
             Fg.Rows.Count = 1
-            Fg.Cols.Count = 11
+            Fg.Cols.Count = 12
             Fg.Rows(0).Height = 40
 
             Fg(0, 1) = "Folio"
@@ -312,7 +312,15 @@ Public Class FrmLiquidaciones
             Dim c10 As Column = Fg.Cols(10)
             c10.DataType = GetType(String)
 
-            'c9.Format = "N2"
+            Fg(0, 11) = "Viajes"
+            Dim c11 As Column = Fg.Cols(11)
+            c11.DataType = GetType(String)
+            c11.TextAlign = TextAlignEnum.LeftCenter
+
+            Dim cs As CellStyle = Fg.Styles.Add("FontBold")
+            cs.Font = New Font(Fg.Font.Name, Fg.Font.Size, FontStyle.Bold)
+            Fg.Cols(11).Style = cs
+
         Catch ex As Exception
             MsgBox("14. " & ex.Message & vbNewLine & ex.StackTrace)
             Bitacora("14. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -322,7 +330,7 @@ Public Class FrmLiquidaciones
         Try
             Fg2.Rows.Count = 1
             Fg2.Cols.Count = 1
-            Fg2.Cols.Count = 11
+            Fg2.Cols.Count = 13
 
             Fg2.Rows(0).Height = 40
 
@@ -346,6 +354,10 @@ Public Class FrmLiquidaciones
             Dim c4 As Column = Fg2.Cols(5)
             c4.DataType = GetType(String)
 
+            'Fg2.AddItem("" & vbTab & dr("CVE_LIQ") & vbTab & IIf(dr("ST") = "C", "Cancelada", "") & vbTab & dr("FECHA") & vbTab &
+            '            dr("CVE_OPER") & vbTab & dr("NOMBRE") & vbTab & dr("CVE_UNI") & vbTab & dr("CVE_RES") & vbTab & dr("DESCR_ST_LIQ") & vbTab &
+            '            dr("IMPORTE") & vbTab & dr("NUM_VIAJES") & vbTab & dr("ESTATUS") & vbTab & dr("VIAJES"))
+
             Fg2(0, 6) = "Unidad"
             Dim c5 As Column = Fg2.Cols(6)
             c5.DataType = GetType(String)
@@ -366,6 +378,15 @@ Public Class FrmLiquidaciones
             Fg2(0, 10) = "Viajes realizados"
             Dim c9 As Column = Fg2.Cols(10)
             c9.DataType = GetType(Decimal)
+
+            Fg2(0, 11) = "Estatus"
+            Dim c11 As Column = Fg2.Cols(11)
+            c11.DataType = GetType(Decimal)
+
+            Fg2(0, 12) = "Viajes"
+            Dim c12 As Column = Fg2.Cols(12)
+            c12.DataType = GetType(Decimal)
+
         Catch ex As Exception
             MsgBox("14. " & ex.Message & vbNewLine & ex.StackTrace)
             Bitacora("14. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -450,6 +471,8 @@ Public Class FrmLiquidaciones
                 Report.Item("CVE_OPER") = CLng(CVE_OPER)
                 Report.Item("CVE_TRACTOR") = CVE_TRACTOR
                 Report.Item("CVE_OPER_DED") = CLng(CVE_OPER)
+
+                Report.Item("CVE_OPE") = CLng(CVE_OPER)
                 Report.Render()
                 'StiReport1.Print(True)
                 VisualizaReporte(Report)

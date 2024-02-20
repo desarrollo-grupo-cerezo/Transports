@@ -36,7 +36,7 @@ Module ModCFDI
 
                         gRutaCertificado = dr("FILE_CER") 'CERTIFICADO
                         gRutaPFX = dr("FILE_PFX").ToString '.KEY
-                        gContraPFX = dr("PASS_PFX").ToString  'contrasena del certificado
+                        gContraPFX = Desencriptar(dr("PASS_PFX").ToString)  'contrasena del certificado
 
                         CP_PERMSCT = dr.ReadNullAsEmptyString("PERMSCT")
                         CP_NUMPERMISOSCT = dr.ReadNullAsEmptyString("NUMPERMISOSCT")
@@ -287,6 +287,17 @@ Module ModCFDI
                         End If
                     End If
 
+                Case "NOTA DE CREDITO"
+                    ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDINOTADECREDITO" & Empresa & ".mrt"
+                    If Not File.Exists(ARCHIVO_MRT) Then
+                        ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDINOTADECREDITO.mrt"
+                        If Not File.Exists(ARCHIVO_MRT) Then
+                            MsgBox("No existe el reporte " & ARCHIVO_MRT & ", verifique por favor")
+                            Return
+                        End If
+                    End If
+                    'PassData1 = "CFDI Nota de crédito"
+                    'IMPRIMIR_CFDI_40(FCVE_DOC, "NOTA DE CREDITO")
             End Select
 
             UUID = BUSCAR_UUID_CFDI40(FCVE_DOC)
@@ -302,6 +313,7 @@ Module ModCFDI
             StiReport1.Dictionary.Databases.Clear()
             StiReport1.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
             StiReport1.Compile()
+
             Select Case PassData1
                 Case "PAGO COMPLEMENTO"
                     StiReport1.Item("CVE_DOC_REL") = FCVE_DOC
@@ -310,6 +322,11 @@ Module ModCFDI
                 Case "FACTURA"
                     StiReport1("CVE_DOC") = FCVE_DOC
                     StiReport1.ReportName = "Factura 4.0"
+
+                Case "CFDI Nota de crédito"
+                    StiReport1("CVE_DOC") = FCVE_DOC
+                    StiReport1.ReportName = "Nota de crédito"
+
                 Case "CARTA PORTE TRASLADO"
                     StiReport1.Item("CVE_DOC_REL") = FCVE_DOC
                     StiReport1.Item("CVE_DOC") = FCVE_DOC
@@ -357,7 +374,9 @@ Module ModCFDI
 
 
             StiReport1.Render()
-            StiReport1.Show()
+
+            VisualizaReporte(StiReport1)
+            'StiReport1.Show()
         Catch ex As Exception
             BITACORACFDI("14. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine)
             MsgBox("No tiene derechos para reimprimir CFDI 4.0")
@@ -367,7 +386,7 @@ Module ModCFDI
     Public Sub IMPRIMIR_CFDI_DIRECTO(FCVE_DOC As String, Optional FPDF As String = "", Optional FCVE_VIAJE As String = "", Optional FRFC As String = "")
         Try
             Dim UUID As String, RUTA_PDF_PRECIOS As String = ""
-            Dim Report As StiReport, RUTA_PDF As String = ""
+            Dim Report As New StiReport, RUTA_PDF As String = ""
 
             Try
                 Dim RUTA_FORMATOS As String, ARCHIVO_MRT As String = ""
@@ -426,6 +445,18 @@ Module ModCFDI
                                 Return
                             End If
                         End If
+                    Case "DEVOLUCION CFDI"
+                        RUTA_PDF = gRutaXML_TIMBRADO & "\" & FRFC & "_" & FCVE_DOC & ".pdf"
+                        RUTA_PDF_PRECIOS = gRutaXML_TIMBRADO_CON_PRECIOS & "\" & FRFC & "_" & FCVE_DOC & ".pdf"
+
+                        ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDINOTADECREDITO" & Empresa & ".mrt"
+                        If Not File.Exists(ARCHIVO_MRT) Then
+                            ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDINOTADECREDITO.mrt"
+                            If Not File.Exists(ARCHIVO_MRT) Then
+                                MsgBox("No existe el reporte " & ARCHIVO_MRT & ", verifique por favor")
+                                Return
+                            End If
+                        End If
                 End Select
                 'Var10 = FECHA_TIMBRADO
                 'Var11 = FECHA_EXP
@@ -433,6 +464,7 @@ Module ModCFDI
                 'Var13 = NO_CERTIFICADO_SAT
                 'Var14 = SELLO_CFD
                 Report.Load(ARCHIVO_MRT)
+
                 Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
                            Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
                 Report.Dictionary.Databases.Clear()
@@ -446,6 +478,9 @@ Module ModCFDI
                     Case "FACTURA"
                         Report.Item("CVE_DOC") = FCVE_DOC
                         Report.ReportName = "Factura CFDI 4.0"
+                    Case "DEVOLUCION CFDI"
+                        Report.Item("CVE_DOC") = FCVE_DOC
+                        Report.ReportName = "Nota de crédito"
                     Case "CARTA PORTE TRASLADO"
                         Report.Item("CVE_DOC") = FCVE_DOC
                         Report.ReportName = "Carta porte traslado"

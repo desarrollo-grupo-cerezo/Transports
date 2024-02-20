@@ -89,7 +89,7 @@ Public Class FrmLiquidacionesAE
 
         ProcessControls(Me)
 
-        'Me.Tab1.ItemSize = New System.Drawing.Size(110, 40)
+        Tab1.ItemSize = New System.Drawing.Size(150, 40)
 
     End Sub
     Sub DERECHOS()

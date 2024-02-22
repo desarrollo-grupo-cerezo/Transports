@@ -674,6 +674,12 @@
     <Compile Include="BUENO\FrmSelViajes.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="BUENO\REPORTES\FrmFletesVsGastos.designer.vb">
+      <DependentUpon>FrmFletesVsGastos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BUENO\REPORTES\FrmFletesVsGastos.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="BUENO\REPORTES\FrmReporte44.Designer.vb">
       <DependentUpon>FrmReporte44.vb</DependentUpon>
     </Compile>
@@ -4585,6 +4591,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BUENO\FrmSelViajes.resx">
       <DependentUpon>FrmSelViajes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BUENO\REPORTES\FrmFletesVsGastos.resx">
+      <DependentUpon>FrmFletesVsGastos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BUENO\REPORTES\FrmReporte44.resx">
       <DependentUpon>FrmReporte44.vb</DependentUpon>

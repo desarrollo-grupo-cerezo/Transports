@@ -4205,4 +4205,8 @@ Public Class MainRibbonForm
         BACKUPTXT("XTAB_CAPTION", "FrmPensionAlimenticia")
         FrmPensionAlimenticia.ShowDialog()
     End Sub
+
+    Private Sub RibReporteFleteVsGastos_Click(sender As Object, e As EventArgs) Handles RibReporteFleteVsGastos.Click, RibReporteCTBFleteVsGastos.Click
+        CREA_TAB(FrmFletesVsGastos, "Fletes vs Gastos")
+    End Sub
 End Class

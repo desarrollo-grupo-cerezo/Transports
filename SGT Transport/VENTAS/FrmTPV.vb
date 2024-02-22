@@ -229,7 +229,7 @@ Public Class FrmTPV
 
         ENTRA = True
 
-        If MODO_EDIT <> "edit" Then
+        If MODO_EDIT <> "edit" And TIPO_VENTA_LOCAL <> "F" Then
             Var24 = ""
             FrmSelFactura.ShowDialog()
             If Var24.Trim.Length > 0 Then

@@ -14428,8 +14428,8 @@ AS
 			        INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER			
 			        INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI
 			        INNER JOIN GCLIQ_GASTOS_COMPROBADOS GC WITH (nolock) ON GC.CVE_LIQ = LIQ.CVE_LIQ AND UPPER(GC.REFER) != 'NA' AND ISNULL(GC.REFER, '') != ''
-			        INNER JOIN INVE" & Empresa & " SR WITH (nolock) ON SR.CVE_ART = GC.CVE_ART
-			        INNER JOIN PROV" & Empresa & " PV WITH (nolock) ON PV.CLAVE = GC.CVE_PROV
+			        INNER JOIN INVE05 SR WITH (nolock) ON SR.CVE_ART = GC.CVE_ART
+			        INNER JOIN PROV05 PV WITH (nolock) ON PV.CLAVE = GC.CVE_PROV
 			        INNER JOIN (SELECT Tipo = 1 UNION ALL SELECT Tipo = 2 UNION ALL SELECT Tipo = 3 UNION ALL SELECT Tipo = 4) T ON 1 = 1
 			        WHERE LIQ.STATUS = 'L' 
 			        UNION ALL
@@ -14495,7 +14495,7 @@ AS
 											ELSE '' END 
 											, ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
-					Debe = CONCAT('', CASE	WHEN T.Tipo = 1 THEN iif(SDO.Diferencia = 0, SDO.Sueldo, SDO.Diferencia) 
+					Debe = CONCAT('', CASE	WHEN T.Tipo = 1 THEN SDO.Diferencia 
 											WHEN T.Tipo = 2 THEN SDO.Maniobra 
 											WHEN T.Tipo = 3 THEN (SDO.ISR+SDO.IMSS) 
 											WHEN T.Tipo = 6 THEN SDO.ISR 
@@ -14510,7 +14510,7 @@ AS
 			INNER JOIN GCLIQ_PARTIDAS LP WITH (nolock) ON LP.CVE_LIQ = LIQ.CVE_LIQ
 			LEFT JOIN GCLIQ_SUELDO SDO WITH (nolock) ON SDO.CveLiq = LIQ.CVE_LIQ AND SDO.CveViaje = LP.CVE_VIAJE
 			INNER JOIN (SELECT Tipo = 1 UNION ALL SELECT Tipo = 2 UNION ALL SELECT Tipo = 3 UNION ALL SELECT Tipo = 4 UNION ALL SELECT Tipo = 5 UNION ALL SELECT Tipo = 6 UNION ALL SELECT Tipo = 7) T ON 
-				(T.Tipo = 1 AND (SDO.Diferencia != 0 OR SDO.Sueldo != 0)) OR
+				(T.Tipo = 1 AND SDO.Diferencia != 0) OR
 				(T.Tipo = 2 AND SDO.Maniobra != 0) OR
 				(T.Tipo = 3 AND (SDO.ISR+SDO.IMSS) != 0) OR
 				(T.Tipo = 4 AND SDO.ISR != 0) OR
@@ -14610,7 +14610,7 @@ AS
 			INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER			
 			INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI
 			INNER JOIN GCLIQ_PENSION_ALI PA WITH (nolock) ON PA.CVE_LIQ = LIQ.CVE_LIQ
-			INNER JOIN INVE" & Empresa & " SR WITH (nolock) ON SR.CVE_ART = PA.CVE_ART
+			INNER JOIN INVE05 SR WITH (nolock) ON SR.CVE_ART = PA.CVE_ART
 			WHERE LIQ.STATUS = 'L' 
 			UNION ALL
 			SELECT						
@@ -14643,10 +14643,10 @@ AS
             LEFT JOIN GCBANCOS B ON B.CVE_BANCO = OP.CVE_BANCO
 			LEFT JOIN (
 					SELECT Banco = B.DESCR, CuentaFinanciera = MAX(C.CUENTA_CONTABLE_FINANCIERA) 
-					FROM CUENTA_BENEF" & Empresa & " C
+					FROM CUENTA_BENEF05 C
 					INNER JOIN GCBANCOS B ON B.CVE_BANCO = C.CVE_BANCO
 					GROUP BY B.DESCR) EmpBancos ON EmpBancos.Banco = B.DESCR
-			WHERE LIQ.STATUS = 'L'  AND LIQ.IMPORTE!=0			
+			WHERE LIQ.STATUS = 'L' 			
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -14677,7 +14677,7 @@ AS
 			INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER			
 			INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI
 			INNER JOIN GCLIQ_GASTOS_COMPROBADOS GC WITH (nolock) ON GC.CVE_LIQ = LIQ.CVE_LIQ AND UPPER(GC.REFER) != 'NA' AND ISNULL(GC.REFER, '') != ''
-			INNER JOIN PROV" & Empresa & " PV WITH (nolock) ON PV.CLAVE = GC.CVE_PROV
+			INNER JOIN PROV05 PV WITH (nolock) ON PV.CLAVE = GC.CVE_PROV
 			INNER JOIN (SELECT Tipo = 1 UNION ALL SELECT Tipo = 2) T ON 1 = 1
 			WHERE LIQ.STATUS = 'L' 
 			UNION ALL
@@ -14711,7 +14711,7 @@ AS
 			LEFT JOIN (SELECT CVE_LIQ, IMPORTE = SUM(IMPORTE) FROM GCASIGNACION_VIAJE_GASTOS WITH (nolock) GROUP BY CVE_LIQ) GV  ON GV.CVE_LIQ = LIQ.CVE_LIQ	
 			LEFT JOIN (SELECT CVE_LIQ, IMPORTE = SUM(IMPORTE) FROM GCLIQ_DEDUCCIONES WITH (nolock) GROUP BY CVE_LIQ) LD ON LD.CVE_LIQ = LIQ.CVE_LIQ 
 			LEFT JOIN (SELECT CVE_LIQ, IMPORTE = SUM(IMPORTE) FROM GCLIQ_PENSION_ALI WITH (nolock) GROUP BY CVE_LIQ) PA ON PA.CVE_LIQ = LIQ.CVE_LIQ 
-			WHERE LIQ.STATUS = 'L' AND ((ISNULL(GV.IMPORTE, 0) + ISNULL(LD.IMPORTE, 0) + ISNULL(PA.IMPORTE, 0))*-1) !=0			
+			WHERE LIQ.STATUS = 'L' AND (ISNULL(GV.IMPORTE, 0) + ISNULL(LD.IMPORTE, 0)) !=0			
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -14729,25 +14729,22 @@ AS
 					DocAgr = '',
 					SubOrden = 0,
 					TipoPoliza = '',
-					NoPolizaCuenta = iif(MAX(SDO.Diferencia)=0, dbo.fn_formato_cuenta(dbo.fn_get_cta_gtos('NOTAS DIVERSAS'), UN.CUEN_CONT), dbo.fn_get_cta_gtos('NOTAS VARIAS FISCALES')), 
+					NoPolizaCuenta = iif(MAX(SDO.Diferencia)>0, dbo.fn_formato_cuenta(dbo.fn_get_cta_gtos('NOTAS DIVERSAS'), UN.CUEN_CONT), dbo.fn_get_cta_gtos('NOTAS VARIAS FISCALES')), 
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
-					Haber = CONCAT('', iif(MAX(SDO.Diferencia)=0, MAX(SDO.SueldoExcedido)+CAST(ISNULL(SUM(GC.TOTAL), 0) AS decimal(27, 6)),											
-											CAST(ISNULL(SUM(GC.TOTAL), 0) AS decimal(27, 6)) + MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS)
-											)),
+					Haber = CONCAT('', CAST(ISNULL(SUM(GC.TOTAL), 0) AS decimal(27, 6)) + MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS)),
 					CentroCostos = '',
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
 			INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER			
 			INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI
 			LEFT JOIN GCLIQ_GASTOS_COMPROBADOS GC WITH (nolock) ON GC.CVE_LIQ = LIQ.CVE_LIQ AND (UPPER(GC.REFER) = 'NA' OR ISNULL(GC.REFER, '') = '')
-			INNER JOIN (SELECT CveLiq, Diferencia = SUM(Diferencia), Maniobra = SUM(Maniobra), ISR = SUM(ISR), IMSS = SUM(IMSS), SueldoExcedido = SUM(Sueldo) - SUM(Diferencia) FROM GCLIQ_SUELDO WITH (nolock) GROUP BY CveLiq) SDO ON SDO.CveLiq = LIQ.CVE_LIQ
+			INNER JOIN (SELECT CveLiq, Diferencia = SUM(Diferencia), Maniobra = SUM(Maniobra), ISR = SUM(ISR), IMSS = SUM(IMSS) FROM GCLIQ_SUELDO WITH (nolock) GROUP BY CveLiq) SDO ON SDO.CveLiq = LIQ.CVE_LIQ
 			WHERE LIQ.STATUS = 'L' 
 			GROUP BY LIQ.FECHA, LIQ.CVE_LIQ, LIQ.CVE_UNI, OP.NOMBRE, LIQ.IDPOLIZACOI, UN.CUEN_CONT
 			HAVING (ISNULL(SUM(GC.TOTAL), 0) + MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS)) !=0
-				   OR (MAX(SDO.SueldoExcedido)>0)
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -14779,10 +14776,10 @@ AS
             LEFT JOIN GCBANCOS B ON B.CVE_BANCO = OP.CVE_BANCO
 			LEFT JOIN (
 					SELECT Banco = B.DESCR, CuentaFiscalEgresos = MAX(C.CUENTA_CONTABLE_FISCAL_EG) 
-					FROM CUENTA_BENEF" & Empresa & " C
+					FROM CUENTA_BENEF05 C
 					INNER JOIN GCBANCOS B ON B.CVE_BANCO = C.CVE_BANCO
 					GROUP BY B.DESCR) EmpBancos ON EmpBancos.Banco = B.DESCR
-			WHERE LIQ.STATUS = 'L'  AND LIQ.IMPORTE!=0
+			WHERE LIQ.STATUS = 'L' 
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -14837,7 +14834,8 @@ AS
 	                    DECLARE @IdPolizaCOI int
 						DECLARE @Cliente varchar(20)
 
-	                    DECLARE @ImporteViaje decimal(27,6)
+	                    DECLARE @DiasMes int
+						DECLARE @ImporteViaje decimal(27,6)
 	                    DECLARE @SueldoRuta decimal(27,6)
 	                    DECLARE @SueldoSinManiobra decimal(27,6)
 	                    DECLARE @SueldoDiarioOperador decimal(27,6)
@@ -14866,6 +14864,8 @@ AS
 						IF @StatusLiq != 'L' 
 		                    RETURN
 
+						SET @DiasMes = DAY(EOMONTH(@Fecha))
+
 	                    SET @SueldoDiarioOperador = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 1)
 	                    SET @PorcentajeManiobra = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 2)
 	                    SET @FactorISR = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 3)
@@ -14874,7 +14874,9 @@ AS
 	                    DECLARE @cCursor as CURSOR
 
 	                    SET @cCursor = CURSOR FAST_FORWARD FOR
-		                    SELECT V.CVE_VIAJE, FLETE = round(isnull(V.FLETE, 0), 2), SUELDO = round(isnull(LP.SUELDO, 0), 2), CLIENTE = ISNULL(CLIENTE, '') FROM GCLIQ_PARTIDAS LP INNER JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = LP.CVE_VIAJE WHERE LP.CVE_LIQ = @CveLiq ORDER BY LP.NUM_PAR
+		                    SELECT V.CVE_VIAJE, FLETE = round(isnull(V.FLETE, 0), 2), SUELDO = round(isnull(LP.SUELDO, 0), 2), CLIENTE = ISNULL(CLIENTE, '') 
+							FROM GCLIQ_PARTIDAS LP INNER JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = LP.CVE_VIAJE 
+							WHERE LP.CVE_LIQ = @CveLiq ORDER BY LP.NUM_PAR
  
 	                    OPEN @cCursor;
 	                    FETCH NEXT FROM @cCursor INTO @CveViaje, @ImporteViaje, @SueldoRuta, @Cliente
@@ -14899,16 +14901,21 @@ AS
 		                    SET @DiasAcumulado = (SELECT isnull(SUM(DiasCalculo), 0) 
 							                    FROM GCLIQ_SUELDO GS WITH (nolock) 
 							                    INNER JOIN GCLIQUIDACIONES LIQ WITH (nolock) ON LIQ.CVE_LIQ = GS.CveLiq
-							                    WHERE YEAR(Fecha) = YEAR(Fecha) AND MONTH(@Fecha) = MONTH(@Fecha) AND CveOper = @CveOper AND LIQ.STATUS = 'L' AND LIQ.CVE_LIQ <= @CveLiq)
+							                    WHERE YEAR(Fecha) = YEAR(Fecha) AND MONTH(@Fecha) = MONTH(@Fecha) AND CveOper = @CveOper AND LIQ.STATUS = 'L' AND LIQ.FECHA<= @Fecha) --AND LIQ.CVE_LIQ <= @CveLiq
 
 		                    SET @Maniobra = round((@ImporteViaje * @PorcentajeManiobraCliente / 100), 2)
 		                    SET @SueldoSinManiobra = @SueldoRuta - @Maniobra
 		                    SET @DiasSueldoRuta = @SueldoSinManiobra / @SueldoDiarioOperador
 
-		                    IF @DiasAcumulado < 30
+							--PRINT CONCAT('@CveViaje = ', @CveViaje)
+							--PRINT CONCAT('@DiasAcumulado = ', @DiasAcumulado)
+							--PRINT CONCAT('@DiasMes = ', @DiasMes)
+							--PRINT CONCAT('@DiasSueldoRuta = ', @DiasSueldoRuta)
+
+		                    IF @DiasAcumulado < @DiasMes
 		                    BEGIN
-			                    IF (@DiasAcumulado + @DiasSueldoRuta) > 30			
-				                    SET @DiasCalculo = 30 - @DiasAcumulado	
+			                    IF (@DiasAcumulado + @DiasSueldoRuta) > @DiasMes			
+				                    SET @DiasCalculo = @DiasMes - @DiasAcumulado	
 			                    ELSE
 				                    SET @DiasCalculo = @DiasSueldoRuta	
 
@@ -14919,17 +14926,19 @@ AS
 		                    END
 		                    ELSE
 		                    BEGIN
-			                    SET @Sueldo = @SueldoRuta
+			                    SET @Sueldo = 0
 			                    SET @SueldoSinManiobra = 0
 			                    SET @Maniobra = 0
-			                    SET @Diferencia = 0
+			                    SET @Diferencia = @SueldoRuta
 			                    SET @ISR = 0
 			                    SET @IMSS = 0
 			                    SET @DiasCalculo = 0
 		                    END				
+							
+							--PRINT CONCAT('@DiasCalculo = ', @DiasCalculo)
 
 		                    INSERT INTO GCLIQ_SUELDO(CveLiq, CveViaje, Fecha, CveOper, SueldoDiarioOperador, PorcentajeManiobra, FactorISR, FactorIMSS, ImporteViaje, SueldoRuta, Maniobra, SueldoSinManiobra, DiasSueldoRuta, DiasCalculo, Sueldo, Diferencia, ISR, IMSS, FechaRegistro)
-		                    VALUES (@CveLiq, @CveViaje, @Fecha, @CveOper, @SueldoDiarioOperador, @PorcentajeManiobraCliente, @FactorISR, @FactorIMSS, @ImporteViaje, @SueldoRuta, @Maniobra, @SueldoSinManiobra, @DiasSueldoRuta, @DiasCalculo, @Sueldo, @Diferencia, @ISR, @IMSS, getdate())			   		
+		                    VALUES (@CveLiq, @CveViaje, @Fecha, @CveOper, @SueldoDiarioOperador, @PorcentajeManiobraCliente, @FactorISR, @FactorIMSS, @ImporteViaje, @SueldoRuta, @Maniobra, @SueldoSinManiobra, iif(@DiasSueldoRuta <0, 0, @DiasSueldoRuta), iif(@DiasCalculo<0, 0, @DiasCalculo), @Sueldo, @Diferencia, @ISR, @IMSS, getdate())			   		
 
 		                    FETCH NEXT FROM @cCursor INTO @CveViaje, @ImporteViaje, @SueldoRuta, @Cliente
 	                    END

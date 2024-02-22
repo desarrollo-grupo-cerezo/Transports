@@ -263,6 +263,7 @@ Partial Class MainRibbonForm
         Me.RLiq_Rep_DieselReconocido = New C1.Win.C1Ribbon.RibbonButton()
         Me.RLiq_Rep_ViajesXOperador = New C1.Win.C1Ribbon.RibbonButton()
         Me.RLiq_Rep_EstadoCtaGenOper = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RLiq_Rep_Pension = New C1.Win.C1Ribbon.RibbonButton()
         Me.TabVentas = New C1.Win.C1Ribbon.RibbonTab()
         Me.GpoCFDI = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarFACT_CFDI4 = New C1.Win.C1Ribbon.RibbonButton()
@@ -471,6 +472,7 @@ Partial Class MainRibbonForm
         Me.RibReporte3 = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibReporte4 = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibReporte5 = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibReporteFleteVsGastos = New C1.Win.C1Ribbon.RibbonButton()
         Me.TabConfig = New C1.Win.C1Ribbon.RibbonTab()
         Me.RibbonGroup9 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarEmpresas = New C1.Win.C1Ribbon.RibbonButton()
@@ -535,7 +537,8 @@ Partial Class MainRibbonForm
         Me.C1ThemeController1 = New C1.Win.C1Themes.C1ThemeController()
         Me.Tab1 = New C1.Win.C1Command.C1DockingTab()
         Me.BarOrdenesDeTrabajoExternas1 = New C1.Win.C1Ribbon.RibbonButton()
-        Me.RLiq_Rep_Pension = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonMenu8 = New C1.Win.C1Ribbon.RibbonMenu()
+        Me.RibReporteCTBFleteVsGastos = New C1.Win.C1Ribbon.RibbonButton()
         CType(Me.c1Ribbon1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.c1StatusBar1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.C1ThemeController1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2321,6 +2324,12 @@ Partial Class MainRibbonForm
         Me.RLiq_Rep_EstadoCtaGenOper.Name = "RLiq_Rep_EstadoCtaGenOper"
         Me.RLiq_Rep_EstadoCtaGenOper.Text = "Estado de cuenta general del operador"
         '
+        'RLiq_Rep_Pension
+        '
+        Me.RLiq_Rep_Pension.Name = "RLiq_Rep_Pension"
+        Me.RLiq_Rep_Pension.SmallImage = Global.SGT_Transport.My.Resources.Resources.conta6
+        Me.RLiq_Rep_Pension.Text = "Pensión Alimenticia"
+        '
         'TabVentas
         '
         Me.TabVentas.Groups.Add(Me.GpoCFDI)
@@ -3212,6 +3221,7 @@ Partial Class MainRibbonForm
         Me.RibbonGroup14.Items.Add(Me.RibbonMenu5)
         Me.RibbonGroup14.Items.Add(Me.RibbonMenu7)
         Me.RibbonGroup14.Items.Add(Me.BarContabilidadConsultas)
+        Me.RibbonGroup14.Items.Add(Me.RibbonMenu8)
         Me.RibbonGroup14.Name = "RibbonGroup14"
         '
         'RibbonMenu3
@@ -3793,6 +3803,7 @@ Partial Class MainRibbonForm
         Me.RibbonMenu611.Items.Add(Me.RibReporte3)
         Me.RibbonMenu611.Items.Add(Me.RibReporte4)
         Me.RibbonMenu611.Items.Add(Me.RibReporte5)
+        Me.RibbonMenu611.Items.Add(Me.RibReporteFleteVsGastos)
         Me.RibbonMenu611.LargeImage = CType(resources.GetObject("RibbonMenu611.LargeImage"), System.Drawing.Image)
         Me.RibbonMenu611.Name = "RibbonMenu611"
         Me.RibbonMenu611.Text = "Reportes de facturación"
@@ -3828,6 +3839,12 @@ Partial Class MainRibbonForm
         Me.RibReporte5.Name = "RibReporte5"
         Me.RibReporte5.SmallImage = Global.SGT_Transport.My.Resources.Resources.impresora25
         Me.RibReporte5.Text = "RibReporte5"
+        '
+        'RibReporteFleteVsGastos
+        '
+        Me.RibReporteFleteVsGastos.Name = "RibReporteFleteVsGastos"
+        Me.RibReporteFleteVsGastos.SmallImage = Global.SGT_Transport.My.Resources.Resources.impuestos
+        Me.RibReporteFleteVsGastos.Text = "Reporte Flete vs Gastos"
         '
         'TabConfig
         '
@@ -4279,11 +4296,19 @@ Partial Class MainRibbonForm
         Me.BarOrdenesDeTrabajoExternas1.Name = "BarOrdenesDeTrabajoExternas1"
         Me.BarOrdenesDeTrabajoExternas1.Text = "Ordenes de trabajo mantenimiento"
         '
-        'RLiq_Rep_Pension
+        'RibbonMenu8
         '
-        Me.RLiq_Rep_Pension.Name = "RLiq_Rep_Pension"
-        Me.RLiq_Rep_Pension.SmallImage = Global.SGT_Transport.My.Resources.Resources.conta6
-        Me.RLiq_Rep_Pension.Text = "Pensión Alimenticia"
+        Me.RibbonMenu8.Items.Add(Me.RibReporteCTBFleteVsGastos)
+        Me.RibbonMenu8.LargeImage = Global.SGT_Transport.My.Resources.Resources.desplegar6
+        Me.RibbonMenu8.Name = "RibbonMenu8"
+        Me.RibbonMenu8.SmallImage = CType(resources.GetObject("RibbonMenu8.SmallImage"), System.Drawing.Image)
+        Me.RibbonMenu8.Text = "Reportes"
+        '
+        'RibReporteCTBFleteVsGastos
+        '
+        Me.RibReporteCTBFleteVsGastos.Name = "RibReporteCTBFleteVsGastos"
+        Me.RibReporteCTBFleteVsGastos.SmallImage = Global.SGT_Transport.My.Resources.Resources.impuestos1
+        Me.RibReporteCTBFleteVsGastos.Text = "Fletes vs Gastos"
         '
         'MainRibbonForm
         '
@@ -4826,4 +4851,7 @@ Partial Class MainRibbonForm
     Friend WithEvents RibPolPagOTE As RibbonButton
     Friend WithEvents RibRepPensionAlimenticia As RibbonButton
     Friend WithEvents RLiq_Rep_Pension As RibbonButton
+    Friend WithEvents RibReporteFleteVsGastos As RibbonButton
+    Friend WithEvents RibbonMenu8 As RibbonMenu
+    Friend WithEvents RibReporteCTBFleteVsGastos As RibbonButton
 End Class

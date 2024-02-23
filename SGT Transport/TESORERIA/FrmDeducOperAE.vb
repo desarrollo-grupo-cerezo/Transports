@@ -81,6 +81,8 @@ Public Class FrmDeducOperAE
                 dr = cmd.ExecuteReader
 
                 Do While dr.Read
+
+                    LtFOLIO.Text = Format(dr("FOLIO"), "00000000")
                     TCVE_OPER.Text = dr("CVE_OPER")
                     Fg.AddItem("" & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab & dr("DESCR") & vbTab &
                                dr("CVE_DED") & vbTab & dr("DESCR_DED") & vbTab & dr("IMPORTE_PRESTAMO") & vbTab & dr("SALDO2") & vbTab &
@@ -426,5 +428,49 @@ Public Class FrmDeducOperAE
             Bitacora("82. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("82. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
+    End Sub
+
+    Private Sub BarImprimir_Click(sender As Object, e As ClickEventArgs) Handles BarImprimir.Click
+
+        Try
+            Dim RUTA_FORMATOS As String
+            Dim j As Integer = 0
+            If MsgBox("Realmente desea imprimir el reporte?", vbYesNo, "") = vbNo Then
+                Return
+            End If
+
+            BarImprimir.Enabled = False
+
+            RUTA_FORMATOS = GET_RUTA_FORMATOS() & "\ReportDeducOper.mrt"
+            If Not IO.File.Exists(RUTA_FORMATOS) Then
+                MsgBox("No existe el reporte " & RUTA_FORMATOS & ", verifique por favor")
+                Return
+            End If
+            StiReport1.Load(RUTA_FORMATOS)
+
+            Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
+                Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
+
+            StiReport1.Dictionary.Databases.Clear()
+            StiReport1.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
+            StiReport1.Compile()
+            StiReport1.Dictionary.Synchronize()
+            StiReport1.ReportName = Me.Text
+
+            StiReport1("CVE_OPER") = TCVE_OPER.Text
+
+            StiReport1.Render()
+
+            VisualizaReporte(StiReport1)
+        Catch ex As Exception
+            Bitacora("630. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("630. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        BarImprimir.Enabled = True
+
+    End Sub
+
+    Private Sub BarDisenador_Click(sender As Object, e As ClickEventArgs) Handles BarDisenador.Click
+        PrinterMRT("ReportDeducOper")
     End Sub
 End Class

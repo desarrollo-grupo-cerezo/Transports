@@ -58,6 +58,7 @@ Partial Class FrmPagoComplementoAE
         Me.Split1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.TAB1 = New C1.Win.C1Command.C1DockingTab()
         Me.Pag1 = New C1.Win.C1Command.C1DockingTabPage()
+        Me.Lt2 = New System.Windows.Forms.Label()
         Me.LtCorreo = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.BtnRefreshCliente = New C1.Win.C1Input.C1Button()
@@ -89,7 +90,6 @@ Partial Class FrmPagoComplementoAE
         Me.Split3 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.FgDR = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.StiReport1 = New Stimulsoft.Report.StiReport()
-        Me.Lt2 = New System.Windows.Forms.Label()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitM, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitM.SuspendLayout()
@@ -281,7 +281,7 @@ Partial Class FrmPagoComplementoAE
         '
         'BarCFDIRel
         '
-        Me.BarCFDIRel.Image = Global.SGT_Transport.My.Resources.Resources.cfdiN1
+        Me.BarCFDIRel.Image = Global.SGT_Transport.My.Resources.Resources.CFDI31_e
         Me.BarCFDIRel.Name = "BarCFDIRel"
         Me.BarCFDIRel.ShortcutText = ""
         Me.BarCFDIRel.Text = "Totales"
@@ -470,6 +470,19 @@ Partial Class FrmPagoComplementoAE
         Me.Pag1.Size = New System.Drawing.Size(1224, 136)
         Me.Pag1.TabIndex = 0
         Me.Pag1.Text = "Pagos"
+        '
+        'Lt2
+        '
+        Me.Lt2.AutoSize = True
+        Me.Lt2.BackColor = System.Drawing.Color.Transparent
+        Me.Lt2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lt2.Location = New System.Drawing.Point(786, 93)
+        Me.Lt2.Margin = New System.Windows.Forms.Padding(3)
+        Me.Lt2.Name = "Lt2"
+        Me.Lt2.Size = New System.Drawing.Size(71, 15)
+        Me.Lt2.TabIndex = 609
+        Me.Lt2.Text = "________"
+        Me.Lt2.Visible = False
         '
         'LtCorreo
         '
@@ -829,7 +842,7 @@ Partial Class FrmPagoComplementoAE
         Me.FgDR.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None
         Me.FgDR.AutoClipboard = True
         Me.FgDR.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
-        Me.FgDR.CellButtonImage = Global.SGT_Transport.My.Resources.Resources.LUPA4
+        Me.FgDR.CellButtonImage = Global.SGT_Transport.My.Resources.Resources.lupa15
         Me.FgDR.ClipboardCopyMode = C1.Win.C1FlexGrid.ClipboardCopyModeEnum.DataAndColumnHeaders
         Me.FgDR.ColumnInfo = resources.GetString("FgDR.ColumnInfo")
         Me.FgDR.Dock = System.Windows.Forms.DockStyle.Fill
@@ -855,6 +868,7 @@ Partial Class FrmPagoComplementoAE
         'StiReport1
         '
         Me.StiReport1.CookieContainer = Nothing
+        Me.StiReport1.EngineVersion = Stimulsoft.Report.Engine.StiEngineVersion.EngineV2
         Me.StiReport1.ReferencedAssemblies = New String() {"System.Dll", "System.Drawing.Dll", "System.Windows.Forms.Dll", "System.Data.Dll", "System.Xml.Dll", "Stimulsoft.Controls.Dll", "Stimulsoft.Base.Dll", "Stimulsoft.Report.Dll"}
         Me.StiReport1.ReportAlias = "Report"
         Me.StiReport1.ReportGuid = "41145b081bc34521b94ec07ae73288e7"
@@ -864,19 +878,6 @@ Partial Class FrmPagoComplementoAE
         Me.StiReport1.ReportUnit = Stimulsoft.Report.StiReportUnitType.Centimeters
         Me.StiReport1.ScriptLanguage = Stimulsoft.Report.StiReportLanguageType.CSharp
         Me.StiReport1.UseProgressInThread = False
-        '
-        'Lt2
-        '
-        Me.Lt2.AutoSize = True
-        Me.Lt2.BackColor = System.Drawing.Color.Transparent
-        Me.Lt2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt2.Location = New System.Drawing.Point(786, 93)
-        Me.Lt2.Margin = New System.Windows.Forms.Padding(3)
-        Me.Lt2.Name = "Lt2"
-        Me.Lt2.Size = New System.Drawing.Size(71, 15)
-        Me.Lt2.TabIndex = 609
-        Me.Lt2.Text = "________"
-        Me.Lt2.Visible = False
         '
         'FrmPagoComplementoAE
         '

@@ -1150,7 +1150,7 @@ Partial Class FrmTabRutasHojaAE
         Me.TPORC_MANIOBRA_FULL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TPORC_MANIOBRA_FULL.Location = New System.Drawing.Point(883, 419)
         Me.TPORC_MANIOBRA_FULL.Name = "TPORC_MANIOBRA_FULL"
-        Me.TPORC_MANIOBRA_FULL.Size = New System.Drawing.Size(37, 19)
+        Me.TPORC_MANIOBRA_FULL.Size = New System.Drawing.Size(73, 19)
         Me.TPORC_MANIOBRA_FULL.TabIndex = 566
         Me.TPORC_MANIOBRA_FULL.Tag = Nothing
         Me.TPORC_MANIOBRA_FULL.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -1191,7 +1191,7 @@ Partial Class FrmTabRutasHojaAE
         Me.TPORC_MANIOBRA_SENC.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TPORC_MANIOBRA_SENC.Location = New System.Drawing.Point(883, 443)
         Me.TPORC_MANIOBRA_SENC.Name = "TPORC_MANIOBRA_SENC"
-        Me.TPORC_MANIOBRA_SENC.Size = New System.Drawing.Size(37, 19)
+        Me.TPORC_MANIOBRA_SENC.Size = New System.Drawing.Size(73, 19)
         Me.TPORC_MANIOBRA_SENC.TabIndex = 567
         Me.TPORC_MANIOBRA_SENC.Tag = Nothing
         Me.TPORC_MANIOBRA_SENC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right

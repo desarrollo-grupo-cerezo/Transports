@@ -21,17 +21,15 @@ Public Class FrmConciValesCombusAE
             Fg.Styles.EmptyArea.BackColor = ColoFondoFG
         Catch ex As Exception
         End Try
+
         Me.CenterToScreen()
         Me.KeyPreview = True
         Fg.Rows.Count = 1
         Fg2.Rows.Count = 1
 
         C1SplitContainer1.SplitterWidth = 1
-        Fg.Cols(12).Sort = C1.Win.C1FlexGrid.SortFlags.Ascending
-        Fg.Cols(12).Width = 0
-        Fg2.Cols(12).Width = 0
-        Fg.Rows(0).Height = 50
         Fg2.Rows(0).Height = 50
+        Fg.Rows(0).Height = 50
 
         F1.Value = Date.Today
         F1.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
@@ -39,6 +37,39 @@ Public Class FrmConciValesCombusAE
         F1.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat
         F1.EditFormat.CustomFormat = "dd/MM/yyyy"
         F1.Value = Now
+
+
+        Fg.Styles.Fixed.WordWrap = True
+        Fg2.Styles.Fixed.WordWrap = True
+        Fg.AutoClipboard = True
+        Fg.ClipboardCopyMode = ClipboardCopyModeEnum.DataAndColumnHeaders
+        Fg.Cols(12).Sort = C1.Win.C1FlexGrid.SortFlags.Ascending
+
+        Fg.Cols(0).Width = 40
+        Fg.Cols(2).Width = 40
+        Fg.Cols(3).Width = 90
+        Fg.Cols(4).Width = 160
+        Fg.Cols(5).Width = 40
+        Fg.Cols(6).Width = 200
+        Fg.Cols(7).Width = 80
+        Fg.Cols(8).Width = 80
+        Fg.Cols(9).Width = 80
+        Fg.Cols(10).Width = 80
+        Fg.Cols(11).Width = 80
+        Fg.Cols(12).Width = 80
+
+        Fg2.Cols(2).Width = 40
+        Fg2.Cols(3).Width = 90
+        Fg2.Cols(4).Width = 160
+        Fg2.Cols(5).Width = 40
+        Fg2.Cols(6).Width = 200
+        Fg2.Cols(7).Width = 80
+        Fg2.Cols(8).Width = 80
+        Fg2.Cols(9).Width = 80
+        Fg2.Cols(10).Width = 80
+        Fg2.Cols(11).Width = 80
+        Fg2.Cols(12).Width = 80
+        Fg2.Cols(13).Width = 0
 
 
         BtnProv.FlatStyle = FlatStyle.Flat
@@ -215,20 +246,19 @@ Public Class FrmConciValesCombusAE
             Fg2.Rows.Count = 1
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 SQL = "SELECT C.CVE_VIAJE, C.CVE_FOLIO, C.FECHA, C.SUBTOTAL, C.IVA, C.NETO, G.CVE_GAS, ISNULL(G.DESCR,'') AS NOMBRE_GAS,
-                    ISNULL(LITROS,0) AS LTS_INICIALES, ISNULL(LITROS_REALES,0) AS LTS_REAL
+                    ISNULL(LITROS,0) AS LTS_INICIALES, ISNULL(LITROS_REALES,0) AS LTS_REAL, A.OBS
                     FROM GCCONCI_VALES_COMBUS_PAR C
                     LEFT JOIN GCASIGNACION_VIAJE_VALES A ON A.FOLIO = C.CVE_FOLIO
                     LEFT JOIN GCGASOLINERAS G ON G.CVE_GAS = C.CVE_GAS
-                    WHERE ISNULL(C.STATUS,'A') <> 'C' AND C.CVE_COVC = '" & TCVE_COVC.Text & "' AND 
-                    ISNULL(A.STATUS,'') <> 'C'
+                    WHERE ISNULL(C.STATUS,'A') <> 'C' AND C.CVE_COVC = '" & TCVE_COVC.Text & "' AND ISNULL(A.STATUS,'') <> 'C'
                     ORDER BY CVE_FOLIO"
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
-                        z += 1
-                        Fg2.AddItem(z & vbTab & "" & vbTab & dr("CVE_VIAJE") & vbTab & dr("CVE_FOLIO") & vbTab & dr("CVE_GAS") & vbTab &
-                                    dr("NOMBRE_GAS") & vbTab & dr("LTS_INICIALES") & vbTab & dr("LTS_REAL") & vbTab & dr("FECHA") & vbTab &
-                                    dr("SUBTOTAL") & vbTab & dr("IVA") & vbTab & dr("NETO") & vbTab & z)
+                        z += 1 '                 1                    2                         3                     4                       5                        6
+                        Fg2.AddItem(z & vbTab & "" & vbTab & dr("CVE_VIAJE") & vbTab & dr("CVE_FOLIO") & vbTab & dr("OBS") & vbTab & dr("CVE_GAS") & vbTab & dr("NOMBRE_GAS") & vbTab &
+                                    dr("LTS_INICIALES") & vbTab & dr("LTS_REAL") & vbTab & dr("FECHA") & vbTab & dr("SUBTOTAL") & vbTab & dr("IVA") & vbTab & dr("NETO") & vbTab & z)
+                        '                    7                           8                       9                      10                     11                  12
                     End While
                 End Using
             End Using
@@ -237,9 +267,9 @@ Public Class FrmConciValesCombusAE
 
                 For k = 1 To Fg2.Rows.Count - 1
                     Fg2(k, 0) = k
-                    SUBTOTAL += Fg2(k, 9)
+                    SUBTOTAL += Fg2(k, 10)
                     IVA += Fg2(k, 10)
-                    NETO += Fg2(k, 11)
+                    NETO += Fg2(k, 12)
                 Next
                 tSUBTOTAL.Text = Format(SUBTOTAL, "###,###,##0.00")
                 tIVA.Text = Format(IVA, "###,###,##0.00")
@@ -458,7 +488,8 @@ Public Class FrmConciValesCombusAE
         If Not Valida_Conexion() Then
         End If
 
-        SQL = "INSERT INTO GCCONCI_VALES_COMBUS_PAR (CVE_COVC, CVE_VIAJE, CVE_FOLIO, STATUS, FECHA, CVE_GAS, SUBTOTAL, IVA, NETO, UUID)
+        SQL = "SET ansi_warnings OFF
+            INSERT INTO GCCONCI_VALES_COMBUS_PAR (CVE_COVC, CVE_VIAJE, CVE_FOLIO, STATUS, FECHA, CVE_GAS, SUBTOTAL, IVA, NETO, UUID)
              VALUES(@CVE_COVC, @CVE_VIAJE, @CVE_FOLIO, 'A', @FECHA, @CVE_GAS, @SUBTOTAL, @IVA, @NETO, NEWID())"
         cmd.CommandText = SQL
         'PARTIDAS    PARTIDAS    PARTIDAS    PARTIDAS    PARTIDAS    PARTIDAS    PARTIDAS    
@@ -472,9 +503,9 @@ Public Class FrmConciValesCombusAE
                 cmd.Parameters.Add("@CVE_FOLIO", SqlDbType.VarChar).Value = Fg2(k, 3)
                 cmd.Parameters.Add("@FECHA", SqlDbType.Date).Value = IIf(IsDate(Fg2(k, 8)), Fg2(k, 8), Now)
                 cmd.Parameters.Add("@CVE_GAS", SqlDbType.VarChar).Value = Fg2(k, 4)
-                cmd.Parameters.Add("@SUBTOTAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(Fg2(k, 9)), 6)
-                cmd.Parameters.Add("@IVA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(Fg2(k, 10)), 6)
-                cmd.Parameters.Add("@NETO", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(Fg2(k, 11)), 6)
+                cmd.Parameters.Add("@SUBTOTAL", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(Fg2(k, 10)), 6)
+                cmd.Parameters.Add("@IVA", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(Fg2(k, 11)), 6)
+                cmd.Parameters.Add("@NETO", SqlDbType.Float).Value = Math.Round(CONVERTIR_TO_DECIMAL(Fg2(k, 12)), 6)
                 returnValue = cmd.ExecuteNonQuery().ToString
                 If returnValue IsNot Nothing Then
                     If returnValue = "1" Then
@@ -550,13 +581,13 @@ Public Class FrmConciValesCombusAE
             Try
                 Using cmd As SqlCommand = cnSAE.CreateCommand
                     SQL = "SELECT A.CVE_VIAJE, A.FOLIO,  G.CVE_GAS, G.DESCR AS NOMBRE_GAS, A.FECHA, A.SUBTOTAL, A.IVA, A.IMPORTE,
-                    ISNULL(LITROS,0) AS LTS_INICIALES, ISNULL(LITROS_REALES,0) AS LTS_REAL
-                    FROM GCASIGNACION_VIAJE_VALES A
-                    LEFT JOIN GCGASOLINERAS G ON G.CVE_GAS = A.CVE_GAS
-                    LEFT JOIN PROV" & Empresa & " P ON P.CLAVE = G.CVE_PROV
-                    WHERE A.STATUS <> 'C' AND G.CVE_PROV = '" & TCVE_PROV.Text & "' AND 
-                    A.ST_VALES = 'ACEPTADO' AND ISNULL(A.CONCILIADO,0) = 0 " & Cadena_gas & " 
-                    ORDER BY A.FOLIO"
+                        ISNULL(LITROS,0) AS LTS_INICIALES, ISNULL(LITROS_REALES,0) AS LTS_REAL, OBS
+                        FROM GCASIGNACION_VIAJE_VALES A
+                        LEFT JOIN GCGASOLINERAS G ON G.CVE_GAS = A.CVE_GAS
+                        LEFT JOIN PROV" & Empresa & " P ON P.CLAVE = G.CVE_PROV
+                        WHERE A.STATUS <> 'C' AND G.CVE_PROV = '" & TCVE_PROV.Text & "' AND 
+                        A.ST_VALES = 'ACEPTADO' AND ISNULL(A.CONCILIADO,0) = 0 " & Cadena_gas & " 
+                        ORDER BY A.FOLIO"
                     cmd.CommandText = SQL
                     Using dr As SqlDataReader = cmd.ExecuteReader
                         While dr.Read
@@ -567,8 +598,8 @@ Public Class FrmConciValesCombusAE
                                 End If
                             Next
                             If Sigue Then
-                                z += 1
-                                Fg.AddItem(z & vbTab & "" & vbTab & dr("CVE_VIAJE") & vbTab & dr("FOLIO") & vbTab & dr("CVE_GAS") & vbTab &
+                                z += 1 '                 1                   2                       3                    4   
+                                Fg.AddItem(z & vbTab & "" & vbTab & dr("CVE_VIAJE") & vbTab & dr("FOLIO") & vbTab & dr("OBS") & vbTab & dr("CVE_GAS") & vbTab &
                                        dr("NOMBRE_GAS") & vbTab & dr("LTS_INICIALES") & vbTab & dr("LTS_REAL") & vbTab & dr("FECHA") & vbTab &
                                        dr("SUBTOTAL") & vbTab & dr("IVA") & vbTab & dr("IMPORTE") & vbTab & z)
 
@@ -655,7 +686,7 @@ Public Class FrmConciValesCombusAE
                         If Not Exist Then
                             Fg2.AddItem("" & vbTab & "" & vbTab & Fg(k, 2) & vbTab & Fg(k, 3) & vbTab & Fg(k, 4) & vbTab &
                                 Fg(k, 5) & vbTab & Fg(k, 6) & vbTab & Fg(k, 7) & vbTab & Fg(k, 8) & vbTab & Fg(k, 9) & vbTab &
-                                Fg(k, 10) & vbTab & Fg(k, 11) & vbTab & Fg(k, 12))
+                                Fg(k, 10) & vbTab & Fg(k, 11) & vbTab & Fg(k, 12) & vbTab & Fg(k, 13))
                             z += 1
                             Fg.RemoveItem(k)
                         End If
@@ -667,9 +698,9 @@ Public Class FrmConciValesCombusAE
                     SUBTOTAL = 0 : IVA = 0 : NETO = 0
                     For k = 1 To Fg2.Rows.Count - 1
                         Fg2(k, 0) = k
-                        SUBTOTAL += Fg2(k, 9)
-                        IVA += Fg2(k, 10)
-                        NETO += Fg2(k, 11)
+                        SUBTOTAL += Fg2(k, 10)
+                        IVA += Fg2(k, 11)
+                        NETO += Fg2(k, 12)
                     Next
                     tSUBTOTAL.Text = Format(SUBTOTAL, "###,###,##0.00")
                     tIVA.Text = Format(IVA, "###,###,##0.00")
@@ -704,7 +735,7 @@ Public Class FrmConciValesCombusAE
                         If Fg2(k, 1) Then
                             Fg.AddItem(Fg2(k, 12) & vbTab & "" & vbTab & Fg2(k, 2) & vbTab & Fg2(k, 3) & vbTab & Fg2(k, 4) & vbTab &
                                        Fg2(k, 5) & vbTab & Fg2(k, 6) & vbTab & Fg2(k, 7) & vbTab & Fg2(k, 8) & vbTab & Fg2(k, 9) & vbTab &
-                                       Fg2(k, 10) & vbTab & Fg2(k, 11) & vbTab & Fg2(k, 12))
+                                       Fg2(k, 10) & vbTab & Fg2(k, 11) & vbTab & Fg2(k, 12) & vbTab & Fg2(k, 13))
                             Fg2.RemoveItem(k)
                             z += 1
                         End If
@@ -719,9 +750,9 @@ Public Class FrmConciValesCombusAE
                     Fg2.Refresh()
                     Try
                         For k = 1 To Fg2.Rows.Count - 1
-                            SUBTOTAL += Fg2(k, 9)
-                            IVA += Fg2(k, 10)
-                            NETO += Fg2(k, 11)
+                            SUBTOTAL += Fg2(k, 10)
+                            IVA += Fg2(k, 11)
+                            NETO += Fg2(k, 12)
                         Next
                         SUBTOTAL = Math.Round(SUBTOTAL, 6)
                         IVA = Math.Round(IVA, 6)
@@ -857,7 +888,7 @@ Public Class FrmConciValesCombusAE
                                         'MsgBox("235. " & ex.Message & vbNewLine & ex.StackTrace)
                                     End Try
 
-                                    IMPORTE += Fg2(k, 11)
+                                    IMPORTE += Fg2(k, 12)
 
                                 End If
                             End If
@@ -1476,8 +1507,8 @@ Public Class FrmConciValesCombusAE
             CVE_CLPV = TCVE_PROV.Text
             Try
                 For k = 1 To Fg2.Rows.Count - 1
-                    CAN_TOT += Fg2(k, 9)
-                    NETO += Fg2(k, 11)
+                    CAN_TOT += Fg2(k, 10)
+                    NETO += Fg2(k, 12)
                 Next
             Catch ex As Exception
                 Bitacora("110. " & ex.Message & vbNewLine & ex.StackTrace)

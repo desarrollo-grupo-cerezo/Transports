@@ -167,7 +167,7 @@ Public Class FrmPolizaDiesel
             Fg.Cols(7).Visible = False
 
 
-            TPOLIZA.Text = "Poliza Egresos Diesel " & DateTime.Now.ToString("MMMM")
+            TPOLIZA.Text = "Póliza Provisión Diesel " & DateTime.Now.ToString("MMMM")
 
         Catch ex As Exception
             MsgBox("13. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -195,7 +195,7 @@ Public Class FrmPolizaDiesel
     End Sub
     Private Sub FrmPolizaDiesel_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         Me.Dispose()
-        CloseTab("Póliza Egresos Diesel")
+        CloseTab("Pólizas Provisión Diesel")
     End Sub
 
     Private Sub BarCarpeta_Click(sender As Object, e As ClickEventArgs) Handles BarCarpeta.Click
@@ -384,9 +384,12 @@ Public Class FrmPolizaDiesel
                             'End If
 
 #End Region
+                            If dr("Orden").ToString().Equals("1") Then
+                                TotalDocumentos = TotalDocumentos + 1
+                            End If
 
                             Fg.AddItem("" & vbTab & dr("FechaDocumento") & vbTab & dr("Documento") & vbTab & dr("TipoDocumento") & vbTab & dr("FechaViaje") & vbTab &
-                                       dr("Viaje") & vbTab & dr("IdPoliza") & vbTab & dr("Orden") & vbTab & dr("TipoPoliza") & vbTab & dr("NoPolizaCuenta") & vbTab &
+                                       dr("Viaje") & vbTab & dr("IdPoliza") & vbTab & dr("Orden") & vbTab & dr("TipoPoliza") & vbTab & IIf(dr("Orden").ToString().Equals("1"), TotalDocumentos, dr("NoPolizaCuenta")) & vbTab &
                                        dr("ConceptoPolizaDepto") & vbTab & dr("DiaConceptoMov") & vbTab & dr("TipoCambio") & vbTab & IIf(dr("Orden") = "5", Math.Round(dr("TotalDebe"), 2), dr("Debe")) & vbTab & IIf(dr("Orden") = "5", Math.Round(dr("TotalHaber"), 2), dr("Haber")) & vbTab &
                                        dr("CentroCostos") & vbTab & dr("Proyecto"))
 
@@ -406,9 +409,7 @@ Public Class FrmPolizaDiesel
                             If dr("Orden").ToString().Equals("1") And Not dr("IdPoliza").ToString().Equals("0") Then
                                 Fg.SetCellStyle(Fg.Rows.Count - 1, 9, NewStyle3)
                             End If
-                            If dr("Orden").ToString().Equals("1") Then
-                                TotalDocumentos = TotalDocumentos + 1
-                            End If
+
                         Catch ex As Exception
                             Bitacora("14. " & ex.Message & vbNewLine & ex.StackTrace)
                         End Try
@@ -439,11 +440,18 @@ Public Class FrmPolizaDiesel
 
     Private Sub BarExcel_Click(sender As Object, e As ClickEventArgs) Handles BarExcel.Click
         Try
+            For k = 1 To Fg.Rows.Count - 1
+                If Fg(k, 9) = "FIN_PARTIDAS" Then
+                    Fg(k, 13) = ""
+                    Fg(k, 14) = ""
+                End If
+            Next
             Fg.AllowFiltering = True
             Fg.FilterDefinition = "<ColumnFilters><ColumnFilter ColumnIndex='6' ColumnName='Orden' DataType='System.String'><ConditionFilter AndConditions='True'><Condition Operator='DoesNotContain' Parameter='99' /></ConditionFilter></ColumnFilter></ColumnFilters>"
             EXPORTAR_EXCEL_TRANSPORT(Fg, TPOLIZA.Text, True)
             Fg.FilterDefinition = ""
             Fg.AllowFiltering = False
+            BarDesplegar_Click(Nothing, Nothing)
         Catch ex As Exception
             MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace)
             Bitacora("12. " & ex.Message & vbNewLine & ex.StackTrace)

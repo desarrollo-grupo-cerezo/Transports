@@ -48,11 +48,7 @@ Public Class FrmPagoComplementoAE
     Sub INICIO()
         Dim CADENA As String = ""
 
-        Try
-            Dim theme As C1Theme = C1ThemeController.GetThemeByName(ThemeElekos, True)
-            C1ThemeController.ApplyThemeToControlTree(Me, theme)
-        Catch ex As Exception
-        End Try
+        
 
         Try
             F1.Value = Date.Today
@@ -159,7 +155,20 @@ Public Class FrmPagoComplementoAE
             'Dim cs As CellStyle = Fg.Styles.Add("NewLink")
             'cs.Font = New Font(Fg.Font, FontStyle.Underline)
             'cs.ForeColor = Color.Blue
-            LtCVE_DOC.Text = SIGUIENTE_CVE_DOC_VENTA_CEROS("G", LETRA_G)
+
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT SERIE FROM GCUSUARIOS_PARAM WHERE 
+                    UPPER(USUARIO) = '" & USER_GRUPOCE.ToUpper & "' AND TIPO_DOC = 'G'"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    If dr.Read Then
+                        LETRA_G = dr("SERIE")
+                    End If
+                End Using
+            End Using
+
+
+            LtCVE_DOC.Text = SIGUIENTE_CVE_DOC_PAGOS("G", LETRA_G)
 
             CADENA = ""
             Using cmd As SqlCommand = cnSAE.CreateCommand
@@ -182,6 +191,7 @@ Public Class FrmPagoComplementoAE
                     End While
                 End Using
             End Using
+
 
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 SQL = "SELECT * FROM CFDI_CFG"
@@ -250,7 +260,8 @@ Public Class FrmPagoComplementoAE
             Try
                 Using cmd As SqlCommand = cnSAE.CreateCommand
                     SQL = "SELECT P.CVE_DOC, P.CLIENTE, P.ESTATUS, P.IMPORTE, P.FECHA, P.RFC
-                        FROM CFDI_COMPAGO P WHERE CVE_DOC = '" & Var12 & "'"
+                        FROM CFDI_COMPAGO P 
+                        WHERE CVE_DOC = '" & Var12 & "'"
                     cmd.CommandText = SQL
                     Using dr As SqlDataReader = cmd.ExecuteReader
                         If dr.Read Then
@@ -296,10 +307,9 @@ Public Class FrmPagoComplementoAE
                     cmd.CommandText = SQL
                     Using dr As SqlDataReader = cmd.ExecuteReader
                         While dr.Read
-                            FgDR.AddItem("" & vbTab & dr("CVE_DOC") & vbTab & "" & vbTab & dr("NUMPARCIALIDAD") & vbTab &
-                                dr("FECHA") & vbTab & dr("IMPSALDOANT") & vbTab & dr("IMPPAGADO") & vbTab &
-                                dr("IMPSALDOINSOLUTO") & vbTab & dr("IDDOCUMENTO") & vbTab & dr("SERIE") & vbTab &
-                                dr("FOLIO") & vbTab & dr("MONEDADR") & vbTab & dr("FORMADEPAGOSAT") & vbTab & dr("TCAMBIO"))
+                            FgDR.AddItem("" & vbTab & dr("CVE_DOC") & vbTab & "" & vbTab & dr("NUMPARCIALIDAD") & vbTab & dr("FECHA") & vbTab & dr("IMPSALDOANT") & vbTab &
+                                         dr("IMPPAGADO") & vbTab & dr("IMPSALDOINSOLUTO") & vbTab & dr("IDDOCUMENTO") & vbTab & dr("SERIE") & vbTab & dr("FOLIO") & vbTab &
+                                         dr("MONEDADR") & vbTab & dr("FORMADEPAGOSAT") & vbTab & dr("TCAMBIO") & vbTab & 0 & vbTab & 0 & vbTab & 0 & vbTab & 0 & dr("IMPMON_EXT"))
                         End While
                         Fg.AutoSizeCols()
                     End Using
@@ -320,12 +330,20 @@ Public Class FrmPagoComplementoAE
             Return
         End If
 
+        Try
+            Dim theme As C1Theme = C1ThemeController.GetThemeByName(ThemeElekos, True)
+            C1ThemeController.ApplyThemeToControlTree(Me, theme)
+        Catch ex As Exception
+        End Try
+
         Dim myuuid As Guid = Guid.NewGuid()
         UUID_G = myuuid.ToString()
 
         PassData2 = UUID_G
-
         FFormOpen = "CLOSE"
+
+        Fg.Styles.Fixed.TextAlign = TextAlignEnum.CenterCenter
+
         TCLIENTE.Focus()
         Try
             Fg.SetCellImage(Fg.Rows.Count - 1, 11, My.Resources.lapiz22)
@@ -344,8 +362,7 @@ Public Class FrmPagoComplementoAE
             .Importe = 0,
             .Cantidad = 1,
             .Descripcion = "Pago",
-            .ObjetoImp = "01"
-        }
+            .ObjetoImp = "01"}
         Return c
     End Function
     Private Sub CalculaTotales()
@@ -393,7 +410,7 @@ Public Class FrmPagoComplementoAE
             frmSelSerie.ShowDialog()
             If Var14.Trim.Length > 0 Then
                 LETRA_G = Var14
-                LtCVE_DOC.Text = SIGUIENTE_CVE_DOC_VENTA_CEROS("G", LETRA_G)
+                LtCVE_DOC.Text = SIGUIENTE_CVE_DOC_PAGOS("G", LETRA_G)
                 'cargarUsosCfdi()
             End If
         Catch ex As Exception
@@ -471,7 +488,7 @@ Public Class FrmPagoComplementoAE
         Dim DOCTO As String = ""
         Dim CER64 As String, KEY64 As String, USUAARIO_TIMB As String, PASS_TIMB As String, CVE_OBS As Long
         Dim CVE_DOC As String = "", REFER As String = "", FORMA_PAGO_SAT As String = "", IMPORTE As Decimal
-        Dim CVE_MONED As String = "", TIPO_CAMBIO As Integer, CTA_BAN_ORD As String = "", RFC_ORD As String = "", BANCO_ORD As String = ""
+        Dim CVE_MONED As String = "", TIPO_CAMBIO As Decimal, CTA_BAN_ORD As String = "", RFC_ORD As String = "", BANCO_ORD As String = ""
         Dim CTA_BAN_BEN As String = "", RFC_BEN As String = "", NUM_OPER As String = "", Continua As Boolean = False, Continua_Par As Boolean
         Dim FECHA_PAGO As Date, NUM_CPTO As Integer = 0, resultado As String, z As Integer = 0, NO_PARTIDA_CUEN_DET As Integer
 
@@ -661,7 +678,7 @@ Public Class FrmPagoComplementoAE
 
                     resultado = ""
                     'Dim FECHA_CAN As String = DateTime.Now.ToString("yyyy/MM/ddTHH:mm:ss")
-                    CVE_DOC = SIGUIENTE_CVE_DOC_VENTA_CEROS("G", LETRA_G)
+                    CVE_DOC = SIGUIENTE_CVE_DOC_PAGOS("G", LETRA_G)
                 Catch ex As Exception
                     BITACORACFDI("10. " & vbNewLine & ex.StackTrace)
                 End Try
@@ -679,9 +696,9 @@ Public Class FrmPagoComplementoAE
                             Do While Sigue
 
                                 If LETRA_G.Trim.Length = 0 Or LETRA_G = "STAND." Then
-                                    CVE_DOC = Space(10) & Format(FOLIO_G, "0000000000")
+                                    CVE_DOC = Space(10) & Format(FOLIO_G, "0000")
                                 Else
-                                    CVE_DOC = LETRA_G & FOLIO_G
+                                    CVE_DOC = LETRA_G & Format(FOLIO_G, "0000")
                                 End If
 
                                 If EXISTE_PAGO_COMP("G", CVE_DOC) Then
@@ -729,7 +746,7 @@ Public Class FrmPagoComplementoAE
                     End Try
                     If Not Valida_Conexion() Then
                     End If
-                    CVE_DOC = SIGUIENTE_CVE_DOC_VENTA_CEROS("G", LETRA_G)
+                    CVE_DOC = SIGUIENTE_CVE_DOC_PAGOS("G", LETRA_G)
                 Next
 
                 If Continua Then
@@ -906,9 +923,9 @@ Public Class FrmPagoComplementoAE
                                 LETRA_DR = Regex.Replace(REFER, "[^a-zA-Z]", "")
 
                                 Using cmd3 As SqlCommand = cnSAE.CreateCommand
-                                    SQL = "SELECT DR.CVE_DOC, DR.FECHA, DR.IMPSALDOANT, DR.IMPPAGADO, DR.IMPSALDOINSOLUTO, DR.NUMPARCIALIDAD, 
-                                        DR.MONEDADR, DR.EQUIVALENCIADR, DR.FOLIO, DR.SERIE, DR.OBJETOIMP_DR, DR.IDDOCUMENTO, DR.FORMADEPAGOSAT, 
-                                        DR.TCAMBIO, ISNULL(F.SUBTOTAL,0) AS SUBT, ISNULL(F.IVA,0) AS IV, ISNULL(F.RETENCION,0) AS RET
+                                    SQL = "SELECT DR.CVE_DOC, DR.FECHA, DR.IMPSALDOANT, DR.IMPPAGADO, DR.IMPSALDOINSOLUTO, DR.NUMPARCIALIDAD, DR.MONEDADR, DR.EQUIVALENCIADR, 
+                                        DR.FOLIO, DR.SERIE, DR.OBJETOIMP_DR, DR.IDDOCUMENTO, DR.FORMADEPAGOSAT, DR.TCAMBIO, ISNULL(F.SUBTOTAL,0) AS SUBT, ISNULL(F.IVA,0) AS IV, 
+                                        ISNULL(F.RETENCION,0) AS RET, DR.IMPU1, DR.IMPU2, DR.IMPU3, DR.IMPU4, IMPNUM_EXT
                                         FROM GCCFDI_COMPAGO_PAR_DR DR
                                         LEFT JOIN CFDI F ON F.FACTURA = DR.CVE_DOC
                                         WHERE GUID_G = '" & UUID_G & "' ORDER BY NUMPARCIALIDAD"
@@ -916,18 +933,22 @@ Public Class FrmPagoComplementoAE
                                     Using dr3 As SqlDataReader = cmd3.ExecuteReader
                                         While dr3.Read
                                             Try
-                                                SQL = "INSERT INTO CFDI_COMPAGO_PAR_DR (CVE_DOC, NUM_PAR, REFER, DOCTO, FECHA, FOLIO, OBJETOIMP_DR,
-                                                    IMPSALDOINSOLUTO, IMPPAGADO, IMPSALDOANT, NUMPARCIALIDAD, EQUIVALENCIADR, MONEDADR, SERIE,
-                                                    IDDOCUMENTO, FORMADEPAGOSAT, TCAMBIO, GUID_G) VALUES(@CVE_DOC, 
-                                                    ISNULL((SELECT MAX(ISNULL(NUM_PAR,0)) + 1 FROM CFDI_COMPAGO_PAR_DR WHERE CVE_DOC = @CVE_DOC),1), 
-                                                    @REFER, @DOCTO, @FECHA, @FOLIO, @OBJETOIMP_DR, @IMPSALDOINSOLUTO, @IMPPAGADO, @IMPSALDOANT,
-                                                    @NUMPARCIALIDAD, @EQUIVALENCIADR, @MONEDADR, @SERIE, @IDDOCUMENTO, @FORMADEPAGOSAT, @TCAMBIO,
-                                                    @GUID_G)"
+                                                SQL = "INSERT INTO CFDI_COMPAGO_PAR_DR (CVE_DOC, NUM_PAR, REFER, DOCTO, FECHA, FOLIO, OBJETOIMP_DR, IMPSALDOINSOLUTO, 
+                                                    IMPPAGADO, IMPSALDOANT, NUMPARCIALIDAD, EQUIVALENCIADR, MONEDADR, SERIE, IDDOCUMENTO, FORMADEPAGOSAT, TCAMBIO, GUID_G,
+                                                    IMPU1, IMPU2, IMPU3, IMPU4) 
+                                                    VALUES(
+                                                    @CVE_DOC, ISNULL((SELECT MAX(ISNULL(NUM_PAR,0)) + 1 FROM CFDI_COMPAGO_PAR_DR WHERE CVE_DOC = @CVE_DOC),1), @REFER, @DOCTO, 
+                                                    @FECHA, @FOLIO, @OBJETOIMP_DR, @IMPSALDOINSOLUTO, @IMPPAGADO, @IMPSALDOANT, @NUMPARCIALIDAD, @EQUIVALENCIADR, @MONEDADR, 
+                                                    @SERIE, @IDDOCUMENTO, @FORMADEPAGOSAT, @TCAMBIO, @GUID_G, @IMPU1, @IMPU2, @IMPU3, @IMPU4)"
                                                 Using cmd2 As SqlCommand = cnSAE.CreateCommand
                                                     cmd2.CommandText = SQL
                                                     cmd2.Parameters.Clear()
                                                     cmd2.Parameters.Add("@CVE_DOC", SqlDbType.VarChar).Value = CVE_DOC
                                                     cmd2.Parameters.Add("@REFER", SqlDbType.VarChar).Value = dr3("CVE_DOC")
+                                                    cmd2.Parameters.Add("@IMPU1", SqlDbType.Float).Value = dr3.ReadNullAsEmptyDecimal("IMPU1")
+                                                    cmd2.Parameters.Add("@IMPU2", SqlDbType.Float).Value = dr3.ReadNullAsEmptyDecimal("IMPU2")
+                                                    cmd2.Parameters.Add("@IMPU3", SqlDbType.Float).Value = dr3.ReadNullAsEmptyDecimal("IMPU3")
+                                                    cmd2.Parameters.Add("@IMPU4", SqlDbType.Float).Value = dr3.ReadNullAsEmptyDecimal("IMPU4")
                                                     cmd2.Parameters.Add("@DOCTO", SqlDbType.VarChar).Value = DOCTO
                                                     cmd2.Parameters.Add("@FECHA", SqlDbType.Date).Value = dr3("FECHA")
                                                     cmd2.Parameters.Add("@FOLIO", SqlDbType.Int).Value = GetNumeric(dr3("CVE_DOC"))
@@ -943,11 +964,10 @@ Public Class FrmPagoComplementoAE
                                                     cmd2.Parameters.Add("@FORMADEPAGOSAT", SqlDbType.VarChar).Value = dr3("FORMADEPAGOSAT")
                                                     cmd2.Parameters.Add("@TCAMBIO", SqlDbType.VarChar).Value = dr3("TCAMBIO")
                                                     cmd2.Parameters.Add("@GUID_G", SqlDbType.VarChar).Value = UUID_G
+                                                    cmd2.Parameters.Add("@IMPNUM_EXT", SqlDbType.Float).Value = dr3("IMPNUM_EXT")
                                                     returnValue = cmd2.ExecuteNonQuery()
                                                     If returnValue IsNot Nothing Then
                                                         If returnValue = "1" Then
-
-
                                                         End If
                                                     End If
                                                 End Using
@@ -994,8 +1014,9 @@ Public Class FrmPagoComplementoAE
                                     CVE_DOC_F = aDATA(k, 0)
                                     UUID_F = aDATA(k, 1)
                                     Try
-                                        SQL = "INSERT INTO CFDI_REL" & Empresa & " (UUID, TIP_REL, CVE_DOC, CVE_DOC_REL, TIP_DOC, FECHA_CERT) 
-                                            VALUES ('" & UUID_F & "','" & PassData5 & "','" & CVE_DOC & "','" & CVE_DOC_F & "','P','" & FECHA_CERT & "')"
+                                        SQL = "IF NOT EXISTS(SELECT 1 FROM CFDI_REL" & Empresa & " WHERE CVE_DOC = '" & CVE_DOC & "' AND TIP_DOC = 'P' AND CVE_DOC_REL = '" & CVE_DOC_F & "') " &
+                                                "INSERT INTO CFDI_REL" & Empresa & " (UUID, TIP_REL, CVE_DOC, CVE_DOC_REL, TIP_DOC, FECHA_CERT) 
+                                                VALUES ('" & UUID_F & "','" & PassData5 & "','" & CVE_DOC & "','" & CVE_DOC_F & "','P','" & FECHA_CERT & "')"
 
                                         Using cmd As SqlCommand = cnSAE.CreateCommand
                                             cmd.CommandText = SQL
@@ -1028,7 +1049,7 @@ Public Class FrmPagoComplementoAE
                         BITACORACFDI("10. " & vbNewLine & ex.StackTrace)
                     End Try
 
-                    LtCVE_DOC.Text = SIGUIENTE_CVE_DOC_VENTA_CEROS("G", LETRA_G)
+                    LtCVE_DOC.Text = SIGUIENTE_CVE_DOC_PAGOS("G", LETRA_G)
 
                     EXECUTE_QUERY_NET("DELETE FROM GCCFDI_COMPAGO_PAR_DR")
 
@@ -1117,12 +1138,12 @@ Public Class FrmPagoComplementoAE
                 End If
             End If
 
-            SQL = "SELECT XML FROM CFDI_COMPAGO WHERE CVE_DOC = '" & LtCVE_DOC.Text & "'"
+            SQL = "SELECT ISNULL(XML,'') AS XML_P FROM CFDI_COMPAGO WHERE CVE_DOC = '" & LtCVE_DOC.Text & "'"
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     If dr.Read Then
-                        XML = dr("XML")
+                        XML = dr("XML_P")
                     Else
                         XML = ""
                     End If
@@ -1184,7 +1205,13 @@ Public Class FrmPagoComplementoAE
 
     End Sub
     Private Sub BarRecepPagoMult_Click(sender As Object, e As ClickEventArgs) Handles BarRecepPagoMult.Click
-        frmRecepcionPagosCxC.ShowDialog()
+        'frmRecepcionPagosCxC.ShowDialog()
+
+        FrmPagoMultidocCxC.ShowDialog()
+
+        Me.Show()
+        Me.BringToFront()
+
     End Sub
 
     Private Sub BarSalir_Click(sender As Object, e As ClickEventArgs) Handles BarSalir.Click
@@ -1649,6 +1676,7 @@ Public Class FrmPagoComplementoAE
                         Var2 = "" : Var4 = "" : Var5 = ""
                         ENTRA = True
                         Fg.Col = 1
+                        SendKeys.Send("{TAB}")
                     Else
                         Fg.Col = 1
                     End If
@@ -2569,7 +2597,7 @@ Public Class FrmPagoComplementoAE
                                         LEFT JOIN CLIE" & Empresa & " P ON P.CLAVE = D.CVE_CLIE 
                                         LEFT JOIN MONED" & Empresa & " N ON N.NUM_MONED = M.NUM_MONED 
                                         WHERE ISNULL(LV.METODODEPAGO,'PPD') = 'PPD' AND ISNULL(LV.FORMADEPAGOSAT,'99') = 99 AND 
-                                        ISNULL(D.CVE_DOC_COMPPAGO,'') > '' AND D.DOCTO = '" & TXT.Text & "'"
+                                        ISNULL(D.CVE_DOC_COMPPAGO,'') > '' AND UPPER(D.DOCTO) = '" & TXT.Text.Trim.ToUpper & "'"
                                     cmd.CommandText = SQL
                                     Using dr As SqlDataReader = cmd.ExecuteReader
                                         Do While dr.Read
@@ -2587,9 +2615,9 @@ Public Class FrmPagoComplementoAE
                                         LEFT JOIN CONC" & Empresa & " CT ON CT.NUM_CPTO = D.NUM_CPTO
                                         LEFT JOIN CFDI LV ON LV.FACTURA = D.REFER
                                         LEFT JOIN CLIE" & Empresa & " P ON P.CLAVE = D.CVE_CLIE 
-                                        LEFT JOIN MONED" & Empresa & " N ON N.NUM_MONED = M.NUM_MONED 
+                                        LEFT JOIN MONED" & Empresa & " N ON N.NUM_MONED = D.NUM_MONED 
                                         WHERE ISNULL(LV.METODODEPAGO,'PPD') = 'PPD' AND ISNULL(LV.FORMADEPAGOSAT,'99') = 99 AND 
-                                        ISNULL(D.CVE_DOC_COMPPAGO,'') = '' AND D.DOCTO = '" & TXT.Text & "'"
+                                        ISNULL(D.CVE_DOC_COMPPAGO,'') = '' AND UPPER(D.DOCTO) = '" & TXT.Text.Trim.ToUpper & "'"
                                     cmd.CommandText = SQL
                                     Using dr As SqlDataReader = cmd.ExecuteReader
                                         Do While dr.Read
@@ -3058,15 +3086,16 @@ Public Class FrmPagoComplementoAE
         Try
             Dim LETRA_DR As String
             Using cmd As SqlCommand = cnSAE.CreateCommand
-                SQL = "SELECT D.REFER, D.CVE_CLIE, P.NOMBRE, D.FECHA_APLI, D.NO_FACTURA, D.DOCTO, D.IMPORTE, 
-                    N.CVE_MONED, D.TCAMBIO, D.NO_PARTIDA, M.IMPORTE AS IMPORTE_M, LV.METODODEPAGO, LV.FORMADEPAGOSAT
+                SQL = "SELECT D.REFER, D.CVE_CLIE, C.NOMBRE, D.FECHA_APLI, D.NO_FACTURA, D.DOCTO, D.IMPORTE, N.CVE_MONED, D.TCAMBIO, D.NO_PARTIDA, 
+                    M.IMPORTE AS IMPORTE_M, LV.METODODEPAGO, LV.FORMADEPAGOSAT, P.IMPU1, P.IMPU2, P.IMPU3, P.IMPU4, D.IMPMON_EXT
                     FROM CUEN_DET" & Empresa & " D
                     LEFT JOIN CUEN_M" & Empresa & " M ON M.REFER = D.REFER AND D.CVE_CLIE = M.CVE_CLIE
+                    LEFT JOIN PAR_FACTF" & Empresa & " P ON P.CVE_DOC = D.REFER AND NUM_PAR = 1
                     LEFT JOIN CFDI LV ON LV.FACTURA = D.REFER
-                    LEFT JOIN CLIE" & Empresa & " P ON P.CLAVE = D.CVE_CLIE 
-                    LEFT JOIN MONED" & Empresa & " N ON N.NUM_MONED = M.NUM_MONED 
+                    LEFT JOIN CLIE" & Empresa & " C ON C.CLAVE = D.CVE_CLIE 
+                    LEFT JOIN MONED" & Empresa & " N ON N.NUM_MONED = D.NUM_MONED 
                     WHERE ISNULL(LV.METODODEPAGO,'PPD') = 'PPD' AND ISNULL(LV.FORMADEPAGOSAT,'99') = 99 AND 
-                    ISNULL(D.CVE_DOC_COMPPAGO,'') = '' AND D.DOCTO = '" & CVE_DOC & "'"
+                    ISNULL(D.CVE_DOC_COMPPAGO,'') = '' AND UPPER(D.DOCTO) = '" & CVE_DOC.ToUpper & "'"
                 cmd.CommandText = SQL
 
                 Dim UUIDDR As String, IMPORTE As Decimal = 0, SALDO_ANT As Decimal
@@ -3083,29 +3112,32 @@ Public Class FrmPagoComplementoAE
                             IMPORTEDR = Math.Round(dr("IMPORTE"), 6)
                             SALDO_ANT = Math.Abs(CALCULAR_SALDO_CLIENTE(dr("REFER"), CVE_DOC, dr("CVE_CLIE")))
 
-                            FgDR.AddItem("" & vbTab & dr("REFER") & vbTab & "" & vbTab & dr("NO_PARTIDA") & vbTab &
-                                  dr("FECHA_APLI") & vbTab & SALDO_ANT & vbTab & dr("IMPORTE") & vbTab &
-                                  (SALDO_ANT - IMPORTEDR) & vbTab & UUIDDR & vbTab & LETRA_DR & vbTab &
-                                  GetNumeric(dr("REFER")) & vbTab & dr("CVE_MONED") & vbTab &
-                                  dr("FORMADEPAGOSAT") & vbTab & dr("TCAMBIO"))
+                            FgDR.AddItem("" & vbTab & dr("REFER") & vbTab & "" & vbTab & dr("NO_PARTIDA") & vbTab & dr("FECHA_APLI") & vbTab & SALDO_ANT & vbTab & dr("IMPORTE") & vbTab &
+                                  (SALDO_ANT - IMPORTEDR) & vbTab & UUIDDR & vbTab & LETRA_DR & vbTab & GetNumeric(dr("REFER")) & vbTab & dr("CVE_MONED") & vbTab &
+                                  dr("FORMADEPAGOSAT") & vbTab & dr("TCAMBIO") & vbTab & dr.ReadNullAsEmptyDecimal("IMPU1") & vbTab & dr.ReadNullAsEmptyDecimal("IMPU2") & vbTab &
+                                  dr.ReadNullAsEmptyDecimal("IMPU3") & vbTab & dr("IMPU4") & vbTab & dr("IMPMON_EXT"))
 
                             IMPORTE = IMPORTEDR
 
                             Try
                                 SQL = "IF NOT EXISTS (SELECT CVE_DOC FROM GCCFDI_COMPAGO_PAR_DR WHERE CVE_DOC = @CVE_DOC AND NUMPARCIALIDAD = @NUMPARCIALIDAD)
                                     BEGIN
-                                        INSERT INTO GCCFDI_COMPAGO_PAR_DR (CVE_DOC, FECHA, FOLIO, OBJETOIMP_DR, IMPSALDOINSOLUTO,
-                                        IMPPAGADO, IMPSALDOANT, NUMPARCIALIDAD, EQUIVALENCIADR, MONEDADR, SERIE, IDDOCUMENTO,
-                                        FORMADEPAGOSAT, TCAMBIO, GUID_G) VALUES(
-                                        @CVE_DOC, @FECHA, @FOLIO, @OBJETOIMP_DR, @IMPSALDOINSOLUTO, @IMPPAGADO, @IMPSALDOANT,
-                                        @NUMPARCIALIDAD, @EQUIVALENCIADR, @MONEDADR, @SERIE, @IDDOCUMENTO, @FORMADEPAGOSAT, 
-                                        @TCAMBIO, @GUID_G)
+                                        INSERT INTO GCCFDI_COMPAGO_PAR_DR (CVE_DOC, FECHA, FOLIO, OBJETOIMP_DR, IMPSALDOINSOLUTO, IMPPAGADO, IMPSALDOANT, NUMPARCIALIDAD, 
+                                        EQUIVALENCIADR, MONEDADR, SERIE, IDDOCUMENTO, FORMADEPAGOSAT, TCAMBIO, GUID_G, IMPU1, IMPU2, IMPU3, IMPU4) 
+                                        VALUES(
+                                        @CVE_DOC, @FECHA, @FOLIO, @OBJETOIMP_DR, @IMPSALDOINSOLUTO, @IMPPAGADO, @IMPSALDOANT, @NUMPARCIALIDAD, @EQUIVALENCIADR, @MONEDADR, 
+                                        @SERIE, @IDDOCUMENTO, @FORMADEPAGOSAT, @TCAMBIO, @GUID_G, @IMPU1, @IMPU2, @IMPU3, @IMPU4)
                                     END"
                                 Using cmd2 As SqlCommand = cnSAE.CreateCommand
                                     cmd2.CommandText = SQL
                                     cmd2.Parameters.Clear()
                                     cmd2.Parameters.Add("@CVE_DOC", SqlDbType.VarChar).Value = dr("REFER")
                                     cmd2.Parameters.Add("@FECHA", SqlDbType.Date).Value = dr("FECHA_APLI")
+
+                                    cmd2.Parameters.Add("@IMPU1", SqlDbType.Float).Value = dr.ReadNullAsEmptyDecimal("IMPU1")
+                                    cmd2.Parameters.Add("@IMPU2", SqlDbType.Float).Value = dr.ReadNullAsEmptyDecimal("IMPU2")
+                                    cmd2.Parameters.Add("@IMPU3", SqlDbType.Float).Value = dr.ReadNullAsEmptyDecimal("IMPU3")
+                                    cmd2.Parameters.Add("@IMPU4", SqlDbType.Float).Value = dr.ReadNullAsEmptyDecimal("IMPU4")
 
                                     cmd2.Parameters.Add("@FOLIO", SqlDbType.Int).Value = GetNumeric(dr("REFER"))
                                     cmd2.Parameters.Add("@OBJETOIMP_DR", SqlDbType.VarChar).Value = OBJETOIMP_DR
@@ -3119,9 +3151,11 @@ Public Class FrmPagoComplementoAE
                                     cmd2.Parameters.Add("@IDDOCUMENTO", SqlDbType.VarChar).Value = UUIDDR
                                     cmd2.Parameters.Add("@FORMADEPAGOSAT", SqlDbType.VarChar).Value = dr("FORMADEPAGOSAT")
                                     cmd2.Parameters.Add("@TCAMBIO", SqlDbType.VarChar).Value = dr("TCAMBIO")
+                                    cmd2.Parameters.Add("@IMPMON_EXT", SqlDbType.VarChar).Value = dr("IMPMON_EXT")
                                     cmd2.Parameters.Add("@GUID_G", SqlDbType.VarChar).Value = UUID_G
                                     returnValue = cmd2.ExecuteNonQuery()
                                     If returnValue IsNot Nothing Then
+
                                         If returnValue = "1" Then
 
                                         End If
@@ -3138,6 +3172,7 @@ Public Class FrmPagoComplementoAE
             End Using
 
         Catch ex As Exception
+            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
         End Try
     End Sub

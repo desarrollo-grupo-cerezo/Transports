@@ -188,10 +188,10 @@ Public Class FrmDerechos
                                 CADENA = CADENA.Substring(4, CADENA.Length - 4)
                                 SQL = "SELECT * FROM GCDERECHOS_CAT1 WHERE " & CADENA & " ORDER BY NUM_REG"
                             Else
-                                SQL = "SELECT * FROM GCDERECHOS_CAT1 CLAVE >= 10000 AND CLAVE < 20000 ORDER BY NUM_REG"
+                                SQL = "SELECT * FROM GCDERECHOS_CAT1 WHERE CLAVE >= 10000 AND CLAVE < 20000 ORDER BY NUM_REG"
                             End If
                         Else
-                            SQL = "SELECT * FROM GCDERECHOS_CAT1 CLAVE >= 10000 AND CLAVE < 20000 ORDER BY NUM_REG"
+                            SQL = "SELECT * FROM GCDERECHOS_CAT1 WHERE CLAVE >= 10000 AND CLAVE < 20000 ORDER BY NUM_REG"
                         End If
                     End Using
                 End If

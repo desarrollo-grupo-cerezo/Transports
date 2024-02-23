@@ -42,10 +42,16 @@ Partial Class FrmDocumentos
         Me.BarExcel = New C1.Win.C1Command.C1Command()
         Me.BarActualizar = New C1.Win.C1Command.C1Command()
         Me.BarSalir = New C1.Win.C1Command.C1Command()
+        Me.BarImprimir = New C1.Win.C1Command.C1Command()
+        Me.BarTimbrar = New C1.Win.C1Command.C1Command()
+        Me.BarCancNC = New C1.Win.C1Command.C1Command()
         Me.C1ToolBar1 = New C1.Win.C1Command.C1ToolBar()
         Me.LkNuevo = New C1.Win.C1Command.C1CommandLink()
         Me.LkEdit = New C1.Win.C1Command.C1CommandLink()
+        Me.LkTimbrar = New C1.Win.C1Command.C1CommandLink()
+        Me.LkCancNC = New C1.Win.C1Command.C1CommandLink()
         Me.LkActualizar = New C1.Win.C1Command.C1CommandLink()
+        Me.LkImprimir = New C1.Win.C1Command.C1CommandLink()
         Me.LkExcel = New C1.Win.C1Command.C1CommandLink()
         Me.LkSalir = New C1.Win.C1Command.C1CommandLink()
         Me.BarraAbajo.SuspendLayout()
@@ -60,7 +66,7 @@ Partial Class FrmDocumentos
         '
         Me.LtCompras.AutoSize = True
         Me.LtCompras.Font = New System.Drawing.Font("Arial Black", 14.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtCompras.Location = New System.Drawing.Point(1154, 11)
+        Me.LtCompras.Location = New System.Drawing.Point(1224, 11)
         Me.LtCompras.Name = "LtCompras"
         Me.LtCompras.Size = New System.Drawing.Size(171, 27)
         Me.LtCompras.TabIndex = 11
@@ -129,7 +135,7 @@ Partial Class FrmDocumentos
         'C1FlexGridSearchPanel1
         '
         Me.C1FlexGridSearchPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(599, 3)
+        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(669, 3)
         Me.C1FlexGridSearchPanel1.Name = "C1FlexGridSearchPanel1"
         Me.C1FlexGridSearchPanel1.SearchDelay = 400
         Me.C1FlexGridSearchPanel1.SearchMode = C1.Win.C1FlexGrid.SearchMode.Always
@@ -240,7 +246,7 @@ Partial Class FrmDocumentos
         Me.Panel1.Controls.Add(Me.F2)
         Me.Panel1.Controls.Add(Me.Label2)
         Me.Panel1.Controls.Add(Me.Label3)
-        Me.Panel1.Location = New System.Drawing.Point(832, 1)
+        Me.Panel1.Location = New System.Drawing.Point(902, 1)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(313, 51)
         Me.Panel1.TabIndex = 309
@@ -262,6 +268,9 @@ Partial Class FrmDocumentos
         Me.MenuHolder.Commands.Add(Me.BarExcel)
         Me.MenuHolder.Commands.Add(Me.BarActualizar)
         Me.MenuHolder.Commands.Add(Me.BarSalir)
+        Me.MenuHolder.Commands.Add(Me.BarImprimir)
+        Me.MenuHolder.Commands.Add(Me.BarTimbrar)
+        Me.MenuHolder.Commands.Add(Me.BarCancNC)
         Me.MenuHolder.Owner = Me
         '
         'BarNuevo
@@ -301,6 +310,27 @@ Partial Class FrmDocumentos
         Me.BarSalir.ShowTextAsToolTip = False
         Me.BarSalir.Text = "Salir"
         '
+        'BarImprimir
+        '
+        Me.BarImprimir.Image = Global.SGT_Transport.My.Resources.Resources.impresora27
+        Me.BarImprimir.Name = "BarImprimir"
+        Me.BarImprimir.ShortcutText = ""
+        Me.BarImprimir.Text = "Imprimir"
+        '
+        'BarTimbrar
+        '
+        Me.BarTimbrar.Image = Global.SGT_Transport.My.Resources.Resources.cfdi20_e
+        Me.BarTimbrar.Name = "BarTimbrar"
+        Me.BarTimbrar.ShortcutText = ""
+        Me.BarTimbrar.Text = "Timbrar"
+        '
+        'BarCancNC
+        '
+        Me.BarCancNC.Image = Global.SGT_Transport.My.Resources.Resources.cfdi6
+        Me.BarCancNC.Name = "BarCancNC"
+        Me.BarCancNC.ShortcutText = ""
+        Me.BarCancNC.Text = "Cancelar nota de credito"
+        '
         'C1ToolBar1
         '
         Me.C1ToolBar1.AccessibleName = "Tool Bar"
@@ -313,7 +343,7 @@ Partial Class FrmDocumentos
         Me.C1ToolBar1.ButtonLookVert = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.C1ToolBar1.ButtonWidth = 75
         Me.C1ToolBar1.CommandHolder = Nothing
-        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkNuevo, Me.LkEdit, Me.LkActualizar, Me.LkExcel, Me.LkSalir})
+        Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkNuevo, Me.LkEdit, Me.LkTimbrar, Me.LkCancNC, Me.LkActualizar, Me.LkImprimir, Me.LkExcel, Me.LkSalir})
         Me.C1ToolBar1.Dock = System.Windows.Forms.DockStyle.Top
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.C1ToolBar1.MinButtonSize = 34
@@ -338,19 +368,38 @@ Partial Class FrmDocumentos
         Me.LkEdit.SortOrder = 1
         Me.LkEdit.Text = "Edit"
         '
+        'LkTimbrar
+        '
+        Me.LkTimbrar.Command = Me.BarTimbrar
+        Me.LkTimbrar.Delimiter = True
+        Me.LkTimbrar.SortOrder = 2
+        '
+        'LkCancNC
+        '
+        Me.LkCancNC.Command = Me.BarCancNC
+        Me.LkCancNC.Delimiter = True
+        Me.LkCancNC.SortOrder = 3
+        Me.LkCancNC.Text = "Cancelar NC"
+        '
         'LkActualizar
         '
         Me.LkActualizar.Command = Me.BarActualizar
         Me.LkActualizar.DefaultItem = True
         Me.LkActualizar.Delimiter = True
-        Me.LkActualizar.SortOrder = 2
+        Me.LkActualizar.SortOrder = 4
         Me.LkActualizar.Text = "Actualizar"
+        '
+        'LkImprimir
+        '
+        Me.LkImprimir.Command = Me.BarImprimir
+        Me.LkImprimir.Delimiter = True
+        Me.LkImprimir.SortOrder = 5
         '
         'LkExcel
         '
         Me.LkExcel.Command = Me.BarExcel
         Me.LkExcel.Delimiter = True
-        Me.LkExcel.SortOrder = 3
+        Me.LkExcel.SortOrder = 6
         Me.LkExcel.Text = "Excel"
         '
         'LkSalir
@@ -358,7 +407,7 @@ Partial Class FrmDocumentos
         Me.LkSalir.ButtonLook = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.LkSalir.Command = Me.BarSalir
         Me.LkSalir.Delimiter = True
-        Me.LkSalir.SortOrder = 4
+        Me.LkSalir.SortOrder = 7
         Me.LkSalir.Text = "Salir"
         Me.LkSalir.ToolTipText = "SALIR"
         '
@@ -417,4 +466,10 @@ Partial Class FrmDocumentos
     Friend WithEvents LkNuevo As C1.Win.C1Command.C1CommandLink
     Friend WithEvents LkEdit As C1.Win.C1Command.C1CommandLink
     Friend WithEvents Fg As C1.Win.C1FlexGrid.C1FlexGrid
+    Friend WithEvents BarImprimir As C1.Win.C1Command.C1Command
+    Friend WithEvents LkImprimir As C1.Win.C1Command.C1CommandLink
+    Friend WithEvents BarTimbrar As C1.Win.C1Command.C1Command
+    Friend WithEvents LkTimbrar As C1.Win.C1Command.C1CommandLink
+    Friend WithEvents BarCancNC As C1.Win.C1Command.C1Command
+    Friend WithEvents LkCancNC As C1.Win.C1Command.C1CommandLink
 End Class

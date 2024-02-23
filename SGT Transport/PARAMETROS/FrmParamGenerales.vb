@@ -248,6 +248,7 @@ Public Class FrmParamGenerales
                 End If
                 'Fin nuevos
 
+                txTOLERANCIA.Value = dr.ReadNullAsEmptyDecimal("TOLERANCIA")
 
 
                 TEXCEL.Text = dr.ReadNullAsEmptyString("RUTA_EXCEL")
@@ -320,7 +321,9 @@ Public Class FrmParamGenerales
                   LTSDESCGEN = " & IIf(ChLtsDescGen.Checked, 1, 0) & ", RUTA_EXCEL = '" & TEXCEL.Text & "', 
                   EXPORTAR_COMO_CSV = " & IIf(ChExportarComoCSV.Checked, 1, 0) & ", RUTA_X_USUARIO = " & IIf(ChRutaXUsuario.Checked, 1, 0) & ",
                   CAT_RUTAS = " & CboCatRutas.SelectedIndex & ", ASIG_VIAJES = " & CBOASIG_VIAJE.SelectedIndex & ", 
-                  BAJA_VIAJE_FACTURACION = " & CboBAJA_VIAJE_FACTURACION.SelectedIndex
+                  BAJA_VIAJE_FACTURACION = " & CboBAJA_VIAJE_FACTURACION.SelectedIndex & ", 
+                  TOLERANCIA = " & txTOLERANCIA.Value
+
 
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL

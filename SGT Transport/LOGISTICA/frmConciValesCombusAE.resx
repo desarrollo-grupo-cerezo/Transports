@@ -124,7 +124,7 @@
   <data name="BarDesplegar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        5wAAAOcB8BtYtQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAUOSURBVFhHtdZ7
+        5AAAAOQBXaJ52AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAUOSURBVFhHtdZ7
         UFRVHAfw/S+dKSdfhOzjnnt3VyyTtPIxGpTlo8cMGEwmOFNaI9MLh4eAvATFKBlEIQUFkTQ1gSJgwBkL
         VEgWRRIIUIg3C2wsKJIgD8f5dc7dw8ree6EF7Dfzmb1zzu98z905dx8ya0vjdWGW0r/AXeWfn4yVMv4F
         Rvw6QtDrUlVAQZJyV/4W+4Crz9Bl0y95UP5CZWB+iiqwYAADKw0oAy+dUPj/qqUxky+Fj26mcvflGFXQ
@@ -152,7 +152,7 @@
   <data name="BarGrabarXML.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        5wAAAOcB8BtYtQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANOSURBVFhHzZdt
+        5AAAAOQBXaJ52AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANOSURBVFhHzZdt
         SFNRGIBtu/fuIw3SYZlplNVqWMu0Mg2thLQvC6JU3Kx0zvIDa40NZVRY4I8CIfqREUWgWKkJooLoRAg/
         qB9LMkvJH5kUiYRBs6bm2zlH79h0tu1uii883HPfe857np2de7frs9xDSNP0E5qixlEbuCASiXrQMQDB
         KQyBEomlprISWhoa3EaZlkYkGEbwHh3dl0D27UVaLYDZzIkbxcUg3bJ9enOY1MJJQiwWd+Eijoq7Ah67
@@ -173,7 +173,7 @@
   <data name="BarImprimir.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        ygAAC8oBZVGvqQAAAtRJREFUWEftlt1LU2EcxwP/B71McphJC4dZFkaarlm+9SL0apE1NfNlIilCt6Uh
+        yAAAC8gBGq9sIAAAAtRJREFUWEftlt1LU2EcxwP/B71McphJC4dZFkaarlm+9SL0apE1NfNlIilCt6Uh
         WpCkqVCGEkk5UzLbMhV1JYVZYkJYWhcR3QhSQRfx7fk+bfNlUzw7x9VFD3zQned3vt/PnrGjaxavkLXB
         AYJKwYwAKmkSBDijV7bEDQWmBCP6+wcwNjbuM7nZOQhdF0KJZkUSYvhh/Y0GDA+/wIG0/YjZth1VlVWY
         nv6kiMK8AljyLTDuilcmIQbtTbeaUHq+FNnmLNhsdvmOGDo4OIS9pkTsMZq8wj3OSIH8ApSVlOGJvVeZ
@@ -191,7 +191,7 @@
   <data name="BarSalir.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vwAADr8BOAVTJAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAgCSURBVFhHrZd7
+        vAAADrwBlbxySQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAgCSURBVFhHrZd7
         UJNXGsa/7nS6ow0XQVEMVBeIUi4KImC4GTCBGEI+SAgSSMJVBCIQFBB0E265QiBcrOjYi7elVp0qrYpT
         aTuz1qptHdfLdGrXXnY6brXbzrqtut2t+uw5YbJlZ+1IrH88c+bLZL7nd97zvu95P6ajo8NjGY1GxmQy
         MUNDTmZosM8D9TPDw8Mumc1mxmAwMA81eJS6urqYTZtavdcUKNiC/Fy2QPlLymPXFChZVZGGLSwqZRUK
@@ -230,15 +230,15 @@
 </value>
   </data>
   <data name="Fg.ColumnInfo" xml:space="preserve">
-    <value>13,2,0,0,0,100,Columns:1{Width:90;Caption:"Seleccione";Style:"DataType:System.Boolean;TextAlign:LeftCenter;ImageAlign:CenterCenter;";}	2{Width:105;Caption:"Num. viaje";}	3{Width:90;Caption:"Folio";AllowDragging:False;AllowEditing:False;}	4{Width:56;Caption:"Clave";Style:"TextAlign:CenterCenter;";}	5{Width:218;Caption:"Gasolinera";}	6{Width:82;Caption:"Litros inciales";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	7{Width:77;Caption:"Litros reales";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	8{Caption:"Fecha";AllowDragging:False;AllowEditing:False;Style:"TextAlign:CenterCenter;";}	9{Width:100;Caption:"Sub total";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	10{Width:100;Caption:"IVA";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	11{Width:100;Caption:"Neto";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	12{Width:40;Caption:"No.";Style:"DataType:System.Int32;TextAlign:GeneralCenter;";}	</value>
+    <value>14,2,0,0,0,100,Columns:1{Width:90;Caption:"Seleccione";Style:"DataType:System.Boolean;TextAlign:LeftCenter;ImageAlign:CenterCenter;";}	2{Width:105;Caption:"Num. viaje";}	3{Width:90;Caption:"Folio";AllowDragging:False;AllowEditing:False;}	4{Caption:"Observaciones";Style:"TextAlign:LeftCenter;";}	5{Width:56;Caption:"Clave";Style:"TextAlign:CenterCenter;";}	6{Width:218;Caption:"Gasolinera";}	7{Width:82;Caption:"Litros inciales";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	8{Width:77;Caption:"Litros reales";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	9{Caption:"Fecha";AllowDragging:False;AllowEditing:False;Style:"TextAlign:CenterCenter;";}	10{Width:100;Caption:"Sub total";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	11{Width:100;Caption:"IVA";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	12{Width:100;Caption:"Neto";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	13{Width:40;Caption:"No.";Style:"DataType:System.Int32;TextAlign:GeneralCenter;";}	</value>
   </data>
   <data name="Fg2.ColumnInfo" xml:space="preserve">
-    <value>13,2,0,0,0,100,Columns:1{Width:90;Caption:"Seleccione";Style:"DataType:System.Boolean;TextAlign:LeftCenter;ImageAlign:CenterCenter;";}	2{Width:105;Caption:"Num. viaje";}	3{Width:90;Caption:"Folio";AllowDragging:False;AllowEditing:False;}	4{Width:47;Caption:"Clave";}	5{Width:214;Caption:"Gasolinera";}	6{Width:93;Caption:"Litros iniciales";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	7{Width:78;Caption:"Litros reales";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	8{Caption:"Fecha";AllowDragging:False;AllowEditing:False;}	9{Width:100;Caption:"Sub total";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	10{Width:100;Caption:"IVA";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	11{Width:100;Caption:"Neto";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	12{Width:40;Caption:"No.";Style:"DataType:System.Int32;TextAlign:GeneralCenter;";}	</value>
+    <value>14,2,0,0,0,100,Columns:1{Width:90;Caption:"Seleccione";Style:"DataType:System.Boolean;TextAlign:LeftCenter;ImageAlign:CenterCenter;";}	2{Width:105;Caption:"Num. viaje";}	3{Width:90;Caption:"Folio";AllowDragging:False;AllowEditing:False;}	4{Caption:"Observaciones";Style:"TextAlign:LeftCenter;";}	5{Width:47;Caption:"Clave";}	6{Width:214;Caption:"Gasolinera";}	7{Width:93;Caption:"Litros iniciales";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	8{Width:78;Caption:"Litros reales";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	9{Caption:"Fecha";AllowEditing:False;}	10{Width:100;Caption:"Sub total";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	11{Width:100;Caption:"IVA";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	12{Width:100;Caption:"Neto";Style:"Format:""N3"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	13{Width:40;Caption:"No.";Style:"DataType:System.Int32;TextAlign:GeneralCenter;";}	</value>
   </data>
   <data name="BtnGas.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        5gAAAOYBIly6UQAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
+        4wAAAOMBD+bfpwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
         2XJ5Zb3Hy9vm/4+buud/+NyT/8Pnnf4fN23f/zKgWEF5/wV3v3w1qHJUYOUWy5ZX1nc6o335/5idr//H
         H/mBgmN3v/uf2rHif0FZ301b9zReqDYECI2rzq4A2oJNMwxH73n7v7B13v/Q2LIGqDYEKKqaeBHkbGwa
         kbHvlF3/80q7nkO1IUBF/bTX4XNPYdWEjJ3mHP1fWNH3R904khWqFQIq6ggbEH3423/7OUf+55d1/zG0
@@ -252,7 +252,7 @@
   <data name="BtnProv.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        5gAAAOYBIly6UQAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
+        4wAAAOMBD+bfpwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
         2XJ5Zb3Hy9vm/4+buud/+NyT/8Pnnf4fN23f/zKgWEF5/wV3v3w1qHJUYOUWy5ZX1nc6o335/5idr//H
         H/mBgmN3v/uf2rHif0FZ301b9zReqDYECI2rzq4A2oJNMwxH73n7v7B13v/Q2LIGqDYEKKqaeBHkbGwa
         kbHvlF3/80q7nkO1IUBF/bTX4XNPYdWEjJ3mHP1fWNH3R904khWqFQIq6ggbEH3423/7OUf+55d1/zG0

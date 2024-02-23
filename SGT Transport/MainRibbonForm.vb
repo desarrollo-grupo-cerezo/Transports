@@ -216,7 +216,10 @@ Public Class MainRibbonForm
         End Try
 
     End Sub
-
+    Private Sub MainRibbonForm_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        Me.BringToFront()
+        Me.Show()
+    End Sub
     Private Sub MainRibbonForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
 
         If MsgBox("Realmente desea salir?", vbYesNo) = vbYes Then
@@ -263,7 +266,7 @@ Public Class MainRibbonForm
             BarMultialmacen1.Visible = True
             BarLineasProductos2.Visible = True
             BarUniMed1.Visible = True
-
+            BarMovsInvOT.Visible = True
         Else
             'BarCFDICartaPorte.Visible = False
             BarTabRutasFlex.Visible = False
@@ -541,6 +544,7 @@ Public Class MainRibbonForm
             Catch ex As Exception
                 Bitacora(ex.Message & vbNewLine & ex.StackTrace)
             End Try
+            BarTabRutasFlex.Visible = True
         Else
             BarLicenciamientoMobulos.Visible = False
             '========================================================================================================================
@@ -664,9 +668,9 @@ Public Class MainRibbonForm
                 BarProveedores5.Visible = False
                 BarDiesel1.Visible = False
                 'LIQUIDACION
-                TabLiquidacion.Visible = False
-                BarLiquidaciones.Visible = False
-                BarConsignacion2.Visible = False
+                'TabLiquidacion.Visible = False
+                'BarLiquidaciones.Visible = False
+                'BarConsignacion2.Visible = False
                 'VENTAS
                 TabVentas.Visible = False
                 BarCotizaciones.Visible = False
@@ -782,6 +786,8 @@ Public Class MainRibbonForm
                                     TabLiquidacion.Visible = True
                                 Case 50020  'LIQUIDACION 
                                     BarLiquidaciones.Visible = True
+                                Case 50040  'SALDO DE OPERADORES
+                                    BarConsignacion2.Visible = True
                                 Case 50040  'SALDO DE OPERADORES
                                     BarConsignacion2.Visible = True
                                     'DERECHOS USUARIOS  SOLO USUARIOS  USUARIOS  USUARIOS  USUARIOS                                      USUARIOS  USUARIOS 
@@ -965,7 +971,7 @@ Public Class MainRibbonForm
                                     BarServiciosDeInventario.Visible = True
                                 Case 100500 'ENTREGA DE PRODUCTOS
                                     TabInvMovsInv.Visible = True
-                                    'BarMovsInvOT.Visible = True
+                                    BarMovsInvOT.Visible = True
                                 Case 101000 'MOVS. AL INVENTARIO
                                     TabInvMovsInv.Visible = True
                                     BarMinveTOT.Visible = True
@@ -2027,7 +2033,7 @@ Public Class MainRibbonForm
                     FrmPagoComplemento.Dispose()
                 Case "Pago complemento"
                     FrmPagoComplementoAE.Dispose()
-                Case "Poliza egresos diesel"
+                Case "Pólizas Provisión Diesel"
                     FrmPolizaDiesel.Dispose()
                 Case "Poliza folios dinero"
                     FrmPolizaFoliosDinero.Dispose()
@@ -3217,23 +3223,18 @@ Public Class MainRibbonForm
         End Try
     End Sub
     Private Sub BarDeducOper_Click(sender As Object, e As EventArgs) Handles BarDeducOper.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmDeducOperAE")
         CREA_TAB(FrmDeducOper, "Deducciones operadores")
     End Sub
     Private Sub BarRecepcionPagosCompras_Click(sender As Object, e As EventArgs) Handles BarRecepcionPagosCompras.Click
-        BACKUPTXT("XTAB_CAPTION", "frmRecepcionPagosCompras")
         FrmRecepcionPagosCompras.ShowDialog()
     End Sub
     Private Sub MnuRepSalOperYMec_Click(sender As Object, e As EventArgs) Handles RMante_Rep_SalOperYMec.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmRepSalidasOperYMec")
         FrmRepSalidasOperYMec.ShowDialog()
     End Sub
     Private Sub BarGastosXManteDeUni_Click(sender As Object, e As EventArgs) Handles RMante_Rep_GastosXManteDeUni.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmGastosManteXUni")
         FrmGastosManteXUni.Show()
     End Sub
     Private Sub BarOperacionDiaria_Click(sender As Object, e As EventArgs) Handles BarOperacionDiaria.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmOperacionDiaria")
         FrmOperacionDiaria.ShowDialog()
     End Sub
     Private Sub BarBitacoraUsuarios_Click(sender As Object, e As EventArgs) Handles BarBitacoraUsuarios.Click
@@ -3246,14 +3247,12 @@ Public Class MainRibbonForm
 
     Private Sub MnuValidarImportesFacturas_Click(sender As Object, e As EventArgs) Handles MnuValidarImportesFacturas.Click
         Try
-            'BACKUPTXT("XTAB_CAPTION", "frmValidaFacturas")
             'CREA_TAB(frmValidaFacturas, "Validar facturas")
         Catch ex As Exception
         End Try
     End Sub
     Private Sub MnuImportarAccess_Click(sender As Object, e As EventArgs) Handles MnuImportarAccess.Click
         Try
-            BACKUPTXT("XTAB_CAPTION", "frmImportarAccess")
             'CREA_TAB(frmImportarAccess, "Importar desde access")
         Catch ex As Exception
         End Try
@@ -3312,15 +3311,12 @@ Public Class MainRibbonForm
         End If
     End Sub
     Private Sub MnuOTMInve_Click(sender As Object, e As EventArgs) Handles MnuOTMInve.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmMinveSeguimiento")
         CREA_TAB(FrmMinveSeguimiento, "Generar Minve no realizados")
     End Sub
     Private Sub MnuDetalladoCompras_Click(sender As Object, e As EventArgs) Handles MnuDetalladoCompras.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmDetalladoCompras")
         CREA_TAB(FrmDetalladoCompras, "Detallado compras")
     End Sub
     Private Sub BarDetalladoCompras_Click(sender As Object, e As EventArgs) Handles RMante_Rep_DetalladoCompras.Click
-        BACKUPTXT("XTAB_CAPTION", "frmExistAUnaFecha")
         Var4 = "Detallado compras"
         Try
             frmExistAUnaFecha.ShowDialog()
@@ -3329,16 +3325,13 @@ Public Class MainRibbonForm
         End Try
     End Sub
     Private Sub MnuCasetas_Click(sender As Object, e As EventArgs) Handles MnuCasetas.Click
-        BACKUPTXT("XTAB_CAPTION", "frmCasetas")
         CREA_TAB(frmCasetas, "Casetas")
     End Sub
 
     Private Sub BarCasetasXRuta_Click(sender As Object, e As EventArgs) Handles BarCasetasXRuta.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmCasetasXRuta")
         CREA_TAB(FrmCasetasXRuta, "Casetas por ruta")
     End Sub
     Private Sub MnuSalidasLLantasXUnidad_Click(sender As Object, e As EventArgs) Handles RMante_Rep_SalidasLLantasXUnidad.Click
-        BACKUPTXT("XTAB_CAPTION", "frmSalidaLLantasXUnidad")
         Var4 = ""
         Try
             frmSalidaLLantasXUnidad.ShowDialog()
@@ -3347,7 +3340,6 @@ Public Class MainRibbonForm
         End Try
     End Sub
     Private Sub BarPolizaSalidaLLantas_Click(sender As Object, e As EventArgs)
-        BACKUPTXT("XTAB_CAPTION", "FrmPolizaSalidaLLantas")
         CREA_TAB(FrmPolizaSalidaLLantas, "Poliza salida llantas")
     End Sub
     Private Sub MNUActPrecios_Click(sender As Object, e As EventArgs) Handles MNUActPrecios.Click
@@ -3355,23 +3347,18 @@ Public Class MainRibbonForm
     End Sub
 
     Private Sub BraProgPedidos_Click(sender As Object, e As EventArgs) Handles BraProgPedidos.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmProgPedidos")
         CREA_TAB(FrmProgPedidos, "Programación de pedidos")
     End Sub
     Private Sub BarTarjetaIAVE_Click(sender As Object, e As EventArgs)
-        BACKUPTXT("XTAB_CAPTION", "frmTarjetaIAVE")
         CREA_TAB(frmTarjetaIAVE, "Tarjetas IAVE")
     End Sub
     Private Sub BarReporteLiq_Click(sender As Object, e As EventArgs)
 
     End Sub
     Private Sub BarCFDICartaPorte_Click(sender As Object, e As EventArgs)
-        'FrmCFDCartaPorteLV.Show()
-        BACKUPTXT("XTAB_CAPTION", "FrmCFDIConCP")
         'CREA_TAB(FrmCFDIConCP, "Carta porte")
     End Sub
     Private Sub BarTabRutasFlex_Click(sender As Object, e As EventArgs) Handles BarTabRutasFlex.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmTabRutasHoja")
         Var10 = "F"
         CREA_TAB(FrmTabRutasHoja, "Tab. rutas")
     End Sub
@@ -3404,11 +3391,9 @@ Public Class MainRibbonForm
         CREA_TAB(frmComprasDoc, "Devolución compras")
     End Sub
     Private Sub MnuGastoRenovado_Click(sender As Object, e As EventArgs) Handles MnuGastoRenovado.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmGastoRenovado")
         CREA_TAB(FrmGastoRenovado, "Gasto renovado")
     End Sub
     Private Sub BarDevolucionVentas_Click(sender As Object, e As EventArgs) Handles BarDevolucionVentas.Click
-        BACKUPTXT("XTAB_CAPTION", "frmDocumentos")
         Var4 = ""
         TIPO_VENTA = "D"
         CREA_TAB(FrmDocumentos, "Documentos")
@@ -3417,306 +3402,234 @@ Public Class MainRibbonForm
         FrmAcercaDe.ShowDialog()
     End Sub
     Private Sub BarReporteDeduc_Click(sender As Object, e As EventArgs) Handles BarReporteDeduc.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmReporteDeduc")
         FrmReporteDeduc.ShowDialog()
     End Sub
 
     Private Sub MbuPagoComplemento_Click(sender As Object, e As EventArgs) Handles MnuPagoComplemento.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPagoComplemento")
         CREA_TAB(FrmPagoComplemento, "Complemento de pago")
     End Sub
 
     Private Sub BarPolizaVentaFlete_Click(sender As Object, e As EventArgs) Handles BarPolizaVentaFlete.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPolizaVentasFlete")
         CREA_TAB(FrmPolizaVentasFlete, "Póliza ventas flete")
     End Sub
     Private Sub BarPolizaVentaOtros_Click(sender As Object, e As EventArgs) Handles BarPolizaVentaOtros.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPolizaVentasOtros")
         CREA_TAB(FrmPolizaVentasOtros, "Poliza ventas otros")
     End Sub
 
     Private Sub BarResumenFacturas_Click(sender As Object, e As EventArgs) Handles BarResumenFacturas.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmTransResumenFac")
         CREA_TAB(FrmTransResumenFac, "Resumen de facturas")
     End Sub
-
     Private Sub BarResumenFacturas1_Click(sender As Object, e As EventArgs) Handles BarResumenFacturas1.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmRelacionKM")
         FrmRelacionKM.ShowDialog()
     End Sub
     Private Sub MnuReportLiq_Click(sender As Object, e As EventArgs) Handles MnuReportLiq.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmReportLiq")
         FrmReportLiq.ShowDialog()
     End Sub
     Private Sub MnuViajesLiqui_Click(sender As Object, e As EventArgs) Handles MnuViajesLiqui.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmReportViajesLiq")
         FrmReportViajesLiq.ShowDialog()
     End Sub
     Private Sub BarPolizaManteExt_Click(sender As Object, e As EventArgs)
-        BACKUPTXT("XTAB_CAPTION", "frmPolizaMantExt")
         CREA_TAB(FrmPolizaMantExt, "Poliza mantenimiento externo")
     End Sub
     Private Sub BarValidaOT_Click(sender As Object, e As EventArgs) Handles RMante_Rep_ValidaOT.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmReportOTTerPen")
         FrmReportOTTerPen.ShowDialog()
     End Sub
     Private Sub RibDieselReconocido_Click(sender As Object, e As EventArgs) Handles RibDieselReconocido.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmReporDieselReconocido")
         FrmReporDieselReconocido.ShowDialog()
     End Sub
     Private Sub BarPolizaEgresosDiesel_Click(sender As Object, e As EventArgs) Handles BarPolizaEgresosDiesel.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPolizaDiesel")
-        CREA_TAB(FrmPolizaDiesel, "Póliza Egresos Diesel")
+        CREA_TAB(FrmPolizaDiesel, "Pólizas Provisión Diesel")
     End Sub
     Private Sub BarPolizaFoliosDinero_Click(sender As Object, e As EventArgs) Handles BarPolizaFoliosDinero.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPolizaFoliosDinero")
         CREA_TAB(FrmPolizaFoliosDinero, "Poliza folios dinero")
     End Sub
 
     Private Sub RibPolizasManteExterno_Click(sender As Object, e As EventArgs) Handles RibPolizasManteExterno.Click
-        BACKUPTXT("XTAB_CAPTION", "frmPolizaMantExt")
-        CREA_TAB(FrmPolizaMantExt, "Poliza mantenimiento externo")
+        CREA_TAB(FrmPolizaProvisionOTE, "Póliza Provisión OT Ext.")
     End Sub
     Private Sub RibPolizasManteInterno_Click(sender As Object, e As EventArgs) Handles RibPolizasManteInterno.Click
         Try
-            BACKUPTXT("XTAB_CAPTION", "frmPolizaMantenimiento")
             CREA_TAB(FrmPolizaMantenimiento, "Poliza de mantenimiento")
         Catch ex As Exception
         End Try
     End Sub
     Private Sub RibPolizasSalidaLLantas_Click(sender As Object, e As EventArgs) Handles RibPolizasSalidaLLantas.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPolizaSalidaLLantas")
         CREA_TAB(FrmPolizaSalidaLLantas, "Poliza salida llantas")
     End Sub
 
     Private Sub RibPolizasOT_Click(sender As Object, e As EventArgs) Handles RibPolizasOT.Click
-        BACKUPTXT("XTAB_CAPTION", "frmPolizaOdeT")
         CREA_TAB(FrmPolizaOdeT, "Poliza orden de trabajo")
     End Sub
-
     Private Sub RibPolizasRenovado_Click(sender As Object, e As EventArgs) Handles RibPolizasRenovado.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPolizaRenovados")
         CREA_TAB(FrmPolizaRenovados, "Poliza renovados")
     End Sub
     Private Sub BarAlmacenesR_Click(sender As Object, e As EventArgs) Handles BarAlmacenesR.Click
-        BACKUPTXT("XTAB_CAPTION", "frmAlmacenesR")
         CREA_TAB(FrmAlmacenesR, "Almacenes refacciones")
     End Sub
     Private Sub BarMultialmacenR_Click(sender As Object, e As EventArgs) Handles BarMultialmacenR.Click
-        BACKUPTXT("XTAB_CAPTION", "frmMultiAlmacenR")
         CREA_TAB(FrmMultiAlmacenR, "Multialmacén refacciones")
     End Sub
     Private Sub BarAlmacenesF_Click(sender As Object, e As EventArgs)
-        BACKUPTXT("XTAB_CAPTION", "frmAlmacenesF")
         CREA_TAB(FrmAlmacenesF, "Almacenes activo fijo")
     End Sub
     Private Sub BarMultialmacenF_Click(sender As Object, e As EventArgs)
-        BACKUPTXT("XTAB_CAPTION", "frmMultiAlmacenF")
         CREA_TAB(FrmMultiAlmacenF, "Multialmacén activo fijo")
     End Sub
     Private Sub BarPolizaEgresos_Click(sender As Object, e As EventArgs) Handles BarPolizaEgresos.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPolizaEgreso")
         CREA_TAB(FrmPolizaEgreso, "Poliza egreso")
     End Sub
     Private Sub RibRecepPagosCxC_Click(sender As Object, e As EventArgs) Handles RibRecepPagosCxC.Click
-        BACKUPTXT("XTAB_CAPTION", "frmRecepcionPagosCxC")
         frmRecepcionPagosCxC.ShowDialog()
     End Sub
     Private Sub MnuCtaBanOrd_Click(sender As Object, e As EventArgs)
-        BACKUPTXT("XTAB_CAPTION", "FrmCtaBanOrd")
         CREA_TAB(FrmCtaBanOrd, "Cuenta bancaria ordenante")
     End Sub
 
     Private Sub MnuCtaBanBen_Click(sender As Object, e As EventArgs)
-        BACKUPTXT("XTAB_CAPTION", "FrmCtaBanBen")
         CREA_TAB(FrmCtaBanEmpresa, "Cuenta bancaria beneficiario")
     End Sub
     Private Sub MnuServiciosXUnidadSinMinve_Click(sender As Object, e As EventArgs) Handles RMante_Rep_ServiciosXUnidadSinMinve.Click
-        BACKUPTXT("XTAB_CAPTION", "frmServiciosXUnidadMinve")
         frmServiciosXUnidadMinve.ShowDialog()
     End Sub
     Private Sub RibPolizaSalidasGenOperMec_Click(sender As Object, e As EventArgs) Handles RibPolizaSalidasGenOperMec.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPolizasSalidaGenOperMec")
         CREA_TAB(FrmPolizasSalidaGenOperMec, "Poliza salida gen. oper y mec.")
     End Sub
 
     Private Sub BarPolizaIngresos_Click(sender As Object, e As EventArgs) Handles BarPolizaIngresos.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPolizaIngresosCxC")
         CREA_TAB(FrmPolizaIngresosCxC, "Póliza Ingresos CxC")
     End Sub
     Private Sub RibOTExternas_Click(sender As Object, e As EventArgs) Handles RMante_Rep_OTExternas.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmRepOTExternas")
         FrmRepOTExternas.ShowDialog()
     End Sub
     Private Sub RibValidaExcel_Click(sender As Object, e As EventArgs) Handles RibValidaExcel.Click
-        BACKUPTXT("XTAB_CAPTION", "frmImportAsigLlantasExcel")
         'FrmImportAsigLlantasExcel.Show()
     End Sub
     Private Sub RibConsolidado_Click(sender As Object, e As EventArgs) Handles RMante_Rep_Consolidado.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmReportConsolidado")
         FrmReportConsolidado.ShowDialog()
     End Sub
     Private Sub RibPagoMult_Click(sender As Object, e As EventArgs) Handles RibPagoMult.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPagoMultidocCxC")
         FrmPagoMultidocCxC.ShowDialog()
     End Sub
     Private Sub BarVtasXProXCteTrackFullRojo_Click(sender As Object, e As EventArgs) Handles BarVtasXProXCteTrackFullRojo.Click
-        BACKUPTXT("XTAB_CAPTION", "FrnVtaXProXCteTrackFullRojo")
         CREA_TAB(FrnVtaXProXCteTrackFullRojo, "Ventas por producto por cliente")
     End Sub
     Private Sub RibTesoreriaAltaCxC_Click(sender As Object, e As EventArgs) Handles RibTesoreriaAltaCxC.Click
-        BACKUPTXT("XTAB_CAPTION", "frmAltaCxC")
         CREA_TAB(frmAltaCxC, "Alta CxC")
     End Sub
 
     Private Sub RibVentasAltaCxC_Click(sender As Object, e As EventArgs) Handles RibVentasAltaCxC.Click
-        BACKUPTXT("XTAB_CAPTION", "frmAltaCxC")
         CREA_TAB(frmAltaCxC, "Alta CxC")
     End Sub
     Private Sub RibTesoreriaPagoMult_Click(sender As Object, e As EventArgs) Handles RibTesoreriaPagoMult.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPagoMultidocCxC")
         FrmPagoMultidocCxC.ShowDialog()
     End Sub
     Private Sub RibVentasPagoMult_Click(sender As Object, e As EventArgs) Handles RibVentasPagoMult.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPagoMultidocCxC")
         FrmPagoMultidocCxC.ShowDialog()
     End Sub
     Private Sub RibTesoreriaComprobantePagoCFDI_Click(sender As Object, e As EventArgs) Handles RibTesoreriaComprobantePagoCFDI.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPagoComplemento")
         CREA_TAB(FrmPagoComplemento, "Complemento de pago")
     End Sub
     Private Sub RibVentasComprobantePagoCFDI_Click(sender As Object, e As EventArgs) Handles RibVentasComprobantePagoCFDI.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmPagoComplemento")
         CREA_TAB(FrmPagoComplemento, "Complemento de pago")
     End Sub
     Private Sub RibTesoreriaComprobantePagoCompras_Click(sender As Object, e As EventArgs) Handles RibTesoreriaComprobantePagoCompras.Click
-        BACKUPTXT("XTAB_CAPTION", "frmRecepcionPagosCompras")
         FrmRecepcionPagosCompras.ShowDialog()
     End Sub
     Private Sub RibTesoreriaAltaCxP_Click(sender As Object, e As EventArgs) Handles RibTesoreriaAltaCxP.Click
-        BACKUPTXT("XTAB_CAPTION", "frmAltaCxP")
         CREA_TAB(FrmAltaCxP, "Alta CxP")
     End Sub
 
     Private Sub BarLineasProductos1_Click(sender As Object, e As EventArgs) Handles BarLineasProductos1.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmConsultaMovsInvOT ")
         CREA_TAB(FrmConsultaMovsInvOT, "Consulta movs. inv. OT")
     End Sub
     Private Sub BarConsulMinveOT_Click(sender As Object, e As EventArgs) Handles BarConsulMinveOT.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmConsultaMovsInvOT ")
         CREA_TAB(FrmConsultaMovsInvOT, "Consulta movs. inv. OT")
     End Sub
     Private Sub BarFacturacion_Click(sender As Object, e As EventArgs) Handles BarFacturacion.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmConsultaMovsInvOT ")
         CREA_TAB(FrmCFDICartaPorteConcen, "Concentrado CFDI carta porte")
     End Sub
     Private Sub BarLicenciamientoMobulos_Click(sender As Object, e As EventArgs) Handles BarLicenciamientoMobulos.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmLicenciamientoModulos")
         FrmLicenciamientoModulos.ShowDialog()
     End Sub
     Private Sub BarViajesXOperador_Click(sender As Object, e As EventArgs) Handles BarViajesXOperador.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmReportViajesXOperador")
         FrmReportViajesXOperador.ShowDialog()
     End Sub
     Private Sub RibTesoreriaConsultaBancaria_Click(sender As Object, e As EventArgs) Handles RibTesoreriaConsultaBancaria.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmConsultaBancaria")
         CREA_TAB(FrmConsultaBancaria, "Consulta bancaria")
     End Sub
     Private Sub BarPolizaComprasNC_Click(sender As Object, e As EventArgs) Handles BarPolizaComprasNC.Click
-        BACKUPTXT("XTAB_CAPTION", "frmPolizaComprasNC")
         CREA_TAB(FrmPolizaComprasNC, "Póliza compras NC")
     End Sub
     Private Sub BarFACT_CFDI4_Click(sender As Object, e As EventArgs) Handles BarFACT_CFDI4.Click
-        BACKUPTXT("XTAB_CAPTION", "frmFACTURAS")
         Var4 = ""
         TIPO_VENTA = "F"
         CREA_TAB(frmFACTURAS, "Facturas")
     End Sub
     Private Sub RibRHIngresosXOperador_Click(sender As Object, e As EventArgs) Handles RibRHIngresosXOperador.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmIngresosXOperador")
-
         FrmIngresosXOperador.ShowDialog()
-
     End Sub
     Private Sub RibResumenDeCompras_Click(sender As Object, e As EventArgs) Handles RibResumenDeCompras.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmDetalladoComprasJulio")
         CREA_TAB(FrmDetalladoComprasJulio, "Resumen de compras")
     End Sub
     Private Sub RibGastos_Click(sender As Object, e As EventArgs)
-        BACKUPTXT("XTAB_CAPTION", "FrmGastosDoc")
         CREA_TAB(FrmGastosDoc, "Gastos")
     End Sub
     Private Sub BarMotivosCancel_Click(sender As Object, e As EventArgs)
-        BACKUPTXT("XTAB_CAPTION", "FrmMotivosCancel")
         CREA_TAB(FrmMotivosCancel, "Motivos cancelaciones")
     End Sub
     Private Sub RibCBCompras_Click(sender As Object, e As EventArgs) Handles RConta_Menu_CC_Compras.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmCierreContable")
         Var4 = "COMPRAS"
         FrmCierreContable.ShowDialog()
     End Sub
     Private Sub RibCBDevCompras_Click(sender As Object, e As EventArgs) Handles RConta_Menu_CC_DevCompras.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmCierreContable")
         Var4 = "DEVOLUCION COMPRAS"
         FrmCierreContable.ShowDialog()
     End Sub
     Private Sub RibCBFacturas_Click(sender As Object, e As EventArgs) Handles RConta_Menu_CC_Facturas.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmCierreContable")
         Var4 = "FACTURAS"
         FrmCierreContable.ShowDialog()
     End Sub
     Private Sub RibCBDevFacturas_Click(sender As Object, e As EventArgs) Handles RConta_Menu_CC_DevFacturas.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmCierreContable")
         Var4 = "DEVOLUCION FACTURAS"
         FrmCierreContable.ShowDialog()
     End Sub
     Private Sub RibCBOT_Click(sender As Object, e As EventArgs) Handles RConta_Menu_CC_OT.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmCierreContable")
         Var4 = "OT"
         FrmCierreContable.ShowDialog()
     End Sub
     Private Sub RibCBIngresos_Click(sender As Object, e As EventArgs) Handles RConta_Menu_CC_Ingresos.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmCierreContable")
         Var4 = "INGRESO"
         FrmCierreContable.ShowDialog()
     End Sub
     Private Sub RibCBEgresos_Click(sender As Object, e As EventArgs) Handles RConta_Menu_CC_Egresos.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmCierreContable")
         Var4 = "EGRESO"
         FrmCierreContable.ShowDialog()
     End Sub
     Private Sub RibCBMovLLantas_Click(sender As Object, e As EventArgs) Handles RConta_Menu_CC_MovLLantas.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmCierreContable")
         Var4 = "MOV LLANTAS"
         FrmCierreContable.ShowDialog()
     End Sub
     Private Sub RibCBGastos_Click(sender As Object, e As EventArgs) Handles RConta_Menu_CC_Gastos.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmCierreContable")
         Var4 = "GASTOS"
         FrmCierreContable.ShowDialog()
     End Sub
     Private Sub RibAntSaldosClientes_Click(sender As Object, e As EventArgs) Handles RibAntSaldosClientes.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmAntiguedadSaldosClie")
         'CREA_TAB(FrmAntiguedadSaldosClie, "Antiguedad de saldos clientes")
         FrmAntiguedadSaldosClie.ShowDialog()
     End Sub
     Private Sub RibAntSaldosPorv_Click(sender As Object, e As EventArgs) Handles RibAntSaldosPorv.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmAntiguedadSaldosProv")
         FrmAntiguedadSaldosProv.ShowDialog()
     End Sub
     Private Sub RibSaldosClientes_Click(sender As Object, e As EventArgs) Handles RibSaldosClientes.Click
-        BACKUPTXT("XTAB_CAPTION", "frmClientesV2")
         CREA_TAB(FrmClientesV2, "Saldos de clientes")
     End Sub
     Private Sub RibResumenVentas1_Click(sender As Object, e As EventArgs) Handles RibResumenVentas1.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmDetalladoVentasJulio")
         CREA_TAB(FrmDetalladoVentasJulio, "Resumen de ventas")
     End Sub
     Private Sub RiBPagoMultiDocCXP_Click(sender As Object, e As EventArgs) Handles RiBPagoMultiDocCXP.Click
         FrmPagoMultidocCxP.ShowDialog()
     End Sub
     Private Sub RibSaldosOperadores_Click(sender As Object, e As EventArgs) Handles RibSaldosOperadores.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmSaldosOperadores")
         CREA_TAB(FrmSaldosOperadores, "Saldos operadores")
     End Sub
     Private Sub RibCartaPorteXRecibir_Click(sender As Object, e As EventArgs) Handles RLogisticaRep_CartaPorteXRecibir.Click
@@ -4148,24 +4061,21 @@ Public Class MainRibbonForm
     End Sub
 
     Private Sub RibConcepCobroViajes_Click(sender As Object, e As EventArgs) Handles RibConcepCobroViajes.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmAsigCatCobro")
         CREA_TAB(FrmAsigCatCobro, "Conceptos de cobro")
     End Sub
 
     Private Sub RibLlantasCatRenovados_Click(sender As Object, e As EventArgs) Handles RibLlantasMarcaRenovados.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmMarcasRenovado")
         CREA_TAB(FrmMarcasRenovado, "Marcas renovado")
     End Sub
 
     Private Sub RibLlantasProvReno_Click(sender As Object, e As EventArgs) Handles RibLlantasProvReno.Click
-        BACKUPTXT("XTAB_CAPTION", "FrmMarcasRenovado")
         CREA_TAB(FrmProvRenovados, "Proveedor renovado")
     End Sub
 
     Private Sub RibReporte1_Click(sender As Object, e As EventArgs) Handles RibReporte1.Click
         VarFORM2 = "1"
         Try
-            Dim f As New FrmBuenoRepFactura With {.MdiParent = Me.Owner, .TopLevel = True}
+            Dim f As New FrmReporte44 With {.MdiParent = Me.Owner, .TopLevel = True}
             f.ShowDialog()
         Catch ex As Exception
             Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -4175,7 +4085,7 @@ Public Class MainRibbonForm
     Private Sub RibReporte2_Click(sender As Object, e As EventArgs) Handles RibReporte2.Click
         VarFORM2 = "2"
         Try
-            Dim f As New FrmBuenoRepFactura With {.MdiParent = Me.Owner, .TopLevel = True}
+            Dim f As New FrmReporte44 With {.MdiParent = Me.Owner, .TopLevel = True}
             f.ShowDialog()
         Catch ex As Exception
             Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -4185,7 +4095,7 @@ Public Class MainRibbonForm
     Private Sub RibReporte3_Click(sender As Object, e As EventArgs) Handles RibReporte3.Click
         VarFORM2 = "3"
         Try
-            Dim f As New FrmBuenoRepFactura With {.MdiParent = Me.Owner, .TopLevel = True}
+            Dim f As New FrmReporte44 With {.MdiParent = Me.Owner, .TopLevel = True}
             f.ShowDialog()
         Catch ex As Exception
             Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -4196,7 +4106,7 @@ Public Class MainRibbonForm
         VarFORM2 = "4"
 
         Try
-            Dim f As New FrmBuenoRepFactura With {.MdiParent = Me.Owner, .TopLevel = True}
+            Dim f As New FrmReporte44 With {.MdiParent = Me.Owner, .TopLevel = True}
             f.ShowDialog()
         Catch ex As Exception
             Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -4206,7 +4116,7 @@ Public Class MainRibbonForm
     Private Sub RibReporte5_Click(sender As Object, e As EventArgs) Handles RibReporte5.Click
         VarFORM2 = "5"
         Try
-            Dim f As New FrmBuenoRepFactura With {.MdiParent = Me.Owner, .TopLevel = True}
+            Dim f As New FrmReporte44 With {.MdiParent = Me.Owner, .TopLevel = True}
             f.ShowDialog()
         Catch ex As Exception
             Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -4253,5 +4163,50 @@ Public Class MainRibbonForm
         frm.NombreFrm = sender.Name
 
         CREA_TAB(frm, Consulta)
+    End Sub
+
+    Private Sub RibPolPagRef_Click(sender As Object, e As EventArgs) Handles RibPolPagRef.Click
+        'FrmPolizaPagoRef
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaPagoRef")
+        CREA_TAB(FrmPolizaPagoRef, "Póliza Pago Refacciones")
+    End Sub
+
+    Private Sub RibPolProvRef_Click(sender As Object, e As EventArgs) Handles RibPolProvRef.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaProvRef")
+        CREA_TAB(FrmPolizaProvRef, "Póliza Provisión Refacciones")
+    End Sub
+
+    Private Sub BarRepGerencial2_Click(sender As Object, e As EventArgs) Handles BarRepGerencial2.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmRepGerencial2")
+        FrmRepGerencial2.ShowDialog()
+    End Sub
+
+    Private Sub BarGerencial3_Click(sender As Object, e As EventArgs) Handles BarGerencial3.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmRepGerencial3")
+        FrmRepGerencial3.ShowDialog()
+    End Sub
+
+    Private Sub RibPolFondoOper_Click(sender As Object, e As EventArgs) Handles RibPolFondoOper.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaFondoOper")
+        CREA_TAB(FrmPolizaFondoOper, "Póliza Fondo Operadores")
+    End Sub
+
+    Private Sub RibPolSalAlm_Click(sender As Object, e As EventArgs) Handles RibPolSalAlm.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaSalidaAlmacen")
+        CREA_TAB(FrmPolizaSalidaAlmacen, "Póliza Salida Almacén Refacciones")
+    End Sub
+
+    Private Sub RibPolPagOTE_Click(sender As Object, e As EventArgs) Handles RibPolPagOTE.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmPolizaPagoOTE")
+        CREA_TAB(FrmPolizaPagoOTE, "Póliza Pago OT Ext.")
+    End Sub
+
+    Private Sub RibRepPensionAlimenticia_Click(sender As Object, e As EventArgs) Handles RibRepPensionAlimenticia.Click, RLiq_Rep_Pension.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmPensionAlimenticia")
+        FrmPensionAlimenticia.ShowDialog()
+    End Sub
+
+    Private Sub RibReporteFleteVsGastos_Click(sender As Object, e As EventArgs) Handles RibReporteFleteVsGastos.Click, RibReporteCTBFleteVsGastos.Click
+        CREA_TAB(FrmFletesVsGastos, "Fletes vs Gastos")
     End Sub
 End Class

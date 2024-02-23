@@ -3,7 +3,6 @@ Imports C1.Win.C1Themes
 Imports C1.Win.C1FlexGrid
 Imports System.Data.SqlClient
 Imports C1.Win.C1Command
-Imports Stimulsoft.Report.StiOptions.Export
 
 Public Class FrmEdoCuentaCliente
     Private CADENA As String = ""
@@ -112,7 +111,7 @@ Public Class FrmEdoCuentaCliente
                 CADENA_SALDO = ""
             End If
 
-            SQL = "SELECT M.CVE_CLIE, E.NOMBRE, CALLE, NUMEXT, CODIGO, RFC, LIMCRED, DIASCRED, SALDO, CLASIFIC, M.REFER, 
+            SQL = "SELECT M.CVE_CLIE, E.NOMBRE, CALLE, NUMEXT, CODIGO, E.RFC, LIMCRED, DIASCRED, SALDO, CLASIFIC, M.REFER, 
                 (M.IMPORTE * M.SIGNO) AS IMPORTE_M, M.NUM_CPTO As CPTO_M, C.DESCR AS DESCR_CONCEP_M, M.NO_FACTURA As NO_FAC_M,
                 D.NO_FACTURA As NO_FAC_D, M.DOCTO As DOCTO_M, D.DOCTO As DOCTO_D, M.NUM_CARGO As NUM_CARGO_M, M.FECHA_APLI As FAPLI_M,
                 M.FECHA_VENC As FVENC_M, M.SIGNO As SIGNO_M, ISNULL(D.NO_PARTIDA,0) AS NO_PAR,
@@ -150,9 +149,14 @@ Public Class FrmEdoCuentaCliente
                         Try
                             If REFER <> dr("REFER") Or SIGUE Then
                                 SIGUE = False
-                                Fg.AddItem("" & vbTab & dr("REFER") & vbTab & "" & vbTab & dr("DESCR_CONCEP_M") & vbTab & dr("NO_FAC_M") & vbTab &
-                                   dr("FAPLI_M") & vbTab & dr("FVENC_M") & vbTab & dr("IMPORTE_M") & vbTab & "" & vbTab &
-                                   (dr("IMPORTE_M") + dr("ABONOS") + dr("CARGOS")))
+                                Try
+                                    Fg.AddItem("" & vbTab & dr("REFER") & vbTab & "" & vbTab & dr("DESCR_CONCEP_M") & vbTab & dr("NO_FAC_M") & vbTab &
+                                       dr("FAPLI_M") & vbTab & dr("FVENC_M") & vbTab & Format(dr("IMPORTE_M"), "###,###,###,##0.00") & vbTab & "" & vbTab &
+                                       Format((CDec(dr("IMPORTE_M")) + CDec(dr("ABONOS")) + CDec(dr("CARGOS"))), "###,###,###,##0.00"))
+
+                                Catch ex As Exception
+                                End Try
+
 
                                 r2 = t.NewRow()
                                 r2("CLIENTE") = dr("CVE_CLIE")
@@ -206,9 +210,8 @@ Public Class FrmEdoCuentaCliente
                                 End If
                             End If
                             If dr("IMPORTE_D") <> 0 Then
-                                Fg.AddItem("-" & vbTab & dr("REFER") & vbTab & "" & vbTab & dr("DES_CONC_D") & vbTab & dr("DOCTO_D") & vbTab &
-                                           dr("F_APLI_D") & vbTab & dr("F_VENC_D") & vbTab & "" & vbTab & dr("IMPORTE_D") & vbTab & "" & vbTab &
-                                           "" & vbTab & "" & vbTab & dr("NO_PAR"))
+                                Fg.AddItem("-" & vbTab & dr("REFER") & vbTab & "" & vbTab & dr("DES_CONC_D") & vbTab & dr("DOCTO_D") & vbTab & dr("F_APLI_D") & vbTab &
+                                           dr("F_VENC_D") & vbTab & "" & vbTab & Format(dr("IMPORTE_D"), "###,###,###,##0.00") & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & dr("NO_PAR"))
                                 r = Fg.Rows(Fg.Rows.Count - 1)
                                 r.IsNode = False
                                 If Not IsNothing(r.Node) Then
@@ -231,20 +234,20 @@ Public Class FrmEdoCuentaCliente
 
                     LtSaldo.Text = Lt3.Text
 
-                    Try
-                        If Var49 <> IMPORTE + ABONOS Then
-                            SQL = "UPDATE CLIE" & Empresa & " SET SALDO = " & IMPORTE + ABONOS & " WHERE CLAVE = '" & Var4 & "'"
-                            Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                                cmd2.CommandText = SQL
-                                returnValue = cmd2.ExecuteNonQuery().ToString
-                                If returnValue IsNot Nothing Then
-                                    If returnValue = "1" Then
-                                    End If
-                                End If
-                            End Using
-                        End If
-                    Catch ex As Exception
-                    End Try
+                    'Try
+                    '    If Var49 <> IMPORTE + ABONOS Then
+                    '        SQL = "UPDATE CLIE" & Empresa & " SET SALDO = " & IMPORTE + ABONOS & " WHERE CLAVE = '" & Var4 & "'"
+                    '        Using cmd2 As SqlCommand = cnSAE.CreateCommand
+                    '            cmd2.CommandText = SQL
+                    '            returnValue = cmd2.ExecuteNonQuery().ToString
+                    '            If returnValue IsNot Nothing Then
+                    '                If returnValue = "1" Then
+                    '                End If
+                    '            End If
+                    '        End Using
+                    '    End If
+                    'Catch ex As Exception
+                    'End Try
 
                 End Using
             End Using
@@ -390,14 +393,14 @@ Public Class FrmEdoCuentaCliente
                 Dim rowNumber As Integer = e.Row - Fg.Rows.Fixed + 1
                 e.Text = rowNumber.ToString()
 
-                Dim value As Decimal = CDec(Fg(e.Row, 8))
-                If value < 0 Then
-                    Dim cs1 As CellStyle
-                    cs1 = Fg.Styles.Add("cs1")
-                    cs1.BackColor = Color.White
-                    cs1.ForeColor = Color.Red
-                    Fg.SetCellStyle(e.Row, 8, cs1)
-                End If
+                'Dim value As Decimal = CDec(Fg(e.Row, 8))
+                'If value < 0 Then
+                '    Dim cs1 As CellStyle
+                '    cs1 = Fg.Styles.Add("cs1")
+                '    cs1.BackColor = Color.White
+                '    cs1.ForeColor = Color.Red
+                '    Fg.SetCellStyle(e.Row, 8, cs1)
+                'End If
             End If
         Catch ex As Exception
             Bitacora("38. " & ex.Message & vbNewLine & ex.StackTrace)

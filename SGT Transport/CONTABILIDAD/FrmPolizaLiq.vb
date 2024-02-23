@@ -239,6 +239,23 @@ Public Class FrmPolizaLiq
         Fg.Rows.Count = 1
         Fg.Redraw = False
 
+        Try
+
+            SQL = String.Format("EXEC dbo.sp_LiqCalculaSueldoAll '{0:yyyyMMdd}'", F1.Value)
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                    If returnValue = "1" Then
+                    End If
+                End If
+            End Using
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            Return
+        End Try
+
         Filtro = String.Format("{0} BETWEEN '{1:yyyyMMdd}' AND '{2:yyyyMMdd}' {3} {4}", "FechaDocumento", F1.Value, F2.Value, IIf(chkSinPoliza.CheckState = CheckState.Checked, "AND IdPoliza = 0", ""), IIf(Trim(TCVE_OPER.Text) <> "", "AND CveOper = " & TCVE_OPER.Text, ""))
 
         Try
@@ -336,9 +353,12 @@ Public Class FrmPolizaLiq
                                 End Select
                             End If
 #End Region
+                            If dr("Orden").ToString().Equals("1") Then
+                                TotalDocumentos = TotalDocumentos + 1
+                            End If
 
                             Fg.AddItem("" & vbTab & dr("FechaDocumento") & vbTab & dr("Documento") & vbTab & dr("TipoDocumento") & vbTab & dr("FechaViaje") & vbTab &
-                                       dr("Viaje") & vbTab & dr("IdPoliza") & vbTab & dr("Orden") & vbTab & dr("TipoPoliza") & vbTab & dr("NoPolizaCuenta") & vbTab &
+                                       dr("Viaje") & vbTab & dr("IdPoliza") & vbTab & dr("Orden") & vbTab & dr("TipoPoliza") & vbTab & IIf(dr("Orden").ToString().Equals("1"), TotalDocumentos, dr("NoPolizaCuenta")) & vbTab &
                                        dr("ConceptoPolizaDepto") & vbTab & dr("DiaConceptoMov") & vbTab & dr("TipoCambio") & vbTab & IIf(dr("Orden") = "15", Math.Round(dr("TotalDebe"), 2), dr("Debe")) & vbTab & IIf(dr("Orden") = "15", Math.Round(dr("TotalHaber"), 2), dr("Haber")) & vbTab &
                                        dr("CentroCostos") & vbTab & dr("Proyecto"))
 
@@ -358,9 +378,7 @@ Public Class FrmPolizaLiq
                             If dr("Orden").ToString().Equals("1") And Not dr("IdPoliza").ToString().Equals("0") Then
                                 Fg.SetCellStyle(Fg.Rows.Count - 1, 9, NewStyle3)
                             End If
-                            If dr("Orden").ToString().Equals("1") Then
-                                TotalDocumentos = TotalDocumentos + 1
-                            End If
+
                         Catch ex As Exception
                             Bitacora("14. " & ex.Message & vbNewLine & ex.StackTrace)
                         End Try
@@ -391,11 +409,18 @@ Public Class FrmPolizaLiq
 
     Private Sub BarExcel_Click(sender As Object, e As ClickEventArgs) Handles BarExcel.Click
         Try
+            For k = 1 To Fg.Rows.Count - 1
+                If Fg(k, 9) = "FIN_PARTIDAS" Then
+                    Fg(k, 13) = ""
+                    Fg(k, 14) = ""
+                End If
+            Next
             Fg.AllowFiltering = True
             Fg.FilterDefinition = "<ColumnFilters><ColumnFilter ColumnIndex='6' ColumnName='Orden' DataType='System.String'><ConditionFilter AndConditions='True'><Condition Operator='DoesNotContain' Parameter='99' /></ConditionFilter></ColumnFilter></ColumnFilters>"
             EXPORTAR_EXCEL_TRANSPORT(Fg, TPOLIZA.Text, True)
             Fg.FilterDefinition = ""
             Fg.AllowFiltering = False
+            BarDesplegar_Click(Nothing, Nothing)
         Catch ex As Exception
             MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace)
             Bitacora("12. " & ex.Message & vbNewLine & ex.StackTrace)

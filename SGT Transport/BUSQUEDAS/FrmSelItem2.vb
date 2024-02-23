@@ -334,7 +334,9 @@ Public Class FrmSelItem2
                         LEFT JOIN CFDI F ON F.FACTURA = M.REFER
                         LEFT JOIN MONED" & Empresa & " N ON N.NUM_MONED = M.NUM_MONED 
                         WHERE ISNULL(F.METODODEPAGO,'PPD') = 'PPD' AND ISNULL(F.FORMADEPAGOSAT,'99') = 99 AND ISNULL(CVE_DOC_COMPPAGO,'') = '' AND 
-                        M.CVE_CLIE = '" & Var46 & "' AND M.REFER = '" & Var5 & "' ORDER BY M.CVE_CLIE, M.REFER"
+                        M.CVE_CLIE = '" & Var46 & "' AND M.REFER = '" & Var5 & "' AND 
+                        NOT EXISTS (SELECT CVE_DOC FROM CFDI_REL" & Empresa & " WHERE CVE_DOC_REL = M.REFER)
+                        ORDER BY M.CVE_CLIE, M.REFER"
                     Fg.Rows.Count = 1
                     Fg.Cols.Count = 13
                     Fg(0, 1) = "Documento"
@@ -520,7 +522,8 @@ Public Class FrmSelItem2
                         LEFT JOIN FACTF" & Empresa & " F ON F.CVE_DOC = CFDI.FACTURA
                         LEFT JOIN CLIE" & Empresa & " P ON P.CLAVE = F.CVE_CLPV
                         LEFT JOIN CLIE" & Empresa & " P2 ON P2.CLAVE = CFDI.CLIENTE
-                        WHERE ISNULL(F.STATUS,'') <> 'C' AND ISNULL(CFDI.ESTATUS,'') <> 'C'
+                        WHERE ISNULL(F.STATUS,'') <> 'C' AND ISNULL(CFDI.ESTATUS,'') <> 'C' AND 
+                        NOT EXISTS (SELECT CVE_DOC FROM CFDI_REL" & Empresa & " WHERE CVE_DOC_REL = CFDI.FACTURA)
                         ORDER BY F.FECHAELAB DESC"
                     Fg.Rows.Count = 1
                     Fg.Cols.Count = 6
@@ -588,8 +591,7 @@ Public Class FrmSelItem2
                         LEFT JOIN GCCLIE_OP C3 ON C3.CLAVE = CT.NO_CONTRATO 
                         LEFT JOIN GCRECOGER_EN_ENTREGAR_EN RE ON RE.CVE_REG = P.RECOGER_EN 
                         LEFT JOIN GCRECOGER_EN_ENTREGAR_EN EE ON EE.CVE_REG = P.ENTREGAR_EN
-                        WHERE P.STATUS = 'A' AND ISNULL(CVE_VIAJE,'') = '' AND 
-                        NOT EXISTS (SELECT PED_ENLAZADO FROM GCPEDIDOS WHERE PED_ENLAZADO = P.CVE_DOC)
+                        WHERE P.STATUS = 'A' AND ISNULL(CVE_VIAJE,'') = ''
                         ORDER BY P.FECHAELAB DESC"
                     Fg.Rows.Count = 1
                     Fg.Cols.Count = 8
@@ -699,6 +701,7 @@ Public Class FrmSelItem2
                     Me.Width = 600
                     Fg.Width = Me.Width - 30
                 Case "Articulo"
+
                     If PARAM_VAR.Trim.Length > 0 Then
                         PARAM_VAR = "AND LIN_PROD = '" & PARAM_VAR & "'"
                     End If
@@ -707,6 +710,7 @@ Public Class FrmSelItem2
                         FROM INVE" & Empresa & " 
                         WHERE STATUS = 'A' AND TIPO_ELE <> 'K' AND CVE_ART <> 'TOT' " & PARAM_VAR & "
                         ORDER BY DESCR"
+
                     Fg.Rows.Count = 1
                     Fg.Cols.Count = 4
                     Fg(0, 0) = ""

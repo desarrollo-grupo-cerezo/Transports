@@ -33,6 +33,7 @@ Partial Class FrmAsignacionViaje
         Me.MnuGastosDeViaje = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarExcel = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarSalir = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarImpLiquidacion = New System.Windows.Forms.ToolStripMenuItem()
         Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.C1SuperTooltip1 = New C1.Win.C1SuperTooltip.C1SuperTooltip(Me.components)
         Me.C1FlexGridSearchPanel1 = New C1.Win.C1FlexGrid.C1FlexGridSearchPanel()
@@ -51,6 +52,7 @@ Partial Class FrmAsignacionViaje
         Me.BtnClear = New C1.Win.C1Input.C1Button()
         Me.TBUSCAR = New C1.Win.C1Input.C1TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.BarMenu.SuspendLayout()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Fg2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,11 +69,11 @@ Partial Class FrmAsignacionViaje
         '
         'BarMenu
         '
-        Me.BarMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarNuevo, Me.BarEdit, Me.BarEliminar, Me.BarActualizar, Me.BarFiltro, Me.BarReportes, Me.BarExcel, Me.BarSalir})
+        Me.BarMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarNuevo, Me.BarEdit, Me.BarEliminar, Me.BarActualizar, Me.BarFiltro, Me.BarReportes, Me.BarImpLiquidacion, Me.BarExcel, Me.BarSalir})
         Me.BarMenu.Location = New System.Drawing.Point(0, 0)
         Me.BarMenu.Name = "BarMenu"
         Me.BarMenu.Padding = New System.Windows.Forms.Padding(6, 12, 0, 0)
-        Me.BarMenu.Size = New System.Drawing.Size(1405, 63)
+        Me.BarMenu.Size = New System.Drawing.Size(1509, 63)
         Me.BarMenu.TabIndex = 11
         Me.BarMenu.Text = "MenuStrip1"
         '
@@ -205,12 +207,27 @@ Partial Class FrmAsignacionViaje
         Me.BarSalir.Text = "Salir"
         Me.BarSalir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
+        'BarImpLiquidacion
+        '
+        Me.BarImpLiquidacion.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.BarImpLiquidacion.ForeColor = System.Drawing.Color.Black
+        Me.BarImpLiquidacion.Image = Global.SGT_Transport.My.Resources.Resources.impresora32
+        Me.BarImpLiquidacion.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.BarImpLiquidacion.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarImpLiquidacion.Name = "BarImpLiquidacion"
+        Me.BarImpLiquidacion.ShortcutKeyDisplayString = ""
+        Me.BarImpLiquidacion.ShortcutKeys = System.Windows.Forms.Keys.F3
+        Me.BarImpLiquidacion.Size = New System.Drawing.Size(81, 51)
+        Me.BarImpLiquidacion.Text = "Liquidación"
+        Me.BarImpLiquidacion.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
         'Fg
         '
         Me.Fg.AllowEditing = False
         Me.Fg.AllowFiltering = True
         Me.Fg.AutoSearch = C1.Win.C1FlexGrid.AutoSearchEnum.FromTop
         Me.Fg.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
+        Me.C1FlexGridSearchPanel1.SetC1FlexGridSearchPanel(Me.Fg, Me.C1FlexGridSearchPanel1)
         Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
         Me.Fg.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
@@ -219,7 +236,7 @@ Partial Class FrmAsignacionViaje
         Me.Fg.Rows.DefaultSize = 19
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.ListBox
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg.Size = New System.Drawing.Size(970, 397)
+        Me.Fg.Size = New System.Drawing.Size(1379, 397)
         Me.Fg.TabIndex = 12
         Me.Fg.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Custom
         '
@@ -231,13 +248,12 @@ Partial Class FrmAsignacionViaje
         'C1FlexGridSearchPanel1
         '
         Me.C1FlexGridSearchPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(900, 4)
+        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(1059, 6)
         Me.C1FlexGridSearchPanel1.Name = "C1FlexGridSearchPanel1"
         Me.C1FlexGridSearchPanel1.SearchDelay = 400
         Me.C1FlexGridSearchPanel1.SearchMode = C1.Win.C1FlexGrid.SearchMode.Always
         Me.C1FlexGridSearchPanel1.Size = New System.Drawing.Size(234, 49)
         Me.C1FlexGridSearchPanel1.TabIndex = 13
-        Me.C1FlexGridSearchPanel1.Visible = False
         Me.C1FlexGridSearchPanel1.Watermark = "Texto a buscar"
         '
         'Fg2
@@ -245,7 +261,6 @@ Partial Class FrmAsignacionViaje
         Me.Fg2.AllowEditing = False
         Me.Fg2.AllowFiltering = True
         Me.Fg2.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
-        Me.C1FlexGridSearchPanel1.SetC1FlexGridSearchPanel(Me.Fg2, Me.C1FlexGridSearchPanel1)
         Me.Fg2.ColumnInfo = resources.GetString("Fg2.ColumnInfo")
         Me.Fg2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Fg2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
@@ -254,7 +269,7 @@ Partial Class FrmAsignacionViaje
         Me.Fg2.Rows.DefaultSize = 22
         Me.Fg2.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.ListBox
         Me.Fg2.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg2.Size = New System.Drawing.Size(970, 397)
+        Me.Fg2.Size = New System.Drawing.Size(1379, 397)
         Me.Fg2.TabIndex = 13
         Me.Fg2.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Custom
         '
@@ -349,7 +364,7 @@ Partial Class FrmAsignacionViaje
         Me.TAB1.Location = New System.Drawing.Point(12, 73)
         Me.TAB1.Name = "TAB1"
         Me.TAB1.SelectedTabBold = True
-        Me.TAB1.Size = New System.Drawing.Size(972, 439)
+        Me.TAB1.Size = New System.Drawing.Size(1381, 439)
         Me.TAB1.SplitterWidth = 6
         Me.TAB1.TabAreaBorder = True
         Me.TAB1.TabAreaSpacing = 10
@@ -368,7 +383,7 @@ Partial Class FrmAsignacionViaje
         Me.PAG1.Image = Global.SGT_Transport.My.Resources.Resources.track29
         Me.PAG1.Location = New System.Drawing.Point(1, 1)
         Me.PAG1.Name = "PAG1"
-        Me.PAG1.Size = New System.Drawing.Size(970, 397)
+        Me.PAG1.Size = New System.Drawing.Size(1379, 397)
         Me.PAG1.TabIndex = 0
         Me.PAG1.Text = "ACTIVOS"
         '
@@ -379,7 +394,7 @@ Partial Class FrmAsignacionViaje
         Me.PAG2.Image = Global.SGT_Transport.My.Resources.Resources.eli5
         Me.PAG2.Location = New System.Drawing.Point(1, 1)
         Me.PAG2.Name = "PAG2"
-        Me.PAG2.Size = New System.Drawing.Size(970, 397)
+        Me.PAG2.Size = New System.Drawing.Size(1379, 397)
         Me.PAG2.TabIndex = 1
         Me.PAG2.Text = "CANCELADOS"
         '
@@ -388,7 +403,7 @@ Partial Class FrmAsignacionViaje
         Me.GroupBox1.Controls.Add(Me.BtnClear)
         Me.GroupBox1.Controls.Add(Me.TBUSCAR)
         Me.GroupBox1.Controls.Add(Me.Label2)
-        Me.GroupBox1.Location = New System.Drawing.Point(553, 4)
+        Me.GroupBox1.Location = New System.Drawing.Point(651, 4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(243, 51)
         Me.GroupBox1.TabIndex = 210
@@ -438,12 +453,23 @@ Partial Class FrmAsignacionViaje
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Buscar viaje"
         '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(933, 24)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(108, 15)
+        Me.Label3.TabIndex = 0
+        Me.Label3.Text = "Busqueda general"
+        '
         'FrmAsignacionViaje
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1405, 542)
+        Me.ClientSize = New System.Drawing.Size(1509, 542)
         Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.TAB1)
         Me.Controls.Add(Me.C1FlexGridSearchPanel1)
         Me.Controls.Add(Me.BarMenu)
@@ -488,10 +514,6 @@ Partial Class FrmAsignacionViaje
     Friend WithEvents F2 As C1.Win.Calendar.C1DateEdit
     Friend WithEvents BarActualizar As ToolStripMenuItem
     Friend WithEvents StiReport1 As Stimulsoft.Report.StiReport
-    Friend WithEvents BarReportes As ToolStripMenuItem
-    Friend WithEvents MnuReporte As ToolStripMenuItem
-    Friend WithEvents MnuValesDeCombustible As ToolStripMenuItem
-    Friend WithEvents MnuGastosDeViaje As ToolStripMenuItem
     Friend WithEvents BarFiltro As ToolStripMenuItem
     Friend WithEvents BarExcel As ToolStripMenuItem
     Friend WithEvents TAB1 As C1.Win.C1Command.C1DockingTab
@@ -502,4 +524,10 @@ Partial Class FrmAsignacionViaje
     Friend WithEvents TBUSCAR As C1.Win.C1Input.C1TextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents BtnClear As C1.Win.C1Input.C1Button
+    Friend WithEvents BarReportes As ToolStripMenuItem
+    Friend WithEvents MnuReporte As ToolStripMenuItem
+    Friend WithEvents MnuValesDeCombustible As ToolStripMenuItem
+    Friend WithEvents MnuGastosDeViaje As ToolStripMenuItem
+    Friend WithEvents BarImpLiquidacion As ToolStripMenuItem
+    Friend WithEvents Label3 As Label
 End Class

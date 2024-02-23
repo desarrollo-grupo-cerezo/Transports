@@ -1,4 +1,5 @@
 ﻿Imports Stimulsoft
+Imports Stimulsoft.Report
 Imports System.Data.SqlClient
 Imports System.IO
 Module ModCFDI
@@ -35,7 +36,7 @@ Module ModCFDI
 
                         gRutaCertificado = dr("FILE_CER") 'CERTIFICADO
                         gRutaPFX = dr("FILE_PFX").ToString '.KEY
-                        gContraPFX = dr("PASS_PFX").ToString  'contrasena del certificado
+                        gContraPFX = Desencriptar(dr("PASS_PFX").ToString)  'contrasena del certificado
 
                         CP_PERMSCT = dr.ReadNullAsEmptyString("PERMSCT")
                         CP_NUMPERMISOSCT = dr.ReadNullAsEmptyString("NUMPERMISOSCT")
@@ -257,7 +258,7 @@ Module ModCFDI
             End If
 
             Select Case FCFDI
-                Case "FACTURAS"
+                Case "FACTURA"
                     ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDIFACTURA" & Empresa & ".mrt"
                     If Not File.Exists(ARCHIVO_MRT) Then
                         ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDIFACTURA.mrt"
@@ -286,6 +287,17 @@ Module ModCFDI
                         End If
                     End If
 
+                Case "NOTA DE CREDITO"
+                    ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDINOTADECREDITO" & Empresa & ".mrt"
+                    If Not File.Exists(ARCHIVO_MRT) Then
+                        ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDINOTADECREDITO.mrt"
+                        If Not File.Exists(ARCHIVO_MRT) Then
+                            MsgBox("No existe el reporte " & ARCHIVO_MRT & ", verifique por favor")
+                            Return
+                        End If
+                    End If
+                    'PassData1 = "CFDI Nota de crédito"
+                    'IMPRIMIR_CFDI_40(FCVE_DOC, "NOTA DE CREDITO")
             End Select
 
             UUID = BUSCAR_UUID_CFDI40(FCVE_DOC)
@@ -301,15 +313,20 @@ Module ModCFDI
             StiReport1.Dictionary.Databases.Clear()
             StiReport1.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
             StiReport1.Compile()
+
             Select Case PassData1
                 Case "PAGO COMPLEMENTO"
                     StiReport1.Item("CVE_DOC_REL") = FCVE_DOC
                     StiReport1.Item("CVE_DOC") = FCVE_DOC
                     StiReport1.ReportName = "Complemento de pago 4.0"
                 Case "FACTURA"
-                    StiReport1.Item("CVE_DOC_REL") = FCVE_DOC
-                    StiReport1.Item("CVE_DOC") = FCVE_DOC
+                    StiReport1("CVE_DOC") = FCVE_DOC
                     StiReport1.ReportName = "Factura 4.0"
+
+                Case "CFDI Nota de crédito"
+                    StiReport1("CVE_DOC") = FCVE_DOC
+                    StiReport1.ReportName = "Nota de crédito"
+
                 Case "CARTA PORTE TRASLADO"
                     StiReport1.Item("CVE_DOC_REL") = FCVE_DOC
                     StiReport1.Item("CVE_DOC") = FCVE_DOC
@@ -356,11 +373,170 @@ Module ModCFDI
             End Select
 
 
-            'StiReport1.Render()
-            StiReport1.Show()
+            StiReport1.Render()
+
+            VisualizaReporte(StiReport1)
+            'StiReport1.Show()
         Catch ex As Exception
             BITACORACFDI("14. " & ex.Message & vbNewLine & ex.StackTrace & vbNewLine)
             MsgBox("No tiene derechos para reimprimir CFDI 4.0")
         End Try
     End Sub
+
+    Public Sub IMPRIMIR_CFDI_DIRECTO(FCVE_DOC As String, Optional FPDF As String = "", Optional FCVE_VIAJE As String = "", Optional FRFC As String = "")
+        Try
+            Dim UUID As String, RUTA_PDF_PRECIOS As String = ""
+            Dim Report As New StiReport, RUTA_PDF As String = ""
+
+            Try
+                Dim RUTA_FORMATOS As String, ARCHIVO_MRT As String = ""
+
+                RUTA_FORMATOS = GET_RUTA_FORMATOS()
+
+                Select Case PassData1
+                    Case "PAGO COMPLEMENTO"
+                        RUTA_PDF = gRutaXML_TIMBRADO & "\PAGO-" & FRFC & "-" & FCVE_DOC & ".pdf"
+                        RUTA_PDF_PRECIOS = gRutaXML_TIMBRADO_CON_PRECIOS & "\PAGO-" & FRFC & "-" & FCVE_DOC & ".pdf"
+
+                        ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDIPAGO" & Empresa & ".mrt"
+
+                        If Not File.Exists(ARCHIVO_MRT) Then
+                            ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDIPAGO.mrt"
+                            If Not File.Exists(ARCHIVO_MRT) Then
+                                MsgBox("No existe el reporte " & ARCHIVO_MRT & ", verifique por favor")
+                                Return
+                            End If
+                        End If
+                        UUID = BUSCAR_UUID_CFDI_PAGO(FCVE_DOC)
+                    Case "FACTURA"
+                        RUTA_PDF = gRutaXML_TIMBRADO & "\" & FRFC & "-" & FCVE_DOC & ".pdf"
+                        RUTA_PDF_PRECIOS = gRutaXML_TIMBRADO_CON_PRECIOS & "\" & FRFC & "-" & FCVE_DOC & ".pdf"
+
+                        ARCHIVO_MRT = RUTA_FORMATOS & "\ReportFACTURA_DIRECTA" & Empresa & ".mrt"
+                        If Not File.Exists(ARCHIVO_MRT) Then
+                            ARCHIVO_MRT = RUTA_FORMATOS & "\ReportFACTURA_DIRECTA.mrt"
+                            If Not File.Exists(ARCHIVO_MRT) Then
+                                MsgBox("No existe el reporte " & ARCHIVO_MRT & ", verifique por favor")
+                                Return
+                            End If
+                        End If
+                        UUID = BUSCAR_UUID_CFDI40(FCVE_DOC)
+                    Case "CARTA PORTE TRASLADO"
+                        RUTA_PDF = gRutaXML_TIMBRADO & "\" & FRFC & "-" & FCVE_DOC & ".pdf"
+                        RUTA_PDF_PRECIOS = gRutaXML_TIMBRADO_CON_PRECIOS & "\" & FRFC & "-" & FCVE_DOC & ".pdf"
+
+                        ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDICPT" & Empresa & ".mrt"
+                        If Not File.Exists(ARCHIVO_MRT) Then
+                            ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDICPT.mrt"
+                            If Not File.Exists(ARCHIVO_MRT) Then
+                                MsgBox("No existe el reporte " & ARCHIVO_MRT & ", verifique por favor")
+                                Return
+                            End If
+                        End If
+                    Case "CARTA PORTE BUENO"
+                        RUTA_PDF = gRutaXML_TIMBRADO & "\" & FCVE_DOC & ".pdf"
+                        RUTA_PDF_PRECIOS = gRutaXML_TIMBRADO_CON_PRECIOS & "\" & FCVE_DOC & ".pdf"
+
+                        ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDI40" & Empresa & ".mrt"
+                        If Not File.Exists(ARCHIVO_MRT) Then
+                            ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDI40.mrt"
+                            If Not File.Exists(ARCHIVO_MRT) Then
+                                MsgBox("No existe el reporte " & ARCHIVO_MRT & ", verifique por favor")
+                                Return
+                            End If
+                        End If
+                    Case "DEVOLUCION CFDI"
+                        RUTA_PDF = gRutaXML_TIMBRADO & "\" & FRFC & "_" & FCVE_DOC & ".pdf"
+                        RUTA_PDF_PRECIOS = gRutaXML_TIMBRADO_CON_PRECIOS & "\" & FRFC & "_" & FCVE_DOC & ".pdf"
+
+                        ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDINOTADECREDITO" & Empresa & ".mrt"
+                        If Not File.Exists(ARCHIVO_MRT) Then
+                            ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDINOTADECREDITO.mrt"
+                            If Not File.Exists(ARCHIVO_MRT) Then
+                                MsgBox("No existe el reporte " & ARCHIVO_MRT & ", verifique por favor")
+                                Return
+                            End If
+                        End If
+                End Select
+                'Var10 = FECHA_TIMBRADO
+                'Var11 = FECHA_EXP
+                'Var12 = SELLO_SAT
+                'Var13 = NO_CERTIFICADO_SAT
+                'Var14 = SELLO_CFD
+                Report.Load(ARCHIVO_MRT)
+
+                Dim ConexString As String = "Provider=SQLOLEDB.1;Password=" & Pass & ";Persist Security Info=True;User ID=" &
+                           Usuario & ";Initial Catalog=" & Base & ";Data Source=" & Servidor
+                Report.Dictionary.Databases.Clear()
+                Report.Dictionary.Databases.Add(New Stimulsoft.Report.Dictionary.StiOleDbDatabase("OLE DB", ConexString))
+                Report.Compile()
+
+                Select Case PassData1
+                    Case "PAGO COMPLEMENTO"
+                        Report("CVE_DOC") = FCVE_DOC
+                        Report.ReportName = "Complemento de pago 4.0"
+                    Case "FACTURA"
+                        Report.Item("CVE_DOC") = FCVE_DOC
+                        Report.ReportName = "Factura CFDI 4.0"
+                    Case "DEVOLUCION CFDI"
+                        Report.Item("CVE_DOC") = FCVE_DOC
+                        Report.ReportName = "Nota de crédito"
+                    Case "CARTA PORTE TRASLADO"
+                        Report.Item("CVE_DOC") = FCVE_DOC
+                        Report.ReportName = "Carta porte traslado"
+                    Case "CARTA PORTE BUENO"
+
+                        Dim IMPORTE As Decimal = 0, CVE_MONED As String = "MXN", TIPO_CAMBIO As Decimal = 0
+                        Try
+                            Using cmd As SqlCommand = cnSAE.CreateCommand
+                                SQL = "SELECT IMPORTE, CVE_MONED, TIPCAMB 
+                                FROM FACTF" & Empresa & " F
+                                LEFT JOIN MONED" & Empresa & " M ON M.NUM_MONED = F.NUM_MONED 
+                                WHERE CVE_DOC = '" & FCVE_DOC & "'"
+                                cmd.CommandText = SQL
+                                Using dr As SqlDataReader = cmd.ExecuteReader
+                                    If dr.Read Then
+                                        IMPORTE = dr("IMPORTE")
+                                        CVE_MONED = dr("CVE_MONED")
+                                        TIPO_CAMBIO = dr("TIPCAMB")
+                                    End If
+                                End Using
+                            End Using
+                        Catch ex As Exception
+                            BITACORACFDI("360. " & ex.Message & vbNewLine & ex.StackTrace)
+                        End Try
+
+                        Dim entero As Integer = Int(IMPORTE)
+                        Dim decimales As Double = IMPORTE - entero
+                        Dim NUMTOLET As String
+                        NUMTOLET = "** ( " + Num2Text(entero) + " PESOS " + Microsoft.VisualBasic.Right(CStr(Format(decimales, "0.00")), 2) + "/100 M.N.)**"
+
+
+                        Report("CVE_VIAJE") = FCVE_VIAJE
+                        Report("CVE_DOC") = FCVE_DOC
+                        Report("NUMTOLETRA") = NUMTOLET
+                        Report.ReportName = "Carta porte"
+                End Select
+                If PassData1 = "FACTURA" Then
+                    Report.Item("CVE_DOC_REL") = FCVE_DOC
+                End If
+                Report.Render()
+
+                If FPDF = "PDF" Then
+                    Report.ExportDocument(StiExportFormat.Pdf, RUTA_PDF)
+                Else
+                    Report.ExportDocument(StiExportFormat.Pdf, RUTA_PDF)
+                    Report.Show()
+                End If
+            Catch ex As Exception
+                MsgBox("10. ex.Message " & ex.Message & vbNewLine & "" & ex.StackTrace)
+                BITACORACFDI("10. ex.Message " & ex.Message & vbNewLine & "" & ex.StackTrace)
+            End Try
+
+        Catch ex As Exception
+            BITACORACFDI("470. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("470. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
 End Module

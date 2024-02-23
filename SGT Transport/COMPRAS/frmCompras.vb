@@ -625,7 +625,7 @@ Public Class frmCompras
             Dim dr As SqlDataReader
 
             cmd.Connection = cnSAE
-            SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, ISNULL(AFEC_TABLA_INVE,0) AS AFE_TAB_INV, ISNULL(CVE_ALM_RNBDO, -1) AS ALM_RBDO, 
+            SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, ISNULL(CVE_ALM_RNBDO, -1) AS ALM_RBDO, 
                 ISNULL(CVE_ART_RNBDO,'') AS ART_RBDO, ISNULL(CVE_ART_REPARA,'') AS ART_REPARA, ISNULL(CVE_ART_NUEVAS,'') AS CVE_ART_NEW, 
                 ISNULL(CVE_CPTO_RENOVADO,0) AS CVE_CPTO_REN, ISNULL(CVE_CPTO_RENOVADO_ENT,0) AS CVE_CPTO_REN_ENT
                 FROM GCPARAMINVENT"
@@ -634,7 +634,6 @@ Public Class frmCompras
 
             If dr.Read Then
                 MULTIALMACEN = dr("M_ULTIALMACEN")
-                AFEC_TABLA_INVE = dr("AFE_TAB_INV")
 
                 CVE_ALM_RNBDO = dr("ALM_RBDO")
                 CVE_ART_RNBDO = dr("ART_RBDO")

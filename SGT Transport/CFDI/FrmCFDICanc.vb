@@ -81,7 +81,7 @@ Public Class FrmCFDICanc
                         gRutaXML_TIMBRADO = dr("RUTA_XML_TIMBRADO")
                         gRutaCertificado = dr("FILE_CER") 'CERTIFICADO
                         gRutaPFX = dr("FILE_PFX").ToString '.KEY
-                        gContraPFX = dr("PASS_PFX").ToString  'contrasena del certificado
+                        gContraPFX = Desencriptar(dr("PASS_PFX").ToString)  'contrasena del certificado
                     End If
                 End Using
             End Using
@@ -136,7 +136,7 @@ Public Class FrmCFDICanc
             CVE_MCANC = CboMotivoCanc.Items(CboMotivoCanc.SelectedIndex)
             If CVE_MCANC = "01" Then
                 If LTUUID_SUSTITUYE.Text.Trim.Length = 0 Then
-                    MsgBox("Por favor seleccione carta porte que sustituye")
+                    MsgBox("Por favor seleccione factura que sustituye")
                     Return
                 End If
                 UUID = LTUUID_SUSTITUYE.Text
@@ -150,7 +150,7 @@ Public Class FrmCFDICanc
 
         FACTURA = LtFactura.Text
 
-        If MsgBox("Realmente desea cancelar la factura " & FACTURA & " con carta porte " & CVE_FOLIO & "?", vbYesNo) = vbNo Then
+        If MsgBox("Realmente desea cancelar la factura " & FACTURA & "?", vbYesNo) = vbNo Then
             Return
         End If
 

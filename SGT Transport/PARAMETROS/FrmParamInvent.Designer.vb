@@ -21,8 +21,8 @@ Partial Class FrmParamInvent
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmParamInvent))
         Me.BarraMenu = New System.Windows.Forms.ToolStrip()
-        Me.barGrabar = New System.Windows.Forms.ToolStripButton()
-        Me.barSalir = New System.Windows.Forms.ToolStripButton()
+        Me.BarGrabar = New System.Windows.Forms.ToolStripButton()
+        Me.BarSalir = New System.Windows.Forms.ToolStripButton()
         Me.Tab1 = New C1.Win.C1Command.C1DockingTab()
         Me.Pag1 = New C1.Win.C1Command.C1DockingTabPage()
         Me.C1CheckBox1 = New C1.Win.C1Input.C1CheckBox()
@@ -122,7 +122,7 @@ Partial Class FrmParamInvent
         'BarraMenu
         '
         Me.BarraMenu.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.BarraMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.barGrabar, Me.barSalir})
+        Me.BarraMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarGrabar, Me.BarSalir})
         Me.BarraMenu.Location = New System.Drawing.Point(0, 0)
         Me.BarraMenu.Name = "BarraMenu"
         Me.BarraMenu.Size = New System.Drawing.Size(1230, 54)
@@ -130,25 +130,25 @@ Partial Class FrmParamInvent
         Me.BarraMenu.Text = "ToolStrip1"
         Me.C1ThemeController1.SetTheme(Me.BarraMenu, "Office2010Blue")
         '
-        'barGrabar
+        'BarGrabar
         '
-        Me.barGrabar.Image = Global.SGT_Transport.My.Resources.Resources.salvar
-        Me.barGrabar.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.barGrabar.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.barGrabar.Name = "barGrabar"
-        Me.barGrabar.Size = New System.Drawing.Size(46, 51)
-        Me.barGrabar.Text = "Grabar"
-        Me.barGrabar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.BarGrabar.Image = Global.SGT_Transport.My.Resources.Resources.salvar
+        Me.BarGrabar.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarGrabar.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BarGrabar.Name = "BarGrabar"
+        Me.BarGrabar.Size = New System.Drawing.Size(46, 51)
+        Me.BarGrabar.Text = "Grabar"
+        Me.BarGrabar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'barSalir
+        'BarSalir
         '
-        Me.barSalir.Image = Global.SGT_Transport.My.Resources.Resources.puertasalida
-        Me.barSalir.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.barSalir.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.barSalir.Name = "barSalir"
-        Me.barSalir.Size = New System.Drawing.Size(36, 51)
-        Me.barSalir.Text = "Salir"
-        Me.barSalir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.BarSalir.Image = Global.SGT_Transport.My.Resources.Resources.puertasalida
+        Me.BarSalir.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarSalir.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BarSalir.Name = "BarSalir"
+        Me.BarSalir.Size = New System.Drawing.Size(36, 51)
+        Me.BarSalir.Text = "Salir"
+        Me.BarSalir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'Tab1
         '

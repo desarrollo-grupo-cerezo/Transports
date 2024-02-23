@@ -39,6 +39,8 @@ Public Class FrmAltaCxP
     Sub DESPLEGAR()
         Try
 
+            'CADENA = "WHERE D.FECHA_APLI >= '" & FSQL(F1.Value) & "' AND D.FECHA_APLI <= '" & FSQL(F2.Value) & "'"
+
             SQL = "SELECT TOP 500 D.CVE_PROV, P.NOMBRE, D.REFER, D.REFER, CASE D.SIGNO WHEN 1 THEN 'Cargo' ELSE 'Abono' END, D.IMPORTE, D.FECHA_APLI, " &
                 "CON_REFER, D.NUM_CPTO, DESCR, NO_PARTIDA " &
                 "FROM PAGA_DET" & Empresa & " D " &
@@ -234,7 +236,7 @@ Public Class FrmAltaCxP
 
     Private Sub btnFiltrar_Click(sender As Object, e As EventArgs) Handles btnFiltrar.Click
         Try
-            CADENA = "WHERE A.FECHA_APLI >= '" & FSQL(F1.Value) & "' AND A.FECHA_APLI <= '" & FSQL(F2.Value) & "'"
+            CADENA = "WHERE D.FECHA_APLI >= '" & FSQL(F1.Value) & "' AND D.FECHA_APLI <= '" & FSQL(F2.Value) & "'"
 
             DESPLEGAR()
 

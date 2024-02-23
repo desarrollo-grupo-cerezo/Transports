@@ -35,9 +35,8 @@ Public Class FrmBBenef
             cmd.Connection = cnSAE
             'SELECT CUENTA_BANCARIA, RFC_BANCO, NOMBRE_BANCO, CLAVE FROM CUENTA_BENEF" & Empresa & " 
 
-            SQL = "SELECT B.CLAVE, ISNULL(B.STATUS,'A') AS ST, B.NOMBRE, B.RFC, B.CTA_CONTAB, B.TIPO, B.REFERENCIA, 
-                B.CUENTA, C.CLABE 
-                FROM BBENEF B
+            SQL = "SELECT CUENTA, RFC_BANCO, BANCO, CLAVE, B.CUENTA, C.CLABE 
+                FROM BBENEF
                 LEFT JOIN CUENTA_ORD" & Empresa & " C ON C.CUENTA_BANCARIA = B.CUENTA
                 ORDER BY TRY_PARSE(B.CLAVE AS INT) "
             cmd.CommandText = SQL

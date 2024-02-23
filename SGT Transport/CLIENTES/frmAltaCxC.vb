@@ -132,7 +132,7 @@ Public Class frmAltaCxC
         Try
             Var1 = "Nuevo"
 
-            frmAltaCxCAE.ShowDialog()
+            FrmPagoMultidocCxC.ShowDialog()
             DESPLEGAR()
         Catch ex As Exception
             MsgBox("14. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -140,14 +140,14 @@ Public Class frmAltaCxC
         End Try
     End Sub
     Private Sub barEdit_Click(sender As Object, e As EventArgs)
-        If Fg.Row > 0 Then
-            Var1 = "Edit"
-            Var2 = Fg(Fg.Row, 1)
-            frmAltaCxCAE.ShowDialog()
-            DESPLEGAR()
-        Else
-            MsgBox("Por favor seleccione un registro")
-        End If
+        'If Fg.Row > 0 Then
+        '    Var1 = "Edit"
+        '    Var2 = Fg(Fg.Row, 1)
+        '    frmAltaCxCAE.ShowDialog()
+        '    DESPLEGAR()
+        'Else
+        '    MsgBox("Por favor seleccione un registro")
+        'End If
     End Sub
     Private Sub barSalir_Click(sender As Object, e As EventArgs) Handles barSalir.Click
         Me.Close()

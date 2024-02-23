@@ -210,13 +210,16 @@ Public Class FrmReseteoAE
 
         TCVE_MOT.MaxLength = 120
 
+        Dim TOLERANCIA As Decimal
+
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
-                SQL = "SELECT ISNULL(TIPO_TAB,0) AS TI_TAB FROM GCPARAMGENERALES"
+                SQL = "SELECT ISNULL(TIPO_TAB,0) AS TI_TAB, ISNULL(TOLERANCIA, 0) AS TOLERANCIA FROM GCPARAMGENERALES"
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     If dr.Read Then
                         TIPO_TAB = dr("TI_TAB")
+                        TOLERANCIA = dr("TOLERANCIA")
                     End If
                 End Using
             End Using
@@ -231,7 +234,7 @@ Public Class FrmReseteoAE
         Try
             'CALCULA_EVENTO
             TLTS_ECM.Value = 0
-            TPORC_TOLERANCIA.Value = 0
+            TPORC_TOLERANCIA.Value = TOLERANCIA
             TPORC_RALENTI.Value = 0
 
             TLTS_VALES.Value = 0.0
@@ -271,8 +274,8 @@ Public Class FrmReseteoAE
             TLTS_DESCONTAR2.Value = 0
             TCARGO_X_PUNTO_MUERTO.Value = 0
             TLITROS_UREA.Value = 0
-            TPORC_TOLERANCIA.Value = 0
-            TPORC_TOL_EVENTO2.Value = 0
+            TPORC_TOLERANCIA.Value = TOLERANCIA
+            TPORC_TOL_EVENTO2.Value = TOLERANCIA
             TLTS_FORANEOS.Value = 0
             TNO_VIAJES.Value = 0
             TBONO_RES.Value = 0
@@ -341,14 +344,14 @@ Public Class FrmReseteoAE
             TLTS_AUTORIZADOS2.Value = 0
             LtLTS_VALES2.Text = "0"
 
-            TPORC_TOL_EVENTO2.Tag = 0
+            TPORC_TOL_EVENTO2.Tag = TOLERANCIA
             TLTS_AUTORIZADOS2.Tag = 0
             LtLTS_VALES2.Tag = 0
             TLTS_DESCONTAR2.Tag = 0
 
             LtDescXLitros2.Tag = 0
 
-            TPORC_TOLERANCIA.Tag = 0
+            TPORC_TOLERANCIA.Tag = TOLERANCIA
             LtLTS_ECM.Tag = 0
             TLTS_AUTORIZADOS.Tag = 0
             TLTS_DESCONTAR.Tag = 0
@@ -1385,6 +1388,7 @@ Public Class FrmReseteoAE
 
 
                 TPORC_TOLERANCIA.Value = 0
+
                 LtLTS_ECM.Text = 0
                 TLTS_AUTORIZADOS.Value = 0
                 TLTS_DESCONTAR.Value = 0

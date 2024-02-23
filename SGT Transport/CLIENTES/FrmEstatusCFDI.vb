@@ -66,11 +66,13 @@ Public Class FrmEstatusCFDI
                     LTEFECTO_COMPROBANTE.Text = "Pago"
                     LTTOTAL_CFDI.Text = "0"
 
+                    '                                 rfc emisor     rfc receptor   importe    
                     CADENA = "?&id=" & UUID & "&re=" & Var4 & "&rr=" & Var5 & "&tt=0"
                 Else
                     LTEFECTO_COMPROBANTE.Text = "Factura"
                     LTTOTAL_CFDI.Text = Format(IMPORTE_SAT, "###,###,###,###0.00")
 
+                    '                                 rfc emisor     rfc receptor   importe    
                     CADENA = "?&id=" & UUID & "&re=" & Var4 & "&rr=" & Var5 & "&tt=" & IMPORTE_SAT
                 End If
 

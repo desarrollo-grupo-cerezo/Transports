@@ -22,8 +22,9 @@ Public Class FrmPagoComplemento
             Return
         End If
         Try
-            Dim theme As C1Theme = C1ThemeController.GetThemeByName(ThemeElekos, True)
+            Dim theme As C1Theme = C1ThemeController.GetThemeByName(ThemeElekos2, True)
             C1ThemeController.ApplyThemeToControlTree(Me, theme)
+            Fg.Styles.EmptyArea.BackColor = ColoFondoFG
 
             If PASS_GRUPOCE = "BR3FRAJA" Or PASS_GRUPOCE = "BUS" Then
                 BarDisenador.Visible = True

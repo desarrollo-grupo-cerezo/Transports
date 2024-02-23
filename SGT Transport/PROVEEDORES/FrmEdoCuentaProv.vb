@@ -101,9 +101,10 @@ Public Class FrmEdoCuentaProv
                 ISNULL((Select SUM(IMPORTE * SIGNO) FROM PAGA_DET" & Empresa & " WHERE CVE_PROV = M.CVE_PROV AND ID_MOV = M.NUM_CPTO And SIGNO = -1 And REFER = M.REFER),0) As ABONOS, 
                 ISNULL((Select SUM(IMPORTE * SIGNO) FROM PAGA_DET" & Empresa & " WHERE CVE_PROV = M.CVE_PROV AND ID_MOV = M.NUM_CPTO And SIGNO = 1 AND REFER = M.REFER),0) As CARGOS,
                 ISNULL(D.FECHA_APLI,'') AS F_APLI_D, ISNULL(D.FECHA_VENC,'') AS F_VENC_D, ISNULL(D.SIGNO,1) As SIGNO_D, 
-                ISNULL((D.IMPORTE * D.SIGNO),0) AS IMPORTE_D, ISNULL(D.NUM_CPTO,0) As CPTO_D, ISNULL(C2.DESCR,'') As DESCR_CONCEP_D
+                ISNULL((D.IMPORTE * D.SIGNO),0) AS IMPORTE_D, ISNULL(D.NUM_CPTO,0) As CPTO_D, ISNULL(C2.DESCR,'') As DESCR_CONCEP_D, ISNULL(G.SU_REFER,'') AS SU_REF
                 FROM PAGA_M" & Empresa & " M
                 LEFT JOIN COMPC" & Empresa & " CP ON CP.CVE_DOC = M.REFER
+                LEFT JOIN GCGASTOS G ON G.SU_REFER = M.REFER
                 LEFT JOIN PROV" & Empresa & " P ON P.CLAVE = M.CVE_PROV
                 LEFT JOIN PAGA_DET" & Empresa & " D On M.CVE_PROV = D.CVE_PROV And M.REFER = D.REFER And M.NUM_CPTO = D.ID_MOV And M.NUM_CARGO = D.NUM_CARGO
                 LEFT JOIN CONP" & Empresa & " C On C.NUM_CPTO = M.NUM_CPTO
@@ -154,6 +155,7 @@ Public Class FrmEdoCuentaProv
                                 r2("CARGOS") = dr("IMPORTE_M")
                                 r2("ABONOS") = dr("ABONOS") + dr("CARGOS")
                                 r2("SALDO") = (dr("IMPORTE_M") + dr("ABONOS") + dr("CARGOS"))
+                                r2("SU_REFER") = dr("SU_REF")
                                 t.Rows.Add(r2)
 
                                 IMPORTE += dr("IMPORTE_M")

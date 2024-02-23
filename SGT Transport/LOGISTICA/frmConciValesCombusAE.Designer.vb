@@ -90,7 +90,7 @@ Partial Class FrmConciValesCombusAE
         Me.BarMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarGrabar, Me.BarDesplegar, Me.BarCerrarFactura, Me.BarCancelar, Me.BarAdjuntarXML, Me.BarGrabarXML, Me.BarCxP, Me.BarExcel, Me.BarImprimir, Me.BarImprimirVehiUtil, Me.BarSolicitudDePago, Me.BarSalir})
         Me.BarMenu.Location = New System.Drawing.Point(0, 0)
         Me.BarMenu.Name = "BarMenu"
-        Me.BarMenu.Size = New System.Drawing.Size(1142, 55)
+        Me.BarMenu.Size = New System.Drawing.Size(1501, 55)
         Me.BarMenu.Stretch = False
         Me.BarMenu.TabIndex = 26
         Me.BarMenu.Text = "MenuStrip1"
@@ -255,8 +255,9 @@ Partial Class FrmConciValesCombusAE
         Me.Fg.Name = "Fg"
         Me.Fg.Rows.DefaultSize = 20
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.ListBox
+        Me.Fg.ShowCellLabels = True
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg.Size = New System.Drawing.Size(593, 375)
+        Me.Fg.Size = New System.Drawing.Size(779, 375)
         Me.Fg.TabIndex = 9
         Me.Fg.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Custom
         '
@@ -399,7 +400,7 @@ Partial Class FrmConciValesCombusAE
         Me.Fg2.Rows.DefaultSize = 20
         Me.Fg2.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row
         Me.Fg2.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg2.Size = New System.Drawing.Size(546, 375)
+        Me.Fg2.Size = New System.Drawing.Size(719, 375)
         Me.Fg2.TabIndex = 9
         Me.Fg2.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Custom
         '
@@ -417,7 +418,7 @@ Partial Class FrmConciValesCombusAE
         Me.C1SplitContainer1.Panels.Add(Me.Splitter1)
         Me.C1SplitContainer1.Panels.Add(Me.Splitter2)
         Me.C1SplitContainer1.Panels.Add(Me.Splitter3)
-        Me.C1SplitContainer1.Size = New System.Drawing.Size(1142, 659)
+        Me.C1SplitContainer1.Size = New System.Drawing.Size(1501, 659)
         Me.C1SplitContainer1.SplitterColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
         Me.C1SplitContainer1.TabIndex = 203
         Me.C1SplitContainer1.ToolTipGradient = C1.Win.C1SplitContainer.ToolTipGradient.Blue
@@ -450,7 +451,7 @@ Partial Class FrmConciValesCombusAE
         Me.Splitter1.Height = 163
         Me.Splitter1.Location = New System.Drawing.Point(1, 1)
         Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(1140, 163)
+        Me.Splitter1.Size = New System.Drawing.Size(1499, 163)
         Me.Splitter1.SizeRatio = 25.0R
         Me.Splitter1.TabIndex = 0
         '
@@ -606,7 +607,7 @@ Partial Class FrmConciValesCombusAE
         Me.Splitter2.Height = 375
         Me.Splitter2.Location = New System.Drawing.Point(1, 168)
         Me.Splitter2.Name = "Splitter2"
-        Me.Splitter2.Size = New System.Drawing.Size(1140, 375)
+        Me.Splitter2.Size = New System.Drawing.Size(1499, 375)
         Me.Splitter2.SizeRatio = 77.189R
         Me.Splitter2.TabIndex = 1
         '
@@ -623,8 +624,8 @@ Partial Class FrmConciValesCombusAE
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.Fg2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1140, 375)
-        Me.SplitContainer1.SplitterDistance = 593
+        Me.SplitContainer1.Size = New System.Drawing.Size(1499, 375)
+        Me.SplitContainer1.SplitterDistance = 779
         Me.SplitContainer1.SplitterWidth = 1
         Me.SplitContainer1.TabIndex = 0
         '
@@ -639,7 +640,7 @@ Partial Class FrmConciValesCombusAE
         Me.Splitter3.Height = 111
         Me.Splitter3.Location = New System.Drawing.Point(1, 547)
         Me.Splitter3.Name = "Splitter3"
-        Me.Splitter3.Size = New System.Drawing.Size(1140, 111)
+        Me.Splitter3.Size = New System.Drawing.Size(1499, 111)
         Me.Splitter3.TabIndex = 2
         '
         'StiReport1
@@ -660,7 +661,7 @@ Partial Class FrmConciValesCombusAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1142, 714)
+        Me.ClientSize = New System.Drawing.Size(1501, 714)
         Me.Controls.Add(Me.C1SplitContainer1)
         Me.Controls.Add(Me.BarMenu)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)

@@ -2,7 +2,6 @@
 Imports System.IO
 Imports C1.Win.C1Command
 Imports System.Data.SqlClient
-Imports Stimulsoft
 Imports Stimulsoft.Report
 
 Public Class FrmOperacionDiaria

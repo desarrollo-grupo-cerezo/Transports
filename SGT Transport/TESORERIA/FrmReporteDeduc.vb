@@ -67,7 +67,8 @@ Public Class FrmReporteDeduc
             'StiReport1("OPERADOR") = L2.Text
 
             StiReport1.Render()
-            StiReport1.Show()
+
+            VisualizaReporte(StiReport1)
         Catch ex As Exception
             Bitacora("630. " & ex.Message & vbNewLine & ex.StackTrace)
             MsgBox("630. " & ex.Message & vbNewLine & ex.StackTrace)

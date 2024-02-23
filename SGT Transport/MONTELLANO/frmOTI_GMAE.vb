@@ -4,7 +4,6 @@ Imports C1.Win.C1FlexGrid
 Imports System.IO
 Imports C1.Win.C1Command
 Imports C1.Win.C1Input
-Imports System.Security.Cryptography
 
 Public Class frmOTI_GMAE
     Private ENTRA As Boolean
@@ -116,16 +115,17 @@ Public Class frmOTI_GMAE
             FgD.Cols(3).Width = FgD.Width - FgD.Cols(1).Width - FgD.Cols(2).Width - FgD.Cols(0).Width - 50
 
 
-            L1.Top = Fg.Top + Fg.Height + 5
-            Lt1.Top = Fg.Top + Fg.Height + 5
+            'L1.Top = Split3.Top + 15
+            'Lt1.Top = Split3.Top + 15
 
-            Lt3.Top = Fg.Top + Fg.Height + 8
-            LtPiezas.Top = Fg.Top + Fg.Height + 5
-            Lt4.Top = Fg.Top + Fg.Height + 8
-            LtPar.Top = Fg.Top + Fg.Height + 5
+            'Lt3.Top = Split3.Top + 18
+            'LtPiezas.Top = Split3.Top + 15
+            'Lt4.Top = Split3.Top + 18
+            'LtPar.Top = Split3.Top + 15
 
-            LtDocAnt.Top = Lt1.Top
-            Label7.Top = Lt1.Top + 3
+            'LtDocAnt.Top = Lt1.Top
+            'Label7.Top = Lt1.Top + 13
+
             L5.Top = FgS.Top + FgS.Height + 5
             Lt5.Top = FgS.Top + FgS.Height + 5
 
@@ -152,16 +152,14 @@ Public Class frmOTI_GMAE
             Fg.Cols(7).Width = 160 '
             Fg.Cols(8).Width = 70 '
             Fg.Cols(9).Width = 100 '
-            Fg.Cols(11).Width = 120 'FCHA
-            Fg.Cols(13).Width = 70
+            Fg.Cols(11).Width = 110 'FCHA
+            Fg.Cols(12).Width = 110 'FCHA
+            Fg.Cols(13).Width = 120
             Fg.Cols(14).Width = 60 '
             Fg.Cols(15).Width = 25 '
             Fg.Cols(16).Width = 200 '
             Fg.Cols(18).Width = 100 'ESTATUS
 
-            'Fg.Cols(14).Width = 0 '
-            'Fg.Cols(15).Width = 0 '
-            'Fg.Cols(16).Width = 0 '
             'Fg.Cols(17).Width = 0 '
 
             'Fg.Cols(19).Width = 0 '
@@ -262,25 +260,34 @@ Public Class frmOTI_GMAE
             FgS.Cols(13).Visible = False
             FgS.Cols(14).Visible = False
 
-            Fg.Cols(10).Visible = False
-            'Fg.Cols(18).Visible = False
-            Fg.Cols(19).Visible = False
-            Fg.Cols(21).Visible = False
-            Fg.Cols(22).Visible = False
-            Fg.Cols(23).Visible = False
-            Fg.Cols(24).Visible = False
+
+
+            Fg.Cols(6).Visible = True
+            Fg.Cols(7).Visible = True
+            Fg.Cols(8).Visible = True
+            Fg.Cols(9).Visible = True
+            Fg.Cols(10).Visible = True
+            Fg.Cols(11).Visible = True
+            Fg.Cols(12).Visible = True
+            Fg.Cols(13).Visible = True
+            Fg.Cols(14).Visible = True
+            Fg.Cols(19).Visible = True
+            Fg.Cols(21).Visible = True
+            Fg.Cols(22).Visible = True
+            Fg.Cols(23).Visible = True
+            Fg.Cols(24).Visible = True
 
             For k = 1 To Fg.Cols.Count - 1
                 Fg(0, k) = k & ". " & Fg(0, k)
             Next
         Else
-            FgS.Cols(12).Visible = False
-            FgS.Cols(13).Visible = False
-            FgS.Cols(14).Visible = False
             '============================
 
-            Fg.Cols(10).Visible = False
-            'Fg.Cols(18).Visible = False
+            Fg.Cols(6).Visible = True
+            Fg.Cols(7).Visible = True
+            Fg.Cols(10).Visible = True
+            Fg.Cols(12).Visible = True
+            Fg.Cols(13).Visible = True
             Fg.Cols(19).Visible = False
             Fg.Cols(20).Visible = False
             Fg.Cols(21).Visible = False
@@ -321,7 +328,7 @@ Public Class frmOTI_GMAE
                 tCVE_ORD.Enabled = False
                 tEstatus.Text = "Captura"
                 DOC_NEW = True
-                Fg.Cols(12).Visible = False
+                'Fg.Cols(12).Visible = False
                 Fg.Rows.Count = 1
 
                 Dim s As String, DESCR As String = "", CBO_TEXT As String
@@ -575,7 +582,8 @@ Public Class frmOTI_GMAE
                 CVE_FOLIO = O.CVE_PROV),0) AS CANT_CANC,
                 ISNULL(O.COSTO,0) AS COST, ISNULL(O.NO_PARTE,'') AS N_PARTE, TIPO_ELE, ISNULL(HORA2,'') AS MINVE, ISNULL(CVE_PROV,'') AS CVE_FOLIO,
                 ISNULL(TIEMPO_REAL, '') AS REFER, ISNULL(NO_PARTE, '') AS CLAVE_PROV, ISNULL(TIPO,0) AS TIPO_I, ISNULL(O.STATUS, '') AS ST, ISNULL(O.UUID,'') AS UID,
-                ISNULL(CANT_ENTREGADA,0) AS CANT_ENTR, O.CVE_ALM, A.DESCR AS DESCR_ALM, ISNULL(O.CVE_MEC,0) AS CLAVE_MEC, ISNULL(M.DESCR,'') AS NOMBRE_MEC, O.FECHA
+                ISNULL(CANT_ENTREGADA,0) AS CANT_ENTR, O.CVE_ALM, A.DESCR AS DESCR_ALM, ISNULL(O.CVE_MEC,0) AS CLAVE_MEC, ISNULL(M.DESCR,'') AS NOMBRE_MEC, O.FECHA,
+                O.CVE_ART
                 FROM GCORDEN_TRA_SER_EXT O
                 LEFT JOIN INVE" & Empresa & " I ON I.CVE_ART = O.CVE_ART
                 LEFT JOIN ALMACENES" & Empresa & " A ON A.CVE_ALM = O.CVE_ALM
@@ -817,10 +825,10 @@ Public Class frmOTI_GMAE
 
 
                     MostarCosto = False
-                    Fg.Cols(12).Visible = False
+                    'Fg.Cols(12).Visible = False
                     Fg.Cols(13).Visible = False
-                    Lt1.Visible = False
-                    L1.Visible = False
+                    'Lt1.Visible = False
+                    'L1.Visible = False
 
                     'SI TIENE  DERECHOS GRABAR
                     F1.Enabled = False : radCorrectivo.Enabled = False : radExtra.Enabled = False : radPreventivo.Enabled = False
@@ -878,7 +886,7 @@ Public Class frmOTI_GMAE
                                     Case 93340  'ELIMINAR PARTIDA SERVICIOS
                                         btnEliSer.Enabled = True
                                     Case 93350 'MOSTAR COSTO
-                                        'Fg.Cols(12).Visible = True
+                                        Fg.Cols(12).Visible = True
                                         MostarCosto = True
                                         'Lt1.Visible = True
                                         'L1.Visible = True
@@ -1005,6 +1013,12 @@ Public Class frmOTI_GMAE
         If Not Valida_Conexion() Then
             Return
         End If
+
+        If tCVE_UNI.Text.Trim.Length = 0 Then
+            MsgBox("La unidad no debe quedar vacía")
+            Return
+        End If
+
 
         cmd.Connection = cnSAE
 
@@ -1577,7 +1591,7 @@ Public Class frmOTI_GMAE
             cmd.Connection = cnSAE
             cmd.CommandTimeout = 180
 
-            SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, ISNULL(AFEC_TABLA_INVE,0) AS AFE_TAB_INV, ISNULL(CVE_CPTO_OT,0) AS CVE_CPTOOT, " &
+            SQL = "SELECT ISNULL(MULTIALMACEN,0) AS M_ULTIALMACEN, ISNULL(CVE_CPTO_OT,0) AS CVE_CPTOOT, " &
                 "ISNULL(CVE_CPTO_OT_SAL,0) AS CVE_CPTOOT_SAL, CVE_ART_TOT " &
                 "FROM GCPARAMINVENT"
             cmd.CommandText = SQL
@@ -1585,7 +1599,6 @@ Public Class frmOTI_GMAE
 
             If dr.Read Then
                 MULTIALMACEN = dr("M_ULTIALMACEN")
-                AFEC_TABLA_INVE = dr("AFE_TAB_INV")
                 CVE_CPTO_OT = dr("CVE_CPTOOT")
                 CVE_CPTO_OT_SAL = dr("CVE_CPTOOT_SAL")
                 LINEA_FILTRO_SERVICIO = dr.ReadNullAsEmptyString("CVE_ART_TOT")
@@ -2084,7 +2097,7 @@ Public Class frmOTI_GMAE
 
                     If MsgBox("Este proceso cancelará los movimientos al inventario, Realmente desea continuar?", vbYesNo) = vbYes Then
                         Try
-                            CANCELAR_MOVS_PARTIDA()
+                            CANCELAR_MOVS_PARTIDA("C")
                         Catch ex As Exception
                             Bitacora("860. " & ex.Message & vbNewLine & ex.StackTrace)
                             MsgBox("860. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -2099,7 +2112,7 @@ Public Class frmOTI_GMAE
             MsgBox("880. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
-    Sub CANCELAR_MOVS_PARTIDA()
+    Sub CANCELAR_MOVS_PARTIDA(Optional FCANCELAR As String = "")
         Try
             Dim z As Integer = 0, CVE_DOC As String, COSTO As Decimal = 0
             Dim NewStyle1 As CellStyle
@@ -2127,7 +2140,7 @@ Public Class frmOTI_GMAE
                                     End If
                                 End If
 
-                                'GENERA_MINVE_OT_PARTIDA(CVE_DOC, Fg(k, 2), Fg(k, 9), Fg(k, 25), k, Date.Today, Fg(k, 20), 1, COSTO)
+                                GENERA_MINVE_OT_PARTIDA(CVE_DOC, Fg(k, 2), Fg(k, 9), Fg(k, 25), k, Date.Today, Fg(k, 20), 1, COSTO, FCANCELAR)
 
                                 Fg.Rows(k).Style = NewStyle1
 
@@ -2389,13 +2402,13 @@ Public Class frmOTI_GMAE
         End Try
     End Sub
     Sub GENERA_MINVE_OT_PARTIDA(fCVE_DOC As String, fCVE_ART As String, fCANT As Decimal, fUUID As String, fROW As Integer,
-                                FFECHA As Date, FCVE_FOLIO As String, FSIGNO As Integer, FCOSTO As Decimal)
+                                FFECHA As Date, FCVE_FOLIO As String, FSIGNO As Integer, FCOSTO As Decimal, Optional FCANCELAR As String = "")
         Dim CVE_ART As String = ""
         Dim CVE_CPTO As Integer = 60, FACTOR_CON As Decimal = 1, SIGNO As Integer = -1, COSTEADO As String = "S", COSTO_PROM_INI As Single, COSTO_PROM_FIN As Single
         Dim DESDE_INVE As String = "S", MOV_ENLAZADO As Integer = 0, TIPO_DOC As String = "M", TIPO_PROD As String = "P", ExistProd As Boolean = False
         Dim CANT As Decimal, PREC As Single = 0, COSTO As Decimal = 0, CVE_VEND As String = "", REG_SERIE As Integer = 0, UNI_MED As String = "", E_LTPD As String = ""
         Dim CVE_DOC As String, CLIENTE As String = "", COSTO_PROM As Single = 0, EXIST As Single = 0 : Dim ALMACEN As Integer = 0
-        Dim HayPart As Boolean, Continua As Boolean, CVE_FOLIO As String
+        Dim HayPart As Boolean, Continua As Boolean, CVE_FOLIO As String, SIGUE As Boolean
 
         Dim cmd As New SqlCommand
 
@@ -2507,9 +2520,25 @@ Public Class frmOTI_GMAE
                     End Try
                 End If
 
+                BACKUPTXT("SECUENCIA", "1")
                 If TIPO_PROD = "P" Then
+
                     '███████████████████████████████████████████████████████████
-                    If EXIST >= CANT Then
+
+                    SIGUE = False
+
+                    If FCANCELAR = "C" Then
+                        SIGUE = True
+                    Else
+                        If EXIST >= CANT Then
+                            SIGUE = True
+                        End If
+                    End If
+
+                    If SIGUE Then
+
+                        BACKUPTXT("SECUENCIA", "2")
+
                         Try
                             If MULTIALMACEN = 1 Then
                                 SQL = "UPDATE MULT" & Empresa & " SET EXIST = COALESCE(EXIST,0) + " & (CANT * SIGNO) &
@@ -2548,6 +2577,7 @@ Public Class frmOTI_GMAE
                                 COSTO = COSTO_PROM
                             End If
 
+                            BACKUPTXT("SECUENCIA", "3")
                             Try
                                 COSTO = CALCULA_COSTO_PROM(CVE_ART, COSTO_PROM, COSTO, CANT, SIGNO)
                             Catch ex As Exception
@@ -2576,9 +2606,14 @@ Public Class frmOTI_GMAE
                                     Math.Round(COSTO_PROM_FIN, 4) & "','" & DESDE_INVE & "','" & MOV_ENLAZADO & "','" & Math.Round(COSTO, 4) & "')"
                                 cmd.CommandText = SQL
                                 returnValue = cmd.ExecuteNonQuery.ToString
+
+                                BACKUPTXT("SECUENCIA", "4" & returnValue)
+
+                                BACKUPTXT("SECUENCIA", "4" & vbNewLine & SQL)
+
                                 If returnValue IsNot Nothing Then
                                     If returnValue = "1" Then
-                                        NProc = NProc + 1
+                                        NProc += 1
                                         Try
                                             SQL = "UPDATE GCORDEN_TRABAJO_EXT SET ESTATUS = 'Captura' WHERE CVE_ORD = '" & tCVE_ORD.Text & "'"
                                             cmd.CommandText = SQL
@@ -6485,7 +6520,7 @@ Public Class MyEditorOTIGM
                     _owner.StartEditing()
                     Return
                 End If
-                If MyBase.Text.Trim.Length > 0 AND MyBase.Text <> "TOT" Then
+                If MyBase.Text.Trim.Length > 0 And MyBase.Text <> "TOT" Then
                     Var9 = "" : Var22 = 0 : Var4 = ""
                     Dim DESCR As String
 
@@ -6506,6 +6541,18 @@ Public Class MyEditorOTIGM
                         'Var8 = dr.ReadNullAsEmptyString("T_ELE")
                         'Var9 = dr.ReadNullAsEmptyDecimal("C_PROM")
                         Dim PRECIO As Single, DESC1 As Single
+
+                        Try
+                            If frmOTI_GMAE.cboAlmacen.SelectedIndex > -1 Then
+                                If _owner(_row, 5).ToString.Trim.Length = 0 Then
+                                    Var8 = frmOTI_GMAE.cboAlmacen.Items(frmOTI_GMAE.cboAlmacen.SelectedIndex).ToString.Substring(0, 2)
+                                    _owner(_row, 5) = Var8
+                                End If
+                            End If
+                        Catch ex As Exception
+                            Bitacora("4050. " & ex.Message & vbNewLine & ex.StackTrace)
+                        End Try
+
                         _owner(_row, 2) = MyBase.Text
                         _owner(_row, 4) = DESCR
                         '_owner(_row, 4) = Var6 'CLAVE ALTERNA
@@ -7246,7 +7293,9 @@ Public Class MyEditorOTIGM
                                     '_owner.StartEditing()
                                     Return
                                 End If
+
                                 Var9 = "" : Var22 = 0 : Var4 = ""
+
                                 Descr = BUSCA_CAT("InveP", MyBase.Text)
                                 If Descr.TrimEnd.Trim.Length = 0 Or Descr = "N" Then
                                     MsgBox("Articulo inexistente")
@@ -7334,6 +7383,7 @@ Public Class MyEditorOTIGM
                             Return
                         Case 10 'CANTIDAD A ENTREGAR
                             _owner.Col = 14 'MECANICO
+
                             Return
                         Case 14
                             Dim CVE_ALM As String = "", s As String, DESCR As String = "", CBO_TEXT As String
@@ -7450,16 +7500,21 @@ Public Class MyEditorOTIGM
     End Sub
     Sub CALCULAR_IMPORTES()
         Try
-            Dim SUMA As Decimal = 0
+            Dim SUMA As Decimal = 0, nPar As Integer = 0, Piezas As Integer = 0
             _owner.FinishEditing()
 
             For k = 1 To _owner.Rows.Count - 1
                 '       ARTICULO                                  ARTICULO                               STATUS 
                 If _owner(k, 2).ToString.Trim.Length > 0 And _owner(k, 2).ToString.Trim <> "TOT" And _owner(k, 18).ToString.Trim <> "Cancelada" Then
                     SUMA += CDec(_owner(k, 13)) 'SUBTOTAL
+                    nPar += 1
+                    Piezas += _owner(k, 8)
                 End If
             Next
             frmOTI_GMAE.Lt1.Text = Format(SUMA, "###,###,##0.00")
+            frmOTI_GMAE.LtPiezas.Text = Format(Piezas, "###,###,##0.00")
+            frmOTI_GMAE.LtPar.Text = Format(nPar, "###,###,##0.00")
+
         Catch ex As Exception
             Bitacora("5000. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try

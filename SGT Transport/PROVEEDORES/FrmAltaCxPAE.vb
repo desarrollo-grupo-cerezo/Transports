@@ -42,6 +42,12 @@ Public Class FrmAltaCxPAE
 
             Me.KeyPreview = True
 
+            If Not CargaCuentasBancarias() Then
+                MsgBox("No existen cuentas bancarias registradas, favor de verificar")
+                Me.Close()
+                Return
+            End If
+
             tCVE_PROV.Select()
 
         Catch ex As Exception
@@ -63,6 +69,8 @@ Public Class FrmAltaCxPAE
         Dim CVE_BITA As Long, TIPO_MOV As String, SIGNO As Integer, CVE_AUT As Integer, USUARIO2 As Integer, NO_PARTIDA As Integer
         Dim NUM_CARGO As Integer = 1, ID_MOV As Integer, CVE_FOLIO As String, CVE_OBS As Long, NO_FACTURA As String, CON_REFER As String, SIGNO_CADENA As String
         Dim cmd As New SqlCommand
+        Dim CVE_CTA As String
+
         cmd.Connection = cnSAE
 
         If tREFER.Text.Trim.Length = 0 Then
@@ -81,6 +89,12 @@ Public Class FrmAltaCxPAE
             MsgBox("El importe no debe ser cero")
             Return
         End If
+        If CboCuentabancaria.SelectedIndex = -1 Then
+            MsgBox("Por favor selecciones una cuenta bancaria")
+            Return
+        End If
+
+        CVE_CTA = Split(CboCuentabancaria.Text, "|")(0).Trim
 
         tIMPORTE.UpdateValueWithCurrentText()
 
@@ -124,10 +138,10 @@ Public Class FrmAltaCxPAE
 
             Try
                 SQL = "INSERT INTO PAGA_DET" & Empresa & " (CVE_PROV, REFER, NUM_CPTO, NUM_CARGO, ID_MOV, CVE_FOLIO, CVE_OBS, NO_FACTURA, DOCTO, IMPORTE, " &
-                    "FECHA_APLI, FECHA_VENC, NUM_MONED, TCAMBIO, IMPMON_EXT, TIPO_MOV, SIGNO, USUARIO, NO_PARTIDA, FECHAELAB) VALUES(@CVE_PROV, @REFER, @NUM_CPTO, " &
+                    "FECHA_APLI, FECHA_VENC, NUM_MONED, TCAMBIO, IMPMON_EXT, TIPO_MOV, SIGNO, USUARIO, NO_PARTIDA, FECHAELAB, CVE_CTA) VALUES(@CVE_PROV, @REFER, @NUM_CPTO, " &
                     "@NUM_CARGO, @ID_MOV, @CVE_FOLIO, @CVE_OBS, @NO_FACTURA, @DOCTO, @IMPORTE, @FECHA_APLI, @FECHA_VENC, @NUM_MONED, @TCAMBIO, @IMPMON_EXT, " &
                     "@TIPO_MOV, @SIGNO, @USUARIO, 
-                    ISNULL((SELECT ISNULL(MAX(NO_PARTIDA),0) + 1 FROM PAGA_DET" & Empresa & " WHERE REFER = @REFER AND CVE_PROV = @CVE_PROV),0), GETDATE())"
+                    ISNULL((SELECT ISNULL(MAX(NO_PARTIDA),0) + 1 FROM PAGA_DET" & Empresa & " WHERE REFER = @REFER AND CVE_PROV = @CVE_PROV),0), GETDATE(), @CVE_CTA)"
 
                 cmd.Connection = cnSAE
                 cmd.CommandText = SQL
@@ -149,6 +163,8 @@ Public Class FrmAltaCxPAE
                 cmd.Parameters.Add("@TIPO_MOV", SqlDbType.VarChar).Value = TIPO_MOV
                 cmd.Parameters.Add("@SIGNO", SqlDbType.Int).Value = SIGNO
                 cmd.Parameters.Add("@USUARIO", SqlDbType.SmallInt).Value = USUARIO2
+                cmd.Parameters.Add("@CVE_CTA", SqlDbType.VarChar).Value = CVE_CTA
+
                 returnValue = cmd.ExecuteNonQuery().ToString
                 If returnValue IsNot Nothing Then
                     If returnValue = "1" Then
@@ -569,4 +585,37 @@ Public Class FrmAltaCxPAE
             Bitacora("140. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
+
+    Private Function CargaCuentasBancarias() As Boolean
+        Try
+            Dim dt As DataTable
+            Dim exist As Boolean = False
+
+            CboCuentabancaria.Items.Clear()
+
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT TRY_PARSE(ISNULL(CLAVE,'0') AS INT) AS CVE, CUENTA_BANCARIA, ISNULL(NOMBRE_BANCO,'') AS NOMBRE
+                    FROM CUENTA_BENEF" & Empresa & " 
+                    WHERE ISNULL(STATUS,'A') = 'A' 
+                    ORDER BY TRY_PARSE(CLAVE AS INT)"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+                        CboCuentabancaria.Items.Add(String.Format("{0} | {1} | {2}", dr("CVE"), dr("CUENTA_BANCARIA"), dr("NOMBRE")))
+                        exist = True
+                    End While
+                End Using
+            End Using
+
+            If CboCuentabancaria.Items.Count = 1 Then
+                CboCuentabancaria.SelectedIndex = 0
+            End If
+
+            Return exist
+        Catch ex As Exception
+            Bitacora("40. ex.Message: " & ex.Message & vbNewLine & "" & ex.StackTrace)
+            MsgBox("40. ex.Message: " & ex.Message & vbNewLine & "" & ex.StackTrace)
+            Return False
+        End Try
+    End Function
 End Class

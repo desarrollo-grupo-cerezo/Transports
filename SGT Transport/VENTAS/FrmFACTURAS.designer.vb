@@ -74,7 +74,7 @@ Partial Class frmFACTURAS
         '
         Me.LtCompras.AutoSize = True
         Me.LtCompras.Font = New System.Drawing.Font("Arial Black", 14.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtCompras.Location = New System.Drawing.Point(1154, 11)
+        Me.LtCompras.Location = New System.Drawing.Point(1186, 11)
         Me.LtCompras.Name = "LtCompras"
         Me.LtCompras.Size = New System.Drawing.Size(171, 27)
         Me.LtCompras.TabIndex = 11
@@ -143,11 +143,11 @@ Partial Class frmFACTURAS
         'C1FlexGridSearchPanel1
         '
         Me.C1FlexGridSearchPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(0, 0)
+        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(913, -1)
         Me.C1FlexGridSearchPanel1.Name = "C1FlexGridSearchPanel1"
         Me.C1FlexGridSearchPanel1.SearchDelay = 400
         Me.C1FlexGridSearchPanel1.SearchMode = C1.Win.C1FlexGrid.SearchMode.Always
-        Me.C1FlexGridSearchPanel1.Size = New System.Drawing.Size(162, 49)
+        Me.C1FlexGridSearchPanel1.Size = New System.Drawing.Size(244, 54)
         Me.C1FlexGridSearchPanel1.TabIndex = 13
         Me.C1FlexGridSearchPanel1.Watermark = "Texto a buscar"
         '
@@ -164,7 +164,7 @@ Partial Class frmFACTURAS
         Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
         Me.Fg.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Solid
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.Fg.Location = New System.Drawing.Point(101, 62)
+        Me.Fg.Location = New System.Drawing.Point(12, 72)
         Me.Fg.Name = "Fg"
         Me.Fg.Rows.DefaultSize = 19
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row
@@ -253,7 +253,7 @@ Partial Class frmFACTURAS
         Me.Panel1.Controls.Add(Me.F2)
         Me.Panel1.Controls.Add(Me.Label2)
         Me.Panel1.Controls.Add(Me.Label3)
-        Me.Panel1.Location = New System.Drawing.Point(832, 1)
+        Me.Panel1.Location = New System.Drawing.Point(582, 1)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(313, 51)
         Me.Panel1.TabIndex = 309
@@ -416,7 +416,7 @@ Partial Class frmFACTURAS
         Me.C1ToolBar1.ButtonLayoutHorz = C1.Win.C1Command.ButtonLayoutEnum.TextBelow
         Me.C1ToolBar1.ButtonLookHorz = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
         Me.C1ToolBar1.ButtonLookVert = CType((C1.Win.C1Command.ButtonLookFlags.Text Or C1.Win.C1Command.ButtonLookFlags.Image), C1.Win.C1Command.ButtonLookFlags)
-        Me.C1ToolBar1.ButtonWidth = 96
+        Me.C1ToolBar1.ButtonWidth = 75
         Me.C1ToolBar1.CommandHolder = Nothing
         Me.C1ToolBar1.CommandLinks.AddRange(New C1.Win.C1Command.C1CommandLink() {Me.LkNuevo, Me.LkEdit, Me.LkEstatusCFDI, Me.LkTimbrar, Me.LkActualizar, Me.LkOpciones, Me.LkSalir})
         Me.C1ToolBar1.Dock = System.Windows.Forms.DockStyle.Top
@@ -485,12 +485,12 @@ Partial Class frmFACTURAS
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1406, 518)
+        Me.Controls.Add(Me.C1FlexGridSearchPanel1)
         Me.Controls.Add(Me.Fg)
         Me.Controls.Add(Me.LtCompras)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.C1ToolBar1)
         Me.Controls.Add(Me.BarraAbajo)
-        Me.Controls.Add(Me.C1FlexGridSearchPanel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "frmFACTURAS"
         Me.Text = "s"

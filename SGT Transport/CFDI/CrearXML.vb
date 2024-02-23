@@ -151,7 +151,7 @@ Public NotInheritable Class GenerarXML
         If Not String.IsNullOrEmpty(c.CondicionesDePago) Then nodoComprobante.SetAttribute("CondicionesDePago", c.CondicionesDePago)
         If c.Descuento > 0 Then nodoComprobante.SetAttribute("Descuento", c.Descuento.ToString("F2"))
         nodoComprobante.SetAttribute("Moneda", c.Moneda)
-        If c.TipoCambio > 0 Then nodoComprobante.SetAttribute("TipoCambio", c.TipoCambio.ToString("F2"))
+        If c.TipoCambio > 0 Then nodoComprobante.SetAttribute("TipoCambio", c.TipoCambio.ToString("F4"))
 
         If c.TipoDeComprobante = "P" Or c.TipoDeComprobante = "T" Then
             nodoComprobante.SetAttribute("SubTotal", "0")
@@ -515,102 +515,6 @@ Public NotInheritable Class GenerarXML
         nodoAddenda.AppendChild(nodoInnophos)
         Return nodoAddenda
     End Function
-
-    'Private Shared Function AgregarNodoPagos(ByVal pagos As Pagos, ByVal documento As XmlDocument) As XmlElement
-    '    If pagos Is Nothing Then Return Nothing
-    '    Dim nodoPagos As XmlElement = documento.CreateElement("pago10", "Pagos", NAMESPACE_PAGOS)
-    '    nodoPagos.SetAttribute("Version", pagos.Version)
-
-    '    If pagos.Pago IsNot Nothing AndAlso pagos.Pago.Count() > 0 Then
-
-    '        For Each pg As Pago In pagos.Pago
-    '            Dim nodoPago As XmlElement = documento.CreateElement("pago10", "Pago", NAMESPACE_PAGOS)
-    '            nodoPago.SetAttribute("FechaPago", pg.FechaPago.ToString("s"))
-    '            nodoPago.SetAttribute("FormaDePagoP", pg.FormaDePagoP)
-    '            nodoPago.SetAttribute("MonedaP", pg.MonedaP)
-    '            If pg.TipoCambioP > 0 Then nodoPago.SetAttribute("TipoCambio", pg.TipoCambioP.ToString("F2"))
-    '            nodoPago.SetAttribute("Monto", pg.Monto.ToString("F2"))
-    '            If pg.NumOperacion <> String.Empty Then nodoPago.SetAttribute("NumOperacion", pg.NumOperacion)
-    '            If pg.RfcEmisorCtaOrd <> String.Empty Then nodoPago.SetAttribute("RfcEmisorCtaOrd", pg.RfcEmisorCtaOrd)
-    '            If pg.NomBancoOrdExt <> String.Empty Then nodoPago.SetAttribute("NomBancoOrdExt", pg.NomBancoOrdExt)
-    '            If pg.CtaOrdenante <> String.Empty Then nodoPago.SetAttribute("CtaOrdenante", pg.CtaOrdenante)
-    '            If pg.RfcEmisorCtaBen <> String.Empty Then nodoPago.SetAttribute("RfcEmisorCtaBen", pg.RfcEmisorCtaBen)
-    '            If pg.CtaBeneficiario <> String.Empty Then nodoPago.SetAttribute("CtaBeneficiario", pg.CtaBeneficiario)
-    '            If pg.TipoCadPago <> String.Empty Then nodoPago.SetAttribute("TipoCadPago", pg.TipoCadPago)
-    '            If pg.CertPago <> String.Empty Then nodoPago.SetAttribute("CertPago", pg.CertPago)
-    '            If pg.CadPago <> String.Empty Then nodoPago.SetAttribute("CadPago", pg.CadPago)
-    '            If pg.SelloPago <> String.Empty Then nodoPago.SetAttribute("SelloPago", pg.SelloPago)
-    '            Dim doctoRelacionado As XmlElement = ObtenerNodoPDoctoRelacionado(pg.DoctoRelacionado, documento)
-    '            If doctoRelacionado IsNot Nothing Then nodoPago.AppendChild(doctoRelacionado)
-    '            Dim pImpuestos As XmlElement = ObtenerNodoPImpuestos(pg.Impuestos, documento)
-    '            If pImpuestos IsNot Nothing Then nodoPago.AppendChild(pImpuestos)
-    '            nodoPagos.AppendChild(nodoPago)
-    '        Next
-    '    End If
-
-    '    Return nodoPagos
-    'End Function
-
-    'Private Shared Function ObtenerNodoPDoctoRelacionado(ByVal doctoRelacionado As List(Of PDoctoRelacionado), ByVal documento As XmlDocument) As XmlElement
-    '    If doctoRelacionado Is Nothing AndAlso doctoRelacionado.Count() = 0 Then Return Nothing
-    '    Dim nodoPDoctoRelacionado As XmlElement = documento.CreateElement("pago10", "DoctoRelacionado", NAMESPACE_PAGOS)
-
-    '    For Each dr As PDoctoRelacionado In doctoRelacionado
-    '        nodoPDoctoRelacionado.SetAttribute("IdDocumento", dr.IdDocumento)
-    '        If dr.Serie <> String.Empty Then nodoPDoctoRelacionado.SetAttribute("Serie", dr.Serie)
-    '        If dr.Folio <> String.Empty Then nodoPDoctoRelacionado.SetAttribute("Folio", dr.Folio)
-    '        nodoPDoctoRelacionado.SetAttribute("MonedaDR", dr.MonedaDR)
-    '        If dr.TipoCambioDR > 0 Then nodoPDoctoRelacionado.SetAttribute("TipoCambioDR", dr.TipoCambioDR.ToString("F2"))
-    '        nodoPDoctoRelacionado.SetAttribute("MetodoDePagoDr", dr.MetodoDePagoDR)
-    '        If dr.NumParcialidad <> String.Empty Then nodoPDoctoRelacionado.SetAttribute("NumParcialidad", dr.NumParcialidad)
-    '        If dr.ImpSaldoAnt > 0 Then nodoPDoctoRelacionado.SetAttribute("ImpSaldoAnt", dr.ImpSaldoAnt.ToString("F2"))
-    '        If dr.ImpPagado > 0 Then nodoPDoctoRelacionado.SetAttribute("ImpPagado", dr.ImpPagado.ToString("F2"))
-    '        If dr.ImpSaldoInsoluto > 0 OrElse dr.ImpSaldoInsoluto = 0 Then nodoPDoctoRelacionado.SetAttribute("ImpSaldoInsoluto", dr.ImpSaldoInsoluto.ToString("F2"))
-    '    Next
-
-    '    Return nodoPDoctoRelacionado
-    'End Function
-
-    'Private Shared Function ObtenerNodoPImpuestos(ByVal impuestos As List(Of PImpuestos), ByVal documento As XmlDocument) As XmlElement
-    '    If impuestos Is Nothing OrElse impuestos.Count() = 0 Then Return Nothing
-    '    Dim nodoPImpuestos As XmlElement = documento.CreateElement("pago10", "Impuestos", NAMESPACE_PAGOS)
-
-    '    For Each im As PImpuestos In impuestos
-    '        If im.TotalImpuestosRetenidos <> -1 Then nodoPImpuestos.SetAttribute("TotalImpuestosRetenidos", im.TotalImpuestosRetenidos.ToString("F2"))
-    '        If im.TotalImpuestosTrasladados <> -1 Then nodoPImpuestos.SetAttribute("TotalImpuestosTraslados", im.|ToString("F2"))
-
-    '        If im.Retenciones IsNot Nothing Then
-    '            Dim nodoPRetenciones As XmlElement = documento.CreateElement("pago10", "Retenciones", NAMESPACE_PAGOS)
-
-    '            For Each retencion As PRetencion In im.Retenciones.Retencion
-    '                Dim nodoPRetencion As XmlElement = documento.CreateElement("pago10", "Retencion", NAMESPACE_PAGOS)
-    '                nodoPRetencion.SetAttribute("Impuesto", retencion.Impuesto)
-    '                nodoPRetencion.SetAttribute("Importe", retencion.Importe.ToString("F2"))
-    '                nodoPRetenciones.AppendChild(nodoPRetencion)
-    '            Next
-
-    '            nodoPImpuestos.AppendChild(nodoPRetenciones)
-    '        End If
-
-    '        If im.Traslados IsNot Nothing Then
-    '            Dim nodoPTraslados As XmlElement = documento.CreateElement("pago10", "Traslados", NAMESPACE_CFD)
-
-    '            For Each traslado As PTraslado In im.Traslados.Traslado
-    '                Dim nodoPTraslado As XmlElement = documento.CreateElement("pago10", "Traslado", NAMESPACE_CFD)
-    '                nodoPTraslado.SetAttribute("Impuesto", traslado.Impuesto)
-    '                nodoPTraslado.SetAttribute("TipoFactor", traslado.TipoFactor)
-    '                nodoPTraslado.SetAttribute("TasaOCuota", traslado.TasaOCuota.ToString("F6"))
-    '                nodoPTraslado.SetAttribute("Importe", traslado.Importe.ToString("F2"))
-    '                nodoPTraslados.AppendChild(nodoPTraslado)
-    '            Next
-
-    '            nodoPImpuestos.AppendChild(nodoPTraslados)
-    '        End If
-    '    Next
-
-    '    Return nodoPImpuestos
-    'End Function
-
 #Region "Complementos"
 #Region "Comercio exterior 11"
 
@@ -1368,7 +1272,7 @@ Public NotInheritable Class GenerarXML
                 nodoPago.SetAttribute("FechaPago", pg.FechaPago.ToString("s"))
                 nodoPago.SetAttribute("FormaDePagoP", pg.FormaDePagoP)
                 nodoPago.SetAttribute("MonedaP", pg.MonedaP)
-                If pg.TipoCambioP > 0 Then nodoPago.SetAttribute("TipoCambioP", pg.TipoCambioP.ToString("F0"))
+                If pg.TipoCambioP > 0 Then nodoPago.SetAttribute("TipoCambioP", IIf(pg.TipoCambioP = 1, "1", pg.TipoCambioP.ToString("F6")))
                 nodoPago.SetAttribute("Monto", pg.Monto.ToString("F2"))
                 If Not String.IsNullOrEmpty(pg.NumOperacion) Then nodoPago.SetAttribute("NumOperacion", pg.NumOperacion)
                 If Not String.IsNullOrEmpty(pg.RfcEmisorCtaOrd) Then nodoPago.SetAttribute("RfcEmisorCtaOrd", pg.RfcEmisorCtaOrd)
@@ -1401,11 +1305,21 @@ Public NotInheritable Class GenerarXML
         If totales.TotalRetencionesIEPS > 0 Then nodoTotales.SetAttribute("TotalRetencionesIEPS", totales.TotalRetencionesIEPS.ToString("F2"))
         If totales.TotalRetencionesISR > 0 Then nodoTotales.SetAttribute("TotalRetencionesISR", totales.TotalRetencionesISR.ToString("F2"))
         If totales.TotalRetencionesIVA > 0 Then nodoTotales.SetAttribute("TotalRetencionesIVA", totales.TotalRetencionesIVA.ToString("F2"))
-        If totales.TotalTrasladosBaseIVA0 > 0 Then nodoTotales.SetAttribute("TotalTrasladosBaseIVA0", totales.TotalTrasladosBaseIVA0.ToString("F2"))
+
+        If PassData9 = "USD" Then
+            'If totales.TotalTrasladosBaseIVA0 > 0 Then
+            nodoTotales.SetAttribute("TotalTrasladosBaseIVA0", totales.TotalTrasladosBaseIVA0.ToString("F2"))
+            'If totales.TotalTrasladosImpuestoIVA0 > 0 Then
+            nodoTotales.SetAttribute("TotalTrasladosImpuestoIVA0", totales.TotalTrasladosImpuestoIVA0.ToString("F2"))
+        Else
+            If totales.TotalTrasladosBaseIVA0 > 0 Then nodoTotales.SetAttribute("TotalTrasladosBaseIVA0", totales.TotalTrasladosBaseIVA0.ToString("F2"))
+            If totales.TotalTrasladosImpuestoIVA0 > 0 Then nodoTotales.SetAttribute("TotalTrasladosImpuestoIVA0", totales.TotalTrasladosImpuestoIVA0.ToString("F2"))
+        End If
+
+
         If totales.TotalTrasladosBaseIVA16 > 0 Then nodoTotales.SetAttribute("TotalTrasladosBaseIVA16", totales.TotalTrasladosBaseIVA16.ToString("F2"))
         If totales.TotalTrasladosBaseIVA8 > 0 Then nodoTotales.SetAttribute("TotalTrasladosBaseIVA8", totales.TotalTrasladosBaseIVA8.ToString("F2"))
         If totales.TotalTrasladosBaseIVAExento > 0 Then nodoTotales.SetAttribute("TotalTrasladosBaseIVAExento", totales.TotalTrasladosBaseIVAExento.ToString("F2"))
-        If totales.TotalTrasladosImpuestoIVA0 > 0 Then nodoTotales.SetAttribute("TotalTrasladosImpuestoIVA0", totales.TotalTrasladosImpuestoIVA0.ToString("F2"))
         If totales.TotalTrasladosImpuestoIVA16 > 0 Then nodoTotales.SetAttribute("TotalTrasladosImpuestoIVA16", totales.TotalTrasladosImpuestoIVA16.ToString("F2"))
         If totales.TotalTrasladosImpuestoIVA8 > 0 Then nodoTotales.SetAttribute("TotalTrasladosImpuestoIVA8", totales.TotalTrasladosImpuestoIVA8.ToString("F2"))
         Return nodoTotales
@@ -1419,7 +1333,7 @@ Public NotInheritable Class GenerarXML
         If dr.Serie <> String.Empty Then nodoPDoctoRelacionado.SetAttribute("Serie", dr.Serie)
         If dr.Folio <> String.Empty Then nodoPDoctoRelacionado.SetAttribute("Folio", dr.Folio)
         nodoPDoctoRelacionado.SetAttribute("MonedaDR", dr.MonedaDR)
-        If dr.EquivalenciaDR > 0 Then nodoPDoctoRelacionado.SetAttribute("EquivalenciaDR", dr.EquivalenciaDR.ToString("F0"))
+        If dr.EquivalenciaDR > 0 Then nodoPDoctoRelacionado.SetAttribute("EquivalenciaDR", dr.EquivalenciaDR.ToString("F6"))
         If dr.NumParcialidad <> String.Empty Then nodoPDoctoRelacionado.SetAttribute("NumParcialidad", dr.NumParcialidad)
 
         nodoPDoctoRelacionado.SetAttribute("ImpSaldoAnt", dr.ImpSaldoAnt.ToString("F2"))
@@ -1450,7 +1364,7 @@ Public NotInheritable Class GenerarXML
                 nodoPRetencion.SetAttribute("ImpuestoDR", retencion.ImpuestoDR)
                 nodoPRetencion.SetAttribute("TipoFactorDR", retencion.TipoFactorDR)
                 nodoPRetencion.SetAttribute("TasaOCuotaDR", retencion.TasaOCuotaDR.ToString("F6"))
-                nodoPRetencion.SetAttribute("ImporteDR", retencion.ImporteDR.ToString("F2"))
+                nodoPRetencion.SetAttribute("ImporteDR", retencion.ImporteDR.ToString("F6"))
                 nodoPRetenciones.AppendChild(nodoPRetencion)
             Next
 
@@ -1466,7 +1380,7 @@ Public NotInheritable Class GenerarXML
                 nodoPTraslado.SetAttribute("ImpuestoDR", traslado.ImpuestoDR)
                 nodoPTraslado.SetAttribute("TipoFactorDR", traslado.TipoFactorDR)
                 nodoPTraslado.SetAttribute("TasaOCuotaDR", traslado.TasaOCuotaDR.ToString("F6"))
-                nodoPTraslado.SetAttribute("ImporteDR", traslado.ImporteDR.ToString("F2"))
+                nodoPTraslado.SetAttribute("ImporteDR", traslado.ImporteDR.ToString("F6"))
                 nodoPTraslados.AppendChild(nodoPTraslado)
             Next
 

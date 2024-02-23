@@ -44,6 +44,7 @@ Partial Class FrmLiquidaciones
         Me.SplitM1 = New C1.Win.C1SplitContainer.C1SplitContainer()
         Me.Split1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.Split2 = New C1.Win.C1SplitContainer.C1SplitterPanel()
+        Me.BarImpLiq = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarraMenu.SuspendLayout()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Fg2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -60,7 +61,7 @@ Partial Class FrmLiquidaciones
         '
         'BarraMenu
         '
-        Me.BarraMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarNuevo, Me.BarEdit, Me.BarEliminar, Me.BarActualizar, Me.BarExcel, Me.BarSalir})
+        Me.BarraMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarNuevo, Me.BarEdit, Me.BarEliminar, Me.BarActualizar, Me.BarImpLiq, Me.BarExcel, Me.BarSalir})
         Me.BarraMenu.Location = New System.Drawing.Point(0, 0)
         Me.BarraMenu.Name = "BarraMenu"
         Me.BarraMenu.Size = New System.Drawing.Size(1076, 55)
@@ -329,6 +330,18 @@ Partial Class FrmLiquidaciones
         Me.Split2.SizeRatio = 7.0R
         Me.Split2.TabIndex = 1
         '
+        'BarImpLiq
+        '
+        Me.BarImpLiq.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.BarImpLiq.ForeColor = System.Drawing.Color.Black
+        Me.BarImpLiq.Image = Global.SGT_Transport.My.Resources.Resources.impresora27
+        Me.BarImpLiq.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BarImpLiq.Name = "BarImpLiq"
+        Me.BarImpLiq.ShortcutKeys = System.Windows.Forms.Keys.F3
+        Me.BarImpLiq.Size = New System.Drawing.Size(127, 51)
+        Me.BarImpLiq.Text = "Imprimir liquidación"
+        Me.BarImpLiq.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
         'FrmLiquidaciones
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -385,4 +398,5 @@ Partial Class FrmLiquidaciones
     Friend WithEvents SplitM1 As C1.Win.C1SplitContainer.C1SplitContainer
     Friend WithEvents Split1 As C1.Win.C1SplitContainer.C1SplitterPanel
     Friend WithEvents Split2 As C1.Win.C1SplitContainer.C1SplitterPanel
+    Friend WithEvents BarImpLiq As ToolStripMenuItem
 End Class

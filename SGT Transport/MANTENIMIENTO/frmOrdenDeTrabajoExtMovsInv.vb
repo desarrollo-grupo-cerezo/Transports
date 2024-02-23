@@ -40,7 +40,7 @@ Public Class frmOrdenDeTrabajoExtMovsInv
             'Var16 = "MIOT"
             QueOT = Var16
 
-            CadenaSQL = " WHERE FECHA = '" & FSQL(Date.Now) & "'"
+            CadenaSQL = "" '" WHERE FECHA = '" & FSQL(Date.Now) & "'"
             DESPLEGAR()
         Catch ex As Exception
             MsgBox("13. " & ex.Message & vbNewLine & ex.StackTrace)

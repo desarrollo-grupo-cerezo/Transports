@@ -120,8 +120,44 @@
   <metadata name="BarraMENU.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="BarSalir.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        TkSuQmCC
+</value>
+  </data>
   <data name="Fg.ColumnInfo" xml:space="preserve">
-    <value>28,1,0,0,0,100,Columns:1{Width:80;Caption:"Cantidad";AllowDragging:False;AllowEditing:False;Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	2{Width:80;AllowFiltering:None;Caption:"Pend. X Surtir";AllowDragging:False;Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	3{Width:58;Caption:"Almacen";Style:"DataType:System.Int16;TextAlign:GeneralCenter;";}	4{AllowSorting:False;AllowFiltering:None;Caption:"Producto";AllowDragging:False;AllowResizing:False;Style:"DataType:System.String;TextAlign:LeftCenter;";}	5{Width:21;AllowSorting:False;AllowFiltering:None;Caption:"...";ShowButtons:Always;AllowDragging:False;Style:"ComboList:""|..."";";}	6{Width:279;AllowFiltering:None;Caption:"Descripción";AllowDragging:False;}	7{Width:60;AllowSorting:False;AllowFiltering:None;Caption:"Unidad";AllowDragging:False;AllowEditing:False;}	8{Width:45;Caption:"Desc.";AllowDragging:False;Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	9{Width:45;AllowSorting:False;AllowFiltering:None;Caption:"I.E.P.S.";AllowEditing:False;Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	10{Width:45;AllowSorting:False;AllowEditing:False;Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	11{Width:50;AllowSorting:False;Caption:"Ret. IVA";AllowEditing:False;Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	12{Width:45;AllowSorting:False;Caption:"IVA";AllowEditing:False;Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	13{AllowSorting:False;Caption:"Precio";AllowDragging:False;Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	14{AllowSorting:False;Caption:"Subtotal";AllowEditing:False;Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	15{Caption:"Articulo";}	16{Caption:"1";}	17{Caption:"2";}	18{Caption:"NUM_PAR";}	19{Caption:"CVE_DOC_ENLAZADO";}	20{Caption:"ENLACE_TIP_DOC";}	21{Caption:"CVE_OBS";Style:"DataType:System.Double;TextAlign:GeneralCenter;";}	22{Caption:"Obser x partida";}	23{Width:120;Caption:"Carta porte";Style:"TextAlign:LeftCenter;";}	24{Caption:"Remision carga";Style:"TextAlign:LeftCenter;";}	25{Caption:"Unidad";Style:"TextAlign:LeftCenter;";}	26{Caption:"Toneladas";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	27{Caption:"CVE_ESQ";Style:"DataType:System.Int32;TextAlign:GeneralCenter;";}	</value>
+    <value>37,1,0,0,0,100,Columns:1{Width:80;Caption:"Cantidad";AllowDragging:False;AllowEditing:False;Editor:"TXTN";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	2{Width:80;AllowFiltering:None;Caption:"Pend. X Surtir";AllowDragging:False;Editor:"TXTN";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	3{Width:58;Caption:"Almacen";Editor:"CboALmacenFG";Style:"DataType:System.String;TextAlign:LeftCenter;";}	4{AllowSorting:False;AllowFiltering:None;Caption:"Producto";AllowDragging:False;AllowResizing:False;Editor:"TXT";Style:"DataType:System.String;TextAlign:LeftCenter;";}	5{Width:21;AllowSorting:False;AllowFiltering:None;Caption:"...";ShowButtons:Always;AllowDragging:False;Style:"ComboList:""|..."";";}	6{Width:279;AllowFiltering:None;Caption:"Descripción";AllowDragging:False;Editor:"TXT";Style:"";}	7{Width:60;AllowSorting:False;AllowFiltering:None;Caption:"Unidad";AllowDragging:False;AllowEditing:False;}	8{Width:45;Caption:"Desc.";AllowDragging:False;Editor:"TXTN";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	9{Width:45;AllowSorting:False;AllowFiltering:None;Caption:"I.E.P.S.";AllowEditing:False;Editor:"TXTN";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	10{Width:45;AllowSorting:False;Caption:"ISR";AllowEditing:False;Editor:"TXTN";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	11{Width:50;AllowSorting:False;Caption:"Ret. IVA";AllowEditing:False;Editor:"TXTN";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	12{Width:45;AllowSorting:False;Caption:"IVA";AllowEditing:False;Editor:"TXTN";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	13{AllowSorting:False;Caption:"Precio";AllowDragging:False;Editor:"TXTN";Style:"Format:""N4"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	14{Width:22;Caption:"...";ShowButtons:Always;Style:"ComboList:""..."";";}	15{AllowSorting:False;Caption:"Subtotal";AllowEditing:False;Editor:"TXTN";Style:"Format:""N4"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	16{Caption:"Articulo";}	17{Caption:"1";}	18{Caption:"2";}	19{Caption:"NUM_PAR";}	20{Caption:"CVE_DOC_ENLAZADO";}	21{Caption:"ENLACE_TIP_DOC";}	22{Caption:"CVE_OBS";Style:"DataType:System.Double;TextAlign:GeneralCenter;";}	23{Caption:"Obser x partida";}	24{Width:120;Caption:"con Lote";Style:"TextAlign:LeftCenter;";}	25{Caption:"Lote";Style:"TextAlign:LeftCenter;";}	26{Caption:"Unidad";Style:"TextAlign:LeftCenter;";}	27{Caption:"REG_LTPD";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	28{Caption:"CVE_ESQIMPU";Style:"DataType:System.Int32;TextAlign:GeneralCenter;";}	29{Caption:"Monto remisionado";Style:"Format:""N4"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	30{Caption:"TIPO_ELE";}	31{Caption:"LINEA";}	32{Caption:"P POLITICA";}	33{Caption:"PREC_PUBLICO";}	34{Caption:"LISTA_PREC_VTA";}	35{Caption:"CANT_POLIT";}	36{Caption:"Abonos";Style:"Format:""n4"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	</value>
   </data>
   <data name="Fg.StyleInfo" xml:space="preserve">
     <value>Normal{}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:234, 236, 245;ForeColor:ControlText;SearchBackColor:Orange;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	FrozenAlternate{}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	Footer{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	FirstCustomStyle{}	</value>
@@ -129,36 +165,7 @@
   <metadata name="StiReport1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>145, 17</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="BtnOper.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        4wAAAOMBD+bfpwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
-        2XJ5Zb3Hy9vm/4+buud/+NyT/8Pnnf4fN23f/zKgWEF5/wV3v3w1qHJUYOUWy5ZX1nc6o335/5idr//H
-        H/mBgmN3v/uf2rHif0FZ301b9zReqDYECI2rzq4A2oJNMwxH73n7v7B13v/Q2LIGqDYEKKqaeBHkbGwa
-        kbHvlF3/80q7nkO1IUBF/bTX4XNPYdWEjJ3mHP1fWNH3R904khWqFQIq6ggbEH3423/7OUf+55d1/zG0
-        TUQ1ABhtV2Kn7fuHTSMMex94/98D6IW03KbXUG0IEJlQU1jaOv9f7J53WDUHH/z833b7k/9pNVP+B0UV
-        dkO1IYCdSwpXYcWEyyntK4ChjTAE5Gyf/e+Bmh//D21e9D85q+6NrX+GOFQbKnAPzFEHxvOdgpZ5/32A
-        TgUFmB0QuwPZqTVTwZqjkmvfZBR03gqJqUiFakMFzh5ZvCFxZc3AqHoJCm1QgKUD/RwUVdTt6JMikZbb
-        9njS9NX/O3oX/QiOKcduCAxoW4ayGjugRldEfGVRY9vsfyBD2kGGRJenQaWIB+HxlcXIhgRFlydBpYgH
-        4fFVJTBDSqsnY0YrMQBoSEFeSc+3hPTGdQAE9opxY2EZNgAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="BtnTipo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        4wAAAOMBD+bfpwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
-        2XJ5Zb3Hy9vm/4+buud/+NyT/8Pnnf4fN23f/zKgWEF5/wV3v3w1qHJUYOUWy5ZX1nc6o335/5idr//H
-        H/mBgmN3v/uf2rHif0FZ301b9zReqDYECI2rzq4A2oJNMwxH73n7v7B13v/Q2LIGqDYEKKqaeBHkbGwa
-        kbHvlF3/80q7nkO1IUBF/bTX4XNPYdWEjJ3mHP1fWNH3R904khWqFQIq6ggbEH3423/7OUf+55d1/zG0
-        TUQ1ABhtV2Kn7fuHTSMMex94/98D6IW03KbXUG0IEJlQU1jaOv9f7J53WDUHH/z833b7k/9pNVP+B0UV
-        dkO1IYCdSwpXYcWEyyntK4ChjTAE5Gyf/e+Bmh//D21e9D85q+6NrX+GOFQbKnAPzFEHxvOdgpZ5/32A
-        TgUFmB0QuwPZqTVTwZqjkmvfZBR03gqJqUiFakMFzh5ZvCFxZc3AqHoJCm1QgKUD/RwUVdTt6JMikZbb
-        9njS9NX/O3oX/QiOKcduCAxoW4ayGjugRldEfGVRY9vsfyBD2kGGRJenQaWIB+HxlcXIhgRFlydBpYgH
-        4fFVJTBDSqsnY0YrMQBoSEFeSc+3hPTGdQAE9opxY2EZNgAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="BtnUnidades.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="BtnObra.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
         4wAAAOMBD+bfpwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
@@ -187,6 +194,20 @@
 </value>
   </data>
   <data name="BtnVend.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
+        4wAAAOMBD+bfpwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
+        2XJ5Zb3Hy9vm/4+buud/+NyT/8Pnnf4fN23f/zKgWEF5/wV3v3w1qHJUYOUWy5ZX1nc6o335/5idr//H
+        H/mBgmN3v/uf2rHif0FZ301b9zReqDYECI2rzq4A2oJNMwxH73n7v7B13v/Q2LIGqDYEKKqaeBHkbGwa
+        kbHvlF3/80q7nkO1IUBF/bTX4XNPYdWEjJ3mHP1fWNH3R904khWqFQIq6ggbEH3423/7OUf+55d1/zG0
+        TUQ1ABhtV2Kn7fuHTSMMex94/98D6IW03KbXUG0IEJlQU1jaOv9f7J53WDUHH/z833b7k/9pNVP+B0UV
+        dkO1IYCdSwpXYcWEyyntK4ChjTAE5Gyf/e+Bmh//D21e9D85q+6NrX+GOFQbKnAPzFEHxvOdgpZ5/32A
+        TgUFmB0QuwPZqTVTwZqjkmvfZBR03gqJqUiFakMFzh5ZvCFxZc3AqHoJCm1QgKUD/RwUVdTt6JMikZbb
+        9njS9NX/O3oX/QiOKcduCAxoW4ayGjugRldEfGVRY9vsfyBD2kGGRJenQaWIB+HxlcXIhgRFlydBpYgH
+        4fFVJTBDSqsnY0YrMQBoSEFeSc+3hPTGdQAE9opxY2EZNgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="BtnFactura.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
         4wAAAOMBD+bfpwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+

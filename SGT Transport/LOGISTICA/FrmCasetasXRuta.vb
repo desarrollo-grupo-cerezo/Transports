@@ -32,7 +32,9 @@ Public Class FrmCasetasXRuta
             Dim da As New SqlDataAdapter
             Dim dt As New DataTable
 
-            SQL = "SELECT C.CVE_CXR, C.STATUS, C.DESCR, C.CVE_TAB, R.DESCR AS ORIGEN, R.DESCR2 AS DESTINO, IMPORTE_CASETAS
+            SQL = "SELECT C.CVE_CXR, C.STATUS, C.DESCR, C.CVE_TAB, 
+                CASE WHEN ISNULL(C.ORIGEN,'') = '' THEN R.DESCR ELSE C.ORIGEN END AS ORIGEN_N, 
+                CASE WHEN ISNULL(C.DESTINO,'') = '' THEN R.DESCR2 ELSE C.DESTINO END AS DESTINO_N, C.IMPORTE_CASETAS
                 FROM GCCASETAS_X_RUTA C 
                 LEFT JOIN GCTAB_RUTAS_F R On R.CVE_TAB = C.CVE_TAB                
                 WHERE C.STATUS = 'A' ORDER BY CVE_CXR"

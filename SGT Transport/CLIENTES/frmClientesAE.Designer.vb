@@ -35,6 +35,8 @@ Partial Class frmClientesAE
         Me.TAB1 = New C1.Win.C1Command.C1DockingTab()
         Me.PAG1 = New C1.Win.C1Command.C1DockingTabPage()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
+        Me.TCUENTA_CONTABLE_FISCAL = New System.Windows.Forms.TextBox()
+        Me.Label102 = New System.Windows.Forms.Label()
         Me.Label78 = New System.Windows.Forms.Label()
         Me.BtnApli = New C1.Win.C1Input.C1Button()
         Me.Label80 = New System.Windows.Forms.Label()
@@ -333,8 +335,8 @@ Partial Class frmClientesAE
         Me.btnFinal = New C1.Win.C1Input.C1Button()
         Me.Split2 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.C1XLBook1 = New C1.C1Excel.C1XLBook()
-        Me.TCUENTA_CONTABLE_FISCAL = New System.Windows.Forms.TextBox()
-        Me.Label102 = New System.Windows.Forms.Label()
+        Me.cboTipoRelNC = New C1.Win.C1Input.C1ComboBox()
+        Me.Label103 = New System.Windows.Forms.Label()
         Me.BarraMenu.SuspendLayout()
         CType(Me.TAB1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TAB1.SuspendLayout()
@@ -403,6 +405,7 @@ Partial Class frmClientesAE
         CType(Me.btnInicial, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnFinal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Split2.SuspendLayout()
+        CType(Me.cboTipoRelNC, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'BarraMenu
@@ -554,6 +557,8 @@ Partial Class frmClientesAE
         '
         'GroupBox7
         '
+        Me.GroupBox7.Controls.Add(Me.Label103)
+        Me.GroupBox7.Controls.Add(Me.cboTipoRelNC)
         Me.GroupBox7.Controls.Add(Me.TCUENTA_CONTABLE_FISCAL)
         Me.GroupBox7.Controls.Add(Me.Label102)
         Me.GroupBox7.Controls.Add(Me.Label78)
@@ -604,6 +609,27 @@ Partial Class frmClientesAE
         Me.GroupBox7.Size = New System.Drawing.Size(660, 426)
         Me.GroupBox7.TabIndex = 28
         Me.GroupBox7.TabStop = False
+        '
+        'TCUENTA_CONTABLE_FISCAL
+        '
+        Me.TCUENTA_CONTABLE_FISCAL.AcceptsReturn = True
+        Me.TCUENTA_CONTABLE_FISCAL.AcceptsTab = True
+        Me.TCUENTA_CONTABLE_FISCAL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TCUENTA_CONTABLE_FISCAL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TCUENTA_CONTABLE_FISCAL.Location = New System.Drawing.Point(143, 215)
+        Me.TCUENTA_CONTABLE_FISCAL.Name = "TCUENTA_CONTABLE_FISCAL"
+        Me.TCUENTA_CONTABLE_FISCAL.Size = New System.Drawing.Size(283, 21)
+        Me.TCUENTA_CONTABLE_FISCAL.TabIndex = 13
+        '
+        'Label102
+        '
+        Me.Label102.AutoSize = True
+        Me.Label102.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label102.Location = New System.Drawing.Point(1, 217)
+        Me.Label102.Name = "Label102"
+        Me.Label102.Size = New System.Drawing.Size(138, 16)
+        Me.Label102.TabIndex = 295
+        Me.Label102.Text = "Cuenta contable fiscal"
         '
         'Label78
         '
@@ -4369,26 +4395,36 @@ Partial Class frmClientesAE
         Me.Split2.Size = New System.Drawing.Size(1432, 483)
         Me.Split2.TabIndex = 1
         '
-        'TCUENTA_CONTABLE_FISCAL
+        'cboTipoRelNC
         '
-        Me.TCUENTA_CONTABLE_FISCAL.AcceptsReturn = True
-        Me.TCUENTA_CONTABLE_FISCAL.AcceptsTab = True
-        Me.TCUENTA_CONTABLE_FISCAL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TCUENTA_CONTABLE_FISCAL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCUENTA_CONTABLE_FISCAL.Location = New System.Drawing.Point(143, 215)
-        Me.TCUENTA_CONTABLE_FISCAL.Name = "TCUENTA_CONTABLE_FISCAL"
-        Me.TCUENTA_CONTABLE_FISCAL.Size = New System.Drawing.Size(283, 21)
-        Me.TCUENTA_CONTABLE_FISCAL.TabIndex = 13
+        Me.cboTipoRelNC.AcceptsTab = True
+        Me.cboTipoRelNC.AllowSpinLoop = False
+        Me.cboTipoRelNC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.cboTipoRelNC.Cursor = System.Windows.Forms.Cursors.Arrow
+        Me.cboTipoRelNC.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
+        Me.cboTipoRelNC.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboTipoRelNC.GapHeight = 0
+        Me.cboTipoRelNC.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.cboTipoRelNC.ItemsDisplayMember = ""
+        Me.cboTipoRelNC.ItemsValueMember = ""
+        Me.cboTipoRelNC.Location = New System.Drawing.Point(143, 319)
+        Me.cboTipoRelNC.MaxDropDownItems = 15
+        Me.cboTipoRelNC.Name = "cboTipoRelNC"
+        Me.cboTipoRelNC.Size = New System.Drawing.Size(453, 20)
+        Me.cboTipoRelNC.TabIndex = 296
+        Me.cboTipoRelNC.Tag = Nothing
+        Me.cboTipoRelNC.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.cboTipoRelNC.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
         '
-        'Label102
+        'Label103
         '
-        Me.Label102.AutoSize = True
-        Me.Label102.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label102.Location = New System.Drawing.Point(1, 217)
-        Me.Label102.Name = "Label102"
-        Me.Label102.Size = New System.Drawing.Size(138, 16)
-        Me.Label102.TabIndex = 295
-        Me.Label102.Text = "Cuenta contable fiscal"
+        Me.Label103.AutoSize = True
+        Me.Label103.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label103.Location = New System.Drawing.Point(23, 321)
+        Me.Label103.Name = "Label103"
+        Me.Label103.Size = New System.Drawing.Size(114, 16)
+        Me.Label103.TabIndex = 297
+        Me.Label103.Text = "Tipo Relación NC"
         '
         'frmClientesAE
         '
@@ -4526,6 +4562,7 @@ Partial Class frmClientesAE
         CType(Me.btnInicial, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnFinal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Split2.ResumeLayout(False)
+        CType(Me.cboTipoRelNC, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -4844,4 +4881,6 @@ Partial Class frmClientesAE
     Friend WithEvents Label101 As Label
     Friend WithEvents TCUENTA_CONTABLE_FISCAL As TextBox
     Friend WithEvents Label102 As Label
+    Friend WithEvents Label103 As Label
+    Friend WithEvents cboTipoRelNC As C1.Win.C1Input.C1ComboBox
 End Class

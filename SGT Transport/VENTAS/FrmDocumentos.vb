@@ -3,8 +3,31 @@ Imports C1.Win.C1Themes
 Imports C1.Win.C1FlexGrid
 Imports System.Data.SqlClient
 Imports C1.Win.C1Command
+Imports System.Xml
 
 Public Class FrmDocumentos
+    Private _c As Comprobante
+
+    Private FTP_CFDI_DEV As String = ""
+    Private gUSUARIO_PAC As String
+    Private gPASS_PAC As String
+    Private MOSTRAR_LP_PV As Integer
+    Private LISTA_PREC_CLIE As String
+    Private SEBLOQUEA As String = "N"
+    Private MONEDA As String
+    Private TIPOCAMBIO As Decimal
+    Private VALIDAR_EXIST_PED As String
+    Private USO_CFDI As String
+    Private REG_FISC As String
+    Private METODODEPAGO As String
+    Private FORMAPAGO As String
+
+    Private DOCUMENT_ENLAZADO As String = ""
+    Private TIMBRADO_DEMO As String = "No"
+    Private EMISORRFC As String = ""
+    Private CVE_ART_NC As String = ""
+    Private NUM_CPTO_NC As Integer
+
     Dim CADENA As String
     Dim MULTIALMACEN As Integer
     Dim TIPO_VENTA_LOCAL As String
@@ -74,7 +97,7 @@ Public Class FrmDocumentos
                 Case "C"
                     LtCompras.Text = "Cotización"
                 Case "D"
-                    LtCompras.Text = "Devoluciones"
+                    LtCompras.Text = "Notas de Crédito"
             End Select
 
             If Var4 = "CARTA PORTE" Then
@@ -198,26 +221,20 @@ Public Class FrmDocumentos
 
                 CADENA_CAP = "CVE_PEDI, "
             End If
-
             If TIPO_VENTA_LOCAL = "D" Then
-
                 CADENA = ""
-
-                SQL = "SELECT " & TOP_REG & " C.CVE_DOC, C.CVE_CLPV, NOMBRE, 
-                    CASE C.STATUS WHEN 'E' THEN 'Emitida' WHEN 'O' THEN 'Emitida' WHEN 'C' THEN 'Cancelada' END AS ST, CVE_PEDI,
-                    (SELECT TOP 1 CASE WHEN ISNULL(TIMBRADO,'') = 'S' THEN 'Pendiente' WHEN ISNULL(TIMBRADO,'') = 'N' THEN 'Timbrada' ELSE '' END 
-                    FROM CFDI_COM_PAGO FD WHERE TDOC = 'NC' AND DOCUMENTO = C.CVE_DOC) AS 'Factura digital',
-                    C.FECHA_DOC, C.FECHA_ENT, C.FECHA_VEN, C.FECHA_CANCELA, C.CAN_TOT, C.IMP_TOT1, C.IMP_TOT2,
-                    C.IMP_TOT3, C.IMP_TOT4, C.IMPORTE, C.DES_TOT, C.DES_FIN, C.NUM_ALMA, C.FECHAELAB, ISNULL(C.DOC_ANT,'') AS D_ANT
+                SQL = "SELECT " & TOP_REG & " C.CVE_DOC, C.CVE_CLPV, NOMBRE, CASE C.STATUS WHEN 'E' THEN 'Emitida' WHEN 'O' THEN 'Emitida' WHEN 'C' THEN 'Cancelada' END AS ST, CVE_PEDI, 
+                    (CASE WHEN ISNULL(ESCFD,'') = 'T' or ISNULL(ESCFD,'') = 'S' THEN 'Timbrada' WHEN ISNULL(ESCFD,'') = 'C' THEN 'Cancelada' WHEN ISNULL(ESCFD,'') = 'N' THEN 'Pendiente' ELSE '' END) AS 'Factura digital', 
+                    C.FECHA_DOC, C.FECHA_ENT, C.FECHA_VEN, C.FECHA_CANCELA, C.CAN_TOT, C.IMP_TOT1, C.IMP_TOT2, C.IMP_TOT3, C.IMP_TOT4, C.IMPORTE, C.DES_TOT, C.DES_FIN, 
+                    C.NUM_ALMA, C.FECHAELAB, ISNULL(C.DOC_ANT,'') AS D_ANT
                     FROM FACT" & TIPO_VENTA_LOCAL.ToUpper & Empresa & " C                
                     LEFT JOIN CLIE" & Empresa & " P ON P.CLAVE  = C.CVE_CLPV
-                    LEFT JOIN FACT" & TIPO_VENTA_LOCAL.ToUpper & "_CLIB" & Empresa & " L ON L.CLAVE_DOC = C.CVE_DOC " &
-                    CADENA & " ORDER BY FECHAELAB DESC"
+                    LEFT JOIN FACT" & TIPO_VENTA_LOCAL.ToUpper & "_CLIB" & Empresa & " L ON L.CLAVE_DOC = C.CVE_DOC " & CADENA & " 
+                    ORDER BY FECHAELAB DESC"
             Else
-                SQL = "SELECT " & TOP_REG & " C.CVE_DOC, C.CVE_CLPV, NOMBRE, 
-                    CASE C.STATUS WHEN 'E' THEN 'Emitida' WHEN 'O' THEN 'Emitida' WHEN 'C' THEN 'Cancelada' END AS ST, " & CADENA_CAP &
-                    "ISNULL(C.DOC_SIG,'') AS D_SIG, C.FECHA_DOC, C.FECHA_ENT, C.FECHA_VEN, C.FECHA_CANCELA, C.CAN_TOT, C.IMP_TOT1, C.IMP_TOT2,
-                    C.IMP_TOT3, C.IMP_TOT4, C.IMPORTE, C.DES_TOT, C.DES_FIN, C.NUM_ALMA, C.FECHAELAB, ISNULL(C.DOC_ANT,'') AS D_ANT
+                SQL = "SELECT " & TOP_REG & " C.CVE_DOC, C.CVE_CLPV, NOMBRE, CASE C.STATUS WHEN 'E' THEN 'Emitida' WHEN 'O' THEN 'Emitida' WHEN 'C' THEN 'Cancelada' END AS ST, " &
+                    CADENA_CAP & "ISNULL(C.DOC_SIG,'') AS D_SIG, C.FECHA_DOC, C.FECHA_ENT, C.FECHA_VEN, C.FECHA_CANCELA, C.CAN_TOT, C.IMP_TOT1, C.IMP_TOT2, C.IMP_TOT3, C.IMP_TOT4, 
+                    C.IMPORTE, C.DES_TOT, C.DES_FIN, C.NUM_ALMA, C.FECHAELAB, ISNULL(C.DOC_ANT,'') AS D_ANT
                     FROM FACT" & TIPO_VENTA_LOCAL.ToUpper & Empresa & " C
                     LEFT JOIN CLIE" & Empresa & " P ON P.CLAVE  = C.CVE_CLPV
                     LEFT JOIN FACT" & TIPO_VENTA_LOCAL.ToUpper & "_CLIB" & Empresa & " L ON L.CLAVE_DOC = C.CVE_DOC " &
@@ -500,7 +517,11 @@ Public Class FrmDocumentos
 
                 Var18 = ""
                 If TIPO_VENTA_LOCAL = "D" Then
-                    Var18 = Fg(Fg.Row, 6)
+                    If IsNothing(Fg(Fg.Row, 6)) OrElse IsDBNull(Fg(Fg.Row, 6)) Then
+                        Var18 = ""
+                    Else
+                        Var18 = Fg(Fg.Row, 6)
+                    End If
                 End If
 
                 CREA_TAB(FrmTPV, "Punto de venta")
@@ -777,5 +798,606 @@ Public Class FrmDocumentos
 
     Private Sub BarSalir_Click(sender As Object, e As ClickEventArgs) Handles BarSalir.Click
         Me.Close()
+    End Sub
+
+    Private Sub BarImprimir_Click(sender As Object, e As ClickEventArgs) Handles BarImprimir.Click
+        Try
+            If TIPO_VENTA_LOCAL = "D" And Fg(Fg.Row, 6) = "Timbrada" Then
+
+                PassData1 = "CFDI Nota de crédito"
+                IMPRIMIR_CFDI_40(Fg(Fg.Row, 1), "NOTA DE CREDITO")
+            Else
+                GEN_IMPRIMIR_TICKET(TIPO_VENTA_LOCAL, LETRA_VENTA, Fg(Fg.Row, 1), "FrmTPV", CDec(Fg(Fg.Row, 16)))
+            End If
+
+        Catch ex As Exception
+            BITACORATPV("210. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("210. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+
+    Private Sub BarTimbrar_Click(sender As Object, e As ClickEventArgs) Handles BarTimbrar.Click
+        Dim CLAVE As String, RFC As String
+        Dim d1 As DateTime = F1.Value
+        Dim FECHA_CERT As String = d1.ToString("yyyy/MM/ddTHH:mm:ss")
+
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT F.CAN_TOT, F.IMP_TOT1, F.IMP_TOT2, F.IMP_TOT3, F.IMP_TOT4, F.IMPORTE, CVE_CLPV, C.NOMBRE,
+                    C.RFC, CODIGO, REG_FISC, M.CVE_MONED AS MONEDA, ISNULL(TIPCAMB,0) AS TCAMB, F.USO_CFDI, F.METODODEPAGO, F.FORMADEPAGOSAT AS FORMAPAGO
+                    FROM FACTD" & Empresa & " F 
+                    LEFT JOIN CLIE" & Empresa & " C ON C.CLAVE = F.CVE_CLPV
+                    LEFT JOIN MONED" & Empresa & " M ON M.NUM_MONED = F.NUM_MONED
+                    WHERE CVE_DOC = '" & Fg(Fg.Row, 1) & "'"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    If dr.Read Then
+
+                        CLAVE = dr("CVE_CLPV")
+                        RFC = dr("RFC")
+                        CP_ASEGURAMEDAMBIENTE = dr("CODIGO")
+                        REG_FISC = dr("REG_FISC")
+                        USO_CFDI = dr("USO_CFDI")
+                        MONEDA = dr("MONEDA")
+                        TIPOCAMBIO = dr("TCAMB")
+                        If TIPOCAMBIO = 0 Then TIPOCAMBIO = 1
+                        METODODEPAGO = dr("METODODEPAGO")
+
+                        FORMAPAGO = dr("FORMAPAGO")
+
+
+                        TimbrarDigiBoxNC(Fg(Fg.Row, 1), "", dr("CAN_TOT"), dr("IMP_TOT1"), dr("IMP_TOT2"), dr("IMP_TOT3"), dr("IMP_TOT4"),
+                                         dr("IMPORTE"), CLAVE, dr("NOMBRE"), FECHA_CERT, RFC, dr("CODIGO"), TIPOCAMBIO)
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            BITACORATPV("650. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+        End Try
+    End Sub
+
+    Private Sub TimbrarDigiBoxNC(FCVE_DOC As String, FDOC_ENLAZADO As String, FCAN_TOT As Decimal, FIMP_TOT1 As Decimal,
+                                 FIMP_TOT2 As Decimal, FIMP_TOT3 As Decimal, FIMP_TOT4 As Decimal, FIMPORTE As Decimal,
+                                 FCLIENTE As String, FNOMBRE As String, BFECHA As String, BRFC_CTE As String, BCP_CTE As String, FTIPOCAMBIO As Decimal)
+
+        Dim USUAARIO_TIMB As String, PASS_TIMB As String, TimbreOK As Boolean = False
+        Dim DETEC_ERROR_VIOLATION_KEY As Boolean, UUID_TIMBRADO As String
+        Dim FECHA_T1 As DateTime
+        Dim d1 As DateTime = F1.Value
+        Dim FECHA_T2 As String '= d1.ToString("yyyy/MM/ddTHH:mm:ss")
+
+
+        If Fg(Fg.Row, 6) = "Timbrada" Then
+            MsgBox("Documento ya timbrado verifique por favor")
+            Return
+        End If
+
+        Me.Cursor = Cursors.WaitCursor
+
+        _c = New Comprobante()
+
+
+        LETRA_VENTA = GET_ONLY_LETTER(FCVE_DOC)
+        FOLIO_VENTA = GetNumeric(FCVE_DOC)
+
+        GET_PARAM_CFDI("E", BFECHA, LETRA_VENTA, FOLIO_VENTA, REG_FISC, USO_CFDI, MONEDA, METODODEPAGO, FORMAPAGO, FNOMBRE, BRFC_CTE, BCP_CTE, FTIPOCAMBIO)
+
+        If Not CARGAR_CONCEPTOS_NC(FCVE_DOC) Then
+            MsgBox("No se encontraron partidas verifique por favor")
+            Return
+        End If
+
+        AGREGA_CFDIRELACIONADOS(FCVE_DOC)
+
+        Try
+            Dim aCORREOS(0) As String
+            Dim RutaXML_NO_TIMBRADO As String = gRutaXML_NO_TIMBRADO & "\" & EMISORRFC & "_NC_" & FCVE_DOC & ".xml"
+            Dim RutaXML_TIMBRADO As String = gRutaXML_TIMBRADO & "\" & EMISORRFC & "_NC_" & FCVE_DOC & ".xml"
+            Dim rutaPFX As String = gRutaPFX
+            Dim rutaCertificado As String = gRutaCertificado
+            Dim rutaPDF As String = gRutaXML_TIMBRADO & "\" & EMISORRFC & "_NC_" & FCVE_DOC & ".pdf"
+            Dim errorC As CError = _c.EsInfoCorrecta()
+
+            If TIMBRADO_DEMO = "Si" Then
+                USUAARIO_TIMB = "demo2"
+                PASS_TIMB = "123456789"
+            Else
+                USUAARIO_TIMB = gUSUARIO_PAC
+                PASS_TIMB = gPASS_PAC
+            End If
+            Var8 = ""
+            Try
+                If File.Exists(RutaXML_NO_TIMBRADO) = True Then
+                    File.Delete(RutaXML_NO_TIMBRADO)
+                End If
+                If File.Exists(RutaXML_TIMBRADO) = True Then
+                    File.Delete(RutaXML_TIMBRADO)
+                End If
+                If File.Exists(rutaPDF) = True Then
+                    File.Delete(rutaPDF)
+                End If
+
+
+                'Dim userDesktop = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
+                'Dim fullPath = Path.Combine(userDesktop, RutaXML_NO_TIMBRADO)
+
+                If Not Directory.Exists(gRutaXML_TIMBRADO) Then
+                    Directory.CreateDirectory(gRutaXML_TIMBRADO)
+                End If
+
+            Catch ex As Exception
+            End Try
+
+            If Not File.Exists(rutaPFX) Then
+                MsgBox("No se logro cargar el archivo key " & rutaPFX & ", verifique por favor")
+                Return
+            End If
+
+            If Not File.Exists(rutaCertificado) Then
+                MsgBox("No se logro cargar el certificado " & rutaCertificado & ", verifique por favor")
+                Return
+            End If
+
+            Var46 = "NOCERTIFICADO"
+
+
+            Dim xml As XmlDocument = GenerarXML.ObtenerXML(_c, rutaPFX, gContraPFX, rutaCertificado)
+            xml.Save(RutaXML_NO_TIMBRADO)
+
+            If Timbrar.TimbrarDIGIBOX(RutaXML_NO_TIMBRADO, RutaXML_TIMBRADO, USUAARIO_TIMB, PASS_TIMB) Then
+                TimbreOK = True
+
+                Var7 = "" : Var8 = "" : Var9 = "" : Var10 = "" : Var11 = "" : Var12 = "" : Var13 = "" : Var14 = "" : Var15 = ""
+                UUID_TIMBRADO = BUSCAR_CAMPOS_CFDI40(RutaXML_TIMBRADO)
+                Try
+                    Var7 = Var10.Substring(8, 2) & "/" & Var10.Substring(5, 2) & "/" & Var10.Substring(0, 4) & " " & Var10.Substring(11, Var10.Length - 11)
+                    Var8 = Var10.Substring(0, 4) & Var10.Substring(5, 2) & Var10.Substring(8, 2) & " " & Var10.Substring(11, Var10.Length - 11)
+                    Dim oDate1 As DateTime = DateTime.ParseExact(Var7, "dd/MM/yyyy HH:mm:ss", Nothing)
+
+                    FECHA_T1 = oDate1
+                    FECHA_T2 = Var8
+
+                Catch ex As Exception
+                    MsgBox("100. " & ex.Message & vbNewLine & "ex.StackTrace: " & ex.StackTrace)
+                    BITACORACFDI("10. ex.Message " & ex.Message & vbNewLine & "" & ex.StackTrace)
+                End Try
+
+                If Var10.Trim.Length < 10 Then
+                    FECHA_T2 = d1.ToString("yyyy/MM/ddTHH:mm:ss")
+                End If
+                'Var9 = NO_CERTIFICADO
+                'Var10 = FECHA_TIMBRADO
+                'Var11 = FECHA_EXP
+                'Var12 = SELLO_SAT
+                'Var13 = NO_CERTIFICADO_SAT
+                'Var14 = SELLO_CFD
+                'Var15 = RfcProvCertif
+
+                If Not Valida_Conexion() Then
+                End If
+
+
+                SQL = "INSERT INTO CFDI (FACTURA, TDOC, DOCUMENT, DOCUMENT2, VERSION, SERIE, FECHA_CERT, XML, TIMBRADO, USUARIO, 
+                        CLIENTE,SUBTOTAL, RETENCION, IVA, IMPORTE, USO_CFDI, MONEDA, METODODEPAGO, FORMADEPAGOSAT, FECHAELAB, UUID, 
+                        NO_CERTIFICADO, SELLO_SAT, SELLO_CFD, NO_CERTIFICADO_SAT, RFCPROVCERTIF, UUID_CFDI, FECHA_TIMBRADO, FECHA_CFDI) 
+                        VALUES (
+                        @FACTURA, @TDOC, @DOCUMENT, @DOCUMENT2, @VERSION, @SERIE, @FECHA_CERT, @XML, @TIMBRADO, @USUARIO, @CLIENTE,
+                        @SUBTOTAL, @RETENCION, @IVA, @IMPORTE, @USO_CFDI, @MONEDA, @METODODEPAGO, @FORMADEPAGOSAT, GETDATE(), NEWID(), 
+                        @NO_CERTIFICADO, @SELLO_SAT, @SELLO_CFD, @NO_CERTIFICADO_SAT, @RFCPROVCERTIF, @UUID_CFDI, @FECHA_TIMBRADO, @FECHA_CFDI)"
+
+                For k = 1 To 5
+                    Try
+                        Using cmd As SqlCommand = cnSAE.CreateCommand
+                            cmd.CommandText = SQL
+                            cmd.Parameters.Add("@FACTURA", SqlDbType.VarChar).Value = FCVE_DOC
+                            cmd.Parameters.Add("@TDOC", SqlDbType.VarChar).Value = "D"
+                            cmd.Parameters.Add("@DOCUMENT", SqlDbType.VarChar).Value = "@"
+                            cmd.Parameters.Add("@DOCUMENT2", SqlDbType.VarChar).Value = "@"
+                            cmd.Parameters.Add("@VERSION", SqlDbType.VarChar).Value = "4.0"
+                            cmd.Parameters.Add("@SERIE", SqlDbType.VarChar).Value = LETRA_VENTA
+                            cmd.Parameters.Add("@FECHA_CERT", SqlDbType.VarChar).Value = Var10
+                            cmd.Parameters.Add("@XML", SqlDbType.VarChar).Value = CFDI_XML_DIGIBOX
+                            cmd.Parameters.Add("@TIMBRADO", SqlDbType.VarChar).Value = "S"
+                            cmd.Parameters.Add("@USUARIO", SqlDbType.VarChar).Value = USER_GRUPOCE
+                            cmd.Parameters.Add("@CLIENTE", SqlDbType.VarChar).Value = FCLIENTE
+                            cmd.Parameters.Add("@SUBTOTAL", SqlDbType.Float).Value = Math.Round(FCAN_TOT, 6)
+                            cmd.Parameters.Add("@RETENCION", SqlDbType.Float).Value = Math.Round(FIMP_TOT3, 6)
+                            cmd.Parameters.Add("@IVA", SqlDbType.Float).Value = Math.Round(FIMP_TOT4, 6)
+                            cmd.Parameters.Add("@IMPORTE", SqlDbType.Float).Value = Math.Round(FIMPORTE, 6)
+                            cmd.Parameters.Add("@USO_CFDI", SqlDbType.VarChar).Value = USO_CFDI
+                            cmd.Parameters.Add("@METODODEPAGO", SqlDbType.VarChar).Value = METODODEPAGO
+                            cmd.Parameters.Add("@FORMADEPAGOSAT", SqlDbType.VarChar).Value = FORMAPAGO
+                            cmd.Parameters.Add("@MONEDA", SqlDbType.VarChar).Value = MONEDA
+                            cmd.Parameters.Add("@NO_CERTIFICADO", SqlDbType.VarChar).Value = Var9
+                            cmd.Parameters.Add("@SELLO_SAT", SqlDbType.VarChar).Value = Var12
+                            cmd.Parameters.Add("@SELLO_CFD", SqlDbType.VarChar).Value = Var14
+                            cmd.Parameters.Add("@NO_CERTIFICADO_SAT", SqlDbType.VarChar).Value = Var13
+                            cmd.Parameters.Add("@RFCPROVCERTIF", SqlDbType.VarChar).Value = Var15
+                            cmd.Parameters.Add("@UUID_CFDI", SqlDbType.VarChar).Value = UUID_TIMBRADO
+                            cmd.Parameters.Add("@FECHA_TIMBRADO", SqlDbType.VarChar).Value = Var10
+                            cmd.Parameters.Add("@FECHA_CFDI", SqlDbType.DateTime).Value = FECHA_T1
+                            returnValue = cmd.ExecuteNonQuery().ToString
+                            If returnValue IsNot Nothing Then
+                                If returnValue = "1" Then
+                                End If
+                            End If
+
+                        End Using
+                    Catch ex As SqlException
+                        ' Log the original exception here
+                        For Each sqlError As SqlError In ex.Errors
+                            Debug.Print(sqlError.Number & ", " & sqlError.ToString)
+                            Select Case sqlError.Number
+                                Case 207 ' 207 = InvalidColumn
+                                    'do your Stuff here
+                                    Exit Select
+                                Case 547 ' 547 = (Foreign) Key violation
+                                    'do your Stuff here
+                                    DETEC_ERROR_VIOLATION_KEY = True
+                                    Exit Select
+                                Case 2601, 2627 ' 2601 = (Primary) key violation
+                                    'do your Stuff here
+                                    DETEC_ERROR_VIOLATION_KEY = True
+                                    Exit Select
+                                Case 3621
+                                    'The statement has been terminated.
+                                Case Else                        'do your Stuff here
+                                    Exit Select
+                            End Select
+                        Next
+                    Catch ex As Exception
+                        BITACORATPV("1740. " & ex.Message & vbNewLine & ex.StackTrace)
+                        MsgBox("10. ex.Message " & ex.Message & vbNewLine & "" & ex.StackTrace)
+                    End Try
+                    If Not Valida_Conexion() Then
+                    End If
+
+                Next
+                Var8 = ""
+
+                SQL = "UPDATE FACTD" & Empresa & " SET ESCFD = 'T' WHERE CVE_DOC = '" & FCVE_DOC & "'"
+                ReturnBool = EXECUTE_QUERY_NET(SQL)
+
+
+                MsgBox("Documento timbrado")
+
+                PassData1 = "DEVOLUCION CFDI"
+                IMPRIMIR_CFDI_DIRECTO(FCVE_DOC, "PDF", "", EMISORRFC)
+
+            Else
+                MsgBox("!!! Documento no timbrado !!!")
+            End If
+        Catch ex As Exception
+            BITACORATPV("970. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("970. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+        Me.Cursor = Cursors.Default
+
+
+    End Sub
+    Sub AGREGA_CFDIRELACIONADOS(FCVE_DOC As String)
+        Dim TIPO_REL As String = ""
+        Dim _cfdiRelacionados As New CfdiRelacionados
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT UUID, TIP_REL FROM CFDI_REL" & Empresa & " WHERE CVE_DOC = '" & FCVE_DOC & "'"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+                        TIPO_REL = dr("TIP_REL")
+                        Dim c As New CfdiRelacionado With {.UUID = dr("UUID")}
+                        _cfdiRelacionados.CfdiRelacionado.Add(c)
+                    End While
+                End Using
+                _cfdiRelacionados.TipoRelacion = TIPO_REL
+                _c.CfdiRelacionados = _cfdiRelacionados
+            End Using
+        Catch ex As Exception
+            BITACORACFDI("850. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("850. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+    Sub GET_PARAM_CFDI(FTIPO_COMPROBANTE As String, FECHA As String, FSERIE As String, FFOLIO As Long, FREGIMEN_FISCAL As String, FUSO_CFDI As String, FMONEDA As String,
+                       FMETODODEPAGO As String, FFORMAPAGO As String, FNOMBRE As String, FRFC As String, FCP As String, FTTIPOCAMBIO As Decimal)
+
+        Dim CALLE As String, NUMEXT As String, NUMINT As String, COLONIA As String, LOCALIDAD As String, CP As String, ESTADO As String
+        Dim PAIS As String, MUNICIPIO As String, RAZONSOCIALEMISOR As String = "", LUGAREXPEDICION As String = ""
+        Dim EMISOR_REGIMEN_FISCAL As String = "", CORREO1 As String, CORREO2 As String
+
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = "SELECT * FROM CFDI_CFG"
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    If dr.Read Then
+
+                        gUSUARIO_PAC = dr("USUARIO")
+                        gPASS_PAC = Desencriptar(dr("PASS"))
+                        '0 - NO 1 - SI
+                        If dr.ReadNullAsEmptyInteger("TIMBRADO_DEMO") = 0 Then
+                            TIMBRADO_DEMO = "No"
+                            TIMBRADO_SAT = "No"
+                        Else
+                            TIMBRADO_DEMO = "Si"
+                            TIMBRADO_SAT = "Si"
+                        End If
+
+                        If CP_IMPRIME_IMPORTES Then
+                            'CON PORCIOS CARAJO
+                            gRutaXML_TIMBRADO = dr.ReadNullAsEmptyString("RUTA_XML_TIMBRADO_CONPRECIOS")
+                            gRutaXML_NO_TIMBRADO = dr.ReadNullAsEmptyString("RUTA_XML_NOTIMBRADO_CONPRECIOS")
+                        Else
+                            gRutaXML_TIMBRADO = dr.ReadNullAsEmptyString("RUTA_XML_TIMBRADO")
+                            gRutaXML_NO_TIMBRADO = dr.ReadNullAsEmptyString("RUTA_XML_NOTIMBRADO")
+                        End If
+
+                        Try
+                            If gRutaXML_TIMBRADO.Trim.Length = 0 Then
+                                gRutaXML_TIMBRADO = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+                            End If
+                            If gRutaXML_NO_TIMBRADO.Trim.Length = 0 Then
+                                gRutaXML_NO_TIMBRADO = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+                            End If
+                        Catch ex As Exception
+
+                        End Try
+
+                        gRutaPFX = dr("FILE_PFX")
+                        gContraPFX = Desencriptar(dr("PASS_PFX").ToString)  'contrasena del certificado
+                        gRutaCertificado = dr("FILE_CER")
+
+                        CALLE = dr.ReadNullAsEmptyString("CALLE")
+                        NUMEXT = dr.ReadNullAsEmptyString("NUMEXT")
+                        NUMINT = dr.ReadNullAsEmptyString("NUMINT")
+                        COLONIA = dr.ReadNullAsEmptyString("COLONIA")
+                        LOCALIDAD = dr.ReadNullAsEmptyString("LOCALIDAD")
+                        CP = dr.ReadNullAsEmptyString("CP")
+                        ESTADO = dr.ReadNullAsEmptyString("ESTADO")
+                        MUNICIPIO = dr.ReadNullAsEmptyString("MUNICIPIO")
+                        PAIS = dr.ReadNullAsEmptyString("PAIS")
+                        EMISORRFC = dr("EMISOR_RFC")
+                        RAZONSOCIALEMISOR = dr("EMISOR_RAZON_SOCIAL")
+
+                        LUGAREXPEDICION = dr("EMISOR_LUGAR_EXPEDICION")
+                        EMISOR_REGIMEN_FISCAL = dr("EMISOR_REGIMEN_FISCAL")
+                        CORREO1 = dr.ReadNullAsEmptyString("CORREO1")
+                        CORREO2 = dr.ReadNullAsEmptyString("CORREO2")
+                        FTP_CFDI_DEV = dr.ReadNullAsEmptyString("FTODEV")
+                    End If
+                End Using
+            End Using
+
+            Dim d1 As DateTime = Now
+            Dim FECHA_CERT As String = d1.ToString("yyyy/MM/ddTHH:mm:ss")
+
+            _c.Emisor.Nombre = RAZONSOCIALEMISOR
+            _c.Emisor.Rfc = EMISORRFC
+            _c.LugarExpedicion = LUGAREXPEDICION
+            _c.Fecha = FECHA_CERT
+            _c.Serie = LETRA_VENTA
+            _c.Folio = FOLIO_VENTA
+            _c.Emisor.RegimenFiscal = EMISOR_REGIMEN_FISCAL
+
+            'Moneda="MXN" TipoCambio="1"
+
+            _c.TipoDeComprobante = FTIPO_COMPROBANTE
+            _c.Moneda = FMONEDA
+            If FMONEDA = "MXN" Then
+                _c.TipoCambio = "1"
+            Else
+                _c.TipoCambio = FTTIPOCAMBIO
+            End If
+            _c.MetodoPago = FMETODODEPAGO
+            _c.FormaPago = FFORMAPAGO
+
+            _c.Exportacion = "01"
+
+            _c.Receptor.Nombre = FNOMBRE
+            _c.Receptor.Rfc = FRFC
+
+            _c.Receptor.DomicilioFiscalReceptor = FCP
+            _c.Receptor.RegimenFiscalReceptor = FREGIMEN_FISCAL
+            _c.Receptor.UsoCFDI = USO_CFDI
+
+
+        Catch ex As Exception
+            BITACORATPV("1000. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("1000. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
+    Private Function CARGAR_CONCEPTOS_NC(ByVal FCVE_DOC As String) As Boolean
+
+        Dim DESC1 As Decimal, PRECIO As Decimal, IMPU1 As Decimal, IMPU2 As Decimal, IMPU3 As Decimal
+        Dim IMPU4 As Decimal, CVE_PRODSERV As String, CVE_UNIDAD As String, DESCR As String, UNI_MED As String
+        Dim q As Integer = 0, ObjetoImp As String
+
+        Try
+            SQL = "SELECT P.CVE_ART, P.CANT, P.PREC, DESC1, ISNULL(DESCR_ART,'') AS DES, UNI_MED, P.IMPU1, P.IMPU2, 
+                P.IMPU3, P.IMPU4, P.TOT_PARTIDA, I.CVE_PRODSERV, I.CVE_UNIDAD
+                FROM PAR_FACTD" & Empresa & " P
+                LEFT JOIN INVE" & Empresa & " I ON I.CVE_ART = P.CVE_ART
+                LEFT JOIN IMPU" & Empresa & " T ON T.CVE_ESQIMPU = I.CVE_ESQIMPU
+                WHERE CVE_DOC = '" & FCVE_DOC & "'"
+
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    While dr.Read
+                        DESCR = dr("DES")
+                        UNI_MED = dr.ReadNullAsEmptyString("UNI_MED")
+                        IMPU1 = dr("IMPU1")
+                        IMPU2 = dr("IMPU2")
+                        IMPU3 = dr("IMPU3")
+                        IMPU4 = dr("IMPU4")
+                        CVE_PRODSERV = dr.ReadNullAsEmptyString("CVE_PRODSERV")
+                        CVE_UNIDAD = dr.ReadNullAsEmptyString("CVE_UNIDAD")
+
+                        DESC1 = dr("DESC1")
+                        PRECIO = dr("PREC")
+
+                        If IMPU1 = 0 And IMPU2 = 0 And IMPU3 = 0 And IMPU4 = 0 Then
+                            ObjetoImp = "01"
+                        Else
+                            ObjetoImp = "02"
+                        End If
+
+                        Dim c As New Concepto With {
+                                .Cantidad = dr("CANT"),
+                                .ClaveProdServ = CVE_PRODSERV,
+                                .ClaveUnidad = CVE_UNIDAD,
+                                .Descripcion = DESCR,
+                                .Descuento = DESC1,
+                                .Importe = dr("TOT_PARTIDA"),
+                                .NoIdentificacion = dr("CVE_ART"),
+                                .Unidad = UNI_MED,
+                                .ValorUnitario = PRECIO,
+                                .Impuestos = GetImpuestosConcepto(PRECIO, 1, DESC1, IMPU1, IMPU2, IMPU3, IMPU4),
+                                .ObjetoImp = ObjetoImp}
+
+                        _c.Conceptos.Concepto.Add(c)
+                        q += 1
+                    End While
+                End Using
+            End Using
+
+            If q > 0 Then
+                CalculaTotales()
+            End If
+
+        Catch ex As Exception
+            MsgBox("1745. ex.Message " & ex.Message & vbNewLine & "" & ex.StackTrace)
+            BITACORATPV("1745. ex.Message " & ex.Message & vbNewLine & "" & ex.StackTrace)
+        End Try
+
+        If q = 0 Then
+            Return False
+        Else
+            Return True
+        End If
+
+    End Function
+    Private Function GetImpuestosConcepto(FPRECIO As Decimal, FCANT As Decimal, FDESC As Decimal,
+                                          FIMPU1 As Decimal, FIMPU2 As Decimal, FIMPU3 As Decimal, FIMPU4 As Decimal) As ImpuestosC
+        Dim impuesto As New ImpuestosC()
+        Try
+            If FIMPU1 > 0 Then
+                FIMPU1 /= 100
+                impuesto.Traslados.Add(New TrasladoC() With {.TasaOCuota = FIMPU1, .Base = (FPRECIO * FCANT) - FDESC, .Impuesto = "002", .Importe = Math.Round(((FPRECIO * FCANT) - FDESC) * FIMPU1, 2), .TipoFactor = "Tasa"})
+            End If
+            If FIMPU2 < 0 Then
+                FIMPU2 = Math.Abs(FIMPU2)
+                FIMPU2 /= 100
+                impuesto.Retenciones.Add(New RetencionC() With {.TasaOCuota = FIMPU2, .Base = (FPRECIO * FCANT) - FDESC, .Impuesto = "002", .Importe = Math.Round(((FPRECIO * FCANT) - FDESC) * FIMPU2, 2), .TipoFactor = "Tasa"})
+            End If
+            If FIMPU3 < 0 Then
+                FIMPU3 = Math.Abs(FIMPU3)
+                FIMPU3 /= 100
+                impuesto.Retenciones.Add(New RetencionC() With {.TasaOCuota = FIMPU3, .Base = (FPRECIO * FCANT) - FDESC, .Impuesto = "002", .Importe = Math.Round(((FPRECIO * FCANT) - FDESC) * FIMPU3, 2), .TipoFactor = "Tasa"})
+            End If
+            If FIMPU4 > 0 Then
+                FIMPU4 /= 100
+                impuesto.Traslados.Add(New TrasladoC() With {.TasaOCuota = FIMPU4, .Base = (FPRECIO * FCANT) - FDESC, .Impuesto = "002", .Importe = Math.Round(((FPRECIO * FCANT) - FDESC) * FIMPU4, 2), .TipoFactor = "Tasa"})
+            End If
+        Catch ex As Exception
+            BITACORATPV("1750. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("1750. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        Return impuesto
+
+    End Function
+    Private Sub CalculaTotales()
+        _c.Impuestos = GetImpuestos(_c.Conceptos.Concepto)
+        Dim subtotal As Decimal = 0D
+        Dim descuento As Decimal = 0D
+
+        For Each c As Concepto In _c.Conceptos.Concepto
+            subtotal += subtotal + c.Importe
+            descuento = c.Descuento
+        Next
+
+        _c.SubTotal = subtotal
+        _c.Descuento = descuento
+        _c.Total = subtotal - _c.Impuestos.TotalImpuestosRetenidos + _c.Impuestos.TotalImpuestosTrasladados
+        _c.TotalLetra = New Numalet().ToCustomString(_c.Total)
+
+    End Sub
+    Private Function GetImpuestos(ByVal conceptos As List(Of Concepto)) As Impuestos
+        Dim index As Integer
+        Dim traslado As New Traslado()
+        Dim retencion As New Retencion()
+        Dim traslados As New List(Of Traslado)()
+
+        Dim retenciones As New List(Of Retencion)()
+        Dim totalImpuestosRetenidos As Decimal = 0
+        Dim totalImpuestosTrasladados As Decimal = 0
+        Dim impuestos As New Impuestos()
+
+        For Each c As Concepto In conceptos
+            For Each t As TrasladoC In c.Impuestos.Traslados
+                If (traslados.Exists(Function(x) (x.Impuesto = t.Impuesto) AndAlso (x.TasaOCuota = t.TasaOCuota))) Then
+                    index = traslados.FindIndex(Function(x) x.Impuesto = t.Impuesto)
+                    traslados(index).Importe = traslados(index).Importe + t.Importe
+                Else
+                    traslado = New Traslado With {
+                        .Importe = t.Importe,
+                        .Impuesto = t.Impuesto,
+                        .TasaOCuota = t.TasaOCuota,
+                        .TipoFactor = t.TipoFactor,
+                        .Base = t.Base
+                    }
+                    traslados.Add(traslado)
+                End If
+            Next
+
+            For Each r As RetencionC In c.Impuestos.Retenciones
+                If (retenciones.Exists(Function(x) (x.Impuesto = r.Impuesto))) Then
+                    index = traslados.FindIndex(Function(x) x.Impuesto = r.Impuesto)
+                    retenciones(index).Importe = retenciones(index).Importe + r.Importe
+                Else
+                    retencion = New Retencion With {
+                        .Importe = r.Importe,
+                        .Impuesto = r.Impuesto
+                    }
+
+                    retenciones.Add(retencion)
+                End If
+            Next
+        Next
+
+        For Each r As Retencion In retenciones
+            totalImpuestosRetenidos += r.Importe
+        Next
+
+        For Each t As Traslado In traslados
+            totalImpuestosTrasladados += t.Importe
+        Next
+
+        impuestos.TotalImpuestosRetenidos = totalImpuestosRetenidos
+        impuestos.TotalImpuestosTrasladados = totalImpuestosTrasladados
+        impuestos.Traslados = traslados
+        impuestos.Retenciones = retenciones
+        Return impuestos
+    End Function
+
+    Private Sub BarCancNC_Click(sender As Object, e As ClickEventArgs) Handles BarCancNC.Click
+        Try
+
+            Var2 = Fg(Fg.Row, 1) ' Fg(Fg.Row, 2) 'FACTURA
+            Var3 = "N"  'CATA PORTE 1
+            Var4 = "N"  'CATA PORTE 2
+            Var10 = "4.0" 'VERSION
+
+            Var5 = ""
+
+            FrmCFDICancFAC.ShowDialog()
+            If Var5 = "ok" Then
+                Me.Close()
+            End If
+        Catch ex As Exception
+            MsgBox("14. " & ex.Message & vbNewLine & ex.StackTrace)
+            BITACORACFDI("14. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
     End Sub
 End Class

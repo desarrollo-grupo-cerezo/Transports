@@ -446,8 +446,9 @@ Public Class frmUnidadesAE
                         tPLACAS_MEX.Text = dr.ReadNullAsEmptyString("PLACAS_MEX")
                         tEJES.Value = dr.ReadNullAsEmptyInteger("EJE").ToString
                         tSE_NO_SEG.Text = dr.ReadNullAsEmptyString("SE_NO_SEG")
-                        tSE_ASEGURADORA.Text = dr.ReadNullAsEmptyString("SE_ASEGURADORA")
-                        LtAseguradora.Text = BUSCA_CAT("Aseguradora", tSE_ASEGURADORA.Text)
+                        TSE_ASEGURADORA.Text = dr.ReadNullAsEmptyString("SE_ASEGURADORA")
+                        'LtAseguradora.Text = BUSCA_CAT("Aseguradora", tSE_ASEGURADORA.Text)
+                        TASEGURADORA.Text = BUSCA_CAT("Aseguradora", TSE_ASEGURADORA.Text)
 
                         tNUM_LLANTAS.Text = dr.ReadNullAsEmptyString("N_LLANTAS")
                         tLLANTAS_REF.Text = dr.ReadNullAsEmptyString("LL_REF")
@@ -1046,7 +1047,7 @@ Public Class frmUnidadesAE
             If cboPropietario.Items.Count > 0 Then
                 cboPropietario.SelectedIndex = 0
             End If
-            tSE_ASEGURADORA.Text = ""
+            TSE_ASEGURADORA.Text = ""
             tSE_TEL.Text = ""
             tSE_NO_SEG.Text = ""
             FVencSeg.Value = Now
@@ -1637,7 +1638,7 @@ Public Class frmUnidadesAE
             cmd.Parameters.Add("@OD_HOROMETRO", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(tOD_HOROMETRO.Text)
             cmd.Parameters.Add("@OD_HOROMETRO_MIN", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(tOD_HOROMETRO_MIN.Text)
             cmd.Parameters.Add("@CVE_PROP", SqlDbType.SmallInt).Value = CVE_PROP
-            cmd.Parameters.Add("@SE_ASEGURADORA", SqlDbType.VarChar).Value = tSE_ASEGURADORA.Text
+            cmd.Parameters.Add("@SE_ASEGURADORA", SqlDbType.VarChar).Value = TSE_ASEGURADORA.Text
             cmd.Parameters.Add("@SE_TEL", SqlDbType.VarChar).Value = tSE_TEL.Text
             cmd.Parameters.Add("@SE_NO_SEG", SqlDbType.VarChar).Value = tSE_NO_SEG.Text
             cmd.Parameters.Add("@SE_VENC", SqlDbType.Date).Value = FVencSeg.Value
@@ -1688,6 +1689,15 @@ Public Class frmUnidadesAE
 
                         GRABA_BITA(tCLAVE.Text, "", 0, "", MOTIVO_BAJA)
                     End If
+
+                    Try
+                        SQL = "UPDATE GCASEGURADORAS SET NOMBRE = '" & TASEGURADORA.Text & "', POLIZARESPCIVIL = '" & TPOLIZA_RESPCIVIL.Text & "', 
+                            ASEGURARESPCIVIL = '" & TASEGURA_RESPCIVIL.Text & "' WHERE RTRIM(LTRIM(CLAVE)) = '" & TSE_ASEGURADORA.Text & "'"
+                        ReturnExeQuery = EXECUTE_QUERY_NET(SQL)
+
+                    Catch ex As Exception
+                        Bitacora("56. ex.Message & vbNewLine & ex.StackTrace")
+                    End Try
 
                     MsgBox("El registro se grabo satisfactoriamente")
                     Me.Close()
@@ -1816,7 +1826,7 @@ Public Class frmUnidadesAE
             Var2 = "Tipo Unidad"
             Var3 = ""
             Var4 = "" : Var5 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 tUni.Text = Var4
                 LtTractor.Text = Var5
@@ -1858,7 +1868,7 @@ Public Class frmUnidadesAE
             Var2 = "Sucursal"
             Var4 = ""
             Var5 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             'Var4 = Fg(Fg.Row, 1) 'CLAVE
             'Var5 = Fg(Fg.Row, 2) 'NOMBRE
             tSuc.Text = Var4
@@ -1879,7 +1889,7 @@ Public Class frmUnidadesAE
             Var2 = "Operador"
             Var4 = ""
             Var5 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             'Var4 = Fg(Fg.Row, 1) 'CLAVE
             'Var5 = Fg(Fg.Row, 2) 'NOMBRE
             tCVE_OPER.Text = Var4
@@ -1900,7 +1910,7 @@ Public Class frmUnidadesAE
             Var2 = "Marca Unidad"
             Var4 = ""
             Var5 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             'Var4 = Fg(Fg.Row, 1) 'CLAVE
             'Var5 = Fg(Fg.Row, 2) 'NOMBRE
             tCVE_MARCA.Text = Var4
@@ -1921,7 +1931,7 @@ Public Class frmUnidadesAE
             Var2 = "Modelo"
             Var4 = ""
             Var5 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             'Var4 = Fg(Fg.Row, 1) 'CLAVE
             'Var5 = Fg(Fg.Row, 2) 'NOMBRE
             tCVE_MODELO.Text = Var4
@@ -1940,7 +1950,7 @@ Public Class frmUnidadesAE
         Try
             Var2 = "GCPRODUCTOS"
             Var4 = "" : Var5 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             tCVE_ART.Text = Var4
             L6.Text = Var5
             tCVE_TANQUE1.Focus()
@@ -1957,7 +1967,7 @@ Public Class frmUnidadesAE
             Var3 = ""
             Var4 = ""
             Var5 = ""
-            frmSelItem2.ShowDialog()
+            FrmSelItem2.ShowDialog()
 
             If tCVE_TANQUE2.Text = Var4 Then
                 MsgBox("Esta unidad ya s fue asignada verifique por favor")
@@ -1998,7 +2008,7 @@ Public Class frmUnidadesAE
             Var3 = ""
             Var4 = ""
             Var5 = ""
-            frmSelItem2.ShowDialog()
+            FrmSelItem2.ShowDialog()
 
             If tCVE_TANQUE1.Text = Var4 Then
                 MsgBox("Esta unidad ya s fue asignada verifique por favor")
@@ -2042,7 +2052,7 @@ Public Class frmUnidadesAE
             Var3 = ""
             Var4 = ""
             Var5 = ""
-            frmSelItem2.ShowDialog()
+            FrmSelItem2.ShowDialog()
 
             If tCVE_TANQUE1.Text = Var4 Then
                 MsgBox("Esta unidad ya s fue asignada verifique por favor")
@@ -2082,7 +2092,7 @@ Public Class frmUnidadesAE
             Var2 = "Grupo Unidades"
             Var4 = ""
             Var5 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             tCVE_GRUPO.Text = Var4
             L10.Text = Var5
 
@@ -2102,7 +2112,7 @@ Public Class frmUnidadesAE
             Var2 = "Placas Defa"
             Var4 = ""
             Var5 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             tPLACAS_DEF.Text = Var4
             L11.Text = Var5
 
@@ -2300,7 +2310,7 @@ Public Class frmUnidadesAE
             Me.Dispose()
 
             If OPEN_TAB("Unidades") Then
-                frmUnidades.DESPLEGAR()
+                FrmUnidades.DESPLEGAR()
             End If
         Catch ex As Exception
         End Try
@@ -2706,7 +2716,7 @@ Public Class frmUnidadesAE
             tLL1.Select()
             Var2 = "LlantasNoAsignadas"
             Var4 = "" : Var5 = "" : Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 If LLantaAsignada(Var4, 1) Then
                     Return
@@ -2767,7 +2777,7 @@ Public Class frmUnidadesAE
             tLL2.Select()
             Var2 = "LlantasNoAsignadas"
             Var4 = "" : Var5 = "" : Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 If LLantaAsignada(Var4, 2) Then
                     Return
@@ -2829,7 +2839,7 @@ Public Class frmUnidadesAE
             tLL3.Select()
             Var2 = "LlantasNoAsignadas"
             Var4 = "" : Var5 = "" : Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 If LLantaAsignada(Var4, 3) Then
                     Return
@@ -2893,7 +2903,7 @@ Public Class frmUnidadesAE
             tLL4.Select()
             Var2 = "LlantasNoAsignadas"
             Var4 = "" : Var5 = "" : Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 If LLantaAsignada(Var4, 4) Then
                     Return
@@ -2953,7 +2963,7 @@ Public Class frmUnidadesAE
             tLL5.Select()
             Var2 = "LlantasNoAsignadas"
             Var4 = "" : Var5 = "" : Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 If LLantaAsignada(Var4, 5) Then
                     Return
@@ -3014,7 +3024,7 @@ Public Class frmUnidadesAE
             tLL6.Select()
             Var2 = "LlantasNoAsignadas"
             Var4 = "" : Var5 = "" : Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 If LLantaAsignada(Var4, 6) Then
                     Return
@@ -3076,7 +3086,7 @@ Public Class frmUnidadesAE
             tLL7.Select()
             Var2 = "LlantasNoAsignadas"
             Var4 = "" : Var5 = "" : Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 If LLantaAsignada(Var4, 7) Then
                     Return
@@ -3138,7 +3148,7 @@ Public Class frmUnidadesAE
             tLL8.Select()
             Var2 = "LlantasNoAsignadas"
             Var4 = "" : Var5 = "" : Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 If LLantaAsignada(Var4, 8) Then
                     Return
@@ -3200,7 +3210,7 @@ Public Class frmUnidadesAE
             tLL9.Select()
             Var2 = "LlantasNoAsignadas"
             Var4 = "" : Var5 = "" : Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 If LLantaAsignada(Var4, 9) Then
                     Return
@@ -3262,7 +3272,7 @@ Public Class frmUnidadesAE
             tLL10.Select()
             Var2 = "LlantasNoAsignadas"
             Var4 = "" : Var5 = "" : Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 If LLantaAsignada(Var4, 10) Then
                     Return
@@ -3911,7 +3921,7 @@ Public Class frmUnidadesAE
             tLL11.Select()
             Var2 = "LlantasNoAsignadas"
             Var4 = "" : Var5 = "" : Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 If LLantaAsignada(Var4, 11) Then
                     Return
@@ -3933,7 +3943,7 @@ Public Class frmUnidadesAE
             tLL12.Select()
             Var2 = "LlantasNoAsignadas"
             Var4 = "" : Var5 = "" : Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 If LLantaAsignada(Var4, 12) Then
                     Return
@@ -4036,7 +4046,7 @@ Public Class frmUnidadesAE
             Var4 = ""
             Var5 = ""
             Var6 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             tOD_TARJ_IAVE.Text = Var4
             LtIave.Text = Var5
             LtVigencia.Text = Var6
@@ -4149,7 +4159,7 @@ Public Class frmUnidadesAE
         Try
             Var2 = "Nivel Combustible"
             Var4 = "" : Var5 = "" : Var6 = "" : Var7 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 'VAR4 = Fg(0, 1) = "Clave"
                 'VAR5 = Fg(0, 2) = "ID"
@@ -4190,7 +4200,7 @@ Public Class frmUnidadesAE
 
         Catch ex As Exception
             Bitacora("500. " & ex.Message & vbNewLine & ex.StackTrace)
-            msgbox("500. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("500. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
 
@@ -4198,7 +4208,7 @@ Public Class frmUnidadesAE
         Try
             Var2 = "Nivel Combustible"
             Var4 = "" : Var5 = "" : Var6 = "" : Var7 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 tNIVEL2.Tag = Var4
                 tNIVEL2.Text = Var5
@@ -4216,7 +4226,7 @@ Public Class frmUnidadesAE
         Try
             Var2 = "Nivel Combustible"
             Var4 = "" : Var5 = "" : Var6 = "" : Var7 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 tNIVEL3.Tag = Var4
                 tNIVEL3.Text = Var5
@@ -4277,7 +4287,7 @@ Public Class frmUnidadesAE
             If CLAVE > 0 Then
                 SQL = "SELECT CLAVEMONTE, CVE_TANQUE1, CVE_TANQUE2, CVE_DOLLY " &
                     "FROM GCUNIDADES " &
-                    "WHERE ISNULL(STATUS, 'A') = 'A' AND (CVE_TANQUE1 = " & CLAVE & " OR CVE_TANQUE2 = " & CLAVE & ")"
+                    "WHERE ISNULL(STATUS, 'A') = 'A' AND (CVE_TANQUE1 = '" & CLAVE & "' OR CVE_TANQUE2 = '" & CLAVE & "')"
                 cmd.Connection = cnSAE
                 cmd.CommandText = SQL
                 dr = cmd.ExecuteReader
@@ -4345,7 +4355,7 @@ Public Class frmUnidadesAE
 
         Catch ex As Exception
             Bitacora("500. " & ex.Message & vbNewLine & ex.StackTrace)
-            msgbox("500. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("500. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
 
@@ -4365,7 +4375,7 @@ Public Class frmUnidadesAE
 
         Catch ex As Exception
             Bitacora("500. " & ex.Message & vbNewLine & ex.StackTrace)
-            msgbox("500. " & ex.Message & vbNewLine & ex.StackTrace)
+            MsgBox("500. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
 
@@ -4521,7 +4531,7 @@ Public Class frmUnidadesAE
         Try
             Var2 = "TAQ"
             Var4 = "" : Var5 = "" : Var6 = "" : Var7 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 tCVE_TAQ.Text = Var4
                 LtTAQ.Text = Var7 & " Litros"
@@ -4564,7 +4574,7 @@ Public Class frmUnidadesAE
         Try
             Var2 = "Motor"
             Var4 = "" : Var5 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
                 tCVE_MOT.Text = Var4
                 LtMotor.Text = Var5
@@ -4609,10 +4619,10 @@ Public Class frmUnidadesAE
         Try
             Var2 = "Aseguradoras"
             Var4 = "" : Var5 = ""
-            frmSelItem.ShowDialog()
+            FrmSelItem.ShowDialog()
             If Var4.Trim.Length > 0 Then
-                tSE_ASEGURADORA.Text = Var4
-                LtAseguradora.Text = Var5
+                TSE_ASEGURADORA.Text = Var4
+                TASEGURADORA.Text = Var5
                 GET_ASEGURADORA(Var4)
                 Var2 = "" : Var4 = "" : Var5 = ""
                 tSE_NO_SEG.Focus()
@@ -4633,11 +4643,17 @@ Public Class frmUnidadesAE
                     cmd.CommandText = SQL
                     Using dr As SqlDataReader = cmd.ExecuteReader
                         If dr.Read Then
-                            LTPolizaRespCivil.Text = dr.ReadNullAsEmptyString("POLIZARESPCIVIL")
-                            LTAseguraRespCivil.Text = dr.ReadNullAsEmptyString("ASEGURARESPCIVIL")
+                            'LTPolizaRespCivil.Text = dr.ReadNullAsEmptyString("POLIZARESPCIVIL")
+                            'LTASEGURARESPCIVIL.Text = dr.ReadNullAsEmptyString("ASEGURARESPCIVIL")
+
+                            TPOLIZA_RESPCIVIL.Text = dr.ReadNullAsEmptyString("POLIZARESPCIVIL")
+                            TASEGURA_RESPCIVIL.Text = dr.ReadNullAsEmptyString("ASEGURARESPCIVIL")
+
                         Else
-                            LTPolizaRespCivil.Text = ""
-                            LTAseguraRespCivil.Text = ""
+                            'LTPolizaRespCivil.Text = ""
+                            'LTASEGURARESPCIVIL.Text = ""
+                            TPOLIZA_RESPCIVIL.Text = ""
+                            TASEGURA_RESPCIVIL.Text = ""
                         End If
                     End Using
                 End Using
@@ -4649,22 +4665,22 @@ Public Class frmUnidadesAE
         End Try
     End Sub
 
-    Private Sub tSE_ASEGURADORA_Validated(sender As Object, e As EventArgs) Handles tSE_ASEGURADORA.Validated
+    Private Sub tSE_ASEGURADORA_Validated(sender As Object, e As EventArgs) Handles TSE_ASEGURADORA.Validated
         Try
-            If tSE_ASEGURADORA.Text.Trim.Length > 0 Then
+            If TSE_ASEGURADORA.Text.Trim.Length > 0 Then
                 Dim DESCR As String
-                DESCR = BUSCA_CAT("Aseguradora", tSE_ASEGURADORA.Text)
+                DESCR = BUSCA_CAT("Aseguradora", TSE_ASEGURADORA.Text)
                 If DESCR <> "" Then
-                    LtAseguradora.Text = DESCR
-                    GET_ASEGURADORA(tSE_ASEGURADORA.Text)
+                    TASEGURADORA.Text = DESCR
+                    GET_ASEGURADORA(TSE_ASEGURADORA.Text)
                 Else
                     MsgBox("Aseguradora inexistente")
-                    tSE_ASEGURADORA.Text = ""
-                    LtAseguradora.Text = ""
+                    TSE_ASEGURADORA.Text = ""
+                    TASEGURADORA.Text = ""
                     tSE_NO_SEG.Select()
                 End If
             Else
-                LtAseguradora.Text = ""
+                TASEGURADORA.Text = ""
             End If
         Catch ex As Exception
             Bitacora("330. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -4783,41 +4799,5 @@ Public Class frmUnidadesAE
             End If
         Catch ex As Exception
         End Try
-    End Sub
-
-    Private Sub LL5_Click(sender As Object, e As EventArgs) Handles LL5.Click
-
-    End Sub
-
-    Private Sub LL11_Click(sender As Object, e As EventArgs) Handles LL11.Click
-
-    End Sub
-
-    Private Sub LL10_Click(sender As Object, e As EventArgs) Handles LL10.Click
-
-    End Sub
-
-    Private Sub LL9_Click(sender As Object, e As EventArgs) Handles LL9.Click
-
-    End Sub
-
-    Private Sub LL8_Click(sender As Object, e As EventArgs) Handles LL8.Click
-
-    End Sub
-
-    Private Sub LL7_Click(sender As Object, e As EventArgs) Handles LL7.Click
-
-    End Sub
-
-    Private Sub LL6_Click(sender As Object, e As EventArgs) Handles LL6.Click
-
-    End Sub
-
-    Private Sub LL12_Click(sender As Object, e As EventArgs) Handles LL12.Click
-
-    End Sub
-
-    Private Sub LL4_Click(sender As Object, e As EventArgs) Handles LL4.Click
-
     End Sub
 End Class

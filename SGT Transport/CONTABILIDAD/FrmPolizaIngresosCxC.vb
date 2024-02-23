@@ -386,7 +386,8 @@ Public Class FrmPolizaIngresosCxC
 
                             Fg.AddItem("" & vbTab & dr("FechaDocumento") & vbTab & dr("Documento") & vbTab & dr("TipoDocumento") & vbTab & dr("FechaViaje") & vbTab &
                                        dr("Viaje") & vbTab & dr("IdPoliza") & vbTab & dr("Orden") & vbTab & dr("TipoPoliza") & vbTab & dr("NoPolizaCuenta") & vbTab &
-                                       dr("ConceptoPolizaDepto") & vbTab & dr("DiaConceptoMov") & vbTab & dr("TipoCambio") & vbTab & IIf(dr("Orden") = "14", Math.Round(dr("TotalDebe"), 2), dr("Debe")) & vbTab & IIf(dr("Orden") = "14", Math.Round(dr("TotalHaber"), 2), dr("Haber")) & vbTab &
+                                       dr("ConceptoPolizaDepto") & vbTab & dr("DiaConceptoMov") & vbTab & dr("TipoCambio") & vbTab & IIf(dr("Orden") = "14", Math.Round(dr("TotalDebe"), 2), dr("Debe")) & vbTab &
+                                       IIf(dr("Orden") = "14", Math.Round(dr("TotalHaber"), 2), dr("Haber")) & vbTab &
                                        dr("CentroCostos") & vbTab & dr("Proyecto"))
 
                             If Convert.ToInt32(dr("Orden")) > 1 And Convert.ToInt32(dr("Orden")) < 14 And Convert.ToInt32(dr("SubOrden")) = 0 Then
@@ -438,11 +439,18 @@ Public Class FrmPolizaIngresosCxC
 
     Private Sub BarExcel_Click(sender As Object, e As ClickEventArgs) Handles BarExcel.Click
         Try
+            For k = 1 To Fg.Rows.Count - 1
+                If Fg(k, 9) = "FIN_PARTIDAS" Then
+                    Fg(k, 13) = ""
+                    Fg(k, 14) = ""
+                End If
+            Next
             Fg.AllowFiltering = True
             Fg.FilterDefinition = "<ColumnFilters><ColumnFilter ColumnIndex='6' ColumnName='Orden' DataType='System.String'><ConditionFilter AndConditions='True'><Condition Operator='DoesNotContain' Parameter='99' /></ConditionFilter></ColumnFilter></ColumnFilters>"
             EXPORTAR_EXCEL_TRANSPORT(Fg, TPOLIZA.Text, True)
             Fg.FilterDefinition = ""
             Fg.AllowFiltering = False
+            BarDesplegar_Click(Nothing, Nothing)
         Catch ex As Exception
             MsgBox("12. " & ex.Message & vbNewLine & ex.StackTrace)
             Bitacora("12. " & ex.Message & vbNewLine & ex.StackTrace)

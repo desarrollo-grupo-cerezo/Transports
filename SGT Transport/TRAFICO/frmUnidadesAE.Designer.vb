@@ -22,6 +22,9 @@ Partial Class frmUnidadesAE
         Me.components = New System.ComponentModel.Container()
         Dim Pag1 As C1.Win.C1Command.C1DockingTabPage
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmUnidadesAE))
+        Me.TPOLIZA_RESPCIVIL = New System.Windows.Forms.TextBox()
+        Me.TASEGURA_RESPCIVIL = New System.Windows.Forms.TextBox()
+        Me.TASEGURADORA = New System.Windows.Forms.TextBox()
         Me.TCTA_CON_DIESEL_SIVA = New System.Windows.Forms.TextBox()
         Me.Label131 = New System.Windows.Forms.Label()
         Me.BtnActivo = New C1.Win.C1Input.C1Button()
@@ -33,10 +36,8 @@ Partial Class frmUnidadesAE
         Me.LtRend = New System.Windows.Forms.Label()
         Me.CboRendimiento = New C1.Win.C1Input.C1ComboBox()
         Me.Label124 = New System.Windows.Forms.Label()
-        Me.LTAseguraRespCivil = New System.Windows.Forms.Label()
         Me.Label126 = New System.Windows.Forms.Label()
         Me.Label130 = New System.Windows.Forms.Label()
-        Me.LTPolizaRespCivil = New System.Windows.Forms.Label()
         Me.TANO_MODELO = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.LTSubTipoRem1 = New System.Windows.Forms.Label()
@@ -45,7 +46,6 @@ Partial Class frmUnidadesAE
         Me.Label22 = New System.Windows.Forms.Label()
         Me.TSubTipoRem1 = New System.Windows.Forms.TextBox()
         Me.BtnSubTipoRem1 = New System.Windows.Forms.Button()
-        Me.LtAseguradora = New System.Windows.Forms.Label()
         Me.BtnAseguradoras = New C1.Win.C1Input.C1Button()
         Me.tCUEN_CONT2 = New System.Windows.Forms.TextBox()
         Me.Label122 = New System.Windows.Forms.Label()
@@ -59,7 +59,7 @@ Partial Class frmUnidadesAE
         Me.tCVE_TAQ = New System.Windows.Forms.TextBox()
         Me.Label37 = New System.Windows.Forms.Label()
         Me.BtnTanque = New C1.Win.C1Input.C1Button()
-        Me.tSE_ASEGURADORA = New System.Windows.Forms.TextBox()
+        Me.TSE_ASEGURADORA = New System.Windows.Forms.TextBox()
         Me.tSE_NO_SEG = New System.Windows.Forms.TextBox()
         Me.Label52 = New System.Windows.Forms.Label()
         Me.Label32 = New System.Windows.Forms.Label()
@@ -571,6 +571,9 @@ Partial Class frmUnidadesAE
         '
         'Pag1
         '
+        Pag1.Controls.Add(Me.TPOLIZA_RESPCIVIL)
+        Pag1.Controls.Add(Me.TASEGURA_RESPCIVIL)
+        Pag1.Controls.Add(Me.TASEGURADORA)
         Pag1.Controls.Add(Me.TCTA_CON_DIESEL_SIVA)
         Pag1.Controls.Add(Me.Label131)
         Pag1.Controls.Add(Me.BtnActivo)
@@ -582,10 +585,8 @@ Partial Class frmUnidadesAE
         Pag1.Controls.Add(Me.LtRend)
         Pag1.Controls.Add(Me.CboRendimiento)
         Pag1.Controls.Add(Me.Label124)
-        Pag1.Controls.Add(Me.LTAseguraRespCivil)
         Pag1.Controls.Add(Me.Label126)
         Pag1.Controls.Add(Me.Label130)
-        Pag1.Controls.Add(Me.LTPolizaRespCivil)
         Pag1.Controls.Add(Me.TANO_MODELO)
         Pag1.Controls.Add(Me.Label6)
         Pag1.Controls.Add(Me.LTSubTipoRem1)
@@ -594,7 +595,6 @@ Partial Class frmUnidadesAE
         Pag1.Controls.Add(Me.Label22)
         Pag1.Controls.Add(Me.TSubTipoRem1)
         Pag1.Controls.Add(Me.BtnSubTipoRem1)
-        Pag1.Controls.Add(Me.LtAseguradora)
         Pag1.Controls.Add(Me.BtnAseguradoras)
         Pag1.Controls.Add(Me.tCUEN_CONT2)
         Pag1.Controls.Add(Me.Label122)
@@ -608,7 +608,7 @@ Partial Class frmUnidadesAE
         Pag1.Controls.Add(Me.tCVE_TAQ)
         Pag1.Controls.Add(Me.Label37)
         Pag1.Controls.Add(Me.BtnTanque)
-        Pag1.Controls.Add(Me.tSE_ASEGURADORA)
+        Pag1.Controls.Add(Me.TSE_ASEGURADORA)
         Pag1.Controls.Add(Me.tSE_NO_SEG)
         Pag1.Controls.Add(Me.Label52)
         Pag1.Controls.Add(Me.Label32)
@@ -652,24 +652,60 @@ Partial Class frmUnidadesAE
         Pag1.TabIndex = 0
         Pag1.Text = "Datos generales"
         '
+        'TPOLIZA_RESPCIVIL
+        '
+        Me.TPOLIZA_RESPCIVIL.AcceptsReturn = True
+        Me.TPOLIZA_RESPCIVIL.AcceptsTab = True
+        Me.TPOLIZA_RESPCIVIL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TPOLIZA_RESPCIVIL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TPOLIZA_RESPCIVIL.Location = New System.Drawing.Point(676, 162)
+        Me.TPOLIZA_RESPCIVIL.MaxLength = 28
+        Me.TPOLIZA_RESPCIVIL.Name = "TPOLIZA_RESPCIVIL"
+        Me.TPOLIZA_RESPCIVIL.Size = New System.Drawing.Size(197, 22)
+        Me.TPOLIZA_RESPCIVIL.TabIndex = 19
+        '
+        'TASEGURA_RESPCIVIL
+        '
+        Me.TASEGURA_RESPCIVIL.AcceptsReturn = True
+        Me.TASEGURA_RESPCIVIL.AcceptsTab = True
+        Me.TASEGURA_RESPCIVIL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TASEGURA_RESPCIVIL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TASEGURA_RESPCIVIL.Location = New System.Drawing.Point(677, 187)
+        Me.TASEGURA_RESPCIVIL.MaxLength = 28
+        Me.TASEGURA_RESPCIVIL.Name = "TASEGURA_RESPCIVIL"
+        Me.TASEGURA_RESPCIVIL.Size = New System.Drawing.Size(197, 22)
+        Me.TASEGURA_RESPCIVIL.TabIndex = 18
+        '
+        'TASEGURADORA
+        '
+        Me.TASEGURADORA.AcceptsReturn = True
+        Me.TASEGURADORA.AcceptsTab = True
+        Me.TASEGURADORA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TASEGURADORA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TASEGURADORA.Location = New System.Drawing.Point(676, 132)
+        Me.TASEGURADORA.MaxLength = 28
+        Me.TASEGURADORA.Name = "TASEGURADORA"
+        Me.TASEGURADORA.Size = New System.Drawing.Size(197, 22)
+        Me.TASEGURADORA.TabIndex = 17
+        '
         'TCTA_CON_DIESEL_SIVA
         '
         Me.TCTA_CON_DIESEL_SIVA.AcceptsReturn = True
         Me.TCTA_CON_DIESEL_SIVA.AcceptsTab = True
         Me.TCTA_CON_DIESEL_SIVA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCTA_CON_DIESEL_SIVA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCTA_CON_DIESEL_SIVA.Location = New System.Drawing.Point(676, 386)
+        Me.TCTA_CON_DIESEL_SIVA.Location = New System.Drawing.Point(676, 375)
         Me.TCTA_CON_DIESEL_SIVA.MaxLength = 28
         Me.TCTA_CON_DIESEL_SIVA.Name = "TCTA_CON_DIESEL_SIVA"
         Me.TCTA_CON_DIESEL_SIVA.Size = New System.Drawing.Size(197, 22)
-        Me.TCTA_CON_DIESEL_SIVA.TabIndex = 23
+        Me.TCTA_CON_DIESEL_SIVA.TabIndex = 26
         '
         'Label131
         '
         Me.Label131.AutoSize = True
         Me.Label131.BackColor = System.Drawing.Color.Transparent
         Me.Label131.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label131.Location = New System.Drawing.Point(482, 390)
+        Me.Label131.Location = New System.Drawing.Point(483, 378)
         Me.Label131.Name = "Label131"
         Me.Label131.Size = New System.Drawing.Size(188, 16)
         Me.Label131.TabIndex = 414
@@ -702,22 +738,22 @@ Partial Class frmUnidadesAE
         Me.TCTA_CON_DIESEL.AcceptsTab = True
         Me.TCTA_CON_DIESEL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCTA_CON_DIESEL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCTA_CON_DIESEL.Location = New System.Drawing.Point(676, 358)
+        Me.TCTA_CON_DIESEL.Location = New System.Drawing.Point(676, 348)
         Me.TCTA_CON_DIESEL.MaxLength = 28
         Me.TCTA_CON_DIESEL.Name = "TCTA_CON_DIESEL"
         Me.TCTA_CON_DIESEL.Size = New System.Drawing.Size(197, 22)
-        Me.TCTA_CON_DIESEL.TabIndex = 22
+        Me.TCTA_CON_DIESEL.TabIndex = 25
         '
         'Label132
         '
         Me.Label132.AutoSize = True
         Me.Label132.BackColor = System.Drawing.Color.Transparent
         Me.Label132.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label132.Location = New System.Drawing.Point(526, 362)
+        Me.Label132.Location = New System.Drawing.Point(536, 349)
         Me.Label132.Name = "Label132"
-        Me.Label132.Size = New System.Drawing.Size(144, 16)
+        Me.Label132.Size = New System.Drawing.Size(135, 16)
         Me.Label132.TabIndex = 413
-        Me.Label132.Text = "Cuenta contable diesel"
+        Me.Label132.Text = "Cuenta contable O. T."
         '
         'TCUEN_CONT_VTA
         '
@@ -725,18 +761,18 @@ Partial Class frmUnidadesAE
         Me.TCUEN_CONT_VTA.AcceptsTab = True
         Me.TCUEN_CONT_VTA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TCUEN_CONT_VTA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TCUEN_CONT_VTA.Location = New System.Drawing.Point(676, 330)
+        Me.TCUEN_CONT_VTA.Location = New System.Drawing.Point(676, 321)
         Me.TCUEN_CONT_VTA.MaxLength = 28
         Me.TCUEN_CONT_VTA.Name = "TCUEN_CONT_VTA"
         Me.TCUEN_CONT_VTA.Size = New System.Drawing.Size(197, 22)
-        Me.TCUEN_CONT_VTA.TabIndex = 21
+        Me.TCUEN_CONT_VTA.TabIndex = 24
         '
         'Label125
         '
         Me.Label125.AutoSize = True
         Me.Label125.BackColor = System.Drawing.Color.Transparent
         Me.Label125.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label125.Location = New System.Drawing.Point(523, 334)
+        Me.Label125.Location = New System.Drawing.Point(524, 324)
         Me.Label125.Name = "Label125"
         Me.Label125.Size = New System.Drawing.Size(147, 16)
         Me.Label125.TabIndex = 410
@@ -779,28 +815,18 @@ Partial Class frmUnidadesAE
         Me.Label124.AutoSize = True
         Me.Label124.BackColor = System.Drawing.Color.Transparent
         Me.Label124.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label124.Location = New System.Drawing.Point(562, 139)
+        Me.Label124.Location = New System.Drawing.Point(614, 135)
         Me.Label124.Name = "Label124"
         Me.Label124.Size = New System.Drawing.Size(56, 16)
         Me.Label124.TabIndex = 290
         Me.Label124.Text = "Nombre"
-        '
-        'LTAseguraRespCivil
-        '
-        Me.LTAseguraRespCivil.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LTAseguraRespCivil.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LTAseguraRespCivil.Location = New System.Drawing.Point(625, 188)
-        Me.LTAseguraRespCivil.Name = "LTAseguraRespCivil"
-        Me.LTAseguraRespCivil.Size = New System.Drawing.Size(365, 20)
-        Me.LTAseguraRespCivil.TabIndex = 289
-        Me.LTAseguraRespCivil.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label126
         '
         Me.Label126.AutoSize = True
         Me.Label126.BackColor = System.Drawing.Color.Transparent
         Me.Label126.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label126.Location = New System.Drawing.Point(510, 165)
+        Me.Label126.Location = New System.Drawing.Point(562, 162)
         Me.Label126.Name = "Label126"
         Me.Label126.Size = New System.Drawing.Size(108, 16)
         Me.Label126.TabIndex = 287
@@ -811,21 +837,11 @@ Partial Class frmUnidadesAE
         Me.Label130.AutoSize = True
         Me.Label130.BackColor = System.Drawing.Color.Transparent
         Me.Label130.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label130.Location = New System.Drawing.Point(499, 191)
+        Me.Label130.Location = New System.Drawing.Point(551, 190)
         Me.Label130.Name = "Label130"
         Me.Label130.Size = New System.Drawing.Size(119, 16)
         Me.Label130.TabIndex = 288
         Me.Label130.Text = "*Asegura resp civil"
-        '
-        'LTPolizaRespCivil
-        '
-        Me.LTPolizaRespCivil.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LTPolizaRespCivil.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LTPolizaRespCivil.Location = New System.Drawing.Point(625, 162)
-        Me.LTPolizaRespCivil.Name = "LTPolizaRespCivil"
-        Me.LTPolizaRespCivil.Size = New System.Drawing.Size(365, 20)
-        Me.LTPolizaRespCivil.TabIndex = 223
-        Me.LTPolizaRespCivil.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'TANO_MODELO
         '
@@ -875,17 +891,17 @@ Partial Class frmUnidadesAE
         Me.tPERMISO_SCT.AcceptsReturn = True
         Me.tPERMISO_SCT.AcceptsTab = True
         Me.tPERMISO_SCT.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tPERMISO_SCT.Location = New System.Drawing.Point(625, 246)
+        Me.tPERMISO_SCT.Location = New System.Drawing.Point(676, 240)
         Me.tPERMISO_SCT.Name = "tPERMISO_SCT"
         Me.tPERMISO_SCT.Size = New System.Drawing.Size(197, 22)
-        Me.tPERMISO_SCT.TabIndex = 18
+        Me.tPERMISO_SCT.TabIndex = 21
         '
         'Label22
         '
         Me.Label22.AutoSize = True
         Me.Label22.BackColor = System.Drawing.Color.Transparent
         Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label22.Location = New System.Drawing.Point(531, 250)
+        Me.Label22.Location = New System.Drawing.Point(584, 243)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(87, 16)
         Me.Label22.TabIndex = 155
@@ -910,21 +926,11 @@ Partial Class frmUnidadesAE
         Me.BtnSubTipoRem1.TabIndex = 218
         Me.BtnSubTipoRem1.UseVisualStyleBackColor = True
         '
-        'LtAseguradora
-        '
-        Me.LtAseguradora.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LtAseguradora.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtAseguradora.Location = New System.Drawing.Point(625, 136)
-        Me.LtAseguradora.Name = "LtAseguradora"
-        Me.LtAseguradora.Size = New System.Drawing.Size(365, 20)
-        Me.LtAseguradora.TabIndex = 215
-        Me.LtAseguradora.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'BtnAseguradoras
         '
         Me.BtnAseguradoras.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnAseguradoras.Image = CType(resources.GetObject("BtnAseguradoras.Image"), System.Drawing.Image)
-        Me.BtnAseguradoras.Location = New System.Drawing.Point(674, 107)
+        Me.BtnAseguradoras.Location = New System.Drawing.Point(726, 104)
         Me.BtnAseguradoras.Name = "BtnAseguradoras"
         Me.BtnAseguradoras.Size = New System.Drawing.Size(24, 24)
         Me.BtnAseguradoras.TabIndex = 214
@@ -937,18 +943,18 @@ Partial Class frmUnidadesAE
         Me.tCUEN_CONT2.AcceptsTab = True
         Me.tCUEN_CONT2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.tCUEN_CONT2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tCUEN_CONT2.Location = New System.Drawing.Point(676, 302)
+        Me.tCUEN_CONT2.Location = New System.Drawing.Point(676, 294)
         Me.tCUEN_CONT2.MaxLength = 28
         Me.tCUEN_CONT2.Name = "tCUEN_CONT2"
         Me.tCUEN_CONT2.Size = New System.Drawing.Size(197, 22)
-        Me.tCUEN_CONT2.TabIndex = 20
+        Me.tCUEN_CONT2.TabIndex = 23
         '
         'Label122
         '
         Me.Label122.AutoSize = True
         Me.Label122.BackColor = System.Drawing.Color.Transparent
         Me.Label122.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label122.Location = New System.Drawing.Point(556, 306)
+        Me.Label122.Location = New System.Drawing.Point(557, 297)
         Me.Label122.Name = "Label122"
         Me.Label122.Size = New System.Drawing.Size(114, 16)
         Me.Label122.TabIndex = 213
@@ -960,18 +966,18 @@ Partial Class frmUnidadesAE
         Me.tCUEN_CONT.AcceptsTab = True
         Me.tCUEN_CONT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.tCUEN_CONT.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tCUEN_CONT.Location = New System.Drawing.Point(676, 274)
+        Me.tCUEN_CONT.Location = New System.Drawing.Point(676, 267)
         Me.tCUEN_CONT.MaxLength = 28
         Me.tCUEN_CONT.Name = "tCUEN_CONT"
         Me.tCUEN_CONT.Size = New System.Drawing.Size(197, 22)
-        Me.tCUEN_CONT.TabIndex = 19
+        Me.tCUEN_CONT.TabIndex = 22
         '
         'Label14
         '
         Me.Label14.AutoSize = True
         Me.Label14.BackColor = System.Drawing.Color.Transparent
         Me.Label14.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.Location = New System.Drawing.Point(566, 276)
+        Me.Label14.Location = New System.Drawing.Point(567, 270)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(104, 16)
         Me.Label14.TabIndex = 211
@@ -1071,17 +1077,17 @@ Partial Class frmUnidadesAE
         Me.BtnTanque.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Black
         Me.BtnTanque.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Black
         '
-        'tSE_ASEGURADORA
+        'TSE_ASEGURADORA
         '
-        Me.tSE_ASEGURADORA.AcceptsReturn = True
-        Me.tSE_ASEGURADORA.AcceptsTab = True
-        Me.tSE_ASEGURADORA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.tSE_ASEGURADORA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tSE_ASEGURADORA.Location = New System.Drawing.Point(625, 108)
-        Me.tSE_ASEGURADORA.MaxLength = 50
-        Me.tSE_ASEGURADORA.Name = "tSE_ASEGURADORA"
-        Me.tSE_ASEGURADORA.Size = New System.Drawing.Size(46, 22)
-        Me.tSE_ASEGURADORA.TabIndex = 16
+        Me.TSE_ASEGURADORA.AcceptsReturn = True
+        Me.TSE_ASEGURADORA.AcceptsTab = True
+        Me.TSE_ASEGURADORA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TSE_ASEGURADORA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TSE_ASEGURADORA.Location = New System.Drawing.Point(676, 105)
+        Me.TSE_ASEGURADORA.MaxLength = 50
+        Me.TSE_ASEGURADORA.Name = "TSE_ASEGURADORA"
+        Me.TSE_ASEGURADORA.Size = New System.Drawing.Size(46, 22)
+        Me.TSE_ASEGURADORA.TabIndex = 16
         '
         'tSE_NO_SEG
         '
@@ -1089,18 +1095,18 @@ Partial Class frmUnidadesAE
         Me.tSE_NO_SEG.AcceptsTab = True
         Me.tSE_NO_SEG.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.tSE_NO_SEG.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tSE_NO_SEG.Location = New System.Drawing.Point(625, 214)
+        Me.tSE_NO_SEG.Location = New System.Drawing.Point(676, 213)
         Me.tSE_NO_SEG.MaxLength = 50
         Me.tSE_NO_SEG.Name = "tSE_NO_SEG"
         Me.tSE_NO_SEG.Size = New System.Drawing.Size(198, 22)
-        Me.tSE_NO_SEG.TabIndex = 17
+        Me.tSE_NO_SEG.TabIndex = 20
         '
         'Label52
         '
         Me.Label52.AutoSize = True
         Me.Label52.BackColor = System.Drawing.Color.Transparent
         Me.Label52.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label52.Location = New System.Drawing.Point(543, 218)
+        Me.Label52.Location = New System.Drawing.Point(595, 216)
         Me.Label52.Name = "Label52"
         Me.Label52.Size = New System.Drawing.Size(75, 16)
         Me.Label52.TabIndex = 190
@@ -1145,7 +1151,7 @@ Partial Class frmUnidadesAE
         Me.Label60.AutoSize = True
         Me.Label60.BackColor = System.Drawing.Color.Transparent
         Me.Label60.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label60.Location = New System.Drawing.Point(532, 112)
+        Me.Label60.Location = New System.Drawing.Point(584, 108)
         Me.Label60.Name = "Label60"
         Me.Label60.Size = New System.Drawing.Size(86, 16)
         Me.Label60.TabIndex = 187
@@ -1168,10 +1174,10 @@ Partial Class frmUnidadesAE
             Or C1.Win.C1Input.FormatInfoInheritFlags.CalendarType), C1.Win.C1Input.FormatInfoInheritFlags)
         Me.tEJES.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tEJES.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.tEJES.Location = New System.Drawing.Point(118, 370)
+        Me.tEJES.Location = New System.Drawing.Point(120, 369)
         Me.tEJES.MaxLength = 5
         Me.tEJES.Name = "tEJES"
-        Me.tEJES.Size = New System.Drawing.Size(36, 20)
+        Me.tEJES.Size = New System.Drawing.Size(57, 20)
         Me.tEJES.TabIndex = 13
         Me.tEJES.Tag = Nothing
         Me.tEJES.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -1290,9 +1296,9 @@ Partial Class frmUnidadesAE
         Me.tClaveMonte.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.tClaveMonte.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tClaveMonte.Location = New System.Drawing.Point(118, 53)
-        Me.tClaveMonte.MaxLength = 10
+        Me.tClaveMonte.MaxLength = 20
         Me.tClaveMonte.Name = "tClaveMonte"
-        Me.tClaveMonte.Size = New System.Drawing.Size(85, 22)
+        Me.tClaveMonte.Size = New System.Drawing.Size(228, 22)
         Me.tClaveMonte.TabIndex = 1
         '
         'Label90
@@ -6291,7 +6297,7 @@ Partial Class frmUnidadesAE
     Friend WithEvents tSE_TEL As System.Windows.Forms.TextBox
     Friend WithEvents Label59 As System.Windows.Forms.Label
     Friend WithEvents Label60 As System.Windows.Forms.Label
-    Friend WithEvents tSE_ASEGURADORA As System.Windows.Forms.TextBox
+    Friend WithEvents TSE_ASEGURADORA As System.Windows.Forms.TextBox
     Friend WithEvents Tab7 As C1.Win.C1Command.C1DockingTab
     Friend WithEvents C1DockingTabPage1 As C1.Win.C1Command.C1DockingTabPage
     Friend WithEvents cboPropietario As C1.Win.C1Input.C1ComboBox
@@ -6562,7 +6568,6 @@ Partial Class frmUnidadesAE
     Friend WithEvents Label14 As Label
     Friend WithEvents tCUEN_CONT2 As TextBox
     Friend WithEvents Label122 As Label
-    Friend WithEvents LtAseguradora As Label
     Friend WithEvents BtnAseguradoras As C1.Win.C1Input.C1Button
     Friend WithEvents LTSubTipoRem1 As Label
     Friend WithEvents LR3 As Label
@@ -6570,8 +6575,6 @@ Partial Class frmUnidadesAE
     Private WithEvents BtnSubTipoRem1 As Button
     Friend WithEvents TANO_MODELO As TextBox
     Friend WithEvents Label6 As Label
-    Friend WithEvents LTPolizaRespCivil As Label
-    Friend WithEvents LTAseguraRespCivil As Label
     Friend WithEvents Label126 As Label
     Friend WithEvents Label130 As Label
     Friend WithEvents Label124 As Label
@@ -6590,4 +6593,7 @@ Partial Class frmUnidadesAE
     Friend WithEvents Lb1 As Label
     Friend WithEvents Lb2 As Label
     Friend WithEvents Lb3 As Label
+    Friend WithEvents TPOLIZA_RESPCIVIL As TextBox
+    Friend WithEvents TASEGURA_RESPCIVIL As TextBox
+    Friend WithEvents TASEGURADORA As TextBox
 End Class

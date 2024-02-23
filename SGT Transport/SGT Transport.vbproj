@@ -237,9 +237,8 @@
     <Reference Include="FirebirdSql.Data.FirebirdClient">
       <HintPath>packages\FirebirdSql.Data.FirebirdClient.6.1.0\lib\netstandard1.6\FirebirdSql.Data.FirebirdClient.dll</HintPath>
     </Reference>
-    <Reference Include="itextsharp, Version=5.5.1.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\itextsharp.dll</HintPath>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\..\..\MONTELLANO\Transport CG\Transport CG\Transport CG\bin\x64\Debug\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -318,7 +317,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files (x86)\Stimulsoft\Stimulsoft Reports 2017.1.3\Libs\Net\Stimulsoft.Report.Win.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.AppContext, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.AppContext.4.3.0\lib\net463\System.AppContext.dll</HintPath>
       <Private>True</Private>
@@ -673,10 +674,16 @@
     <Compile Include="BUENO\FrmSelViajes.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BUENO\REPORTES\FrmBuenoRepFactura.Designer.vb">
-      <DependentUpon>FrmBuenoRepFactura.vb</DependentUpon>
+    <Compile Include="BUENO\REPORTES\FrmFletesVsGastos.designer.vb">
+      <DependentUpon>FrmFletesVsGastos.vb</DependentUpon>
     </Compile>
-    <Compile Include="BUENO\REPORTES\FrmBuenoRepFactura.vb">
+    <Compile Include="BUENO\REPORTES\FrmFletesVsGastos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BUENO\REPORTES\FrmReporte44.Designer.vb">
+      <DependentUpon>FrmReporte44.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BUENO\REPORTES\FrmReporte44.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="BUSQUEDAS\FrmListaXML.Designer.vb">
@@ -894,6 +901,36 @@
     <Compile Include="CONFIGURACION\FrmLogin.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CONTABILIDAD\FrmConsultaResumen.designer.vb">
+      <DependentUpon>FrmConsultaResumen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmConsultaResumen.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaFondoOper.designer.vb">
+      <DependentUpon>FrmPolizaFondoOper.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaFondoOper.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaPagoOTE.designer.vb">
+      <DependentUpon>FrmPolizaPagoOTE.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaPagoOTE.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaPagoRef.designer.vb">
+      <DependentUpon>FrmPolizaPagoRef.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaPagoRef.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaDiesel.designer.vb">
+      <DependentUpon>FrmPolizaDiesel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaDiesel.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CONTABILIDAD\FrmPolizaEgresoDiesel.designer.vb">
       <DependentUpon>FrmPolizaEgresoDiesel.vb</DependentUpon>
     </Compile>
@@ -912,12 +949,6 @@
     <Compile Include="CONTABILIDAD\FrmPolizaGastos.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CONTABILIDAD\FrmPolizaDiesel.designer.vb">
-      <DependentUpon>FrmPolizaDiesel.vb</DependentUpon>
-    </Compile>
-    <Compile Include="CONTABILIDAD\FrmPolizaDiesel.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="CONTABILIDAD\FrmPolizaIngresosCxC.designer.vb">
       <DependentUpon>FrmPolizaIngresosCxC.vb</DependentUpon>
     </Compile>
@@ -930,13 +961,31 @@
     <Compile Include="CONTABILIDAD\FrmPolizaLiq.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CONTABILIDAD\FrmConsultaResumen.designer.vb">
-      <DependentUpon>FrmConsultaResumen.vb</DependentUpon>
+    <Compile Include="CONTABILIDAD\FrmPolizaProvisionOTE.designer.vb">
+      <DependentUpon>FrmPolizaProvisionOTE.vb</DependentUpon>
     </Compile>
-    <Compile Include="CONTABILIDAD\FrmConsultaResumen.vb">
+    <Compile Include="CONTABILIDAD\FrmPolizaProvisionOTE.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaProvRef.designer.vb">
+      <DependentUpon>FrmPolizaProvRef.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaProvRef.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaSalidaAlmacen.designer.vb">
+      <DependentUpon>FrmPolizaSalidaAlmacen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CONTABILIDAD\FrmPolizaSalidaAlmacen.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Ejemplo.vb" />
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="INVEN\FrmEsquemasMes.Designer.vb">
       <DependentUpon>FrmEsquemasMes.vb</DependentUpon>
     </Compile>
@@ -953,6 +1002,12 @@
       <DependentUpon>FrmEsquemasYearMesAE.vb</DependentUpon>
     </Compile>
     <Compile Include="INVEN\FrmEsquemasYearMesAE.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LIQUIDACIONES\FrmPensionAlimenticia.designer.vb">
+      <DependentUpon>FrmPensionAlimenticia.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LIQUIDACIONES\FrmPensionAlimenticia.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LLANTAS\FrmPilaDesecho.Designer.vb">
@@ -1127,6 +1182,18 @@
       <DependentUpon>FrmImpresionReportes.vb</DependentUpon>
     </Compile>
     <Compile Include="REPORTES\FrmImpresionReportes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="REPORTES\FrmRepGerencial2.Designer.vb">
+      <DependentUpon>FrmRepGerencial2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTES\FrmRepGerencial2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="REPORTES\FrmRepGerencial3.Designer.vb">
+      <DependentUpon>FrmRepGerencial3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTES\FrmRepGerencial3.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UTILERIAS\RoundedRectangle.vb" />
@@ -4525,8 +4592,11 @@
     <EmbeddedResource Include="BUENO\FrmSelViajes.resx">
       <DependentUpon>FrmSelViajes.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BUENO\REPORTES\FrmBuenoRepFactura.resx">
-      <DependentUpon>FrmBuenoRepFactura.vb</DependentUpon>
+    <EmbeddedResource Include="BUENO\REPORTES\FrmFletesVsGastos.resx">
+      <DependentUpon>FrmFletesVsGastos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BUENO\REPORTES\FrmReporte44.resx">
+      <DependentUpon>FrmReporte44.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BUSQUEDAS\FrmListaXML.resx">
       <DependentUpon>FrmListaXML.vb</DependentUpon>
@@ -4648,6 +4718,21 @@
     <EmbeddedResource Include="CONFIGURACION\FrmLogin.resx">
       <DependentUpon>FrmLogin.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmConsultaResumen.resx">
+      <DependentUpon>FrmConsultaResumen.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaFondoOper.resx">
+      <DependentUpon>FrmPolizaFondoOper.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaPagoOTE.resx">
+      <DependentUpon>FrmPolizaPagoOTE.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaPagoRef.resx">
+      <DependentUpon>FrmPolizaPagoRef.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaDiesel.resx">
+      <DependentUpon>FrmPolizaDiesel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CONTABILIDAD\FrmPolizaEgresoDiesel.resx">
       <DependentUpon>FrmPolizaEgresoDiesel.vb</DependentUpon>
     </EmbeddedResource>
@@ -4657,17 +4742,20 @@
     <EmbeddedResource Include="CONTABILIDAD\FrmPolizaGastos.resx">
       <DependentUpon>FrmPolizaGastos.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaDiesel.resx">
-      <DependentUpon>FrmPolizaDiesel.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CONTABILIDAD\FrmPolizaIngresosCxC.resx">
       <DependentUpon>FrmPolizaIngresosCxC.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CONTABILIDAD\FrmPolizaLiq.resx">
       <DependentUpon>FrmPolizaLiq.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CONTABILIDAD\FrmConsultaResumen.resx">
-      <DependentUpon>FrmConsultaResumen.vb</DependentUpon>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaProvisionOTE.resx">
+      <DependentUpon>FrmPolizaProvisionOTE.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaProvRef.resx">
+      <DependentUpon>FrmPolizaProvRef.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CONTABILIDAD\FrmPolizaSalidaAlmacen.resx">
+      <DependentUpon>FrmPolizaSalidaAlmacen.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="INVEN\FrmEsquemasMes.resx">
       <DependentUpon>FrmEsquemasMes.vb</DependentUpon>
@@ -4677,6 +4765,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="INVEN\FrmEsquemasYearMesAE.resx">
       <DependentUpon>FrmEsquemasYearMesAE.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LIQUIDACIONES\FrmPensionAlimenticia.resx">
+      <DependentUpon>FrmPensionAlimenticia.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LLANTAS\FrmPilaDesecho.resx">
       <DependentUpon>FrmPilaDesecho.vb</DependentUpon>
@@ -4763,6 +4854,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="REPORTES\FrmImpresionReportes.resx">
       <DependentUpon>FrmImpresionReportes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="REPORTES\FrmRepGerencial2.resx">
+      <DependentUpon>FrmRepGerencial2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="REPORTES\FrmRepGerencial3.resx">
+      <DependentUpon>FrmRepGerencial3.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VENTAS POS\FrmFacturaGlobal.resx">
       <DependentUpon>FrmFacturaGlobal.vb</DependentUpon>
@@ -4942,6 +5039,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CONFIGURACION\FrmAcercaDe.resx">
       <DependentUpon>FrmAcercaDe.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CONFIGURACION\FrmLicenciamientoModulos.resx">
       <DependentUpon>FrmLicenciamientoModulos.vb</DependentUpon>
@@ -5257,6 +5355,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="COMBUSTIBLE\frmCriterioEvaAE.resx">
       <DependentUpon>frmCriterioEvaAE.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="COMBUSTIBLE\frmCriteriosEva.resx">
       <DependentUpon>frmCriteriosEva.vb</DependentUpon>
@@ -7056,6 +7155,7 @@
     <Content Include="Resources\diseñador16.png" />
     <Content Include="Resources\diseñador24.png" />
     <None Include="Resources\disk7.png" />
+    <None Include="Resources\flujo22.png" />
     <Content Include="Resources\motor1.jpg" />
     <Content Include="Resources\motor11.jpg" />
     <Content Include="Resources\Tesoreria_Autorización_de_Gastos.png" />

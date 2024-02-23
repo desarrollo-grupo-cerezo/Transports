@@ -1439,30 +1439,29 @@ Public Class FrmAsignacionViajeAE
     Sub GRABAR_GASTOS(fCVE_VIAJE As String)
         Dim CVE_FOLIO As String = "", UUID As String, FECH As Date, QUERY As String
         Dim FOL_VIA As Long = 0, TIPO_VIAJE As Integer = -1
-        Dim cmd As New SqlCommand With {
-            .Connection = cnSAE
-        }
+        Dim cmd As New SqlCommand With {.Connection = cnSAE}
 
         FgG.FinishEditing()
 
         Try
-            SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET STATUS = 'C' WHERE CVE_VIAJE = '" & fCVE_VIAJE & "'"
-            Using cmd2 As SqlCommand = cnSAE.CreateCommand
-                cmd2.CommandText = SQL
-                returnValue = cmd2.ExecuteNonQuery().ToString
-                If returnValue IsNot Nothing Then
-                    If returnValue = "1" Then
-                    End If
-                End If
-            End Using
+            'SQL = "UPDATE GCASIGNACION_VIAJE_GASTOS SET STATUS = 'C' WHERE CVE_VIAJE = '" & fCVE_VIAJE & "'"
+            'Using cmd2 As SqlCommand = cnSAE.CreateCommand
+            'cmd2.CommandText = SQL
+            'returnValue = cmd2.ExecuteNonQuery().ToString
+            'If returnValue IsNot Nothing Then
+            'If returnValue = "1" Then
+            'End If
+            'End If
+            'End Using
         Catch ex As Exception
             Bitacora("40. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
 
-        SQL2 = "UPDATE GCASIGNACION_VIAJE_GASTOS SET CVE_OPER = @CVE_OPER, CVE_NUM = @CVE_NUM, IMPORTE = @IMPORTE,
-            ST_GASTOS = @ST_GASTOS, STATUS = 'A', TIPO_PAGO = @TIPO_PAGO 
+        SQL2 = "IF EXISTS (SELECT FOLIO FROM GCASIGNACION_VIAJE_GASTOS WHERE CVE_VIAJE = @CVE_VIAJE AND FOLIO = @FOLIO)
+            UPDATE GCASIGNACION_VIAJE_GASTOS SET CVE_OPER = @CVE_OPER, CVE_NUM = @CVE_NUM, IMPORTE = @IMPORTE,
+            ST_GASTOS = @ST_GASTOS, TIPO_PAGO = @TIPO_PAGO 
             WHERE CVE_VIAJE = @CVE_VIAJE AND FOLIO = @FOLIO
-            IF @@ROWCOUNT = 0
+        ELSE
             INSERT INTO GCASIGNACION_VIAJE_GASTOS (CVE_VIAJE, STATUS, CVE_OPER, FOLIO, FECHA, CVE_NUM, IMPORTE, FECHAELAB, 
             ST_GASTOS, TIPO_PAGO, UUID) OUTPUT Inserted.UUID 
             VALUES (@CVE_VIAJE,'A', @CVE_OPER, @FOLIO, @FECHA, @CVE_NUM, @IMPORTE, GETDATE(), 
@@ -1803,7 +1802,7 @@ Public Class FrmAsignacionViajeAE
 
                 DESCR = BUSCA_CAT("Operador", TCVE_OPER.Text)
                 If DESCR <> "" Then
-                    'OPER = OPERADOR_ASIGNADO_VIAJE(tCVE_OPER.Text) 'OBTIEN CVE_VIAJE
+                    OPER = OPERADOR_ASIGNADO_VIAJE(TCVE_OPER.Text) 'OBTIEN CVE_VIAJE
                     OPER = ""
                     If OPER = "" Then
                         LOper.Text = DESCR
@@ -1844,11 +1843,9 @@ Public Class FrmAsignacionViajeAE
     Private Sub BtnOper_Click(sender As Object, e As EventArgs) Handles BtnOper.Click
 
         Try
-            If TCVE_OPER.Text.Trim <> "" And TCVE_OPER.Text <> "0" Then
-                If FgG.Rows.Count > 1 Or FgV.Rows.Count > 1 Then
-                    MsgBox("El operador no puede ser modificado porque tiene gastos o vales de combustible asignados")
-                    Return
-                End If
+            If FgG.Rows.Count > 1 Or FgV.Rows.Count > 1 Then
+                MsgBox("El operador no puede ser modificado porque tiene gastos o vales de combustible asignados")
+                Return
             End If
         Catch ex As Exception
         End Try

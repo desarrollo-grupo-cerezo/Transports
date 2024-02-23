@@ -475,6 +475,7 @@ Partial Class FrmConciValesCombus
         'StiReport1
         '
         Me.StiReport1.CookieContainer = Nothing
+        Me.StiReport1.EngineVersion = Stimulsoft.Report.Engine.StiEngineVersion.EngineV2
         Me.StiReport1.ReferencedAssemblies = New String() {"System.Dll", "System.Drawing.Dll", "System.Windows.Forms.Dll", "System.Data.Dll", "System.Xml.Dll", "Stimulsoft.Controls.Dll", "Stimulsoft.Base.Dll", "Stimulsoft.Report.Dll"}
         Me.StiReport1.ReportAlias = "Report"
         Me.StiReport1.ReportGuid = "b46e29111a294219b28a3f2de7a3e71c"

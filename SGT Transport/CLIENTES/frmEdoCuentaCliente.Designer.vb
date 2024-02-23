@@ -156,7 +156,7 @@ Partial Class FrmEdoCuentaCliente
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.C1ToolBar1.Movable = False
         Me.C1ToolBar1.Name = "C1ToolBar1"
-        Me.C1ToolBar1.Size = New System.Drawing.Size(990, 44)
+        Me.C1ToolBar1.Size = New System.Drawing.Size(1136, 44)
         Me.C1ToolBar1.Text = "C1ToolBar1"
         Me.C1ToolBar1.VisualStyle = C1.Win.C1Command.VisualStyle.Office2010Blue
         Me.C1ToolBar1.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
@@ -588,7 +588,7 @@ Partial Class FrmEdoCuentaCliente
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(990, 524)
+        Me.ClientSize = New System.Drawing.Size(1136, 664)
         Me.Controls.Add(Me.C1FlexGridSearchPanel1)
         Me.Controls.Add(Me.SplitP)
         Me.Controls.Add(Me.C1ToolBar1)

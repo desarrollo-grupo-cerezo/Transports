@@ -484,8 +484,9 @@ Public Class FrmSelItem
                         LEFT JOIN CLIE_CLIB" & Empresa & " L ON L.CVE_CLIE = C.CLAVE
                         WHERE C.STATUS = 'A' ORDER BY C.CLAVE"
                 Case "CLIE"
-                    SQL = "SELECT C.CLAVE, C.NOMBRE, C.RFC, C.CALLE, MUNICIPIO 
+                    SQL = "SELECT C.CLAVE, C.NOMBRE, C.RFC, C.CALLE, MUNICIPIO, ISNULL(S.NUM_CPTO, 0) AS NUM_CPTO 
                         FROM CLIE" & Empresa & " C 
+                        LEFT JOIN (SELECT FORMADEPAGOSAT, MIN(NUM_CPTO) AS NUM_CPTO FROM CONC" & Empresa & " GROUP BY FORMADEPAGOSAT) S ON S.FORMADEPAGOSAT = C.APLICACION
                         WHERE C.STATUS = 'A' ORDER BY C.CLAVE"
                 Case "Prov"
                     SQL = "SELECT CLAVE, NOMBRE, RFC, CALLE FROM PROV" & Empresa & " WHERE STATUS = 'A' ORDER BY CLAVE"
@@ -694,14 +695,15 @@ Public Class FrmSelItem
 
                 Case "InveS" 'SOLO SERVICIOS Y LINEA ESPECIFICA
                     SQL = "SELECT I.CVE_ART, DESCR, PRECIO,
-                        (SELECT TOP 1 CVE_ALTER FROM CVES_ALTER01 A WHERE CVE_ART = I.CVE_ART) AS ALTERNA, EXIST, TIPO_ELE,
+                        (SELECT TOP 1 CVE_ALTER FROM CVES_ALTER" & Empresa & " A WHERE CVE_ART = I.CVE_ART) AS ALTERNA, EXIST, TIPO_ELE,
                         ISNULL(COSTO_PROM,0) AS C_PROM
                         FROM INVE" & Empresa & " I 
                         LEFT JOIN PRECIO_X_PROD" & Empresa & " P ON P.CVE_ART = I.CVE_ART AND P.CVE_PRECIO = 1 
                         WHERE I.STATUS = 'A' AND TIPO_ELE = 'S' AND LIN_PROD = '" & Var5 & "' ORDER BY DESCR"
+                    Debug.Print("")
                 Case "InvenTabRutas"
                     SQL = "SELECT I.CVE_ART, DESCR, PRECIO,
-                        (SELECT TOP 1 CVE_ALTER FROM CVES_ALTER01 A WHERE CVE_ART = I.CVE_ART) AS ALTERNA, EXIST, TIPO_ELE,
+                        (SELECT TOP 1 CVE_ALTER FROM CVES_ALTER" & Empresa & " A WHERE CVE_ART = I.CVE_ART) AS ALTERNA, EXIST, TIPO_ELE,
                         ISNULL(COSTO_PROM,0) AS C_PROM, LIN_PROD
                         FROM INVE" & Empresa & " I 
                         LEFT JOIN PRECIO_X_PROD" & Empresa & " P ON P.CVE_ART = I.CVE_ART AND P.CVE_PRECIO = 1 
@@ -1242,6 +1244,7 @@ Public Class FrmSelItem
                         Fg(0, 3) = "R.F.C."
                         Fg(0, 4) = "Domicilio"
                         Fg(0, 5) = "Municipio"
+                        Fg(0, 6) = "NUM_CPTO"
 
                         'Fg.Cols(0).Width = 30
                         'Fg.Cols(1).Width = 70
@@ -1249,6 +1252,7 @@ Public Class FrmSelItem
                         'Fg.Cols(3).Width = 70
                         'Fg.Cols(4).Width = 120
                         'Fg.Cols(5).Width = 100
+                        Fg.Cols(6).Width = 0
 
                         Fg.Cols(1).StarWidth = "*"
                         Fg.Cols(2).StarWidth = "3*"
@@ -2825,6 +2829,7 @@ Public Class FrmSelItem
                         Var6 = Fg(Fg.Row, 3).ToString 'rfc
                         Var7 = Fg(Fg.Row, 4).ToString 'calle
                         Var8 = Fg(Fg.Row, 5).ToString 'municipio
+                        Var9 = Fg(Fg.Row, 6).ToString 'NUM_CPTO
                     End If
                 Case "Modelo", "Modelo Renovado", "Modelo Llanta", "Medidas Llanta", "Origen", "Destino"
                     If Fg.Row > 0 Then

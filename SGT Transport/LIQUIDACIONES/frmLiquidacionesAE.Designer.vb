@@ -175,6 +175,7 @@ Partial Class FrmLiquidacionesAE
         Me.LtGastosComprobados = New System.Windows.Forms.Label()
         Me.SplitMult = New C1.Win.C1SplitContainer.C1SplitContainer()
         Me.SplitMult1 = New C1.Win.C1SplitContainer.C1SplitterPanel()
+        Me.C1FlexGridSearchPanel1 = New C1.Win.C1FlexGrid.C1FlexGridSearchPanel()
         Me.TBOTONMAGICO_PA = New System.Windows.Forms.TextBox()
         Me.BtnReset = New System.Windows.Forms.Button()
         Me.BtnUnidad = New System.Windows.Forms.Button()
@@ -283,7 +284,7 @@ Partial Class FrmLiquidacionesAE
         Me.BarMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarDesplegar, Me.BarGrabar, Me.BarFinalizarLiq, Me.BarImprimirResteo, Me.BarImprimirLiq, Me.BarCancelacion, Me.BarReseteo, Me.BarSalir})
         Me.BarMenu.Location = New System.Drawing.Point(0, 0)
         Me.BarMenu.Name = "BarMenu"
-        Me.BarMenu.Size = New System.Drawing.Size(1274, 55)
+        Me.BarMenu.Size = New System.Drawing.Size(1454, 55)
         Me.BarMenu.Stretch = False
         Me.BarMenu.TabIndex = 0
         Me.BarMenu.Text = "MenuStrip1"
@@ -569,13 +570,12 @@ Partial Class FrmLiquidacionesAE
         'Fg
         '
         Me.Fg.AllowDragging = C1.Win.C1FlexGrid.AllowDraggingEnum.None
-        Me.Fg.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None
+        Me.Fg.AllowFiltering = True
         Me.Fg.AutoClipboard = True
         Me.Fg.BackColor = System.Drawing.Color.White
         Me.Fg.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
         Me.Fg.ClipboardCopyMode = C1.Win.C1FlexGrid.ClipboardCopyModeEnum.DataAndColumnHeaders
         Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
-        Me.Fg.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Fg.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Raised
         Me.Fg.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.Fg.ForeColor = System.Drawing.Color.Black
@@ -586,7 +586,7 @@ Partial Class FrmLiquidacionesAE
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row
         Me.Fg.ShowButtons = C1.Win.C1FlexGrid.ShowButtonsEnum.Never
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg.Size = New System.Drawing.Size(1184, 237)
+        Me.Fg.Size = New System.Drawing.Size(1287, 264)
         Me.Fg.StyleInfo = resources.GetString("Fg.StyleInfo")
         Me.Fg.TabIndex = 5
         '
@@ -603,12 +603,10 @@ Partial Class FrmLiquidacionesAE
         Me.Tab1.Controls.Add(Me.Page5)
         Me.Tab1.Controls.Add(Me.Pag7)
         Me.Tab1.Controls.Add(Me.Pag9Casetas)
-        Me.Tab1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Tab1.HotTrack = True
         Me.Tab1.Location = New System.Drawing.Point(0, 0)
         Me.Tab1.Name = "Tab1"
-        Me.Tab1.SelectedIndex = 9
-        Me.Tab1.Size = New System.Drawing.Size(1186, 263)
+        Me.Tab1.Size = New System.Drawing.Size(1302, 323)
         Me.Tab1.TabIndex = 0
         Me.Tab1.TabSizeMode = C1.Win.C1Command.TabSizeModeEnum.Fit
         Me.Tab1.TabsShowFocusCues = False
@@ -622,7 +620,7 @@ Partial Class FrmLiquidacionesAE
         Me.Page1.Controls.Add(Me.Fg)
         Me.Page1.Location = New System.Drawing.Point(1, 25)
         Me.Page1.Name = "Page1"
-        Me.Page1.Size = New System.Drawing.Size(1184, 237)
+        Me.Page1.Size = New System.Drawing.Size(1300, 297)
         Me.Page1.TabIndex = 4
         Me.Page1.Text = "Liquidacion de viajes"
         '
@@ -631,7 +629,7 @@ Partial Class FrmLiquidacionesAE
         Me.Page2.Controls.Add(Me.SplitG)
         Me.Page2.Location = New System.Drawing.Point(1, 25)
         Me.Page2.Name = "Page2"
-        Me.Page2.Size = New System.Drawing.Size(1184, 237)
+        Me.Page2.Size = New System.Drawing.Size(1300, 297)
         Me.Page2.TabIndex = 6
         Me.Page2.Text = "Gastos de viaje"
         '
@@ -651,7 +649,7 @@ Partial Class FrmLiquidacionesAE
         Me.SplitG.Name = "SplitG"
         Me.SplitG.Panels.Add(Me.SplitG1)
         Me.SplitG.Panels.Add(Me.SplitG2)
-        Me.SplitG.Size = New System.Drawing.Size(1184, 237)
+        Me.SplitG.Size = New System.Drawing.Size(1300, 297)
         Me.SplitG.SplitterColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
         Me.SplitG.SplitterMovingColor = System.Drawing.Color.Black
         Me.SplitG.TabIndex = 8
@@ -662,10 +660,10 @@ Partial Class FrmLiquidacionesAE
         '
         Me.SplitG1.Controls.Add(Me.BtnGastosViajeEliminar)
         Me.SplitG1.Controls.Add(Me.BtnGastosViaje)
-        Me.SplitG1.Height = 35
+        Me.SplitG1.Height = 44
         Me.SplitG1.Location = New System.Drawing.Point(1, 1)
         Me.SplitG1.Name = "SplitG1"
-        Me.SplitG1.Size = New System.Drawing.Size(1182, 35)
+        Me.SplitG1.Size = New System.Drawing.Size(1298, 44)
         Me.SplitG1.SizeRatio = 15.0R
         Me.SplitG1.TabIndex = 0
         '
@@ -696,10 +694,10 @@ Partial Class FrmLiquidacionesAE
         'SplitG2
         '
         Me.SplitG2.Controls.Add(Me.FgG)
-        Me.SplitG2.Height = 196
-        Me.SplitG2.Location = New System.Drawing.Point(1, 40)
+        Me.SplitG2.Height = 247
+        Me.SplitG2.Location = New System.Drawing.Point(1, 49)
         Me.SplitG2.Name = "SplitG2"
-        Me.SplitG2.Size = New System.Drawing.Size(1182, 196)
+        Me.SplitG2.Size = New System.Drawing.Size(1298, 247)
         Me.SplitG2.SizeRatio = 86.0R
         Me.SplitG2.TabIndex = 1
         '
@@ -720,7 +718,7 @@ Partial Class FrmLiquidacionesAE
         Me.FgG.Rows.DefaultSize = 19
         Me.FgG.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.ListBox
         Me.FgG.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.FgG.Size = New System.Drawing.Size(1182, 196)
+        Me.FgG.Size = New System.Drawing.Size(1298, 247)
         Me.FgG.StyleInfo = resources.GetString("FgG.StyleInfo")
         Me.FgG.TabIndex = 7
         '
@@ -729,7 +727,7 @@ Partial Class FrmLiquidacionesAE
         Me.Page3.Controls.Add(Me.FgV)
         Me.Page3.Location = New System.Drawing.Point(1, 25)
         Me.Page3.Name = "Page3"
-        Me.Page3.Size = New System.Drawing.Size(1184, 237)
+        Me.Page3.Size = New System.Drawing.Size(1300, 297)
         Me.Page3.TabIndex = 8
         Me.Page3.Text = "Vales combustible"
         '
@@ -754,7 +752,7 @@ Partial Class FrmLiquidacionesAE
         Me.FgV.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Cell
         Me.FgV.ShowButtons = C1.Win.C1FlexGrid.ShowButtonsEnum.Always
         Me.FgV.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.FgV.Size = New System.Drawing.Size(1184, 237)
+        Me.FgV.Size = New System.Drawing.Size(1300, 297)
         Me.FgV.StyleInfo = resources.GetString("FgV.StyleInfo")
         Me.FgV.TabIndex = 9
         '
@@ -763,7 +761,7 @@ Partial Class FrmLiquidacionesAE
         Me.Page4.Controls.Add(Me.SplitGasto)
         Me.Page4.Location = New System.Drawing.Point(1, 25)
         Me.Page4.Name = "Page4"
-        Me.Page4.Size = New System.Drawing.Size(1184, 237)
+        Me.Page4.Size = New System.Drawing.Size(1300, 297)
         Me.Page4.TabIndex = 10
         Me.Page4.Text = "Gastos comprobados"
         '
@@ -782,7 +780,7 @@ Partial Class FrmLiquidacionesAE
         Me.SplitGasto.Name = "SplitGasto"
         Me.SplitGasto.Panels.Add(Me.SplitGasto3)
         Me.SplitGasto.Panels.Add(Me.SplitGasto1)
-        Me.SplitGasto.Size = New System.Drawing.Size(1184, 237)
+        Me.SplitGasto.Size = New System.Drawing.Size(1300, 297)
         Me.SplitGasto.SplitterColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
         Me.SplitGasto.SplitterMovingColor = System.Drawing.Color.Black
         Me.SplitGasto.TabIndex = 1
@@ -794,10 +792,10 @@ Partial Class FrmLiquidacionesAE
         Me.SplitGasto3.BorderColor = System.Drawing.Color.Black
         Me.SplitGasto3.Controls.Add(Me.BtnAddGC)
         Me.SplitGasto3.Controls.Add(Me.BtnEliminarGasto)
-        Me.SplitGasto3.Height = 35
+        Me.SplitGasto3.Height = 44
         Me.SplitGasto3.Location = New System.Drawing.Point(0, 0)
         Me.SplitGasto3.Name = "SplitGasto3"
-        Me.SplitGasto3.Size = New System.Drawing.Size(1184, 35)
+        Me.SplitGasto3.Size = New System.Drawing.Size(1300, 44)
         Me.SplitGasto3.SizeRatio = 15.0R
         Me.SplitGasto3.TabIndex = 2
         '
@@ -826,10 +824,10 @@ Partial Class FrmLiquidacionesAE
         Me.SplitGasto1.BorderColor = System.Drawing.Color.Black
         Me.SplitGasto1.BorderWidth = 1
         Me.SplitGasto1.Controls.Add(Me.FgGC)
-        Me.SplitGasto1.Height = 198
-        Me.SplitGasto1.Location = New System.Drawing.Point(1, 40)
+        Me.SplitGasto1.Height = 249
+        Me.SplitGasto1.Location = New System.Drawing.Point(1, 49)
         Me.SplitGasto1.Name = "SplitGasto1"
-        Me.SplitGasto1.Size = New System.Drawing.Size(1182, 196)
+        Me.SplitGasto1.Size = New System.Drawing.Size(1298, 247)
         Me.SplitGasto1.SizeRatio = 86.0R
         Me.SplitGasto1.TabIndex = 0
         '
@@ -840,6 +838,7 @@ Partial Class FrmLiquidacionesAE
         Me.FgGC.AutoClipboard = True
         Me.FgGC.BackColor = System.Drawing.Color.White
         Me.FgGC.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
+        Me.FgGC.ClipboardCopyMode = C1.Win.C1FlexGrid.ClipboardCopyModeEnum.DataAndColumnHeaders
         Me.FgGC.ColumnInfo = resources.GetString("FgGC.ColumnInfo")
         Me.FgGC.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FgGC.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Raised
@@ -853,7 +852,7 @@ Partial Class FrmLiquidacionesAE
         Me.FgGC.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Cell
         Me.FgGC.ShowButtons = C1.Win.C1FlexGrid.ShowButtonsEnum.Always
         Me.FgGC.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.FgGC.Size = New System.Drawing.Size(1182, 196)
+        Me.FgGC.Size = New System.Drawing.Size(1298, 247)
         Me.FgGC.StyleInfo = resources.GetString("FgGC.StyleInfo")
         Me.FgGC.TabIndex = 11
         '
@@ -862,7 +861,7 @@ Partial Class FrmLiquidacionesAE
         Me.Page6.Controls.Add(Me.SplitDedM)
         Me.Page6.Location = New System.Drawing.Point(1, 25)
         Me.Page6.Name = "Page6"
-        Me.Page6.Size = New System.Drawing.Size(1184, 237)
+        Me.Page6.Size = New System.Drawing.Size(1300, 297)
         Me.Page6.TabIndex = 14
         Me.Page6.Text = "Deducciones"
         '
@@ -881,7 +880,7 @@ Partial Class FrmLiquidacionesAE
         Me.SplitDedM.Name = "SplitDedM"
         Me.SplitDedM.Panels.Add(Me.SplitDedM1)
         Me.SplitDedM.Panels.Add(Me.SplitDedM2)
-        Me.SplitDedM.Size = New System.Drawing.Size(1184, 237)
+        Me.SplitDedM.Size = New System.Drawing.Size(1300, 297)
         Me.SplitDedM.SplitterColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
         Me.SplitDedM.SplitterMovingColor = System.Drawing.Color.Black
         Me.SplitDedM.TabIndex = 141
@@ -893,10 +892,10 @@ Partial Class FrmLiquidacionesAE
         Me.SplitDedM1.BorderColor = System.Drawing.Color.Black
         Me.SplitDedM1.Controls.Add(Me.BtnEliminar)
         Me.SplitDedM1.Controls.Add(Me.BtnAddDec)
-        Me.SplitDedM1.Height = 35
+        Me.SplitDedM1.Height = 51
         Me.SplitDedM1.Location = New System.Drawing.Point(0, 0)
         Me.SplitDedM1.Name = "SplitDedM1"
-        Me.SplitDedM1.Size = New System.Drawing.Size(1184, 35)
+        Me.SplitDedM1.Size = New System.Drawing.Size(1240, 51)
         Me.SplitDedM1.SizeRatio = 15.0R
         Me.SplitDedM1.TabIndex = 0
         '
@@ -925,10 +924,10 @@ Partial Class FrmLiquidacionesAE
         Me.SplitDedM2.AutoScroll = True
         Me.SplitDedM2.BorderColor = System.Drawing.Color.Black
         Me.SplitDedM2.Controls.Add(Me.FgD)
-        Me.SplitDedM2.Height = 198
-        Me.SplitDedM2.Location = New System.Drawing.Point(0, 39)
+        Me.SplitDedM2.Height = 286
+        Me.SplitDedM2.Location = New System.Drawing.Point(0, 55)
         Me.SplitDedM2.Name = "SplitDedM2"
-        Me.SplitDedM2.Size = New System.Drawing.Size(1184, 198)
+        Me.SplitDedM2.Size = New System.Drawing.Size(1240, 286)
         Me.SplitDedM2.SizeRatio = 86.0R
         Me.SplitDedM2.TabIndex = 1
         '
@@ -939,6 +938,7 @@ Partial Class FrmLiquidacionesAE
         Me.FgD.AutoClipboard = True
         Me.FgD.BackColor = System.Drawing.Color.White
         Me.FgD.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
+        Me.FgD.ClipboardCopyMode = C1.Win.C1FlexGrid.ClipboardCopyModeEnum.DataAndColumnHeaders
         Me.FgD.ColumnInfo = resources.GetString("FgD.ColumnInfo")
         Me.FgD.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FgD.EditOptions = CType((((((C1.Win.C1FlexGrid.EditFlags.CycleOnDoubleClick Or C1.Win.C1FlexGrid.EditFlags.MultiCheck) _
@@ -955,7 +955,7 @@ Partial Class FrmLiquidacionesAE
         Me.FgD.Rows.DefaultSize = 19
         Me.FgD.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Cell
         Me.FgD.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.FgD.Size = New System.Drawing.Size(1184, 198)
+        Me.FgD.Size = New System.Drawing.Size(1240, 286)
         Me.FgD.StyleInfo = resources.GetString("FgD.StyleInfo")
         Me.FgD.TabIndex = 0
         '
@@ -964,7 +964,7 @@ Partial Class FrmLiquidacionesAE
         Me.Pag8.Controls.Add(Me.SplitPension)
         Me.Pag8.Location = New System.Drawing.Point(1, 25)
         Me.Pag8.Name = "Pag8"
-        Me.Pag8.Size = New System.Drawing.Size(1184, 237)
+        Me.Pag8.Size = New System.Drawing.Size(1300, 297)
         Me.Pag8.TabIndex = 16
         Me.Pag8.Text = "Pensión alimenticia"
         '
@@ -983,7 +983,7 @@ Partial Class FrmLiquidacionesAE
         Me.SplitPension.Name = "SplitPension"
         Me.SplitPension.Panels.Add(Me.SplitPension1)
         Me.SplitPension.Panels.Add(Me.SplitPension2)
-        Me.SplitPension.Size = New System.Drawing.Size(1184, 237)
+        Me.SplitPension.Size = New System.Drawing.Size(1300, 297)
         Me.SplitPension.SplitterColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
         Me.SplitPension.SplitterMovingColor = System.Drawing.Color.Black
         Me.SplitPension.TabIndex = 142
@@ -995,10 +995,10 @@ Partial Class FrmLiquidacionesAE
         Me.SplitPension1.BorderColor = System.Drawing.Color.Black
         Me.SplitPension1.Controls.Add(Me.BtnEliPartPA)
         Me.SplitPension1.Controls.Add(Me.BtnAltaPA)
-        Me.SplitPension1.Height = 35
+        Me.SplitPension1.Height = 51
         Me.SplitPension1.Location = New System.Drawing.Point(0, 0)
         Me.SplitPension1.Name = "SplitPension1"
-        Me.SplitPension1.Size = New System.Drawing.Size(1184, 35)
+        Me.SplitPension1.Size = New System.Drawing.Size(1240, 51)
         Me.SplitPension1.SizeRatio = 15.0R
         Me.SplitPension1.TabIndex = 0
         '
@@ -1027,10 +1027,10 @@ Partial Class FrmLiquidacionesAE
         Me.SplitPension2.AutoScroll = True
         Me.SplitPension2.BorderColor = System.Drawing.Color.Black
         Me.SplitPension2.Controls.Add(Me.FgPA)
-        Me.SplitPension2.Height = 198
-        Me.SplitPension2.Location = New System.Drawing.Point(0, 39)
+        Me.SplitPension2.Height = 286
+        Me.SplitPension2.Location = New System.Drawing.Point(0, 55)
         Me.SplitPension2.Name = "SplitPension2"
-        Me.SplitPension2.Size = New System.Drawing.Size(1184, 198)
+        Me.SplitPension2.Size = New System.Drawing.Size(1240, 286)
         Me.SplitPension2.SizeRatio = 86.0R
         Me.SplitPension2.TabIndex = 1
         '
@@ -1041,6 +1041,7 @@ Partial Class FrmLiquidacionesAE
         Me.FgPA.AutoClipboard = True
         Me.FgPA.BackColor = System.Drawing.Color.White
         Me.FgPA.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
+        Me.FgPA.ClipboardCopyMode = C1.Win.C1FlexGrid.ClipboardCopyModeEnum.DataAndColumnHeaders
         Me.FgPA.ColumnInfo = resources.GetString("FgPA.ColumnInfo")
         Me.FgPA.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FgPA.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Raised
@@ -1054,7 +1055,7 @@ Partial Class FrmLiquidacionesAE
         Me.FgPA.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Cell
         Me.FgPA.ShowButtons = C1.Win.C1FlexGrid.ShowButtonsEnum.Always
         Me.FgPA.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.FgPA.Size = New System.Drawing.Size(1184, 198)
+        Me.FgPA.Size = New System.Drawing.Size(1240, 286)
         Me.FgPA.StyleInfo = resources.GetString("FgPA.StyleInfo")
         Me.FgPA.TabIndex = 12
         '
@@ -1063,7 +1064,7 @@ Partial Class FrmLiquidacionesAE
         Me.Page5.Controls.Add(Me.TOBS)
         Me.Page5.Location = New System.Drawing.Point(1, 25)
         Me.Page5.Name = "Page5"
-        Me.Page5.Size = New System.Drawing.Size(1184, 237)
+        Me.Page5.Size = New System.Drawing.Size(1300, 297)
         Me.Page5.TabIndex = 2
         Me.Page5.Text = "Observaciones"
         '
@@ -1116,7 +1117,7 @@ Partial Class FrmLiquidacionesAE
         Me.Pag7.ForeColor = System.Drawing.Color.DarkBlue
         Me.Pag7.Location = New System.Drawing.Point(1, 25)
         Me.Pag7.Name = "Pag7"
-        Me.Pag7.Size = New System.Drawing.Size(1184, 237)
+        Me.Pag7.Size = New System.Drawing.Size(1300, 297)
         Me.Pag7.TabIndex = 15
         Me.Pag7.Text = "Reseteo"
         '
@@ -1412,7 +1413,7 @@ Partial Class FrmLiquidacionesAE
         Me.RadLTS_TAB.Enabled = False
         Me.RadLTS_TAB.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLTS_TAB.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.RadLTS_TAB.Location = New System.Drawing.Point(6, 235)
+        Me.RadLTS_TAB.Location = New System.Drawing.Point(6, 285)
         Me.RadLTS_TAB.Name = "RadLTS_TAB"
         Me.RadLTS_TAB.Size = New System.Drawing.Size(117, 20)
         Me.RadLTS_TAB.TabIndex = 585
@@ -1427,7 +1428,7 @@ Partial Class FrmLiquidacionesAE
         Me.RadLTS_ECM.Enabled = False
         Me.RadLTS_ECM.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLTS_ECM.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.RadLTS_ECM.Location = New System.Drawing.Point(6, 263)
+        Me.RadLTS_ECM.Location = New System.Drawing.Point(6, 313)
         Me.RadLTS_ECM.Name = "RadLTS_ECM"
         Me.RadLTS_ECM.Size = New System.Drawing.Size(89, 20)
         Me.RadLTS_ECM.TabIndex = 584
@@ -1441,7 +1442,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label72.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label72.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label72.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label72.Location = New System.Drawing.Point(69, 326)
+        Me.Label72.Location = New System.Drawing.Point(69, 376)
         Me.Label72.Name = "Label72"
         Me.Label72.Size = New System.Drawing.Size(68, 16)
         Me.Label72.TabIndex = 583
@@ -1466,7 +1467,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label26.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label26.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label26.Location = New System.Drawing.Point(37, 298)
+        Me.Label26.Location = New System.Drawing.Point(37, 348)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(100, 16)
         Me.Label26.TabIndex = 577
@@ -1508,7 +1509,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label28.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label28.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label28.Location = New System.Drawing.Point(248, 293)
+        Me.Label28.Location = New System.Drawing.Point(248, 343)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(27, 16)
         Me.Label28.TabIndex = 578
@@ -1550,7 +1551,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label30.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label30.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label30.Location = New System.Drawing.Point(248, 344)
+        Me.Label30.Location = New System.Drawing.Point(248, 394)
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(27, 16)
         Me.Label30.TabIndex = 575
@@ -1592,7 +1593,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label31.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label31.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label31.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label31.Location = New System.Drawing.Point(255, 386)
+        Me.Label31.Location = New System.Drawing.Point(255, 436)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(22, 16)
         Me.Label31.TabIndex = 576
@@ -1604,7 +1605,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label68.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label68.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label68.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label68.Location = New System.Drawing.Point(231, 393)
+        Me.Label68.Location = New System.Drawing.Point(231, 443)
         Me.Label68.Name = "Label68"
         Me.Label68.Size = New System.Drawing.Size(22, 16)
         Me.Label68.TabIndex = 581
@@ -1616,7 +1617,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label32.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label32.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label32.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label32.Location = New System.Drawing.Point(36, 351)
+        Me.Label32.Location = New System.Drawing.Point(36, 401)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(101, 16)
         Me.Label32.TabIndex = 574
@@ -1640,7 +1641,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label47.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label47.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label47.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label47.Location = New System.Drawing.Point(41, 378)
+        Me.Label47.Location = New System.Drawing.Point(41, 428)
         Me.Label47.Name = "Label47"
         Me.Label47.Size = New System.Drawing.Size(79, 16)
         Me.Label47.TabIndex = 573
@@ -1652,7 +1653,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label49.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label49.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label49.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label49.Location = New System.Drawing.Point(38, 398)
+        Me.Label49.Location = New System.Drawing.Point(38, 448)
         Me.Label49.Name = "Label49"
         Me.Label49.Size = New System.Drawing.Size(82, 16)
         Me.Label49.TabIndex = 579
@@ -2297,16 +2298,17 @@ Partial Class FrmLiquidacionesAE
         Me.Pag9Casetas.Controls.Add(Me.FgCasetas)
         Me.Pag9Casetas.Location = New System.Drawing.Point(1, 25)
         Me.Pag9Casetas.Name = "Pag9Casetas"
-        Me.Pag9Casetas.Size = New System.Drawing.Size(1184, 237)
+        Me.Pag9Casetas.Size = New System.Drawing.Size(1300, 297)
         Me.Pag9Casetas.TabIndex = 17
         Me.Pag9Casetas.Text = "Casetas"
         '
         'FgCasetas
         '
-        Me.FgCasetas.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None
+        Me.FgCasetas.AllowFiltering = True
         Me.FgCasetas.AutoClipboard = True
         Me.FgCasetas.BackColor = System.Drawing.Color.White
         Me.FgCasetas.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
+        Me.C1FlexGridSearchPanel1.SetC1FlexGridSearchPanel(Me.FgCasetas, Me.C1FlexGridSearchPanel1)
         Me.FgCasetas.ClipboardCopyMode = C1.Win.C1FlexGrid.ClipboardCopyModeEnum.DataAndColumnHeaders
         Me.FgCasetas.ColumnInfo = resources.GetString("FgCasetas.ColumnInfo")
         Me.FgCasetas.Dock = System.Windows.Forms.DockStyle.Fill
@@ -2318,7 +2320,7 @@ Partial Class FrmLiquidacionesAE
         Me.FgCasetas.Rows.DefaultSize = 19
         Me.FgCasetas.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.ListBox
         Me.FgCasetas.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.FgCasetas.Size = New System.Drawing.Size(1184, 237)
+        Me.FgCasetas.Size = New System.Drawing.Size(1300, 297)
         Me.FgCasetas.StyleInfo = resources.GetString("FgCasetas.StyleInfo")
         Me.FgCasetas.TabIndex = 8
         '
@@ -2361,7 +2363,7 @@ Partial Class FrmLiquidacionesAE
         Me.SplitMult.Panels.Add(Me.SplitMult1)
         Me.SplitMult.Panels.Add(Me.SplitMult2)
         Me.SplitMult.Panels.Add(Me.SplitMult3)
-        Me.SplitMult.Size = New System.Drawing.Size(1188, 562)
+        Me.SplitMult.Size = New System.Drawing.Size(1324, 635)
         Me.SplitMult.SplitterColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
         Me.SplitMult.SplitterMovingColor = System.Drawing.Color.Black
         Me.SplitMult.TabIndex = 262
@@ -2373,6 +2375,7 @@ Partial Class FrmLiquidacionesAE
         Me.SplitMult1.AutoScroll = True
         Me.SplitMult1.BackColor = System.Drawing.Color.Transparent
         Me.SplitMult1.BorderColor = System.Drawing.Color.Black
+        Me.SplitMult1.Controls.Add(Me.C1FlexGridSearchPanel1)
         Me.SplitMult1.Controls.Add(Me.TBOTONMAGICO_PA)
         Me.SplitMult1.Controls.Add(Me.BtnReset)
         Me.SplitMult1.Controls.Add(Me.Label3)
@@ -2392,13 +2395,25 @@ Partial Class FrmLiquidacionesAE
         Me.SplitMult1.Controls.Add(Me.BtnOper)
         Me.SplitMult1.Controls.Add(Me.LtOper)
         Me.SplitMult1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SplitMult1.Height = 73
+        Me.SplitMult1.Height = 95
         Me.SplitMult1.Location = New System.Drawing.Point(0, 0)
         Me.SplitMult1.Name = "SplitMult1"
         Me.SplitMult1.ShowCloseButton = True
-        Me.SplitMult1.Size = New System.Drawing.Size(1188, 73)
-        Me.SplitMult1.SizeRatio = 13.0R
+        Me.SplitMult1.Size = New System.Drawing.Size(1324, 95)
+        Me.SplitMult1.SizeRatio = 15.0R
         Me.SplitMult1.TabIndex = 0
+        '
+        'C1FlexGridSearchPanel1
+        '
+        Me.C1FlexGridSearchPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(969, 7)
+        Me.C1FlexGridSearchPanel1.Name = "C1FlexGridSearchPanel1"
+        Me.C1FlexGridSearchPanel1.SearchDelay = 400
+        Me.C1FlexGridSearchPanel1.SearchMode = C1.Win.C1FlexGrid.SearchMode.Always
+        Me.C1FlexGridSearchPanel1.Size = New System.Drawing.Size(248, 49)
+        Me.C1FlexGridSearchPanel1.TabIndex = 378
+        Me.C1FlexGridSearchPanel1.Visible = False
+        Me.C1FlexGridSearchPanel1.Watermark = "Texto a buscar"
         '
         'TBOTONMAGICO_PA
         '
@@ -2406,7 +2421,7 @@ Partial Class FrmLiquidacionesAE
         Me.TBOTONMAGICO_PA.AcceptsTab = True
         Me.TBOTONMAGICO_PA.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TBOTONMAGICO_PA.ForeColor = System.Drawing.Color.Black
-        Me.TBOTONMAGICO_PA.Location = New System.Drawing.Point(934, 20)
+        Me.TBOTONMAGICO_PA.Location = New System.Drawing.Point(996, 27)
         Me.TBOTONMAGICO_PA.Name = "TBOTONMAGICO_PA"
         Me.TBOTONMAGICO_PA.Size = New System.Drawing.Size(93, 20)
         Me.TBOTONMAGICO_PA.TabIndex = 377
@@ -2462,11 +2477,11 @@ Partial Class FrmLiquidacionesAE
         Me.SplitMult2.HeaderForeColor = System.Drawing.Color.White
         Me.SplitMult2.HeaderLineColor = System.Drawing.Color.Black
         Me.SplitMult2.HeaderTextAlign = C1.Win.C1SplitContainer.PanelTextAlign.Center
-        Me.SplitMult2.Height = 265
-        Me.SplitMult2.Location = New System.Drawing.Point(1, 78)
+        Me.SplitMult2.Height = 346
+        Me.SplitMult2.Location = New System.Drawing.Point(1, 100)
         Me.SplitMult2.Name = "SplitMult2"
-        Me.SplitMult2.Size = New System.Drawing.Size(1186, 263)
-        Me.SplitMult2.SizeRatio = 55.0R
+        Me.SplitMult2.Size = New System.Drawing.Size(1322, 344)
+        Me.SplitMult2.SizeRatio = 65.0R
         Me.SplitMult2.TabIndex = 1
         '
         'SplitMult3
@@ -2507,11 +2522,11 @@ Partial Class FrmLiquidacionesAE
         Me.SplitMult3.Controls.Add(Me.LtTotDeduc)
         Me.SplitMult3.Controls.Add(Me.Label6)
         Me.SplitMult3.Controls.Add(Me.LtPerXViaje)
-        Me.SplitMult3.Height = 216
-        Me.SplitMult3.Location = New System.Drawing.Point(0, 346)
+        Me.SplitMult3.Height = 186
+        Me.SplitMult3.Location = New System.Drawing.Point(0, 449)
         Me.SplitMult3.Name = "SplitMult3"
-        Me.SplitMult3.Size = New System.Drawing.Size(1188, 216)
-        Me.SplitMult3.SizeRatio = 32.0R
+        Me.SplitMult3.Size = New System.Drawing.Size(1324, 186)
+        Me.SplitMult3.SizeRatio = 20.0R
         Me.SplitMult3.TabIndex = 2
         '
         'Label36
@@ -2970,7 +2985,7 @@ Partial Class FrmLiquidacionesAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1274, 700)
+        Me.ClientSize = New System.Drawing.Size(1454, 762)
         Me.Controls.Add(Me.SplitMult)
         Me.Controls.Add(Me.BarMenu)
         Me.Controls.Add(Me.TBotonMagico)
@@ -3255,4 +3270,5 @@ Partial Class FrmLiquidacionesAE
     Friend WithEvents LtLtsEfectivo As Label
     Friend WithEvents Pag9Casetas As C1.Win.C1Command.C1DockingTabPage
     Friend WithEvents FgCasetas As C1.Win.C1FlexGrid.C1FlexGrid
+    Friend WithEvents C1FlexGridSearchPanel1 As C1.Win.C1FlexGrid.C1FlexGridSearchPanel
 End Class

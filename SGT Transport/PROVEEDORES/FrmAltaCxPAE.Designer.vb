@@ -75,6 +75,8 @@ Partial Class FrmAltaCxPAE
         Me.barGrabar = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuSalir = New System.Windows.Forms.ToolStripMenuItem()
         Me.C1ThemeController1 = New C1.Win.C1Themes.C1ThemeController()
+        Me.CboCuentabancaria = New C1.Win.C1Input.C1ComboBox()
+        Me.Label12 = New System.Windows.Forms.Label()
         Me.Box1.SuspendLayout()
         CType(Me.tFolio, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chAplicarFolio, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,6 +95,7 @@ Partial Class FrmAltaCxPAE
         CType(Me.tObs, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.barMenu.SuspendLayout()
         CType(Me.C1ThemeController1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CboCuentabancaria, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Box1
@@ -314,6 +317,8 @@ Partial Class FrmAltaCxPAE
         'GroupBox2
         '
         Me.GroupBox2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.GroupBox2.Controls.Add(Me.CboCuentabancaria)
+        Me.GroupBox2.Controls.Add(Me.Label12)
         Me.GroupBox2.Controls.Add(Me.tIMPORTE)
         Me.GroupBox2.Controls.Add(Me.tIMPMON_EXT)
         Me.GroupBox2.Controls.Add(Me.Lt2)
@@ -349,7 +354,7 @@ Partial Class FrmAltaCxPAE
         Me.GroupBox2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
         Me.GroupBox2.Location = New System.Drawing.Point(6, 184)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(589, 244)
+        Me.GroupBox2.Size = New System.Drawing.Size(589, 242)
         Me.GroupBox2.TabIndex = 4
         Me.GroupBox2.TabStop = False
         Me.C1ThemeController1.SetTheme(Me.GroupBox2, "Office2010Blue")
@@ -365,7 +370,7 @@ Partial Class FrmAltaCxPAE
         Me.tIMPORTE.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
         Me.tIMPORTE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tIMPORTE.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.tIMPORTE.Location = New System.Drawing.Point(120, 180)
+        Me.tIMPORTE.Location = New System.Drawing.Point(120, 201)
         Me.tIMPORTE.Name = "tIMPORTE"
         Me.tIMPORTE.Size = New System.Drawing.Size(120, 20)
         Me.tIMPORTE.TabIndex = 3
@@ -380,7 +385,7 @@ Partial Class FrmAltaCxPAE
         Me.tIMPMON_EXT.AcceptsTab = True
         Me.tIMPMON_EXT.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tIMPMON_EXT.ForeColor = System.Drawing.Color.Black
-        Me.tIMPMON_EXT.Location = New System.Drawing.Point(398, 179)
+        Me.tIMPMON_EXT.Location = New System.Drawing.Point(398, 200)
         Me.tIMPMON_EXT.Name = "tIMPMON_EXT"
         Me.tIMPMON_EXT.Size = New System.Drawing.Size(120, 23)
         Me.tIMPMON_EXT.TabIndex = 175
@@ -393,7 +398,7 @@ Partial Class FrmAltaCxPAE
         Me.Lt2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lt2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lt2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Lt2.Location = New System.Drawing.Point(398, 155)
+        Me.Lt2.Location = New System.Drawing.Point(398, 176)
         Me.Lt2.Name = "Lt2"
         Me.Lt2.Size = New System.Drawing.Size(120, 20)
         Me.Lt2.TabIndex = 173
@@ -406,7 +411,7 @@ Partial Class FrmAltaCxPAE
         Me.Label16.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label16.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label16.Location = New System.Drawing.Point(351, 158)
+        Me.Label16.Location = New System.Drawing.Point(351, 179)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(43, 16)
         Me.Label16.TabIndex = 172
@@ -419,7 +424,7 @@ Partial Class FrmAltaCxPAE
         Me.Lt1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lt1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lt1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Lt1.Location = New System.Drawing.Point(120, 151)
+        Me.Lt1.Location = New System.Drawing.Point(120, 172)
         Me.Lt1.Name = "Lt1"
         Me.Lt1.Size = New System.Drawing.Size(120, 20)
         Me.Lt1.TabIndex = 171
@@ -432,7 +437,7 @@ Partial Class FrmAltaCxPAE
         Me.Label10.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label10.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label10.Location = New System.Drawing.Point(32, 155)
+        Me.Label10.Location = New System.Drawing.Point(32, 176)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(81, 16)
         Me.Label10.TabIndex = 170
@@ -445,7 +450,7 @@ Partial Class FrmAltaCxPAE
         Me.Label20.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label20.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label20.Location = New System.Drawing.Point(266, 182)
+        Me.Label20.Location = New System.Drawing.Point(266, 203)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(128, 16)
         Me.Label20.TabIndex = 169
@@ -458,7 +463,7 @@ Partial Class FrmAltaCxPAE
         Me.Label14.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label14.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label14.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label14.Location = New System.Drawing.Point(69, 182)
+        Me.Label14.Location = New System.Drawing.Point(69, 203)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(44, 16)
         Me.Label14.TabIndex = 168
@@ -471,7 +476,7 @@ Partial Class FrmAltaCxPAE
         Me.LtNumcpto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtNumcpto.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LtNumcpto.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.LtNumcpto.Location = New System.Drawing.Point(451, 66)
+        Me.LtNumcpto.Location = New System.Drawing.Point(451, 87)
         Me.LtNumcpto.Name = "LtNumcpto"
         Me.LtNumcpto.Size = New System.Drawing.Size(52, 20)
         Me.LtNumcpto.TabIndex = 148
@@ -485,7 +490,7 @@ Partial Class FrmAltaCxPAE
         Me.LtCambio.Enabled = False
         Me.LtCambio.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LtCambio.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.LtCambio.Location = New System.Drawing.Point(453, 124)
+        Me.LtCambio.Location = New System.Drawing.Point(453, 145)
         Me.LtCambio.Name = "LtCambio"
         Me.LtCambio.Size = New System.Drawing.Size(100, 20)
         Me.LtCambio.TabIndex = 165
@@ -496,7 +501,7 @@ Partial Class FrmAltaCxPAE
         '
         Me.btnTipoCambio.Enabled = False
         Me.btnTipoCambio.Image = CType(resources.GetObject("btnTipoCambio.Image"), System.Drawing.Image)
-        Me.btnTipoCambio.Location = New System.Drawing.Point(426, 124)
+        Me.btnTipoCambio.Location = New System.Drawing.Point(426, 145)
         Me.btnTipoCambio.Name = "btnTipoCambio"
         Me.btnTipoCambio.Size = New System.Drawing.Size(26, 20)
         Me.btnTipoCambio.TabIndex = 6
@@ -510,7 +515,7 @@ Partial Class FrmAltaCxPAE
         Me.Label11.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label11.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label11.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label11.Location = New System.Drawing.Point(385, 68)
+        Me.Label11.Location = New System.Drawing.Point(385, 89)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(60, 16)
         Me.Label11.TabIndex = 147
@@ -524,7 +529,7 @@ Partial Class FrmAltaCxPAE
         Me.tTCAMBIO.Enabled = False
         Me.tTCAMBIO.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tTCAMBIO.ForeColor = System.Drawing.Color.Black
-        Me.tTCAMBIO.Location = New System.Drawing.Point(398, 124)
+        Me.tTCAMBIO.Location = New System.Drawing.Point(398, 145)
         Me.tTCAMBIO.Name = "tTCAMBIO"
         Me.tTCAMBIO.Size = New System.Drawing.Size(28, 23)
         Me.tTCAMBIO.TabIndex = 6
@@ -536,7 +541,7 @@ Partial Class FrmAltaCxPAE
         Me.Label19.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label19.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label19.Location = New System.Drawing.Point(292, 128)
+        Me.Label19.Location = New System.Drawing.Point(292, 149)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(102, 16)
         Me.Label19.TabIndex = 163
@@ -549,7 +554,7 @@ Partial Class FrmAltaCxPAE
         Me.LtNoCargo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtNoCargo.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LtNoCargo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.LtNoCargo.Location = New System.Drawing.Point(451, 40)
+        Me.LtNoCargo.Location = New System.Drawing.Point(451, 61)
         Me.LtNoCargo.Name = "LtNoCargo"
         Me.LtNoCargo.Size = New System.Drawing.Size(52, 20)
         Me.LtNoCargo.TabIndex = 146
@@ -562,7 +567,7 @@ Partial Class FrmAltaCxPAE
         Me.Label13.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label13.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label13.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label13.Location = New System.Drawing.Point(383, 42)
+        Me.Label13.Location = New System.Drawing.Point(383, 63)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(62, 16)
         Me.Label13.TabIndex = 145
@@ -575,7 +580,7 @@ Partial Class FrmAltaCxPAE
         Me.LtMoneda.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtMoneda.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LtMoneda.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.LtMoneda.Location = New System.Drawing.Point(178, 124)
+        Me.LtMoneda.Location = New System.Drawing.Point(178, 145)
         Me.LtMoneda.Name = "LtMoneda"
         Me.LtMoneda.Size = New System.Drawing.Size(100, 20)
         Me.LtMoneda.TabIndex = 161
@@ -587,7 +592,7 @@ Partial Class FrmAltaCxPAE
         '
         Me.btnMoneda.Enabled = False
         Me.btnMoneda.Image = CType(resources.GetObject("btnMoneda.Image"), System.Drawing.Image)
-        Me.btnMoneda.Location = New System.Drawing.Point(151, 124)
+        Me.btnMoneda.Location = New System.Drawing.Point(151, 145)
         Me.btnMoneda.Name = "btnMoneda"
         Me.btnMoneda.Size = New System.Drawing.Size(26, 20)
         Me.btnMoneda.TabIndex = 160
@@ -602,7 +607,7 @@ Partial Class FrmAltaCxPAE
         Me.tNUM_MONED.Enabled = False
         Me.tNUM_MONED.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tNUM_MONED.ForeColor = System.Drawing.Color.Black
-        Me.tNUM_MONED.Location = New System.Drawing.Point(120, 124)
+        Me.tNUM_MONED.Location = New System.Drawing.Point(120, 145)
         Me.tNUM_MONED.Name = "tNUM_MONED"
         Me.tNUM_MONED.Size = New System.Drawing.Size(30, 22)
         Me.tNUM_MONED.TabIndex = 5
@@ -614,7 +619,7 @@ Partial Class FrmAltaCxPAE
         Me.Label17.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label17.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label17.Location = New System.Drawing.Point(56, 127)
+        Me.Label17.Location = New System.Drawing.Point(56, 148)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(57, 16)
         Me.Label17.TabIndex = 159
@@ -632,7 +637,7 @@ Partial Class FrmAltaCxPAE
         Me.F2.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
         Me.F2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.F2.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F2.Location = New System.Drawing.Point(398, 97)
+        Me.F2.Location = New System.Drawing.Point(398, 118)
         Me.F2.Name = "F2"
         Me.F2.Size = New System.Drawing.Size(111, 21)
         Me.F2.TabIndex = 4
@@ -647,7 +652,7 @@ Partial Class FrmAltaCxPAE
         Me.Label15.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label15.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label15.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label15.Location = New System.Drawing.Point(349, 99)
+        Me.Label15.Location = New System.Drawing.Point(349, 120)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(45, 16)
         Me.Label15.TabIndex = 157
@@ -664,7 +669,7 @@ Partial Class FrmAltaCxPAE
         Me.F1.DisabledForeColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer), CType(CType(167, Byte), Integer))
         Me.F1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.F1.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F1.Location = New System.Drawing.Point(120, 97)
+        Me.F1.Location = New System.Drawing.Point(120, 118)
         Me.F1.Name = "F1"
         Me.F1.Size = New System.Drawing.Size(113, 20)
         Me.F1.TabIndex = 3
@@ -679,7 +684,7 @@ Partial Class FrmAltaCxPAE
         Me.Label90.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label90.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label90.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label90.Location = New System.Drawing.Point(68, 100)
+        Me.Label90.Location = New System.Drawing.Point(68, 121)
         Me.Label90.Name = "Label90"
         Me.Label90.Size = New System.Drawing.Size(45, 16)
         Me.Label90.TabIndex = 155
@@ -689,7 +694,7 @@ Partial Class FrmAltaCxPAE
         'btnReferencia
         '
         Me.btnReferencia.Image = CType(resources.GetObject("btnReferencia.Image"), System.Drawing.Image)
-        Me.btnReferencia.Location = New System.Drawing.Point(325, 71)
+        Me.btnReferencia.Location = New System.Drawing.Point(325, 92)
         Me.btnReferencia.Name = "btnReferencia"
         Me.btnReferencia.Size = New System.Drawing.Size(26, 20)
         Me.btnReferencia.TabIndex = 144
@@ -703,7 +708,7 @@ Partial Class FrmAltaCxPAE
         Me.tNO_FACTURA.AcceptsTab = True
         Me.tNO_FACTURA.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tNO_FACTURA.ForeColor = System.Drawing.Color.Black
-        Me.tNO_FACTURA.Location = New System.Drawing.Point(120, 71)
+        Me.tNO_FACTURA.Location = New System.Drawing.Point(120, 92)
         Me.tNO_FACTURA.Name = "tNO_FACTURA"
         Me.tNO_FACTURA.Size = New System.Drawing.Size(204, 22)
         Me.tNO_FACTURA.TabIndex = 2
@@ -715,7 +720,7 @@ Partial Class FrmAltaCxPAE
         Me.Label9.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label9.Location = New System.Drawing.Point(23, 74)
+        Me.Label9.Location = New System.Drawing.Point(23, 95)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(90, 16)
         Me.Label9.TabIndex = 143
@@ -728,7 +733,7 @@ Partial Class FrmAltaCxPAE
         Me.tDOCTO.AcceptsTab = True
         Me.tDOCTO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tDOCTO.ForeColor = System.Drawing.Color.Black
-        Me.tDOCTO.Location = New System.Drawing.Point(120, 45)
+        Me.tDOCTO.Location = New System.Drawing.Point(120, 66)
         Me.tDOCTO.Name = "tDOCTO"
         Me.tDOCTO.Size = New System.Drawing.Size(204, 22)
         Me.tDOCTO.TabIndex = 1
@@ -740,7 +745,7 @@ Partial Class FrmAltaCxPAE
         Me.Label8.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label8.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label8.Location = New System.Drawing.Point(13, 48)
+        Me.Label8.Location = New System.Drawing.Point(13, 69)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(100, 16)
         Me.Label8.TabIndex = 141
@@ -750,7 +755,7 @@ Partial Class FrmAltaCxPAE
         'btnNoFactura
         '
         Me.btnNoFactura.Image = CType(resources.GetObject("btnNoFactura.Image"), System.Drawing.Image)
-        Me.btnNoFactura.Location = New System.Drawing.Point(325, 19)
+        Me.btnNoFactura.Location = New System.Drawing.Point(325, 40)
         Me.btnNoFactura.Name = "btnNoFactura"
         Me.btnNoFactura.Size = New System.Drawing.Size(26, 20)
         Me.btnNoFactura.TabIndex = 139
@@ -764,7 +769,7 @@ Partial Class FrmAltaCxPAE
         Me.tREFER.AcceptsTab = True
         Me.tREFER.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tREFER.ForeColor = System.Drawing.Color.Black
-        Me.tREFER.Location = New System.Drawing.Point(120, 19)
+        Me.tREFER.Location = New System.Drawing.Point(120, 40)
         Me.tREFER.Name = "tREFER"
         Me.tREFER.Size = New System.Drawing.Size(204, 22)
         Me.tREFER.TabIndex = 0
@@ -776,7 +781,7 @@ Partial Class FrmAltaCxPAE
         Me.Label7.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label7.Location = New System.Drawing.Point(37, 22)
+        Me.Label7.Location = New System.Drawing.Point(37, 43)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(76, 16)
         Me.Label7.TabIndex = 138
@@ -788,7 +793,7 @@ Partial Class FrmAltaCxPAE
         Me.GroupBox3.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.GroupBox3.Controls.Add(Me.tObs)
         Me.GroupBox3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.GroupBox3.Location = New System.Drawing.Point(6, 434)
+        Me.GroupBox3.Location = New System.Drawing.Point(6, 430)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(499, 72)
         Me.GroupBox3.TabIndex = 4
@@ -847,11 +852,44 @@ Partial Class FrmAltaCxPAE
         Me.mnuSalir.Text = "Salir"
         Me.mnuSalir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
+        'CboCuentabancaria
+        '
+        Me.CboCuentabancaria.AcceptsTab = True
+        Me.CboCuentabancaria.AllowSpinLoop = False
+        Me.CboCuentabancaria.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.CboCuentabancaria.Cursor = System.Windows.Forms.Cursors.Arrow
+        Me.CboCuentabancaria.DropDownStyle = C1.Win.C1Input.DropDownStyle.DropDownList
+        Me.CboCuentabancaria.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboCuentabancaria.GapHeight = 0
+        Me.CboCuentabancaria.ImagePadding = New System.Windows.Forms.Padding(0)
+        Me.CboCuentabancaria.ItemsDisplayMember = ""
+        Me.CboCuentabancaria.ItemsValueMember = ""
+        Me.CboCuentabancaria.Location = New System.Drawing.Point(120, 15)
+        Me.CboCuentabancaria.MaxDropDownItems = 15
+        Me.CboCuentabancaria.Name = "CboCuentabancaria"
+        Me.CboCuentabancaria.Size = New System.Drawing.Size(300, 19)
+        Me.CboCuentabancaria.TabIndex = 0
+        Me.CboCuentabancaria.Tag = Nothing
+        Me.C1ThemeController1.SetTheme(Me.CboCuentabancaria, "(default)")
+        Me.CboCuentabancaria.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        Me.CboCuentabancaria.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label12.Location = New System.Drawing.Point(30, 15)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(87, 16)
+        Me.Label12.TabIndex = 181
+        Me.Label12.Text = "Cta. Bancaria"
+        Me.C1ThemeController1.SetTheme(Me.Label12, "(default)")
+        '
         'FrmAltaCxPAE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(620, 523)
+        Me.ClientSize = New System.Drawing.Size(620, 513)
         Me.Controls.Add(Me.barMenu)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.GroupBox2)
@@ -889,6 +927,7 @@ Partial Class FrmAltaCxPAE
         Me.barMenu.ResumeLayout(False)
         Me.barMenu.PerformLayout()
         CType(Me.C1ThemeController1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CboCuentabancaria, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -949,4 +988,6 @@ Partial Class FrmAltaCxPAE
     Friend WithEvents tIMPMON_EXT As TextBox
     Private WithEvents tIMPORTE As C1.Win.C1Input.C1NumericEdit
     Friend WithEvents C1ThemeController1 As C1.Win.C1Themes.C1ThemeController
+    Friend WithEvents CboCuentabancaria As C1.Win.C1Input.C1ComboBox
+    Friend WithEvents Label12 As Label
 End Class

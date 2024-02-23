@@ -15,7 +15,9 @@ Public Class frmConciCartaPorteAE
 
         Fg.Styles(CellStyleEnum.Normal).WordWrap = True
         Fg2.Styles(CellStyleEnum.Normal).WordWrap = True
+
         Fg.Cols(1).Sort = SortFlags.Ascending
+
         Fg.Cols(0).Width = 5
         Fg2.Cols(0).Width = 5
 

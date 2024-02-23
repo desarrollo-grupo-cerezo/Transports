@@ -105,14 +105,6 @@ Partial Class frmOTI_GMAE
         Me.btnUnidades = New C1.Win.C1Input.C1Button()
         Me.Tab1 = New C1.Win.C1Command.C1DockingTab()
         Me.TabProductos = New C1.Win.C1Command.C1DockingTabPage()
-        Me.Lt4 = New System.Windows.Forms.Label()
-        Me.LtPar = New System.Windows.Forms.Label()
-        Me.Lt3 = New System.Windows.Forms.Label()
-        Me.LtPiezas = New System.Windows.Forms.Label()
-        Me.LtDocAnt = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.Lt1 = New System.Windows.Forms.Label()
-        Me.L1 = New System.Windows.Forms.Label()
         Me.Fg = New C1.Win.C1FlexGrid.C1FlexGrid()
         Me.TabServicios = New C1.Win.C1Command.C1DockingTabPage()
         Me.Lt5 = New System.Windows.Forms.Label()
@@ -131,6 +123,14 @@ Partial Class frmOTI_GMAE
         Me.btnFotDocA = New C1.Win.C1Input.C1Button()
         Me.TabObser = New C1.Win.C1Command.C1DockingTabPage()
         Me.tOBSER = New System.Windows.Forms.TextBox()
+        Me.Lt4 = New System.Windows.Forms.Label()
+        Me.LtPar = New System.Windows.Forms.Label()
+        Me.Lt3 = New System.Windows.Forms.Label()
+        Me.LtPiezas = New System.Windows.Forms.Label()
+        Me.LtDocAnt = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Lt1 = New System.Windows.Forms.Label()
+        Me.L1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
@@ -143,6 +143,7 @@ Partial Class frmOTI_GMAE
         Me.OTLkNuevo = New C1.Win.C1Command.C1CommandLink()
         Me.OTLkCancelarPart = New C1.Win.C1Command.C1CommandLink()
         Me.OTLkEliminraPart = New C1.Win.C1Command.C1CommandLink()
+        Me.Split3 = New C1.Win.C1SplitContainer.C1SplitterPanel()
         Me.StiReport1 = New Stimulsoft.Report.StiReport()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.C1ThemeController1 = New C1.Win.C1Themes.C1ThemeController()
@@ -175,6 +176,7 @@ Partial Class frmOTI_GMAE
         Me.Splil1.SuspendLayout()
         Me.Split2.SuspendLayout()
         Me.Panel3.SuspendLayout()
+        Me.Split3.SuspendLayout()
         CType(Me.C1ThemeController1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1083,7 +1085,7 @@ Partial Class frmOTI_GMAE
         Me.Tab1.HotTrack = True
         Me.Tab1.Location = New System.Drawing.Point(0, 0)
         Me.Tab1.Name = "Tab1"
-        Me.Tab1.Size = New System.Drawing.Size(1183, 418)
+        Me.Tab1.Size = New System.Drawing.Size(1183, 301)
         Me.Tab1.TabIndex = 2
         Me.Tab1.TabSizeMode = C1.Win.C1Command.TabSizeModeEnum.Fit
         Me.Tab1.TabsShowFocusCues = False
@@ -1093,101 +1095,13 @@ Partial Class frmOTI_GMAE
         '
         'TabProductos
         '
-        Me.TabProductos.Controls.Add(Me.Lt4)
-        Me.TabProductos.Controls.Add(Me.LtPar)
-        Me.TabProductos.Controls.Add(Me.Lt3)
-        Me.TabProductos.Controls.Add(Me.LtPiezas)
-        Me.TabProductos.Controls.Add(Me.LtDocAnt)
-        Me.TabProductos.Controls.Add(Me.Label7)
-        Me.TabProductos.Controls.Add(Me.Lt1)
-        Me.TabProductos.Controls.Add(Me.L1)
         Me.TabProductos.Controls.Add(Me.Fg)
         Me.TabProductos.Controls.Add(Me.tBotonMagico)
         Me.TabProductos.Location = New System.Drawing.Point(1, 25)
         Me.TabProductos.Name = "TabProductos"
-        Me.TabProductos.Size = New System.Drawing.Size(1181, 392)
+        Me.TabProductos.Size = New System.Drawing.Size(1181, 275)
         Me.TabProductos.TabIndex = 0
         Me.TabProductos.Text = "Productos"
-        '
-        'Lt4
-        '
-        Me.Lt4.AutoSize = True
-        Me.Lt4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt4.Location = New System.Drawing.Point(316, 274)
-        Me.Lt4.Name = "Lt4"
-        Me.Lt4.Size = New System.Drawing.Size(81, 15)
-        Me.Lt4.TabIndex = 144
-        Me.Lt4.Text = "Total partidas"
-        '
-        'LtPar
-        '
-        Me.LtPar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LtPar.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtPar.Location = New System.Drawing.Point(401, 271)
-        Me.LtPar.Name = "LtPar"
-        Me.LtPar.Size = New System.Drawing.Size(51, 22)
-        Me.LtPar.TabIndex = 143
-        Me.LtPar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Lt3
-        '
-        Me.Lt3.AutoSize = True
-        Me.Lt3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt3.Location = New System.Drawing.Point(478, 274)
-        Me.Lt3.Name = "Lt3"
-        Me.Lt3.Size = New System.Drawing.Size(73, 15)
-        Me.Lt3.TabIndex = 142
-        Me.Lt3.Text = "Total piezas"
-        '
-        'LtPiezas
-        '
-        Me.LtPiezas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LtPiezas.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtPiezas.Location = New System.Drawing.Point(553, 271)
-        Me.LtPiezas.Name = "LtPiezas"
-        Me.LtPiezas.Size = New System.Drawing.Size(111, 22)
-        Me.LtPiezas.TabIndex = 141
-        Me.LtPiezas.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'LtDocAnt
-        '
-        Me.LtDocAnt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LtDocAnt.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtDocAnt.Location = New System.Drawing.Point(104, 271)
-        Me.LtDocAnt.Name = "LtDocAnt"
-        Me.LtDocAnt.Size = New System.Drawing.Size(164, 22)
-        Me.LtDocAnt.TabIndex = 140
-        Me.LtDocAnt.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(12, 274)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(86, 15)
-        Me.Label7.TabIndex = 139
-        Me.Label7.Text = "Doc. enlazado"
-        '
-        'Lt1
-        '
-        Me.Lt1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lt1.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt1.Location = New System.Drawing.Point(967, 271)
-        Me.Lt1.Name = "Lt1"
-        Me.Lt1.Size = New System.Drawing.Size(164, 22)
-        Me.Lt1.TabIndex = 135
-        Me.Lt1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'L1
-        '
-        Me.L1.AutoSize = True
-        Me.L1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.L1.Location = New System.Drawing.Point(912, 274)
-        Me.L1.Name = "L1"
-        Me.L1.Size = New System.Drawing.Size(49, 15)
-        Me.L1.TabIndex = 134
-        Me.L1.Text = "Importe"
         '
         'Fg
         '
@@ -1198,10 +1112,11 @@ Partial Class frmOTI_GMAE
         Me.Fg.BorderStyle = C1.Win.C1FlexGrid.Util.BaseControls.BorderStyleEnum.FixedSingle
         Me.Fg.ClipboardCopyMode = C1.Win.C1FlexGrid.ClipboardCopyModeEnum.DataAndColumnHeaders
         Me.Fg.ColumnInfo = resources.GetString("Fg.ColumnInfo")
+        Me.Fg.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Fg.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Solid
         Me.Fg.Font = New System.Drawing.Font("Tahoma", 9.0!)
         Me.Fg.KeyActionEnter = C1.Win.C1FlexGrid.KeyActionEnum.None
-        Me.Fg.Location = New System.Drawing.Point(19, 3)
+        Me.Fg.Location = New System.Drawing.Point(0, 0)
         Me.Fg.Name = "Fg"
         Me.Fg.PreserveEditMode = True
         Me.Fg.Rows.Count = 2
@@ -1210,7 +1125,7 @@ Partial Class frmOTI_GMAE
         Me.Fg.ShowButtons = C1.Win.C1FlexGrid.ShowButtonsEnum.Always
         Me.Fg.ShowCellLabels = True
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg.Size = New System.Drawing.Size(1160, 261)
+        Me.Fg.Size = New System.Drawing.Size(1181, 275)
         Me.Fg.TabIndex = 1
         '
         'TabServicios
@@ -1222,7 +1137,7 @@ Partial Class frmOTI_GMAE
         Me.TabServicios.Controls.Add(Me.btnEliSer)
         Me.TabServicios.Location = New System.Drawing.Point(1, 25)
         Me.TabServicios.Name = "TabServicios"
-        Me.TabServicios.Size = New System.Drawing.Size(1181, 392)
+        Me.TabServicios.Size = New System.Drawing.Size(1181, 275)
         Me.TabServicios.TabIndex = 0
         Me.TabServicios.Text = "Servicios"
         '
@@ -1300,7 +1215,7 @@ Partial Class frmOTI_GMAE
         Me.TabDocDigitales.Controls.Add(Me.btnFotDocA)
         Me.TabDocDigitales.Location = New System.Drawing.Point(1, 25)
         Me.TabDocDigitales.Name = "TabDocDigitales"
-        Me.TabDocDigitales.Size = New System.Drawing.Size(1181, 392)
+        Me.TabDocDigitales.Size = New System.Drawing.Size(1181, 275)
         Me.TabDocDigitales.TabIndex = 4
         Me.TabDocDigitales.Text = "Documentos digitales"
         '
@@ -1393,7 +1308,7 @@ Partial Class frmOTI_GMAE
         Me.TabObser.Controls.Add(Me.tOBSER)
         Me.TabObser.Location = New System.Drawing.Point(1, 25)
         Me.TabObser.Name = "TabObser"
-        Me.TabObser.Size = New System.Drawing.Size(1181, 392)
+        Me.TabObser.Size = New System.Drawing.Size(1181, 275)
         Me.TabObser.TabIndex = 2
         Me.TabObser.Text = "Observaciones"
         '
@@ -1407,6 +1322,86 @@ Partial Class frmOTI_GMAE
         Me.tOBSER.Name = "tOBSER"
         Me.tOBSER.Size = New System.Drawing.Size(695, 134)
         Me.tOBSER.TabIndex = 1
+        '
+        'Lt4
+        '
+        Me.Lt4.AutoSize = True
+        Me.Lt4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lt4.Location = New System.Drawing.Point(316, 6)
+        Me.Lt4.Name = "Lt4"
+        Me.Lt4.Size = New System.Drawing.Size(81, 15)
+        Me.Lt4.TabIndex = 144
+        Me.Lt4.Text = "Total partidas"
+        '
+        'LtPar
+        '
+        Me.LtPar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LtPar.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LtPar.Location = New System.Drawing.Point(401, 3)
+        Me.LtPar.Name = "LtPar"
+        Me.LtPar.Size = New System.Drawing.Size(51, 22)
+        Me.LtPar.TabIndex = 143
+        Me.LtPar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Lt3
+        '
+        Me.Lt3.AutoSize = True
+        Me.Lt3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lt3.Location = New System.Drawing.Point(478, 6)
+        Me.Lt3.Name = "Lt3"
+        Me.Lt3.Size = New System.Drawing.Size(73, 15)
+        Me.Lt3.TabIndex = 142
+        Me.Lt3.Text = "Total piezas"
+        '
+        'LtPiezas
+        '
+        Me.LtPiezas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LtPiezas.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LtPiezas.Location = New System.Drawing.Point(553, 3)
+        Me.LtPiezas.Name = "LtPiezas"
+        Me.LtPiezas.Size = New System.Drawing.Size(111, 22)
+        Me.LtPiezas.TabIndex = 141
+        Me.LtPiezas.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'LtDocAnt
+        '
+        Me.LtDocAnt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LtDocAnt.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LtDocAnt.Location = New System.Drawing.Point(104, 3)
+        Me.LtDocAnt.Name = "LtDocAnt"
+        Me.LtDocAnt.Size = New System.Drawing.Size(164, 22)
+        Me.LtDocAnt.TabIndex = 140
+        Me.LtDocAnt.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(12, 6)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(86, 15)
+        Me.Label7.TabIndex = 139
+        Me.Label7.Text = "Doc. enlazado"
+        '
+        'Lt1
+        '
+        Me.Lt1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lt1.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lt1.Location = New System.Drawing.Point(967, 3)
+        Me.Lt1.Name = "Lt1"
+        Me.Lt1.Size = New System.Drawing.Size(164, 22)
+        Me.Lt1.TabIndex = 135
+        Me.Lt1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'L1
+        '
+        Me.L1.AutoSize = True
+        Me.L1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.L1.Location = New System.Drawing.Point(912, 6)
+        Me.L1.Name = "L1"
+        Me.L1.Size = New System.Drawing.Size(49, 15)
+        Me.L1.TabIndex = 134
+        Me.L1.Text = "Importe"
         '
         'Label2
         '
@@ -1460,6 +1455,7 @@ Partial Class frmOTI_GMAE
         Me.SplitM.Name = "SplitM"
         Me.SplitM.Panels.Add(Me.Splil1)
         Me.SplitM.Panels.Add(Me.Split2)
+        Me.SplitM.Panels.Add(Me.Split3)
         Me.SplitM.Size = New System.Drawing.Size(1185, 625)
         Me.SplitM.SplitterColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
         Me.SplitM.TabIndex = 0
@@ -1471,11 +1467,11 @@ Partial Class frmOTI_GMAE
         Me.Splil1.AutoScroll = True
         Me.Splil1.Controls.Add(Me.Panel1)
         Me.Splil1.Controls.Add(Me.Panel2)
-        Me.Splil1.Height = 157
+        Me.Splil1.Height = 155
         Me.Splil1.Location = New System.Drawing.Point(1, 1)
         Me.Splil1.Name = "Splil1"
-        Me.Splil1.Size = New System.Drawing.Size(1183, 157)
-        Me.Splil1.SizeRatio = 25.363R
+        Me.Splil1.Size = New System.Drawing.Size(1183, 155)
+        Me.Splil1.SizeRatio = 25.0R
         Me.Splil1.TabIndex = 1
         '
         'Split2
@@ -1483,10 +1479,11 @@ Partial Class frmOTI_GMAE
         Me.Split2.AutoScroll = True
         Me.Split2.Controls.Add(Me.Panel3)
         Me.Split2.Controls.Add(Me.C1ToolBar2)
-        Me.Split2.Height = 462
-        Me.Split2.Location = New System.Drawing.Point(1, 162)
+        Me.Split2.Height = 345
+        Me.Split2.Location = New System.Drawing.Point(1, 160)
         Me.Split2.Name = "Split2"
-        Me.Split2.Size = New System.Drawing.Size(1183, 462)
+        Me.Split2.Size = New System.Drawing.Size(1183, 345)
+        Me.Split2.SizeRatio = 75.0R
         Me.Split2.TabIndex = 2
         '
         'Panel3
@@ -1495,7 +1492,7 @@ Partial Class frmOTI_GMAE
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel3.Location = New System.Drawing.Point(0, 44)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(1183, 418)
+        Me.Panel3.Size = New System.Drawing.Size(1183, 301)
         Me.Panel3.TabIndex = 1
         '
         'C1ToolBar2
@@ -1543,6 +1540,23 @@ Partial Class frmOTI_GMAE
         Me.OTLkEliminraPart.SortOrder = 2
         Me.OTLkEliminraPart.Text = "Eliminar partidas"
         Me.OTLkEliminraPart.ToolTipText = "Elimina la o las partidas seleccionadas"
+        '
+        'Split3
+        '
+        Me.Split3.Controls.Add(Me.Lt4)
+        Me.Split3.Controls.Add(Me.Lt1)
+        Me.Split3.Controls.Add(Me.LtPar)
+        Me.Split3.Controls.Add(Me.L1)
+        Me.Split3.Controls.Add(Me.Lt3)
+        Me.Split3.Controls.Add(Me.Label7)
+        Me.Split3.Controls.Add(Me.LtPiezas)
+        Me.Split3.Controls.Add(Me.LtDocAnt)
+        Me.Split3.Height = 115
+        Me.Split3.Location = New System.Drawing.Point(1, 509)
+        Me.Split3.Name = "Split3"
+        Me.Split3.Size = New System.Drawing.Size(1183, 115)
+        Me.Split3.SizeRatio = 10.0R
+        Me.Split3.TabIndex = 3
         '
         'StiReport1
         '
@@ -1615,6 +1629,8 @@ Partial Class frmOTI_GMAE
         Me.Splil1.ResumeLayout(False)
         Me.Split2.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
+        Me.Split3.ResumeLayout(False)
+        Me.Split3.PerformLayout()
         CType(Me.C1ThemeController1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1746,5 +1762,6 @@ Partial Class frmOTI_GMAE
     Friend WithEvents Label21 As Label
     Friend WithEvents BtnCambiaEstatus As C1.Win.C1Command.C1Command
     Friend WithEvents BtnEstatus As C1.Win.C1Command.C1CommandLink
-    Friend WithEvents lnkEstatus As C1.Win.C1Command.C1Command
+    Private WithEvents lnkEstatus As C1.Win.C1Command.C1Command
+    Friend WithEvents Split3 As C1.Win.C1SplitContainer.C1SplitterPanel
 End Class

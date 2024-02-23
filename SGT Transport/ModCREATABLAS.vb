@@ -16153,7 +16153,6 @@ AS
         SQL = "CREATE PROCEDURE [dbo].[sp_CTB_POLIZA_FONDO_OPER] 
 @FechaIni DATETIME,
 @FechaFin DATETIME
-
 AS
 BEGIN
 	
@@ -16240,7 +16239,7 @@ BEGIN
 					DocAgr = '',
 					SubOrden = 0,
 					TipoPoliza = '',
-					NoPolizaCuenta = iif(S.Tipo = 3, isnull(EmpBancos.CuentaFinanciera, ''), isnull(EmpBancos.CuentaFiscal, '')),  
+					NoPolizaCuenta = iif(S.Tipo = 3, isnull(EmpBancos.CuentaFinanciera, ''), isnull(EmpBancos.CuentFiscalaEgresos, '')),  
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT('AFDO.GLOBAL$', @TotalDepositos, ' VARIOS OPERADORES'),
 					TipoCambio = CONCAT('', cast('1.00' as varchar)),
@@ -16254,8 +16253,8 @@ BEGIN
 					WHERE FechaDeposito BETWEEN @FechaIni AND @FechaFin
 					GROUP BY Banco) OperBancos
 				LEFT JOIN (
-					SELECT Banco = B.DESCR, CuentaFinanciera = MAX(C.CUENTA_CONTABLE_FINANCIERA), CuentaFiscal = MAX(C.CUENTA_CONTABLE_FISCAL) 
-					FROM CUENTA_BENEF05 C
+					SELECT Banco = B.DESCR, CuentaFinanciera = MAX(C.CUENTA_CONTABLE_FINANCIERA), CuentaFiscal = MAX(C.CUENTA_CONTABLE_FISCAL), CuentFiscalaEgresos = (MAX(C.CUENTA_CONTABLE_FISCAL_EG)) 
+					FROM CUENTA_BENEF" & Empresa & " C
 					INNER JOIN GCBANCOS B ON B.CVE_BANCO = C.CVE_BANCO
 					GROUP BY B.DESCR) EmpBancos ON EmpBancos.Banco = OperBancos.Banco
 				INNER JOIN (SELECT Tipo = 3 UNION ALL SELECT Tipo = 4) S ON 1 = 1

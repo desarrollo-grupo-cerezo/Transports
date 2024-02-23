@@ -3002,6 +3002,110 @@ Public Class FrmLiquidacionesAE
             MsgBox("800. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
+
+    Sub FgCheck_ActualizaViaje(CveViaje As String, RowIndex As Integer)
+        Dim cmd As New SqlCommand
+        Dim dr As SqlDataReader
+        cmd.Connection = cnSAE
+        Try
+
+
+            SQL = "SELECT U.CLAVE, A.STATUS, U.CLAVEMONTE, A.CVE_TRACTOR, A.FECHA, A.CVE_VIAJE, A.TIPO_UNI , A.TIPO_VIAJE,
+                O.NOMBRE + '  (' + CAST(A.CVE_OPER AS VARCHAR(5)) + ')' AS NOM_OPER, A.ENTREGAR_EN, E.DESCR AS ENTREGAR, A.RECOGER_EN, 
+                R.DESCR AS RECOGER, ISNULL(A.CVE_CAP1,'') AS CAP1, ISNULL(A.CVE_CAP2,'') AS CAP2, A.CVE_ST_VIA, 
+                S.DESCR AS STATUS_VIAJE,TAB.SUELDO_OPER,ISNULL(ST.DESCR,'') AS ST_CP, ISNULL(R1.CVE_TAB,'') AS CVETAB, A.UUID, 
+                CP1.FECHA_CARGA, CP1.FECHA_REAL_CARGA, CP1.FECHA_DESCARGA, CP1.FECHA_REAL_DESCARGA, 
+                ISNULL((SELECT ISNULL(STC.DESCR,'') FROM GCCARTA_PORTE CT LEFT JOIN GCSTATUS_CARTA_PORTE STC ON STC.CVE_CAP = CT.ST_CARTA_PORTE WHERE CVE_FOLIO = A.CVE_CAP2),'') AS ST_CP2,
+                DATEDIFF(day, CP1.FECHA_CARGA, CP1.FECHA_REAL_CARGA) AS DIF1, DATEDIFF(day, CP1.FECHA_DESCARGA, 
+                CP1.FECHA_REAL_DESCARGA) AS DIF2, ISNULL(R1.SUELDO_X_FACTOR,0) AS SUELDO_C_FAC, 
+                CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_FULL,0) ELSE ISNULL(SUELDO_SENC,0) END AS SUEL_CONV,
+				A.CVE_DOC AS FACT1, '' AS FACT2, CLI.NOMBRE AS CLIENTE_NOMBRE, R1.DESCR AS ORIGEN, R1.DESCR2 AS DESTINO, 
+                CASE WHEN A.TIPO_FACTURACION = 2 THEN
+                    A.SUBTOTAL
+                ELSE
+                    ISNULL((SELECT SUM(CAN_TOT) FROM FACTF" & Empresa & " WHERE CVE_VIAJE = A.CVE_VIAJE),0)
+                END AS FACTURADO,
+                round(((CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_SUELDO_FULL, 0) ELSE ISNULL(R1.PORC_SUELDO_SENC, 0) 
+                END * ISNULL((SELECT SUM(CAN_TOT) FROM FACTF" & Empresa & " WHERE CVE_VIAJE = A.CVE_VIAJE),0))/100), 2) AS SDO_X_TONELADA, 
+				CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_SUELDO_FULL, 0) ELSE ISNULL(R1.PORC_SUELDO_SENC, 0) END AS PORC_SUELDO,
+				CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_MANIOBRA_FULL, 0) ELSE ISNULL(R1.SUELDO_MANIOBRA_SENC, 0) END AS SUELDO_MANIOBRA,
+				CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END AS PORC_SUELDO_MANIOBRA,
+                round(((CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) 
+                END * ISNULL((SELECT SUM(CAN_TOT) FROM FACTF" & Empresa & " WHERE CVE_VIAJE = A.CVE_VIAJE),0))/100), 2) AS SDO_MANIOBRA_X_TONELADA,
+                ISNULL(L.CAMPLIB1,'') AS LIB1, A.CLIENTE, CLI.NOMBRE, TIPO_FACTURACION
+                FROM GCASIGNACION_VIAJE A
+                LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = A.CVE_TAB_VIAJE
+                LEFT JOIN GCCARTA_PORTE CP1 ON CP1.CVE_FOLIO = A.CVE_CAP1
+                LEFT JOIN GCSTATUS_CARTA_PORTE ST ON ST.CVE_CAP = CP1.ST_CARTA_PORTE
+                LEFT JOIN GCRECOGER_EN_ENTREGAR_EN E ON E.CVE_REG = A.ENTREGAR_EN
+                LEFT JOIN GCRECOGER_EN_ENTREGAR_EN R ON R.CVE_REG = A.RECOGER_EN
+                LEFT JOIN GCUNIDADES U ON A.CVE_TRACTOR = U.CLAVEMONTE
+                LEFT JOIN GCASIGNACION_VIAJE_TAB_RUTAS TAB ON TAB.CVE_CON = A.CVE_CON
+                LEFT JOIN GCCAT_STATUS_VIAJE S ON S.CLAVE = A.CVE_ST_VIA
+                LEFT JOIN GCOPERADOR O ON O.CLAVE = A.CVE_OPER
+                LEFT JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = A.CLIENTE	
+                LEFT JOIN CLIE_CLIB" & Empresa & " L ON L.CVE_CLIE = CLI.CLAVE
+				LEFT JOIN FACTF" & Empresa & " FAC WITH (nolock) ON FAC.CVE_DOC = A.CVE_DOC AND FAC.STATUS != 'C' AND FAC.TIMBRADO = 'S' 
+                WHERE A.STATUS = 'A' AND A.CVE_VIAJE = '" & CveViaje & "'"
+
+            cmd.CommandText = SQL
+            dr = cmd.ExecuteReader
+            If dr.Read Then
+
+
+                Dim SUELDO_OPER As Decimal = dr("SUEL_CONV")
+
+                Fg(RowIndex, 0) = IIf(dr("CVETAB").ToString.Trim.Length = 0, "", ">") '0
+                's &= vbTab & False '1
+                's &= vbTab & dr("CVE_VIAJE") '2
+                Fg(RowIndex, 3) = dr.ReadNullAsEmptyString("FECHA") '3
+                Fg(RowIndex, 4) = dr("FACT1") '4
+                Fg(RowIndex, 5) = dr("FACT2") '5
+
+                Fg(RowIndex, 7) = dr("ORIGEN") '7
+                Fg(RowIndex, 8) = dr("DESTINO") '8
+                Fg(RowIndex, 9) = IIf(dr.ReadNullAsEmptyInteger("TIPO_UNI") = 1, "Full", "Sencillo") '9
+                Fg(RowIndex, 10) = dr("FACTURADO") '10   <=============================================================================
+                Fg(RowIndex, 11) = SUELDO_OPER '11
+                Fg(RowIndex, 12) = dr("PORC_SUELDO") '12
+                Fg(RowIndex, 13) = dr("SUELDO_MANIOBRA") '13
+                Fg(RowIndex, 14) = dr("PORC_SUELDO_MANIOBRA") '14
+
+                Fg(RowIndex, 16) = dr("SDO_X_TONELADA") '16
+                Fg(RowIndex, 17) = dr("SDO_MANIOBRA_X_TONELADA") '17
+                Fg(RowIndex, 18) = Convert.ToDecimal(dr("SUEL_CONV")) + Convert.ToDecimal(dr("SUELDO_MANIOBRA")) '18
+                Fg(RowIndex, 19) = IIf(dr.ReadNullAsEmptyInteger("TIPO_VIAJE") = 1, "Cargado", "Vacio") '19
+                Fg(RowIndex, 20) = dr.ReadNullAsEmptyString("CVE_TRACTOR") '20
+                Fg(RowIndex, 21) = dr("CAP1") '21
+                Fg(RowIndex, 22) = dr("ST_CP") '22
+                Fg(RowIndex, 23) = dr("CAP2") '23
+                Fg(RowIndex, 24) = dr("ST_CP2") '24
+                Fg(RowIndex, 25) = dr("RECOGER_EN") '25
+                Fg(RowIndex, 26) = dr("RECOGER") '26
+                Fg(RowIndex, 27) = dr("ENTREGAR_EN") '27
+                Fg(RowIndex, 28) = dr("ENTREGAR") '28
+                Fg(RowIndex, 29) = dr("CVE_ST_VIA") '29
+                Fg(RowIndex, 30) = dr("STATUS_VIAJE") '30
+
+
+                Fg(RowIndex, 34) = dr("UUID") '34
+
+                Fg(RowIndex, 36) = dr("CVETAB") '36
+
+                Fg(RowIndex, 38) = dr("FECHA_CARGA") '38
+                Fg(RowIndex, 39) = dr("FECHA_REAL_CARGA") '39
+                Fg(RowIndex, 40) = dr("FECHA_DESCARGA") '40
+                Fg(RowIndex, 41) = dr("FECHA_REAL_DESCARGA") '41
+                Fg(RowIndex, 42) = dr("DIF1") '42
+                Fg(RowIndex, 43) = dr("DIF2") '43
+                Fg(RowIndex, 44) = dr("SUEL_CONV") '44
+                Fg(RowIndex, 45) = dr("LIB1").ToString.Trim.ToUpper '45
+
+            End If
+        Catch ex As Exception
+            BITACORA_LIQ("801. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+    End Sub
     Sub FGCHECK_DESPLEGAR_GASTOS_VIAJE(fCVE_VIAJE As String, Optional fPROC As String = "")
 
         Dim Exist As Boolean
@@ -3465,6 +3569,8 @@ Public Class FrmLiquidacionesAE
                         PROC = "A"
 
                         SUMA = _FgColNumViaje
+
+
                         FGCHECK_DESPLEGAR_GASTOS_VIAJE(Fg(k, _FgColNumViaje), PROC)
 
                         FGCHECK_DESPLEGAR_GASTOS_VIAJE_VALES(Fg(k, _FgColNumViaje), PROC)
@@ -3531,6 +3637,8 @@ Public Class FrmLiquidacionesAE
 
                     If Fg(e.Row, _FgColSeleccione) Then
                         PROC = "A"
+
+                        FgCheck_ActualizaViaje(Fg(e.Row, _FgColNumViaje), e.Row)
 
                         CADENA1 = Fg(e.Row, _FgColCheck19)
                         CADENA2 = Fg(e.Row, _FgColNumViaje)

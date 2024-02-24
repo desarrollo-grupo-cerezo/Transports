@@ -22,6 +22,7 @@ Module General
     Public Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As Boolean, ByVal lParam As Integer) As Integer
 
     End Function
+    Public IdSesion As Long = 0
     Public ColoFondoFG As Color = System.Drawing.Color.FromArgb(230, 233, 241, 250)
     '233, 241, 250
     Public PRINTDIRECTPV As Integer
@@ -6607,5 +6608,47 @@ Module General
         End Select
         Return nombre
     End Function
+
+    Public Sub SesionRegistra()
+
+        SQL = "INSERT INTO SistemaSesiones(Usuario, Host, Registro, Estatus)
+               VALUES(@Usuario, @Host, getdate(), 1);
+               SELECT SCOPE_IDENTITY(); "
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.Parameters.Add("@Usuario", SqlDbType.VarChar).Value = USER_GRUPOCE
+                cmd.Parameters.Add("@Host", SqlDbType.SmallInt).Value = Environment.MachineName
+
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteScalar().ToString
+                If returnValue IsNot Nothing Then
+                    IdSesion = Convert.ToInt64(returnValue)
+                End If
+
+            End Using
+        Catch ex As Exception
+            MsgBox("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
+            Bitacora("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
+        End Try
+
+    End Sub
+
+    Public Sub SesionTermina()
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+
+                cmd.CommandText = "UPDATE SistemaSesiones SET Estatus = 0 WHERE IdSesion = " & IdSesion
+                returnValue = cmd.ExecuteNonQuery().ToString
+
+                cmd.CommandText = "UPDATE SistemaControlEdicion SET Liberado = getdate(), Estatus = 0 WHERE Estatus = 1 AND IdSesion = " & IdSesion
+                returnValue = cmd.ExecuteNonQuery().ToString
+
+            End Using
+        Catch ex As Exception
+            MsgBox("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
+            Bitacora("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
+        End Try
+    End Sub
+
 End Module
 

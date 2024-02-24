@@ -366,6 +366,8 @@ Public Class FrmSelEmpresa
                 End If
             End If
 
+
+
             LeerConfig()
 
             Me.Close()

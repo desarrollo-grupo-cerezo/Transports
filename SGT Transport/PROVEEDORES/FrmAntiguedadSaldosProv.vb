@@ -195,13 +195,13 @@ Public Class FrmAntiguedadSaldosProv
                     WHERE CVE_PROV = M.CVE_PROV AND ID_MOV = M.NUM_CPTO AND REFER = M.REFER),0) > 0.9 "
 
             SQL = "SELECT M.CVE_PROV, T.NOMBRE, T.CLASIFIC, M.REFER, (M.IMPORTE * M.SIGNO) As IMPORTE_M, D.NO_FACTURA As NO_FAC_D, D.DOCTO As DOCTO_D, ISNULL(M.FECHA_APLI,'') AS F_APLI_M, 
-                M.FECHA_VENC, ISNULL(T.DIASCRED,0) AS DIAS_CRED,
+                M.FECHA_VENC, ISNULL(T.DIASCRED,0) AS DIAS_CRED, ISNULL(CP.SU_REFER,'') AS SUREF,
                 ISNULL((Select SUM(IMPORTE*SIGNO) FROM PAGA_DET" & Empresa & " WHERE CVE_PROV = M.CVE_PROV AND ID_MOV = M.NUM_CPTO And SIGNO = -1 And REFER = M.REFER),0) As CARGOS, 
                 ISNULL((Select SUM(IMPORTE*SIGNO) FROM PAGA_DET" & Empresa & " WHERE CVE_PROV = M.CVE_PROV AND ID_MOV = M.NUM_CPTO And SIGNO = 1 AND REFER = M.REFER),0) As ABONOS,
-                ISNULL(D.FECHA_APLI,'') AS F_APLI_D, ISNULL(D.FECHA_VENC,'') AS F_VENC_D, ISNULL(D.SIGNO,1) As SIGNO_D, 
-                ISNULL((D.IMPORTE * D.SIGNO),0) AS IMPORTE_D 
+                ISNULL(D.FECHA_APLI,'') AS F_APLI_D, ISNULL(D.FECHA_VENC,'') AS F_VENC_D, ISNULL(D.SIGNO,1) As SIGNO_D, ISNULL((D.IMPORTE * D.SIGNO),0) AS IMPORTE_D 
                 FROM PAGA_M" & Empresa & " M
                 LEFT JOIN PAGA_DET" & Empresa & " D On M.CVE_PROV = D.CVE_PROV And M.REFER = D.REFER And M.NUM_CPTO = D.ID_MOV And M.NUM_CARGO = D.NUM_CARGO
+                LEFT JOIN COMPC" & Empresa & " CP ON CP.CVE_DOC = M.REFER OR LTRIM(RTRIM(CP.CVE_DOC)) = LTRIM(RTRIM(M.REFER))
                 LEFT JOIN PROV" & Empresa & " T ON T.CLAVE = M.CVE_PROV
                 WHERE ISNULL(M.CVE_PROV,'') <> '' " & FECHA_REF & PROV & CADENA & "
                 ORDER BY M.CVE_PROV"
@@ -239,6 +239,8 @@ Public Class FrmAntiguedadSaldosProv
                         End Select
                         r = t.NewRow()
                         r("REFER") = dr("REFER")
+                        r("SU_REFER") = dr("SUREF")
+
                         r("CLIENTE") = dr("CVE_PROV")
                         r("NOMBRE") = dr("NOMBRE")
                         r("DIASCRED") = dr("DIAS_CRED")

@@ -73,8 +73,8 @@ Partial Class FrmEdoCuentaProv
         Me.ABONOS = New System.Data.DataColumn()
         Me.SALDO = New System.Data.DataColumn()
         Me.CP = New System.Data.DataColumn()
-        Me.C1FlexGridSearchPanel1 = New C1.Win.C1FlexGrid.C1FlexGridSearchPanel()
         Me.SU_REFER = New System.Data.DataColumn()
+        Me.C1FlexGridSearchPanel1 = New C1.Win.C1FlexGrid.C1FlexGridSearchPanel()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Fg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chSaldo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -223,12 +223,12 @@ Partial Class FrmEdoCuentaProv
         Me.chSaldo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.chSaldo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chSaldo.ForeColor = System.Drawing.Color.Black
-        Me.chSaldo.Location = New System.Drawing.Point(190, 56)
+        Me.chSaldo.Location = New System.Drawing.Point(11, 48)
         Me.chSaldo.Name = "chSaldo"
         Me.chSaldo.Padding = New System.Windows.Forms.Padding(1)
-        Me.chSaldo.Size = New System.Drawing.Size(104, 24)
+        Me.chSaldo.Size = New System.Drawing.Size(266, 24)
         Me.chSaldo.TabIndex = 311
-        Me.chSaldo.Text = "Saldo vencido"
+        Me.chSaldo.Text = "Solo documentos con saldo vencido"
         Me.chSaldo.UseVisualStyleBackColor = True
         Me.chSaldo.Value = Nothing
         Me.chSaldo.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue
@@ -571,6 +571,10 @@ Partial Class FrmEdoCuentaProv
         '
         Me.CP.ColumnName = "CP"
         '
+        'SU_REFER
+        '
+        Me.SU_REFER.ColumnName = "SU_REFER"
+        '
         'C1FlexGridSearchPanel1
         '
         Me.C1FlexGridSearchPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -581,10 +585,6 @@ Partial Class FrmEdoCuentaProv
         Me.C1FlexGridSearchPanel1.Size = New System.Drawing.Size(231, 38)
         Me.C1FlexGridSearchPanel1.TabIndex = 383
         Me.C1FlexGridSearchPanel1.Watermark = "Texto a buscar"
-        '
-        'SU_REFER
-        '
-        Me.SU_REFER.ColumnName = "SU_REFER"
         '
         'FrmEdoCuentaProv
         '

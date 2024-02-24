@@ -62,8 +62,9 @@ Partial Class FrmAntiguedadSaldosProv
         Me.CLIE_PROV = New System.Data.DataColumn()
         Me.DIASCRED = New System.Data.DataColumn()
         Me.FECHA_VENC = New System.Data.DataColumn()
-        Me.StiReport1 = New Stimulsoft.Report.StiReport()
         Me.NDIAS = New System.Data.DataColumn()
+        Me.StiReport1 = New Stimulsoft.Report.StiReport()
+        Me.SU_REFER = New System.Data.DataColumn()
         CType(Me.MenuHolder, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.F1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChDetalle, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -265,7 +266,7 @@ Partial Class FrmAntiguedadSaldosProv
         Me.ChDetalle.Location = New System.Drawing.Point(28, 265)
         Me.ChDetalle.Name = "ChDetalle"
         Me.ChDetalle.Padding = New System.Windows.Forms.Padding(1)
-        Me.ChDetalle.Size = New System.Drawing.Size(104, 24)
+        Me.ChDetalle.Size = New System.Drawing.Size(154, 24)
         Me.ChDetalle.TabIndex = 3
         Me.ChDetalle.Text = "Detalle"
         Me.ChDetalle.UseVisualStyleBackColor = True
@@ -279,7 +280,7 @@ Partial Class FrmAntiguedadSaldosProv
         '
         'DataTable1
         '
-        Me.DataTable1.Columns.AddRange(New System.Data.DataColumn() {Me.CLIENTE, Me.NOMBRE, Me.IMPORTE, Me.SALDO, Me.ABONOS, Me.NDIAS30, Me.NDIAS60, Me.NDIAS90, Me.NDIASMAYOR90, Me.CLASIFIC, Me.FECHA1, Me.FECHA_APLI, Me.REFER, Me.CLIENTE1, Me.CLIENTE2, Me.DEL_AL, Me.CLIE_PROV, Me.DIASCRED, Me.FECHA_VENC, Me.NDIAS})
+        Me.DataTable1.Columns.AddRange(New System.Data.DataColumn() {Me.CLIENTE, Me.NOMBRE, Me.IMPORTE, Me.SALDO, Me.ABONOS, Me.NDIAS30, Me.NDIAS60, Me.NDIAS90, Me.NDIASMAYOR90, Me.CLASIFIC, Me.FECHA1, Me.FECHA_APLI, Me.REFER, Me.CLIENTE1, Me.CLIENTE2, Me.DEL_AL, Me.CLIE_PROV, Me.DIASCRED, Me.FECHA_VENC, Me.NDIAS, Me.SU_REFER})
         Me.DataTable1.TableName = "Table1"
         '
         'CLIENTE
@@ -369,6 +370,11 @@ Partial Class FrmAntiguedadSaldosProv
         Me.FECHA_VENC.ColumnName = "FECHA_VENC"
         Me.FECHA_VENC.DataType = GetType(Date)
         '
+        'NDIAS
+        '
+        Me.NDIAS.ColumnName = "NDIAS"
+        Me.NDIAS.DataType = GetType(Short)
+        '
         'StiReport1
         '
         Me.StiReport1.CookieContainer = Nothing
@@ -383,10 +389,9 @@ Partial Class FrmAntiguedadSaldosProv
         Me.StiReport1.ScriptLanguage = Stimulsoft.Report.StiReportLanguageType.CSharp
         Me.StiReport1.UseProgressInThread = False
         '
-        'NDIAS
+        'SU_REFER
         '
-        Me.NDIAS.ColumnName = "NDIAS"
-        Me.NDIAS.DataType = GetType(Short)
+        Me.SU_REFER.ColumnName = "SU_REFER"
         '
         'FrmAntiguedadSaldosProv
         '
@@ -462,4 +467,5 @@ Partial Class FrmAntiguedadSaldosProv
     Friend WithEvents DIASCRED As DataColumn
     Friend WithEvents FECHA_VENC As DataColumn
     Friend WithEvents NDIAS As DataColumn
+    Friend WithEvents SU_REFER As DataColumn
 End Class

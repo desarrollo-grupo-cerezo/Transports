@@ -870,7 +870,7 @@ Public Class FrmLiquidacionesAE
                     ISNULL(CHECK_BOX,1) AS CH_BOX, ISNULL(OBS, '') AS OBS
                     FROM GCASIGNACION_VIAJE_GASTOS GV
                     LEFT JOIN GCCONC_GASTOS C ON C.CVE_GAS = GV.CVE_NUM
-                    WHERE CVE_VIAJE = '" & fCVE_IAJE & "' ORDER BY FECHAELAB"
+                    WHERE GV.STATUS!='C' AND CVE_VIAJE = '" & fCVE_IAJE & "' ORDER BY FECHAELAB"
 
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
@@ -3142,9 +3142,9 @@ Public Class FrmLiquidacionesAE
                         ISNULL(ST_GASTOS,'EDICION') AS ST_GAS, GV.UUID
                         From GCASIGNACION_VIAJE_GASTOS GV
                         LEFT JOIN GCCONC_GASTOS C ON C.CVE_GAS = GV.CVE_NUM
-                        WHERE 
-                        CVE_VIAJE = '" & fCVE_VIAJE & "' AND ISNULL(ST_GASTOS,'') = 'DEPOSITADO' ORDER BY FECHAELAB"
-
+                        WHERE GV.STATUS!='C' AND
+                        CVE_VIAJE = '" & fCVE_VIAJE & "' ORDER BY FECHAELAB"
+                    'AND ISNULL(ST_GASTOS,'') = 'DEPOSITADO'
                     'GV.STATUS <> 'L' AND 
 
                     cmd.CommandText = SQL
@@ -3155,14 +3155,14 @@ Public Class FrmLiquidacionesAE
                                 For k = 1 To FgG.Rows.Count - 1
                                     If FgG(k, 10) = dr("UUID") Then
                                         FgG(k, 0) = "2"
-                                        FgG(k, 1) = True
+                                        FgG(k, 1) = FgG(k, 8) = "DEPOSITADO"
                                         FgG(k, 11) = ""
                                         Exist = True
                                         Exit For
                                     End If
                                 Next
                                 If Not Exist Then
-                                    FgG.AddItem("2" & vbTab & True & vbTab & fCVE_VIAJE & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab & dr("CVE_NUM") & vbTab &
+                                    FgG.AddItem("2" & vbTab & IIf(dr("ST_GAS") = "DEPOSITADO", True, False) & vbTab & fCVE_VIAJE & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab & dr("CVE_NUM") & vbTab &
                                                 dr("DESCR") & vbTab & dr("IMPORT") & vbTab & dr("ST_GAS") & vbTab & 0 & vbTab & dr("UUID"))
                                     nGastos += 1
                                 End If
@@ -3391,7 +3391,7 @@ Public Class FrmLiquidacionesAE
         End Try
     End Sub
     Private Sub Fg_Validated(sender As Object, e As EventArgs) Handles Fg.Validated
-        
+
     End Sub
     Private Sub Fg_EnterCell(sender As Object, e As EventArgs) Handles Fg.EnterCell
         Try
@@ -4521,7 +4521,7 @@ Public Class FrmLiquidacionesAE
                     Var2 = "GCDEDUC_OPER"
                     Var3 = TCVE_OPER.Text
                     Var4 = ""
-                    frmSelItem.ShowDialog()
+                    FrmSelItem.ShowDialog()
                     If Var4.Trim.Length > 0 Then
                         Dim ExisDed As Boolean = False
 
@@ -5176,7 +5176,7 @@ Public Class FrmLiquidacionesAE
                         Var2 = "InveLiq"
                         Var4 = "" : Var5 = ""
                         FgGC.FinishEditing()
-                        frmSelItem.ShowDialog()
+                        FrmSelItem.ShowDialog()
                         If Var4.Trim.Length > 0 Then
                             ENTRA_LIQ = False
                             FgGC.FinishEditing()
@@ -5214,7 +5214,7 @@ Public Class FrmLiquidacionesAE
                         Var2 = "Prov"
                         Var4 = "" : Var5 = ""
                         FgGC.FinishEditing()
-                        frmSelItem.ShowDialog()
+                        FrmSelItem.ShowDialog()
                         If Var4.Trim.Length > 0 Then
                             'Var4 = Fg(Fg.Row, 1) CLAVE
                             'Var5 = Fg(Fg.Row, 2) CIUDAD
@@ -5894,7 +5894,7 @@ Public Class FrmLiquidacionesAE
             If FgGC.Row > 0 Then
                 Var4 = FgGC(FgGC.Row, 14)
                 Var5 = "NUEVO"
-                frmObserDocumento.ShowDialog()
+                FrmObserDocumento.ShowDialog()
                 FgGC(FgGC.Row, 14) = Var4
 
             End If
@@ -6216,6 +6216,9 @@ Public Class FrmLiquidacionesAE
             If FlexiSoloLectura Then
                 e.Cancel = True
             End If
+            If e.Col <> 1 Then
+                e.Cancel = True
+            End If
         Catch ex As Exception
 
         End Try
@@ -6310,7 +6313,16 @@ Public Class FrmLiquidacionesAE
     End Sub
     Private Sub FgG_CellChecked(sender As Object, e As RowColEventArgs) Handles FgG.CellChecked
         Try
-            If e.Row = 0 AndAlso e.Col = 1 Then
+            If e.Row > 0 Then
+                If FgG(e.Row, 8) <> "DEPOSITADO" And FgG(e.Row, 1) = True Then
+                    e.Cancel = True
+                    FgG(e.Row, 1) = False
+                    MsgBox("El gasto debe estar DEPOSITADO para poderlo seleccionar")
+                    Return
+                End If
+            End If
+
+                If e.Row = 0 AndAlso e.Col = 1 Then
                 ChangeStateG(FgG.GetCellCheck(e.Row, e.Col))
             End If
             CALCULAR_IMPORTES()

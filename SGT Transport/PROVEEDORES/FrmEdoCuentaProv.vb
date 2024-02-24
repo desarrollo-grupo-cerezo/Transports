@@ -49,8 +49,8 @@ Public Class FrmEdoCuentaProv
 
             Fg.Cols(2).Width = 0
             Fg.Cols(4).Width = 100
-            Fg.Cols(8).Width = 0
-            Fg.Cols(10).Width = 0
+            'Fg.Cols(8).Width = 0
+            Fg.Cols(11).Width = 0
             Fg.DrawMode = DrawModeEnum.OwnerDraw
 
             ' Create style used to show negative values.
@@ -101,9 +101,9 @@ Public Class FrmEdoCuentaProv
                 ISNULL((Select SUM(IMPORTE * SIGNO) FROM PAGA_DET" & Empresa & " WHERE CVE_PROV = M.CVE_PROV AND ID_MOV = M.NUM_CPTO And SIGNO = -1 And REFER = M.REFER),0) As ABONOS, 
                 ISNULL((Select SUM(IMPORTE * SIGNO) FROM PAGA_DET" & Empresa & " WHERE CVE_PROV = M.CVE_PROV AND ID_MOV = M.NUM_CPTO And SIGNO = 1 AND REFER = M.REFER),0) As CARGOS,
                 ISNULL(D.FECHA_APLI,'') AS F_APLI_D, ISNULL(D.FECHA_VENC,'') AS F_VENC_D, ISNULL(D.SIGNO,1) As SIGNO_D, 
-                ISNULL((D.IMPORTE * D.SIGNO),0) AS IMPORTE_D, ISNULL(D.NUM_CPTO,0) As CPTO_D, ISNULL(C2.DESCR,'') As DESCR_CONCEP_D, ISNULL(G.SU_REFER,'') AS SU_REF
+                ISNULL((D.IMPORTE * D.SIGNO),0) AS IMPORTE_D, ISNULL(D.NUM_CPTO,0) As CPTO_D, ISNULL(C2.DESCR,'') As DESCR_CONCEP_D, ISNULL(CP.SU_REFER,'') AS SU_REF
                 FROM PAGA_M" & Empresa & " M
-                LEFT JOIN COMPC" & Empresa & " CP ON CP.CVE_DOC = M.REFER
+                LEFT JOIN COMPC" & Empresa & " CP ON CP.CVE_DOC = M.REFER OR LTRIM(RTRIM(CP.CVE_DOC)) = LTRIM(RTRIM(M.REFER))
                 LEFT JOIN GCGASTOS G ON G.SU_REFER = M.REFER
                 LEFT JOIN PROV" & Empresa & " P ON P.CLAVE = M.CVE_PROV
                 LEFT JOIN PAGA_DET" & Empresa & " D On M.CVE_PROV = D.CVE_PROV And M.REFER = D.REFER And M.NUM_CPTO = D.ID_MOV And M.NUM_CARGO = D.NUM_CARGO
@@ -134,8 +134,8 @@ Public Class FrmEdoCuentaProv
                             If REFER <> dr("REFER") Or SIGUE Then
                                 SIGUE = False
                                 Fg.AddItem("" & vbTab & dr("REFER") & vbTab & "" & vbTab & dr("DESCR_CONCEP_M") & vbTab & dr("NO_FACTUTA_M") & vbTab &
-                                   dr("FAPLI_M") & vbTab & dr("FVENC_M") & vbTab & dr("IMPORTE_M") & vbTab & "" & vbTab &
-                                   (dr("IMPORTE_M") + dr("ABONOS") + dr("CARGOS")))
+                                   dr("SU_REF") & vbTab & dr("FAPLI_M") & vbTab & dr("FVENC_M") & vbTab & Format(dr("IMPORTE_M"), "###,###,###,#0.00") & vbTab & "" & vbTab &
+                                   Format((dr("IMPORTE_M") + dr("ABONOS") + dr("CARGOS")), "###,###,###,##0.00"))
 
                                 r2 = t.NewRow()
                                 r2("CLIENTE") = dr("CVE_PROV")
@@ -169,8 +169,7 @@ Public Class FrmEdoCuentaProv
                                 End If
                                 Try
                                     Fg.AddItem("" & vbTab & "Documento" & vbTab & "Concepto" & vbTab & "Forma de pago" & vbTab &
-                                        "Documento de abono" & vbTab & "Fecha de abono" & vbTab & "fecha venc." & vbTab & "Importe" & vbTab &
-                                        "folio" & vbTab & "Estatus" & vbTab & "10" & vbTab & "11")
+                                        "Documento de abono" & vbTab & "" & vbTab & "Fecha de abono" & vbTab & "fecha venc." & vbTab & "Importe")
                                     Dim NewStyle1 As CellStyle
                                     NewStyle1 = Fg.Styles.Add("NewStyle1")
                                     NewStyle1.BackColor = Color.SkyBlue
@@ -194,14 +193,14 @@ Public Class FrmEdoCuentaProv
                             End If
 
                             If dr("IMPORTE_D") <> 0 Then
-                                Fg.AddItem("-" & vbTab & dr("REFER") & vbTab & "" & vbTab & dr("DESCR_CONCEP_D") & vbTab & dr("DOCTO_D") & vbTab & dr("F_APLI_D") & vbTab &
-                                           dr("F_VENC_D") & vbTab & "" & vbTab & dr("IMPORTE_D") & vbTab & "" & vbTab & dr("NO_PAR"))
+                                Fg.AddItem("-" & vbTab & dr("REFER") & vbTab & "" & vbTab & dr("DESCR_CONCEP_D") & vbTab & dr("DOCTO_D") & vbTab & "" & vbTab &
+                                           dr("F_APLI_D") & vbTab & dr("F_VENC_D") & vbTab & "" & vbTab & Format(dr("IMPORTE_D"), "###,###,###,##0.00") & vbTab & "" & vbTab & dr("NO_PAR"))
                                 r = Fg.Rows(Fg.Rows.Count - 1)
                                 r.IsNode = False
                                 If Not IsNothing(r.Node) Then
                                     r.Node.Level = 0
                                 End If
-                                Level = Level + 1
+                                Level += 1
                             End If
 
                             Level = 1
@@ -249,9 +248,9 @@ Public Class FrmEdoCuentaProv
             'Fg.AutoSizeCols()
 
             Fg.Cols(1).Width = 120
-            Fg.Cols(4).Width = 120
             Fg.Cols(5).Width = 120
-            Fg.Cols(8).Width = 120
+            Fg.Cols(6).Width = 120
+            Fg.Cols(9).Width = 120
 
             Me.Width = Fg.Width + 50
 
@@ -371,36 +370,17 @@ Public Class FrmEdoCuentaProv
     Private Sub Fg_OwnerDrawCell(sender As Object, e As OwnerDrawCellEventArgs) Handles Fg.OwnerDrawCell
         ' Check that the row and column contain integer data.
         Try
-            If ((e.Row > 0) AndAlso (Fg.Cols(e.Col).DataType Is GetType(Decimal))) Then
-                Dim value As Decimal = CDec(Fg(e.Row, e.Col))
+            'If ((e.Row > 0) AndAlso (Fg.Cols(e.Col).DataType Is GetType(Decimal))) Then
+            '    Dim value As Decimal = CDec(Fg(e.Row, e.Col))
+            '    If (value < 0) Then
+            '        e.Style = Fg.Styles("Red")
+            '    End If
+            'End If
 
-                If (value < 0) Then
-                    e.Style = Fg.Styles("Red")
-                Else
-                    Select Case value
-                        Case Is > 100000
-                            'e.Style = Fg.Styles("Blue")
-                        Case Is > 50000
-                            'e.Style = Fg.Styles("Magenta")
-                        Case Is > 20000
-                            'e.Style = Fg.Styles("Gold")
-                        Case Is > 10000
-                            'e.Style = Fg.Styles("DarkGreen")
-                    End Select
-                End If
-            Else
-                If ((e.Row > 0) AndAlso (Fg.Cols(e.Col).DataType Is GetType(String))) Then
-                    If e.Col = 3 Then
-                        Dim value As String = Fg(e.Row, e.Col)
-
-                        Select Case value
-                            Case "Efectivo"
-                                'e.Style = Fg.Styles("Blue")
-                            Case "Transferencia"
-                                'e.Style = Fg.Styles("Yellow")
-                            Case "Cheque"
-                                'e.Style = Fg.Styles("Magenta")
-                        End Select
+            If e.Col = 9 Then
+                If IsNumeric(Fg(e.Row, 9)) Then
+                    If CDec(Fg(e.Row, 9)) < 0 Then
+                        e.Style = Fg.Styles("Red")
                     End If
                 End If
             End If

@@ -6610,14 +6610,14 @@ Module General
     End Function
 
     Public Sub SesionRegistra()
-
-        SQL = "INSERT INTO SistemaSesiones(Usuario, Host, Registro, Estatus)
-               VALUES(@Usuario, @Host, getdate(), 1);
+        Return
+        SQL = "INSERT INTO SistemaSesiones(Usuario, Host, Registro, Actualizacion, Estatus)
+               VALUES(@Usuario, @Host, getdate(), getdate(), 1);
                SELECT SCOPE_IDENTITY(); "
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.Parameters.Add("@Usuario", SqlDbType.VarChar).Value = USER_GRUPOCE
-                cmd.Parameters.Add("@Host", SqlDbType.SmallInt).Value = Environment.MachineName
+                cmd.Parameters.Add("@Host", SqlDbType.VarChar).Value = Environment.MachineName
 
                 cmd.CommandText = SQL
                 returnValue = cmd.ExecuteScalar().ToString
@@ -6633,7 +6633,103 @@ Module General
 
     End Sub
 
+    Public Sub SesionActualizacion()
+        Return
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+
+                cmd.CommandText = "UPDATE SistemaSesiones SET Estatus = 1, Actualizacion=getdate() WHERE IdSesion = " & IdSesion
+                returnValue = cmd.ExecuteNonQuery().ToString
+
+            End Using
+        Catch ex As Exception
+            Bitacora("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
+        End Try
+    End Sub
+
+    Public Sub SistemaControlEdicionSetControlPad(lstSesionDoc As List(Of SesionDocumento))
+        Return
+
+        Try
+
+            Dim inIdControl As String
+            Dim IdControlPad As Long
+
+            If lstSesionDoc.Count = 0 Then
+                Return
+            End If
+
+            inIdControl = String.Join(", ", lstSesionDoc.Select(Function(s) s.IdControl))
+            IdControlPad = lstSesionDoc.FirstOrDefault().IdControlPad
+
+            If inIdControl = "" Or IdControlPad = 0 Then
+                Return
+            End If
+
+            'inIdControl += "0"
+
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+
+                SQL = String.Format("UPDATE SistemaControlEdicion SET IdControlPad = {0} WHERE IdControl IN ({1})", IdControlPad, inIdControl)
+
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteNonQuery().ToString
+                If returnValue IsNot Nothing Then
+                End If
+
+            End Using
+        Catch ex As Exception
+            Bitacora("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
+        End Try
+    End Sub
+
+
+    Public Sub SistemaControlEdicion(SesionDoc As SesionDocumento, Estatus As Integer)
+        Return
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+
+                If String.IsNullOrEmpty(SesionDoc.TblID) Then
+                    Return
+                End If
+
+                If Estatus = 1 Then
+                    SQL = "INSERT INTO SistemaControlEdicion(IdControlPad, IdSesion, Nombre, App, Tbl, TblTipo, TblID, Edicion, Estatus)
+                            VALUES(@IdControlPad, @IdSesion, @Nombre, @App, @Tbl, @TblTipo, @TblID, getdate(), @Estatus)
+                            SELECT SCOPE_IDENTITY();"
+
+                    cmd.Parameters.Add("@IdControlPad", SqlDbType.Int).Value = SesionDoc.IdControlPad
+                    cmd.Parameters.Add("@IdSesion", SqlDbType.Int).Value = IdSesion
+                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar).Value = SesionDoc.Nombre
+                    cmd.Parameters.Add("@App", SqlDbType.VarChar).Value = "SGT Transport"
+                    cmd.Parameters.Add("@Tbl", SqlDbType.VarChar).Value = SesionDoc.Tbl
+                    cmd.Parameters.Add("@TblTipo", SqlDbType.VarChar).Value = SesionDoc.TblTipo
+                    cmd.Parameters.Add("@TblID", SqlDbType.VarChar).Value = SesionDoc.TblID
+                    cmd.Parameters.Add("@Estatus", SqlDbType.TinyInt).Value = Estatus
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteScalar().ToString
+                    If returnValue IsNot Nothing Then
+                        SesionDoc.IdControl = Convert.ToInt64(returnValue)
+                    End If
+                Else
+                    SQL = "UPDATE SistemaControlEdicion SET Liberado = getdate(), Estatus = 0 
+                            WHERE IdControl = @IdControl"
+
+                    cmd.Parameters.Add("@IdControl", SqlDbType.Int).Value = SesionDoc.IdControl
+                    cmd.CommandText = SQL
+                    returnValue = cmd.ExecuteNonQuery().ToString
+                    If returnValue IsNot Nothing Then
+                    End If
+                End If
+
+            End Using
+        Catch ex As Exception
+            Bitacora("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
+        End Try
+    End Sub
+
     Public Sub SesionTermina()
+        Return
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
 
@@ -6645,10 +6741,46 @@ Module General
 
             End Using
         Catch ex As Exception
-            MsgBox("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
             Bitacora("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
         End Try
     End Sub
+
+    Public Function VerificaDocumentoEnEdicion(SesionDoc As SesionDocumento) As Boolean
+        Return False
+        Dim EnEdicion As Boolean = False
+        Dim msj As String = String.Empty
+
+        Try
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                SQL = String.Format("SELECT IdSesion = SCE.IdSesion, Documento = iif(SCEP.Nombre IS NULL, SCE.Nombre, CONCAT(SCEP.Nombre, ': ', SCEP.TblID)), 
+                                    SCE.App, UsuarioEdicion = CONCAT(SS.Usuario, ' - ', US.NOMBRE), SS.Host, InicioSesion = SS.Registro, Actualizacion = SS.Actualizacion, Edicion = SCE.Edicion 
+                                    FROM SistemaControlEdicion SCE 
+                                    LEFT JOIN SistemaControlEdicion SCEP ON SCEP.IdControl = SCE.IdControlPad
+                                    INNER JOIN SistemaSesiones SS ON SS.IdSesion = SCE.IdSesion
+                                    LEFT JOIN GCUSUARIOS US ON US.USUARIO = SS.Usuario
+                                    WHERE SCE.Tbl = '{0}' AND SCE.TblTipo = '{1}' AND SCE.TblID='{2}' AND SCE.Estatus = 1",
+                        SesionDoc.Tbl, SesionDoc.TblTipo, SesionDoc.TblID)
+                cmd.CommandText = SQL
+                Using dr As SqlDataReader = cmd.ExecuteReader
+                    If dr.Read Then
+                        msj = String.Format("{0}: {1} se encuentra en edición por:{5}{5}{10}{5}Usuario: {2}{5}Equipo: {3}{5}Desde: {4:dd/MM/yy HH:mm}{5}{5}Sesión ID: {6}{5}Inicio Sesión: {7:dd/MM/yy HH:mm}{5}Últ. Actualización: {8:dd/MM/yy HH:mm}{5}Aplicación: {9}",
+                                            SesionDoc.Tbl, SesionDoc.TblID, dr("UsuarioEdicion"), dr("Host"), dr("Edicion"), Environment.NewLine, dr("IdSesion"), dr("InicioSesion"), dr("Actualizacion"), dr("App"), dr("Documento"))
+                        EnEdicion = True
+                    End If
+                End Using
+
+            End Using
+        Catch ex As Exception
+            Bitacora("10. " & ex.Message & vbNewLine & ex.StackTrace)
+        End Try
+
+        If EnEdicion Then
+            MsgBox(msj, MessageBoxButtons.OK + MessageBoxIcon.Information, "Validación de documentos en edición")
+        End If
+
+        Return EnEdicion
+    End Function
+
 
 End Module
 

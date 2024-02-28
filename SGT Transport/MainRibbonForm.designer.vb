@@ -412,6 +412,8 @@ Partial Class MainRibbonForm
         Me.BarContResLiq = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarContResLiqConceptos = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarContResFacturasAbono = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonMenu8 = New C1.Win.C1Ribbon.RibbonMenu()
+        Me.RibReporteCTBFleteVsGastos = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibCierreContable = New C1.Win.C1Ribbon.RibbonGroup()
         Me.RibbonToolBar8 = New C1.Win.C1Ribbon.RibbonToolBar()
         Me.RibbonToolBar7 = New C1.Win.C1Ribbon.RibbonToolBar()
@@ -537,8 +539,6 @@ Partial Class MainRibbonForm
         Me.C1ThemeController1 = New C1.Win.C1Themes.C1ThemeController()
         Me.Tab1 = New C1.Win.C1Command.C1DockingTab()
         Me.BarOrdenesDeTrabajoExternas1 = New C1.Win.C1Ribbon.RibbonButton()
-        Me.RibbonMenu8 = New C1.Win.C1Ribbon.RibbonMenu()
-        Me.RibReporteCTBFleteVsGastos = New C1.Win.C1Ribbon.RibbonButton()
         CType(Me.c1Ribbon1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.c1StatusBar1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.C1ThemeController1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -3419,6 +3419,20 @@ Partial Class MainRibbonForm
         Me.BarContResFacturasAbono.SmallImage = Global.SGT_Transport.My.Resources.Resources.impresora16
         Me.BarContResFacturasAbono.Text = "Resumen Facturas Abonos"
         '
+        'RibbonMenu8
+        '
+        Me.RibbonMenu8.Items.Add(Me.RibReporteCTBFleteVsGastos)
+        Me.RibbonMenu8.LargeImage = Global.SGT_Transport.My.Resources.Resources.desplegar6
+        Me.RibbonMenu8.Name = "RibbonMenu8"
+        Me.RibbonMenu8.SmallImage = CType(resources.GetObject("RibbonMenu8.SmallImage"), System.Drawing.Image)
+        Me.RibbonMenu8.Text = "Reportes"
+        '
+        'RibReporteCTBFleteVsGastos
+        '
+        Me.RibReporteCTBFleteVsGastos.Name = "RibReporteCTBFleteVsGastos"
+        Me.RibReporteCTBFleteVsGastos.SmallImage = Global.SGT_Transport.My.Resources.Resources.impuestos1
+        Me.RibReporteCTBFleteVsGastos.Text = "Fletes vs Gastos"
+        '
         'RibCierreContable
         '
         Me.RibCierreContable.Image = CType(resources.GetObject("RibCierreContable.Image"), System.Drawing.Image)
@@ -4261,7 +4275,8 @@ Partial Class MainRibbonForm
         '
         'Timer1
         '
-        Me.Timer1.Interval = 30000
+        Me.Timer1.Enabled = True
+        Me.Timer1.Interval = 180000
         '
         'C1ThemeController1
         '
@@ -4295,20 +4310,6 @@ Partial Class MainRibbonForm
         Me.BarOrdenesDeTrabajoExternas1.LargeImage = Global.SGT_Transport.My.Resources.Resources.hoja7
         Me.BarOrdenesDeTrabajoExternas1.Name = "BarOrdenesDeTrabajoExternas1"
         Me.BarOrdenesDeTrabajoExternas1.Text = "Ordenes de trabajo mantenimiento"
-        '
-        'RibbonMenu8
-        '
-        Me.RibbonMenu8.Items.Add(Me.RibReporteCTBFleteVsGastos)
-        Me.RibbonMenu8.LargeImage = Global.SGT_Transport.My.Resources.Resources.desplegar6
-        Me.RibbonMenu8.Name = "RibbonMenu8"
-        Me.RibbonMenu8.SmallImage = CType(resources.GetObject("RibbonMenu8.SmallImage"), System.Drawing.Image)
-        Me.RibbonMenu8.Text = "Reportes"
-        '
-        'RibReporteCTBFleteVsGastos
-        '
-        Me.RibReporteCTBFleteVsGastos.Name = "RibReporteCTBFleteVsGastos"
-        Me.RibReporteCTBFleteVsGastos.SmallImage = Global.SGT_Transport.My.Resources.Resources.impuestos1
-        Me.RibReporteCTBFleteVsGastos.Text = "Fletes vs Gastos"
         '
         'MainRibbonForm
         '

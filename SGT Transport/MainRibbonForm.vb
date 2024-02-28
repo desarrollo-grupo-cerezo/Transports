@@ -130,7 +130,7 @@ Public Class MainRibbonForm
             'StVersion.Text = "Versión 4.0"
             StVersion.Text = String.Format("Versión {0}.{1}.{2}", System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major, System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor, System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build)
             StSerieLic.Text = "Serial:" & GET_ID()
-            'StLic.Text = LicStatus
+            StLic.Text = String.Format("ID Sesión: {0}", IdSesion)
             If RunningAsAdmin() Then
                 StUserWindows.Text = "Windows Administrador"
             Else
@@ -188,7 +188,7 @@ Public Class MainRibbonForm
                 'Text = RazonSocial
                 'StVersion.Text = "Versión 4.0"
                 StVersion.Text = String.Format("Versión {0}.{1}.{2}", System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major, System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor, System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build)
-                'StLic.Text = LicStatus
+                StLic.Text = String.Format("ID Sesión: {0}", IdSesion)
                 ASIGNAR_DERECHOS()
             Catch ex As Exception
             End Try
@@ -211,6 +211,8 @@ Public Class MainRibbonForm
             If BAJA_VIAJE_FACT = 1 Then
                 BarBajaViajes.Text = "Facturación viajes"
             End If
+
+            Timer1.Start()
         Catch ex As Exception
             Bitacora(ex.Message & vbNewLine & ex.StackTrace)
         End Try
@@ -226,6 +228,7 @@ Public Class MainRibbonForm
             e.Cancel = False
             Try
                 My.Application.OpenForms.Cast(Of Form)().Except({Me}).ToList().ForEach(Sub(form) form.Close())
+                SesionTermina()
             Catch ex As Exception
             End Try
             Try
@@ -2447,7 +2450,7 @@ Public Class MainRibbonForm
         'CREA_TAB(FrmAsigViajeBueno, "Facturar viaje")
         'Dim args As String
         'args = Servidor & " " & Base & " " & Usuario & " " & Pass & " " & Empresa & " " & USER_GRUPOCE & " " & PASS_GRUPOCE & " " & pwPoder
-        Process.Start(Application.StartupPath & "\Control de viajes.exe", Servidor & " " & Base & " " & Usuario & " " & Pass & " " & Empresa & " " & USER_GRUPOCE & " " & PASS_GRUPOCE & " " & pwPoder)
+        Process.Start(Application.StartupPath & "\Control de viajes.exe", Servidor & " " & Base & " " & Usuario & " " & Pass & " " & Empresa & " " & USER_GRUPOCE & " " & PASS_GRUPOCE & " " & pwPoder & " " & IdSesion)
 
     End Sub
     Private Sub BarProveedores4_Click(sender As Object, e As EventArgs) Handles BarProdCargar.Click
@@ -2803,33 +2806,34 @@ Public Class MainRibbonForm
     End Sub
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         Try
-            Dim MENSAJE As String = ""
-            Using cmd As SqlCommand = cnSAROCE.CreateCommand
-                'SQL = "Select ISNULL(MENSAJE,'') AS MENSA FROM CONFIG"
-                'cmd.CommandText = SQL
-                'Using dr As SqlDataReader = cmd.ExecuteReader
-                'If dr.Read Then
-                'MENSAJE = dr("MENSA")
-                'End If
-                'End Using
-            End Using
-            If MENSAJE.Trim.Length > 0 Then
-                If MessageBox.Show("MENSAJE", "Información", MessageBoxButtons.YesNo) = vbYes Then
-                    Try
-                        'Using cmd As SqlCommand = cnSAROCE.CreateCommand
-                        'SQL = "UPDATE CONFIG SET MENSAJE = ''"
-                        'cmd.CommandText = SQL
-                        'returnValue = cmd.ExecuteNonQuery().ToString
-                        'If returnValue IsNot Nothing Then
-                        'If returnValue = "1" Then
-                        'End If
-                        'End If
-                        '       End Using
-                    Catch ex As Exception
-                        Bitacora("30. " & ex.Message & vbNewLine & ex.StackTrace)
-                    End Try
-                End If
-            End If
+            'Dim MENSAJE As String = ""
+            'Using cmd As SqlCommand = cnSAROCE.CreateCommand
+            '    'SQL = "Select ISNULL(MENSAJE,'') AS MENSA FROM CONFIG"
+            '    'cmd.CommandText = SQL
+            '    'Using dr As SqlDataReader = cmd.ExecuteReader
+            '    'If dr.Read Then
+            '    'MENSAJE = dr("MENSA")
+            '    'End If
+            '    'End Using
+            'End Using
+            'If MENSAJE.Trim.Length > 0 Then
+            '    If MessageBox.Show("MENSAJE", "Información", MessageBoxButtons.YesNo) = vbYes Then
+            '        Try
+            '            'Using cmd As SqlCommand = cnSAROCE.CreateCommand
+            '            'SQL = "UPDATE CONFIG SET MENSAJE = ''"
+            '            'cmd.CommandText = SQL
+            '            'returnValue = cmd.ExecuteNonQuery().ToString
+            '            'If returnValue IsNot Nothing Then
+            '            'If returnValue = "1" Then
+            '            'End If
+            '            'End If
+            '            '       End Using
+            '        Catch ex As Exception
+            '            Bitacora("30. " & ex.Message & vbNewLine & ex.StackTrace)
+            '        End Try
+            '    End If
+            'End If
+            SesionActualizacion()
         Catch ex As Exception
             Bitacora("40. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
@@ -4015,7 +4019,7 @@ Public Class MainRibbonForm
                 'Text = RazonSocial
                 'StVersion.Text = "Versión 4.0"
                 StVersion.Text = String.Format("Versión {0}.{1}.{2}", System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major, System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor, System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build)
-                'StLic.Text = LicStatus
+                StLic.Text = String.Format("ID Sesión: {0}", IdSesion)
                 ASIGNAR_DERECHOS()
             Catch ex As Exception
             End Try

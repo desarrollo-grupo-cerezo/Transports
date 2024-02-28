@@ -366,7 +366,7 @@ Public Class FrmSelEmpresa
                 End If
             End If
 
-
+            SesionRegistra()
 
             LeerConfig()
 

@@ -14301,7 +14301,7 @@ AS
 					FechaDocumento = LIQ.FECHA,
 					Documento = LIQ.CVE_LIQ,
 					TipoDocumento = 0,
-					FechaViaje = MIN(V.FECHA_CARGA),
+					FechaViaje = ISNULL(MIN(V.FECHA_CARGA), LIQ.FECHA),
 					Viaje = dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, '', ','),					
 					CveOper = MIN(LIQ.CVE_OPER),
 					FormatoColumnasImportes = 0, 
@@ -14323,8 +14323,8 @@ AS
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
 			INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER
-			INNER JOIN GCLIQ_PARTIDAS LP WITH (nolock) ON LP.CVE_LIQ = LIQ.CVE_LIQ
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_VIAJE = LP.CVE_VIAJE			
+			LEFT JOIN GCLIQ_PARTIDAS LP WITH (nolock) ON LP.CVE_LIQ = LIQ.CVE_LIQ
+			LEFT JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_VIAJE = LP.CVE_VIAJE			
 			LEFT JOIN PolizasCOI PC WITH (nolock) ON PC.IdPoliza = LIQ.IDPOLIZACOI
 			WHERE LIQ.STATUS = 'L' 
 			GROUP BY LIQ.FECHA, LIQ.CVE_LIQ, OP.NOMBRE, LIQ.CVE_UNI, LIQ.IDPOLIZACOI 
@@ -14428,8 +14428,8 @@ AS
 			        INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER			
 			        INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI
 			        INNER JOIN GCLIQ_GASTOS_COMPROBADOS GC WITH (nolock) ON GC.CVE_LIQ = LIQ.CVE_LIQ AND UPPER(GC.REFER) != 'NA' AND ISNULL(GC.REFER, '') != ''
-			        INNER JOIN INVE05 SR WITH (nolock) ON SR.CVE_ART = GC.CVE_ART
-			        INNER JOIN PROV05 PV WITH (nolock) ON PV.CLAVE = GC.CVE_PROV
+			        INNER JOIN INVE" & Empresa & " SR WITH (nolock) ON SR.CVE_ART = GC.CVE_ART
+			        INNER JOIN PROV" & Empresa & " PV WITH (nolock) ON PV.CLAVE = GC.CVE_PROV
 			        INNER JOIN (SELECT Tipo = 1 UNION ALL SELECT Tipo = 2 UNION ALL SELECT Tipo = 3 UNION ALL SELECT Tipo = 4) T ON 1 = 1
 			        WHERE LIQ.STATUS = 'L' 
 			        UNION ALL
@@ -14453,7 +14453,7 @@ AS
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''),' VARIOS', ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
-					Debe = CONCAT('', SUM(GC.TOTAL)),
+					Debe = CONCAT('', SUM(round(GC.TOTAL, 2))),
 					Haber = '',
 					CentroCostos = '',
 					Proyecto = ''
@@ -14507,7 +14507,7 @@ AS
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
 			INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER			
 			INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI	
-			INNER JOIN GCLIQ_PARTIDAS LP WITH (nolock) ON LP.CVE_LIQ = LIQ.CVE_LIQ
+			LEFT JOIN GCLIQ_PARTIDAS LP WITH (nolock) ON LP.CVE_LIQ = LIQ.CVE_LIQ
 			LEFT JOIN GCLIQ_SUELDO SDO WITH (nolock) ON SDO.CveLiq = LIQ.CVE_LIQ AND SDO.CveViaje = LP.CVE_VIAJE
 			INNER JOIN (SELECT Tipo = 1 UNION ALL SELECT Tipo = 2 UNION ALL SELECT Tipo = 3 UNION ALL SELECT Tipo = 4 UNION ALL SELECT Tipo = 5 UNION ALL SELECT Tipo = 6 UNION ALL SELECT Tipo = 7) T ON 
 				(T.Tipo = 1 AND SDO.Diferencia != 0) OR
@@ -14568,7 +14568,7 @@ AS
 					TipoPoliza = '',
 					NoPolizaCuenta = dbo.fn_formato_cuenta(DD.CTA_CONTABLE, OP.CUEN_CONT), 
 					ConceptoPolizaDepto = '0',
-					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
+					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', LD.CVE_DED, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
 					Haber = CONCAT('', LD.IMPORTE),
@@ -14603,14 +14603,14 @@ AS
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
-					Haber = CONCAT('', PA.IMPORTE),
+					Haber = CONCAT('', CAST(PA.IMPORTE AS NUMERIC(27, 2))),
 					CentroCostos = '',
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
 			INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER			
 			INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI
 			INNER JOIN GCLIQ_PENSION_ALI PA WITH (nolock) ON PA.CVE_LIQ = LIQ.CVE_LIQ
-			INNER JOIN INVE05 SR WITH (nolock) ON SR.CVE_ART = PA.CVE_ART
+			INNER JOIN INVE" & Empresa & " SR WITH (nolock) ON SR.CVE_ART = PA.CVE_ART
 			WHERE LIQ.STATUS = 'L' 
 			UNION ALL
 			SELECT						
@@ -14643,7 +14643,7 @@ AS
             LEFT JOIN GCBANCOS B ON B.CVE_BANCO = OP.CVE_BANCO
 			LEFT JOIN (
 					SELECT Banco = B.DESCR, CuentaFinanciera = MAX(C.CUENTA_CONTABLE_FINANCIERA) 
-					FROM CUENTA_BENEF05 C
+					FROM CUENTA_BENEF" & Empresa & " C
 					INNER JOIN GCBANCOS B ON B.CVE_BANCO = C.CVE_BANCO
 					GROUP BY B.DESCR) EmpBancos ON EmpBancos.Banco = B.DESCR
 			WHERE LIQ.STATUS = 'L' 			
@@ -14677,7 +14677,7 @@ AS
 			INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER			
 			INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI
 			INNER JOIN GCLIQ_GASTOS_COMPROBADOS GC WITH (nolock) ON GC.CVE_LIQ = LIQ.CVE_LIQ AND UPPER(GC.REFER) != 'NA' AND ISNULL(GC.REFER, '') != ''
-			INNER JOIN PROV05 PV WITH (nolock) ON PV.CLAVE = GC.CVE_PROV
+			INNER JOIN PROV" & Empresa & " PV WITH (nolock) ON PV.CLAVE = GC.CVE_PROV
 			INNER JOIN (SELECT Tipo = 1 UNION ALL SELECT Tipo = 2) T ON 1 = 1
 			WHERE LIQ.STATUS = 'L' 
 			UNION ALL
@@ -14702,7 +14702,7 @@ AS
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
-					Haber = CONCAT('', (ISNULL(GV.IMPORTE, 0) + ISNULL(LD.IMPORTE, 0) + ISNULL(PA.IMPORTE, 0))*-1),
+					Haber = CONCAT('', CAST(((ISNULL(GV.IMPORTE, 0) + ISNULL(LD.IMPORTE, 0) + ISNULL(PA.IMPORTE, 0))*-1) AS NUMERIC(27, 2)) ),
 					CentroCostos = '',
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
@@ -14729,22 +14729,23 @@ AS
 					DocAgr = '',
 					SubOrden = 0,
 					TipoPoliza = '',
-					NoPolizaCuenta = iif(MAX(SDO.Diferencia)>0, dbo.fn_formato_cuenta(dbo.fn_get_cta_gtos('NOTAS DIVERSAS'), UN.CUEN_CONT), dbo.fn_get_cta_gtos('NOTAS VARIAS FISCALES')), 
+					--NoPolizaCuenta = iif(MAX(SDO.Diferencia)>0, dbo.fn_formato_cuenta(dbo.fn_get_cta_gtos('NOTAS DIVERSAS'), UN.CUEN_CONT), dbo.fn_get_cta_gtos('NOTAS VARIAS FISCALES')), 
+					NoPolizaCuenta = dbo.fn_get_cta_gtos('NOTAS VARIAS FISCALES'), 
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
-					Haber = CONCAT('', CAST(ISNULL(SUM(GC.TOTAL), 0) AS decimal(27, 6)) + MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS)),
+					Haber = CONCAT('', CAST(ISNULL(SUM(GC.TOTAL), 0) AS decimal(27, 6)) + ISNULL(MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS), 0)),
 					CentroCostos = '',
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
 			INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER			
 			INNER JOIN GCUNIDADES UN WITH (nolock) ON UN.CLAVEMONTE = LIQ.CVE_UNI
 			LEFT JOIN GCLIQ_GASTOS_COMPROBADOS GC WITH (nolock) ON GC.CVE_LIQ = LIQ.CVE_LIQ AND (UPPER(GC.REFER) = 'NA' OR ISNULL(GC.REFER, '') = '')
-			INNER JOIN (SELECT CveLiq, Diferencia = SUM(Diferencia), Maniobra = SUM(Maniobra), ISR = SUM(ISR), IMSS = SUM(IMSS) FROM GCLIQ_SUELDO WITH (nolock) GROUP BY CveLiq) SDO ON SDO.CveLiq = LIQ.CVE_LIQ
+			LEFT JOIN (SELECT CveLiq, Diferencia = SUM(Diferencia), Maniobra = SUM(Maniobra), ISR = SUM(ISR), IMSS = SUM(IMSS) FROM GCLIQ_SUELDO WITH (nolock) GROUP BY CveLiq) SDO ON SDO.CveLiq = LIQ.CVE_LIQ
 			WHERE LIQ.STATUS = 'L' 
 			GROUP BY LIQ.FECHA, LIQ.CVE_LIQ, LIQ.CVE_UNI, OP.NOMBRE, LIQ.IDPOLIZACOI, UN.CUEN_CONT
-			HAVING (ISNULL(SUM(GC.TOTAL), 0) + MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS)) !=0
+			HAVING (ISNULL(SUM(GC.TOTAL), 0) + ISNULL(MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS), 0)) !=0
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -14776,7 +14777,7 @@ AS
             LEFT JOIN GCBANCOS B ON B.CVE_BANCO = OP.CVE_BANCO
 			LEFT JOIN (
 					SELECT Banco = B.DESCR, CuentaFiscalEgresos = MAX(C.CUENTA_CONTABLE_FISCAL_EG) 
-					FROM CUENTA_BENEF05 C
+					FROM CUENTA_BENEF" & Empresa & " C
 					INNER JOIN GCBANCOS B ON B.CVE_BANCO = C.CVE_BANCO
 					GROUP BY B.DESCR) EmpBancos ON EmpBancos.Banco = B.DESCR
 			WHERE LIQ.STATUS = 'L' 
@@ -14785,7 +14786,7 @@ AS
 					FechaDocumento = LIQ.FECHA,
 					Documento = LIQ.CVE_LIQ,
 					TipoDocumento = 0,
-					FechaViaje = MIN(V.FECHA_CARGA),
+					FechaViaje = LIQ.CVE_LIQ, --MIN(V.FECHA_CARGA),
 					Viaje = dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, '', ','),
 					CveOper = MIN(LIQ.CVE_OPER),
 					FormatoColumnasImportes = 0, 
@@ -14807,8 +14808,8 @@ AS
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
 			INNER JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = LIQ.CVE_OPER
-			INNER JOIN GCLIQ_PARTIDAS LP WITH (nolock) ON LP.CVE_LIQ = LIQ.CVE_LIQ
-			INNER JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_VIAJE = LP.CVE_VIAJE						
+			--LEFT JOIN GCLIQ_PARTIDAS LP WITH (nolock) ON LP.CVE_LIQ = LIQ.CVE_LIQ
+			--LEFT JOIN GCASIGNACION_VIAJE V WITH (nolock) ON V.CVE_VIAJE = LP.CVE_VIAJE						
 			WHERE LIQ.STATUS = 'L' 
 			GROUP BY LIQ.FECHA, LIQ.CVE_LIQ, OP.NOMBRE, LIQ.CVE_UNI, LIQ.IDPOLIZACOI 
 			) QRY"
@@ -14867,19 +14868,22 @@ AS
 						SET @DiasMes = DAY(EOMONTH(@Fecha))
 
 	                    SET @SueldoDiarioOperador = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 1)
-	                    SET @PorcentajeManiobra = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 2)
+	                    --SET @PorcentajeManiobra = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 2)
 	                    SET @FactorISR = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 3)
 	                    SET @FactorIMSS = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 4)
 
 	                    DECLARE @cCursor as CURSOR
 
 	                    SET @cCursor = CURSOR FAST_FORWARD FOR
-		                    SELECT V.CVE_VIAJE, FLETE = round(isnull(V.FLETE, 0), 2), SUELDO = round(isnull(LP.SUELDO, 0), 2), CLIENTE = ISNULL(CLIENTE, '') 
-							FROM GCLIQ_PARTIDAS LP INNER JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = LP.CVE_VIAJE 
+		                    SELECT	V.CVE_VIAJE, FLETE = round(isnull(V.FLETE, 0), 2), SUELDO = round(isnull(LP.SUELDO, 0), 2), CLIENTE = ISNULL(CLIENTE, ''), 
+									IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END, 0)
+							FROM GCLIQ_PARTIDAS LP 
+							INNER JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = LP.CVE_VIAJE 
+							LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = V.CVE_TAB_VIAJE  
 							WHERE LP.CVE_LIQ = @CveLiq ORDER BY LP.NUM_PAR
  
 	                    OPEN @cCursor;
-	                    FETCH NEXT FROM @cCursor INTO @CveViaje, @ImporteViaje, @SueldoRuta, @Cliente
+	                    FETCH NEXT FROM @cCursor INTO @CveViaje, @ImporteViaje, @SueldoRuta, @Cliente, @PorcentajeManiobra
 	                     WHILE @@FETCH_STATUS = 0
 	                    BEGIN		
 		                    SET @Maniobra = 0
@@ -14940,7 +14944,7 @@ AS
 		                    INSERT INTO GCLIQ_SUELDO(CveLiq, CveViaje, Fecha, CveOper, SueldoDiarioOperador, PorcentajeManiobra, FactorISR, FactorIMSS, ImporteViaje, SueldoRuta, Maniobra, SueldoSinManiobra, DiasSueldoRuta, DiasCalculo, Sueldo, Diferencia, ISR, IMSS, FechaRegistro)
 		                    VALUES (@CveLiq, @CveViaje, @Fecha, @CveOper, @SueldoDiarioOperador, @PorcentajeManiobraCliente, @FactorISR, @FactorIMSS, @ImporteViaje, @SueldoRuta, @Maniobra, @SueldoSinManiobra, iif(@DiasSueldoRuta <0, 0, @DiasSueldoRuta), iif(@DiasCalculo<0, 0, @DiasCalculo), @Sueldo, @Diferencia, @ISR, @IMSS, getdate())			   		
 
-		                    FETCH NEXT FROM @cCursor INTO @CveViaje, @ImporteViaje, @SueldoRuta, @Cliente
+		                    FETCH NEXT FROM @cCursor INTO @CveViaje, @ImporteViaje, @SueldoRuta, @Cliente, @PorcentajeManiobra
 	                    END
 	                    CLOSE @cCursor;
 	                    DEALLOCATE @cCursor;
@@ -15599,7 +15603,7 @@ AS
 					TipoCambio = REPLACE(F.FACTURA, F.SERIE, ''),
 					Debe = CFG.EMISOR_RFC,
 					Haber = P.RFC,
-					CentroCostos = FORMAT(F.IMPORTE, 'N2'),
+					CentroCostos = CONCAT(F.IMPORTE, ''),
 					Proyecto = UPPER(F.UUID_CFDI)
 			FROM CUEN_DET" & Empresa & " M WITH (nolock)
 			INNER JOIN CLIE" & Empresa & " P WITH (nolock) ON P.CLAVE = M.CVE_CLIE 
@@ -15719,9 +15723,9 @@ AS
 					SubOrden = 0,
 					TipoPoliza = '',
 					NoPolizaCuenta = 'FIN_PARTIDAS',
-					ConceptoPolizaDepto = '0',
+					ConceptoPolizaDepto = '',
 					DiaConceptoMov = '',
-					TipoCambio = '1',
+					TipoCambio = '',
 					Debe = '',
 					Haber = '',
 					CentroCostos = '',
@@ -16817,6 +16821,7 @@ END"
         cmd.CommandText = SQL
         cmd.ExecuteNonQuery()
 
+        ControlSesiones()
 
         'If EXISTE_VISTA("") Then
         '    SQL = "DROP VIEW [dbo].[]"
@@ -16831,6 +16836,137 @@ END"
 
     End Sub
 
+
+    Public Sub ControlSesiones()
+        Dim cmd As New SqlCommand With {.Connection = cnSAE}
+
+        If EXISTE_FUNCION("fn_formato_tiempo_dhms") Then
+            SQL = "DROP FUNCTION fn_formato_tiempo_dhms"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+
+        SQL = "CREATE FUNCTION [dbo].[fn_formato_tiempo_dhms]
+(
+	@Inicio datetime,
+	@Fin datetime
+)
+RETURNS varchar(50)
+AS
+BEGIN
+	
+	DECLARE @Tiempo varchar(50) = ''
+
+	SET @Tiempo = (SELECT iif(CONVERT(VARCHAR(5), DATEDIFF( dd, 0, DATEADD( SS, DATEDIFF(SS, @Inicio, @Fin), 0))) != '0',
+							CONVERT(VARCHAR(5), DATEDIFF( dd, 0, DATEADD( SS, DATEDIFF(SS, @Inicio, @Fin), 0))) + ' d ', '') 				
+							 + STUFF( STUFF( STUFF(CONVERT( varchar( 10), DATEADD( SS, DATEDIFF(SS, @Inicio, @Fin), 0), 114), 9, 5, ''), 6, 1, ':'), 3, 1, ':'))
+	RETURN @Tiempo
+
+END"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
+
+        If Not EXISTE_TABLA("SistemaSesiones") Then
+            SQL = "CREATE TABLE dbo.SistemaSesiones
+	(
+	IdSesion int NOT NULL IDENTITY (1, 1),
+	Usuario varchar(150) NULL,
+	Host varchar(150) NULL,
+	Registro datetime NULL,
+	Actualizacion datetime NULL,
+	Estatus tinyint NULL
+	)  ON [PRIMARY]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+            SQL = "ALTER TABLE dbo.SistemaSesiones ADD CONSTRAINT
+	PK_SistemaSesiones PRIMARY KEY CLUSTERED 
+	(
+	IdSesion
+	) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+            SQL = "EXEC sp_addextendedproperty @name = N'microsoft_database_tools_support', @value = 'Hide', @level0type = N'Schema', @level0name = 'dbo', @level1type = N'Table', @level1name = 'SistemaSesiones'"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+        End If
+
+        If Not EXISTE_TABLA("SistemaControlEdicion") Then
+            SQL = "CREATE TABLE dbo.SistemaControlEdicion
+	(
+	IdControl int NOT NULL IDENTITY (1, 1),
+	IdControlPad int NULL,
+	IdSesion int NULL,
+	App varchar(150) NULL,
+	Nombre varchar(150) NULL,
+	Tbl varchar(150) NULL,
+	TblTipo varchar(150) NULL,
+	TblID varchar(150) NULL,
+	Edicion datetime NULL,
+	Liberado datetime NULL,
+	Estatus tinyint NULL
+	)  ON [PRIMARY]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+            SQL = "ALTER TABLE dbo.SistemaControlEdicion ADD CONSTRAINT
+	PK_SistemaControlEdicion PRIMARY KEY CLUSTERED 
+	(
+	IdControl
+	) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+            SQL = "EXEC sp_addextendedproperty @name = N'microsoft_database_tools_support', @value = 'Hide', @level0type = N'Schema', @level0name = 'dbo', @level1type = N'Table', @level1name = 'SistemaControlEdicion'"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+        End If
+
+        SQL = "IF NOT EXISTS(SELECT 1 FROM sys.indexes WHERE name='IX_SistemaControlEdicion' AND object_id = OBJECT_ID('dbo.SistemaControlEdicion'))
+BEGIN
+	CREATE NONCLUSTERED INDEX [IX_SistemaControlEdicion] ON [dbo].[SistemaControlEdicion]
+	(	
+	[Tbl] ASC,
+	[TblTipo] ASC,
+	[TblID] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF)
+END"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
+        If EXISTE_STORE_PROCEDURE("sp_Sesiones") Then
+            SQL = "DROP PROCEDURE sp_Sesiones"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+
+
+        SQL = "CREATE PROCEDURE [dbo].[sp_Sesiones] 	   
+WITH ENCRYPTION
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+
+	UPDATE SS SET Estatus = 0
+	FROM SistemaSesiones SS	
+	WHERE SS.Estatus = 1 AND DATEDIFF(MINUTE, SS.Actualizacion, getdate()) > 4
+
+	UPDATE SCE SET Liberado = getdate(), Estatus = 0
+	FROM SistemaSesiones SS
+	INNER JOIN SistemaControlEdicion SCE  ON SS.IdSesion = SCE.IdSesion
+	WHERE SS.Estatus = 0 AND SCE.Estatus = 1	
+
+END"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
+
+    End Sub
 
 
 

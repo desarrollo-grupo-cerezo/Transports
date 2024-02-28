@@ -68,7 +68,9 @@ Public Class FrmLiquidacionesAE
     Private _FgColDemorasCarga = 42
     Private _FgColDemorasDescarga = 43
     Private _FgColSueldoxFactor = 44
-
+    Private SesionDoc As SesionDocumento
+    Private LstSesionDoc As List(Of SesionDocumento)
+    Private ForzarCierre As Boolean
 
 
     Public Sub New()
@@ -76,13 +78,17 @@ Public Class FrmLiquidacionesAE
         InitializeComponent()
 
         Me.SuspendLayout()
+
+        SesionDoc = New SesionDocumento("Liquidación", "", "Liquidación")
+        LstSesionDoc = New List(Of SesionDocumento)
+
         CARGAR_DATOS1()
         Me.ResumeLayout()
         ' Agregue cualquier inicialización después de la llamada a InitializeComponent().
     End Sub
     Private Sub FrmLiquidacionesAE_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         '20 FEB 20
-        If Not Valida_Conexion() Then
+        If Not Valida_Conexion() Or ForzarCierre Then
             Me.Close()
             Return
         End If
@@ -410,6 +416,7 @@ Public Class FrmLiquidacionesAE
                     Select Case dr("CVE_ST_LIQ")
                         Case 1
                             LtTipoCrobro.Text = "Edición"
+                            SesionDoc.TblID = TCVE_LIQ.Text
                         Case 2
                             LtTipoCrobro.Text = "Aceptada"
                             TCVE_OPER.ReadOnly = True
@@ -481,6 +488,13 @@ Public Class FrmLiquidacionesAE
                             TCVE_TRACTOR.ReadOnly = True
                             F1.ReadOnly = True
                             TCVE_LIQ.Enabled = False
+
+                            btnGuardarCasetas.Visible = True
+                            FgCasetas.Dock = DockStyle.None
+                            FgCasetas.Location = New Point(0, 35)
+                            FgCasetas.Size = New Size(1300, 262)
+                            FgCasetas.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) Or System.Windows.Forms.AnchorStyles.Left) Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+
                         Else
                             TOBSER.ReadOnly = False
                             BtnOper.Enabled = True
@@ -581,6 +595,28 @@ Public Class FrmLiquidacionesAE
             End If
         Else
 
+            If VerificaDocumentoEnEdicion(SesionDoc) Then
+                ForzarCierre = True
+            Else
+                For i = 1 To Fg.Rows.Count - 1
+                    If Fg(i, _FgColSeleccione) = True Then
+                        Dim sd As SesionDocumento = New SesionDocumento("Viaje", Fg(i, _FgColNumViaje).ToString(), "Liquidación")
+
+                        If VerificaDocumentoEnEdicion(sd) Then
+                            ForzarCierre = True
+                        Else
+                            LstSesionDoc.Add(sd)
+                        End If
+                    End If
+                Next
+                If Not ForzarCierre Then
+                    SistemaControlEdicion(SesionDoc, 1)
+                    For Each sd In LstSesionDoc
+                        sd.IdControlPad = SesionDoc.IdControl
+                        SistemaControlEdicion(sd, 1)
+                    Next
+                End If
+            End If
             TCVE_OPER.Select()
             Try
                 _myEditor = New MyEditorLiq(FgGC)
@@ -1112,6 +1148,12 @@ Public Class FrmLiquidacionesAE
         End Try
     End Sub
     Private Sub FrmLiquidacionesAE_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+
+        SistemaControlEdicion(SesionDoc, 0)
+        For Each sd In LstSesionDoc
+            SistemaControlEdicion(sd, 0)
+        Next
+
         Me.Dispose()
         CloseTab("Liquidación")
         Try
@@ -1763,7 +1805,14 @@ Public Class FrmLiquidacionesAE
                     BITACORA_LIQ("160. " & ex.Message & vbNewLine & ex.StackTrace)
                     MsgBox("160. " & ex.Message & vbNewLine & ex.StackTrace)
                 End Try
-
+                If IsNew Then
+                    SesionDoc.TblID = CVE_LIQ
+                    SistemaControlEdicion(SesionDoc, 1)
+                    For Each sd In LstSesionDoc
+                        sd.IdControlPad = SesionDoc.IdControl
+                    Next
+                    SistemaControlEdicionSetControlPad(LstSesionDoc)
+                End If
                 If SHOW_MENSAJE = "" Then
                     MsgBox("El registro se grabo satisfactoriamente")
                 End If
@@ -3638,6 +3687,16 @@ Public Class FrmLiquidacionesAE
                     If Fg(e.Row, _FgColSeleccione) Then
                         PROC = "A"
 
+                        Dim sd As SesionDocumento = New SesionDocumento("Viaje", Fg(Fg.Row, _FgColNumViaje).ToString(), "Liquidación")
+                        sd.IdControlPad = SesionDoc.IdControl
+                        If VerificaDocumentoEnEdicion(sd) Then
+                            Fg(Fg.Row, 1) = False
+                            Return
+                        Else
+                            SistemaControlEdicion(sd, 1)
+                            LstSesionDoc.Add(sd)
+                        End If
+
                         FgCheck_ActualizaViaje(Fg(e.Row, _FgColNumViaje), e.Row)
 
                         CADENA1 = Fg(e.Row, _FgColCheck19)
@@ -3681,6 +3740,11 @@ Public Class FrmLiquidacionesAE
                         'End If
                     Else
                         'Fg(e.Row, _FgColSueldoViaje) = "0"
+                        Dim sd As SesionDocumento = LstSesionDoc.FirstOrDefault(Function(d) d.TblID = Fg(e.Row, 2))
+                        If Not sd Is Nothing Then
+                            SistemaControlEdicion(sd, 0)
+                        End If
+
                         Fg(e.Row, _FgColPuntos) = ""
                         PROC = "E"
                         FGCHECK_DESPLEGAR_GASTOS_VIAJE(Fg(e.Row, _FgColNumViaje), PROC)
@@ -6364,8 +6428,34 @@ Public Class FrmLiquidacionesAE
     End Sub
     Private Sub ChangeState(ByVal state As C1.Win.C1FlexGrid.CheckEnum)
         For row As Integer = Fg.Rows.Fixed To Fg.Rows.Count - 1
-            Fg.SetCellCheck(row, _FgColSeleccione, state)
+            'Fg.SetCellCheck(row, _FgColSeleccione, state)
+            If state = CheckEnum.Checked Then
+                Dim sd As SesionDocumento = New SesionDocumento("Viaje", Fg(row, _FgColNumViaje).ToString(), "Liquidación")
+
+                If VerificaDocumentoEnEdicion(sd) Then
+
+                Else
+                    sd.IdControlPad = SesionDoc.IdControl
+                    SistemaControlEdicion(sd, 1)
+                    LstSesionDoc.Add(sd)
+                    Fg.SetCellCheck(row, _FgColSeleccione, state)
+                End If
+            Else
+                Dim sd As SesionDocumento = LstSesionDoc.FirstOrDefault(Function(d) d.TblID = Fg(row, _FgColNumViaje))
+                If Not sd Is Nothing Then
+                    SistemaControlEdicion(sd, 0)
+                    LstSesionDoc.Remove(sd)
+                End If
+                Fg.SetCellCheck(row, _FgColSeleccione, state)
+            End If
         Next
+
+
+
+
+
+
+
     End Sub
 
     Private Sub TBotonMagicoD_TextChanged(sender As Object, e As EventArgs) Handles TBotonMagicoD.TextChanged
@@ -6741,7 +6831,7 @@ Public Class FrmLiquidacionesAE
 
     Private Sub FgCasetas_CellButtonClick(sender As Object, e As RowColEventArgs) Handles FgCasetas.CellButtonClick
         Try
-            If LtTipoCrobro.Text = "Edición" Then
+            If LtTipoCrobro.Text <> "Cancelada" Then
                 If FgCasetas.Row > 0 Then
                     Var1 = "Edit"
                     Var2 = FgCasetas(FgCasetas.Row, 2)
@@ -6784,13 +6874,26 @@ Public Class FrmLiquidacionesAE
         End Try
     End Sub
 
+    Private Sub btnGuardarCasetas_Click(sender As Object, e As EventArgs) Handles btnGuardarCasetas.Click
+        Try
+            GRABAR_LIQ_CASETAS(TCVE_LIQ.Text)
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub FgCasetas_BeforeEdit(sender As Object, e As RowColEventArgs) Handles FgCasetas.BeforeEdit
+        If e.Col <> 1 And e.Col <> 9 Then
+            e.Cancel = True
+        End If
+    End Sub
+
     Private Sub Fg_Leave(sender As Object, e As EventArgs) Handles Fg.Leave
         If Fg.Col = 11 AndAlso Fg(Fg.Row, 1) AndAlso Fg(Fg.Row, 45) = "SEMANAL" Then
             Fg.FinishEditing()
             CALCULAR_IMPORTES()
         End If
     End Sub
-
 
 End Class
 

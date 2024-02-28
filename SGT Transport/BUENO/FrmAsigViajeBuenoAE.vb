@@ -10,7 +10,7 @@ Imports System.Runtime.InteropServices
 Imports C1.C1Excel
 
 Public Class FrmAsigViajeBuenoAE
-
+    Public IdSesion As Long = 0
     Private PasaXLS As Boolean = True
     Private ViajeNew As Boolean
     Private SSUBT As Decimal = 0
@@ -64,12 +64,15 @@ Public Class FrmAsigViajeBuenoAE
     Private cmdselcet As OleDb.OleDbCommand
     Private dtExcelSchema As Data.DataTable
     Private Declare Sub mouse_event Lib "user32" (ByVal dwFlags As Integer, ByVal dx As Integer, ByVal dy As Integer, ByVal cButtons As Integer, ByVal dwExtraInfo As Integer)
-
+    Private SesionDoc As SesionDocumento
+    Private ForzarCierre As Boolean
     Public Sub New()
         ' Esta llamada es exigida por el diseñador.
         InitializeComponent()
 
         Me.SuspendLayout()
+
+        SesionDoc = New SesionDocumento("Viaje", "", "Asignación de Viaje")
 
         CARGAR_DATOS1()
 
@@ -78,7 +81,7 @@ Public Class FrmAsigViajeBuenoAE
     End Sub
     Private Sub FrmAsigViajeBuenoAE_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        If Not Valida_Conexion() Then
+        If Not Valida_Conexion() Or ForzarCierre Then
             Me.Close()
             Return
         End If
@@ -270,7 +273,6 @@ Public Class FrmAsigViajeBuenoAE
     End Sub
     Sub CARGAR_DATOS1()
         'TFOLIOFG.Value = 0
-
 
         AssignValidation(TVIAJE_COMPLE, ValidationType.Only_Numbers)
 
@@ -814,8 +816,8 @@ Public Class FrmAsigViajeBuenoAE
         ACEPTA_CALCULO = True
         ENTRAM = True
 
-        Select Case LtStatus.Text
-            Case "Cancelado"
+        Select Case LtStatus.Text.ToUpper()
+            Case "CANCELADO"
                 BarGrabar.Enabled = False
                 BarEditarRemitente.Enabled = False
                 BarEditDestinatario.Enabled = False
@@ -858,6 +860,16 @@ Public Class FrmAsigViajeBuenoAE
                 Box4.Enabled = False
 
                 DESHABILITAR()
+            Case "REGRESO", "TRANSITO", "PENDIENTE", "POR LIQUIDAR"
+                SesionDoc.TblID = LtCVE_VIAJE.Text
+
+                If VerificaDocumentoEnEdicion(SesionDoc) Then
+                    ForzarCierre = True
+                Else
+                    SistemaControlEdicion(SesionDoc, 1)
+                End If
+
+
         End Select
 
 
@@ -3938,6 +3950,12 @@ Public Class FrmAsigViajeBuenoAE
             FgG.Cols(1).Width = 95
             FgV.Cols(1).Width = 95
             FgG.Cols(6).Width = 95
+
+            If SesionDoc.TblID <> LtCVE_VIAJE.Text Then
+                SesionDoc.TblID = LtCVE_VIAJE.Text
+                SistemaControlEdicion(SesionDoc, 1)
+            End If
+
         End If
     End Sub
     Sub BORRA_FACTURA(CVE_DOC)
@@ -6487,6 +6505,9 @@ Public Class FrmAsigViajeBuenoAE
         Me.Close()
     End Sub
     Private Sub FrmAsigViajeBuenoAE_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
+
+        SistemaControlEdicion(SesionDoc, 0)
+
         CloseTab("Asignación viaje")
         Me.Dispose()
         If SeDesplega Then

@@ -1196,6 +1196,7 @@
     <Compile Include="REPORTES\FrmRepGerencial3.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SISTEMA\SesionDocumento.vb" />
     <Compile Include="UTILERIAS\RoundedRectangle.vb" />
     <Compile Include="VENTAS POS\FrmFacturaGlobal.Designer.vb">
       <DependentUpon>FrmFacturaGlobal.vb</DependentUpon>

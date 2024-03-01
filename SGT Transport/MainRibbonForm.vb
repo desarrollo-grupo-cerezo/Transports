@@ -4159,7 +4159,7 @@ Public Class MainRibbonForm
         End Try
     End Sub
 
-    Private Sub BarContResumen_Click(sender As Object, e As EventArgs) Handles BarContResFacturas.Click, BarContResLiq.Click, BarContResLiqConceptos.Click, BarContResFacturasAbono.Click
+    Private Sub BarContResumen_Click(sender As Object, e As EventArgs) Handles BarContResFacturas.Click, BarContResLiq.Click, BarContResLiqConceptos.Click, BarContResFacturasAbono.Click, RibConViajesTractor.Click
         Dim Consulta As String
         Consulta = ObtenerNombrePestanaConsulta(sender.Name)
         Dim frm As New FrmConsultaResumen()

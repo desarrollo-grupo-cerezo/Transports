@@ -562,7 +562,7 @@ Public Class FrmCasetasXRutaAE
                 Case 0
                     colImporte = 3
                 Case 1
-                    colImporte = 6
+                    colImporte = 5
                 Case 2
                     colImporte = 9
             End Select
@@ -896,7 +896,7 @@ Public Class FrmCasetasXRutaAE
                         STATUS = True
 
                         For k = 1 To Fg.Rows.Count - 1
-                            If Fg(k, 2) = dr("CVE_CAS") Then
+                            If Fg(k, 3) = dr("CVE_CAS") Then
                                 STATUS = False
                                 Exit For
                             End If

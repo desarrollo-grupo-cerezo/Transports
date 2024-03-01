@@ -475,6 +475,8 @@ Partial Class MainRibbonForm
         Me.RibReporte4 = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibReporte5 = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibReporteFleteVsGastos = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonMenu9 = New C1.Win.C1Ribbon.RibbonMenu()
+        Me.RibConViajesTractor = New C1.Win.C1Ribbon.RibbonButton()
         Me.TabConfig = New C1.Win.C1Ribbon.RibbonTab()
         Me.RibbonGroup9 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarEmpresas = New C1.Win.C1Ribbon.RibbonButton()
@@ -3690,6 +3692,7 @@ Partial Class MainRibbonForm
         Me.GpoReportes1.Items.Add(Me.RibComparativoPesosReales)
         Me.GpoReportes1.Items.Add(Me.RibbonMenu61)
         Me.GpoReportes1.Items.Add(Me.RibbonMenu611)
+        Me.GpoReportes1.Items.Add(Me.RibbonMenu9)
         Me.GpoReportes1.Name = "GpoReportes1"
         '
         'BarOperacionDiaria
@@ -3859,6 +3862,20 @@ Partial Class MainRibbonForm
         Me.RibReporteFleteVsGastos.Name = "RibReporteFleteVsGastos"
         Me.RibReporteFleteVsGastos.SmallImage = Global.SGT_Transport.My.Resources.Resources.impuestos
         Me.RibReporteFleteVsGastos.Text = "Reporte Flete vs Gastos"
+        '
+        'RibbonMenu9
+        '
+        Me.RibbonMenu9.Items.Add(Me.RibConViajesTractor)
+        Me.RibbonMenu9.LargeImage = Global.SGT_Transport.My.Resources.Resources.desplegar6
+        Me.RibbonMenu9.Name = "RibbonMenu9"
+        Me.RibbonMenu9.SmallImage = Global.SGT_Transport.My.Resources.Resources.desplegar6
+        Me.RibbonMenu9.Text = "Consultas"
+        '
+        'RibConViajesTractor
+        '
+        Me.RibConViajesTractor.Name = "RibConViajesTractor"
+        Me.RibConViajesTractor.SmallImage = CType(resources.GetObject("RibConViajesTractor.SmallImage"), System.Drawing.Image)
+        Me.RibConViajesTractor.Text = "Viajes por Tractor"
         '
         'TabConfig
         '
@@ -4855,4 +4872,6 @@ Partial Class MainRibbonForm
     Friend WithEvents RibReporteFleteVsGastos As RibbonButton
     Friend WithEvents RibbonMenu8 As RibbonMenu
     Friend WithEvents RibReporteCTBFleteVsGastos As RibbonButton
+    Friend WithEvents RibbonMenu9 As RibbonMenu
+    Friend WithEvents RibConViajesTractor As RibbonButton
 End Class

@@ -14349,8 +14349,8 @@ AS
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT('V', V.CVE_VIAJE, ' ', VV.LITROS_REALES, ' LTRS LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
-					Debe = IIF(T.Tipo = 1, CONCAT('', VV.SUBTOTAL + VV.IEPS), ''),
-					Haber = IIF(T.Tipo = 2, CONCAT('', VV.SUBTOTAL + VV.IEPS), ''),
+					Debe = IIF(T.Tipo = 1, CONCAT('', round(VV.SUBTOTAL + VV.IEPS, 2)), ''),
+					Haber = IIF(T.Tipo = 2, CONCAT('', round(VV.SUBTOTAL + VV.IEPS, 2)), ''),
 					CentroCostos = '',
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
@@ -14420,8 +14420,8 @@ AS
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT('FCP-', GC.REFER, ' ', PV.NOMBRE), 
 					TipoCambio = '1',
-					Debe = CONCAT('', CASE WHEN T.Tipo = 1 THEN GC.SUBTOTAL WHEN T.Tipo = 2 THEN GC.IVA WHEN T.Tipo = 3 THEN GC.TOTAL END),
-					Haber = CONCAT('', CASE WHEN T.Tipo = 4 THEN GC.TOTAL END),
+					Debe = CONCAT('', round(CASE WHEN T.Tipo = 1 THEN GC.SUBTOTAL WHEN T.Tipo = 2 THEN GC.IVA WHEN T.Tipo = 3 THEN GC.TOTAL END, 2)),
+					Haber = CONCAT('', round(CASE WHEN T.Tipo = 4 THEN GC.TOTAL END, 2)),
 					CentroCostos = '',
 					Proyecto = ''
 			        FROM GCLIQUIDACIONES LIQ WITH (nolock)		
@@ -14670,7 +14670,7 @@ AS
 					DiaConceptoMov = CONCAT('FCP-', GC.REFER, ' ', PV.NOMBRE), 
 					TipoCambio = '1',
 					Debe = '',
-					Haber = CONCAT('', CASE WHEN T.Tipo = 1 THEN GC.SUBTOTAL WHEN T.Tipo = 2 THEN GC.IVA END),
+					Haber = CONCAT('', round(CASE WHEN T.Tipo = 1 THEN GC.SUBTOTAL WHEN T.Tipo = 2 THEN GC.IVA END, 2)),
 					CentroCostos = '',
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
@@ -14711,7 +14711,7 @@ AS
 			LEFT JOIN (SELECT CVE_LIQ, IMPORTE = SUM(IMPORTE) FROM GCASIGNACION_VIAJE_GASTOS WITH (nolock) GROUP BY CVE_LIQ) GV  ON GV.CVE_LIQ = LIQ.CVE_LIQ	
 			LEFT JOIN (SELECT CVE_LIQ, IMPORTE = SUM(IMPORTE) FROM GCLIQ_DEDUCCIONES WITH (nolock) GROUP BY CVE_LIQ) LD ON LD.CVE_LIQ = LIQ.CVE_LIQ 
 			LEFT JOIN (SELECT CVE_LIQ, IMPORTE = SUM(IMPORTE) FROM GCLIQ_PENSION_ALI WITH (nolock) GROUP BY CVE_LIQ) PA ON PA.CVE_LIQ = LIQ.CVE_LIQ 
-			WHERE LIQ.STATUS = 'L' AND (ISNULL(GV.IMPORTE, 0) + ISNULL(LD.IMPORTE, 0)) !=0			
+			WHERE LIQ.STATUS = 'L' AND (ISNULL(GV.IMPORTE, 0) + ISNULL(LD.IMPORTE, 0) + ISNULL(PA.IMPORTE, 0)) !=0			
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -14735,7 +14735,7 @@ AS
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
-					Haber = CONCAT('', CAST(ISNULL(SUM(GC.TOTAL), 0) AS decimal(27, 6)) + ISNULL(MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS), 0)),
+					Haber = CONCAT('', CAST(ISNULL(SUM(GC.TOTAL), 0) AS decimal(27, 2)) + ISNULL(MAX(SDO.Diferencia) + MAX(SDO.Maniobra) + MAX(SDO.ISR) + MAX(SDO.IMSS), 0)),
 					CentroCostos = '',
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
@@ -14875,7 +14875,16 @@ AS
 	                    DECLARE @cCursor as CURSOR
 
 	                    SET @cCursor = CURSOR FAST_FORWARD FOR
-		                    SELECT	V.CVE_VIAJE, FLETE = round(isnull(V.FLETE, 0), 2), SUELDO = round(isnull(LP.SUELDO, 0), 2), CLIENTE = ISNULL(CLIENTE, ''), 
+		     --               SELECT	V.CVE_VIAJE, FLETE = round(isnull(V.FLETE, 0), 2), SUELDO = round(isnull(LP.SUELDO, 0), 2), CLIENTE = ISNULL(CLIENTE, ''), 
+							--		IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END, 0)
+							--FROM GCLIQ_PARTIDAS LP 
+							--INNER JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = LP.CVE_VIAJE 
+							--LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = V.CVE_TAB_VIAJE  
+							--WHERE LP.CVE_LIQ = @CveLiq ORDER BY LP.NUM_PAR
+							SELECT	V.CVE_VIAJE, 
+									FLETE = IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.TAR_OPER_FULL, 0) ELSE ISNULL(R1.TAR_X_TON_SENC, 0) END, 0),
+									SUELDO = IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_FULL+R1.SUELDO_MANIOBRA_FULL, 0) ELSE ISNULL(R1.SUELDO_SENC+R1.SUELDO_MANIOBRA_SENC, 0) END, 0), 
+									CLIENTE = ISNULL(CLIENTE, ''),
 									IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END, 0)
 							FROM GCLIQ_PARTIDAS LP 
 							INNER JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = LP.CVE_VIAJE 
@@ -15551,7 +15560,7 @@ AS
 			INNER JOIN MONED" & Empresa & " N WITH (nolock) ON N.NUM_MONED = M.NUM_MONED		
 			INNER JOIN (SELECT DOCTO, TOTAL=SUM(TCAMBIO*IMPORTE) FROM CUEN_DET" & Empresa & " WITH (nolock) GROUP BY DOCTO) T ON T.DOCTO = M.DOCTO
 			UNION ALL
-			SELECT						
+			SELECT	DISTINCT					
 					FechaDocumento =  M.FECHA_APLI,
 					Documento = M.DOCTO,
 					TipoDocumento = 0,
@@ -15612,7 +15621,7 @@ AS
 			--INNER JOIN FACTF" & Empresa & " FAC WITH (nolock) ON FAC.CVE_DOC = F.FACTURA	
 			INNER JOIN CFDI_CFG CFG WITH (nolock) ON 1 = 1
 			UNION ALL
-			SELECT						
+			SELECT	DISTINCT					
 					FechaDocumento =  M.FECHA_APLI,
 					Documento = M.DOCTO,
 					TipoDocumento = 0,
@@ -16821,7 +16830,48 @@ END"
         cmd.CommandText = SQL
         cmd.ExecuteNonQuery()
 
-        ControlSesiones()
+
+        If EXISTE_VISTA("VT_RPT_ResumenViajesTractor") Then
+            SQL = "DROP VIEW [dbo].[VT_RPT_ResumenViajesTractor]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+        SQL = "CREATE VIEW [dbo].[VT_RPT_ResumenViajesTractor]
+AS
+	SELECT 
+
+		Viaje					= cast(V.CVE_VIAJE as int),
+		[TV]					= iif(V.TIPO_VIAJE < 1, '*', ''),
+		[Fecha Carga]			= cast(V.FECHA_CARGA as date),
+		[Fecha Descarga]		= cast(V.FECHA_DESCARGA as date),
+		Operador				= V.CVE_OPER,
+		Tractor					= V.CVE_TRACTOR,
+		Cliente					= isnull(C.ALIAS, ''),
+		Origen					= isnull(R.DESCR, ''),
+		Destino					= isnull(R.DESCR2, ''),
+		[Kms Cargado]			= isnull(R.KMS, 0),
+		[Kms Vacío]				= '',
+		[Flete Operador]		= CASE WHEN V.TIPO_FACTURACION = 2 THEN V.SUBTOTAL ELSE isnull((SELECT sum(CAN_TOT) FROM FACTF" & Empresa & " WHERE CVE_VIAJE = V.CVE_VIAJE), 0) END,
+		[Flete Real]			= V.SUBTOTAL,
+		[Importe Otros Real]	='',
+		[Importe Permis/Seguro]	= '',
+		[Imp. Custodia/Ferry]	= '',
+		Factura					= isnull(stuff((SELECT ' ' + FACTURA + '  ' FROM CFDI WHERE CFDI.CVE_VIAJE = V.CVE_VIAJE AND isnull(ESTATUS,'') <> 'C' FOR XML PATH ('')),1,1, ''),''),
+		[Rel Cobranza]			= isnull(REL.CVE_REL, ''),
+		Comp					= V.VIAJE_COMPLE,
+		[Tr Comp]				= isnull((SELECT CVE_TRACTOR FROM GCASIGNACION_VIAJE WHERE CVE_VIAJE = V.VIAJE_COMPLE),''),
+		Peso					= V.VOLUMEN_PESO
+	FROM dbo.GCASIGNACION_VIAJE V
+	LEFT OUTER JOIN dbo.CLIE" & Empresa & " C ON V.CLIENTE = C.CLAVE
+	LEFT OUTER JOIN dbo.GCTAB_RUTAS_F R ON V.CVE_TAB_VIAJE = R.CVE_TAB 
+	OUTER APPLY (SELECT TOP 1 CVE_DOC, ESTATUS, FACTURA FROM CFDI WHERE CFDI.CVE_VIAJE = V.CVE_VIAJE AND ISNULL(CFDI.ESTATUS,'') <> 'C') M
+	LEFT JOIN dbo.FACTF" & Empresa & " F ON F.CVE_DOC = M.CVE_DOC
+	LEFT JOIN dbo.GCREL_FACTURAS REL ON REL.CVE_REL = V.CVE_REL
+	LEFT JOIN dbo.GCLIQ_PARTIDAS LP ON V.CVE_VIAJE = LP.CVE_VIAJE AND LP.STATUS <> 'C'
+	LEFT JOIN dbo.GCLIQUIDACIONES L ON LP.CVE_LIQ = L.CVE_LIQ AND L.STATUS <> 'C'
+	WHERE V.STATUS <> 'C' AND isnull(M.ESTATUS, '') <> 'C' "
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
 
         'If EXISTE_VISTA("") Then
         '    SQL = "DROP VIEW [dbo].[]"
@@ -16833,6 +16883,7 @@ END"
         'cmd.ExecuteNonQuery()
 
 
+        ControlSesiones()
 
     End Sub
 

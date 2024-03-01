@@ -73,6 +73,8 @@ Public Class FrmConsultaResumen
                     lbSerie.Visible = True
                     CboSeries.Visible = True
                     CargaCombosLiquidaciones()
+                    'Case "RibConViajesTractor"
+
             End Select
 
             With Screen.PrimaryScreen.WorkingArea
@@ -232,6 +234,8 @@ Public Class FrmConsultaResumen
                     Filtro += String.Format(" AND [Clave Cliente] = '{0}'", txCliente.Text.Trim)
                 End If
                 SQL = String.Format("SELECT * FROM VT_RPT_ResumenFacturasAbonos {0} ORDER BY Fecha", Filtro)
+            Case "RibConViajesTractor"
+                SQL = String.Format("SELECT * FROM VT_RPT_ResumenViajesTractor WHERE [Fecha Carga] BETWEEN '{0:yyyyMMdd}' AND '{1:yyyyMMdd}' ORDER BY Tractor, [Fecha Carga]", F1.Value, F2.Value)
         End Select
 
         Try

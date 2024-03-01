@@ -835,7 +835,7 @@ Public Class FrmAsigViajeBuenoAE
                     BarGrabar.Enabled = False
                     BarEditarRemitente.Enabled = False
                     BarEditDestinatario.Enabled = False
-                    BoxGastos.Enabled = False
+                    'BoxGastos.Enabled = False
                     SplitM3.Enabled = False
                     SplitM4.Enabled = False
                     TFOLIO_VIAJE.Enabled = False

@@ -332,7 +332,7 @@ Public Class FrmConciValesCombus
                 CASE WHEN GV.STATUS = 'C' THEN 'Cancelado' ELSE 'Emitido' END AS 'Estatus',
                 V.CVE_OPER AS 'Operador', O.NOMBRE AS 'Nombre', V.CVE_TRACTOR AS 'Unidad', GV.FECHA AS 'Fecha', GV.FECHA_CARGA AS 'Fecha carga', 
                 G.CVE_PROV + ' ' + P.NOMBRE AS 'Proveedor', GV.CVE_GAS AS 'Clave', '(' + GV.CVE_GAS + ')   ' + G.DESCR AS 'Gasolinera', 
-                GV.LITROS AS 'Litros iniciales', GV.LITROS_REALES AS 'Litros reales', GV.P_X_LITRO AS 'P. X litro', GV.SUBTOTAL AS 'Subtotal', 
+                GV.LITROS AS 'Litros iniciales', GV.LITROS_REALES AS 'Litros reales', GV.P_X_LITRO AS 'P. X litro', GV.SUBTOTAL+ GV.IEPS AS 'Subtotal', 
                 GV.IVA AS 'IVA', GV.IEPS AS 'IEPS', GV.IMPORTE AS 'Importe', GV.FACTURA AS 'Factura', ISNULL(GV.ST_VALES,'EDICION') AS 'Estatus vale', 
                 (SELECT TOP 1 REFER FROM PAGA_M" & Empresa & " WHERE NO_FACTURA = GV.FACTURA) AS 'Referencia', GV.OBS AS 'Observaciones' 
                 FROM GCASIGNACION_VIAJE_VALES GV

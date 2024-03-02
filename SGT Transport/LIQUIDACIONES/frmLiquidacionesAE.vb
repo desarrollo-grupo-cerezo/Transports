@@ -906,7 +906,7 @@ Public Class FrmLiquidacionesAE
                     ISNULL(CHECK_BOX,1) AS CH_BOX, ISNULL(OBS, '') AS OBS
                     FROM GCASIGNACION_VIAJE_GASTOS GV
                     LEFT JOIN GCCONC_GASTOS C ON C.CVE_GAS = GV.CVE_NUM
-                    WHERE GV.STATUS!='C' AND CVE_VIAJE = '" & fCVE_IAJE & "' ORDER BY FECHAELAB"
+                    WHERE GV.STATUS!='C' AND (CVE_VIAJE = '" & fCVE_IAJE & "' OR GV.CVE_LIQ = '" & TCVE_LIQ.Text & "') ORDER BY FECHAELAB"
 
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
@@ -3191,7 +3191,7 @@ Public Class FrmLiquidacionesAE
                         ISNULL(ST_GASTOS,'EDICION') AS ST_GAS, GV.UUID
                         From GCASIGNACION_VIAJE_GASTOS GV
                         LEFT JOIN GCCONC_GASTOS C ON C.CVE_GAS = GV.CVE_NUM
-                        WHERE GV.STATUS!='C' AND
+                        WHERE NOT GV.STATUS IN ('C', 'L') AND 
                         CVE_VIAJE = '" & fCVE_VIAJE & "' ORDER BY FECHAELAB"
                     'AND ISNULL(ST_GASTOS,'') = 'DEPOSITADO'
                     'GV.STATUS <> 'L' AND 

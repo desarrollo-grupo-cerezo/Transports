@@ -268,7 +268,7 @@ Public Class FrmConciValesCombusAE
                 For k = 1 To Fg2.Rows.Count - 1
                     Fg2(k, 0) = k
                     SUBTOTAL += Fg2(k, 10)
-                    IVA += Fg2(k, 10)
+                    IVA += Fg2(k, 11)
                     NETO += Fg2(k, 12)
                 Next
                 tSUBTOTAL.Text = Format(SUBTOTAL, "###,###,##0.00")
@@ -580,7 +580,7 @@ Public Class FrmConciValesCombusAE
             End If
             Try
                 Using cmd As SqlCommand = cnSAE.CreateCommand
-                    SQL = "SELECT A.CVE_VIAJE, A.FOLIO,  G.CVE_GAS, G.DESCR AS NOMBRE_GAS, A.FECHA, A.SUBTOTAL, A.IVA, A.IMPORTE,
+                    SQL = "SELECT A.CVE_VIAJE, A.FOLIO,  G.CVE_GAS, G.DESCR AS NOMBRE_GAS, A.FECHA, SUBTOTAL = (A.SUBTOTAL+A.IEPS), A.IVA, IMPORTE = (A.SUBTOTAL+A.IEPS+A.IVA),
                         ISNULL(LITROS,0) AS LTS_INICIALES, ISNULL(LITROS_REALES,0) AS LTS_REAL, OBS
                         FROM GCASIGNACION_VIAJE_VALES A
                         LEFT JOIN GCGASOLINERAS G ON G.CVE_GAS = A.CVE_GAS

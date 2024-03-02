@@ -14823,142 +14823,154 @@ AS
             End If
 
             SQL = "CREATE PROCEDURE [dbo].[sp_LiqCalculaSueldo] 
-	                    @CveLiq int
-                    AS
-                    BEGIN
+    @CveLiq int
+AS
+BEGIN
 	
-	                    SET NOCOUNT ON;
+	SET NOCOUNT ON;
 
-	                    DECLARE @CveViaje int
-	                    DECLARE @CveOper int
-	                    DECLARE @Fecha datetime
-	                    DECLARE @IdPolizaCOI int
-						DECLARE @Cliente varchar(20)
+	DECLARE @CveViaje int
+	DECLARE @CveOper int
+	DECLARE @Fecha datetime
+	DECLARE @IdPolizaCOI int
+	DECLARE @Cliente varchar(20)
 
-	                    DECLARE @DiasMes int
-						DECLARE @ImporteViaje decimal(27,6)
-	                    DECLARE @SueldoRuta decimal(27,6)
-	                    DECLARE @SueldoSinManiobra decimal(27,6)
-	                    DECLARE @SueldoDiarioOperador decimal(27,6)
-	                    DECLARE @Sueldo decimal(27,6)
-	                    DECLARE @DiasSueldoRuta int
-	                    DECLARE @DiasCalculo int
-	                    DECLARE @DiasAcumulado int
-	                    DECLARE @Maniobra decimal(27,6)
-	                    DECLARE @PorcentajeManiobra decimal(27,6)
-						DECLARE @PorcentajeManiobraCliente decimal(27,6)
-	                    DECLARE @Diferencia decimal(27,6)
-	                    DECLARE @FactorISR decimal(27,6)
-	                    DECLARE @FactorIMSS decimal(27,6)
-	                    DECLARE @ISR decimal(27,6)
-	                    DECLARE @IMSS decimal(27,6)
+	DECLARE @DiasMes int
+	DECLARE @ImporteViaje decimal(27,6)
+	DECLARE @SueldoRuta decimal(27,6)
+	DECLARE @SueldoSinManiobra decimal(27,6)
+	DECLARE @SueldoDiarioOperador decimal(27,6)
+	DECLARE @Sueldo decimal(27,6)
+	DECLARE @DiasSueldoRuta int
+	DECLARE @DiasCalculo int
+	DECLARE @DiasAcumulado int
+	DECLARE @Maniobra decimal(27,6)
+	DECLARE @PorcentajeManiobra decimal(27,6)
+	DECLARE @PorcentajeManiobraCliente decimal(27,6)
+	DECLARE @Diferencia decimal(27,6)
+	DECLARE @FactorISR decimal(27,6)
+	DECLARE @FactorIMSS decimal(27,6)
+	DECLARE @ISR decimal(27,6)
+	DECLARE @IMSS decimal(27,6)
 
-						DECLARE @StatusLiq varchar(10)
+	DECLARE @StatusLiq varchar(10)
 
-	                    SELECT @CveOper = CVE_OPER, @Fecha = FECHA, @IdPolizaCOI = IDPOLIZACOI, @StatusLiq = [STATUS] FROM GCLIQUIDACIONES WHERE CVE_LIQ = @CveLiq
+	SELECT @CveOper = CVE_OPER, @Fecha = FECHA, @IdPolizaCOI = IDPOLIZACOI, @StatusLiq = [STATUS] FROM GCLIQUIDACIONES WHERE CVE_LIQ = @CveLiq
 
-	                    IF @IdPolizaCOI != null 
-		                    RETURN
+	IF @IdPolizaCOI != null 
+		RETURN
 
-	                    DELETE FROM GCLIQ_SUELDO WHERE CveLiq = @CveLiq
+	DELETE FROM GCLIQ_SUELDO WHERE CveLiq = @CveLiq
 
-						IF @StatusLiq != 'L' 
-		                    RETURN
+	IF @StatusLiq != 'L' 
+		RETURN
 
-						SET @DiasMes = DAY(EOMONTH(@Fecha))
+	SET @DiasMes = DAY(EOMONTH(@Fecha))
 
-	                    SET @SueldoDiarioOperador = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 1)
-	                    --SET @PorcentajeManiobra = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 2)
-	                    SET @FactorISR = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 3)
-	                    SET @FactorIMSS = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 4)
+	SET @SueldoDiarioOperador = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 1)
+	--SET @PorcentajeManiobra = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 2)
+	SET @FactorISR = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 3)
+	SET @FactorIMSS = (SELECT CASE WHEN Valor IS NULL THEN 0 WHEN Valor = '' THEN 0 ELSE CAST(Valor AS decimal(27,6)) END FROM GCParamLiquidacionesCOI WHERE ID = 4)
 
-	                    DECLARE @cCursor as CURSOR
+	DECLARE @cCursor as CURSOR
 
-	                    SET @cCursor = CURSOR FAST_FORWARD FOR
-		     --               SELECT	V.CVE_VIAJE, FLETE = round(isnull(V.FLETE, 0), 2), SUELDO = round(isnull(LP.SUELDO, 0), 2), CLIENTE = ISNULL(CLIENTE, ''), 
-							--		IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END, 0)
-							--FROM GCLIQ_PARTIDAS LP 
-							--INNER JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = LP.CVE_VIAJE 
-							--LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = V.CVE_TAB_VIAJE  
-							--WHERE LP.CVE_LIQ = @CveLiq ORDER BY LP.NUM_PAR
-							SELECT	V.CVE_VIAJE, 
-									FLETE = IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.TAR_OPER_FULL, 0) ELSE ISNULL(R1.TAR_X_TON_SENC, 0) END, 0),
-									SUELDO = IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_FULL+R1.SUELDO_MANIOBRA_FULL, 0) ELSE ISNULL(R1.SUELDO_SENC+R1.SUELDO_MANIOBRA_SENC, 0) END, 0), 
-									CLIENTE = ISNULL(CLIENTE, ''),
-									IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END, 0)
-							FROM GCLIQ_PARTIDAS LP 
-							INNER JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = LP.CVE_VIAJE 
-							LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = V.CVE_TAB_VIAJE  
-							WHERE LP.CVE_LIQ = @CveLiq ORDER BY LP.NUM_PAR
+	SET @cCursor = CURSOR FAST_FORWARD FOR
+--               SELECT	V.CVE_VIAJE, FLETE = round(isnull(V.FLETE, 0), 2), SUELDO = round(isnull(LP.SUELDO, 0), 2), CLIENTE = ISNULL(CLIENTE, ''), 
+		--		IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END, 0)
+		--FROM GCLIQ_PARTIDAS LP 
+		--INNER JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = LP.CVE_VIAJE 
+		--LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = V.CVE_TAB_VIAJE  
+		--WHERE LP.CVE_LIQ = @CveLiq ORDER BY LP.NUM_PAR
+
+		--SELECT	V.CVE_VIAJE, 
+		--		FLETE = IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.TAR_OPER_FULL, 0) ELSE ISNULL(R1.TAR_X_TON_SENC, 0) END, 0),
+		--		SUELDO = IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_FULL+R1.SUELDO_MANIOBRA_FULL, 0) ELSE ISNULL(R1.SUELDO_SENC+R1.SUELDO_MANIOBRA_SENC, 0) END, 0), 
+		--		CLIENTE = ISNULL(CLIENTE, ''),
+		--		IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END, 0)
+		--FROM GCLIQ_PARTIDAS LP 
+		--INNER JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = LP.CVE_VIAJE 
+		--LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = V.CVE_TAB_VIAJE  
+		--WHERE LP.CVE_LIQ = @CveLiq ORDER BY LP.NUM_PAR
+
+		SELECT	V.CVE_VIAJE, 
+				FLETE = round(isnull(V.FLETE, 0), 2),
+				SUELDO = LP.SUELDO,
+				CLIENTE = ISNULL(CLIENTE, ''),
+				PORC_MANIOBRA = IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) END, 0),
+				MANIOBRA = IIF(ISNULL(LP.SEL_CALCULO, 0) = 0, LP.SUELDO_MANIOBRA, LP.SDO_MANIOBRA_X_TONELADA)
+		FROM GCLIQ_PARTIDAS LP 
+		INNER JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = LP.CVE_VIAJE 
+		LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = V.CVE_TAB_VIAJE  
+		WHERE LP.CVE_LIQ = @CveLiq ORDER BY LP.NUM_PAR
  
-	                    OPEN @cCursor;
-	                    FETCH NEXT FROM @cCursor INTO @CveViaje, @ImporteViaje, @SueldoRuta, @Cliente, @PorcentajeManiobra
-	                     WHILE @@FETCH_STATUS = 0
-	                    BEGIN		
-		                    SET @Maniobra = 0
-		                    SET @SueldoSinManiobra = 0
-		                    SET @DiasSueldoRuta = 0
-		                    SET @DiasCalculo  = 0
-		                    SET @Sueldo = 0		
-		                    SET @Maniobra = 0
-		                    SET @Diferencia = 0
-		                    SET @ISR = 0
-		                    SET @IMSS = 0
-							SET @PorcentajeManiobraCliente = @PorcentajeManiobra
+	OPEN @cCursor;
+	FETCH NEXT FROM @cCursor INTO @CveViaje, @ImporteViaje, @SueldoRuta, @Cliente, @PorcentajeManiobra, @Maniobra
+	    WHILE @@FETCH_STATUS = 0
+	BEGIN		
+		SET @Maniobra = 0
+		SET @SueldoSinManiobra = 0
+		SET @DiasSueldoRuta = 0
+		SET @DiasCalculo  = 0
+		SET @Sueldo = 0		
+		SET @Maniobra = 0
+		SET @Diferencia = 0
+		SET @ISR = 0
+		SET @IMSS = 0
+		SET @PorcentajeManiobraCliente = @PorcentajeManiobra
 
-							IF TRIM(@Cliente) = '97' -- NUEVA WAL MART DE MEXICO
-							BEGIN
-								SET @PorcentajeManiobraCliente = 0
-							END
+		--IF TRIM(@Cliente) = '97' -- NUEVA WAL MART DE MEXICO
+		--BEGIN
+		--	SET @PorcentajeManiobraCliente = 0
+		--END
 		
-		                    SET @DiasAcumulado = (SELECT isnull(SUM(DiasCalculo), 0) 
-							                    FROM GCLIQ_SUELDO GS WITH (nolock) 
-							                    INNER JOIN GCLIQUIDACIONES LIQ WITH (nolock) ON LIQ.CVE_LIQ = GS.CveLiq
-							                    WHERE YEAR(Fecha) = YEAR(Fecha) AND MONTH(@Fecha) = MONTH(@Fecha) AND CveOper = @CveOper AND LIQ.STATUS = 'L' AND LIQ.FECHA<= @Fecha) --AND LIQ.CVE_LIQ <= @CveLiq
+		SET @DiasAcumulado = (SELECT isnull(SUM(DiasCalculo), 0) 
+							FROM GCLIQ_SUELDO GS WITH (nolock) 
+							INNER JOIN GCLIQUIDACIONES LIQ WITH (nolock) ON LIQ.CVE_LIQ = GS.CveLiq
+							WHERE YEAR(Fecha) = YEAR(@Fecha) AND MONTH(Fecha) = MONTH(@Fecha) AND CveOper = @CveOper AND LIQ.STATUS = 'L' AND LIQ.FECHA<= @Fecha) --AND LIQ.CVE_LIQ <= @CveLiq
 
-		                    SET @Maniobra = round((@ImporteViaje * @PorcentajeManiobraCliente / 100), 2)
-		                    SET @SueldoSinManiobra = @SueldoRuta - @Maniobra
-		                    SET @DiasSueldoRuta = @SueldoSinManiobra / @SueldoDiarioOperador
+		--SET @Maniobra = round((@ImporteViaje * @PorcentajeManiobraCliente / 100), 2)
+		SET @SueldoSinManiobra = @SueldoRuta - @Maniobra
+		SET @DiasSueldoRuta = @SueldoSinManiobra / @SueldoDiarioOperador
 
-							--PRINT CONCAT('@CveViaje = ', @CveViaje)
-							--PRINT CONCAT('@DiasAcumulado = ', @DiasAcumulado)
-							--PRINT CONCAT('@DiasMes = ', @DiasMes)
-							--PRINT CONCAT('@DiasSueldoRuta = ', @DiasSueldoRuta)
+		--PRINT CONCAT('@CveViaje = ', @CveViaje)
+		--PRINT CONCAT('@DiasAcumulado = ', @DiasAcumulado)
+		--PRINT CONCAT('@DiasMes = ', @DiasMes)
+		--PRINT CONCAT('@DiasSueldoRuta = ', @DiasSueldoRuta)
 
-		                    IF @DiasAcumulado < @DiasMes
-		                    BEGIN
-			                    IF (@DiasAcumulado + @DiasSueldoRuta) > @DiasMes			
-				                    SET @DiasCalculo = @DiasMes - @DiasAcumulado	
-			                    ELSE
-				                    SET @DiasCalculo = @DiasSueldoRuta	
+		IF @DiasAcumulado < @DiasMes
+		BEGIN
+			IF (@DiasAcumulado + @DiasSueldoRuta) > @DiasMes			
+				SET @DiasCalculo = @DiasMes - @DiasAcumulado	
+			ELSE
+				SET @DiasCalculo = @DiasSueldoRuta	
 
-			                    SET @Sueldo = round(@DiasCalculo * @SueldoDiarioOperador, 2)
-			                    SET @Diferencia = round(@SueldoRuta - @Sueldo - @Maniobra, 2)
-			                    SET @ISR = round(@Sueldo * @FactorISR, 2)
-			                    SET @IMSS = round(@DiasCalculo * @FactorIMSS, 2)
-		                    END
-		                    ELSE
-		                    BEGIN
-			                    SET @Sueldo = 0
-			                    SET @SueldoSinManiobra = 0
-			                    SET @Maniobra = 0
-			                    SET @Diferencia = @SueldoRuta
-			                    SET @ISR = 0
-			                    SET @IMSS = 0
-			                    SET @DiasCalculo = 0
-		                    END				
+			SET @Sueldo = round(@DiasCalculo * @SueldoDiarioOperador, 2)
+			SET @Diferencia = round(@SueldoRuta - @Sueldo - @Maniobra, 2)
+			SET @ISR = round(@Sueldo * @FactorISR, 2)
+			SET @IMSS = round(@DiasCalculo * @FactorIMSS, 2)
+		END
+		ELSE
+		BEGIN
+			SET @Sueldo = 0
+			SET @SueldoSinManiobra = 0
+			SET @Maniobra = 0
+			SET @Diferencia = @SueldoRuta
+			SET @ISR = 0
+			SET @IMSS = 0
+			SET @DiasCalculo = 0
+		END				
 							
-							--PRINT CONCAT('@DiasCalculo = ', @DiasCalculo)
+		--PRINT CONCAT('@DiasCalculo = ', @DiasCalculo)
 
-		                    INSERT INTO GCLIQ_SUELDO(CveLiq, CveViaje, Fecha, CveOper, SueldoDiarioOperador, PorcentajeManiobra, FactorISR, FactorIMSS, ImporteViaje, SueldoRuta, Maniobra, SueldoSinManiobra, DiasSueldoRuta, DiasCalculo, Sueldo, Diferencia, ISR, IMSS, FechaRegistro)
-		                    VALUES (@CveLiq, @CveViaje, @Fecha, @CveOper, @SueldoDiarioOperador, @PorcentajeManiobraCliente, @FactorISR, @FactorIMSS, @ImporteViaje, @SueldoRuta, @Maniobra, @SueldoSinManiobra, iif(@DiasSueldoRuta <0, 0, @DiasSueldoRuta), iif(@DiasCalculo<0, 0, @DiasCalculo), @Sueldo, @Diferencia, @ISR, @IMSS, getdate())			   		
+		INSERT INTO GCLIQ_SUELDO(CveLiq, CveViaje, Fecha, CveOper, SueldoDiarioOperador, PorcentajeManiobra, FactorISR, FactorIMSS, ImporteViaje, SueldoRuta, Maniobra, SueldoSinManiobra, DiasSueldoRuta, DiasCalculo, Sueldo, Diferencia, ISR, IMSS, FechaRegistro)
+		VALUES (@CveLiq, @CveViaje, @Fecha, @CveOper, @SueldoDiarioOperador, @PorcentajeManiobraCliente, @FactorISR, @FactorIMSS, @ImporteViaje, @SueldoRuta, @Maniobra, @SueldoSinManiobra, iif(@DiasSueldoRuta <0, 0, @DiasSueldoRuta), iif(@DiasCalculo<0, 0, @DiasCalculo), @Sueldo, @Diferencia, @ISR, @IMSS, getdate())			   		
 
-		                    FETCH NEXT FROM @cCursor INTO @CveViaje, @ImporteViaje, @SueldoRuta, @Cliente, @PorcentajeManiobra
-	                    END
-	                    CLOSE @cCursor;
-	                    DEALLOCATE @cCursor;
+		FETCH NEXT FROM @cCursor INTO @CveViaje, @ImporteViaje, @SueldoRuta, @Cliente, @PorcentajeManiobra, @Maniobra
+	END
+	CLOSE @cCursor;
+	DEALLOCATE @cCursor;
 
-                    END"
+END"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
 
@@ -16852,7 +16864,7 @@ AS
 		[Kms Cargado]			= isnull(R.KMS, 0),
 		[Kms Vacío]				= '',
 		[Flete Operador]		= CASE WHEN V.TIPO_FACTURACION = 2 THEN V.SUBTOTAL ELSE isnull((SELECT sum(CAN_TOT) FROM FACTF" & Empresa & " WHERE CVE_VIAJE = V.CVE_VIAJE), 0) END,
-		[Flete Real]			= V.SUBTOTAL,
+		[Flete Real]			= iif(isnull(stuff((SELECT ' ' + FACTURA + '  ' FROM CFDI WHERE CFDI.CVE_VIAJE = V.CVE_VIAJE AND isnull(ESTATUS,'') <> 'C' FOR XML PATH ('')),1,1, ''),'') = '', 0, V.SUBTOTAL),
 		[Importe Otros Real]	='',
 		[Importe Permis/Seguro]	= '',
 		[Imp. Custodia/Ferry]	= '',

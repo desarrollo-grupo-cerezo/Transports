@@ -28,6 +28,7 @@ Public Class FrmFoliosfAE
 
         CboTipo.Items.Add("Impresión")
         CboTipo.Items.Add("Digital")
+        CboTipo.Items.Add("Timbrado")
 
         If Var1 = "Nuevo" Then
             Try
@@ -59,11 +60,15 @@ Public Class FrmFoliosfAE
                     tFOLIOHASTA.Text = dr("FOLIOHASTA").ToString
                     tSERIE.Text = dr("SERIE").ToString
                     tULT_DOC.Text = dr("ULT_DOC").ToString
-                    If dr.ReadNullAsEmptyString("TIPO") = "I" Then
-                        CboTipo.SelectedIndex = 0
-                    Else
-                        CboTipo.SelectedIndex = 1
-                    End If
+                    Select Case dr.ReadNullAsEmptyString("TIPO")
+                        Case "I"
+                            CboTipo.SelectedIndex = 0
+                        Case "D"
+                            CboTipo.SelectedIndex = 1
+                        Case "T"
+                            CboTipo.SelectedIndex = 2
+                    End Select
+
                     txCtaMN.Text = dr("CTA_VTA_MN").ToString
                     txCtaUSD.Text = dr("CTA_VTA_USD").ToString
                 End If
@@ -122,8 +127,20 @@ Public Class FrmFoliosfAE
         cmd.Connection = cnSAE
         cmd.CommandText = SQL
         Try
+
+            Dim tipo As String = String.Empty
+            Select Case CboTipo.SelectedIndex
+                Case 0
+                    tipo = "I"
+                Case 1
+                    tipo = "D"
+                Case 2
+                    tipo = "T"
+            End Select
+
+
             cmd.Parameters.Add("@TIP_DOC", SqlDbType.VarChar).Value = TIP_DOC
-            cmd.Parameters.Add("@TIPO", SqlDbType.VarChar).Value = IIf(CboTipo.SelectedIndex = 0, "I", "D")
+            cmd.Parameters.Add("@TIPO", SqlDbType.VarChar).Value = tipo 'IIf(CboTipo.SelectedIndex = 0, "I", "D")
             cmd.Parameters.Add("@FOLIODESDE", SqlDbType.Int).Value = CONVERTIR_TO_INT(tFOLIODESDE.Text)
             cmd.Parameters.Add("@FOLIOHASTA", SqlDbType.Int).Value = CONVERTIR_TO_INT(tFOLIOHASTA.Text)
             cmd.Parameters.Add("@SERIE", SqlDbType.VarChar).Value = tSERIE.Text

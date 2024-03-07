@@ -14907,12 +14907,11 @@ BEGIN
 	FETCH NEXT FROM @cCursor INTO @CveViaje, @ImporteViaje, @SueldoRuta, @Cliente, @PorcentajeManiobra, @Maniobra
 	    WHILE @@FETCH_STATUS = 0
 	BEGIN		
-		SET @Maniobra = 0
+		
 		SET @SueldoSinManiobra = 0
 		SET @DiasSueldoRuta = 0
 		SET @DiasCalculo  = 0
-		SET @Sueldo = 0		
-		SET @Maniobra = 0
+		SET @Sueldo = 0				
 		SET @Diferencia = 0
 		SET @ISR = 0
 		SET @IMSS = 0
@@ -14953,8 +14952,8 @@ BEGIN
 		BEGIN
 			SET @Sueldo = 0
 			SET @SueldoSinManiobra = 0
-			SET @Maniobra = 0
-			SET @Diferencia = @SueldoRuta
+			--SET @Maniobra = 0
+			SET @Diferencia = @SueldoRuta - @Maniobra
 			SET @ISR = 0
 			SET @IMSS = 0
 			SET @DiasCalculo = 0
@@ -14969,7 +14968,6 @@ BEGIN
 	END
 	CLOSE @cCursor;
 	DEALLOCATE @cCursor;
-
 END"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
@@ -15251,6 +15249,21 @@ END
 "
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
+
+            CREA_CAMPO("FACTA" & Empresa, "FOLIOI", "VARCHAR", "30", "")
+            CREA_CAMPO("FACTC" & Empresa, "FOLIOI", "VARCHAR", "30", "")
+            CREA_CAMPO("FACTD" & Empresa, "FOLIOI", "VARCHAR", "30", "")
+            CREA_CAMPO("FACTE" & Empresa, "FOLIOI", "VARCHAR", "30", "")
+            CREA_CAMPO("FACTF" & Empresa, "FOLIOI", "VARCHAR", "30", "")
+            CREA_CAMPO("FACTG" & Empresa, "FOLIOI", "VARCHAR", "30", "")
+            CREA_CAMPO("FACTP" & Empresa, "FOLIOI", "VARCHAR", "30", "")
+            CREA_CAMPO("FACTR" & Empresa, "FOLIOI", "VARCHAR", "30", "")
+            CREA_CAMPO("FACTT" & Empresa, "FOLIOI", "VARCHAR", "30", "")
+            CREA_CAMPO("FACTV" & Empresa, "FOLIOI", "VARCHAR", "30", "")
+            CREA_CAMPO("CUEN_M" & Empresa, "FOLIOI", "VARCHAR", "30", "")
+            CREA_CAMPO("CUEN_DET" & Empresa, "FOLIOI", "VARCHAR", "30", "")
+            CREA_CAMPO("CFDI", "FOLIOI", "VARCHAR", "30", "")
+
 
             CreaVistasResumen()
 
@@ -16885,6 +16898,36 @@ AS
         cmd.CommandText = SQL
         cmd.ExecuteNonQuery()
 
+
+        If EXISTE_STORE_PROCEDURE("sp_ObtieneFolioTimbrado") Then
+            SQL = "DROP PROCEDURE sp_ObtieneFolioTimbrado"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+        SQL = "CREATE PROCEDURE [dbo].[sp_ObtieneFolioTimbrado] 
+	@TipoDocumento VARCHAR(5),
+	@Serie VARCHAR(20),
+	@CveDoc VARCHAR(50)
+AS
+BEGIN
+	DECLARE @Folio as int = 0
+
+	BEGIN TRANSACTION 
+		
+		SET @Folio = isnull((SELECT Folio FROM ControlFoliosTimbrado WHERE TipoDocumento = @TipoDocumento AND CveDoc = @CveDoc AND Serie = @Serie), 0)
+		IF @Folio = 0
+		BEGIN
+			UPDATE FOLIOSF05 SET ULT_DOC = ULT_DOC+1 WHERE TIPO = 'T' AND TIP_DOC = @TipoDocumento AND SERIE = @Serie
+			SET @Folio = isnull((SELECT ULT_DOC FROM FOLIOSF05 WHERE TIPO = 'T' AND TIP_DOC = @TipoDocumento AND SERIE = @Serie), -1)		
+            
+            INSERT INTO ControlFoliosTimbrado(TipoDocumento, CveDoc, Serie, Folio) VALUES(@TipoDocumento, @CveDoc, @Serie, @Folio)
+		END 
+	COMMIT TRANSACTION
+	SELECT @Folio AS FOLIO
+END"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
         'If EXISTE_VISTA("") Then
         '    SQL = "DROP VIEW [dbo].[]"
         '    cmd.CommandText = SQL
@@ -16893,6 +16936,23 @@ AS
         'SQL = ""
         'cmd.CommandText = SQL
         'cmd.ExecuteNonQuery()
+
+        If Not EXISTE_TABLA("ControlFoliosTimbrado") Then
+            SQL = "CREATE TABLE dbo.ControlFoliosTimbrado ( TipoDocumento varchar(5) NULL, CveDoc varchar(50) NULL, Serie varchar(20) NULL, Folio int NULL)  ON [PRIMARY]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+            SQL = "CREATE UNIQUE CLUSTERED INDEX [PK_ControlFoliosTimbrado] ON [dbo].[ControlFoliosTimbrado]
+(
+	[TipoDocumento] ASC,
+	[CveDoc] ASC,
+	[Serie] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF)"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+
+
 
 
         ControlSesiones()
@@ -16952,6 +17012,25 @@ END"
             cmd.ExecuteNonQuery()
 
             SQL = "EXEC sp_addextendedproperty @name = N'microsoft_database_tools_support', @value = 'Hide', @level0type = N'Schema', @level0name = 'dbo', @level1type = N'Table', @level1name = 'SistemaSesiones'"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+        End If
+
+        If Not EXISTE_TABLA("SistemaSesionesExec") Then
+            SQL = "CREATE TABLE dbo.SistemaSesionesExec
+	(
+	ID int NOT NULL,
+	UltimaEjecucion datetime NULL	
+	)  ON [PRIMARY]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+            SQL = "INSERT INTO SistemaSesionesExec (ID) VALUES(1)"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+
+            SQL = "EXEC sp_addextendedproperty @name = N'microsoft_database_tools_support', @value = 'Hide', @level0type = N'Schema', @level0name = 'dbo', @level1type = N'Table', @level1name = 'SistemaSesionesExec'"
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
 
@@ -17023,6 +17102,8 @@ BEGIN
 	FROM SistemaSesiones SS
 	INNER JOIN SistemaControlEdicion SCE  ON SS.IdSesion = SCE.IdSesion
 	WHERE SS.Estatus = 0 AND SCE.Estatus = 1	
+
+    UPDATE SistemaSesionesExec SET UltimaEjecucion = getdate() WHERE ID = 1
 
 END"
         cmd.CommandText = SQL

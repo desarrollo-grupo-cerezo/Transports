@@ -616,6 +616,8 @@ Public Class FrmParamVentas
         End Try
     End Sub
     Sub DESPLEGAR(fTIPO As String)
+        Dim tipo As String
+
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 SQL = "SELECT ISNULL(TIP_DOC,'') AS T_DOC, ISNULL(FOLIODESDE,0) AS DESDE, ISNULL(FOLIOHASTA,0) AS HASTA,
@@ -625,8 +627,18 @@ Public Class FrmParamVentas
                 Fg.Rows.Count = 1
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
+                        tipo = String.Empty
+                        Select Case dr("TIP")
+                            Case "I"
+                                tipo = "Impresión"
+                            Case "D"
+                                tipo = "Digital"
+                            Case "T"
+                                tipo = "Timbrado"
+                        End Select
+
                         Fg.AddItem("" & vbTab & dr("T_DOC") & vbTab & dr("DESDE") & vbTab & dr("HASTA") & vbTab & dr("SER") & vbTab &
-                                   dr("U_DOC") & vbTab & IIf(dr("TIP") = "I", "Impresión", "Digital"))
+                                   dr("U_DOC") & vbTab & tipo)
                     End While
                 End Using
             End Using

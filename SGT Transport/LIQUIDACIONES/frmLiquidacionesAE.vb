@@ -757,7 +757,7 @@ Public Class FrmLiquidacionesAE
                                 s = IIf(dr("CVE_TAB").ToString.Trim.Length = 0, "", ">")
                                 s &= vbTab & True '1
                                 s &= vbTab & dr("CVE_VIAJE") '2
-                                s &= vbTab & dr("FECHA") '3
+                                s &= vbTab & dr("FECHA_CARGA") '3
                                 s &= vbTab & dr("FACT1") '4
                                 s &= vbTab & dr("FACT2") '5
                                 s &= vbTab & dr("CLIENTE_NOMBRE") '6
@@ -956,7 +956,7 @@ Public Class FrmLiquidacionesAE
             SUMA_LTS = 0 : SUMA2 = 0
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 SQL = "SELECT GV.CVE_VIAJE, GV.CVE_OPER, GV.CVE_GAV, GV.FOLIO, GV.FECHA, GV.CVE_GAS, GV.LITROS, GV.LITROS_REALES, GV.P_X_LITRO, GV.SUBTOTAL, 
-                    GV.IVA, GV.IEPS, GV.IMPORTE, G.DESCR, GV.FACTURA, ISNULL(GV.ST_VALES,'EDICION') AS ST_VAL, GV.UUID
+                    GV.IVA, GV.IEPS, GV.IMPORTE, G.DESCR, GV.FACTURA, ISNULL(GV.ST_VALES,'EDICION') AS ST_VAL, GV.UUID, GV.FECHA_CARGA
                     FROM GCASIGNACION_VIAJE_VALES GV
                     LEFT JOIN GCGASOLINERAS G ON G.CVE_GAS = GV.CVE_GAS
                     WHERE GV.STATUS = 'A' AND GV.CVE_LIQ = '" & fCVE_VIAJE & "' AND ST_VALES <> 'EDICION'  AND ST_VALES <> 'CAPTURADO'  ORDER BY FECHAELAB"
@@ -974,7 +974,7 @@ Public Class FrmLiquidacionesAE
 
 
                         If Not Existe Then
-                            FgV.AddItem("" & vbTab & dr("CVE_VIAJE") & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab & dr("CVE_GAS") & vbTab & dr("DESCR") & vbTab &
+                            FgV.AddItem("" & vbTab & dr("CVE_VIAJE") & vbTab & dr("FOLIO") & vbTab & dr("FECHA_CARGA") & vbTab & dr("CVE_GAS") & vbTab & dr("DESCR") & vbTab &
                                      dr("LITROS") & vbTab & dr("LITROS_REALES") & vbTab & dr("P_X_LITRO") & vbTab & dr("SUBTOTAL") & vbTab &
                                      dr("IVA") & vbTab & dr("IEPS") & vbTab & dr("IMPORTE") & vbTab & dr("FACTURA") & vbTab & 0 & vbTab & dr("UUID"))
                         End If
@@ -2911,7 +2911,7 @@ Public Class FrmLiquidacionesAE
                 O.NOMBRE + '  (' + CAST(A.CVE_OPER AS VARCHAR(5)) + ')' AS NOM_OPER, A.ENTREGAR_EN, E.DESCR AS ENTREGAR, A.RECOGER_EN, 
                 R.DESCR AS RECOGER, ISNULL(A.CVE_CAP1,'') AS CAP1, ISNULL(A.CVE_CAP2,'') AS CAP2, A.CVE_ST_VIA, 
                 S.DESCR AS STATUS_VIAJE,TAB.SUELDO_OPER,ISNULL(ST.DESCR,'') AS ST_CP, ISNULL(R1.CVE_TAB,'') AS CVETAB, A.UUID, 
-                CP1.FECHA_CARGA, CP1.FECHA_REAL_CARGA, CP1.FECHA_DESCARGA, CP1.FECHA_REAL_DESCARGA, 
+                A.FECHA_CARGA, CP1.FECHA_REAL_CARGA, CP1.FECHA_DESCARGA, CP1.FECHA_REAL_DESCARGA, 
                 ISNULL((SELECT ISNULL(STC.DESCR,'') FROM GCCARTA_PORTE CT LEFT JOIN GCSTATUS_CARTA_PORTE STC ON STC.CVE_CAP = CT.ST_CARTA_PORTE WHERE CVE_FOLIO = A.CVE_CAP2),'') AS ST_CP2,
                 DATEDIFF(day, CP1.FECHA_CARGA, CP1.FECHA_REAL_CARGA) AS DIF1, DATEDIFF(day, CP1.FECHA_DESCARGA, 
                 CP1.FECHA_REAL_DESCARGA) AS DIF2, ISNULL(R1.SUELDO_X_FACTOR,0) AS SUELDO_C_FAC, 
@@ -2972,7 +2972,7 @@ Public Class FrmLiquidacionesAE
                 s = IIf(dr("CVETAB").ToString.Trim.Length = 0, "", ">") '0
                 s &= vbTab & False '1
                 s &= vbTab & dr("CVE_VIAJE") '2
-                s &= vbTab & dr.ReadNullAsEmptyString("FECHA") '3
+                s &= vbTab & dr.ReadNullAsEmptyString("FECHA_CARGA") '3
                 s &= vbTab & dr("FACT1") '4
                 s &= vbTab & dr("FACT2") '5
                 s &= vbTab & dr("CLIENTE_NOMBRE") '6
@@ -3063,7 +3063,7 @@ Public Class FrmLiquidacionesAE
                 O.NOMBRE + '  (' + CAST(A.CVE_OPER AS VARCHAR(5)) + ')' AS NOM_OPER, A.ENTREGAR_EN, E.DESCR AS ENTREGAR, A.RECOGER_EN, 
                 R.DESCR AS RECOGER, ISNULL(A.CVE_CAP1,'') AS CAP1, ISNULL(A.CVE_CAP2,'') AS CAP2, A.CVE_ST_VIA, 
                 S.DESCR AS STATUS_VIAJE,TAB.SUELDO_OPER,ISNULL(ST.DESCR,'') AS ST_CP, ISNULL(R1.CVE_TAB,'') AS CVETAB, A.UUID, 
-                CP1.FECHA_CARGA, CP1.FECHA_REAL_CARGA, CP1.FECHA_DESCARGA, CP1.FECHA_REAL_DESCARGA, 
+                A.FECHA_CARGA, CP1.FECHA_REAL_CARGA, CP1.FECHA_DESCARGA, CP1.FECHA_REAL_DESCARGA, 
                 ISNULL((SELECT ISNULL(STC.DESCR,'') FROM GCCARTA_PORTE CT LEFT JOIN GCSTATUS_CARTA_PORTE STC ON STC.CVE_CAP = CT.ST_CARTA_PORTE WHERE CVE_FOLIO = A.CVE_CAP2),'') AS ST_CP2,
                 DATEDIFF(day, CP1.FECHA_CARGA, CP1.FECHA_REAL_CARGA) AS DIF1, DATEDIFF(day, CP1.FECHA_DESCARGA, 
                 CP1.FECHA_REAL_DESCARGA) AS DIF2, ISNULL(R1.SUELDO_X_FACTOR,0) AS SUELDO_C_FAC, 
@@ -3107,7 +3107,7 @@ Public Class FrmLiquidacionesAE
                 Fg(RowIndex, 0) = IIf(dr("CVETAB").ToString.Trim.Length = 0, "", ">") '0
                 's &= vbTab & False '1
                 's &= vbTab & dr("CVE_VIAJE") '2
-                Fg(RowIndex, 3) = dr.ReadNullAsEmptyString("FECHA") '3
+                Fg(RowIndex, 3) = dr.ReadNullAsEmptyString("FECHA_CARGA") '3
                 Fg(RowIndex, 4) = dr("FACT1") '4
                 Fg(RowIndex, 5) = dr("FACT2") '5
 
@@ -3294,7 +3294,7 @@ Public Class FrmLiquidacionesAE
                 SUMA2 = 0
                 Using cmd As SqlCommand = cnSAE.CreateCommand
                     SQL = "SELECT GV.CVE_OPER, GV.CVE_GAV, GV.FOLIO, GV.FECHA, GV.CVE_GAS, GV.LITROS, GV.LITROS_REALES, GV.P_X_LITRO, GV.SUBTOTAL, 
-                    GV.IVA, GV.IEPS, GV.IMPORTE, G.DESCR, GV.FACTURA, ISNULL(GV.ST_VALES,'EDICION') AS ST_VAL, GV.UUID
+                    GV.IVA, GV.IEPS, GV.IMPORTE, G.DESCR, GV.FACTURA, ISNULL(GV.ST_VALES,'EDICION') AS ST_VAL, GV.UUID, GV.FECHA_CARGA
                     FROM GCASIGNACION_VIAJE_VALES GV
                     LEFT JOIN GCGASOLINERAS G ON G.CVE_GAS = GV.CVE_GAS
                     WHERE 
@@ -3304,7 +3304,7 @@ Public Class FrmLiquidacionesAE
                     cmd.CommandText = SQL
                     Using dr As SqlDataReader = cmd.ExecuteReader
                         While dr.Read
-                            FgV.AddItem("" & vbTab & fCVE_VIAJE & vbTab & dr("FOLIO") & vbTab & dr("FECHA") & vbTab & dr("CVE_GAS") & vbTab & dr("DESCR") & vbTab &
+                            FgV.AddItem("" & vbTab & fCVE_VIAJE & vbTab & dr("FOLIO") & vbTab & dr("FECHA_CARGA") & vbTab & dr("CVE_GAS") & vbTab & dr("DESCR") & vbTab &
                                      dr("LITROS") & vbTab & dr("LITROS_REALES") & vbTab & dr("P_X_LITRO") & vbTab & dr("SUBTOTAL") & vbTab &
                                      dr("IVA") & vbTab & dr("IEPS") & vbTab & dr("IMPORTE") & vbTab & dr("FACTURA") & vbTab & 0 & vbTab & dr("UUID"))
                             nVales += 1
@@ -3691,6 +3691,7 @@ Public Class FrmLiquidacionesAE
                         sd.IdControlPad = SesionDoc.IdControl
                         If VerificaDocumentoEnEdicion(sd) Then
                             Fg(Fg.Row, 1) = False
+                            ENTRA = True
                             Return
                         Else
                             SistemaControlEdicion(sd, 1)

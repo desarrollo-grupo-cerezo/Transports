@@ -23,6 +23,7 @@ Module General
 
     End Function
     Public IdSesion As Long = 0
+    Public ActivaSesion As Boolean = True
     Public ColoFondoFG As Color = System.Drawing.Color.FromArgb(230, 233, 241, 250)
     '233, 241, 250
     Public PRINTDIRECTPV As Integer
@@ -6611,8 +6612,33 @@ Module General
         Return nombre
     End Function
 
+    Public Function ObtieneFolioTimbrado(TipoDocumento As String, SerieTimbrado As String, CveDoc As String) As Long
+        Dim Folio As Long = -1
+        Try
+            SQL = String.Format("EXEC dbo.sp_ObtieneFolioTimbrado '{0}', '{1}', '{2}'", TipoDocumento, SerieTimbrado, CveDoc)
+
+            Using cmd As SqlCommand = cnSAE.CreateCommand
+                cmd.CommandText = SQL
+                returnValue = cmd.ExecuteScalar().ToString
+                If returnValue IsNot Nothing Then
+                    Folio = Convert.ToInt64(returnValue)
+                End If
+
+            End Using
+        Catch ex As Exception
+            Bitacora("10. " & ex.Message & vbNewLine & "" & ex.StackTrace)
+        End Try
+
+        Return Folio
+
+    End Function
+
     Public Sub SesionRegistra()
-        Return
+
+        If Not ActivaSesion Then
+            Return
+        End If
+
         SQL = "INSERT INTO SistemaSesiones(Usuario, Host, Registro, Actualizacion, Estatus)
                VALUES(@Usuario, @Host, getdate(), getdate(), 1);
                SELECT SCOPE_IDENTITY(); "
@@ -6636,7 +6662,11 @@ Module General
     End Sub
 
     Public Sub SesionActualizacion()
-        Return
+
+        If Not ActivaSesion Then
+            Return
+        End If
+
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
 
@@ -6650,7 +6680,10 @@ Module General
     End Sub
 
     Public Sub SistemaControlEdicionSetControlPad(lstSesionDoc As List(Of SesionDocumento))
-        Return
+
+        If Not ActivaSesion Then
+            Return
+        End If
 
         Try
 
@@ -6687,7 +6720,11 @@ Module General
 
 
     Public Sub SistemaControlEdicion(SesionDoc As SesionDocumento, Estatus As Integer)
-        Return
+
+        If Not ActivaSesion Then
+            Return
+        End If
+
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
 
@@ -6731,7 +6768,11 @@ Module General
     End Sub
 
     Public Sub SesionTermina()
-        Return
+
+        If Not ActivaSesion Then
+            Return
+        End If
+
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
 
@@ -6748,9 +6789,13 @@ Module General
     End Sub
 
     Public Function VerificaDocumentoEnEdicion(SesionDoc As SesionDocumento) As Boolean
-        Return False
+
         Dim EnEdicion As Boolean = False
         Dim msj As String = String.Empty
+
+        If Not ActivaSesion Then
+            Return False
+        End If
 
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand

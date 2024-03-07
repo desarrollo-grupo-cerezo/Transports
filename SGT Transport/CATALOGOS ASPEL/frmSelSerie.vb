@@ -9,9 +9,9 @@ Public Class frmSelSerie
             Fg.Rows.Count = 1
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 If Var15.Trim.Length > 0 Then
-                    SQL = "SELECT * FROM FOLIOSF" & Empresa & " WHERE TIP_DOC = '" & Var14 & "' AND TIPO = '" & Var15 & "' ORDER BY SERIE"
+                    SQL = "SELECT * FROM FOLIOSF" & Empresa & " WHERE TIP_DOC = '" & Var14 & "'  AND TIPO!='T' AND TIPO = '" & Var15 & "' ORDER BY SERIE"
                 Else
-                    SQL = "SELECT * FROM FOLIOSF" & Empresa & " WHERE TIP_DOC = '" & Var14 & "' ORDER BY SERIE"
+                    SQL = "SELECT * FROM FOLIOSF" & Empresa & " WHERE TIP_DOC = '" & Var14 & "' AND TIPO!='T' ORDER BY SERIE"
                 End If
 
                 cmd.CommandText = SQL

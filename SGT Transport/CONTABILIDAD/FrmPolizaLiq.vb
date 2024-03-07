@@ -269,6 +269,7 @@ Public Class FrmPolizaLiq
                                 GROUP BY Documento) b ON b.Documento = a.Documento
                                 WHERE a.{0}
                                 ORDER BY a.FechaDocumento, a.Documento, a.Orden, a.DocAgr, a.SubOrden, a.Viaje", Filtro)
+            Debug.Print(SQL)
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader

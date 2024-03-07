@@ -3721,7 +3721,7 @@ Public Class FrmTPV
                                     MONTO = 0
                                 End If
                                 If MONTO > 0 And NO_CPTO > 0 Then
-                                    CUEN_DET(CVE_DOC, CVE_DOC, CLIENTE, MONTO, NO_CPTO, CVE_VEND)
+                                    CUEN_DET(CVE_DOC, CVE_DOC, CLIENTE, MONTO, NO_CPTO, CVE_VEND, , NUM_MONED, TIPCAMB)
                                 End If
                             Next
                         Catch ex As Exception
@@ -3796,7 +3796,7 @@ Public Class FrmTPV
                         Next
 
                         If CVE_DOC_REL.Trim.Length > 0 Then
-                            CUEN_DET(CVE_DOC_REL, CVE_DOC, CLIENTE, IMPORTE, NUM_CPTO_NC, CVE_VEND)
+                            CUEN_DET(CVE_DOC_REL, CVE_DOC, CLIENTE, IMPORTE, NUM_CPTO_NC, CVE_VEND, , NUM_MONED, TIPCAMB)
                         Else
                             Debug.Print("")
                         End If
@@ -5798,9 +5798,9 @@ Public Class FrmTPV
         End If
 
         CVE_OBS = 0 : DOCTO = FDOCTO : AFEC_COI = "S"
-        IMPORTE = FIMPORTE
+        IMPORTE = FIMPORTE * FTIPO_CAMBIO
         STRCVEVEND = FCVE_VEND
-        IMPMON_EXT = IMPORTE
+        IMPMON_EXT = FIMPORTE
 
         CVE_FOLIO = "" : TIPO_MOV = "A" : NO_PARTIDA = 1 : NUM_CARGO = 1
         SIGNO = -1
@@ -5825,7 +5825,7 @@ Public Class FrmTPV
             "INSERT INTO CUEN_DET" & Empresa & " (CVE_CLIE, REFER, ID_MOV, NUM_CPTO, NUM_CARGO, CVE_OBS, NO_FACTURA, DOCTO, IMPORTE, " &
             "FECHA_APLI, FECHA_VENC, AFEC_COI, STRCVEVEND, NUM_MONED, TCAMBIO, IMPMON_EXT, FECHAELAB, CTLPOL, CVE_FOLIO, TIPO_MOV, SIGNO, " &
             "CVE_AUT, USUARIO, NO_PARTIDA, UUID, VERSION_SINC) VALUES('" & CVE_CLIE & "','" & REFER & "','" & ID_MOV & "','" & NUM_CPTO & "','" &
-            NUM_CARGO & "','" & CVE_OBS & "','" & NO_FACTURA & "','" & DOCTO & "','" & Math.Round(FIMPORTE, 6) &
+            NUM_CARGO & "','" & CVE_OBS & "','" & NO_FACTURA & "','" & DOCTO & "','" & Math.Round(IMPORTE, 6) &
             "',CONVERT(varchar, GETDATE(), 112),CONVERT(varchar, GETDATE(), 112),'" & AFEC_COI & "','" & STRCVEVEND & "','" & FNUM_MONED & "','" &
             FTIPO_CAMBIO & "','" & Math.Round(IMPMON_EXT, 6) & "',GETDATE(),'0','" & CVE_FOLIO & "','" & TIPO_MOV & "','" & SIGNO & "','0','" & CLAVE_SAE & "','" &
             NO_PARTIDA & "',NEWID(), GETDATE())"

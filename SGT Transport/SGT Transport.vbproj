@@ -767,6 +767,12 @@
     <Compile Include="CFDI\FrmOpenPDFGrapecity2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CFDI\FrmSelSerieTimbrado.designer.vb">
+      <DependentUpon>FrmSelSerieTimbrado.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CFDI\FrmSelSerieTimbrado.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CLIENTES\FrmAddendas.Designer.vb">
       <DependentUpon>FrmAddendas.vb</DependentUpon>
     </Compile>
@@ -1197,6 +1203,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SISTEMA\SesionDocumento.vb" />
+    <Compile Include="UTILERIAS\frmMonitorUsuarios.Designer.vb">
+      <DependentUpon>frmMonitorUsuarios.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UTILERIAS\frmMonitorUsuarios.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UTILERIAS\RoundedRectangle.vb" />
     <Compile Include="VENTAS POS\FrmFacturaGlobal.Designer.vb">
       <DependentUpon>FrmFacturaGlobal.vb</DependentUpon>
@@ -4653,6 +4665,9 @@
     <EmbeddedResource Include="CFDI\FrmOpenPDFGrapecity2.resx">
       <DependentUpon>FrmOpenPDFGrapecity2.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CFDI\FrmSelSerieTimbrado.resx">
+      <DependentUpon>FrmSelSerieTimbrado.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CLIENTES\FrmAddendas.resx">
       <DependentUpon>FrmAddendas.vb</DependentUpon>
     </EmbeddedResource>
@@ -4861,6 +4876,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="REPORTES\FrmRepGerencial3.resx">
       <DependentUpon>FrmRepGerencial3.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UTILERIAS\frmMonitorUsuarios.resx">
+      <DependentUpon>frmMonitorUsuarios.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VENTAS POS\FrmFacturaGlobal.resx">
       <DependentUpon>FrmFacturaGlobal.vb</DependentUpon>
@@ -7155,8 +7173,10 @@
     <Content Include="Resources\diseñador.png" />
     <Content Include="Resources\diseñador16.png" />
     <Content Include="Resources\diseñador24.png" />
+    <None Include="Resources\user4.png" />
     <None Include="Resources\disk7.png" />
     <None Include="Resources\flujo22.png" />
+    <None Include="Resources\exec.png" />
     <Content Include="Resources\motor1.jpg" />
     <Content Include="Resources\motor11.jpg" />
     <Content Include="Resources\Tesoreria_Autorización_de_Gastos.png" />

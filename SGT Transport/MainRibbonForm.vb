@@ -2800,7 +2800,7 @@ Public Class MainRibbonForm
     Private Sub BarBitacora_Click(sender As Object, e As EventArgs) Handles BarBitacora.Click
         Try
             BACKUPTXT("XTAB_CAPTION", "frmBitacora")
-            CREA_TAB(frmBitacora, "Bitacora")
+            CREA_TAB(frmBitacora, "Bitácora")
         Catch ex As Exception
         End Try
     End Sub
@@ -4212,5 +4212,9 @@ Public Class MainRibbonForm
 
     Private Sub RibReporteFleteVsGastos_Click(sender As Object, e As EventArgs) Handles RibReporteFleteVsGastos.Click, RibReporteCTBFleteVsGastos.Click
         CREA_TAB(FrmFletesVsGastos, "Fletes vs Gastos")
+    End Sub
+
+    Private Sub RibMonitorUsuarios_Click(sender As Object, e As EventArgs) Handles RibMonitorUsuarios.Click
+        CREA_TAB(frmMonitorUsuarios, "Monitor de Usuarios")
     End Sub
 End Class

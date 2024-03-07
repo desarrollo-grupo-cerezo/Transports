@@ -154,9 +154,10 @@ Partial Class FrmEdoCuentaCliente
         Me.C1ToolBar1.Dock = System.Windows.Forms.DockStyle.Top
         Me.C1ToolBar1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.C1ToolBar1.Location = New System.Drawing.Point(0, 0)
+        Me.C1ToolBar1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.C1ToolBar1.Movable = False
         Me.C1ToolBar1.Name = "C1ToolBar1"
-        Me.C1ToolBar1.Size = New System.Drawing.Size(1136, 44)
+        Me.C1ToolBar1.Size = New System.Drawing.Size(1511, 54)
         Me.C1ToolBar1.Text = "C1ToolBar1"
         Me.C1ToolBar1.VisualStyle = C1.Win.C1Command.VisualStyle.Office2010Blue
         Me.C1ToolBar1.VisualStyleBase = C1.Win.C1Command.VisualStyle.Office2010Blue
@@ -208,11 +209,12 @@ Partial Class FrmEdoCuentaCliente
         Me.Fg.FocusRect = C1.Win.C1FlexGrid.FocusRectEnum.Solid
         Me.Fg.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.Fg.Location = New System.Drawing.Point(0, 0)
+        Me.Fg.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Fg.Name = "Fg"
         Me.Fg.Rows.DefaultSize = 19
         Me.Fg.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.ListBox
         Me.Fg.ShowThemedHeaders = C1.Win.C1FlexGrid.ShowThemedHeadersEnum.None
-        Me.Fg.Size = New System.Drawing.Size(968, 331)
+        Me.Fg.Size = New System.Drawing.Size(1291, 405)
         Me.Fg.TabIndex = 308
         Me.Fg.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Custom
         '
@@ -224,10 +226,11 @@ Partial Class FrmEdoCuentaCliente
         Me.chSaldo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.chSaldo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chSaldo.ForeColor = System.Drawing.Color.Black
-        Me.chSaldo.Location = New System.Drawing.Point(177, 46)
+        Me.chSaldo.Location = New System.Drawing.Point(236, 57)
+        Me.chSaldo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.chSaldo.Name = "chSaldo"
         Me.chSaldo.Padding = New System.Windows.Forms.Padding(1)
-        Me.chSaldo.Size = New System.Drawing.Size(104, 24)
+        Me.chSaldo.Size = New System.Drawing.Size(139, 30)
         Me.chSaldo.TabIndex = 310
         Me.chSaldo.Text = "Saldo vencido"
         Me.chSaldo.UseVisualStyleBackColor = True
@@ -238,9 +241,10 @@ Partial Class FrmEdoCuentaCliente
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(323, 48)
+        Me.Label1.Location = New System.Drawing.Point(431, 59)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(43, 16)
+        Me.Label1.Size = New System.Drawing.Size(51, 20)
         Me.Label1.TabIndex = 312
         Me.Label1.Text = "Saldo"
         '
@@ -248,9 +252,10 @@ Partial Class FrmEdoCuentaCliente
         '
         Me.LtSaldo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtSaldo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtSaldo.Location = New System.Drawing.Point(369, 46)
+        Me.LtSaldo.Location = New System.Drawing.Point(492, 57)
+        Me.LtSaldo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.LtSaldo.Name = "LtSaldo"
-        Me.LtSaldo.Size = New System.Drawing.Size(139, 20)
+        Me.LtSaldo.Size = New System.Drawing.Size(185, 24)
         Me.LtSaldo.TabIndex = 313
         Me.LtSaldo.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -262,13 +267,16 @@ Partial Class FrmEdoCuentaCliente
         Me.SplitP.CollapsingAreaColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(245, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.SplitP.FixedLineColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
         Me.SplitP.ForeColor = System.Drawing.Color.FromArgb(CType(CType(30, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(91, Byte), Integer))
-        Me.SplitP.Location = New System.Drawing.Point(0, 44)
+        Me.SplitP.HeaderHeight = 27
+        Me.SplitP.Location = New System.Drawing.Point(0, 54)
+        Me.SplitP.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.SplitP.Name = "SplitP"
         Me.SplitP.Panels.Add(Me.SplitP1)
         Me.SplitP.Panels.Add(Me.SplitP2)
         Me.SplitP.Panels.Add(Me.Splitp3)
-        Me.SplitP.Size = New System.Drawing.Size(970, 448)
+        Me.SplitP.Size = New System.Drawing.Size(1293, 551)
         Me.SplitP.SplitterColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(166, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.SplitP.SplitterWidth = 5
         Me.SplitP.TabIndex = 314
         Me.SplitP.ToolTipGradient = C1.Win.C1SplitContainer.ToolTipGradient.Blue
         Me.SplitP.UseParentVisualStyle = False
@@ -288,19 +296,23 @@ Partial Class FrmEdoCuentaCliente
         Me.SplitP1.Controls.Add(Me.Label5)
         Me.SplitP1.Controls.Add(Me.LtSaldo)
         Me.SplitP1.Controls.Add(Me.Label1)
-        Me.SplitP1.Height = 67
+        Me.SplitP1.Height = 83
         Me.SplitP1.Location = New System.Drawing.Point(1, 1)
+        Me.SplitP1.MinHeight = 51
+        Me.SplitP1.MinWidth = 51
         Me.SplitP1.Name = "SplitP1"
-        Me.SplitP1.Size = New System.Drawing.Size(968, 67)
-        Me.SplitP1.SizeRatio = 15.612R
+        Me.SplitP1.Size = New System.Drawing.Size(1291, 83)
+        Me.SplitP1.SizeRatio = 20.0R
         Me.SplitP1.TabIndex = 0
+        Me.SplitP1.Width = 1291
         '
         'BtnFiltro
         '
         Me.BtnFiltro.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnFiltro.Location = New System.Drawing.Point(873, 23)
+        Me.BtnFiltro.Location = New System.Drawing.Point(1164, 28)
+        Me.BtnFiltro.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.BtnFiltro.Name = "BtnFiltro"
-        Me.BtnFiltro.Size = New System.Drawing.Size(78, 30)
+        Me.BtnFiltro.Size = New System.Drawing.Size(104, 37)
         Me.BtnFiltro.TabIndex = 376
         Me.BtnFiltro.Text = "Filtrar"
         Me.BtnFiltro.UseVisualStyleBackColor = True
@@ -312,9 +324,10 @@ Partial Class FrmEdoCuentaCliente
         Me.Label3.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label3.Location = New System.Drawing.Point(657, 13)
+        Me.Label3.Location = New System.Drawing.Point(876, 16)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(110, 16)
+        Me.Label3.Size = New System.Drawing.Size(135, 20)
         Me.Label3.TabIndex = 375
         Me.Label3.Text = "Rango de fechas"
         '
@@ -324,9 +337,10 @@ Partial Class FrmEdoCuentaCliente
         Me.Label4.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label4.Location = New System.Drawing.Point(707, 34)
+        Me.Label4.Location = New System.Drawing.Point(943, 42)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(18, 16)
+        Me.Label4.Size = New System.Drawing.Size(22, 20)
         Me.Label4.TabIndex = 374
         Me.Label4.Text = "al"
         '
@@ -340,9 +354,10 @@ Partial Class FrmEdoCuentaCliente
         Me.F2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.F2.FormatType = C1.Win.C1Input.FormatTypeEnum.ShortDate
         Me.F2.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F2.Location = New System.Drawing.Point(733, 32)
+        Me.F2.Location = New System.Drawing.Point(977, 39)
+        Me.F2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.F2.Name = "F2"
-        Me.F2.Size = New System.Drawing.Size(122, 20)
+        Me.F2.Size = New System.Drawing.Size(163, 24)
         Me.F2.TabIndex = 372
         Me.F2.Tag = Nothing
         Me.F2.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
@@ -354,9 +369,10 @@ Partial Class FrmEdoCuentaCliente
         Me.Label6.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label6.Location = New System.Drawing.Point(544, 34)
+        Me.Label6.Location = New System.Drawing.Point(725, 42)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(28, 16)
+        Me.Label6.Size = New System.Drawing.Size(35, 20)
         Me.Label6.TabIndex = 373
         Me.Label6.Text = "Del"
         '
@@ -370,9 +386,10 @@ Partial Class FrmEdoCuentaCliente
         Me.F1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.F1.FormatType = C1.Win.C1Input.FormatTypeEnum.ShortDate
         Me.F1.ImagePadding = New System.Windows.Forms.Padding(0)
-        Me.F1.Location = New System.Drawing.Point(578, 32)
+        Me.F1.Location = New System.Drawing.Point(771, 39)
+        Me.F1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.F1.Name = "F1"
-        Me.F1.Size = New System.Drawing.Size(122, 20)
+        Me.F1.Size = New System.Drawing.Size(163, 24)
         Me.F1.TabIndex = 371
         Me.F1.Tag = Nothing
         Me.F1.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown
@@ -382,9 +399,10 @@ Partial Class FrmEdoCuentaCliente
         '
         Me.LtClave.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtClave.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtClave.Location = New System.Drawing.Point(58, 21)
+        Me.LtClave.Location = New System.Drawing.Point(77, 26)
+        Me.LtClave.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.LtClave.Name = "LtClave"
-        Me.LtClave.Size = New System.Drawing.Size(52, 20)
+        Me.LtClave.Size = New System.Drawing.Size(69, 24)
         Me.LtClave.TabIndex = 324
         Me.LtClave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -392,9 +410,10 @@ Partial Class FrmEdoCuentaCliente
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(121, 23)
+        Me.Label2.Location = New System.Drawing.Point(161, 28)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(56, 16)
+        Me.Label2.Size = New System.Drawing.Size(68, 20)
         Me.Label2.TabIndex = 323
         Me.Label2.Text = "Nombre"
         '
@@ -402,9 +421,10 @@ Partial Class FrmEdoCuentaCliente
         '
         Me.LtNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LtNombre.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LtNombre.Location = New System.Drawing.Point(178, 21)
+        Me.LtNombre.Location = New System.Drawing.Point(237, 26)
+        Me.LtNombre.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.LtNombre.Name = "LtNombre"
-        Me.LtNombre.Size = New System.Drawing.Size(330, 20)
+        Me.LtNombre.Size = New System.Drawing.Size(439, 24)
         Me.LtNombre.TabIndex = 322
         Me.LtNombre.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -412,41 +432,49 @@ Partial Class FrmEdoCuentaCliente
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(14, 23)
+        Me.Label5.Location = New System.Drawing.Point(19, 28)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(42, 16)
+        Me.Label5.Size = New System.Drawing.Size(51, 20)
         Me.Label5.TabIndex = 321
         Me.Label5.Text = "Clave"
         '
         'SplitP2
         '
         Me.SplitP2.Controls.Add(Me.Fg)
-        Me.SplitP2.Height = 331
-        Me.SplitP2.Location = New System.Drawing.Point(1, 72)
+        Me.SplitP2.Height = 405
+        Me.SplitP2.Location = New System.Drawing.Point(1, 89)
+        Me.SplitP2.MinHeight = 51
+        Me.SplitP2.MinWidth = 51
         Me.SplitP2.Name = "SplitP2"
-        Me.SplitP2.Size = New System.Drawing.Size(968, 331)
-        Me.SplitP2.SizeRatio = 89.899R
+        Me.SplitP2.Size = New System.Drawing.Size(1291, 405)
+        Me.SplitP2.SizeRatio = 100.0R
         Me.SplitP2.TabIndex = 1
+        Me.SplitP2.Width = 1291
         '
         'Splitp3
         '
         Me.Splitp3.Controls.Add(Me.Lt2)
         Me.Splitp3.Controls.Add(Me.Lt1)
         Me.Splitp3.Controls.Add(Me.Lt3)
-        Me.Splitp3.Height = 40
-        Me.Splitp3.Location = New System.Drawing.Point(1, 407)
+        Me.Splitp3.Height = 51
+        Me.Splitp3.Location = New System.Drawing.Point(1, 499)
+        Me.Splitp3.MinHeight = 51
+        Me.Splitp3.MinWidth = 51
         Me.Splitp3.Name = "Splitp3"
-        Me.Splitp3.Size = New System.Drawing.Size(968, 40)
+        Me.Splitp3.Size = New System.Drawing.Size(1291, 51)
         Me.Splitp3.SizeRatio = 10.0R
         Me.Splitp3.TabIndex = 2
+        Me.Splitp3.Width = 1291
         '
         'Lt2
         '
         Me.Lt2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lt2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt2.Location = New System.Drawing.Point(584, 10)
+        Me.Lt2.Location = New System.Drawing.Point(779, 12)
+        Me.Lt2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Lt2.Name = "Lt2"
-        Me.Lt2.Size = New System.Drawing.Size(104, 20)
+        Me.Lt2.Size = New System.Drawing.Size(138, 24)
         Me.Lt2.TabIndex = 326
         Me.Lt2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -454,9 +482,10 @@ Partial Class FrmEdoCuentaCliente
         '
         Me.Lt1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lt1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt1.Location = New System.Drawing.Point(481, 10)
+        Me.Lt1.Location = New System.Drawing.Point(641, 12)
+        Me.Lt1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Lt1.Name = "Lt1"
-        Me.Lt1.Size = New System.Drawing.Size(104, 20)
+        Me.Lt1.Size = New System.Drawing.Size(138, 24)
         Me.Lt1.TabIndex = 325
         Me.Lt1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -464,20 +493,22 @@ Partial Class FrmEdoCuentaCliente
         '
         Me.Lt3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lt3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lt3.Location = New System.Drawing.Point(687, 10)
+        Me.Lt3.Location = New System.Drawing.Point(916, 12)
+        Me.Lt3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Lt3.Name = "Lt3"
-        Me.Lt3.Size = New System.Drawing.Size(104, 20)
+        Me.Lt3.Size = New System.Drawing.Size(138, 24)
         Me.Lt3.TabIndex = 324
         Me.Lt3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'C1FlexGridSearchPanel1
         '
         Me.C1FlexGridSearchPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(711, 2)
+        Me.C1FlexGridSearchPanel1.Location = New System.Drawing.Point(948, 2)
+        Me.C1FlexGridSearchPanel1.Margin = New System.Windows.Forms.Padding(5, 5, 5, 5)
         Me.C1FlexGridSearchPanel1.Name = "C1FlexGridSearchPanel1"
         Me.C1FlexGridSearchPanel1.SearchDelay = 400
         Me.C1FlexGridSearchPanel1.SearchMode = C1.Win.C1FlexGrid.SearchMode.Always
-        Me.C1FlexGridSearchPanel1.Size = New System.Drawing.Size(231, 38)
+        Me.C1FlexGridSearchPanel1.Size = New System.Drawing.Size(307, 46)
         Me.C1FlexGridSearchPanel1.TabIndex = 331
         Me.C1FlexGridSearchPanel1.Watermark = "Texto a buscar"
         '
@@ -586,14 +617,15 @@ Partial Class FrmEdoCuentaCliente
         '
         'FrmEdoCuentaCliente
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1136, 664)
+        Me.ClientSize = New System.Drawing.Size(1511, 815)
         Me.Controls.Add(Me.C1FlexGridSearchPanel1)
         Me.Controls.Add(Me.SplitP)
         Me.Controls.Add(Me.C1ToolBar1)
         Me.DoubleBuffered = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "FrmEdoCuentaCliente"
         Me.ShowInTaskbar = False
         Me.Text = "Estado de cuenta cliente"

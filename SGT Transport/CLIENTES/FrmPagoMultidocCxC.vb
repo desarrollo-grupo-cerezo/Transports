@@ -709,20 +709,40 @@ Public Class FrmPagoMultidocCxC
 
                 Dim z As Integer = 0
 
-                Fg.Rows.Count = 1
+                'Fg.Rows.Count = 1
 
-                For k = 0 To aTPV.Length - 1
+                For z = Fg.Rows.Count - 1 To 1 Step -1
+                    If IsNothing(Fg(z, 1)) Then
+                        Fg.RemoveItem(z)
+                    ElseIf (String.IsNullOrEmpty(Fg(z, 1))) Then
+                        Fg.RemoveItem(z)
+                    End If
+                Next
+
+                For k = 0 To aTPV.GetUpperBound(0) - 1
                     Try
                         If Not IsNothing(aTPV(k, 0)) Then
                             If aTPV(k, 0).ToString.Trim.Length > 0 Then
-                                Fg.AddItem("" & vbTab & aTPV(k, 0) & vbTab & "" & vbTab & aTPV(k, 1) & vbTab & aTPV(k, 2) & vbTab & aTPV(k, 3) & vbTab & aTPV(k, 4) & vbTab & aTPV(k, 6) & vbTab & aTPV(k, 5))
 
-                                If aTPV(k, 5) <> 1 Then
-                                    HayMonedaExtranjera = True
-                                    MdaExt = aTPV(k, 6)
+                                Dim x As Integer
+                                Dim existe As Boolean = False
+                                For x = 1 To Fg.Rows.Count - 1
+                                    If (aTPV(k, 0) = Fg(x, 1)) Then
+                                        existe = True
+                                    End If
+                                Next
+
+                                If Not existe Then
+                                    Fg.AddItem("" & vbTab & aTPV(k, 0) & vbTab & "" & vbTab & aTPV(k, 1) & vbTab & aTPV(k, 2) & vbTab & aTPV(k, 3) & vbTab & aTPV(k, 4) & vbTab & aTPV(k, 6) & vbTab & aTPV(k, 5))
+
+                                    If aTPV(k, 5) <> 1 Then
+                                        HayMonedaExtranjera = True
+                                        MdaExt = aTPV(k, 6)
+                                    End If
+
+                                    z += 1
                                 End If
 
-                                z += 1
                             End If
                         End If
                     Catch ex As Exception

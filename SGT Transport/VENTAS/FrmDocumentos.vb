@@ -821,6 +821,7 @@ Public Class FrmDocumentos
         Dim d1 As DateTime = F1.Value
         Dim FECHA_CERT As String = d1.ToString("yyyy/MM/ddTHH:mm:ss")
 
+
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 SQL = "SELECT F.CAN_TOT, F.IMP_TOT1, F.IMP_TOT2, F.IMP_TOT3, F.IMP_TOT4, F.IMPORTE, CVE_CLPV, C.NOMBRE,
@@ -845,7 +846,6 @@ Public Class FrmDocumentos
 
                         FORMAPAGO = dr("FORMAPAGO")
 
-
                         TimbrarDigiBoxNC(Fg(Fg.Row, 1), "", dr("CAN_TOT"), dr("IMP_TOT1"), dr("IMP_TOT2"), dr("IMP_TOT3"), dr("IMP_TOT4"),
                                          dr("IMPORTE"), CLAVE, dr("NOMBRE"), FECHA_CERT, RFC, dr("CODIGO"), TIPOCAMBIO)
                     End If
@@ -867,11 +867,22 @@ Public Class FrmDocumentos
         Dim d1 As DateTime = F1.Value
         Dim FECHA_T2 As String '= d1.ToString("yyyy/MM/ddTHH:mm:ss")
 
+        Dim SerieT As String = ""
+        Dim FolioT As Long = 0
+        Dim FOLIOI As String = ""
 
         If Fg(Fg.Row, 6) = "Timbrada" Then
             MsgBox("Documento ya timbrado verifique por favor")
             Return
         End If
+
+        Using frmSerie As FrmSelSerieTimbrado = New FrmSelSerieTimbrado()
+            frmSerie.TipoDocumento = "D"
+            If frmSerie.ShowDialog() <> DialogResult.OK Then
+                Return
+            End If
+            SerieT = frmSerie.SerieTimbrado
+        End Using
 
         Me.Cursor = Cursors.WaitCursor
 
@@ -888,15 +899,26 @@ Public Class FrmDocumentos
             Return
         End If
 
+        FolioT = ObtieneFolioTimbrado("D", SerieT, FCVE_DOC)
+        If FolioT < 1 Then
+            MsgBox("No existen configuradas series para Timbrado")
+            Return
+        End If
+
+        FOLIOI = SerieT & FolioT
+
+        _c.Serie = SerieT
+        _c.Folio = FolioT.ToString()
+
         AGREGA_CFDIRELACIONADOS(FCVE_DOC)
 
         Try
             Dim aCORREOS(0) As String
-            Dim RutaXML_NO_TIMBRADO As String = gRutaXML_NO_TIMBRADO & "\" & EMISORRFC & "_NC_" & FCVE_DOC & ".xml"
-            Dim RutaXML_TIMBRADO As String = gRutaXML_TIMBRADO & "\" & EMISORRFC & "_NC_" & FCVE_DOC & ".xml"
+            Dim RutaXML_NO_TIMBRADO As String = gRutaXML_NO_TIMBRADO & "\" & EMISORRFC & "_NC_" & FOLIOI & ".xml"
+            Dim RutaXML_TIMBRADO As String = gRutaXML_TIMBRADO & "\" & EMISORRFC & "_NC_" & FOLIOI & ".xml"
             Dim rutaPFX As String = gRutaPFX
             Dim rutaCertificado As String = gRutaCertificado
-            Dim rutaPDF As String = gRutaXML_TIMBRADO & "\" & EMISORRFC & "_NC_" & FCVE_DOC & ".pdf"
+            Dim rutaPDF As String = gRutaXML_TIMBRADO & "\" & EMISORRFC & "_NC_" & FOLIOI & ".pdf"
             Dim errorC As CError = _c.EsInfoCorrecta()
 
             If TIMBRADO_DEMO = "Si" Then
@@ -980,11 +1002,11 @@ Public Class FrmDocumentos
 
                 SQL = "INSERT INTO CFDI (FACTURA, TDOC, DOCUMENT, DOCUMENT2, VERSION, SERIE, FECHA_CERT, XML, TIMBRADO, USUARIO, 
                         CLIENTE,SUBTOTAL, RETENCION, IVA, IMPORTE, USO_CFDI, MONEDA, METODODEPAGO, FORMADEPAGOSAT, FECHAELAB, UUID, 
-                        NO_CERTIFICADO, SELLO_SAT, SELLO_CFD, NO_CERTIFICADO_SAT, RFCPROVCERTIF, UUID_CFDI, FECHA_TIMBRADO, FECHA_CFDI) 
+                        NO_CERTIFICADO, SELLO_SAT, SELLO_CFD, NO_CERTIFICADO_SAT, RFCPROVCERTIF, UUID_CFDI, FECHA_TIMBRADO, FECHA_CFDI, FOLIOI) 
                         VALUES (
                         @FACTURA, @TDOC, @DOCUMENT, @DOCUMENT2, @VERSION, @SERIE, @FECHA_CERT, @XML, @TIMBRADO, @USUARIO, @CLIENTE,
                         @SUBTOTAL, @RETENCION, @IVA, @IMPORTE, @USO_CFDI, @MONEDA, @METODODEPAGO, @FORMADEPAGOSAT, GETDATE(), NEWID(), 
-                        @NO_CERTIFICADO, @SELLO_SAT, @SELLO_CFD, @NO_CERTIFICADO_SAT, @RFCPROVCERTIF, @UUID_CFDI, @FECHA_TIMBRADO, @FECHA_CFDI)"
+                        @NO_CERTIFICADO, @SELLO_SAT, @SELLO_CFD, @NO_CERTIFICADO_SAT, @RFCPROVCERTIF, @UUID_CFDI, @FECHA_TIMBRADO, @FECHA_CFDI, @FOLIOI)"
 
                 For k = 1 To 5
                     Try
@@ -1017,6 +1039,7 @@ Public Class FrmDocumentos
                             cmd.Parameters.Add("@UUID_CFDI", SqlDbType.VarChar).Value = UUID_TIMBRADO
                             cmd.Parameters.Add("@FECHA_TIMBRADO", SqlDbType.VarChar).Value = Var10
                             cmd.Parameters.Add("@FECHA_CFDI", SqlDbType.DateTime).Value = FECHA_T1
+                            cmd.Parameters.Add("@FOLIOI", SqlDbType.VarChar).Value = FOLIOI
                             returnValue = cmd.ExecuteNonQuery().ToString
                             If returnValue IsNot Nothing Then
                                 If returnValue = "1" Then
@@ -1056,14 +1079,14 @@ Public Class FrmDocumentos
                 Next
                 Var8 = ""
 
-                SQL = "UPDATE FACTD" & Empresa & " SET ESCFD = 'T' WHERE CVE_DOC = '" & FCVE_DOC & "'"
+                SQL = "UPDATE FACTD" & Empresa & " SET ESCFD = 'T', FOLIOI = '" & FOLIOI & "' WHERE CVE_DOC = '" & FCVE_DOC & "'"
                 ReturnBool = EXECUTE_QUERY_NET(SQL)
 
 
                 MsgBox("Documento timbrado")
 
                 PassData1 = "DEVOLUCION CFDI"
-                IMPRIMIR_CFDI_DIRECTO(FCVE_DOC, "PDF", "", EMISORRFC)
+                IMPRIMIR_CFDI_DIRECTO(FCVE_DOC, "PDF", "", EMISORRFC, FOLIOI)
 
             Else
                 MsgBox("!!! Documento no timbrado !!!")
@@ -1076,6 +1099,7 @@ Public Class FrmDocumentos
 
 
     End Sub
+
     Sub AGREGA_CFDIRELACIONADOS(FCVE_DOC As String)
         Dim TIPO_REL As String = ""
         Dim _cfdiRelacionados As New CfdiRelacionados
@@ -1098,6 +1122,7 @@ Public Class FrmDocumentos
             MsgBox("850. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
+
     Sub GET_PARAM_CFDI(FTIPO_COMPROBANTE As String, FECHA As String, FSERIE As String, FFOLIO As Long, FREGIMEN_FISCAL As String, FUSO_CFDI As String, FMONEDA As String,
                        FMETODODEPAGO As String, FFORMAPAGO As String, FNOMBRE As String, FRFC As String, FCP As String, FTTIPOCAMBIO As Decimal)
 

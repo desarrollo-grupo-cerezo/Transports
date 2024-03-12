@@ -210,54 +210,150 @@ Public Class FrmAntiguedadSaldosClie
                 LEFT JOIN CLIE" & Empresa & " T ON T.CLAVE = M.CVE_CLIE
                 WHERE ISNULL(M.CVE_CLIE,'') <> '' AND ISNULL(CFDI.ESTATUS,'A') <> 'C' " & FECHA_REF & CLIENTE & CADENA & "
                 ORDER BY M.CVE_CLIE"
+
+            Dim clienteR As String = ""
+            Dim clienteNombreR As String = ""
+
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
-                    While dr.Read
-                        Application.DoEvents()
-                        IMPORTE = dr("IMPORTE_M")
-                        SALDO = IMPORTE + dr("ABONOS")
-                        ABONOS += dr("ABONOS")
-                        NDIAS = DateDiff(DateInterval.Day, dr("FECHA_VENC"), F1.Value)
-                        SALDO30 = 0 : SALDO60 = 0 : SALDO90 = 0 : SALDO91 = 0
-                        Select Case NDIAS
-                            Case 1 To 30
-                                SALDO30 = SALDO
-                            Case 31 To 60
-                                SALDO60 = SALDO
-                            Case 61 To 90
-                                SALDO90 = SALDO
-                            Case > 90
-                                SALDO91 = SALDO
-                        End Select
-                        If dr("REFER") = "T4478" Then
-                            Debug.Print("")
+
+                    If ChDetalle.CheckState = CheckState.Unchecked Then
+
+                        While dr.Read
+                            Application.DoEvents()
+
+                            If clienteR <> dr("CVE_CLIE") Then
+                                If clienteR <> "" Then
+
+                                    r = t.NewRow()
+                                    r("REFER") = ""
+                                    r("CLIENTE") = clienteR
+                                    r("NOMBRE") = clienteNombreR
+                                    r("IMPORTE") = IMPORTE
+                                    r("SALDO") = SALDO
+                                    r("ABONOS") = ABONOS
+                                    r("NDIAS30") = SALDO30
+                                    r("NDIAS60") = SALDO60
+                                    r("NDIAS90") = SALDO90
+                                    r("NDIASMAYOR90") = SALDO91
+                                    r("CLASIFIC") = ""
+                                    r("FECHA_APLI") = New DateTime(1900, 1, 1)
+                                    r("FECHA1") = F1.Value.ToString.Substring(0, 10)
+                                    r("CLIENTE1") = TCLIENTE1.Text
+                                    r("CLIENTE2") = TCLIENTE2.Text
+                                    If TCLIENTE1.Text.Trim.Length > 0 Or TCLIENTE2.Text.Trim.Length > 0 Then
+                                        r("DEL_AL") = "Desde el cliente " & TCLIENTE1.Text.Trim & "      hasta el cliente " & TCLIENTE2.Text.Trim
+                                    Else
+                                        r("DEL_AL") = "Clientes:      Todos"
+                                    End If
+                                    r("CLIE_PROV") = "CLIENTES"
+                                    t.Rows.Add(r)
+
+                                End If
+
+                                clienteR = dr("CVE_CLIE")
+                                clienteNombreR = dr("NOMBRE")
+                                IMPORTE = 0
+                                SALDO = 0
+                                ABONOS = 0
+                                SALDO30 = 0 : SALDO60 = 0 : SALDO90 = 0 : SALDO91 = 0
+
+                            End If
+
+
+                            IMPORTE += dr("IMPORTE_M")
+                            SALDO += dr("IMPORTE_M") + dr("ABONOS")
+                            ABONOS += dr("ABONOS")
+                            NDIAS = DateDiff(DateInterval.Day, dr("FECHA_VENC"), F1.Value)
+
+                            Select Case NDIAS
+                                Case 1 To 30
+                                    SALDO30 += dr("IMPORTE_M") + dr("ABONOS")
+                                Case 31 To 60
+                                    SALDO60 += dr("IMPORTE_M") + dr("ABONOS")
+                                Case 61 To 90
+                                    SALDO90 += dr("IMPORTE_M") + dr("ABONOS")
+                                Case > 90
+                                    SALDO91 += dr("IMPORTE_M") + dr("ABONOS")
+                            End Select
+
+                        End While
+
+                        If clienteR <> "" Then
+                            r = t.NewRow()
+                            r("REFER") = ""
+                            r("CLIENTE") = clienteR
+                            r("NOMBRE") = clienteNombreR
+                            r("IMPORTE") = IMPORTE
+                            r("SALDO") = SALDO
+                            r("ABONOS") = ABONOS
+                            r("NDIAS30") = SALDO30
+                            r("NDIAS60") = SALDO60
+                            r("NDIAS90") = SALDO90
+                            r("NDIASMAYOR90") = SALDO91
+                            r("CLASIFIC") = ""
+                            r("FECHA_APLI") = New DateTime(1900, 1, 1)
+                            r("FECHA1") = F1.Value.ToString.Substring(0, 10)
+                            r("CLIENTE1") = TCLIENTE1.Text
+                            r("CLIENTE2") = TCLIENTE2.Text
+                            If TCLIENTE1.Text.Trim.Length > 0 Or TCLIENTE2.Text.Trim.Length > 0 Then
+                                r("DEL_AL") = "Desde el cliente " & TCLIENTE1.Text.Trim & "      hasta el cliente " & TCLIENTE2.Text.Trim
+                            Else
+                                r("DEL_AL") = "Clientes:      Todos"
+                            End If
+                            r("CLIE_PROV") = "CLIENTES"
+                            t.Rows.Add(r)
                         End If
 
-                        r = t.NewRow()
-                        r("REFER") = dr("REFER")
-                        r("CLIENTE") = dr("CVE_CLIE")
-                        r("NOMBRE") = dr("NOMBRE")
-                        r("IMPORTE") = dr("IMPORTE_M")
-                        r("SALDO") = SALDO
-                        r("ABONOS") = ABONOS
-                        r("NDIAS30") = SALDO30
-                        r("NDIAS60") = SALDO60
-                        r("NDIAS90") = SALDO90
-                        r("NDIASMAYOR90") = SALDO91
-                        r("CLASIFIC") = dr("CLASIFIC")
-                        r("FECHA_APLI") = dr("F_APLI_M")
-                        r("FECHA1") = F1.Value.ToString.Substring(0, 10)
-                        r("CLIENTE1") = TCLIENTE1.Text
-                        r("CLIENTE2") = TCLIENTE2.Text
-                        If TCLIENTE1.Text.Trim.Length > 0 Or TCLIENTE2.Text.Trim.Length > 0 Then
-                            r("DEL_AL") = "Desde el cliente " & TCLIENTE1.Text.Trim & "      hasta el cliente " & TCLIENTE2.Text.Trim
-                        Else
-                            r("DEL_AL") = "Clientes:      Todos"
-                        End If
-                        r("CLIE_PROV") = "CLIENTES"
-                        t.Rows.Add(r)
-                    End While
+                    Else
+
+                            While dr.Read
+                            Application.DoEvents()
+                            IMPORTE = dr("IMPORTE_M")
+                            SALDO = IMPORTE + dr("ABONOS")
+                            ABONOS += dr("ABONOS")
+                            NDIAS = DateDiff(DateInterval.Day, dr("FECHA_VENC"), F1.Value)
+                            SALDO30 = 0 : SALDO60 = 0 : SALDO90 = 0 : SALDO91 = 0
+                            Select Case NDIAS
+                                Case 1 To 30
+                                    SALDO30 = SALDO
+                                Case 31 To 60
+                                    SALDO60 = SALDO
+                                Case 61 To 90
+                                    SALDO90 = SALDO
+                                Case > 90
+                                    SALDO91 = SALDO
+                            End Select
+                            If dr("REFER") = "T4478" Then
+                                Debug.Print("")
+                            End If
+
+                            r = t.NewRow()
+                            r("REFER") = dr("REFER")
+                            r("CLIENTE") = dr("CVE_CLIE")
+                            r("NOMBRE") = dr("NOMBRE")
+                            r("IMPORTE") = dr("IMPORTE_M")
+                            r("SALDO") = SALDO
+                            r("ABONOS") = ABONOS
+                            r("NDIAS30") = SALDO30
+                            r("NDIAS60") = SALDO60
+                            r("NDIAS90") = SALDO90
+                            r("NDIASMAYOR90") = SALDO91
+                            r("CLASIFIC") = dr("CLASIFIC")
+                            r("FECHA_APLI") = dr("F_APLI_M")
+                            r("FECHA1") = F1.Value.ToString.Substring(0, 10)
+                            r("CLIENTE1") = TCLIENTE1.Text
+                            r("CLIENTE2") = TCLIENTE2.Text
+                            If TCLIENTE1.Text.Trim.Length > 0 Or TCLIENTE2.Text.Trim.Length > 0 Then
+                                r("DEL_AL") = "Desde el cliente " & TCLIENTE1.Text.Trim & "      hasta el cliente " & TCLIENTE2.Text.Trim
+                            Else
+                                r("DEL_AL") = "Clientes:      Todos"
+                            End If
+                            r("CLIE_PROV") = "CLIENTES"
+                            t.Rows.Add(r)
+                        End While
+                    End If
                 End Using
             End Using
 

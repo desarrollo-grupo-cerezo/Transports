@@ -692,7 +692,7 @@ Public Class FrmLiquidacionesAE
                 round(((CASE WHEN A.TIPO_UNI = 1 THEN ISNULL(R1.PORC_MANIOBRA_FULL, 0) ELSE ISNULL(R1.PORC_MANIOBRA_SENC, 0) 
                 END * ISNULL((SELECT SUM(CAN_TOT) FROM FACTF" & Empresa & " WHERE CVE_VIAJE = A.CVE_VIAJE),0))/100), 2) AS SDO_MANIOBRA_X_TONELADA,
 
-                A.FECHA, ISNULL(L.CAMPLIB1,'') AS LIB1
+                A.FECHA, ISNULL(L.CAMPLIB1,'') AS LIB1, GV.SUELDO_RUTA
                 FROM GCLIQ_PARTIDAS GV
                 LEFT JOIN GCCARTA_PORTE CP ON CP.CVE_FOLIO = GV.CVE_CAP1
                 LEFT JOIN GCSTATUS_CARTA_PORTE ST ON ST.CVE_CAP = CP.ST_CARTA_PORTE
@@ -766,7 +766,7 @@ Public Class FrmLiquidacionesAE
                                 's &= vbTab & TIP_VIAJE
                                 s &= vbTab & IIf(dr.ReadNullAsEmptyInteger("TIPO_UNIDAD") = 1, "Full", "Sencillo") '9
                                 s &= vbTab & dr("FACTURADO") '10
-                                s &= vbTab & dr("SUEL_CONV") '11
+                                s &= vbTab & dr("SUELDO_RUTA") '11
                                 s &= vbTab & dr("PORC_SUELDO") '12
                                 s &= vbTab & dr("SUELDO_MANIOBRA") '13
                                 s &= vbTab & dr("PORC_SUELDO_MANIOBRA") '14
@@ -1917,14 +1917,14 @@ Public Class FrmLiquidacionesAE
         SQL = "UPDATE GCLIQ_PARTIDAS SET CVE_CAP1 = @CVE_CAP1, CVE_CAP2 = @CVE_CAP2, TIPO_VIAJE = @TIPO_VIAJE, TIPO_UNIDAD = @TIPO_UNIDAD, 
             FECHA_VIAJE = @FECHA_VIAJE, CVE_UNI = @CVE_UNI, CLAVE_O = @CLAVE_O, CLAVE_D = @CLAVE_D, CVE_ST_VIA = @CVE_ST_VIA, SUELDO = @SUELDO, 
             @CVE_SUOP = CVE_SUOP, SEL_CALCULO = @SEL_CALCULO, PORC_SUELDO = @PORC_SUELDO, SUELDO_MANIOBRA = @SUELDO_MANIOBRA, 
-            PORC_SUELDO_MANIOBRA = @PORC_SUELDO_MANIOBRA, SDO_X_TONELADA = @SDO_X_TONELADA, SDO_MANIOBRA_X_TONELADA = @SDO_MANIOBRA_X_TONELADA
+            PORC_SUELDO_MANIOBRA = @PORC_SUELDO_MANIOBRA, SDO_X_TONELADA = @SDO_X_TONELADA, SDO_MANIOBRA_X_TONELADA = @SDO_MANIOBRA_X_TONELADA, SUELDO_RUTA=@SUELDO_RUTA
             WHERE UUID = @UUID AND STATUS = 'A'
             IF @@ROWCOUNT = 0
             INSERT INTO GCLIQ_PARTIDAS (CVE_LIQ, CVE_VIAJE, NUM_PAR, STATUS, CVE_CAP1, CVE_CAP2, TIPO_VIAJE, TIPO_UNIDAD, FECHA_VIAJE, CVE_UNI, 
-            CLAVE_O, CLAVE_D, CVE_ST_VIA, SUELDO, CVE_SUOP, FECHAELAB, UUID, SEL_CALCULO, PORC_SUELDO, SUELDO_MANIOBRA, PORC_SUELDO_MANIOBRA, SDO_X_TONELADA, SDO_MANIOBRA_X_TONELADA) 
+            CLAVE_O, CLAVE_D, CVE_ST_VIA, SUELDO, CVE_SUOP, FECHAELAB, UUID, SEL_CALCULO, PORC_SUELDO, SUELDO_MANIOBRA, PORC_SUELDO_MANIOBRA, SDO_X_TONELADA, SDO_MANIOBRA_X_TONELADA, SUELDO_RUTA) 
             VALUES (
             @CVE_LIQ, @CVE_VIAJE, ISNULL((SELECT MAX(NUM_PAR) + 1 FROM GCLIQ_PARTIDAS WHERE CVE_LIQ = @CVE_LIQ),1), 'A', @CVE_CAP1, @CVE_CAP2, 
-            @TIPO_VIAJE, @TIPO_UNIDAD, @FECHA_VIAJE, @CVE_UNI, @CLAVE_O, @CLAVE_D, @CVE_ST_VIA, @SUELDO, @CVE_SUOP, GETDATE(), @UUID, @SEL_CALCULO, @PORC_SUELDO, @SUELDO_MANIOBRA, @PORC_SUELDO_MANIOBRA, @SDO_X_TONELADA, @SDO_MANIOBRA_X_TONELADA)"
+            @TIPO_VIAJE, @TIPO_UNIDAD, @FECHA_VIAJE, @CVE_UNI, @CLAVE_O, @CLAVE_D, @CVE_ST_VIA, @SUELDO, @CVE_SUOP, GETDATE(), @UUID, @SEL_CALCULO, @PORC_SUELDO, @SUELDO_MANIOBRA, @PORC_SUELDO_MANIOBRA, @SDO_X_TONELADA, @SDO_MANIOBRA_X_TONELADA, @SUELDO_RUTA)"
 
         For k = 1 To Fg.Rows.Count - 1
             Try
@@ -1995,7 +1995,7 @@ Public Class FrmLiquidacionesAE
                                         cmd.Parameters.Add("@PORC_SUELDO_MANIOBRA", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(Fg(k, _FgColPorcSdoManiobra))
                                         cmd.Parameters.Add("@SDO_X_TONELADA", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(Fg(k, _FgColSdoPorTonedada))
                                         cmd.Parameters.Add("@SDO_MANIOBRA_X_TONELADA", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(Fg(k, _FgColSdoManiobraPorTonedada))
-
+                                        cmd.Parameters.Add("@SUELDO_RUTA", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(Fg(k, _FgColSueldo))
 
                                         returnValue = cmd.ExecuteNonQuery
                                         If returnValue IsNot Nothing Then
@@ -3744,6 +3744,7 @@ Public Class FrmLiquidacionesAE
                         Dim sd As SesionDocumento = LstSesionDoc.FirstOrDefault(Function(d) d.TblID = Fg(e.Row, 2))
                         If Not sd Is Nothing Then
                             SistemaControlEdicion(sd, 0)
+                            LstSesionDoc.Remove(sd)
                         End If
 
                         Fg(e.Row, _FgColPuntos) = ""
@@ -6896,6 +6897,12 @@ Public Class FrmLiquidacionesAE
         End If
     End Sub
 
+    Private Sub FrmLiquidacionesAE_Disposed(sender As Object, e As EventArgs) Handles Me.Disposed
+        SistemaControlEdicion(SesionDoc, 0)
+        For Each sd In LstSesionDoc
+            SistemaControlEdicion(sd, 0)
+        Next
+    End Sub
 End Class
 
 '===========================================================================================================================================

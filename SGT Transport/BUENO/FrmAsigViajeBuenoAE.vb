@@ -843,6 +843,14 @@ Public Class FrmAsigViajeBuenoAE
                     Box4.Enabled = False
 
                     DESHABILITAR()
+
+                    SesionDoc.TblID = LtCVE_VIAJE.Text
+
+                    If VerificaDocumentoEnEdicion(SesionDoc) Then
+                        ForzarCierre = True
+                    Else
+                        SistemaControlEdicion(SesionDoc, 1)
+                    End If
                 Else
                     TFOLIO.Value = 0
                     CboSerieFactura.SelectedIndex = -1
@@ -14670,6 +14678,10 @@ Public Class FrmAsigViajeBuenoAE
 
         End If
 
+    End Sub
+
+    Private Sub FrmAsigViajeBuenoAE_Disposed(sender As Object, e As EventArgs) Handles Me.Disposed
+        SistemaControlEdicion(SesionDoc, 0)
     End Sub
 End Class
 

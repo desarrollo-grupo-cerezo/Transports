@@ -4217,4 +4217,9 @@ Public Class MainRibbonForm
     Private Sub RibMonitorUsuarios_Click(sender As Object, e As EventArgs) Handles RibMonitorUsuarios.Click
         CREA_TAB(frmMonitorUsuarios, "Monitor de Usuarios")
     End Sub
+
+    Private Sub RLiq_Rep_Casetas_Click(sender As Object, e As EventArgs) Handles RLiq_Rep_Casetas.Click
+        BACKUPTXT("XTAB_CAPTION", "FrmReporteCasetas")
+        FrmReporteCasetas.ShowDialog()
+    End Sub
 End Class

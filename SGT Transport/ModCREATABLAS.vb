@@ -13630,7 +13630,20 @@ Module ModCREATABLAS
             cmd.CommandText = SQL
             cmd.ExecuteNonQuery()
 
+            If Not EXIST_FIELD_SQL_SAE("GCLIQ_PARTIDAS", "SUELDO_RUTA") Then
+                CREA_CAMPO("GCLIQ_PARTIDAS", "SUELDO_RUTA", "FLOAT", "", "")
+                SQL = "UPDATE LP SET
+		SUELDO_RUTA = ISNULL(CASE WHEN V.TIPO_UNI = 1 THEN ISNULL(R1.SUELDO_FULL, 0) ELSE ISNULL(R1.SUELDO_SENC, 0) END, 0)		
+FROM GCLIQ_PARTIDAS LP 
+INNER JOIN GCASIGNACION_VIAJE V ON V.CVE_VIAJE = LP.CVE_VIAJE 
+LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = V.CVE_TAB_VIAJE "
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
 
+                SQL = "UPDATE GCLIQ_PARTIDAS  SET SUELDO_RUTA = SUELDO - SUELDO_MANIOBRA WHERE SEL_CALCULO = 0 AND (SUELDO - round((SUELDO_RUTA + SUELDO_MANIOBRA), 2)) !=0"
+                cmd.CommandText = SQL
+                cmd.ExecuteNonQuery()
+            End If
 
             If EXISTE_FUNCION("fn_get_cta_acred") Then
                 SQL = "DROP FUNCTION fn_get_cta_acred"
@@ -14603,7 +14616,7 @@ AS
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
-					Haber = CONCAT('', CAST(PA.IMPORTE AS NUMERIC(27, 2))),
+					Haber = CONCAT('', CAST(round(PA.IMPORTE, 2) AS NUMERIC(27, 2))),
 					CentroCostos = '',
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
@@ -14629,12 +14642,12 @@ AS
 					DocAgr = '',
 					SubOrden = 0,
 					TipoPoliza = '',
-					NoPolizaCuenta = isnull(EmpBancos.CuentaFinanciera, ''), --dbo.fn_get_cta_gtos('DEPOSITO MENOR'), --dbo.fn_formtato_cuenta(dbo.fn_get_cta_gtos('DEPOSITO MAYOR'), OP.CUEN_CONT2)
+					NoPolizaCuenta = iif(LIQ.IMPORTE<0, dbo.fn_formato_cuenta((SELECT CTA_CONTABLE FROM GCDEDUCCIONES WHERE CVE_DED = 10), OP.CUEN_CONT), isnull(EmpBancos.CuentaFinanciera, '')), --dbo.fn_get_cta_gtos('DEPOSITO MENOR'), --dbo.fn_formtato_cuenta(dbo.fn_get_cta_gtos('DEPOSITO MAYOR'), OP.CUEN_CONT2)
 					ConceptoPolizaDepto = '0',
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
-					Debe = '',
-					Haber = CONCAT('', LIQ.IMPORTE),
+					Debe = iif(LIQ.IMPORTE<0, CONCAT('', ABS(LIQ.IMPORTE)), ''),
+					Haber = iif(LIQ.IMPORTE>0, CONCAT('', LIQ.IMPORTE), ''),
 					CentroCostos = '',
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
@@ -14702,7 +14715,7 @@ AS
 					DiaConceptoMov = CONCAT(dbo.fn_get_folios_Viajes(LIQ.CVE_LIQ, 'V', ''), ' LIQ.F', LIQ.CVE_LIQ, ' LIQ.C', LIQ.CVE_UNI, ' ', OP.NOMBRE),
 					TipoCambio = '1',
 					Debe = '',
-					Haber = CONCAT('', CAST(((ISNULL(GV.IMPORTE, 0) + ISNULL(LD.IMPORTE, 0) + ISNULL(PA.IMPORTE, 0))*-1) AS NUMERIC(27, 2)) ),
+					Haber = CONCAT('', CAST(((ISNULL(GV.IMPORTE, 0) + ISNULL(LD.IMPORTE, 0) + ISNULL(round(PA.IMPORTE, 2), 0) - IIF(LIQ.IMPORTE<0, ABS(LIQ.IMPORTE), 0 ))*-1) AS NUMERIC(27, 2)) ),
 					CentroCostos = '',
 					Proyecto = ''
 			FROM GCLIQUIDACIONES LIQ WITH (nolock)		
@@ -14711,7 +14724,7 @@ AS
 			LEFT JOIN (SELECT CVE_LIQ, IMPORTE = SUM(IMPORTE) FROM GCASIGNACION_VIAJE_GASTOS WITH (nolock) GROUP BY CVE_LIQ) GV  ON GV.CVE_LIQ = LIQ.CVE_LIQ	
 			LEFT JOIN (SELECT CVE_LIQ, IMPORTE = SUM(IMPORTE) FROM GCLIQ_DEDUCCIONES WITH (nolock) GROUP BY CVE_LIQ) LD ON LD.CVE_LIQ = LIQ.CVE_LIQ 
 			LEFT JOIN (SELECT CVE_LIQ, IMPORTE = SUM(IMPORTE) FROM GCLIQ_PENSION_ALI WITH (nolock) GROUP BY CVE_LIQ) PA ON PA.CVE_LIQ = LIQ.CVE_LIQ 
-			WHERE LIQ.STATUS = 'L' AND (ISNULL(GV.IMPORTE, 0) + ISNULL(LD.IMPORTE, 0) + ISNULL(PA.IMPORTE, 0)) !=0			
+			WHERE LIQ.STATUS = 'L' AND ((ISNULL(GV.IMPORTE, 0) + ISNULL(LD.IMPORTE, 0) + ISNULL(PA.IMPORTE, 0)) !=0 OR LIQ.IMPORTE<0)		
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -14780,7 +14793,7 @@ AS
 					FROM CUENTA_BENEF" & Empresa & " C
 					INNER JOIN GCBANCOS B ON B.CVE_BANCO = C.CVE_BANCO
 					GROUP BY B.DESCR) EmpBancos ON EmpBancos.Banco = B.DESCR
-			WHERE LIQ.STATUS = 'L' 
+			WHERE LIQ.STATUS = 'L' AND LIQ.IMPORTE>0
 			UNION ALL
 			SELECT						
 					FechaDocumento = LIQ.FECHA,
@@ -15313,23 +15326,38 @@ AS
 AS
 	-- Reporte 1. Reporte de resumen de facturas											
 	SELECT 
-		Fecha					= FAC.FECHA_DOC,
-		Factura					= FAC.CVE_DOC,
-		UUID					= FAC.UUID,
+		Fecha					= C.FECHA_CFDI,
+		Factura					= C.FACTURA,
+		[Folio Timbrado]		= C.FOLIOI,
+		UUID					= C.UUID_CFDI,
 		[Clave Cliente]			= trim(CLI.CLAVE),
 		[Nombre de Cliente]		= CLI.NOMBRE,
-		Estatus					= CASE FAC.STATUS WHEN 'E' THEN 'EMITIDA' WHEN 'O' THEN 'EMITIDA' WHEN 'C' THEN 'CANCELADA' END,
-		Subtotal				= round(FAC.CAN_TOT, 2),
-		[Porcentaje Descuento]	= round(FAC.DES_FIN_PORC, 2),
-		[Importe Descuento]		= round(FAC.DES_TOT_PORC, 2),
-		IVA						= round(FAC.IMP_TOT4, 2),
+		Estatus					= CASE C.ESTATUS WHEN 'T' THEN 'TIMBRADA' WHEN 'C' THEN 'CANCELADA' ELSE '' END,
+		Subtotal				= iif(V.TIPO_FACTURACION = 2, round(V.SUBTOTAL, 2), round(C.SUBTOTAL, 2)),
+		--[Porcentaje Descuento]	= round(FAC.DES_FIN_PORC, 2),
+		--[Importe Descuento]		= round(FAC.DES_TOT_PORC, 2),
+		IVA						= iif(V.TIPO_FACTURACION = 2, round(V.IVA, 2), round(C.IVA, 2)),
 		[Retención de ISR]		= round(0.00, 2),
-		[Retención de IVA]		= round(FAC.IMP_TOT3, 2),
-		Importe					= round(FAC.IMPORTE, 2),
-		Timbrada				= CASE isnull(FAC.TIMBRADO, 'N') WHEN 'S' THEN 'SI' ELSE 'NO' END,
-		ctrl_Serie				= replace(FAC.SERIE, '-', '')
-	FROM FACTF" & Empresa & " FAC WITH (nolock)		
-	INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = FAC.CVE_CLPV"
+		[Retención de IVA]		= iif(V.TIPO_FACTURACION = 2, round(V.RETENCION, 2), round(C.RETENCION, 2)),
+		Importe					= iif(V.TIPO_FACTURACION = 2, round(V.NETO, 2), round(C.IMPORTE, 2)),
+		--Timbrada				= CASE isnull(C.TIMBRADO, 'N') WHEN 'S' THEN 'SI' ELSE 'NO' END,
+		Viaje					= V.CVE_VIAJE,
+		[Fecha Carga]			= V.FECHA_CARGA,
+		[Fecha Descarga]		= V.FECHA_DESCARGA,
+		Operador				= OP.NOMBRE,		
+		Tractor					= V.CVE_UNIDAD,
+		Origen					= R1.DESCR,
+		Destino					= R1.DESCR2,
+		Flete					= V.FLETE,
+		Otro					= V.IMPORTE_CONCEP,
+		[UUID Relacionado]		= ISNULL((SELECT UUID + ' ' FROM CFDI_REL" & Empresa & " WHERE TIP_DOC = 'F' AND CVE_DOC = C.FACTURA FOR XML PATH('')), ''),
+		[Viaje Complementario]	= V.VIAJE_COMPLE,
+		ctrl_Serie				= replace(C.SERIE, '-', '')
+	FROM CFDI C WITH (nolock)		
+	INNER JOIN CLIE" & Empresa & " CLI WITH (nolock) ON CLI.CLAVE = C.CLIENTE
+	LEFT JOIN GCASIGNACION_VIAJE V WITH (nolock) ON (V.CVE_DOC = C.FACTURA) OR (V.CVE_VIAJE = C.CVE_VIAJE)
+	LEFT JOIN GCOPERADOR OP WITH (nolock) ON OP.CLAVE = V.CVE_OPER
+	LEFT JOIN GCTAB_RUTAS_F R1 ON R1.CVE_TAB = V.CVE_TAB_VIAJE "
         cmd.CommandText = SQL
         cmd.ExecuteNonQuery()
 
@@ -16928,14 +16956,6 @@ END"
         cmd.CommandText = SQL
         cmd.ExecuteNonQuery()
 
-        'If EXISTE_VISTA("") Then
-        '    SQL = "DROP VIEW [dbo].[]"
-        '    cmd.CommandText = SQL
-        '    cmd.ExecuteNonQuery()
-        'End If
-        'SQL = ""
-        'cmd.CommandText = SQL
-        'cmd.ExecuteNonQuery()
 
         If Not EXISTE_TABLA("ControlFoliosTimbrado") Then
             SQL = "CREATE TABLE dbo.ControlFoliosTimbrado ( TipoDocumento varchar(5) NULL, CveDoc varchar(50) NULL, Serie varchar(20) NULL, Folio int NULL)  ON [PRIMARY]"
@@ -16952,7 +16972,75 @@ END"
             cmd.ExecuteNonQuery()
         End If
 
+        If EXISTE_VISTA("VT_RPT_LiquidacionesCasetas") Then
+            SQL = "DROP VIEW [dbo].[VT_RPT_LiquidacionesCasetas]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+        SQL = "CREATE VIEW [dbo].[VT_RPT_LiquidacionesCasetas]
+AS
+	SELECT 
+		LIQ.CVE_LIQ, 
+		LIQ.FECHA,
+		OPERADOR = OP.NOMBRE,
+		UNIDAD = LIQ.CVE_UNI,
+		UNIDAD_DES = UN.DESCR,
+		LC.CVE_CXR, 		 
+		TIPO_UNIDAD = CASE CR.TIPO_UNIDAD WHEN 3 THEN 'FULL' WHEN 2 THEN 'SENCILLO' WHEN 1 THEN 'TRACTOR' ELSE '' END,
+		IMPORTE_LIQ = LC.IMPORTE,
+		CR.CLAVE_OP,
+		CLIENTE_OPERATIVO = ISNULL(CO.NOMBRE, ''),
+		ESTATUS_LIQ = CASE LIQ.STATUS WHEN 'A' THEN 'EDICIÓN' WHEN 'L' THEN 'ACEPTADA' WHEN 'C' THEN 'CANCELADA' ELSE '' END,
+		STATUS_LIQ = LIQ.STATUS
+	FROM GCLIQUIDACIONES LIQ
+	LEFT JOIN GCOPERADOR OP ON OP.CLAVE = LIQ.CVE_OPER
+	LEFT JOIN GCUNIDADES UN ON UN.CLAVEMONTE = LIQ.CVE_UNI
+	INNER JOIN GCLIQ_CASETAS LC ON LC.CVE_LIQ = LIQ.CVE_LIQ
+	INNER JOIN GCCASETAS_X_RUTA CR ON CR.CVE_CXR = LC.CVE_CXR
+	LEFT JOIN GCCLIE_OP CO ON CO.CLAVE = CR.CLAVE_OP"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
 
+        If EXISTE_VISTA("VT_RPT_LiquidacionesCasetasDetalle") Then
+            SQL = "DROP VIEW [dbo].[VT_RPT_LiquidacionesCasetasDetalle]"
+            cmd.CommandText = SQL
+            cmd.ExecuteNonQuery()
+        End If
+        SQL = "CREATE VIEW [dbo].[VT_RPT_LiquidacionesCasetasDetalle]
+AS
+	
+	SELECT 
+		CR.CVE_CXR, 
+		CAS.CVE_CAS,
+		ORDEN = ISNULL(CRD.ORDEN, 0),
+		CASETA = CAS.DESCR,
+		TIPO_PAGO = CASE CAS.TIPO_PAGO WHEN 'M' THEN 'MULTIPAGO' WHEN 'E' THEN 'EFECTIVO' ELSE '' END,
+		CVE_PLAZA = ISNULL(CAS.CVE_PLAZA, 0),
+		CRD.CRUCE,
+		IMPORTE = CASE CR.COL_IMPORTE 
+					WHEN 2 THEN CRD.IMPORTE2
+					WHEN 3 THEN CRD.IMPORTE3
+					WHEN 4 THEN CRD.IMPORTE4
+					WHEN 5 THEN CRD.IMPORTE5
+					WHEN 6 THEN CRD.IMPORTE6
+					WHEN 7 THEN CRD.IMPORTE7
+					WHEN 8 THEN CRD.IMPORTE8
+					WHEN 9 THEN CRD.IMPORTE9
+				ELSE 0 END
+	FROM GCCASETAS_X_RUTA CR
+	INNER JOIN GCCASETAS_X_RUTA_PAR CRD ON CRD.CVE_CXR = CR.CVE_CXR
+	INNER JOIN GCCASETAS CAS ON CAS.CVE_CAS = CRD.CVE_CAS"
+        cmd.CommandText = SQL
+        cmd.ExecuteNonQuery()
+
+        'If EXISTE_VISTA("") Then
+        '    SQL = "DROP VIEW [dbo].[]"
+        '    cmd.CommandText = SQL
+        '    cmd.ExecuteNonQuery()
+        'End If
+        'SQL = ""
+        'cmd.CommandText = SQL
+        'cmd.ExecuteNonQuery()
 
 
         ControlSesiones()
@@ -17035,6 +17123,8 @@ END"
             cmd.ExecuteNonQuery()
 
         End If
+
+        CREA_CAMPO("SistemaSesionesExec", "HabilitaControl", "tinyint", "0")
 
         If Not EXISTE_TABLA("SistemaControlEdicion") Then
             SQL = "CREATE TABLE dbo.SistemaControlEdicion

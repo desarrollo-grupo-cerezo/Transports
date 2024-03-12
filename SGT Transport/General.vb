@@ -6635,9 +6635,9 @@ Module General
 
     Public Sub SesionRegistra()
 
-        If Not ActivaSesion Then
-            Return
-        End If
+        'If Not ActivaSesion Then
+        '    Return
+        'End If
 
         SQL = "INSERT INTO SistemaSesiones(Usuario, Host, Registro, Actualizacion, Estatus)
                VALUES(@Usuario, @Host, getdate(), getdate(), 1);
@@ -6663,9 +6663,9 @@ Module General
 
     Public Sub SesionActualizacion()
 
-        If Not ActivaSesion Then
-            Return
-        End If
+        'If Not ActivaSesion Then
+        '    Return
+        'End If
 
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
@@ -6769,9 +6769,9 @@ Module General
 
     Public Sub SesionTermina()
 
-        If Not ActivaSesion Then
-            Return
-        End If
+        'If Not ActivaSesion Then
+        '    Return
+        'End If
 
         Try
             Using cmd As SqlCommand = cnSAE.CreateCommand
@@ -6802,6 +6802,7 @@ Module General
                 SQL = String.Format("SELECT IdSesion = SCE.IdSesion, Documento = iif(SCEP.Nombre IS NULL, SCE.Nombre, CONCAT(SCEP.Nombre, ': ', SCEP.TblID)), 
                                     SCE.App, UsuarioEdicion = CONCAT(SS.Usuario, ' - ', US.NOMBRE), SS.Host, InicioSesion = SS.Registro, Actualizacion = SS.Actualizacion, Edicion = SCE.Edicion 
                                     FROM SistemaControlEdicion SCE 
+                                    INNER JOIN SistemaSesionesExec EX ON isnull(EX.HabilitaControl, 0) = 1
                                     LEFT JOIN SistemaControlEdicion SCEP ON SCEP.IdControl = SCE.IdControlPad
                                     INNER JOIN SistemaSesiones SS ON SS.IdSesion = SCE.IdSesion
                                     LEFT JOIN GCUSUARIOS US ON US.USUARIO = SS.Usuario

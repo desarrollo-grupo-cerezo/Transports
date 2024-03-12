@@ -334,7 +334,10 @@ Public Class FrmPolizaLiq
                                             .FechaPoliza = poliza.FechaPoliza
                                             .ConceptoPoliza = dr("DiaConceptoMov").ToString()
                                             .DebeHaber = IIf(IsNumeric(dr("Debe")), "D", "H")
-                                            .MontoMovimiento = Convert.ToDouble(IIf(IsNumeric(dr("Debe")), dr("Debe"), dr("Haber")))
+                                            Try
+                                                .MontoMovimiento = Convert.ToDouble(IIf(IsNumeric(dr("Debe")), dr("Debe"), dr("Haber")))
+                                            Catch ex As Exception
+                                            End Try
                                             .NumDepartamento = 0
                                             .TipoCambio = Convert.ToDouble(dr("TipoCambio"))
                                             .ContraPartida = 0

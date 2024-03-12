@@ -714,6 +714,8 @@ Public Class FrmPagoMultidocCxC
                 For z = Fg.Rows.Count - 1 To 1 Step -1
                     If IsNothing(Fg(z, 1)) Then
                         Fg.RemoveItem(z)
+                    ElseIf IsDBNull(Fg(z, 1)) Then
+                        Fg.RemoveItem(z)
                     ElseIf (String.IsNullOrEmpty(Fg(z, 1))) Then
                         Fg.RemoveItem(z)
                     End If

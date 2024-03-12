@@ -23,100 +23,15 @@ Partial Class MainRibbonForm
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainRibbonForm))
         Me.c1Ribbon1 = New C1.Win.C1Ribbon.C1Ribbon()
         Me.AppMenu = New C1.Win.C1Ribbon.RibbonApplicationMenu()
-        Me.RibbonSeparator6 = New C1.Win.C1Ribbon.RibbonSeparator()
-        Me.RibbonSeparator1 = New C1.Win.C1Ribbon.RibbonSeparator()
-        Me.RibbonBottomToolBar1 = New C1.Win.C1Ribbon.RibbonBottomToolBar()
-        Me.ConfigToolBar = New C1.Win.C1Ribbon.RibbonConfigToolBar()
-        Me.Qat = New C1.Win.C1Ribbon.RibbonQat()
-        Me.TabCatalogos = New C1.Win.C1Ribbon.RibbonTab()
-        Me.RibbonGroup11 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.RibbonToolBar1 = New C1.Win.C1Ribbon.RibbonToolBar()
-        Me.RibbonToolBar2 = New C1.Win.C1Ribbon.RibbonToolBar()
-        Me.RibbonRutas = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.RibbCatalogos = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.RibbonToolBar9 = New C1.Win.C1Ribbon.RibbonToolBar()
-        Me.RibCatPepe = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabViajes = New C1.Win.C1Ribbon.RibbonTab()
-        Me.GroupComercial = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.RibbonGroup1 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.RRibReportesLogistica = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabTesoreria = New C1.Win.C1Ribbon.RibbonTab()
-        Me.GpoTesoreria = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.GpoTesoreriaComprobantePago = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.RibbonSeparator15 = New C1.Win.C1Ribbon.RibbonSeparator()
-        Me.RibTesoreriaPagoCompras = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.GpoConsultas = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabFacturacion = New C1.Win.C1Ribbon.RibbonTab()
-        Me.RibbonGroup2 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabLiquidacion = New C1.Win.C1Ribbon.RibbonTab()
-        Me.RibbonGroup12 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.GReportes = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabVentas = New C1.Win.C1Ribbon.RibbonTab()
-        Me.GpoCFDI = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.GpoPuntoVenta = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.GrupoRibDoc = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.GrupoRibCompPago = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.GpoReportes = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabCompras = New C1.Win.C1Ribbon.RibbonTab()
-        Me.RibbonGroup3 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabControlCombus = New C1.Win.C1Ribbon.RibbonTab()
-        Me.RibbonGroup13 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabMante = New C1.Win.C1Ribbon.RibbonTab()
-        Me.RibbonGroup4 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.GpoMante = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.GpoReportMante = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabInventario = New C1.Win.C1Ribbon.RibbonTab()
-        Me.TabInvRefac = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabInvMovsInv = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabInvVarios = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabConta = New C1.Win.C1Ribbon.RibbonTab()
-        Me.RibbonGroup14 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabRecHum = New C1.Win.C1Ribbon.RibbonTab()
-        Me.RibbonGroup10 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabLocalizacion = New C1.Win.C1Ribbon.RibbonTab()
-        Me.RibbonGroup6 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabRep = New C1.Win.C1Ribbon.RibbonTab()
-        Me.RibbonGroup7 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.GpoReportes1 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabConfig = New C1.Win.C1Ribbon.RibbonTab()
-        Me.RibbonGroup9 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.RibbonToolBar3 = New C1.Win.C1Ribbon.RibbonToolBar()
-        Me.RibbonGroup8 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.RibAcercaDe = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.TabUtilerias = New C1.Win.C1Ribbon.RibbonTab()
-        Me.GruBitacora = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.RibbonGroup191 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.RibbonSeparator5 = New C1.Win.C1Ribbon.RibbonSeparator()
-        Me.RibbonToolBar5 = New C1.Win.C1Ribbon.RibbonToolBar()
-        Me.RibbonToolBar6 = New C1.Win.C1Ribbon.RibbonToolBar()
-        Me.RibbonTopToolBar1 = New C1.Win.C1Ribbon.RibbonTopToolBar()
-        Me.c1StatusBar1 = New C1.Win.C1Ribbon.C1StatusBar()
-        Me.RibbonSeparator13 = New C1.Win.C1Ribbon.RibbonSeparator()
-        Me.StbtnServidor = New C1.Win.C1Ribbon.RibbonButton()
-        Me.StBase = New C1.Win.C1Ribbon.RibbonLabel()
-        Me.StbtnBase = New C1.Win.C1Ribbon.RibbonButton()
-        Me.Ltx1 = New C1.Win.C1Ribbon.RibbonLabel()
-        Me.RibbonLabel4 = New C1.Win.C1Ribbon.RibbonLabel()
-        Me.StVersion = New C1.Win.C1Ribbon.RibbonButton()
-        Me.RibbonSeparator4 = New C1.Win.C1Ribbon.RibbonSeparator()
-        Me.StModulo = New C1.Win.C1Ribbon.RibbonButton()
-        Me.StUserWindows = New C1.Win.C1Ribbon.RibbonButton()
-        Me.StLicencia = New C1.Win.C1Ribbon.RibbonButton()
-        Me.StSerieLic = New C1.Win.C1Ribbon.RibbonButton()
-        Me.StUsuario = New C1.Win.C1Ribbon.RibbonButton()
-        Me.StLic = New C1.Win.C1Ribbon.RibbonButton()
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.C1ThemeController1 = New C1.Win.C1Themes.C1ThemeController()
-        Me.Tab1 = New C1.Win.C1Command.C1DockingTab()
-        Me.RibbonGroup5 = New C1.Win.C1Ribbon.RibbonGroup()
-        Me.StServidor = New C1.Win.C1Ribbon.RibbonButton()
-        Me.StEmpresa = New C1.Win.C1Ribbon.RibbonButton()
-        Me.RibbonLabel3 = New C1.Win.C1Ribbon.RibbonLabel()
         Me.BarSelEmpresa = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonSeparator6 = New C1.Win.C1Ribbon.RibbonSeparator()
         Me.BarCreaInsertData = New C1.Win.C1Ribbon.RibbonButton()
         Me.MnuManagamentSQL = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonSeparator1 = New C1.Win.C1Ribbon.RibbonSeparator()
         Me.MnuReporteador = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarSalir = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonBottomToolBar1 = New C1.Win.C1Ribbon.RibbonBottomToolBar()
+        Me.ConfigToolBar = New C1.Win.C1Ribbon.RibbonConfigToolBar()
         Me.colorSchemeMenu = New C1.Win.C1Ribbon.RibbonMenu()
         Me.ThemeColorMenu = New C1.Win.C1Ribbon.RibbonMenu()
         Me.AzureButton = New C1.Win.C1Ribbon.RibbonToggleButton()
@@ -142,6 +57,9 @@ Partial Class MainRibbonForm
         Me.Windows7Button = New C1.Win.C1Ribbon.RibbonToggleButton()
         Me.MinimizeRibbonButton = New C1.Win.C1Ribbon.RibbonButton()
         Me.ExpandRibbonButton = New C1.Win.C1Ribbon.RibbonButton()
+        Me.Qat = New C1.Win.C1Ribbon.RibbonQat()
+        Me.TabCatalogos = New C1.Win.C1Ribbon.RibbonTab()
+        Me.RibbonGroup11 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarDescargaMasivaSAT = New C1.Win.C1Ribbon.RibbonButton()
         Me.TabMnuClientes = New C1.Win.C1Ribbon.RibbonMenu()
         Me.MnuClientes = New C1.Win.C1Ribbon.RibbonButton()
@@ -183,8 +101,12 @@ Partial Class MainRibbonForm
         Me.BarConcCxC = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarFormasPago1 = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarConcPrestamos = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonToolBar1 = New C1.Win.C1Ribbon.RibbonToolBar()
+        Me.RibbonToolBar2 = New C1.Win.C1Ribbon.RibbonToolBar()
+        Me.RibbonRutas = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarTabRutasFlex = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarTabRutasEspeciales = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbCatalogos = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarTrafico = New C1.Win.C1Ribbon.RibbonMenu()
         Me.MnuConcGastos = New C1.Win.C1Ribbon.RibbonButton()
         Me.MnuRutas = New C1.Win.C1Ribbon.RibbonButton()
@@ -245,6 +167,8 @@ Partial Class MainRibbonForm
         Me.MnuCalendarios = New C1.Win.C1Ribbon.RibbonButton()
         Me.MnuConcepEntradaFlujoEfectivo = New C1.Win.C1Ribbon.RibbonButton()
         Me.MnuConcepSalidaFlujoEfectivo = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonToolBar9 = New C1.Win.C1Ribbon.RibbonToolBar()
+        Me.RibCatPepe = New C1.Win.C1Ribbon.RibbonGroup()
         Me.RibTipoActivos = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarActivos = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarAseguradoras = New C1.Win.C1Ribbon.RibbonButton()
@@ -262,6 +186,7 @@ Partial Class MainRibbonForm
         Me.RibPePeTesoreria = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RibTesCuentasBancarias = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibTesBeneficiariosBancarios = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabViajes = New C1.Win.C1Ribbon.RibbonTab()
         Me.GroupCat = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarCatStatusUnidades = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarCatStatusViaje = New C1.Win.C1Ribbon.RibbonButton()
@@ -269,8 +194,10 @@ Partial Class MainRibbonForm
         Me.BarAutoriza = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibbonLabel5 = New C1.Win.C1Ribbon.RibbonLabel()
         Me.BarCasetasXRuta = New C1.Win.C1Ribbon.RibbonButton()
+        Me.GroupComercial = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarStatusUnidades = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarStatusOperadores = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonGroup1 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarTabRutas = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarAsignacionViajes = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarCartaPorte = New C1.Win.C1Ribbon.RibbonButton()
@@ -280,6 +207,7 @@ Partial Class MainRibbonForm
         Me.MnuPedidos = New C1.Win.C1Ribbon.RibbonButton()
         Me.BraProgPedidos = New C1.Win.C1Ribbon.RibbonButton()
         Me.MnuCotizador = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RRibReportesLogistica = New C1.Win.C1Ribbon.RibbonGroup()
         Me.RibbonMenu6 = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RLogisticaRep_CartaPorteXRecibir = New C1.Win.C1Ribbon.RibbonButton()
         Me.RLogisticaRep_ReportDifPeso = New C1.Win.C1Ribbon.RibbonButton()
@@ -288,6 +216,8 @@ Partial Class MainRibbonForm
         Me.RLogisticaRep_ViajesRealizados = New C1.Win.C1Ribbon.RibbonButton()
         Me.RLogisticaRep_KmReal = New C1.Win.C1Ribbon.RibbonButton()
         Me.RLogisticaRep_Precursores = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabTesoreria = New C1.Win.C1Ribbon.RibbonTab()
+        Me.GpoTesoreria = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarTesoreria = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarDeducOper = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarReporteDeduc = New C1.Win.C1Ribbon.RibbonButton()
@@ -295,18 +225,24 @@ Partial Class MainRibbonForm
         Me.RibEdoCtaGenOper = New C1.Win.C1Ribbon.RibbonButton()
         Me.MnuCatGastos = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibTesGastos = New C1.Win.C1Ribbon.RibbonButton()
+        Me.GpoTesoreriaComprobantePago = New C1.Win.C1Ribbon.RibbonGroup()
         Me.RibSaldosClientes = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonSeparator15 = New C1.Win.C1Ribbon.RibbonSeparator()
         Me.RibTesoreriaAltaCxC = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibTesoreriaPagoMult = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibTesoreriaComprobantePagoCFDI = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibTesoreriaPagoCompras = New C1.Win.C1Ribbon.RibbonGroup()
         Me.RibTesoreriaAltaCxP = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibPagoMultProvCxP = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibTesoreriaComprobantePagoCompras = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibSolPagoProv = New C1.Win.C1Ribbon.RibbonButton()
+        Me.GpoConsultas = New C1.Win.C1Ribbon.RibbonGroup()
         Me.RibTesoreriaConsultaBancaria = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibBMovs = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibConcepBanc = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibBenef = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabFacturacion = New C1.Win.C1Ribbon.RibbonTab()
+        Me.RibbonGroup2 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarConcilCartaPorte = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarCxC = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarListaprecios = New C1.Win.C1Ribbon.RibbonButton()
@@ -314,10 +250,13 @@ Partial Class MainRibbonForm
         Me.BarDiesel1 = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarResumenFacturas = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarResumenFacturas1 = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabLiquidacion = New C1.Win.C1Ribbon.RibbonTab()
+        Me.RibbonGroup12 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarLiquidaciones = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarConsignacion2 = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarDeducciones = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarMotivosCancel = New C1.Win.C1Ribbon.RibbonButton()
+        Me.GReportes = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarMenuReportes11 = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RLiq_Rep_ReportLiq = New C1.Win.C1Ribbon.RibbonButton()
         Me.RLiq_Rep_ViajesLiqui = New C1.Win.C1Ribbon.RibbonButton()
@@ -325,23 +264,32 @@ Partial Class MainRibbonForm
         Me.RLiq_Rep_ViajesXOperador = New C1.Win.C1Ribbon.RibbonButton()
         Me.RLiq_Rep_EstadoCtaGenOper = New C1.Win.C1Ribbon.RibbonButton()
         Me.RLiq_Rep_Pension = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RLiq_Rep_Casetas = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabVentas = New C1.Win.C1Ribbon.RibbonTab()
+        Me.GpoCFDI = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarFACT_CFDI4 = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarFacturacion = New C1.Win.C1Ribbon.RibbonButton()
+        Me.GpoPuntoVenta = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarPuntoVenta = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarFacturaGlobal = New C1.Win.C1Ribbon.RibbonButton()
+        Me.GrupoRibDoc = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarNotaVenta = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarPedido = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarCotizaciones = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarRemisiones = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarDevolucionVentas = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarRemisionCartaPorte = New C1.Win.C1Ribbon.RibbonButton()
+        Me.GrupoRibCompPago = New C1.Win.C1Ribbon.RibbonGroup()
         Me.RibVentasAltaCxC = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibVentasPagoMult = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibVentasComprobantePagoCFDI = New C1.Win.C1Ribbon.RibbonButton()
         Me.RVentas_FlujoCaja = New C1.Win.C1Ribbon.RibbonButton()
+        Me.GpoReportes = New C1.Win.C1Ribbon.RibbonGroup()
         Me.RibReportesVentas = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RVentas_ResumenVentas = New C1.Win.C1Ribbon.RibbonButton()
         Me.RVentas_CorteDelDia = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabCompras = New C1.Win.C1Ribbon.RibbonTab()
+        Me.RibbonGroup3 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarCompras = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarRecepciones = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarOrdenDeCompras = New C1.Win.C1Ribbon.RibbonButton()
@@ -352,6 +300,8 @@ Partial Class MainRibbonForm
         Me.RibbonMenu2 = New C1.Win.C1Ribbon.RibbonMenu()
         Me.MnuDetalladoCompras = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibResumenDeCompras = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabControlCombus = New C1.Win.C1Ribbon.RibbonTab()
+        Me.RibbonGroup13 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarNivelCombustible = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarMedicionCombustible = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarReset = New C1.Win.C1Ribbon.RibbonButton()
@@ -362,6 +312,8 @@ Partial Class MainRibbonForm
         Me.BarNumGen = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarCriteriosEva = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarAsignacionDiesel = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabMante = New C1.Win.C1Ribbon.RibbonTab()
+        Me.RibbonGroup4 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.TabMnuLlantas = New C1.Win.C1Ribbon.RibbonMenu()
         Me.MnuLlantas = New C1.Win.C1Ribbon.RibbonButton()
         Me.MnuMarcasLlantas = New C1.Win.C1Ribbon.RibbonButton()
@@ -388,8 +340,10 @@ Partial Class MainRibbonForm
         Me.MnuReporteDeFallas = New C1.Win.C1Ribbon.RibbonButton()
         Me.MnuOrdenesDeTrabajo = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarOrdenesDeTrabajo = New C1.Win.C1Ribbon.RibbonButton()
+        Me.GpoMante = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarOrdenesDeTrabajoExternas = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarOrdenDeTrabajoManto = New C1.Win.C1Ribbon.RibbonButton()
+        Me.GpoReportMante = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarMenuReportes = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RMante_Rep_ServiciosXUnidadSinMinve = New C1.Win.C1Ribbon.RibbonButton()
         Me.RMante_Rep_ServiciosXUnidad = New C1.Win.C1Ribbon.RibbonButton()
@@ -406,14 +360,18 @@ Partial Class MainRibbonForm
         Me.RMante_Rep_OTExternas = New C1.Win.C1Ribbon.RibbonButton()
         Me.RMante_Rep_Consolidado = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarConsulMinveOT = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabInventario = New C1.Win.C1Ribbon.RibbonTab()
+        Me.TabInvRefac = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarINVER = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarMINVE = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarAlmacenesR = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarMultialmacenR = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabInvMovsInv = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarServiciosDeInventario = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarMovsInvOT = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarMinveTOT = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarLineasProductos1 = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabInvVarios = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarConsultaListaPrec = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarPrecios = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarImpuestos = New C1.Win.C1Ribbon.RibbonButton()
@@ -424,6 +382,8 @@ Partial Class MainRibbonForm
         Me.BarUniMed = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarResumenMovsInv = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarCartaPorteTraslado = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabConta = New C1.Win.C1Ribbon.RibbonTab()
+        Me.RibbonGroup14 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.RibbonMenu3 = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RibPolizasManteInterno = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibPolizasManteExterno = New C1.Win.C1Ribbon.RibbonButton()
@@ -468,16 +428,22 @@ Partial Class MainRibbonForm
         Me.RConta_Menu_CC_Egresos = New C1.Win.C1Ribbon.RibbonButton()
         Me.RConta_Menu_CC_MovLLantas = New C1.Win.C1Ribbon.RibbonButton()
         Me.RConta_Menu_CC_Gastos = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabRecHum = New C1.Win.C1Ribbon.RibbonTab()
+        Me.RibbonGroup10 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarEmpleados = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarEmpleados1 = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarPrestamosPersonales = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarPrestamosInfonavit = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibReportesOperador = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RibRHIngresosXOperador = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabLocalizacion = New C1.Win.C1Ribbon.RibbonTab()
+        Me.RibbonGroup6 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarEstados = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarLocalidades = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarWebServices = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarPuntosInteres = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabRep = New C1.Win.C1Ribbon.RibbonTab()
+        Me.RibbonGroup7 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarReporteFacturas = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarReportePrecioCostos = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarReporteNotasFacturas = New C1.Win.C1Ribbon.RibbonButton()
@@ -485,6 +451,7 @@ Partial Class MainRibbonForm
         Me.BarReporteDeUnidades = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarReporteDeRefacciones = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarReporteDeTallerExterno = New C1.Win.C1Ribbon.RibbonButton()
+        Me.GpoReportes1 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarOperacionDiaria = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarRepGerencial2 = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarGerencial3 = New C1.Win.C1Ribbon.RibbonButton()
@@ -511,6 +478,8 @@ Partial Class MainRibbonForm
         Me.RibReporteFleteVsGastos = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibbonMenu9 = New C1.Win.C1Ribbon.RibbonMenu()
         Me.RibConViajesTractor = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabConfig = New C1.Win.C1Ribbon.RibbonTab()
+        Me.RibbonGroup9 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarEmpresas = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarLicenciamientoMobulos = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarDerechosUsuarios = New C1.Win.C1Ribbon.RibbonButton()
@@ -519,17 +488,26 @@ Partial Class MainRibbonForm
         Me.BarParamConfig = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarBitacoraUsuarios = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarGRUPOCE = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonToolBar3 = New C1.Win.C1Ribbon.RibbonToolBar()
         Me.BarConexionTEA = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarEstacionTrabajo = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonGroup8 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarDisenador = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibAcercaDe = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarAcercaDe = New C1.Win.C1Ribbon.RibbonButton()
+        Me.TabUtilerias = New C1.Win.C1Ribbon.RibbonTab()
+        Me.GruBitacora = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarBitacora = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarActulizacionPrecios = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarValidarCierre = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarAjustarKardex1 = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonGroup191 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.BarTools2 = New C1.Win.C1Ribbon.RibbonButton()
         Me.BarExportarUnidades = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonSeparator5 = New C1.Win.C1Ribbon.RibbonSeparator()
         Me.BarAsigLLantasExcel = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonToolBar5 = New C1.Win.C1Ribbon.RibbonToolBar()
+        Me.RibbonToolBar6 = New C1.Win.C1Ribbon.RibbonToolBar()
         Me.RibbonMenu1 = New C1.Win.C1Ribbon.RibbonMenu()
         Me.MnuActCostoViaMinveCompra = New C1.Win.C1Ribbon.RibbonButton()
         Me.MnuValidarImportesFacturas = New C1.Win.C1Ribbon.RibbonButton()
@@ -541,7 +519,30 @@ Partial Class MainRibbonForm
         Me.MnuOTMInve = New C1.Win.C1Ribbon.RibbonButton()
         Me.MnuBienesTransport = New C1.Win.C1Ribbon.RibbonButton()
         Me.RibValidaExcel = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonGroup5 = New C1.Win.C1Ribbon.RibbonGroup()
         Me.RibMonitorUsuarios = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonTopToolBar1 = New C1.Win.C1Ribbon.RibbonTopToolBar()
+        Me.c1StatusBar1 = New C1.Win.C1Ribbon.C1StatusBar()
+        Me.StServidor = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonSeparator13 = New C1.Win.C1Ribbon.RibbonSeparator()
+        Me.StbtnServidor = New C1.Win.C1Ribbon.RibbonButton()
+        Me.StBase = New C1.Win.C1Ribbon.RibbonLabel()
+        Me.StbtnBase = New C1.Win.C1Ribbon.RibbonButton()
+        Me.Ltx1 = New C1.Win.C1Ribbon.RibbonLabel()
+        Me.StEmpresa = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonLabel4 = New C1.Win.C1Ribbon.RibbonLabel()
+        Me.StVersion = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonSeparator4 = New C1.Win.C1Ribbon.RibbonSeparator()
+        Me.StModulo = New C1.Win.C1Ribbon.RibbonButton()
+        Me.StUserWindows = New C1.Win.C1Ribbon.RibbonButton()
+        Me.StLicencia = New C1.Win.C1Ribbon.RibbonButton()
+        Me.StSerieLic = New C1.Win.C1Ribbon.RibbonButton()
+        Me.RibbonLabel3 = New C1.Win.C1Ribbon.RibbonLabel()
+        Me.StUsuario = New C1.Win.C1Ribbon.RibbonButton()
+        Me.StLic = New C1.Win.C1Ribbon.RibbonButton()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.C1ThemeController1 = New C1.Win.C1Themes.C1ThemeController()
+        Me.Tab1 = New C1.Win.C1Command.C1DockingTab()
         Me.BarOrdenesDeTrabajoExternas1 = New C1.Win.C1Ribbon.RibbonButton()
         CType(Me.c1Ribbon1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.c1StatusBar1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -598,737 +599,15 @@ Partial Class MainRibbonForm
         Me.AppMenu.Text = "Archivo"
         Me.AppMenu.Win7Look = True
         '
-        'RibbonSeparator6
-        '
-        Me.RibbonSeparator6.Name = "RibbonSeparator6"
-        '
-        'RibbonSeparator1
-        '
-        Me.RibbonSeparator1.Name = "RibbonSeparator1"
-        '
-        'RibbonBottomToolBar1
-        '
-        Me.RibbonBottomToolBar1.Name = "RibbonBottomToolBar1"
-        Me.RibbonBottomToolBar1.Visible = False
-        '
-        'ConfigToolBar
-        '
-        Me.ConfigToolBar.Items.Add(Me.colorSchemeMenu)
-        Me.ConfigToolBar.Items.Add(Me.MinimizeRibbonButton)
-        Me.ConfigToolBar.Items.Add(Me.ExpandRibbonButton)
-        Me.ConfigToolBar.Name = "ConfigToolBar"
-        '
-        'Qat
-        '
-        Me.Qat.HotItemLinks.Add(Me.BarSelEmpresa)
-        Me.Qat.ItemLinks.Add(Me.BarSelEmpresa)
-        Me.Qat.ItemLinks.Add(Me.RibbonSeparator1)
-        Me.Qat.ItemLinks.Add(Me.BarSalir)
-        Me.Qat.Name = "Qat"
-        '
-        'TabCatalogos
-        '
-        Me.TabCatalogos.Groups.Add(Me.RibbonGroup11)
-        Me.TabCatalogos.Groups.Add(Me.RibbonRutas)
-        Me.TabCatalogos.Groups.Add(Me.RibbCatalogos)
-        Me.TabCatalogos.Groups.Add(Me.RibCatPepe)
-        Me.TabCatalogos.Name = "TabCatalogos"
-        Me.TabCatalogos.Text = "Catálogos"
-        '
-        'RibbonGroup11
-        '
-        Me.RibbonGroup11.Items.Add(Me.BarDescargaMasivaSAT)
-        Me.RibbonGroup11.Items.Add(Me.TabMnuClientes)
-        Me.RibbonGroup11.Items.Add(Me.BarClientes)
-        Me.RibbonGroup11.Items.Add(Me.BarProveedores)
-        Me.RibbonGroup11.Items.Add(Me.BarOperadores)
-        Me.RibbonGroup11.Items.Add(Me.TabMnuProv)
-        Me.RibbonGroup11.Items.Add(Me.BarServiciosDeVenta)
-        Me.RibbonGroup11.Items.Add(Me.BarContratos)
-        Me.RibbonGroup11.Items.Add(Me.barProveedores3)
-        Me.RibbonGroup11.Items.Add(Me.BarProdCargar)
-        Me.RibbonGroup11.Items.Add(Me.BarConceptosGastos)
-        Me.RibbonGroup11.Items.Add(Me.BarRutas)
-        Me.RibbonGroup11.Items.Add(Me.BarTractos)
-        Me.RibbonGroup11.Items.Add(Me.BarTanques)
-        Me.RibbonGroup11.Items.Add(Me.BarDollys)
-        Me.RibbonGroup11.Items.Add(Me.BarMaarca)
-        Me.RibbonGroup11.Items.Add(Me.BarFormaPago)
-        Me.RibbonGroup11.Items.Add(Me.BarCalendarios)
-        Me.RibbonGroup11.Items.Add(Me.BarDepto)
-        Me.RibbonGroup11.Items.Add(Me.BarPuestos)
-        Me.RibbonGroup11.Items.Add(Me.BarBancos)
-        Me.RibbonGroup11.Items.Add(Me.BarConcCxC)
-        Me.RibbonGroup11.Items.Add(Me.BarFormasPago1)
-        Me.RibbonGroup11.Items.Add(Me.BarConcPrestamos)
-        Me.RibbonGroup11.Items.Add(Me.RibbonToolBar1)
-        Me.RibbonGroup11.Items.Add(Me.RibbonToolBar2)
-        Me.RibbonGroup11.Name = "RibbonGroup11"
-        '
-        'RibbonToolBar1
-        '
-        Me.RibbonToolBar1.Name = "RibbonToolBar1"
-        '
-        'RibbonToolBar2
-        '
-        Me.RibbonToolBar2.Name = "RibbonToolBar2"
-        '
-        'RibbonRutas
-        '
-        Me.RibbonRutas.Items.Add(Me.BarTabRutasFlex)
-        Me.RibbonRutas.Items.Add(Me.BarTabRutasEspeciales)
-        Me.RibbonRutas.Name = "RibbonRutas"
-        Me.RibbonRutas.Text = "Tabulador de rutas"
-        '
-        'RibbCatalogos
-        '
-        Me.RibbCatalogos.Items.Add(Me.BarTrafico)
-        Me.RibbCatalogos.Items.Add(Me.TabMnuEmpleados)
-        Me.RibbCatalogos.Items.Add(Me.TabMnuCat)
-        Me.RibbCatalogos.Items.Add(Me.RibbonToolBar9)
-        Me.RibbCatalogos.Name = "RibbCatalogos"
-        Me.RibbCatalogos.Text = "Catálogos"
-        '
-        'RibbonToolBar9
-        '
-        Me.RibbonToolBar9.Name = "RibbonToolBar9"
-        '
-        'RibCatPepe
-        '
-        Me.RibCatPepe.Items.Add(Me.RibTipoActivos)
-        Me.RibCatPepe.Items.Add(Me.BarActivos)
-        Me.RibCatPepe.Items.Add(Me.BarAseguradoras)
-        Me.RibCatPepe.Items.Add(Me.BarInventario)
-        Me.RibCatPepe.Items.Add(Me.BarUniMed1)
-        Me.RibCatPepe.Items.Add(Me.BarLineasProductos2)
-        Me.RibCatPepe.Items.Add(Me.RibbListaPrecios)
-        Me.RibCatPepe.Items.Add(Me.BarPrecios1)
-        Me.RibCatPepe.Items.Add(Me.BarImpuestos1)
-        Me.RibCatPepe.Items.Add(Me.BarImpuestoAño)
-        Me.RibCatPepe.Items.Add(Me.BarImpuestoMes)
-        Me.RibCatPepe.Items.Add(Me.BarAlmacenes1)
-        Me.RibCatPepe.Items.Add(Me.BarMultialmacen1)
-        Me.RibCatPepe.Items.Add(Me.BarConcMinve1)
-        Me.RibCatPepe.Items.Add(Me.RibPePeTesoreria)
-        Me.RibCatPepe.Name = "RibCatPepe"
-        '
-        'TabViajes
-        '
-        Me.TabViajes.Groups.Add(Me.GroupCat)
-        Me.TabViajes.Groups.Add(Me.GroupComercial)
-        Me.TabViajes.Groups.Add(Me.RibbonGroup1)
-        Me.TabViajes.Groups.Add(Me.RRibReportesLogistica)
-        Me.TabViajes.Name = "TabViajes"
-        Me.TabViajes.Text = "Logistica"
-        '
-        'GroupComercial
-        '
-        Me.GroupComercial.Items.Add(Me.BarStatusUnidades)
-        Me.GroupComercial.Items.Add(Me.BarStatusOperadores)
-        Me.GroupComercial.Name = "GroupComercial"
-        Me.GroupComercial.Text = "Operación"
-        '
-        'RibbonGroup1
-        '
-        Me.RibbonGroup1.Items.Add(Me.BarTabRutas)
-        Me.RibbonGroup1.Items.Add(Me.BarAsignacionViajes)
-        Me.RibbonGroup1.Items.Add(Me.BarCartaPorte)
-        Me.RibbonGroup1.Items.Add(Me.BarBajaViajes)
-        Me.RibbonGroup1.Items.Add(Me.BarConciliacionValesCombus)
-        Me.RibbonGroup1.Items.Add(Me.TabMnuComercial)
-        Me.RibbonGroup1.Name = "RibbonGroup1"
-        Me.RibbonGroup1.Text = "Control de viajes"
-        '
-        'RRibReportesLogistica
-        '
-        Me.RRibReportesLogistica.Items.Add(Me.RibbonMenu6)
-        Me.RRibReportesLogistica.Name = "RRibReportesLogistica"
-        Me.RRibReportesLogistica.Text = "Reportes logística"
-        '
-        'TabTesoreria
-        '
-        Me.TabTesoreria.Groups.Add(Me.GpoTesoreria)
-        Me.TabTesoreria.Groups.Add(Me.GpoTesoreriaComprobantePago)
-        Me.TabTesoreria.Groups.Add(Me.RibTesoreriaPagoCompras)
-        Me.TabTesoreria.Groups.Add(Me.GpoConsultas)
-        Me.TabTesoreria.Name = "TabTesoreria"
-        Me.TabTesoreria.Text = "Tesoreria"
-        '
-        'GpoTesoreria
-        '
-        Me.GpoTesoreria.Items.Add(Me.BarTesoreria)
-        Me.GpoTesoreria.Items.Add(Me.BarDeducOper)
-        Me.GpoTesoreria.Items.Add(Me.BarReporteDeduc)
-        Me.GpoTesoreria.Items.Add(Me.RibSaldosOperadores)
-        Me.GpoTesoreria.Items.Add(Me.RibEdoCtaGenOper)
-        Me.GpoTesoreria.Items.Add(Me.MnuCatGastos)
-        Me.GpoTesoreria.Items.Add(Me.RibTesGastos)
-        Me.GpoTesoreria.Name = "GpoTesoreria"
-        Me.GpoTesoreria.Text = "Tesoreria"
-        '
-        'GpoTesoreriaComprobantePago
-        '
-        Me.GpoTesoreriaComprobantePago.Items.Add(Me.RibSaldosClientes)
-        Me.GpoTesoreriaComprobantePago.Items.Add(Me.RibbonSeparator15)
-        Me.GpoTesoreriaComprobantePago.Items.Add(Me.RibTesoreriaAltaCxC)
-        Me.GpoTesoreriaComprobantePago.Items.Add(Me.RibTesoreriaPagoMult)
-        Me.GpoTesoreriaComprobantePago.Items.Add(Me.RibTesoreriaComprobantePagoCFDI)
-        Me.GpoTesoreriaComprobantePago.Name = "GpoTesoreriaComprobantePago"
-        Me.GpoTesoreriaComprobantePago.Text = "Comprobantes de pago"
-        '
-        'RibbonSeparator15
-        '
-        Me.RibbonSeparator15.Name = "RibbonSeparator15"
-        '
-        'RibTesoreriaPagoCompras
-        '
-        Me.RibTesoreriaPagoCompras.Items.Add(Me.RibTesoreriaAltaCxP)
-        Me.RibTesoreriaPagoCompras.Items.Add(Me.RibPagoMultProvCxP)
-        Me.RibTesoreriaPagoCompras.Items.Add(Me.RibTesoreriaComprobantePagoCompras)
-        Me.RibTesoreriaPagoCompras.Items.Add(Me.RibSolPagoProv)
-        Me.RibTesoreriaPagoCompras.Name = "RibTesoreriaPagoCompras"
-        Me.RibTesoreriaPagoCompras.Text = "Pago compas"
-        '
-        'GpoConsultas
-        '
-        Me.GpoConsultas.Items.Add(Me.RibTesoreriaConsultaBancaria)
-        Me.GpoConsultas.Items.Add(Me.RibBMovs)
-        Me.GpoConsultas.Items.Add(Me.RibConcepBanc)
-        Me.GpoConsultas.Items.Add(Me.RibBenef)
-        Me.GpoConsultas.Name = "GpoConsultas"
-        Me.GpoConsultas.Text = "Bancos"
-        '
-        'TabFacturacion
-        '
-        Me.TabFacturacion.Groups.Add(Me.RibbonGroup2)
-        Me.TabFacturacion.Name = "TabFacturacion"
-        Me.TabFacturacion.Text = "Facturación"
-        '
-        'RibbonGroup2
-        '
-        Me.RibbonGroup2.Items.Add(Me.BarConcilCartaPorte)
-        Me.RibbonGroup2.Items.Add(Me.BarCxC)
-        Me.RibbonGroup2.Items.Add(Me.BarListaprecios)
-        Me.RibbonGroup2.Items.Add(Me.BarProveedores5)
-        Me.RibbonGroup2.Items.Add(Me.BarDiesel1)
-        Me.RibbonGroup2.Items.Add(Me.BarResumenFacturas)
-        Me.RibbonGroup2.Items.Add(Me.BarResumenFacturas1)
-        Me.RibbonGroup2.Name = "RibbonGroup2"
-        '
-        'TabLiquidacion
-        '
-        Me.TabLiquidacion.Groups.Add(Me.RibbonGroup12)
-        Me.TabLiquidacion.Groups.Add(Me.GReportes)
-        Me.TabLiquidacion.Name = "TabLiquidacion"
-        Me.TabLiquidacion.Text = "Liquidación"
-        '
-        'RibbonGroup12
-        '
-        Me.RibbonGroup12.Items.Add(Me.BarLiquidaciones)
-        Me.RibbonGroup12.Items.Add(Me.BarConsignacion2)
-        Me.RibbonGroup12.Items.Add(Me.BarDeducciones)
-        Me.RibbonGroup12.Items.Add(Me.BarMotivosCancel)
-        Me.RibbonGroup12.Name = "RibbonGroup12"
-        '
-        'GReportes
-        '
-        Me.GReportes.Items.Add(Me.BarMenuReportes11)
-        Me.GReportes.Name = "GReportes"
-        Me.GReportes.Text = "Reportes"
-        '
-        'TabVentas
-        '
-        Me.TabVentas.Groups.Add(Me.GpoCFDI)
-        Me.TabVentas.Groups.Add(Me.GpoPuntoVenta)
-        Me.TabVentas.Groups.Add(Me.GrupoRibDoc)
-        Me.TabVentas.Groups.Add(Me.GrupoRibCompPago)
-        Me.TabVentas.Groups.Add(Me.GpoReportes)
-        Me.TabVentas.Name = "TabVentas"
-        Me.TabVentas.Text = "Ventas"
-        '
-        'GpoCFDI
-        '
-        Me.GpoCFDI.Items.Add(Me.BarFACT_CFDI4)
-        Me.GpoCFDI.Items.Add(Me.BarFacturacion)
-        Me.GpoCFDI.Name = "GpoCFDI"
-        Me.GpoCFDI.Text = "CFDI"
-        '
-        'GpoPuntoVenta
-        '
-        Me.GpoPuntoVenta.Items.Add(Me.BarPuntoVenta)
-        Me.GpoPuntoVenta.Items.Add(Me.BarFacturaGlobal)
-        Me.GpoPuntoVenta.Name = "GpoPuntoVenta"
-        Me.GpoPuntoVenta.Text = "Punto de Venta"
-        '
-        'GrupoRibDoc
-        '
-        Me.GrupoRibDoc.Items.Add(Me.BarNotaVenta)
-        Me.GrupoRibDoc.Items.Add(Me.BarPedido)
-        Me.GrupoRibDoc.Items.Add(Me.BarCotizaciones)
-        Me.GrupoRibDoc.Items.Add(Me.BarRemisiones)
-        Me.GrupoRibDoc.Items.Add(Me.BarDevolucionVentas)
-        Me.GrupoRibDoc.Items.Add(Me.BarRemisionCartaPorte)
-        Me.GrupoRibDoc.Name = "GrupoRibDoc"
-        Me.GrupoRibDoc.Text = "Documentos"
-        '
-        'GrupoRibCompPago
-        '
-        Me.GrupoRibCompPago.Items.Add(Me.RibVentasAltaCxC)
-        Me.GrupoRibCompPago.Items.Add(Me.RibVentasPagoMult)
-        Me.GrupoRibCompPago.Items.Add(Me.RibVentasComprobantePagoCFDI)
-        Me.GrupoRibCompPago.Items.Add(Me.RVentas_FlujoCaja)
-        Me.GrupoRibCompPago.Name = "GrupoRibCompPago"
-        Me.GrupoRibCompPago.Text = "Comprobante de pago"
-        '
-        'GpoReportes
-        '
-        Me.GpoReportes.Items.Add(Me.RibReportesVentas)
-        Me.GpoReportes.Name = "GpoReportes"
-        Me.GpoReportes.Text = "Reportes"
-        '
-        'TabCompras
-        '
-        Me.TabCompras.Groups.Add(Me.RibbonGroup3)
-        Me.TabCompras.Name = "TabCompras"
-        Me.TabCompras.Text = "Compras"
-        '
-        'RibbonGroup3
-        '
-        Me.RibbonGroup3.Items.Add(Me.BarCompras)
-        Me.RibbonGroup3.Items.Add(Me.BarRecepciones)
-        Me.RibbonGroup3.Items.Add(Me.BarOrdenDeCompras)
-        Me.RibbonGroup3.Items.Add(Me.BarRequisiciones)
-        Me.RibbonGroup3.Items.Add(Me.BarComprasDev)
-        Me.RibbonGroup3.Items.Add(Me.BarPreOrdenCompra)
-        Me.RibbonGroup3.Items.Add(Me.BarImportaXML)
-        Me.RibbonGroup3.Items.Add(Me.RibbonMenu2)
-        Me.RibbonGroup3.Name = "RibbonGroup3"
-        '
-        'TabControlCombus
-        '
-        Me.TabControlCombus.Groups.Add(Me.RibbonGroup13)
-        Me.TabControlCombus.Name = "TabControlCombus"
-        Me.TabControlCombus.Text = "Control de combustible"
-        '
-        'RibbonGroup13
-        '
-        Me.RibbonGroup13.Items.Add(Me.BarNivelCombustible)
-        Me.RibbonGroup13.Items.Add(Me.BarMedicionCombustible)
-        Me.RibbonGroup13.Items.Add(Me.BarReset)
-        Me.RibbonGroup13.Items.Add(Me.BarTabuladorCombustible)
-        Me.RibbonGroup13.Items.Add(Me.BarCatTanques)
-        Me.RibbonGroup13.Items.Add(Me.BarIndicadorDepto)
-        Me.RibbonGroup13.Items.Add(Me.BarCatEvaluaciones)
-        Me.RibbonGroup13.Items.Add(Me.BarNumGen)
-        Me.RibbonGroup13.Items.Add(Me.BarCriteriosEva)
-        Me.RibbonGroup13.Items.Add(Me.BarAsignacionDiesel)
-        Me.RibbonGroup13.Name = "RibbonGroup13"
-        '
-        'TabMante
-        '
-        Me.TabMante.Groups.Add(Me.RibbonGroup4)
-        Me.TabMante.Groups.Add(Me.GpoMante)
-        Me.TabMante.Groups.Add(Me.GpoReportMante)
-        Me.TabMante.Name = "TabMante"
-        Me.TabMante.Text = "Mantenimiento"
-        '
-        'RibbonGroup4
-        '
-        Me.RibbonGroup4.Items.Add(Me.TabMnuLlantas)
-        Me.RibbonGroup4.Items.Add(Me.BarLlantasMarca)
-        Me.RibbonGroup4.Items.Add(Me.BarLlantasTipo)
-        Me.RibbonGroup4.Items.Add(Me.BarLlantasStatus)
-        Me.RibbonGroup4.Items.Add(Me.BarLlantasModelo)
-        Me.RibbonGroup4.Items.Add(Me.BarLlantasMed)
-        Me.RibbonGroup4.Items.Add(Me.BarLlantas)
-        Me.RibbonGroup4.Items.Add(Me.BarLlantasAct)
-        Me.RibbonGroup4.Items.Add(Me.BarLlantasMante)
-        Me.RibbonGroup4.Items.Add(Me.BarClasificServicios)
-        Me.RibbonGroup4.Items.Add(Me.BarReporteLLantas)
-        Me.RibbonGroup4.Items.Add(Me.BarPrograServicios)
-        Me.RibbonGroup4.Items.Add(Me.RibbonMenu4)
-        Me.RibbonGroup4.Items.Add(Me.BarOrdenesDeTrabajo)
-        Me.RibbonGroup4.Name = "RibbonGroup4"
-        '
-        'GpoMante
-        '
-        Me.GpoMante.Items.Add(Me.BarOrdenesDeTrabajoExternas)
-        Me.GpoMante.Items.Add(Me.BarOrdenDeTrabajoManto)
-        Me.GpoMante.Name = "GpoMante"
-        Me.GpoMante.Text = "Ordenes de trabajo"
-        '
-        'GpoReportMante
-        '
-        Me.GpoReportMante.Items.Add(Me.BarMenuReportes)
-        Me.GpoReportMante.Items.Add(Me.BarConsulMinveOT)
-        Me.GpoReportMante.Name = "GpoReportMante"
-        Me.GpoReportMante.Text = "Reportes"
-        '
-        'TabInventario
-        '
-        Me.TabInventario.Groups.Add(Me.TabInvRefac)
-        Me.TabInventario.Groups.Add(Me.TabInvMovsInv)
-        Me.TabInventario.Groups.Add(Me.TabInvVarios)
-        Me.TabInventario.Name = "TabInventario"
-        Me.TabInventario.Text = "Inventario"
-        '
-        'TabInvRefac
-        '
-        Me.TabInvRefac.Items.Add(Me.BarINVER)
-        Me.TabInvRefac.Items.Add(Me.BarMINVE)
-        Me.TabInvRefac.Items.Add(Me.BarAlmacenesR)
-        Me.TabInvRefac.Items.Add(Me.BarMultialmacenR)
-        Me.TabInvRefac.Name = "TabInvRefac"
-        Me.TabInvRefac.Text = "REFACCIONES"
-        Me.TabInvRefac.Visible = False
-        '
-        'TabInvMovsInv
-        '
-        Me.TabInvMovsInv.Items.Add(Me.BarServiciosDeInventario)
-        Me.TabInvMovsInv.Items.Add(Me.BarMovsInvOT)
-        Me.TabInvMovsInv.Items.Add(Me.BarMinveTOT)
-        Me.TabInvMovsInv.Items.Add(Me.BarLineasProductos1)
-        Me.TabInvMovsInv.Name = "TabInvMovsInv"
-        '
-        'TabInvVarios
-        '
-        Me.TabInvVarios.Items.Add(Me.BarConsultaListaPrec)
-        Me.TabInvVarios.Items.Add(Me.BarPrecios)
-        Me.TabInvVarios.Items.Add(Me.BarImpuestos)
-        Me.TabInvVarios.Items.Add(Me.BarConcMinve)
-        Me.TabInvVarios.Items.Add(Me.BarAlmacenes)
-        Me.TabInvVarios.Items.Add(Me.BarMultialmacen)
-        Me.TabInvVarios.Items.Add(Me.BarLineasProductos)
-        Me.TabInvVarios.Items.Add(Me.BarUniMed)
-        Me.TabInvVarios.Items.Add(Me.BarResumenMovsInv)
-        Me.TabInvVarios.Items.Add(Me.BarCartaPorteTraslado)
-        Me.TabInvVarios.Name = "TabInvVarios"
-        '
-        'TabConta
-        '
-        Me.TabConta.Groups.Add(Me.RibbonGroup14)
-        Me.TabConta.Groups.Add(Me.RibCierreContable)
-        Me.TabConta.Name = "TabConta"
-        Me.TabConta.Text = "Contabilidad"
-        '
-        'RibbonGroup14
-        '
-        Me.RibbonGroup14.Items.Add(Me.RibbonMenu3)
-        Me.RibbonGroup14.Items.Add(Me.BarPolizaDeCompras)
-        Me.RibbonGroup14.Items.Add(Me.BarPolizaComprasNC)
-        Me.RibbonGroup14.Items.Add(Me.BarPolizaVentaFlete)
-        Me.RibbonGroup14.Items.Add(Me.BarPolizaVentaOtros)
-        Me.RibbonGroup14.Items.Add(Me.BarPolizaEgresosDiesel)
-        Me.RibbonGroup14.Items.Add(Me.BarPolizaFoliosDinero)
-        Me.RibbonGroup14.Items.Add(Me.BarPolizaEgresos)
-        Me.RibbonGroup14.Items.Add(Me.BarPolizaIngresos)
-        Me.RibbonGroup14.Items.Add(Me.BarPolizaLiq)
-        Me.RibbonGroup14.Items.Add(Me.BarPolizaLiq1)
-        Me.RibbonGroup14.Items.Add(Me.RibPolFondoOper)
-        Me.RibbonGroup14.Items.Add(Me.RibbonMenu5)
-        Me.RibbonGroup14.Items.Add(Me.RibbonMenu7)
-        Me.RibbonGroup14.Items.Add(Me.BarContabilidadConsultas)
-        Me.RibbonGroup14.Items.Add(Me.RibbonMenu8)
-        Me.RibbonGroup14.Name = "RibbonGroup14"
-        '
-        'TabRecHum
-        '
-        Me.TabRecHum.Groups.Add(Me.RibbonGroup10)
-        Me.TabRecHum.Name = "TabRecHum"
-        Me.TabRecHum.Text = "Recursos humanos"
-        '
-        'RibbonGroup10
-        '
-        Me.RibbonGroup10.Items.Add(Me.BarEmpleados)
-        Me.RibbonGroup10.Items.Add(Me.BarEmpleados1)
-        Me.RibbonGroup10.Items.Add(Me.BarPrestamosPersonales)
-        Me.RibbonGroup10.Items.Add(Me.BarPrestamosInfonavit)
-        Me.RibbonGroup10.Items.Add(Me.RibReportesOperador)
-        Me.RibbonGroup10.Name = "RibbonGroup10"
-        '
-        'TabLocalizacion
-        '
-        Me.TabLocalizacion.Groups.Add(Me.RibbonGroup6)
-        Me.TabLocalizacion.Name = "TabLocalizacion"
-        Me.TabLocalizacion.Text = "Localización"
-        '
-        'RibbonGroup6
-        '
-        Me.RibbonGroup6.Items.Add(Me.BarEstados)
-        Me.RibbonGroup6.Items.Add(Me.BarLocalidades)
-        Me.RibbonGroup6.Items.Add(Me.BarWebServices)
-        Me.RibbonGroup6.Items.Add(Me.BarPuntosInteres)
-        Me.RibbonGroup6.Name = "RibbonGroup6"
-        '
-        'TabRep
-        '
-        Me.TabRep.Groups.Add(Me.RibbonGroup7)
-        Me.TabRep.Groups.Add(Me.GpoReportes1)
-        Me.TabRep.Name = "TabRep"
-        Me.TabRep.Text = "Reportes"
-        '
-        'RibbonGroup7
-        '
-        Me.RibbonGroup7.Items.Add(Me.BarReporteFacturas)
-        Me.RibbonGroup7.Items.Add(Me.BarReportePrecioCostos)
-        Me.RibbonGroup7.Items.Add(Me.BarReporteNotasFacturas)
-        Me.RibbonGroup7.Items.Add(Me.BarReporteOrdenesTrabajo)
-        Me.RibbonGroup7.Items.Add(Me.BarReporteDeUnidades)
-        Me.RibbonGroup7.Items.Add(Me.BarReporteDeRefacciones)
-        Me.RibbonGroup7.Items.Add(Me.BarReporteDeTallerExterno)
-        Me.RibbonGroup7.Name = "RibbonGroup7"
-        Me.RibbonGroup7.Text = "Reportes"
-        '
-        'GpoReportes1
-        '
-        Me.GpoReportes1.Items.Add(Me.BarOperacionDiaria)
-        Me.GpoReportes1.Items.Add(Me.BarRepGerencial2)
-        Me.GpoReportes1.Items.Add(Me.BarGerencial3)
-        Me.GpoReportes1.Items.Add(Me.BarVtasXProXCteTrackFullRojo)
-        Me.GpoReportes1.Items.Add(Me.RibResumenVentas1)
-        Me.GpoReportes1.Items.Add(Me.BarMenuReportes1)
-        Me.GpoReportes1.Items.Add(Me.RibComparativoPesosReales)
-        Me.GpoReportes1.Items.Add(Me.RibbonMenu61)
-        Me.GpoReportes1.Items.Add(Me.RibbonMenu611)
-        Me.GpoReportes1.Items.Add(Me.RibbonMenu9)
-        Me.GpoReportes1.Name = "GpoReportes1"
-        '
-        'TabConfig
-        '
-        Me.TabConfig.Groups.Add(Me.RibbonGroup9)
-        Me.TabConfig.Groups.Add(Me.RibbonGroup8)
-        Me.TabConfig.Groups.Add(Me.RibAcercaDe)
-        Me.TabConfig.Name = "TabConfig"
-        Me.TabConfig.Text = "Configuración"
-        '
-        'RibbonGroup9
-        '
-        Me.RibbonGroup9.Items.Add(Me.BarEmpresas)
-        Me.RibbonGroup9.Items.Add(Me.BarLicenciamientoMobulos)
-        Me.RibbonGroup9.Items.Add(Me.BarDerechosUsuarios)
-        Me.RibbonGroup9.Items.Add(Me.BarUsuarios)
-        Me.RibbonGroup9.Items.Add(Me.BarParamSistema)
-        Me.RibbonGroup9.Items.Add(Me.BarParamConfig)
-        Me.RibbonGroup9.Items.Add(Me.BarBitacoraUsuarios)
-        Me.RibbonGroup9.Items.Add(Me.BarGRUPOCE)
-        Me.RibbonGroup9.Items.Add(Me.RibbonToolBar3)
-        Me.RibbonGroup9.Items.Add(Me.BarConexionTEA)
-        Me.RibbonGroup9.Items.Add(Me.BarEstacionTrabajo)
-        Me.RibbonGroup9.Name = "RibbonGroup9"
-        Me.RibbonGroup9.Text = "Configuración"
-        '
-        'RibbonToolBar3
-        '
-        Me.RibbonToolBar3.Name = "RibbonToolBar3"
-        '
-        'RibbonGroup8
-        '
-        Me.RibbonGroup8.Items.Add(Me.BarDisenador)
-        Me.RibbonGroup8.Name = "RibbonGroup8"
-        Me.RibbonGroup8.Text = "Reporteador"
-        '
-        'RibAcercaDe
-        '
-        Me.RibAcercaDe.Items.Add(Me.BarAcercaDe)
-        Me.RibAcercaDe.Name = "RibAcercaDe"
-        Me.RibAcercaDe.Text = "Acerca de"
-        '
-        'TabUtilerias
-        '
-        Me.TabUtilerias.Groups.Add(Me.GruBitacora)
-        Me.TabUtilerias.Groups.Add(Me.RibbonGroup191)
-        Me.TabUtilerias.Groups.Add(Me.RibbonGroup5)
-        Me.TabUtilerias.Name = "TabUtilerias"
-        Me.TabUtilerias.Text = "Utilerias"
-        '
-        'GruBitacora
-        '
-        Me.GruBitacora.Items.Add(Me.BarBitacora)
-        Me.GruBitacora.Items.Add(Me.BarActulizacionPrecios)
-        Me.GruBitacora.Items.Add(Me.BarValidarCierre)
-        Me.GruBitacora.Items.Add(Me.BarAjustarKardex1)
-        Me.GruBitacora.Name = "GruBitacora"
-        '
-        'RibbonGroup191
-        '
-        Me.RibbonGroup191.Items.Add(Me.BarTools2)
-        Me.RibbonGroup191.Items.Add(Me.BarExportarUnidades)
-        Me.RibbonGroup191.Items.Add(Me.RibbonSeparator5)
-        Me.RibbonGroup191.Items.Add(Me.BarAsigLLantasExcel)
-        Me.RibbonGroup191.Items.Add(Me.RibbonToolBar5)
-        Me.RibbonGroup191.Items.Add(Me.RibbonToolBar6)
-        Me.RibbonGroup191.Items.Add(Me.RibbonMenu1)
-        Me.RibbonGroup191.Name = "RibbonGroup191"
-        Me.RibbonGroup191.Text = "Utilerias"
-        '
-        'RibbonSeparator5
-        '
-        Me.RibbonSeparator5.Name = "RibbonSeparator5"
-        '
-        'RibbonToolBar5
-        '
-        Me.RibbonToolBar5.Name = "RibbonToolBar5"
-        '
-        'RibbonToolBar6
-        '
-        Me.RibbonToolBar6.Name = "RibbonToolBar6"
-        '
-        'RibbonTopToolBar1
-        '
-        Me.RibbonTopToolBar1.Name = "RibbonTopToolBar1"
-        '
-        'c1StatusBar1
-        '
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.StServidor)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.RibbonSeparator13)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.StbtnServidor)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.StBase)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.StbtnBase)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.Ltx1)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.StEmpresa)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.RibbonLabel4)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.StVersion)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.RibbonSeparator4)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.StModulo)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.StUserWindows)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.StLicencia)
-        Me.c1StatusBar1.LeftPaneItems.Add(Me.StSerieLic)
-        Me.c1StatusBar1.Location = New System.Drawing.Point(0, 531)
-        Me.c1StatusBar1.Name = "c1StatusBar1"
-        Me.c1StatusBar1.RightPaneItems.Add(Me.RibbonLabel3)
-        Me.c1StatusBar1.RightPaneItems.Add(Me.StUsuario)
-        Me.c1StatusBar1.RightPaneItems.Add(Me.StLic)
-        Me.c1StatusBar1.Size = New System.Drawing.Size(1317, 22)
-        Me.C1ThemeController1.SetTheme(Me.c1StatusBar1, "VS2013Blue")
-        '
-        'RibbonSeparator13
-        '
-        Me.RibbonSeparator13.Name = "RibbonSeparator13"
-        '
-        'StbtnServidor
-        '
-        Me.StbtnServidor.Name = "StbtnServidor"
-        Me.StbtnServidor.Text = "___________________"
-        '
-        'StBase
-        '
-        Me.StBase.Name = "StBase"
-        Me.StBase.Text = "Base"
-        '
-        'StbtnBase
-        '
-        Me.StbtnBase.Name = "StbtnBase"
-        Me.StbtnBase.Text = "____________"
-        '
-        'Ltx1
-        '
-        Me.Ltx1.Name = "Ltx1"
-        Me.Ltx1.Text = "                                 "
-        '
-        'RibbonLabel4
-        '
-        Me.RibbonLabel4.Name = "RibbonLabel4"
-        Me.RibbonLabel4.Text = "                  "
-        '
-        'StVersion
-        '
-        Me.StVersion.Name = "StVersion"
-        Me.StVersion.Text = "___________________"
-        '
-        'RibbonSeparator4
-        '
-        Me.RibbonSeparator4.Name = "RibbonSeparator4"
-        '
-        'StModulo
-        '
-        Me.StModulo.Name = "StModulo"
-        Me.StModulo.Text = "              "
-        '
-        'StUserWindows
-        '
-        Me.StUserWindows.Name = "StUserWindows"
-        Me.StUserWindows.Text = "Usuario windows"
-        '
-        'StLicencia
-        '
-        Me.StLicencia.Name = "StLicencia"
-        Me.StLicencia.Text = "_______________"
-        '
-        'StSerieLic
-        '
-        Me.StSerieLic.Name = "StSerieLic"
-        Me.StSerieLic.Text = "_____"
-        '
-        'StUsuario
-        '
-        Me.StUsuario.Name = "StUsuario"
-        Me.StUsuario.Text = "_________"
-        '
-        'StLic
-        '
-        Me.StLic.Name = "StLic"
-        Me.StLic.Text = "                         ---"
-        '
-        'Timer1
-        '
-        Me.Timer1.Enabled = True
-        Me.Timer1.Interval = 180000
-        '
-        'C1ThemeController1
-        '
-        Me.C1ThemeController1.Theme = "VS2013Blue"
-        '
-        'Tab1
-        '
-        Me.Tab1.BackColor = System.Drawing.Color.FromArgb(CType(CType(207, Byte), Integer), CType(CType(214, Byte), Integer), CType(CType(229, Byte), Integer))
-        Me.Tab1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Tab1.CanCloseTabs = True
-        Me.Tab1.CanMoveTabs = True
-        Me.Tab1.CloseBox = C1.Win.C1Command.CloseBoxPositionEnum.AllPages
-        Me.Tab1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Tab1.HotTrack = True
-        Me.Tab1.Location = New System.Drawing.Point(0, 146)
-        Me.Tab1.Name = "Tab1"
-        Me.Tab1.SelectedTabBold = True
-        Me.Tab1.ShowCaption = True
-        Me.Tab1.ShowTabList = True
-        Me.Tab1.Size = New System.Drawing.Size(1317, 385)
-        Me.Tab1.TabAreaBorder = True
-        Me.Tab1.TabIndex = 7
-        Me.Tab1.TabSizeMode = C1.Win.C1Command.TabSizeModeEnum.Fit
-        Me.Tab1.TabsShowFocusCues = False
-        Me.Tab1.TabsSpacing = 2
-        Me.Tab1.TabStyle = C1.Win.C1Command.TabStyleEnum.Office2007
-        Me.C1ThemeController1.SetTheme(Me.Tab1, "VS2013Blue")
-        '
-        'RibbonGroup5
-        '
-        Me.RibbonGroup5.Items.Add(Me.RibMonitorUsuarios)
-        Me.RibbonGroup5.Name = "RibbonGroup5"
-        '
-        'StServidor
-        '
-        Me.StServidor.Name = "StServidor"
-        Me.StServidor.SmallImage = Global.SGT_Transport.My.Resources.Resources.SQL6
-        Me.StServidor.Text = "Servidor"
-        '
-        'StEmpresa
-        '
-        Me.StEmpresa.Name = "StEmpresa"
-        Me.StEmpresa.SmallImage = Global.SGT_Transport.My.Resources.Resources.empresa16
-        Me.StEmpresa.Text = "_______"
-        '
-        'RibbonLabel3
-        '
-        Me.RibbonLabel3.Name = "RibbonLabel3"
-        Me.RibbonLabel3.SmallImage = Global.SGT_Transport.My.Resources.Resources.user21
-        Me.RibbonLabel3.Text = "Usuario"
-        '
         'BarSelEmpresa
         '
         Me.BarSelEmpresa.LargeImage = Global.SGT_Transport.My.Resources.Resources.empresa1
         Me.BarSelEmpresa.Name = "BarSelEmpresa"
         Me.BarSelEmpresa.Text = "Sel. Empresa"
+        '
+        'RibbonSeparator6
+        '
+        Me.RibbonSeparator6.Name = "RibbonSeparator6"
         '
         'BarCreaInsertData
         '
@@ -1342,6 +621,10 @@ Partial Class MainRibbonForm
         Me.MnuManagamentSQL.Name = "MnuManagamentSQL"
         Me.MnuManagamentSQL.Text = "Managament SQL"
         '
+        'RibbonSeparator1
+        '
+        Me.RibbonSeparator1.Name = "RibbonSeparator1"
+        '
         'MnuReporteador
         '
         Me.MnuReporteador.LargeImage = Global.SGT_Transport.My.Resources.Resources.edit1
@@ -1353,6 +636,18 @@ Partial Class MainRibbonForm
         Me.BarSalir.LargeImage = Global.SGT_Transport.My.Resources.Resources.puertasalida
         Me.BarSalir.Name = "BarSalir"
         Me.BarSalir.Text = "Salir"
+        '
+        'RibbonBottomToolBar1
+        '
+        Me.RibbonBottomToolBar1.Name = "RibbonBottomToolBar1"
+        Me.RibbonBottomToolBar1.Visible = False
+        '
+        'ConfigToolBar
+        '
+        Me.ConfigToolBar.Items.Add(Me.colorSchemeMenu)
+        Me.ConfigToolBar.Items.Add(Me.MinimizeRibbonButton)
+        Me.ConfigToolBar.Items.Add(Me.ExpandRibbonButton)
+        Me.ConfigToolBar.Name = "ConfigToolBar"
         '
         'colorSchemeMenu
         '
@@ -1554,6 +849,53 @@ Partial Class MainRibbonForm
         Me.ExpandRibbonButton.SmallImage = CType(resources.GetObject("ExpandRibbonButton.SmallImage"), System.Drawing.Image)
         Me.ExpandRibbonButton.ToolTip = "Expand the Ribbon"
         Me.ExpandRibbonButton.Visible = False
+        '
+        'Qat
+        '
+        Me.Qat.HotItemLinks.Add(Me.BarSelEmpresa)
+        Me.Qat.ItemLinks.Add(Me.BarSelEmpresa)
+        Me.Qat.ItemLinks.Add(Me.RibbonSeparator1)
+        Me.Qat.ItemLinks.Add(Me.BarSalir)
+        Me.Qat.Name = "Qat"
+        '
+        'TabCatalogos
+        '
+        Me.TabCatalogos.Groups.Add(Me.RibbonGroup11)
+        Me.TabCatalogos.Groups.Add(Me.RibbonRutas)
+        Me.TabCatalogos.Groups.Add(Me.RibbCatalogos)
+        Me.TabCatalogos.Groups.Add(Me.RibCatPepe)
+        Me.TabCatalogos.Name = "TabCatalogos"
+        Me.TabCatalogos.Text = "Catálogos"
+        '
+        'RibbonGroup11
+        '
+        Me.RibbonGroup11.Items.Add(Me.BarDescargaMasivaSAT)
+        Me.RibbonGroup11.Items.Add(Me.TabMnuClientes)
+        Me.RibbonGroup11.Items.Add(Me.BarClientes)
+        Me.RibbonGroup11.Items.Add(Me.BarProveedores)
+        Me.RibbonGroup11.Items.Add(Me.BarOperadores)
+        Me.RibbonGroup11.Items.Add(Me.TabMnuProv)
+        Me.RibbonGroup11.Items.Add(Me.BarServiciosDeVenta)
+        Me.RibbonGroup11.Items.Add(Me.BarContratos)
+        Me.RibbonGroup11.Items.Add(Me.barProveedores3)
+        Me.RibbonGroup11.Items.Add(Me.BarProdCargar)
+        Me.RibbonGroup11.Items.Add(Me.BarConceptosGastos)
+        Me.RibbonGroup11.Items.Add(Me.BarRutas)
+        Me.RibbonGroup11.Items.Add(Me.BarTractos)
+        Me.RibbonGroup11.Items.Add(Me.BarTanques)
+        Me.RibbonGroup11.Items.Add(Me.BarDollys)
+        Me.RibbonGroup11.Items.Add(Me.BarMaarca)
+        Me.RibbonGroup11.Items.Add(Me.BarFormaPago)
+        Me.RibbonGroup11.Items.Add(Me.BarCalendarios)
+        Me.RibbonGroup11.Items.Add(Me.BarDepto)
+        Me.RibbonGroup11.Items.Add(Me.BarPuestos)
+        Me.RibbonGroup11.Items.Add(Me.BarBancos)
+        Me.RibbonGroup11.Items.Add(Me.BarConcCxC)
+        Me.RibbonGroup11.Items.Add(Me.BarFormasPago1)
+        Me.RibbonGroup11.Items.Add(Me.BarConcPrestamos)
+        Me.RibbonGroup11.Items.Add(Me.RibbonToolBar1)
+        Me.RibbonGroup11.Items.Add(Me.RibbonToolBar2)
+        Me.RibbonGroup11.Name = "RibbonGroup11"
         '
         'BarDescargaMasivaSAT
         '
@@ -1849,6 +1191,21 @@ Partial Class MainRibbonForm
         Me.BarConcPrestamos.Text = "Conceptos de prestamos"
         Me.BarConcPrestamos.Visible = False
         '
+        'RibbonToolBar1
+        '
+        Me.RibbonToolBar1.Name = "RibbonToolBar1"
+        '
+        'RibbonToolBar2
+        '
+        Me.RibbonToolBar2.Name = "RibbonToolBar2"
+        '
+        'RibbonRutas
+        '
+        Me.RibbonRutas.Items.Add(Me.BarTabRutasFlex)
+        Me.RibbonRutas.Items.Add(Me.BarTabRutasEspeciales)
+        Me.RibbonRutas.Name = "RibbonRutas"
+        Me.RibbonRutas.Text = "Tabulador de rutas"
+        '
         'BarTabRutasFlex
         '
         Me.BarTabRutasFlex.LargeImage = CType(resources.GetObject("BarTabRutasFlex.LargeImage"), System.Drawing.Image)
@@ -1861,6 +1218,15 @@ Partial Class MainRibbonForm
         Me.BarTabRutasEspeciales.Name = "BarTabRutasEspeciales"
         Me.BarTabRutasEspeciales.Text = "Rutas especiales"
         Me.BarTabRutasEspeciales.Visible = False
+        '
+        'RibbCatalogos
+        '
+        Me.RibbCatalogos.Items.Add(Me.BarTrafico)
+        Me.RibbCatalogos.Items.Add(Me.TabMnuEmpleados)
+        Me.RibbCatalogos.Items.Add(Me.TabMnuCat)
+        Me.RibbCatalogos.Items.Add(Me.RibbonToolBar9)
+        Me.RibbCatalogos.Name = "RibbCatalogos"
+        Me.RibbCatalogos.Text = "Catálogos"
         '
         'BarTrafico
         '
@@ -2289,6 +1655,29 @@ Partial Class MainRibbonForm
         Me.MnuConcepSalidaFlujoEfectivo.Name = "MnuConcepSalidaFlujoEfectivo"
         Me.MnuConcepSalidaFlujoEfectivo.Text = "Conceptos de salida de flujo de efectivo"
         '
+        'RibbonToolBar9
+        '
+        Me.RibbonToolBar9.Name = "RibbonToolBar9"
+        '
+        'RibCatPepe
+        '
+        Me.RibCatPepe.Items.Add(Me.RibTipoActivos)
+        Me.RibCatPepe.Items.Add(Me.BarActivos)
+        Me.RibCatPepe.Items.Add(Me.BarAseguradoras)
+        Me.RibCatPepe.Items.Add(Me.BarInventario)
+        Me.RibCatPepe.Items.Add(Me.BarUniMed1)
+        Me.RibCatPepe.Items.Add(Me.BarLineasProductos2)
+        Me.RibCatPepe.Items.Add(Me.RibbListaPrecios)
+        Me.RibCatPepe.Items.Add(Me.BarPrecios1)
+        Me.RibCatPepe.Items.Add(Me.BarImpuestos1)
+        Me.RibCatPepe.Items.Add(Me.BarImpuestoAño)
+        Me.RibCatPepe.Items.Add(Me.BarImpuestoMes)
+        Me.RibCatPepe.Items.Add(Me.BarAlmacenes1)
+        Me.RibCatPepe.Items.Add(Me.BarMultialmacen1)
+        Me.RibCatPepe.Items.Add(Me.BarConcMinve1)
+        Me.RibCatPepe.Items.Add(Me.RibPePeTesoreria)
+        Me.RibCatPepe.Name = "RibCatPepe"
+        '
         'RibTipoActivos
         '
         Me.RibTipoActivos.LargeImage = Global.SGT_Transport.My.Resources.Resources.activo1
@@ -2399,6 +1788,15 @@ Partial Class MainRibbonForm
         Me.RibTesBeneficiariosBancarios.Name = "RibTesBeneficiariosBancarios"
         Me.RibTesBeneficiariosBancarios.Text = "Cuentas bancaria de la empresa"
         '
+        'TabViajes
+        '
+        Me.TabViajes.Groups.Add(Me.GroupCat)
+        Me.TabViajes.Groups.Add(Me.GroupComercial)
+        Me.TabViajes.Groups.Add(Me.RibbonGroup1)
+        Me.TabViajes.Groups.Add(Me.RRibReportesLogistica)
+        Me.TabViajes.Name = "TabViajes"
+        Me.TabViajes.Text = "Logistica"
+        '
         'GroupCat
         '
         Me.GroupCat.Image = CType(resources.GetObject("GroupCat.Image"), System.Drawing.Image)
@@ -2451,6 +1849,13 @@ Partial Class MainRibbonForm
         Me.BarCasetasXRuta.SmallImage = CType(resources.GetObject("BarCasetasXRuta.SmallImage"), System.Drawing.Image)
         Me.BarCasetasXRuta.Text = "Casetas por ruta"
         '
+        'GroupComercial
+        '
+        Me.GroupComercial.Items.Add(Me.BarStatusUnidades)
+        Me.GroupComercial.Items.Add(Me.BarStatusOperadores)
+        Me.GroupComercial.Name = "GroupComercial"
+        Me.GroupComercial.Text = "Operación"
+        '
         'BarStatusUnidades
         '
         Me.BarStatusUnidades.LargeImage = Global.SGT_Transport.My.Resources.Resources.Esta_unid
@@ -2464,6 +1869,17 @@ Partial Class MainRibbonForm
         Me.BarStatusOperadores.Name = "BarStatusOperadores"
         Me.BarStatusOperadores.SmallImage = CType(resources.GetObject("BarStatusOperadores.SmallImage"), System.Drawing.Image)
         Me.BarStatusOperadores.Text = "Seguimiento de viajes"
+        '
+        'RibbonGroup1
+        '
+        Me.RibbonGroup1.Items.Add(Me.BarTabRutas)
+        Me.RibbonGroup1.Items.Add(Me.BarAsignacionViajes)
+        Me.RibbonGroup1.Items.Add(Me.BarCartaPorte)
+        Me.RibbonGroup1.Items.Add(Me.BarBajaViajes)
+        Me.RibbonGroup1.Items.Add(Me.BarConciliacionValesCombus)
+        Me.RibbonGroup1.Items.Add(Me.TabMnuComercial)
+        Me.RibbonGroup1.Name = "RibbonGroup1"
+        Me.RibbonGroup1.Text = "Control de viajes"
         '
         'BarTabRutas
         '
@@ -2526,6 +1942,12 @@ Partial Class MainRibbonForm
         Me.MnuCotizador.Name = "MnuCotizador"
         Me.MnuCotizador.Text = "Cotizador"
         '
+        'RRibReportesLogistica
+        '
+        Me.RRibReportesLogistica.Items.Add(Me.RibbonMenu6)
+        Me.RRibReportesLogistica.Name = "RRibReportesLogistica"
+        Me.RRibReportesLogistica.Text = "Reportes logística"
+        '
         'RibbonMenu6
         '
         Me.RibbonMenu6.Items.Add(Me.RLogisticaRep_CartaPorteXRecibir)
@@ -2583,6 +2005,27 @@ Partial Class MainRibbonForm
         Me.RLogisticaRep_Precursores.SmallImage = Global.SGT_Transport.My.Resources.Resources.docu21
         Me.RLogisticaRep_Precursores.Text = "Precursores"
         '
+        'TabTesoreria
+        '
+        Me.TabTesoreria.Groups.Add(Me.GpoTesoreria)
+        Me.TabTesoreria.Groups.Add(Me.GpoTesoreriaComprobantePago)
+        Me.TabTesoreria.Groups.Add(Me.RibTesoreriaPagoCompras)
+        Me.TabTesoreria.Groups.Add(Me.GpoConsultas)
+        Me.TabTesoreria.Name = "TabTesoreria"
+        Me.TabTesoreria.Text = "Tesoreria"
+        '
+        'GpoTesoreria
+        '
+        Me.GpoTesoreria.Items.Add(Me.BarTesoreria)
+        Me.GpoTesoreria.Items.Add(Me.BarDeducOper)
+        Me.GpoTesoreria.Items.Add(Me.BarReporteDeduc)
+        Me.GpoTesoreria.Items.Add(Me.RibSaldosOperadores)
+        Me.GpoTesoreria.Items.Add(Me.RibEdoCtaGenOper)
+        Me.GpoTesoreria.Items.Add(Me.MnuCatGastos)
+        Me.GpoTesoreria.Items.Add(Me.RibTesGastos)
+        Me.GpoTesoreria.Name = "GpoTesoreria"
+        Me.GpoTesoreria.Text = "Tesoreria"
+        '
         'BarTesoreria
         '
         Me.BarTesoreria.LargeImage = Global.SGT_Transport.My.Resources.Resources.TesoAutoGastos
@@ -2625,11 +2068,25 @@ Partial Class MainRibbonForm
         Me.RibTesGastos.Name = "RibTesGastos"
         Me.RibTesGastos.Text = "Gastos administrativos"
         '
+        'GpoTesoreriaComprobantePago
+        '
+        Me.GpoTesoreriaComprobantePago.Items.Add(Me.RibSaldosClientes)
+        Me.GpoTesoreriaComprobantePago.Items.Add(Me.RibbonSeparator15)
+        Me.GpoTesoreriaComprobantePago.Items.Add(Me.RibTesoreriaAltaCxC)
+        Me.GpoTesoreriaComprobantePago.Items.Add(Me.RibTesoreriaPagoMult)
+        Me.GpoTesoreriaComprobantePago.Items.Add(Me.RibTesoreriaComprobantePagoCFDI)
+        Me.GpoTesoreriaComprobantePago.Name = "GpoTesoreriaComprobantePago"
+        Me.GpoTesoreriaComprobantePago.Text = "Comprobantes de pago"
+        '
         'RibSaldosClientes
         '
         Me.RibSaldosClientes.LargeImage = Global.SGT_Transport.My.Resources.Resources.empresario1
         Me.RibSaldosClientes.Name = "RibSaldosClientes"
         Me.RibSaldosClientes.Text = "Saldos de clientes"
+        '
+        'RibbonSeparator15
+        '
+        Me.RibbonSeparator15.Name = "RibbonSeparator15"
         '
         'RibTesoreriaAltaCxC
         '
@@ -2648,6 +2105,15 @@ Partial Class MainRibbonForm
         Me.RibTesoreriaComprobantePagoCFDI.LargeImage = CType(resources.GetObject("RibTesoreriaComprobantePagoCFDI.LargeImage"), System.Drawing.Image)
         Me.RibTesoreriaComprobantePagoCFDI.Name = "RibTesoreriaComprobantePagoCFDI"
         Me.RibTesoreriaComprobantePagoCFDI.Text = "Complemento pago CFDI"
+        '
+        'RibTesoreriaPagoCompras
+        '
+        Me.RibTesoreriaPagoCompras.Items.Add(Me.RibTesoreriaAltaCxP)
+        Me.RibTesoreriaPagoCompras.Items.Add(Me.RibPagoMultProvCxP)
+        Me.RibTesoreriaPagoCompras.Items.Add(Me.RibTesoreriaComprobantePagoCompras)
+        Me.RibTesoreriaPagoCompras.Items.Add(Me.RibSolPagoProv)
+        Me.RibTesoreriaPagoCompras.Name = "RibTesoreriaPagoCompras"
+        Me.RibTesoreriaPagoCompras.Text = "Pago compas"
         '
         'RibTesoreriaAltaCxP
         '
@@ -2673,6 +2139,15 @@ Partial Class MainRibbonForm
         Me.RibSolPagoProv.Name = "RibSolPagoProv"
         Me.RibSolPagoProv.Text = "Solicitud pago proveedores"
         '
+        'GpoConsultas
+        '
+        Me.GpoConsultas.Items.Add(Me.RibTesoreriaConsultaBancaria)
+        Me.GpoConsultas.Items.Add(Me.RibBMovs)
+        Me.GpoConsultas.Items.Add(Me.RibConcepBanc)
+        Me.GpoConsultas.Items.Add(Me.RibBenef)
+        Me.GpoConsultas.Name = "GpoConsultas"
+        Me.GpoConsultas.Text = "Bancos"
+        '
         'RibTesoreriaConsultaBancaria
         '
         Me.RibTesoreriaConsultaBancaria.LargeImage = CType(resources.GetObject("RibTesoreriaConsultaBancaria.LargeImage"), System.Drawing.Image)
@@ -2696,6 +2171,23 @@ Partial Class MainRibbonForm
         Me.RibBenef.LargeImage = CType(resources.GetObject("RibBenef.LargeImage"), System.Drawing.Image)
         Me.RibBenef.Name = "RibBenef"
         Me.RibBenef.Text = "Benefecarios bancarios"
+        '
+        'TabFacturacion
+        '
+        Me.TabFacturacion.Groups.Add(Me.RibbonGroup2)
+        Me.TabFacturacion.Name = "TabFacturacion"
+        Me.TabFacturacion.Text = "Facturación"
+        '
+        'RibbonGroup2
+        '
+        Me.RibbonGroup2.Items.Add(Me.BarConcilCartaPorte)
+        Me.RibbonGroup2.Items.Add(Me.BarCxC)
+        Me.RibbonGroup2.Items.Add(Me.BarListaprecios)
+        Me.RibbonGroup2.Items.Add(Me.BarProveedores5)
+        Me.RibbonGroup2.Items.Add(Me.BarDiesel1)
+        Me.RibbonGroup2.Items.Add(Me.BarResumenFacturas)
+        Me.RibbonGroup2.Items.Add(Me.BarResumenFacturas1)
+        Me.RibbonGroup2.Name = "RibbonGroup2"
         '
         'BarConcilCartaPorte
         '
@@ -2743,6 +2235,21 @@ Partial Class MainRibbonForm
         Me.BarResumenFacturas1.Name = "BarResumenFacturas1"
         Me.BarResumenFacturas1.Text = "Relacion de kilometraje"
         '
+        'TabLiquidacion
+        '
+        Me.TabLiquidacion.Groups.Add(Me.RibbonGroup12)
+        Me.TabLiquidacion.Groups.Add(Me.GReportes)
+        Me.TabLiquidacion.Name = "TabLiquidacion"
+        Me.TabLiquidacion.Text = "Liquidación"
+        '
+        'RibbonGroup12
+        '
+        Me.RibbonGroup12.Items.Add(Me.BarLiquidaciones)
+        Me.RibbonGroup12.Items.Add(Me.BarConsignacion2)
+        Me.RibbonGroup12.Items.Add(Me.BarDeducciones)
+        Me.RibbonGroup12.Items.Add(Me.BarMotivosCancel)
+        Me.RibbonGroup12.Name = "RibbonGroup12"
+        '
         'BarLiquidaciones
         '
         Me.BarLiquidaciones.LargeImage = Global.SGT_Transport.My.Resources.Resources.Liquidacion
@@ -2769,6 +2276,12 @@ Partial Class MainRibbonForm
         Me.BarMotivosCancel.Name = "BarMotivosCancel"
         Me.BarMotivosCancel.Text = "Motivo cancelaciones"
         '
+        'GReportes
+        '
+        Me.GReportes.Items.Add(Me.BarMenuReportes11)
+        Me.GReportes.Name = "GReportes"
+        Me.GReportes.Text = "Reportes"
+        '
         'BarMenuReportes11
         '
         Me.BarMenuReportes11.GripHandleVisible = True
@@ -2778,6 +2291,7 @@ Partial Class MainRibbonForm
         Me.BarMenuReportes11.Items.Add(Me.RLiq_Rep_ViajesXOperador)
         Me.BarMenuReportes11.Items.Add(Me.RLiq_Rep_EstadoCtaGenOper)
         Me.BarMenuReportes11.Items.Add(Me.RLiq_Rep_Pension)
+        Me.BarMenuReportes11.Items.Add(Me.RLiq_Rep_Casetas)
         Me.BarMenuReportes11.LargeImage = CType(resources.GetObject("BarMenuReportes11.LargeImage"), System.Drawing.Image)
         Me.BarMenuReportes11.LargeItemDropDownWidth = 99
         Me.BarMenuReportes11.Name = "BarMenuReportes11"
@@ -2822,6 +2336,29 @@ Partial Class MainRibbonForm
         Me.RLiq_Rep_Pension.SmallImage = Global.SGT_Transport.My.Resources.Resources.conta6
         Me.RLiq_Rep_Pension.Text = "Pensión Alimenticia"
         '
+        'RLiq_Rep_Casetas
+        '
+        Me.RLiq_Rep_Casetas.Name = "RLiq_Rep_Casetas"
+        Me.RLiq_Rep_Casetas.SmallImage = Global.SGT_Transport.My.Resources.Resources.casetaT4
+        Me.RLiq_Rep_Casetas.Text = "Casetas"
+        '
+        'TabVentas
+        '
+        Me.TabVentas.Groups.Add(Me.GpoCFDI)
+        Me.TabVentas.Groups.Add(Me.GpoPuntoVenta)
+        Me.TabVentas.Groups.Add(Me.GrupoRibDoc)
+        Me.TabVentas.Groups.Add(Me.GrupoRibCompPago)
+        Me.TabVentas.Groups.Add(Me.GpoReportes)
+        Me.TabVentas.Name = "TabVentas"
+        Me.TabVentas.Text = "Ventas"
+        '
+        'GpoCFDI
+        '
+        Me.GpoCFDI.Items.Add(Me.BarFACT_CFDI4)
+        Me.GpoCFDI.Items.Add(Me.BarFacturacion)
+        Me.GpoCFDI.Name = "GpoCFDI"
+        Me.GpoCFDI.Text = "CFDI"
+        '
         'BarFACT_CFDI4
         '
         Me.BarFACT_CFDI4.LargeImage = Global.SGT_Transport.My.Resources.Resources.cfdi71
@@ -2838,6 +2375,13 @@ Partial Class MainRibbonForm
         Me.BarFacturacion.Text = "Facturación"
         Me.BarFacturacion.TextImageRelation = C1.Win.C1Ribbon.TextImageRelation.ImageAboveText
         '
+        'GpoPuntoVenta
+        '
+        Me.GpoPuntoVenta.Items.Add(Me.BarPuntoVenta)
+        Me.GpoPuntoVenta.Items.Add(Me.BarFacturaGlobal)
+        Me.GpoPuntoVenta.Name = "GpoPuntoVenta"
+        Me.GpoPuntoVenta.Text = "Punto de Venta"
+        '
         'BarPuntoVenta
         '
         Me.BarPuntoVenta.LargeImage = Global.SGT_Transport.My.Resources.Resources.pv
@@ -2852,6 +2396,17 @@ Partial Class MainRibbonForm
         Me.BarFacturaGlobal.Name = "BarFacturaGlobal"
         Me.BarFacturaGlobal.SmallImage = CType(resources.GetObject("BarFacturaGlobal.SmallImage"), System.Drawing.Image)
         Me.BarFacturaGlobal.Text = "Factura global de notas de venta"
+        '
+        'GrupoRibDoc
+        '
+        Me.GrupoRibDoc.Items.Add(Me.BarNotaVenta)
+        Me.GrupoRibDoc.Items.Add(Me.BarPedido)
+        Me.GrupoRibDoc.Items.Add(Me.BarCotizaciones)
+        Me.GrupoRibDoc.Items.Add(Me.BarRemisiones)
+        Me.GrupoRibDoc.Items.Add(Me.BarDevolucionVentas)
+        Me.GrupoRibDoc.Items.Add(Me.BarRemisionCartaPorte)
+        Me.GrupoRibDoc.Name = "GrupoRibDoc"
+        Me.GrupoRibDoc.Text = "Documentos"
         '
         'BarNotaVenta
         '
@@ -2900,6 +2455,15 @@ Partial Class MainRibbonForm
         Me.BarRemisionCartaPorte.Text = "Remisión carta porte"
         Me.BarRemisionCartaPorte.TextImageRelation = C1.Win.C1Ribbon.TextImageRelation.ImageAboveText
         '
+        'GrupoRibCompPago
+        '
+        Me.GrupoRibCompPago.Items.Add(Me.RibVentasAltaCxC)
+        Me.GrupoRibCompPago.Items.Add(Me.RibVentasPagoMult)
+        Me.GrupoRibCompPago.Items.Add(Me.RibVentasComprobantePagoCFDI)
+        Me.GrupoRibCompPago.Items.Add(Me.RVentas_FlujoCaja)
+        Me.GrupoRibCompPago.Name = "GrupoRibCompPago"
+        Me.GrupoRibCompPago.Text = "Comprobante de pago"
+        '
         'RibVentasAltaCxC
         '
         Me.RibVentasAltaCxC.LargeImage = CType(resources.GetObject("RibVentasAltaCxC.LargeImage"), System.Drawing.Image)
@@ -2924,6 +2488,12 @@ Partial Class MainRibbonForm
         Me.RVentas_FlujoCaja.Name = "RVentas_FlujoCaja"
         Me.RVentas_FlujoCaja.Text = "Flujo de caja"
         '
+        'GpoReportes
+        '
+        Me.GpoReportes.Items.Add(Me.RibReportesVentas)
+        Me.GpoReportes.Name = "GpoReportes"
+        Me.GpoReportes.Text = "Reportes"
+        '
         'RibReportesVentas
         '
         Me.RibReportesVentas.Items.Add(Me.RVentas_ResumenVentas)
@@ -2945,6 +2515,24 @@ Partial Class MainRibbonForm
         Me.RVentas_CorteDelDia.Name = "RVentas_CorteDelDia"
         Me.RVentas_CorteDelDia.SmallImage = Global.SGT_Transport.My.Resources.Resources.gastos80
         Me.RVentas_CorteDelDia.Text = "Corte del dia"
+        '
+        'TabCompras
+        '
+        Me.TabCompras.Groups.Add(Me.RibbonGroup3)
+        Me.TabCompras.Name = "TabCompras"
+        Me.TabCompras.Text = "Compras"
+        '
+        'RibbonGroup3
+        '
+        Me.RibbonGroup3.Items.Add(Me.BarCompras)
+        Me.RibbonGroup3.Items.Add(Me.BarRecepciones)
+        Me.RibbonGroup3.Items.Add(Me.BarOrdenDeCompras)
+        Me.RibbonGroup3.Items.Add(Me.BarRequisiciones)
+        Me.RibbonGroup3.Items.Add(Me.BarComprasDev)
+        Me.RibbonGroup3.Items.Add(Me.BarPreOrdenCompra)
+        Me.RibbonGroup3.Items.Add(Me.BarImportaXML)
+        Me.RibbonGroup3.Items.Add(Me.RibbonMenu2)
+        Me.RibbonGroup3.Name = "RibbonGroup3"
         '
         'BarCompras
         '
@@ -3018,6 +2606,26 @@ Partial Class MainRibbonForm
         Me.RibResumenDeCompras.Name = "RibResumenDeCompras"
         Me.RibResumenDeCompras.Text = "Resumen de compras"
         '
+        'TabControlCombus
+        '
+        Me.TabControlCombus.Groups.Add(Me.RibbonGroup13)
+        Me.TabControlCombus.Name = "TabControlCombus"
+        Me.TabControlCombus.Text = "Control de combustible"
+        '
+        'RibbonGroup13
+        '
+        Me.RibbonGroup13.Items.Add(Me.BarNivelCombustible)
+        Me.RibbonGroup13.Items.Add(Me.BarMedicionCombustible)
+        Me.RibbonGroup13.Items.Add(Me.BarReset)
+        Me.RibbonGroup13.Items.Add(Me.BarTabuladorCombustible)
+        Me.RibbonGroup13.Items.Add(Me.BarCatTanques)
+        Me.RibbonGroup13.Items.Add(Me.BarIndicadorDepto)
+        Me.RibbonGroup13.Items.Add(Me.BarCatEvaluaciones)
+        Me.RibbonGroup13.Items.Add(Me.BarNumGen)
+        Me.RibbonGroup13.Items.Add(Me.BarCriteriosEva)
+        Me.RibbonGroup13.Items.Add(Me.BarAsignacionDiesel)
+        Me.RibbonGroup13.Name = "RibbonGroup13"
+        '
         'BarNivelCombustible
         '
         Me.BarNivelCombustible.LargeImage = Global.SGT_Transport.My.Resources.Resources.nivel_combustible
@@ -3086,6 +2694,32 @@ Partial Class MainRibbonForm
         Me.BarAsignacionDiesel.Name = "BarAsignacionDiesel"
         Me.BarAsignacionDiesel.SmallImage = CType(resources.GetObject("BarAsignacionDiesel.SmallImage"), System.Drawing.Image)
         Me.BarAsignacionDiesel.Text = "Asignación diesel"
+        '
+        'TabMante
+        '
+        Me.TabMante.Groups.Add(Me.RibbonGroup4)
+        Me.TabMante.Groups.Add(Me.GpoMante)
+        Me.TabMante.Groups.Add(Me.GpoReportMante)
+        Me.TabMante.Name = "TabMante"
+        Me.TabMante.Text = "Mantenimiento"
+        '
+        'RibbonGroup4
+        '
+        Me.RibbonGroup4.Items.Add(Me.TabMnuLlantas)
+        Me.RibbonGroup4.Items.Add(Me.BarLlantasMarca)
+        Me.RibbonGroup4.Items.Add(Me.BarLlantasTipo)
+        Me.RibbonGroup4.Items.Add(Me.BarLlantasStatus)
+        Me.RibbonGroup4.Items.Add(Me.BarLlantasModelo)
+        Me.RibbonGroup4.Items.Add(Me.BarLlantasMed)
+        Me.RibbonGroup4.Items.Add(Me.BarLlantas)
+        Me.RibbonGroup4.Items.Add(Me.BarLlantasAct)
+        Me.RibbonGroup4.Items.Add(Me.BarLlantasMante)
+        Me.RibbonGroup4.Items.Add(Me.BarClasificServicios)
+        Me.RibbonGroup4.Items.Add(Me.BarReporteLLantas)
+        Me.RibbonGroup4.Items.Add(Me.BarPrograServicios)
+        Me.RibbonGroup4.Items.Add(Me.RibbonMenu4)
+        Me.RibbonGroup4.Items.Add(Me.BarOrdenesDeTrabajo)
+        Me.RibbonGroup4.Name = "RibbonGroup4"
         '
         'TabMnuLlantas
         '
@@ -3276,6 +2910,13 @@ Partial Class MainRibbonForm
         Me.BarOrdenesDeTrabajo.Text = "Ordenes de trabajo"
         Me.BarOrdenesDeTrabajo.Visible = False
         '
+        'GpoMante
+        '
+        Me.GpoMante.Items.Add(Me.BarOrdenesDeTrabajoExternas)
+        Me.GpoMante.Items.Add(Me.BarOrdenDeTrabajoManto)
+        Me.GpoMante.Name = "GpoMante"
+        Me.GpoMante.Text = "Ordenes de trabajo"
+        '
         'BarOrdenesDeTrabajoExternas
         '
         Me.BarOrdenesDeTrabajoExternas.LargeImage = Global.SGT_Transport.My.Resources.Resources.Mantenimiento
@@ -3287,6 +2928,13 @@ Partial Class MainRibbonForm
         Me.BarOrdenDeTrabajoManto.LargeImage = Global.SGT_Transport.My.Resources.Resources.camion_reparto
         Me.BarOrdenDeTrabajoManto.Name = "BarOrdenDeTrabajoManto"
         Me.BarOrdenDeTrabajoManto.Text = "Ordenes de trabajo externas"
+        '
+        'GpoReportMante
+        '
+        Me.GpoReportMante.Items.Add(Me.BarMenuReportes)
+        Me.GpoReportMante.Items.Add(Me.BarConsulMinveOT)
+        Me.GpoReportMante.Name = "GpoReportMante"
+        Me.GpoReportMante.Text = "Reportes"
         '
         'BarMenuReportes
         '
@@ -3403,6 +3051,24 @@ Partial Class MainRibbonForm
         Me.BarConsulMinveOT.SmallImage = CType(resources.GetObject("BarConsulMinveOT.SmallImage"), System.Drawing.Image)
         Me.BarConsulMinveOT.Text = "Consulta movimientos al inventario OT"
         '
+        'TabInventario
+        '
+        Me.TabInventario.Groups.Add(Me.TabInvRefac)
+        Me.TabInventario.Groups.Add(Me.TabInvMovsInv)
+        Me.TabInventario.Groups.Add(Me.TabInvVarios)
+        Me.TabInventario.Name = "TabInventario"
+        Me.TabInventario.Text = "Inventario"
+        '
+        'TabInvRefac
+        '
+        Me.TabInvRefac.Items.Add(Me.BarINVER)
+        Me.TabInvRefac.Items.Add(Me.BarMINVE)
+        Me.TabInvRefac.Items.Add(Me.BarAlmacenesR)
+        Me.TabInvRefac.Items.Add(Me.BarMultialmacenR)
+        Me.TabInvRefac.Name = "TabInvRefac"
+        Me.TabInvRefac.Text = "REFACCIONES"
+        Me.TabInvRefac.Visible = False
+        '
         'BarINVER
         '
         Me.BarINVER.LargeImage = Global.SGT_Transport.My.Resources.Resources.exist3
@@ -3431,6 +3097,14 @@ Partial Class MainRibbonForm
         Me.BarMultialmacenR.SmallImage = CType(resources.GetObject("BarMultialmacenR.SmallImage"), System.Drawing.Image)
         Me.BarMultialmacenR.Text = "Multialmacen"
         '
+        'TabInvMovsInv
+        '
+        Me.TabInvMovsInv.Items.Add(Me.BarServiciosDeInventario)
+        Me.TabInvMovsInv.Items.Add(Me.BarMovsInvOT)
+        Me.TabInvMovsInv.Items.Add(Me.BarMinveTOT)
+        Me.TabInvMovsInv.Items.Add(Me.BarLineasProductos1)
+        Me.TabInvMovsInv.Name = "TabInvMovsInv"
+        '
         'BarServiciosDeInventario
         '
         Me.BarServiciosDeInventario.LargeImage = Global.SGT_Transport.My.Resources.Resources.ProducyServ
@@ -3456,6 +3130,20 @@ Partial Class MainRibbonForm
         Me.BarLineasProductos1.Name = "BarLineasProductos1"
         Me.BarLineasProductos1.SmallImage = CType(resources.GetObject("BarLineasProductos1.SmallImage"), System.Drawing.Image)
         Me.BarLineasProductos1.Text = "Consulta movimientos al inventario OT"
+        '
+        'TabInvVarios
+        '
+        Me.TabInvVarios.Items.Add(Me.BarConsultaListaPrec)
+        Me.TabInvVarios.Items.Add(Me.BarPrecios)
+        Me.TabInvVarios.Items.Add(Me.BarImpuestos)
+        Me.TabInvVarios.Items.Add(Me.BarConcMinve)
+        Me.TabInvVarios.Items.Add(Me.BarAlmacenes)
+        Me.TabInvVarios.Items.Add(Me.BarMultialmacen)
+        Me.TabInvVarios.Items.Add(Me.BarLineasProductos)
+        Me.TabInvVarios.Items.Add(Me.BarUniMed)
+        Me.TabInvVarios.Items.Add(Me.BarResumenMovsInv)
+        Me.TabInvVarios.Items.Add(Me.BarCartaPorteTraslado)
+        Me.TabInvVarios.Name = "TabInvVarios"
         '
         'BarConsultaListaPrec
         '
@@ -3520,6 +3208,33 @@ Partial Class MainRibbonForm
         Me.BarCartaPorteTraslado.LargeImage = Global.SGT_Transport.My.Resources.Resources.descarga__1__e0
         Me.BarCartaPorteTraslado.Name = "BarCartaPorteTraslado"
         Me.BarCartaPorteTraslado.Text = "Carta porte Traslado"
+        '
+        'TabConta
+        '
+        Me.TabConta.Groups.Add(Me.RibbonGroup14)
+        Me.TabConta.Groups.Add(Me.RibCierreContable)
+        Me.TabConta.Name = "TabConta"
+        Me.TabConta.Text = "Contabilidad"
+        '
+        'RibbonGroup14
+        '
+        Me.RibbonGroup14.Items.Add(Me.RibbonMenu3)
+        Me.RibbonGroup14.Items.Add(Me.BarPolizaDeCompras)
+        Me.RibbonGroup14.Items.Add(Me.BarPolizaComprasNC)
+        Me.RibbonGroup14.Items.Add(Me.BarPolizaVentaFlete)
+        Me.RibbonGroup14.Items.Add(Me.BarPolizaVentaOtros)
+        Me.RibbonGroup14.Items.Add(Me.BarPolizaEgresosDiesel)
+        Me.RibbonGroup14.Items.Add(Me.BarPolizaFoliosDinero)
+        Me.RibbonGroup14.Items.Add(Me.BarPolizaEgresos)
+        Me.RibbonGroup14.Items.Add(Me.BarPolizaIngresos)
+        Me.RibbonGroup14.Items.Add(Me.BarPolizaLiq)
+        Me.RibbonGroup14.Items.Add(Me.BarPolizaLiq1)
+        Me.RibbonGroup14.Items.Add(Me.RibPolFondoOper)
+        Me.RibbonGroup14.Items.Add(Me.RibbonMenu5)
+        Me.RibbonGroup14.Items.Add(Me.RibbonMenu7)
+        Me.RibbonGroup14.Items.Add(Me.BarContabilidadConsultas)
+        Me.RibbonGroup14.Items.Add(Me.RibbonMenu8)
+        Me.RibbonGroup14.Name = "RibbonGroup14"
         '
         'RibbonMenu3
         '
@@ -3817,6 +3532,21 @@ Partial Class MainRibbonForm
         Me.RConta_Menu_CC_Gastos.Name = "RConta_Menu_CC_Gastos"
         Me.RConta_Menu_CC_Gastos.Text = "9. Gastos"
         '
+        'TabRecHum
+        '
+        Me.TabRecHum.Groups.Add(Me.RibbonGroup10)
+        Me.TabRecHum.Name = "TabRecHum"
+        Me.TabRecHum.Text = "Recursos humanos"
+        '
+        'RibbonGroup10
+        '
+        Me.RibbonGroup10.Items.Add(Me.BarEmpleados)
+        Me.RibbonGroup10.Items.Add(Me.BarEmpleados1)
+        Me.RibbonGroup10.Items.Add(Me.BarPrestamosPersonales)
+        Me.RibbonGroup10.Items.Add(Me.BarPrestamosInfonavit)
+        Me.RibbonGroup10.Items.Add(Me.RibReportesOperador)
+        Me.RibbonGroup10.Name = "RibbonGroup10"
+        '
         'BarEmpleados
         '
         Me.BarEmpleados.LargeImage = Global.SGT_Transport.My.Resources.Resources.empleados1
@@ -3860,6 +3590,20 @@ Partial Class MainRibbonForm
         Me.RibRHIngresosXOperador.Text = "Ingresos por operador"
         Me.RibRHIngresosXOperador.TextImageRelation = C1.Win.C1Ribbon.TextImageRelation.ImageAboveText
         '
+        'TabLocalizacion
+        '
+        Me.TabLocalizacion.Groups.Add(Me.RibbonGroup6)
+        Me.TabLocalizacion.Name = "TabLocalizacion"
+        Me.TabLocalizacion.Text = "Localización"
+        '
+        'RibbonGroup6
+        '
+        Me.RibbonGroup6.Items.Add(Me.BarEstados)
+        Me.RibbonGroup6.Items.Add(Me.BarLocalidades)
+        Me.RibbonGroup6.Items.Add(Me.BarWebServices)
+        Me.RibbonGroup6.Items.Add(Me.BarPuntosInteres)
+        Me.RibbonGroup6.Name = "RibbonGroup6"
+        '
         'BarEstados
         '
         Me.BarEstados.LargeImage = CType(resources.GetObject("BarEstados.LargeImage"), System.Drawing.Image)
@@ -3885,6 +3629,25 @@ Partial Class MainRibbonForm
         Me.BarPuntosInteres.LargeImage = CType(resources.GetObject("BarPuntosInteres.LargeImage"), System.Drawing.Image)
         Me.BarPuntosInteres.Name = "BarPuntosInteres"
         Me.BarPuntosInteres.Text = "Puntos de Interes"
+        '
+        'TabRep
+        '
+        Me.TabRep.Groups.Add(Me.RibbonGroup7)
+        Me.TabRep.Groups.Add(Me.GpoReportes1)
+        Me.TabRep.Name = "TabRep"
+        Me.TabRep.Text = "Reportes"
+        '
+        'RibbonGroup7
+        '
+        Me.RibbonGroup7.Items.Add(Me.BarReporteFacturas)
+        Me.RibbonGroup7.Items.Add(Me.BarReportePrecioCostos)
+        Me.RibbonGroup7.Items.Add(Me.BarReporteNotasFacturas)
+        Me.RibbonGroup7.Items.Add(Me.BarReporteOrdenesTrabajo)
+        Me.RibbonGroup7.Items.Add(Me.BarReporteDeUnidades)
+        Me.RibbonGroup7.Items.Add(Me.BarReporteDeRefacciones)
+        Me.RibbonGroup7.Items.Add(Me.BarReporteDeTallerExterno)
+        Me.RibbonGroup7.Name = "RibbonGroup7"
+        Me.RibbonGroup7.Text = "Reportes"
         '
         'BarReporteFacturas
         '
@@ -3927,6 +3690,20 @@ Partial Class MainRibbonForm
         Me.BarReporteDeTallerExterno.LargeImage = Global.SGT_Transport.My.Resources.Resources.hoja4
         Me.BarReporteDeTallerExterno.Name = "BarReporteDeTallerExterno"
         Me.BarReporteDeTallerExterno.Text = "Reporte de taller externo"
+        '
+        'GpoReportes1
+        '
+        Me.GpoReportes1.Items.Add(Me.BarOperacionDiaria)
+        Me.GpoReportes1.Items.Add(Me.BarRepGerencial2)
+        Me.GpoReportes1.Items.Add(Me.BarGerencial3)
+        Me.GpoReportes1.Items.Add(Me.BarVtasXProXCteTrackFullRojo)
+        Me.GpoReportes1.Items.Add(Me.RibResumenVentas1)
+        Me.GpoReportes1.Items.Add(Me.BarMenuReportes1)
+        Me.GpoReportes1.Items.Add(Me.RibComparativoPesosReales)
+        Me.GpoReportes1.Items.Add(Me.RibbonMenu61)
+        Me.GpoReportes1.Items.Add(Me.RibbonMenu611)
+        Me.GpoReportes1.Items.Add(Me.RibbonMenu9)
+        Me.GpoReportes1.Name = "GpoReportes1"
         '
         'BarOperacionDiaria
         '
@@ -4110,6 +3887,30 @@ Partial Class MainRibbonForm
         Me.RibConViajesTractor.SmallImage = CType(resources.GetObject("RibConViajesTractor.SmallImage"), System.Drawing.Image)
         Me.RibConViajesTractor.Text = "Viajes por Tractor"
         '
+        'TabConfig
+        '
+        Me.TabConfig.Groups.Add(Me.RibbonGroup9)
+        Me.TabConfig.Groups.Add(Me.RibbonGroup8)
+        Me.TabConfig.Groups.Add(Me.RibAcercaDe)
+        Me.TabConfig.Name = "TabConfig"
+        Me.TabConfig.Text = "Configuración"
+        '
+        'RibbonGroup9
+        '
+        Me.RibbonGroup9.Items.Add(Me.BarEmpresas)
+        Me.RibbonGroup9.Items.Add(Me.BarLicenciamientoMobulos)
+        Me.RibbonGroup9.Items.Add(Me.BarDerechosUsuarios)
+        Me.RibbonGroup9.Items.Add(Me.BarUsuarios)
+        Me.RibbonGroup9.Items.Add(Me.BarParamSistema)
+        Me.RibbonGroup9.Items.Add(Me.BarParamConfig)
+        Me.RibbonGroup9.Items.Add(Me.BarBitacoraUsuarios)
+        Me.RibbonGroup9.Items.Add(Me.BarGRUPOCE)
+        Me.RibbonGroup9.Items.Add(Me.RibbonToolBar3)
+        Me.RibbonGroup9.Items.Add(Me.BarConexionTEA)
+        Me.RibbonGroup9.Items.Add(Me.BarEstacionTrabajo)
+        Me.RibbonGroup9.Name = "RibbonGroup9"
+        Me.RibbonGroup9.Text = "Configuración"
+        '
         'BarEmpresas
         '
         Me.BarEmpresas.LargeImage = Global.SGT_Transport.My.Resources.Resources.empresa4
@@ -4171,6 +3972,10 @@ Partial Class MainRibbonForm
         Me.BarGRUPOCE.SmallImage = CType(resources.GetObject("BarGRUPOCE.SmallImage"), System.Drawing.Image)
         Me.BarGRUPOCE.Text = "Conección Transport"
         '
+        'RibbonToolBar3
+        '
+        Me.RibbonToolBar3.Name = "RibbonToolBar3"
+        '
         'BarConexionTEA
         '
         Me.BarConexionTEA.LargeImage = Global.SGT_Transport.My.Resources.Resources.sql34
@@ -4185,12 +3990,24 @@ Partial Class MainRibbonForm
         Me.BarEstacionTrabajo.SmallImage = CType(resources.GetObject("BarEstacionTrabajo.SmallImage"), System.Drawing.Image)
         Me.BarEstacionTrabajo.Text = "Estaciones de trabajo"
         '
+        'RibbonGroup8
+        '
+        Me.RibbonGroup8.Items.Add(Me.BarDisenador)
+        Me.RibbonGroup8.Name = "RibbonGroup8"
+        Me.RibbonGroup8.Text = "Reporteador"
+        '
         'BarDisenador
         '
         Me.BarDisenador.LargeImage = Global.SGT_Transport.My.Resources.Resources.diseñador
         Me.BarDisenador.Name = "BarDisenador"
         Me.BarDisenador.Text = "Diseñador"
         Me.BarDisenador.TextImageRelation = C1.Win.C1Ribbon.TextImageRelation.ImageAboveText
+        '
+        'RibAcercaDe
+        '
+        Me.RibAcercaDe.Items.Add(Me.BarAcercaDe)
+        Me.RibAcercaDe.Name = "RibAcercaDe"
+        Me.RibAcercaDe.Text = "Acerca de"
         '
         'BarAcercaDe
         '
@@ -4199,6 +4016,22 @@ Partial Class MainRibbonForm
         Me.BarAcercaDe.SmallImage = CType(resources.GetObject("BarAcercaDe.SmallImage"), System.Drawing.Image)
         Me.BarAcercaDe.Text = "Acerca de "
         Me.BarAcercaDe.TextImageRelation = C1.Win.C1Ribbon.TextImageRelation.ImageAboveText
+        '
+        'TabUtilerias
+        '
+        Me.TabUtilerias.Groups.Add(Me.GruBitacora)
+        Me.TabUtilerias.Groups.Add(Me.RibbonGroup191)
+        Me.TabUtilerias.Groups.Add(Me.RibbonGroup5)
+        Me.TabUtilerias.Name = "TabUtilerias"
+        Me.TabUtilerias.Text = "Utilerias"
+        '
+        'GruBitacora
+        '
+        Me.GruBitacora.Items.Add(Me.BarBitacora)
+        Me.GruBitacora.Items.Add(Me.BarActulizacionPrecios)
+        Me.GruBitacora.Items.Add(Me.BarValidarCierre)
+        Me.GruBitacora.Items.Add(Me.BarAjustarKardex1)
+        Me.GruBitacora.Name = "GruBitacora"
         '
         'BarBitacora
         '
@@ -4227,6 +4060,18 @@ Partial Class MainRibbonForm
         Me.BarAjustarKardex1.Name = "BarAjustarKardex1"
         Me.BarAjustarKardex1.Text = "Ajustar kardex"
         '
+        'RibbonGroup191
+        '
+        Me.RibbonGroup191.Items.Add(Me.BarTools2)
+        Me.RibbonGroup191.Items.Add(Me.BarExportarUnidades)
+        Me.RibbonGroup191.Items.Add(Me.RibbonSeparator5)
+        Me.RibbonGroup191.Items.Add(Me.BarAsigLLantasExcel)
+        Me.RibbonGroup191.Items.Add(Me.RibbonToolBar5)
+        Me.RibbonGroup191.Items.Add(Me.RibbonToolBar6)
+        Me.RibbonGroup191.Items.Add(Me.RibbonMenu1)
+        Me.RibbonGroup191.Name = "RibbonGroup191"
+        Me.RibbonGroup191.Text = "Utilerias"
+        '
         'BarTools2
         '
         Me.BarTools2.LargeImage = Global.SGT_Transport.My.Resources.Resources.tools4
@@ -4243,12 +4088,24 @@ Partial Class MainRibbonForm
         Me.BarExportarUnidades.Text = "Importar operadores"
         Me.BarExportarUnidades.Visible = False
         '
+        'RibbonSeparator5
+        '
+        Me.RibbonSeparator5.Name = "RibbonSeparator5"
+        '
         'BarAsigLLantasExcel
         '
         Me.BarAsigLLantasExcel.LargeImage = Global.SGT_Transport.My.Resources.Resources.TOOLS3
         Me.BarAsigLLantasExcel.Name = "BarAsigLLantasExcel"
         Me.BarAsigLLantasExcel.SmallImage = CType(resources.GetObject("BarAsigLLantasExcel.SmallImage"), System.Drawing.Image)
         Me.BarAsigLLantasExcel.Text = "Utilerias"
+        '
+        'RibbonToolBar5
+        '
+        Me.RibbonToolBar5.Name = "RibbonToolBar5"
+        '
+        'RibbonToolBar6
+        '
+        Me.RibbonToolBar6.Name = "RibbonToolBar6"
         '
         'RibbonMenu1
         '
@@ -4330,12 +4187,163 @@ Partial Class MainRibbonForm
         Me.RibValidaExcel.Name = "RibValidaExcel"
         Me.RibValidaExcel.Text = "Validar datos excel"
         '
+        'RibbonGroup5
+        '
+        Me.RibbonGroup5.Items.Add(Me.RibMonitorUsuarios)
+        Me.RibbonGroup5.Name = "RibbonGroup5"
+        '
         'RibMonitorUsuarios
         '
         Me.RibMonitorUsuarios.LargeImage = Global.SGT_Transport.My.Resources.Resources.user4
         Me.RibMonitorUsuarios.Name = "RibMonitorUsuarios"
         Me.RibMonitorUsuarios.SmallImage = Global.SGT_Transport.My.Resources.Resources.user4
         Me.RibMonitorUsuarios.Text = "Monitor de Usuarios"
+        '
+        'RibbonTopToolBar1
+        '
+        Me.RibbonTopToolBar1.Name = "RibbonTopToolBar1"
+        '
+        'c1StatusBar1
+        '
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.StServidor)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.RibbonSeparator13)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.StbtnServidor)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.StBase)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.StbtnBase)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.Ltx1)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.StEmpresa)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.RibbonLabel4)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.StVersion)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.RibbonSeparator4)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.StModulo)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.StUserWindows)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.StLicencia)
+        Me.c1StatusBar1.LeftPaneItems.Add(Me.StSerieLic)
+        Me.c1StatusBar1.Location = New System.Drawing.Point(0, 531)
+        Me.c1StatusBar1.Name = "c1StatusBar1"
+        Me.c1StatusBar1.RightPaneItems.Add(Me.RibbonLabel3)
+        Me.c1StatusBar1.RightPaneItems.Add(Me.StUsuario)
+        Me.c1StatusBar1.RightPaneItems.Add(Me.StLic)
+        Me.c1StatusBar1.Size = New System.Drawing.Size(1317, 22)
+        Me.C1ThemeController1.SetTheme(Me.c1StatusBar1, "VS2013Blue")
+        '
+        'StServidor
+        '
+        Me.StServidor.Name = "StServidor"
+        Me.StServidor.SmallImage = Global.SGT_Transport.My.Resources.Resources.SQL6
+        Me.StServidor.Text = "Servidor"
+        '
+        'RibbonSeparator13
+        '
+        Me.RibbonSeparator13.Name = "RibbonSeparator13"
+        '
+        'StbtnServidor
+        '
+        Me.StbtnServidor.Name = "StbtnServidor"
+        Me.StbtnServidor.Text = "___________________"
+        '
+        'StBase
+        '
+        Me.StBase.Name = "StBase"
+        Me.StBase.Text = "Base"
+        '
+        'StbtnBase
+        '
+        Me.StbtnBase.Name = "StbtnBase"
+        Me.StbtnBase.Text = "____________"
+        '
+        'Ltx1
+        '
+        Me.Ltx1.Name = "Ltx1"
+        Me.Ltx1.Text = "                                 "
+        '
+        'StEmpresa
+        '
+        Me.StEmpresa.Name = "StEmpresa"
+        Me.StEmpresa.SmallImage = Global.SGT_Transport.My.Resources.Resources.empresa16
+        Me.StEmpresa.Text = "_______"
+        '
+        'RibbonLabel4
+        '
+        Me.RibbonLabel4.Name = "RibbonLabel4"
+        Me.RibbonLabel4.Text = "                  "
+        '
+        'StVersion
+        '
+        Me.StVersion.Name = "StVersion"
+        Me.StVersion.Text = "___________________"
+        '
+        'RibbonSeparator4
+        '
+        Me.RibbonSeparator4.Name = "RibbonSeparator4"
+        '
+        'StModulo
+        '
+        Me.StModulo.Name = "StModulo"
+        Me.StModulo.Text = "              "
+        '
+        'StUserWindows
+        '
+        Me.StUserWindows.Name = "StUserWindows"
+        Me.StUserWindows.Text = "Usuario windows"
+        '
+        'StLicencia
+        '
+        Me.StLicencia.Name = "StLicencia"
+        Me.StLicencia.Text = "_______________"
+        '
+        'StSerieLic
+        '
+        Me.StSerieLic.Name = "StSerieLic"
+        Me.StSerieLic.Text = "_____"
+        '
+        'RibbonLabel3
+        '
+        Me.RibbonLabel3.Name = "RibbonLabel3"
+        Me.RibbonLabel3.SmallImage = Global.SGT_Transport.My.Resources.Resources.user21
+        Me.RibbonLabel3.Text = "Usuario"
+        '
+        'StUsuario
+        '
+        Me.StUsuario.Name = "StUsuario"
+        Me.StUsuario.Text = "_________"
+        '
+        'StLic
+        '
+        Me.StLic.Name = "StLic"
+        Me.StLic.Text = "                         ---"
+        '
+        'Timer1
+        '
+        Me.Timer1.Enabled = True
+        Me.Timer1.Interval = 180000
+        '
+        'C1ThemeController1
+        '
+        Me.C1ThemeController1.Theme = "VS2013Blue"
+        '
+        'Tab1
+        '
+        Me.Tab1.BackColor = System.Drawing.Color.FromArgb(CType(CType(207, Byte), Integer), CType(CType(214, Byte), Integer), CType(CType(229, Byte), Integer))
+        Me.Tab1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Tab1.CanCloseTabs = True
+        Me.Tab1.CanMoveTabs = True
+        Me.Tab1.CloseBox = C1.Win.C1Command.CloseBoxPositionEnum.AllPages
+        Me.Tab1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Tab1.HotTrack = True
+        Me.Tab1.Location = New System.Drawing.Point(0, 146)
+        Me.Tab1.Name = "Tab1"
+        Me.Tab1.SelectedTabBold = True
+        Me.Tab1.ShowCaption = True
+        Me.Tab1.ShowTabList = True
+        Me.Tab1.Size = New System.Drawing.Size(1317, 385)
+        Me.Tab1.TabAreaBorder = True
+        Me.Tab1.TabIndex = 7
+        Me.Tab1.TabSizeMode = C1.Win.C1Command.TabSizeModeEnum.Fit
+        Me.Tab1.TabsShowFocusCues = False
+        Me.Tab1.TabsSpacing = 2
+        Me.Tab1.TabStyle = C1.Win.C1Command.TabStyleEnum.Office2007
+        Me.C1ThemeController1.SetTheme(Me.Tab1, "VS2013Blue")
         '
         'BarOrdenesDeTrabajoExternas1
         '
@@ -4891,4 +4899,5 @@ Partial Class MainRibbonForm
     Friend WithEvents RibConViajesTractor As RibbonButton
     Friend WithEvents RibbonGroup5 As RibbonGroup
     Friend WithEvents RibMonitorUsuarios As RibbonButton
+    Friend WithEvents RLiq_Rep_Casetas As RibbonButton
 End Class

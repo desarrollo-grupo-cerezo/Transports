@@ -50,8 +50,8 @@ Public Class FrmConsultaResumen
                     txCliente.Visible = True
                     BtnCliente.Visible = True
                     txClienteNombre.Visible = True
-                    lbTimbrada.Visible = True
-                    cboTimbrada.Visible = True
+                    'lbTimbrada.Visible = True
+                    'cboTimbrada.Visible = True
                     CargaCombosFacturas()
                 Case "BarContResFacturasAbono"
                     lbSerie.Visible = True
@@ -142,7 +142,7 @@ Public Class FrmConsultaResumen
 
         CboEstatus.Items.Clear()
         CboEstatus.Items.Add("")
-        CboEstatus.Items.Add("EMITIDA")
+        CboEstatus.Items.Add("TIMBRADA")
         CboEstatus.Items.Add("CANCELADA")
         cboTimbrada.Items.Clear()
         cboTimbrada.Items.Add("")
@@ -206,9 +206,9 @@ Public Class FrmConsultaResumen
                 If CboEstatus.Text <> "" Then
                     Filtro += String.Format(" AND Estatus = '{0}'", CboEstatus.Text)
                 End If
-                If cboTimbrada.Text <> "" Then
-                    Filtro += String.Format(" AND Timbrada = '{0}'", cboTimbrada.Text)
-                End If
+                'If cboTimbrada.Text <> "" Then
+                '    Filtro += String.Format(" AND Timbrada = '{0}'", cboTimbrada.Text)
+                'End If
                 If txCliente.Text <> "" Then
                     Filtro += String.Format(" AND [Clave Cliente] = '{0}'", txCliente.Text.Trim)
                 End If

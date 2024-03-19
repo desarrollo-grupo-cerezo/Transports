@@ -2,8 +2,14 @@
 Imports C1.Win.C1Command
 Imports Stimulsoft.Report
 Imports System.Data.SqlClient
+Imports C1.Win.C1FlexGrid
 
 Public Class FrmFletesVsGastos
+
+    Private _colTipoViaje As Integer = 4
+    Private _colKmVacio As Integer = 22
+    Private _colRendVacio As Integer = 23
+    Private _colLitrosVacio As Integer = 24
     Private Sub FrmFletesVsGastos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             Dim theme As C1Theme = C1ThemeController.GetThemeByName(ThemeElekos, True)
@@ -131,23 +137,29 @@ Public Class FrmFletesVsGastos
         Fg.BeginUpdate()
         Me.Cursor = Cursors.WaitCursor
 
-
+        Dim NewStyle1 As CellStyle
+        NewStyle1 = Fg.Styles.Add("NewStyle1")
+        NewStyle1.BackColor = Color.Beige
+        NewStyle1.ForeColor = Color.Black
+        NewStyle1.DataType = GetType(Decimal)
+        NewStyle1.Format = "N2"
 
         SQL = "SELECT A.CVE_VIAJE, A.FECHA, A.CONCILIADO, CASE WHEN A.TIPO_VIAJE = 1 THEN 'Cargado' ELSE 'Vacío' END AS TIP_VIAJE, A.CVE_OPER, A.CVE_TRACTOR, A.FECHA_CARGA,
             A.FECHA_DESCARGA, A.KM_RECORRIDOS,  A.CLIENTE, A.CVE_MONED, A.VOLUMEN_PESO, A.SUBTOTAL,  A.IVA, A.RETENCION, A.NETO, A.FLETE, 
             A.TIPO_CAMBIO, A.FECHA_REAL_CARGA,  A.FECHA_REAL_DESCARGA, A.KMS_VACIO, O.NOMBRE AS NOMBRE_OPER,  
             C.NOMBRE AS NOMBRE_CLIE, T.DESCR AS ORIGEN, T.DESCR2 AS DESTINO, 
             ISNULL((SELECT SUM(SUELDO) FROM GCLIQ_PARTIDAS WHERE CVE_VIAJE = A.CVE_VIAJE),0) AS SUELDO, 
-            ROUND(ISNULL((SELECT SUM(IMPORTE) FROM GCLIQ_CASETAS LC LEFT JOIN GCLIQ_PARTIDAS LP ON LP.CVE_LIQ = LC.CVE_LIQ LEFT JOIN GCASIGNACION_VIAJE A2 ON A2.CVE_VIAJE = LP.CVE_VIAJE 
-            WHERE A2.CVE_VIAJE = A.CVE_VIAJE AND LP.STATUS <> 'C' AND A2.STATUS <> 'C')/1.16,0), 2) AS CASETAS, 			
+            ROUND(ISNULL((SELECT SUM(IMPORTE) FROM GCLIQ_CASETAS LC WHERE LC.CVE_VIAJE = A.CVE_VIAJE)/1.16,0), 2) AS CASETAS,             
             ISNULL((SELECT SUM(SUBTOTAL) FROM GCCONCI_VALES_COMBUS_PAR VC WHERE VC.CVE_VIAJE = A.CVE_VIAJE AND VC.STATUS <> 'C'),0) AS COMBUSTIBLE,
             ISNULL((SELECT SUM(IMPORTE) FROM GCASIGNACION_VIAJE_GASTOS VG 
 				WHERE VG.CVE_VIAJE = A.CVE_VIAJE AND STATUS = 'L' AND ST_GASTOS = 'DEPOSITADO'
 				AND NOT VG.CVE_NUM IN ('64', '39', '42', '3', '63', '4', '5', '6')),0) AS GASTOS,			
             ISNULL(((SELECT KMS FROM GCTAB_RUTAS_F WHERE CVE_TAB = A.CVE_TAB_VIAJE) + (CASE WHEN A.TIPO_VIAJE = 0 THEN A.KMS_VACIO ELSE 0 END)),0) AS KMS_TOTALES,
             ISNULL((CASE WHEN A.TIPO_VIAJE = 1 THEN KMS_VACIO / ((SELECT KMS FROM GCTAB_RUTAS_F WHERE CVE_TAB = A.CVE_TAB_VIAJE) + KMS_VACIO) ELSE KMS_VACIO END),0) AS PORCEN_CARGADO,
-            ISNULL((SELECT SUM(LITROS_REALES) FROM GCASIGNACION_VIAJE_VALES WHERE CVE_VIAJE = A.CVE_VIAJE),0) AS LITROS
+            ISNULL((SELECT SUM(LITROS_REALES) FROM GCASIGNACION_VIAJE_VALES WHERE CVE_VIAJE = A.CVE_VIAJE),0) AS LITROS, 
+            T.KMS, T.AUTO_SENC, T.AUTO_SENC_LTS, A.KMS_VACIO, iif(A.TIPO_VIAJE = 0, 2.2,  0) as REND_VACIO, iif(A.TIPO_VIAJE = 0, A.KMS_VACIO/2.2,  0) LT_VACIO, CVE_LIQ = IIF(LP.CVE_LIQ IS NULL, '', CAST(LP.CVE_LIQ AS VARCHAR(20)))
             FROM GCASIGNACION_VIAJE A
+            LEFT JOIN GCLIQ_PARTIDAS LP ON LP.CVE_VIAJE = A.CVE_VIAJE AND LP.STATUS = 'A'
             LEFT JOIN dbo.CLIE" & Empresa & " C ON A.CLIENTE = C.CLAVE 
             LEFT JOIN dbo.GCOPERADOR O ON A.CVE_OPER = O.CLAVE
             LEFT JOIN dbo.GCTAB_RUTAS_F T ON A.CVE_TAB_VIAJE = T.CVE_TAB
@@ -166,7 +178,13 @@ Public Class FrmFletesVsGastos
                                    dr("FECHA_CARGA") & vbTab & dr("FECHA_DESCARGA") & vbTab & dr("NOMBRE_CLIE") & vbTab & dr("NOMBRE_OPER") & vbTab &
                                    IIf(dr("TIPO_CAMBIO") = 0, dr("FLETE"), dr("FLETE") * dr("TIPO_CAMBIO")) & vbTab & dr("SUELDO") & vbTab &
                                    dr("COMBUSTIBLE") & vbTab & dr("CASETAS") & vbTab & dr("GASTOS") & vbTab & dr("KMS_TOTALES") & vbTab & dr("PORCEN_CARGADO") / 100 & vbTab &
-                                   dr("LITROS") & vbTab & IIf(dr("LITROS") > 0, dr("KMS_TOTALES") / dr("LITROS"), 0) & vbTab & dr("FLETE") - dr("SUELDO") - dr("COMBUSTIBLE") - dr("CASETAS"))
+                                   dr("LITROS") & vbTab & IIf(dr("LITROS") > 0, dr("KMS_TOTALES") / dr("LITROS"), 0) & vbTab & dr("FLETE") - dr("SUELDO") - dr("COMBUSTIBLE") - dr("CASETAS") &
+                                   vbTab & dr("KMS") & vbTab & dr("AUTO_SENC") & vbTab & dr("AUTO_SENC_LTS") & vbTab & dr("KMS_VACIO") & vbTab & dr("REND_VACIO") & vbTab & dr("LT_VACIO") & vbTab & dr("CVE_LIQ"))
+
+                        If dr("TIP_VIAJE") = "Vacío" Then
+                            Fg.SetCellStyle(Fg.Rows.Count - 1, _colRendVacio, NewStyle1)
+                        End If
+
                     End While
                 End Using
             End Using
@@ -183,5 +201,39 @@ Public Class FrmFletesVsGastos
 
     Private Sub BarExcel_Click(sender As Object, e As ClickEventArgs) Handles BarExcel.Click
         EXPORTAR_EXCEL_TRANSPORT(Fg, "Fletes vs gastos")
+    End Sub
+
+    Private Sub Fg_BeforeEdit(sender As Object, e As C1.Win.C1FlexGrid.RowColEventArgs) Handles Fg.BeforeEdit
+        Try
+            If Fg.Row > 0 Then
+
+                If Not (Fg.Col = _colRendVacio And Fg(Fg.Row, _colTipoViaje) = "Vacío") Then
+                    e.Cancel = True
+                End If
+
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub Fg_AfterEdit(sender As Object, e As C1.Win.C1FlexGrid.RowColEventArgs) Handles Fg.AfterEdit
+        Try
+            If Fg.Row > 0 Then
+
+                If Fg.Col = _colRendVacio And Fg(Fg.Row, _colTipoViaje) = "Vacío" Then
+                    Fg.FinishEditing()
+                    If Convert.ToDecimal(Fg(Fg.Row, _colRendVacio)) > 0 Then
+                        Fg(Fg.Row, _colLitrosVacio) = Fg(Fg.Row, _colKmVacio) / Fg(Fg.Row, _colRendVacio)
+                    Else
+                        Fg(Fg.Row, _colLitrosVacio) = 0
+                    End If
+                End If
+
+            End If
+
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class

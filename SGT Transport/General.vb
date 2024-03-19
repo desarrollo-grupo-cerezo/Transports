@@ -6608,6 +6608,9 @@ Module General
                 nombre = "Resumen Facturas Abonos"
             Case "RibConViajesTractor"
                 nombre = "Viajes por Tractor"
+            Case "BarConResNC"
+                nombre = "Resumen Notas de Crédito"
+
         End Select
         Return nombre
     End Function

@@ -53,6 +53,18 @@ Public Class FrmConsultaResumen
                     'lbTimbrada.Visible = True
                     'cboTimbrada.Visible = True
                     CargaCombosFacturas()
+                Case "BarConResNC"
+                    lbSerie.Visible = True
+                    CboSeries.Visible = True
+                    lbEstatus.Visible = True
+                    CboEstatus.Visible = True
+                    lbCliente.Visible = True
+                    txCliente.Visible = True
+                    BtnCliente.Visible = True
+                    txClienteNombre.Visible = True
+                    'lbTimbrada.Visible = True
+                    'cboTimbrada.Visible = True
+                    CargaCombosNC()
                 Case "BarContResFacturasAbono"
                     lbSerie.Visible = True
                     CboSeries.Visible = True
@@ -126,7 +138,35 @@ Public Class FrmConsultaResumen
     Private Sub CargaCombosFacturas()
         SQL = "SELECT ISNULL(TIP_DOC,'') AS TI_DOC, ISNULL(SERIE,'') AS LETRA
                 FROM FOLIOSF" & Empresa & "
-                WHERE TIP_DOC = 'F' ORDER BY TIP_DOC"
+                WHERE TIP_DOC = 'F' AND TIPO !='T' ORDER BY TIP_DOC"
+
+        CboSeries.Items.Clear()
+        CboSeries.Items.Add("")
+        Using cmd As SqlCommand = cnSAE.CreateCommand
+            cmd.CommandText = SQL
+            Using dr As SqlDataReader = cmd.ExecuteReader
+                While dr.Read
+                    CboSeries.Items.Add(dr("LETRA"))
+                End While
+            End Using
+        End Using
+        CboSeries.SelectedIndex = 0
+
+        CboEstatus.Items.Clear()
+        CboEstatus.Items.Add("")
+        CboEstatus.Items.Add("TIMBRADA")
+        CboEstatus.Items.Add("CANCELADA")
+        cboTimbrada.Items.Clear()
+        cboTimbrada.Items.Add("")
+        cboTimbrada.Items.Add("SI")
+        cboTimbrada.Items.Add("NO")
+
+    End Sub
+
+    Private Sub CargaCombosNC()
+        SQL = "SELECT ISNULL(TIP_DOC,'') AS TI_DOC, ISNULL(SERIE,'') AS LETRA
+                FROM FOLIOSF" & Empresa & "
+                WHERE TIP_DOC = 'D' AND TIPO !='T' ORDER BY TIP_DOC"
 
         CboSeries.Items.Clear()
         CboSeries.Items.Add("")
@@ -213,6 +253,19 @@ Public Class FrmConsultaResumen
                     Filtro += String.Format(" AND [Clave Cliente] = '{0}'", txCliente.Text.Trim)
                 End If
                 SQL = String.Format("SELECT * FROM VT_RPT_ResumenFacturas {0} ORDER BY Fecha", Filtro)
+
+            Case "BarConResNC"
+                If CboSeries.Text <> "" Then
+                    Filtro += String.Format(" AND ctrl_Serie = '{0}'", CboSeries.Text.Replace("-", ""))
+                End If
+                If CboEstatus.Text <> "" Then
+                    Filtro += String.Format(" AND Estatus = '{0}'", CboEstatus.Text)
+                End If
+                If txCliente.Text <> "" Then
+                    Filtro += String.Format(" AND [Clave Cliente] = '{0}'", txCliente.Text.Trim)
+                End If
+                SQL = String.Format("SELECT * FROM VT_RPT_ResumenNotasCredito {0} ORDER BY Fecha", Filtro)
+
             Case "BarContResLiq"
                 If CboSeries.Text <> "" Then
                     Filtro += String.Format(" AND Estatus = '{0}'", CboSeries.Text.Replace("-", ""))

@@ -4159,7 +4159,7 @@ Public Class MainRibbonForm
         End Try
     End Sub
 
-    Private Sub BarContResumen_Click(sender As Object, e As EventArgs) Handles BarContResFacturas.Click, BarContResLiq.Click, BarContResLiqConceptos.Click, BarContResFacturasAbono.Click, RibConViajesTractor.Click
+    Private Sub BarContResumen_Click(sender As Object, e As EventArgs) Handles BarContResFacturas.Click, BarContResLiq.Click, BarContResLiqConceptos.Click, BarContResFacturasAbono.Click, RibConViajesTractor.Click, BarConResNC.Click
         Dim Consulta As String
         Consulta = ObtenerNombrePestanaConsulta(sender.Name)
         Dim frm As New FrmConsultaResumen()
@@ -4221,5 +4221,13 @@ Public Class MainRibbonForm
     Private Sub RLiq_Rep_Casetas_Click(sender As Object, e As EventArgs) Handles RLiq_Rep_Casetas.Click
         BACKUPTXT("XTAB_CAPTION", "FrmReporteCasetas")
         FrmReporteCasetas.ShowDialog()
+    End Sub
+
+    Private Sub BarReporteAntiguedadSaldoProveeedor_Click(sender As Object, e As EventArgs) Handles BarReporteAntiguedadSaldoProveeedor.Click
+        CREA_TAB(FrmAntSalProv, "Antigüedad saldos proveedores")
+    End Sub
+
+    Private Sub BarReporteCobranzaEfecCliente_Click(sender As Object, e As EventArgs) Handles BarReporteCobranzaEfecCliente.Click
+        CREA_TAB(FrmCobEfecClie, "Cobranza efectuada por cliente")
     End Sub
 End Class

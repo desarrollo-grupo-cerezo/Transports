@@ -721,7 +721,7 @@ Public Class FrmAsigViajeBuenoAE
 
         SQL = "SELECT ISNULL(TIP_DOC,'') AS TI_DOC, ISNULL(ULT_DOC,0) AS ULTDOC, ISNULL(SERIE,'') AS LETRA
               FROM FOLIOSF" & Empresa & "
-              WHERE TIP_DOC = 'F'"
+              WHERE TIP_DOC = 'F' AND ES_VIAJE = '1'"
         CboSerieFactura.Items.Clear()
         Using cmd As SqlCommand = cnSAE.CreateCommand
             cmd.CommandText = SQL

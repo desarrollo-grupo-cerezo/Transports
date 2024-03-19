@@ -228,7 +228,6 @@ Partial Class FrmFletesVsGastos
         '
         'Fg
         '
-        Me.Fg.AllowEditing = False
         Me.Fg.AllowFiltering = True
         Me.Fg.AutoClipboard = True
         Me.Fg.AutoSearch = C1.Win.C1FlexGrid.AutoSearchEnum.FromTop

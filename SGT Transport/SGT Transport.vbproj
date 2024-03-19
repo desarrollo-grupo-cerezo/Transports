@@ -1022,6 +1022,12 @@
     <Compile Include="LIQUIDACIONES\FrmPensionAlimenticia.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="LIQUIDACIONES\FrmCasetasViajes.Designer.vb">
+      <DependentUpon>FrmCasetasViajes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LIQUIDACIONES\FrmCasetasViajes.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LLANTAS\FrmPilaDesecho.Designer.vb">
       <DependentUpon>FrmPilaDesecho.vb</DependentUpon>
     </Compile>
@@ -1183,6 +1189,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTES\FrmAntSalProv.Designer.vb">
+      <DependentUpon>FrmAntSalProv.vb</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTES\FrmAntSalProv.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="REPORTES\FrmCobEfecClie.Designer.vb">
+      <DependentUpon>FrmCobEfecClie.vb</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTES\FrmCobEfecClie.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="REPORTES\FrmImpresionReportesFG.Designer.vb">
       <DependentUpon>FrmImpresionReportesFG.vb</DependentUpon>
@@ -4794,6 +4812,9 @@
     <EmbeddedResource Include="LIQUIDACIONES\FrmPensionAlimenticia.resx">
       <DependentUpon>FrmPensionAlimenticia.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LIQUIDACIONES\FrmCasetasViajes.resx">
+      <DependentUpon>FrmCasetasViajes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LLANTAS\FrmPilaDesecho.resx">
       <DependentUpon>FrmPilaDesecho.vb</DependentUpon>
     </EmbeddedResource>
@@ -4873,6 +4894,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MONTELLANO\frmMovsInvOT.resx">
       <DependentUpon>frmMovsInvOT.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="REPORTES\FrmAntSalProv.resx">
+      <DependentUpon>FrmAntSalProv.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="REPORTES\FrmCobEfecClie.resx">
+      <DependentUpon>FrmCobEfecClie.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="REPORTES\FrmImpresionReportesFG.resx">
       <DependentUpon>FrmImpresionReportesFG.vb</DependentUpon>
@@ -7179,6 +7206,7 @@
     <None Include="Resources\SQL6.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\dinero22.png" />
     <Content Include="Resources\diseñador.png" />
     <Content Include="Resources\diseñador16.png" />
     <Content Include="Resources\diseñador24.png" />

@@ -118,12 +118,43 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="MenuHolder.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>125, 17</value>
+    <value>17, 17</value>
   </metadata>
-  <data name="Fg.ColumnInfo" xml:space="preserve">
-    <value>26,1,0,0,0,95,Columns:1{Caption:"Tractor";AllowEditing:False;Style:"DataType:System.String;TextAlign:LeftCenter;";}	2{Caption:"Clave viaje";AllowEditing:False;}	3{Caption:"Ruta";AllowEditing:False;}	4{Caption:"Cargado/Vacio";}	5{Caption:"Fecha carga";Style:"Format:""d"";DataType:System.DateTime;TextAlign:CenterCenter;";}	6{Caption:"Fecha descarga";Style:"Format:""d"";DataType:System.DateTime;TextAlign:CenterCenter;";}	7{Caption:"Cliente";}	8{Caption:"Operador";}	9{Caption:"Importe flete";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	10{Caption:"Sueldo";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	11{Caption:"Combustible";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	12{Caption:"IAVE";Style:"Format:""N2"";";}	13{Caption:"Otros gastos";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	14{Caption:"Km. totales";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	15{Caption:"% Cargado";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	16{Caption:"Litros";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	17{Caption:"Kms x litro";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	18{Caption:"Utilidad neta";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	19{Caption:"Ruta Km";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	20{Caption:"Ruta rend.";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	21{Caption:"Ruta litros";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	22{Caption:"Km vacío";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	23{Caption:"Rend. vacío";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	24{Caption:"Litros vacío";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	25{Caption:"Liquidación";}	</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="BtnClie1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
+        4wAAAOMBD+bfpwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
+        2XJ5Zb3Hy9vm/4+buud/+NyT/8Pnnf4fN23f/zKgWEF5/wV3v3w1qHJUYOUWy5ZX1nc6o335/5idr//H
+        H/mBgmN3v/uf2rHif0FZ301b9zReqDYECI2rzq4A2oJNMwxH73n7v7B13v/Q2LIGqDYEKKqaeBHkbGwa
+        kbHvlF3/80q7nkO1IUBF/bTX4XNPYdWEjJ3mHP1fWNH3R904khWqFQIq6ggbEH3423/7OUf+55d1/zG0
+        TUQ1ABhtV2Kn7fuHTSMMex94/98D6IW03KbXUG0IEJlQU1jaOv9f7J53WDUHH/z833b7k/9pNVP+B0UV
+        dkO1IYCdSwpXYcWEyyntK4ChjTAE5Gyf/e+Bmh//D21e9D85q+6NrX+GOFQbKnAPzFEHxvOdgpZ5/32A
+        TgUFmB0QuwPZqTVTwZqjkmvfZBR03gqJqUiFakMFzh5ZvCFxZc3AqHoJCm1QgKUD/RwUVdTt6JMikZbb
+        9njS9NX/O3oX/QiOKcduCAxoW4ayGjugRldEfGVRY9vsfyBD2kGGRJenQaWIB+HxlcXIhgRFlydBpYgH
+        4fFVJTBDSqsnY0YrMQBoSEFeSc+3hPTGdQAE9opxY2EZNgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="BtnClie2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
+        4wAAAOMBD+bfpwAAAexJREFUOE9jgAFj2xi24LiKjJKqSWfL66a+BOJXxZWTLoXGVeVbOCRwQJVhB85+
+        2XJ5Zb3Hy9vm/4+buud/+NyT/8Pnnf4fN23f/zKgWEF5/wV3v3w1qHJUYOUWy5ZX1nc6o335/5idr//H
+        H/mBgmN3v/uf2rHif0FZ301b9zReqDYECI2rzq4A2oJNMwxH73n7v7B13v/Q2LIGqDYEKKqaeBHkbGwa
+        kbHvlF3/80q7nkO1IUBF/bTX4XNPYdWEjJ3mHP1fWNH3R904khWqFQIq6ggbEH3423/7OUf+55d1/zG0
+        TUQ1ABhtV2Kn7fuHTSMMex94/98D6IW03KbXUG0IEJlQU1jaOv9f7J53WDUHH/z833b7k/9pNVP+B0UV
+        dkO1IYCdSwpXYcWEyyntK4ChjTAE5Gyf/e+Bmh//D21e9D85q+6NrX+GOFQbKnAPzFEHxvOdgpZ5/32A
+        TgUFmB0QuwPZqTVTwZqjkmvfZBR03gqJqUiFakMFzh5ZvCFxZc3AqHoJCm1QgKUD/RwUVdTt6JMikZbb
+        9njS9NX/O3oX/QiOKcduCAxoW4ayGjugRldEfGVRY9vsfyBD2kGGRJenQaWIB+HxlcXIhgRFlydBpYgH
+        4fFVJTBDSqsnY0YrMQBoSEFeSc+3hPTGdQAE9opxY2EZNgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="Fg.ColumnInfo" xml:space="preserve">
+    <value>9,1,0,0,0,95,Columns:0{Style:"Font:Microsoft Sans Serif, 8.25pt;";}	1{Caption:"Cliente";}	2{Caption:"Fecha";Style:"Format:""d"";DataType:System.DateTime;TextAlign:LeftCenter;";}	3{Caption:"Factura";}	4{Caption:"Importe";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	5{Caption:"Pago";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	6{Caption:"Saldo";Style:"Format:""N2"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	7{Caption:"Referencia";}	8{Caption:"UUID CFDI";}	</value>
+  </data>
+  <data name="Fg.StyleInfo" xml:space="preserve">
+    <value>Normal{BackColor:White;ForeColor:Black;WordWrap:True;Border:Flat,1,DimGray,Both;}	Alternate{BackColor:LightSkyBlue;}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:Lime;ForeColor:ControlText;SearchBackColor:Orange;}	Focus{BackColor:Lime;Border:Double,1,Red,Both;}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	FrozenAlternate{}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	Footer{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	FirstCustomStyle{}	</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA

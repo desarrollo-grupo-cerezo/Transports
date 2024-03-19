@@ -383,7 +383,7 @@ Module ModCFDI
         End Try
     End Sub
 
-    Public Sub IMPRIMIR_CFDI_DIRECTO(FCVE_DOC As String, Optional FPDF As String = "", Optional FCVE_VIAJE As String = "", Optional FRFC As String = "", Optional FOLIOI As String = "")
+    Public Sub IMPRIMIR_CFDI_DIRECTO(FCVE_DOC As String, Optional FPDF As String = "", Optional FCVE_VIAJE As String = "", Optional FRFC As String = "")
         Try
             Dim UUID As String, RUTA_PDF_PRECIOS As String = ""
             Dim Report As New StiReport, RUTA_PDF As String = ""
@@ -446,13 +446,10 @@ Module ModCFDI
                             End If
                         End If
                     Case "DEVOLUCION CFDI"
-                        If FOLIOI = "" Then
-                            RUTA_PDF = gRutaXML_TIMBRADO & "\" & FRFC & "_" & FCVE_DOC & ".pdf"
-                            RUTA_PDF_PRECIOS = gRutaXML_TIMBRADO_CON_PRECIOS & "\" & FRFC & "_" & FCVE_DOC & ".pdf"
-                        Else
-                            RUTA_PDF = gRutaXML_TIMBRADO & "\" & FRFC & "_" & FOLIOI & ".pdf"
-                            RUTA_PDF_PRECIOS = gRutaXML_TIMBRADO_CON_PRECIOS & "\" & FRFC & "_" & FOLIOI & ".pdf"
-                        End If
+
+                        RUTA_PDF = gRutaXML_TIMBRADO & "\" & FRFC & "_" & FCVE_DOC & ".pdf"
+                        RUTA_PDF_PRECIOS = gRutaXML_TIMBRADO_CON_PRECIOS & "\" & FRFC & "_" & FCVE_DOC & ".pdf"
+
 
                         ARCHIVO_MRT = RUTA_FORMATOS & "\ReportCFDINOTADECREDITO" & Empresa & ".mrt"
                         If Not File.Exists(ARCHIVO_MRT) Then

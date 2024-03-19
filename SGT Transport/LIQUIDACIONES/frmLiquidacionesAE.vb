@@ -176,7 +176,7 @@ Public Class FrmLiquidacionesAE
                     While dr.Read
                         FgCasetas.AddItem("" & vbTab & "" & vbTab & dr("CVE_CXR") & vbTab & dr("CVE_PLAZA") & vbTab &
                                           dr("ORIGEN_N") & vbTab & dr("CVE_PLAZA2") & vbTab & dr("DESTINO_N") & vbTab &
-                                          dr("TIPO") & vbTab & dr("IMPORTE_CASETAS"))
+                                          dr("TIPO") & vbTab & dr("IMPORTE_CASETAS") & vbTab & "" & vbTab & "")
                     End While
                 End Using
             End Using
@@ -642,9 +642,15 @@ Public Class FrmLiquidacionesAE
     End Sub
     Sub DESPLEGAR_LIQ_CASETAS(FCVE_LIQ As Long)
         Try
-            SQL = "SELECT CVE_LIQ, CVE_CXR, CVE_PLAZA, CVE_PLAZA2, IMPORTE
-                FROM GCLIQ_CASETAS
-                WHERE CVE_LIQ = " & FCVE_LIQ & " ORDER BY CVE_LIQ, CVE_CXR"
+            'SQL = "SELECT CVE_LIQ, CVE_CXR, CVE_PLAZA, CVE_PLAZA2, IMPORTE
+            '    FROM GCLIQ_CASETAS
+            '    WHERE CVE_LIQ = " & FCVE_LIQ & " ORDER BY CVE_LIQ, CVE_CXR"
+            SQL = "SELECT C.CVE_LIQ, C.CVE_CXR, C.CVE_PLAZA, C.CVE_PLAZA2, C.IMPORTE, 
+                VIAJES = (SELECT ISNULL(STUFF((SELECT ', ' + ISNULL(CVE_VIAJE, '') FROM GCLIQ_CASETAS WHERE CVE_LIQ = C.CVE_LIQ AND CVE_CXR = C.CVE_CXR FOR XML PATH('')), 1, 2, ''),''))
+                FROM GCLIQ_CASETAS C
+                WHERE CVE_LIQ = " & FCVE_LIQ & " 
+                GROUP BY C.CVE_LIQ, C.CVE_CXR, C.CVE_PLAZA, C.CVE_PLAZA2, C.IMPORTE
+                ORDER BY C.CVE_LIQ, C.CVE_CXR"
 
             Using cmd As SqlCommand = cnSAE.CreateCommand
                 cmd.CommandText = SQL
@@ -653,6 +659,7 @@ Public Class FrmLiquidacionesAE
                         For k = 1 To FgCasetas.Rows.Count - 1
                             If dr.ReadNullAsEmptyInteger("CVE_CXR") = FgCasetas(k, 2) Then
                                 FgCasetas(k, 1) = True
+                                FgCasetas(k, 10) = dr("VIAJES")
                                 Exit For
                             End If
                         Next
@@ -806,7 +813,7 @@ Public Class FrmLiquidacionesAE
 
                                 DESPLEGAR_LIQ_GASTOS_X_VIAJE(dr("CVE_VIAJE"))
 
-                                DESPLEGAR_LIQ_VALES_VIAJE(dr("CVE_VIAJE"))
+                                'DESPLEGAR_LIQ_VALES_VIAJE(dr("CVE_VIAJE"))
 
                             End If
                         Catch ex As Exception
@@ -949,7 +956,7 @@ Public Class FrmLiquidacionesAE
             MsgBox("40. " & ex.Message & vbNewLine & ex.StackTrace)
         End Try
     End Sub
-    Sub DESPLEGAR_LIQ_VALES_VIAJE(fCVE_VIAJE As String)
+    Sub DESPLEGAR_LIQ_VALES_VIAJE(fCVE_LIQ As String)
         Try
             Dim LTS_REALES As Decimal = 0, Existe As Boolean
 
@@ -959,7 +966,7 @@ Public Class FrmLiquidacionesAE
                     GV.IVA, GV.IEPS, GV.IMPORTE, G.DESCR, GV.FACTURA, ISNULL(GV.ST_VALES,'EDICION') AS ST_VAL, GV.UUID, GV.FECHA_CARGA
                     FROM GCASIGNACION_VIAJE_VALES GV
                     LEFT JOIN GCGASOLINERAS G ON G.CVE_GAS = GV.CVE_GAS
-                    WHERE GV.STATUS = 'A' AND GV.CVE_LIQ = '" & fCVE_VIAJE & "' AND ST_VALES <> 'EDICION'  AND ST_VALES <> 'CAPTURADO'  ORDER BY FECHAELAB"
+                    WHERE GV.STATUS = 'A' AND GV.CVE_LIQ = '" & fCVE_LIQ & "' AND ST_VALES <> 'EDICION'  AND ST_VALES <> 'CAPTURADO'  ORDER BY FECHAELAB"
                 cmd.CommandText = SQL
                 Using dr As SqlDataReader = cmd.ExecuteReader
                     While dr.Read
@@ -1851,27 +1858,68 @@ Public Class FrmLiquidacionesAE
         SQL = "DELETE FROM GCLIQ_CASETAS WHERE CVE_LIQ = " & FCVE_LIQ
         EXECUTE_QUERY_NET(SQL)
 
+        Dim lstViajes As New List(Of String)
+        Dim indice As Integer
+
+        For indice = 1 To Fg.Rows.Count - 1
+            If Fg(indice, 1) Then
+                lstViajes.Add(Fg(indice, 2).ToString().Trim())
+            End If
+        Next
+
+
+        SQL = "INSERT INTO GCLIQ_CASETAS (CVE_LIQ, CVE_CXR, FECHA, CVE_PLAZA, CVE_PLAZA2, IMPORTE, FECHAELAB, UUID, CVE_VIAJE)
+                    VALUES(@CVE_LIQ, @CVE_CXR, CONVERT(varchar, GETDATE(), 112), @CVE_PLAZA, @CVE_PLAZA2, @IMPORTE, GETDATE(), NEWID(), @CVE_VIAJE)"
+
         For k = 1 To FgCasetas.Rows.Count - 1
             Try
                 If FgCasetas(k, 1) Then
-                    SQL = "INSERT INTO GCLIQ_CASETAS (CVE_LIQ, CVE_CXR, FECHA, CVE_PLAZA, CVE_PLAZA2, IMPORTE, FECHAELAB, UUID)
-                    VALUES(@CVE_LIQ, @CVE_CXR, CONVERT(varchar, GETDATE(), 112), @CVE_PLAZA, @CVE_PLAZA2, @IMPORTE, GETDATE(), NEWID())"
-
-                    Using cmd As SqlCommand = cnSAE.CreateCommand
-                        cmd.CommandText = SQL
-                        cmd.Parameters.Clear()
-                        cmd.Parameters.Add("@CVE_LIQ", SqlDbType.Int).Value = FCVE_LIQ
-                        cmd.Parameters.Add("@CVE_CXR", SqlDbType.Int).Value = CONVERTIR_TO_INT(FgCasetas(k, 2))
-                        cmd.Parameters.Add("@CVE_PLAZA", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(FgCasetas(k, 3))
-                        cmd.Parameters.Add("@CVE_PLAZA2", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(FgCasetas(k, 5))
-                        cmd.Parameters.Add("@IMPORTE", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(FgCasetas(k, 8))
-                        returnValue = cmd.ExecuteNonQuery().ToString
-                        If returnValue IsNot Nothing Then
-                            If returnValue = "1" Then
-
+                    If FgCasetas(k, 10) = "" Then
+                        Using cmd As SqlCommand = cnSAE.CreateCommand
+                            cmd.CommandText = SQL
+                            cmd.Parameters.Clear()
+                            cmd.Parameters.Add("@CVE_LIQ", SqlDbType.Int).Value = FCVE_LIQ
+                            cmd.Parameters.Add("@CVE_CXR", SqlDbType.Int).Value = CONVERTIR_TO_INT(FgCasetas(k, 2))
+                            cmd.Parameters.Add("@CVE_PLAZA", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(FgCasetas(k, 3))
+                            cmd.Parameters.Add("@CVE_PLAZA2", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(FgCasetas(k, 5))
+                            cmd.Parameters.Add("@IMPORTE", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(FgCasetas(k, 8))
+                            cmd.Parameters.Add("@CVE_VIAJE", SqlDbType.VarChar).Value = ""
+                            returnValue = cmd.ExecuteNonQuery().ToString
+                            If returnValue IsNot Nothing Then
+                                If returnValue = "1" Then
+                                End If
                             End If
-                        End If
-                    End Using
+                        End Using
+                    Else
+                        Dim CasetasViajes() As String
+                        Dim viaje As String
+
+                        CasetasViajes = Split(FgCasetas(k, 10), ",")
+                        For indice = 0 To CasetasViajes.Length - 1
+                            viaje = CasetasViajes(indice).Trim()
+
+                            If Not String.IsNullOrEmpty(viaje) Then
+                                If lstViajes.Where(Function(x) x = viaje).Any() Then
+                                    Using cmd As SqlCommand = cnSAE.CreateCommand
+                                        cmd.CommandText = SQL
+                                        cmd.Parameters.Clear()
+                                        cmd.Parameters.Add("@CVE_LIQ", SqlDbType.Int).Value = FCVE_LIQ
+                                        cmd.Parameters.Add("@CVE_CXR", SqlDbType.Int).Value = CONVERTIR_TO_INT(FgCasetas(k, 2))
+                                        cmd.Parameters.Add("@CVE_PLAZA", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(FgCasetas(k, 3))
+                                        cmd.Parameters.Add("@CVE_PLAZA2", SqlDbType.SmallInt).Value = CONVERTIR_TO_INT(FgCasetas(k, 5))
+                                        cmd.Parameters.Add("@IMPORTE", SqlDbType.Float).Value = CONVERTIR_TO_DECIMAL(FgCasetas(k, 8))
+                                        cmd.Parameters.Add("@CVE_VIAJE", SqlDbType.VarChar).Value = viaje
+                                        returnValue = cmd.ExecuteNonQuery().ToString
+                                        If returnValue IsNot Nothing Then
+                                            If returnValue = "1" Then
+                                            End If
+                                        End If
+                                    End Using
+                                End If
+                            End If
+                        Next
+                    End If
+
                 End If
             Catch ex As Exception
                 Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
@@ -2182,7 +2230,7 @@ Public Class FrmLiquidacionesAE
         Dim CVE_VIAJE As String, STATUS As String = "A"
         'TAB3                      TAB3                      TAB3
         'GCASIGNACION_VIAJE_VALES
-
+        Dim cad As String
         SQL = "UPDATE GCASIGNACION_VIAJE_VALES SET CVE_LIQ = @CVE_LIQ WHERE UUID = @UUID"
 
         For k = 1 To FgV.Rows.Count - 1
@@ -2191,15 +2239,13 @@ Public Class FrmLiquidacionesAE
                     If FgV(k, 15).ToString.Trim.Length > 0 Then
                         Using cmd As SqlCommand = cnSAE.CreateCommand
                             Try 'TAB3                      TAB3                      TAB3
-
+                                STATUS = "A"
                                 CVE_VIAJE = FgV(k, 1)
 
                                 For j = 1 To Fg.Rows.Count - 1
                                     If Fg(j, _FgColNumViaje) = CVE_VIAJE Then
                                         If Fg(j, _FgColSeleccione) Then
                                             STATUS = "L"
-                                        Else
-                                            STATUS = "A"
                                         End If
                                         Exit For
                                     End If
@@ -2210,6 +2256,10 @@ Public Class FrmLiquidacionesAE
                                     cmd.Parameters.Add("@CVE_LIQ", SqlDbType.Int).Value = IIf(STATUS = "L", FCVE_LIQ, 0)
                                     cmd.Parameters.Add("@STATUS", SqlDbType.VarChar).Value = STATUS
                                     cmd.Parameters.Add("@UUID", SqlDbType.VarChar).Value = FgV(k, 15)
+
+                                    cad = String.Format("UPDATE GCASIGNACION_VIAJE_VALES SET CVE_LIQ = {0} WHERE UUID = '{1}'", IIf(STATUS = "L", FCVE_LIQ, 0), FgV(k, 15))
+                                    Debug.Print(cad)
+
                                     Try
                                         returnValue = cmd.ExecuteNonQuery
                                     Catch ex As Exception
@@ -3299,7 +3349,7 @@ Public Class FrmLiquidacionesAE
                     LEFT JOIN GCGASOLINERAS G ON G.CVE_GAS = GV.CVE_GAS
                     WHERE 
                     GV.STATUS <> 'L' AND GV.STATUS <> 'C' AND GV.CVE_VIAJE = '" & fCVE_VIAJE & "' AND ST_VALES <> 'EDICION' AND ST_VALES <> 'CAPTURADO' AND 
-                    ISNULL(GV.CVE_LIQ,0) = 0
+                    ((ISNULL(GV.CVE_LIQ,0) = 0) OR (ISNULL(GV.CVE_LIQ, 0) = " & IIf(IsNew, 0, TCVE_LIQ.Text) & ")) 
                     ORDER BY FECHAELAB"
                     cmd.CommandText = SQL
                     Using dr As SqlDataReader = cmd.ExecuteReader
@@ -6835,25 +6885,59 @@ Public Class FrmLiquidacionesAE
         Try
             If LtTipoCrobro.Text <> "Cancelada" Then
                 If FgCasetas.Row > 0 Then
-                    Var1 = "Edit"
-                    Var2 = FgCasetas(FgCasetas.Row, 2)
-                    FrmCasetasXRutaAE.ShowDialog()
-                    SQL = "SELECT IMPORTE_CASETAS FROM GCCASETAS_X_RUTA WHERE CVE_CXR = " & FgCasetas(FgCasetas.Row, 2)
-                    Try
-                        Using cmd As SqlCommand = cnSAE.CreateCommand
-                            cmd.CommandText = SQL
-                            Using dr As SqlDataReader = cmd.ExecuteReader
-                                If dr.Read Then
-                                    FgCasetas(FgCasetas.Row, 8) = dr("IMPORTE_CASETAS")
-                                End If
+
+                    If e.Col = 9 Then
+
+                        Var1 = "Edit"
+                        Var2 = FgCasetas(FgCasetas.Row, 2)
+                        FrmCasetasXRutaAE.ShowDialog()
+                        SQL = "SELECT IMPORTE_CASETAS FROM GCCASETAS_X_RUTA WHERE CVE_CXR = " & FgCasetas(FgCasetas.Row, 2)
+                        Try
+                            Using cmd As SqlCommand = cnSAE.CreateCommand
+                                cmd.CommandText = SQL
+                                Using dr As SqlDataReader = cmd.ExecuteReader
+                                    If dr.Read Then
+                                        FgCasetas(FgCasetas.Row, 8) = dr("IMPORTE_CASETAS")
+                                    End If
+                                End Using
                             End Using
-                        End Using
-                    Catch ex As Exception
-                        Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
-                        MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
-                    End Try
-                    Var1 = ""
-                    Var2 = ""
+                        Catch ex As Exception
+                            Bitacora("650. " & ex.Message & vbNewLine & ex.StackTrace)
+                            MsgBox("650. " & ex.Message & vbCrLf & ex.StackTrace)
+                        End Try
+                        Var1 = ""
+
+                        Var2 = ""
+                    End If
+
+                    If e.Col = 11 Then
+                        Dim lstViajes As New List(Of String)
+                        Dim lstViajesSel As New List(Of String)
+                        Dim CasetasViajes() As String
+                        Dim indice As Integer
+                        Dim frm = New FrmCasetasViajes
+
+                        CasetasViajes = Split(FgCasetas(FgCasetas.Row, 10), ",")
+
+                        For indice = 1 To Fg.Rows.Count - 1
+                            If Fg(indice, 1) Then
+                                lstViajes.Add(Fg(indice, 2).ToString().Trim())
+                            End If
+                        Next
+
+                        For indice = 0 To CasetasViajes.Length - 1
+                            If Not String.IsNullOrEmpty(CasetasViajes(indice).Trim()) Then
+                                lstViajesSel.Add(CasetasViajes(indice).Trim())
+                            End If
+                        Next
+
+                        frm.ViajesDisponibles = lstViajes
+                        frm.ViajesSelecionados = lstViajesSel
+                        If frm.ShowDialog = DialogResult.OK Then
+                            FgCasetas(FgCasetas.Row, 10) = String.Join(", ", frm.ViajesSelecionados)
+                        End If
+
+                    End If
 
                 End If
             End If
@@ -6885,7 +6969,7 @@ Public Class FrmLiquidacionesAE
     End Sub
 
     Private Sub FgCasetas_BeforeEdit(sender As Object, e As RowColEventArgs) Handles FgCasetas.BeforeEdit
-        If e.Col <> 1 And e.Col <> 9 Then
+        If e.Col <> 1 And e.Col <> 9 And e.Col <> 11 Then
             e.Cancel = True
         End If
     End Sub

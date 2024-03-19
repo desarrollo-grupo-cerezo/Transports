@@ -1414,7 +1414,7 @@ Partial Class FrmLiquidacionesAE
         Me.RadLTS_TAB.Enabled = False
         Me.RadLTS_TAB.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLTS_TAB.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.RadLTS_TAB.Location = New System.Drawing.Point(6, 295)
+        Me.RadLTS_TAB.Location = New System.Drawing.Point(6, 307)
         Me.RadLTS_TAB.Name = "RadLTS_TAB"
         Me.RadLTS_TAB.Size = New System.Drawing.Size(117, 20)
         Me.RadLTS_TAB.TabIndex = 585
@@ -1429,7 +1429,7 @@ Partial Class FrmLiquidacionesAE
         Me.RadLTS_ECM.Enabled = False
         Me.RadLTS_ECM.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLTS_ECM.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.RadLTS_ECM.Location = New System.Drawing.Point(6, 323)
+        Me.RadLTS_ECM.Location = New System.Drawing.Point(6, 335)
         Me.RadLTS_ECM.Name = "RadLTS_ECM"
         Me.RadLTS_ECM.Size = New System.Drawing.Size(89, 20)
         Me.RadLTS_ECM.TabIndex = 584
@@ -1443,7 +1443,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label72.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label72.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label72.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label72.Location = New System.Drawing.Point(69, 386)
+        Me.Label72.Location = New System.Drawing.Point(69, 398)
         Me.Label72.Name = "Label72"
         Me.Label72.Size = New System.Drawing.Size(68, 16)
         Me.Label72.TabIndex = 583
@@ -1468,7 +1468,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label26.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label26.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label26.Location = New System.Drawing.Point(37, 358)
+        Me.Label26.Location = New System.Drawing.Point(37, 370)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(100, 16)
         Me.Label26.TabIndex = 577
@@ -1510,7 +1510,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label28.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label28.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label28.Location = New System.Drawing.Point(248, 353)
+        Me.Label28.Location = New System.Drawing.Point(248, 365)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(27, 16)
         Me.Label28.TabIndex = 578
@@ -1552,7 +1552,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label30.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label30.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label30.Location = New System.Drawing.Point(248, 404)
+        Me.Label30.Location = New System.Drawing.Point(248, 416)
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(27, 16)
         Me.Label30.TabIndex = 575
@@ -1594,7 +1594,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label31.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label31.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label31.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label31.Location = New System.Drawing.Point(255, 446)
+        Me.Label31.Location = New System.Drawing.Point(255, 458)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(22, 16)
         Me.Label31.TabIndex = 576
@@ -1606,7 +1606,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label68.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label68.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label68.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label68.Location = New System.Drawing.Point(231, 453)
+        Me.Label68.Location = New System.Drawing.Point(231, 465)
         Me.Label68.Name = "Label68"
         Me.Label68.Size = New System.Drawing.Size(22, 16)
         Me.Label68.TabIndex = 581
@@ -1618,7 +1618,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label32.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label32.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label32.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label32.Location = New System.Drawing.Point(36, 411)
+        Me.Label32.Location = New System.Drawing.Point(36, 423)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(101, 16)
         Me.Label32.TabIndex = 574
@@ -1642,7 +1642,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label47.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label47.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label47.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label47.Location = New System.Drawing.Point(41, 438)
+        Me.Label47.Location = New System.Drawing.Point(41, 450)
         Me.Label47.Name = "Label47"
         Me.Label47.Size = New System.Drawing.Size(79, 16)
         Me.Label47.TabIndex = 573
@@ -1654,7 +1654,7 @@ Partial Class FrmLiquidacionesAE
         Me.Label49.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.Label49.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label49.ForeColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(160, Byte), Integer))
-        Me.Label49.Location = New System.Drawing.Point(38, 458)
+        Me.Label49.Location = New System.Drawing.Point(38, 470)
         Me.Label49.Name = "Label49"
         Me.Label49.Size = New System.Drawing.Size(82, 16)
         Me.Label49.TabIndex = 579
